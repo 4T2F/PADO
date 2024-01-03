@@ -40,7 +40,7 @@ struct EnterCodeView: View {
                 VStack {
                     VStack {
                         VStack(alignment: .center, spacing: 8) {
-                            Text("Enter the code we sent to +\(viewModel.country.phoneCode) \(viewModel.phoneNumber)")
+                            Text("+\(viewModel.country.phoneCode) \(viewModel.phoneNumber)로 인증 코드를 보냈어요")
                                 .foregroundStyle(.white)
                                 .fontWeight(.medium)
                                 .font(.system(size: 16))
@@ -76,10 +76,10 @@ struct EnterCodeView: View {
                     }
                     
                     VStack {
-                        Text("Change the phone number")
-                            .foregroundStyle(.gray)
-                            .font(.system(size: 14))
-                            .fontWeight(.bold)
+                            Text("인증 번호를 입력해주세요")
+                                .foregroundStyle(.gray)
+                                .font(.system(size: 14))
+                                .fontWeight(.bold)
                         
                         Button {
                             if buttonActive {
@@ -88,7 +88,7 @@ struct EnterCodeView: View {
                                 }
                             }
                         } label: {
-                            WhiteButtonView(buttonActive: $buttonActive, text: viewModel.otpText.count == 6 ? "Continue" : "Resend in \(timeRemaining)s" )
+                            WhiteButtonView(buttonActive: $buttonActive, text: viewModel.otpText.count == 6 ? "계속하기" : "재전송 까지 \(timeRemaining)초" )
                         }
                         .disabled(buttonActive ? false : true)
                         .onChange(of: viewModel.otpText) { oldValue, newValue in

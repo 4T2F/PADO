@@ -33,10 +33,10 @@ class AuthenticationViewModel: ObservableObject {
     
     static let shared = AuthenticationViewModel()
     
-//    init() {
-//        userSession = Auth.auth().currentUser
-//        fetchUser()
-//    }
+    //    init() {
+    //        userSession = Auth.auth().currentUser
+    //        fetchUser()
+    //    }
     
     // 전화번호 인증을 시작하는 비동기 함수
     func sendOtp() async {
@@ -92,14 +92,30 @@ class AuthenticationViewModel: ObservableObject {
                 print(user.uid)
             }
         } catch {
-            print("Error")
+            print("ERROR : OTP 인증 실패함")
             handleError(error: error.localizedDescription)
         }
     }
     
+    // 로그아웃 함수
     func signOut() {
-        self.userSession = nil
-        try? Auth.auth().signOut()
+        print("signOut!")
+        do {
+            self.userSession = nil
+            try Auth.auth().signOut()
+        } catch let signOutError as NSError {
+            print("Error signing out: %@", signOutError)
+        }
+    }
+    
+    // 회원탈퇴 함수 - 회원탈퇴시 현재 데이터베이스에서 값만 삭제
+    // 추후 스토리지 구현시 스토리지 내역까지 삭제 필요
+    func deleteAccount() {
+        let db = Firestore.firestore()
+        guard let uid = userSession?.uid else { return }
+        
+        db.collection("users").document(uid).delete()
+        print("Document sucessfully removed!")
     }
     
     func fetchUser() {
@@ -113,7 +129,7 @@ class AuthenticationViewModel: ObservableObject {
             
             guard let user = try? snapshot?.data(as: User.self) else { return }
             self.currentUser = user
-            print("ERROR")
+            print("ERROR : User 정보를 받아오질 못했음")
             print(user)
         }
     }
