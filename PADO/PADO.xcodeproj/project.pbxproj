@@ -61,6 +61,7 @@
 		63D2785F2B44650A0064A7F1 /* MainAuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D278592B44650A0064A7F1 /* MainAuthenticationView.swift */; };
 		63D278602B44650A0064A7F1 /* EnterPhoneNumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D2785A2B44650A0064A7F1 /* EnterPhoneNumberView.swift */; };
 		63D278612B44650A0064A7F1 /* EnterCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D2785B2B44650A0064A7F1 /* EnterCodeView.swift */; };
+		6455A2382B45278900B0407F /* ApiKeys.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 6455A2372B45278900B0407F /* ApiKeys.xcconfig */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -133,6 +134,7 @@
 		63D278592B44650A0064A7F1 /* MainAuthenticationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainAuthenticationView.swift; sourceTree = "<group>"; };
 		63D2785A2B44650A0064A7F1 /* EnterPhoneNumberView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterPhoneNumberView.swift; sourceTree = "<group>"; };
 		63D2785B2B44650A0064A7F1 /* EnterCodeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterCodeView.swift; sourceTree = "<group>"; };
+		6455A2372B45278900B0407F /* ApiKeys.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ApiKeys.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,6 +197,7 @@
 				412B3AA42B44F6EC00C2C7CD /* Info.plist */,
 				635B09412B44FA1E009E60A9 /* GoogleService-Info.plist */,
 				412B3AA52B44F7D400C2C7CD /* ApiKeys.xcconfig */,
+				6455A2372B45278900B0407F /* ApiKeys.xcconfig */,
 				412B3AA32B44F67100C2C7CD /* PADO.entitlements */,
 				41FD99F52B43D5EC0028D38E /* PADOApp.swift */,
 				41FD99F72B43D5EC0028D38E /* ContentView.swift */,
@@ -444,6 +447,7 @@
 				41FD9A212B43D94A0028D38E /* .swiftlint.yml in Resources */,
 				635B09422B44FA1E009E60A9 /* GoogleService-Info.plist in Resources */,
 				41FD99FD2B43D5ED0028D38E /* Preview Assets.xcassets in Resources */,
+				6455A2382B45278900B0407F /* ApiKeys.xcconfig in Resources */,
 				63B564012B44656F00AEC5E7 /* countries.json in Resources */,
 				41FD99FA2B43D5ED0028D38E /* Assets.xcassets in Resources */,
 			);
@@ -630,6 +634,7 @@
 		};
 		41FD9A152B43D5EE0028D38E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 412B3AA52B44F7D400C2C7CD /* ApiKeys.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -718,6 +723,7 @@
 		};
 		41FD9A182B43D5EE0028D38E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 412B3AA52B44F7D400C2C7CD /* ApiKeys.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -770,6 +776,7 @@
 		};
 		41FD9A1B2B43D5EE0028D38E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 412B3AA52B44F7D400C2C7CD /* ApiKeys.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -809,6 +816,7 @@
 		};
 		41FD9A1E2B43D5EE0028D38E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 412B3AA52B44F7D400C2C7CD /* ApiKeys.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;

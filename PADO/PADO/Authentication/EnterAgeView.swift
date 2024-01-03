@@ -177,6 +177,11 @@ struct EnterAgeView: View {
                 }
             }
         }
+        .onAppear() {
+            year.month = ""
+            year.day = ""
+            year.year = ""
+        }
     }
     
     // 날짜가 완전히 입력되었는지 확인하는 함수

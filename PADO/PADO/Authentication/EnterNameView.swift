@@ -83,6 +83,9 @@ struct EnterNameView: View {
                 }
             }
         }
+        .onAppear() {
+            name = ""
+        }
     }
 }
 
