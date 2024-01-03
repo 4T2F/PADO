@@ -92,7 +92,7 @@ class AuthenticationViewModel: ObservableObject {
                 print(user.uid)
             }
         } catch {
-            print("Error")
+            print("ERROR : OTP 인증 실패함")
             handleError(error: error.localizedDescription)
         }
     }
@@ -113,7 +113,7 @@ class AuthenticationViewModel: ObservableObject {
             
             guard let user = try? snapshot?.data(as: User.self) else { return }
             self.currentUser = user
-            print("ERROR")
+            print("ERROR : User 정보를 받아오질 못했음")
             print(user)
         }
     }

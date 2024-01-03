@@ -66,6 +66,7 @@ struct EnterPhoneNumberView: View {
                             .frame(width: 220)
                             .overlay {
                                 TextField("", text: $viewModel.phoneNumber)
+                                    .keyboardType(.numberPad)
                                     .foregroundStyle(.white)
                                     .font(.system(size: 40))
                                     .fontWeight(.heavy)

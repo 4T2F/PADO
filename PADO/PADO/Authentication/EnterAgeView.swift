@@ -8,7 +8,16 @@
 import SwiftUI
 import Combine
 
+enum Field: Hashable {
+    case month
+    case day
+    case year
+}
+
 struct EnterAgeView: View {
+    
+    // 포커스 상태를 저장하는 @FocusState 프로퍼티
+    @FocusState private var focusedField: Field?
     
     @Binding var year: Year
     @Binding var name: String
@@ -58,6 +67,12 @@ struct EnterAgeView: View {
                                     .fontWeight(.heavy)
                                     .multilineTextAlignment(.center)
                                     .keyboardType(.numberPad)
+                                    .focused($focusedField, equals: .month)
+                                    .onChange(of: year.month, { oldValue, newValue in
+                                        if newValue.count == 2 {
+                                            focusedField = .day
+                                        }
+                                    })
                                     .onReceive(Just(year.month), perform: { newValue in
                                         let filtered = newValue.filter {
                                             Set("01234567890").contains($0)
@@ -77,7 +92,7 @@ struct EnterAgeView: View {
                             .foregroundStyle(year.day.isEmpty ? Color(red: 70/255, green: 70/255, blue: 73/255) : Color.black)
                             .fontWeight(.heavy)
                             .font(.system(size: 40))
-                            .frame(width: 60)
+                            .frame(width: 72)
                             .overlay {
                                 TextField("", text: $year.day)
                                     .foregroundStyle(.white)
@@ -85,6 +100,12 @@ struct EnterAgeView: View {
                                     .fontWeight(.heavy)
                                     .multilineTextAlignment(.center)
                                     .keyboardType(.numberPad)
+                                    .focused($focusedField, equals: .day)
+                                    .onChange(of: year.day, { oldValue, newValue in
+                                        if newValue.count == 2 {
+                                            focusedField = .year
+                                        }
+                                    })
                                     .onReceive(Just(year.day), perform: { newValue in
                                         let filtered = newValue.filter {
                                             Set("01234567890").contains($0)
@@ -112,6 +133,7 @@ struct EnterAgeView: View {
                                     .fontWeight(.heavy)
                                     .multilineTextAlignment(.center)
                                     .keyboardType(.numberPad)
+                                    .focused($focusedField, equals: .year)
                                     .onReceive(Just(year.year), perform: { newValue in
                                         let filtered = newValue.filter {
                                             Set("01234567890").contains($0)
@@ -143,20 +165,28 @@ struct EnterAgeView: View {
                     Button {
                         if buttonActive {
                             ageButtonClicked = true
+                        } else {
+                            buttonActive = false
                         }
                     } label: {
                         WhiteButtonView(buttonActive: $buttonActive, text: "Continue")
-                            .onChange(of: year.month) { oldValue, newValue in
-                                if !newValue.isEmpty {
-                                    buttonActive = true
-                                } else if newValue.isEmpty {
-                                    buttonActive = false
-                                }
-                            }
+                            .onChange(of: year.month) { _, _ in updateButtonActive() }
+                            .onChange(of: year.day) { _, _ in updateButtonActive() }
+                            .onChange(of: year.year) { _, _ in updateButtonActive() }
                     }
                 }
             }
         }
+    }
+    
+    // 날짜가 완전히 입력되었는지 확인하는 함수
+    private func isDateFullyEntered() -> Bool {
+        return year.month.count == 2 && year.day.count == 2 && year.year.count == 4
+    }
+    
+    // buttonActive 상태를 업데이트하는 함수
+    private func updateButtonActive() {
+        buttonActive = isDateFullyEntered()
     }
 }
 
