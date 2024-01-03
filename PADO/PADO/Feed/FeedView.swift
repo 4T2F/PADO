@@ -109,7 +109,7 @@ struct FeedView: View {
                                 .foregroundStyle(.white)
                                 .fontWeight(.semibold)
                             
-                            Text("친구의 친구")
+                            Text("파도타기")
                                 .foregroundStyle(.gray)
                         }
                     }
