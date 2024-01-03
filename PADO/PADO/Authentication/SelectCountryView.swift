@@ -22,7 +22,7 @@ struct SelectCountryView: View {
                 
                 VStack {
                     ZStack {
-                        Text("Select Country")
+                        Text("국가 선택")
                             .foregroundStyle(.white)
                             .fontWeight(.semibold)
                         

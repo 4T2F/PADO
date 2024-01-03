@@ -49,13 +49,13 @@ struct EnterAgeView: View {
                 }
                 
                 VStack(alignment: .center, spacing: 8) {
-                    Text("Hi \(name), when's your birthday?")
+                    Text("안녕하세요. \(name)님, 생일을 입력해주세요")
                         .foregroundStyle(.white)
                         .fontWeight(.heavy)
                         .font(.system(size: 16))
                     
                     HStack(spacing: 4){
-                        Text("MM")
+                        Text("월")
                             .foregroundStyle(year.month.isEmpty ? Color(red: 70/255, green: 70/255, blue: 73/255) : Color.black)
                             .fontWeight(.heavy)
                             .font(.system(size: 40))
@@ -88,7 +88,7 @@ struct EnterAgeView: View {
                                     })
                             }
                         
-                        Text("DD")
+                        Text("일")
                             .foregroundStyle(year.day.isEmpty ? Color(red: 70/255, green: 70/255, blue: 73/255) : Color.black)
                             .fontWeight(.heavy)
                             .font(.system(size: 40))
@@ -121,7 +121,7 @@ struct EnterAgeView: View {
                                     })
                             }
                         
-                        Text("YYYY")
+                        Text("년도")
                             .foregroundStyle(year.year.isEmpty ? Color(red: 70/255, green: 70/255, blue: 73/255) : Color.black)
                             .fontWeight(.heavy)
                             .font(.system(size: 40))
@@ -157,7 +157,7 @@ struct EnterAgeView: View {
                 VStack {
                     Spacer()
                     
-                    Text("Only to make sure you're old enough to use PADO.")
+                    Text("파도에 오신걸 환영해요")
                         .foregroundStyle(Color(red: 70/255, green: 70/255, blue: 73/255))
                         .fontWeight(.semibold)
                         .font(.system(size: 14))
@@ -169,7 +169,7 @@ struct EnterAgeView: View {
                             buttonActive = false
                         }
                     } label: {
-                        WhiteButtonView(buttonActive: $buttonActive, text: "Continue")
+                        WhiteButtonView(buttonActive: $buttonActive, text: "계속하기")
                             .onChange(of: year.month) { _, _ in updateButtonActive() }
                             .onChange(of: year.day) { _, _ in updateButtonActive() }
                             .onChange(of: year.year) { _, _ in updateButtonActive() }

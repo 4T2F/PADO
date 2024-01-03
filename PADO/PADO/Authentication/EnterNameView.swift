@@ -38,11 +38,11 @@ struct EnterNameView: View {
                 
                 VStack {
                     VStack(alignment: .center, spacing: 8) {
-                        Text("Let's get started, what's your name?")
+                        Text("파도에 오신걸 환영합니다. 이름을 입력해주세요")
                             .fontWeight(.heavy)
                             .font(.system(size: 16))
                         
-                        Text(name.isEmpty ? "Your name" : "s")
+                        Text(name.isEmpty ? "NAME" : "s")
                             .foregroundStyle(name.isEmpty ? Color(red: 70/255, green: 70/255, blue: 73/255) : Color.black)
                             .fontWeight(.heavy)
                             .font(.system(size: 40))
@@ -71,7 +71,7 @@ struct EnterNameView: View {
                             self.buttonActive = false
                         }
                     } label: {
-                        WhiteButtonView(buttonActive: $buttonActive, text: "Continue")
+                        WhiteButtonView(buttonActive: $buttonActive, text: "계속하기")
                             .onChange(of: name) { oldValue, newValue in
                                 if !newValue.isEmpty {
                                     buttonActive = true

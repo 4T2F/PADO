@@ -37,7 +37,7 @@ struct EnterPhoneNumberView: View {
                 }
                 
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("Create your account using your phone number")
+                    Text("휴대폰 번호를 입력해주세요")
                         .foregroundStyle(.white)
                         .fontWeight(.heavy)
                         .font(.system(size: 16))
@@ -59,11 +59,11 @@ struct EnterPhoneNumberView: View {
                                 self.showCountryList.toggle()
                         }
                         
-                        Text("Your Phone")
+                        Text("")
                             .foregroundStyle(viewModel.phoneNumber.isEmpty ? Color(red: 70/255, green: 70/255, blue: 73/255) : Color.black)
                             .fontWeight(.heavy)
-                            .font(.system(size: 40))
-                            .frame(width: 220)
+                            .font(.system(size: 36))
+                            .frame(width: 280)
                             .overlay {
                                 TextField("", text: $viewModel.phoneNumber)
                                     .keyboardType(.numberPad)
@@ -72,7 +72,6 @@ struct EnterPhoneNumberView: View {
                                     .fontWeight(.heavy)
                             }
                     }
-                    // .padding(.leading, UIScreen.main.bounds.width * 0.05)
                     
                     Spacer()
                 }
@@ -81,7 +80,7 @@ struct EnterPhoneNumberView: View {
                 VStack {
                     Spacer()
                     
-                    Text("By tapping \"Continue\", youagree to our Privacy Policy and Terms of Service.")
+                    Text("계속 진행하면 개인정보처리방침과 이용약관에 동의처리 됩니다")
                         .foregroundStyle(Color(red: 70/255, green: 70/255, blue: 73/255))
                         .font(.system(size: 14))
                         .fontWeight(.semibold)
@@ -92,7 +91,7 @@ struct EnterPhoneNumberView: View {
                             await viewModel.sendOtp()
                         }
                     } label: {
-                        WhiteButtonView(buttonActive: $buttonActive, text: "Continue")
+                        WhiteButtonView(buttonActive: $buttonActive, text: "인증 문자 보내기")
                             .onChange(of: viewModel.phoneNumber) { oldValue, newValue in
                                 if !newValue.isEmpty {
                                     buttonActive = true
