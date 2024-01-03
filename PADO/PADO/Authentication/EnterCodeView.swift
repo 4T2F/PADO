@@ -10,11 +10,12 @@ import Combine
 
 struct EnterCodeView: View {
     
-    @State var otpCode = ""
     @State var buttonActive = false
     
     @State var timeRemaining = 60
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     
     var body: some View {
         VStack {
@@ -25,7 +26,7 @@ struct EnterCodeView: View {
                     HStack {
                         Spacer()
                         
-                        Text("BeReal.")
+                        Text("PADO.")
                             .foregroundStyle(.white)
                             .fontWeight(.bold)
                             .font(.system(size: 22))
@@ -39,32 +40,32 @@ struct EnterCodeView: View {
                 VStack {
                     VStack {
                         VStack(alignment: .center, spacing: 8) {
-                            Text("Enter the code we sent to +39 389 939 02 12")
+                            Text("Enter the code we sent to +\(viewModel.country.phoneCode) \(viewModel.phoneNumber)")
                                 .foregroundStyle(.white)
                                 .fontWeight(.medium)
                                 .font(.system(size: 16))
                             
                             Text("......")
-                                .foregroundStyle(otpCode.isEmpty ? .gray : .black)
+                                .foregroundStyle(viewModel.otpText.isEmpty ? .gray : .black)
                                 .opacity(0.8)
                                 .font(.system(size: 70))
                                 .padding(.top, -40)
                                 .overlay {
-                                    TextField("", text: $otpCode)
+                                    TextField("", text: $viewModel.otpText)
                                         .foregroundStyle(.white)
                                         .multilineTextAlignment(.center)
                                         .font(.system(size: 24))
                                         .fontWeight(.heavy)
                                         .keyboardType(.numberPad)
-                                        .onReceive(Just(otpCode), perform: { _ in
+                                        .onReceive(Just(viewModel.otpText), perform: { _ in
                                             limitText(6)
                                         })
-                                        .onReceive(Just(otpCode), perform: { newValue in
+                                        .onReceive(Just(viewModel.otpText), perform: { newValue in
                                             let filtered = newValue.filter({
                                                 Set("0123456789").contains($0)})
                                             
                                             if filtered != newValue {
-                                                otpCode = filtered
+                                                viewModel.otpText = filtered
                                             }
                                         })
                                 }
@@ -81,12 +82,16 @@ struct EnterCodeView: View {
                             .fontWeight(.bold)
                         
                         Button {
-                            
+                            if buttonActive {
+                                Task {
+                                    await self.viewModel.verifyOtp()
+                                }
+                            }
                         } label: {
-                            WhiteButtonView(buttonActive: $buttonActive, text: otpCode.count == 6 ? "Continue" : "Resend in \(timeRemaining)s" )
+                            WhiteButtonView(buttonActive: $buttonActive, text: viewModel.otpText.count == 6 ? "Continue" : "Resend in \(timeRemaining)s" )
                         }
                         .disabled(buttonActive ? false : true)
-                        .onChange(of: otpCode) { oldValue, newValue in
+                        .onChange(of: viewModel.otpText) { oldValue, newValue in
                             if !newValue.isEmpty {
                                 buttonActive = true
                             } else if newValue.isEmpty {
@@ -107,12 +112,12 @@ struct EnterCodeView: View {
     }
     
     func limitText(_ upper: Int) {
-        if otpCode.count > upper {
-            otpCode = String(otpCode.prefix(upper))
+        if viewModel.otpText.count > upper {
+            viewModel.otpText = String(viewModel.otpText.prefix(upper))
         }
     }
 }
 
-#Preview {
-    EnterCodeView()
-}
+//#Preview {
+//    EnterCodeView()
+//}

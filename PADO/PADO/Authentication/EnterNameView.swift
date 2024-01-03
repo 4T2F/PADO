@@ -9,10 +9,12 @@ import SwiftUI
 
 struct EnterNameView: View {
     
-    @State var name = ""
+    @Binding var name: String
     @State var buttonActive = false
     
     @Binding var nameButtonClicked: Bool
+    
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     
     var body: some View {
         VStack {
@@ -23,7 +25,7 @@ struct EnterNameView: View {
                     HStack {
                         Spacer()
                         
-                        Text("BeReal.")
+                        Text("PADO.")
                             .foregroundStyle(.white)
                             .fontWeight(.bold)
                             .font(.system(size: 22))
