@@ -51,6 +51,7 @@
 		635B09802B45114B009E60A9 /* MemoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635B097C2B45114B009E60A9 /* MemoryView.swift */; };
 		635B09812B45114B009E60A9 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635B097D2B45114B009E60A9 /* FeedView.swift */; };
 		63AB41162B45534E007B37DC /* ApiKeys.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 63AB41152B45534E007B37DC /* ApiKeys.xcconfig */; };
+		63AB41192B45D38F007B37DC /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 63AB41182B45D38F007B37DC /* FirebaseStorageCombine-Community */; };
 		63B563FB2B44653800AEC5E7 /* CountryPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 63B563FA2B44653800AEC5E7 /* CountryPicker */; };
 		63B563FD2B44655C00AEC5E7 /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B563FC2B44655C00AEC5E7 /* Country.swift */; };
 		63B563FF2B44656600AEC5E7 /* Year.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B563FE2B44656600AEC5E7 /* Year.swift */; };
@@ -148,6 +149,7 @@
 				412B3A9A2B44F65100C2C7CD /* FirebaseFirestoreCombine-Community in Frameworks */,
 				412B3AA02B44F65100C2C7CD /* FirebaseStorage in Frameworks */,
 				63B563FB2B44653800AEC5E7 /* CountryPicker in Frameworks */,
+				63AB41192B45D38F007B37DC /* FirebaseStorageCombine-Community in Frameworks */,
 				412B3A9C2B44F65100C2C7CD /* FirebaseFirestoreSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -177,6 +179,7 @@
 				41FD9A052B43D5ED0028D38E /* PADOTests */,
 				41FD9A0F2B43D5ED0028D38E /* PADOUITests */,
 				41FD99F32B43D5EC0028D38E /* Products */,
+				63AB41172B45D38F007B37DC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -306,6 +309,13 @@
 			path = Feed;
 			sourceTree = "<group>";
 		};
+		63AB41172B45D38F007B37DC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		63D278552B4464CE0064A7F1 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
@@ -349,6 +359,7 @@
 				412B3A9B2B44F65100C2C7CD /* FirebaseFirestoreSwift */,
 				412B3A9D2B44F65100C2C7CD /* FirebaseMessaging */,
 				412B3A9F2B44F65100C2C7CD /* FirebaseStorage */,
+				63AB41182B45D38F007B37DC /* FirebaseStorageCombine-Community */,
 			);
 			productName = PADO;
 			productReference = 41FD99F22B43D5EC0028D38E /* PADO.app */;
@@ -922,6 +933,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 412B3A922B44F65100C2C7CD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
+		};
+		63AB41182B45D38F007B37DC /* FirebaseStorageCombine-Community */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 412B3A922B44F65100C2C7CD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseStorageCombine-Community";
 		};
 		63B563FA2B44653800AEC5E7 /* CountryPicker */ = {
 			isa = XCSwiftPackageProductDependency;

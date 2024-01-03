@@ -11,6 +11,8 @@ struct Profile: View {
     
     @Binding var mainMenu: String
     
+    @EnvironmentObject var viewModel: AuthenticationViewModel
+    
     var body: some View {
         VStack {
             ZStack {
@@ -19,10 +21,15 @@ struct Profile: View {
                 ZStack {
                     ScrollView(showsIndicators: false) {
                         VStack {
-                            Image("pp")
-                                .resizable()
+                            Circle()
                                 .frame(width: 130, height: 130)
                                 .cornerRadius(75)
+                                .foregroundStyle(Color(red: 152/255, green: 163/255, blue: 16/255))
+                                .overlay {
+                                    Text(viewModel.currentUser!.name.prefix(1).uppercased())
+                                        .foregroundStyle(.white)
+                                        .font(.system(size: 55))
+                                }
                             
                             Text("천랑성")
                                 .foregroundStyle(.white)

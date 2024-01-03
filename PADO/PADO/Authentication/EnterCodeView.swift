@@ -76,10 +76,10 @@ struct EnterCodeView: View {
                     }
                     
                     VStack {
-                            Text("인증 번호를 입력해주세요")
-                                .foregroundStyle(.gray)
-                                .font(.system(size: 14))
-                                .fontWeight(.bold)
+                        Text("인증 번호를 입력해주세요")
+                            .foregroundStyle(.gray)
+                            .font(.system(size: 14))
+                            .fontWeight(.bold)
                         
                         Button {
                             if buttonActive {

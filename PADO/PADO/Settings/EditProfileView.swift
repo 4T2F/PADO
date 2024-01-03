@@ -11,12 +11,25 @@ struct EditProfileView: View {
     
     @State var width = UIScreen.main.bounds.width
     
-    @State var fullname = ""
-    @State var username = ""
-    @State var bio = ""
-    @State var location = ""
+    @State var fullname: String
+    @State var username: String
+    @State var bio: String
+    @State var location: String
     
     @Environment(\.dismiss) var dismiss
+    
+    @EnvironmentObject var viewModel: AuthenticationViewModel
+    
+    let currentUser: User
+    
+    // 사용자의 정보를 초기화하고 currentUser에서 데이터를 가져옴
+    init(currentUser: User) {
+        self.currentUser = currentUser
+        self._fullname = State(initialValue: currentUser.name)
+        self._bio = State(initialValue: currentUser.bio ?? "")
+        self._username = State(initialValue: currentUser.username ?? "")
+        self._location = State(initialValue: currentUser.location ?? "")
+    }
     
     var body: some View {
         VStack {
@@ -35,8 +48,13 @@ struct EditProfileView: View {
                                 
                             Spacer()
                             
-                            Text("저장")
-                                .foregroundStyle(.gray)
+                            Button {
+                                saveData()
+                                dismiss()
+                            } label: {
+                                Text("저장")
+                                    .foregroundStyle(.gray)
+                            }
                         }
                         .padding(.horizontal, width * 0.05)
                         
@@ -60,10 +78,15 @@ struct EditProfileView: View {
                     VStack {
                         VStack {
                             ZStack(alignment: .bottomTrailing) {
-                                Image("pp")
-                                    .resizable()
+                                Circle()
                                     .frame(width: 120, height: 120)
                                     .cornerRadius(60)
+                                    .foregroundStyle(Color(red: 152/255, green: 163/255, blue: 16/255))
+                                    .overlay {
+                                        Text(viewModel.currentUser!.name.prefix(1).uppercased())
+                                            .foregroundStyle(.white)
+                                            .font(.system(size: 55))
+                                    }
                                 
                                 ZStack {
                                     ZStack {
@@ -107,7 +130,7 @@ struct EditProfileView: View {
                                     TextField("", text: $fullname)
                                         .font(.system(size: 16))
                                         .placeholder(when: fullname.isEmpty) {
-                                            Text("천랑성")
+                                            Text(viewModel.currentUser!.name)
                                                 .foregroundStyle(.white)
                                                 .font(.system(size: 16))
                                         }
@@ -140,7 +163,7 @@ struct EditProfileView: View {
                                     TextField("", text: $username)
                                         .font(.system(size: 16))
                                         .placeholder(when: username.isEmpty) {
-                                            Text("kangciu")
+                                            Text("dearkang")
                                                 .foregroundStyle(.white)
                                                 .font(.system(size: 16))
                                         }
@@ -248,8 +271,15 @@ struct EditProfileView: View {
             }
         }
     }
+    
+    // 사용자 프로필이 변경되면 변경된 값으로 저장하는 함수
+    func saveData() {
+        if viewModel.currentUser!.name != self.fullname && !self.fullname.isEmpty {
+            viewModel.currentUser!.name = self.fullname
+        }
+    }
 }
 
-#Preview {
-    EditProfileView()
-}
+//#Preview {
+//    EditProfileView()
+//}
