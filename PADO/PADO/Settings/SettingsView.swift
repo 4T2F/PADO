@@ -10,7 +10,8 @@ import SwiftUI
 struct SettingsView: View {
     
     @State var width = UIScreen.main.bounds.width
-    
+    @EnvironmentObject var viewModel: AuthenticationViewModel
+
     @Environment(\.dismiss) var dismiss
     var body: some View {
         NavigationStack {
@@ -118,7 +119,7 @@ struct SettingsView: View {
                                     .frame(height: 30)
                                 }
                             }
-
+                            
                         }
                         .padding(.top, 12)
                         
@@ -352,8 +353,15 @@ struct SettingsView: View {
                             HStack {
                                 Spacer()
                                 
-                                Text("로그아웃")
-                                    .foregroundStyle(.red)
+                                Button {
+                                    viewModel.signOut()
+                                    viewModel.navigationTag = ""
+                                    viewModel.phoneNumber = ""
+                                    viewModel.otpText = ""
+                                } label: {
+                                    Text("로그아웃")
+                                        .foregroundStyle(.red)
+                                }
                                 
                                 Spacer()
                             }
@@ -375,6 +383,6 @@ struct SettingsView: View {
     }
 }
 
-#Preview {
-    SettingsView()
-}
+//#Preview {
+//    SettingsView()
+//}

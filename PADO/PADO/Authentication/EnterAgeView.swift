@@ -157,6 +157,11 @@ struct EnterAgeView: View {
                 }
             }
         }
+        .onAppear() {
+            year.month = ""
+            year.day = ""
+            year.year = ""
+        }
     }
 }
 
