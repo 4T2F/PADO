@@ -68,7 +68,7 @@ struct EnterNameView: View {
                         if buttonActive {
                             self.nameButtonClicked = true
                         } else {
-                            self.buttonActive = true
+                            self.buttonActive = false
                         }
                     } label: {
                         WhiteButtonView(buttonActive: $buttonActive, text: "Continue")
