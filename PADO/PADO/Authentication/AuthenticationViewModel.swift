@@ -36,7 +36,6 @@ class AuthenticationViewModel: ObservableObject {
 //            fetchUser()
 //        }
     
-
     func sendOtp() async {
         guard !isLoading else { return }
       

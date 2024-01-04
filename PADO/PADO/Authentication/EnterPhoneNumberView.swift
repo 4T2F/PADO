@@ -63,20 +63,10 @@ struct EnterPhoneNumberView: View {
                             .frame(width: 280)
                             .keyboardType(.numberPad)
                             .foregroundStyle(.white)
-                            .font(.system(size: 30))
+                            .font(.system(size: 40))
                             .fontWeight(.heavy)
-                            .tint(.cursor)
-                            .onChange(of: viewModel.phoneNumber) { newValue, _ in
-                                viewModel.phoneNumber = formatPhoneNumber(newValue)
-                            }
                     }
                     
-                    if viewModel.showAlert {
-                        Text(viewModel.errorMessage)
-                            .foregroundStyle(.red)
-                            .font(.system(size: 14))
-                            .padding(.top, 10)
-                    }
                     Spacer()
                 }
                 .padding(.top, 50)
@@ -105,8 +95,12 @@ struct EnterPhoneNumberView: View {
                             }
                     }
                     .disabled(viewModel.phoneNumber.isEmpty ? true : false)
+                    .padding(.bottom, 10)
                 }
             }
+        }
+        .onTapGesture {
+            self.endTextEditiong()
         }
         .sheet(isPresented: $showCountryList, content: {
             SelectCountryView(countryChosen: $viewModel.country)
@@ -116,10 +110,9 @@ struct EnterPhoneNumberView: View {
                 .opacity(viewModel.isLoading ? 1 : 0)
         }
         .background {
-    
             NavigationLink(tag: "VERIFICATION", selection: $viewModel.navigationTag) {
                 EnterCodeView()
-                    .environmentObject(viewModel)           // 수정 해야할 부분
+                    .environmentObject(viewModel)
             } label: {
                 
             }

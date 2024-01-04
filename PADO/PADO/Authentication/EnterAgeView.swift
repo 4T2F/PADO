@@ -60,7 +60,6 @@ struct EnterAgeView: View {
                             .font(.system(size: 40))
                             .fontWeight(.heavy)
                             .frame(width: 120)
-                            .tint(.cursor)
                             .multilineTextAlignment(.center)
                             .keyboardType(.numberPad)
                             .focused($focusedField, equals: .year)
@@ -88,7 +87,6 @@ struct EnterAgeView: View {
                             .font(.system(size: 40))
                             .fontWeight(.heavy)
                             .frame(width: 72)
-                            .tint(.cursor)
                             .multilineTextAlignment(.center)
                             .keyboardType(.numberPad)
                             .focused($focusedField, equals: .month)
@@ -100,6 +98,8 @@ struct EnterAgeView: View {
                             .onChange(of: year.month, { oldValue, newValue in
                                 if newValue.count == 2 {
                                     focusedField = .day
+                                } else if year.year.count == 4 && newValue.count == 0 {
+                                    focusedField = .year
                                 }
                             })
                             .onReceive(Just(year.month), perform: { newValue in
@@ -121,7 +121,6 @@ struct EnterAgeView: View {
                             .font(.system(size: 40))
                             .frame(width: 70)
                             .fontWeight(.heavy)
-                            .tint(.cursor)
                             .multilineTextAlignment(.center)
                             .keyboardType(.numberPad)
                             .focused($focusedField, equals: .day)
@@ -130,6 +129,11 @@ struct EnterAgeView: View {
                                     year.day = "0" + year.day
                                 }
                             }
+                            .onChange(of: year.day, { oldValue, newValue in
+                                if year.month.count == 2 && newValue.count == 0 {
+                                    focusedField = .month
+                                }
+                            })
                             .onReceive(Just(year.day), perform: { newValue in
                                 let filtered = newValue.filter {
                                     Set("01234567890").contains($0)
@@ -169,6 +173,7 @@ struct EnterAgeView: View {
                             .onChange(of: year.day) { _, _ in updateButtonActive() }
                             .onChange(of: year.year) { _, _ in updateButtonActive() }
                     }
+                    .padding(.bottom, 10)
                 }
             }
         }
@@ -176,6 +181,9 @@ struct EnterAgeView: View {
             year.month = ""
             year.day = ""
             year.year = ""
+        }
+        .onTapGesture {
+            self.endTextEditiong()
         }
     }
     
