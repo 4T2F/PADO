@@ -11,6 +11,7 @@ struct EnterNameView: View {
     
     @Binding var name: String
     @State var buttonActive = false
+    @State private var keyboardHeight:CGFloat = 0
     
     @Binding var nameButtonClicked: Bool
     
@@ -48,7 +49,6 @@ struct EnterNameView: View {
                                     .frame(width: 210)
                                     .multilineTextAlignment(.center)
                                     .foregroundStyle(.white)
-                                    .tint(.cursor)
                     }
                     .foregroundStyle(.white)
                     
@@ -76,13 +76,19 @@ struct EnterNameView: View {
                             }
                     }
                 }
+                .padding(.bottom, 10)
             }
         }
         .onAppear() {
             name = ""
         }
+        .onTapGesture {
+            self.endTextEditiong()
+        }
     }
 }
+
+
 
 //#Preview {
 //    EnterNameView()
