@@ -44,7 +44,7 @@ struct SettingsView: View {
                     
                     VStack {
                         NavigationLink {
-                            EditProfileView()
+                            EditProfileView(currentUser: viewModel.currentUser!)
                                 .navigationBarBackButtonHidden()
                         } label: {
                             RoundedRectangle(cornerRadius: 16)
@@ -53,19 +53,23 @@ struct SettingsView: View {
                                 .opacity(0.07)
                                 .overlay {
                                     HStack {
-                                        Image("pp")
-                                            .resizable()
-                                            .scaledToFit()
+                                        Circle()
                                             .frame(width: 60, height: 60)
                                             .cornerRadius(30)
+                                            .foregroundStyle(Color(red: 152/255, green: 163/255, blue: 16/255))
+                                            .overlay {
+                                                Text(viewModel.currentUser!.name.prefix(1).uppercased())
+                                                    .foregroundStyle(.white)
+                                                    .font(.system(size: 25))
+                                            }
                                         
                                         VStack(alignment: .leading) {
-                                            Text("천랑성")
+                                            Text(viewModel.currentUser!.name)
                                                 .foregroundStyle(.white)
                                                 .fontWeight(.semibold)
                                                 .font(.system(size: 18))
                                             
-                                            Text("kangciu")
+                                            Text(viewModel.currentUser!.username ?? viewModel.currentUser!.name.lowercased())
                                                 .foregroundStyle(.white)
                                                 .fontWeight(.semibold)
                                                 .font(.system(size: 14))
@@ -378,8 +382,8 @@ struct SettingsView: View {
                     .padding(.top, 24)
                 }
             }
-            .navigationBarHidden(true)
         }
+        .navigationBarBackButtonHidden()
     }
 }
 

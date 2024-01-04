@@ -51,6 +51,9 @@
 		635B09802B45114B009E60A9 /* MemoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635B097C2B45114B009E60A9 /* MemoryView.swift */; };
 		635B09812B45114B009E60A9 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635B097D2B45114B009E60A9 /* FeedView.swift */; };
 		63AB41162B45534E007B37DC /* ApiKeys.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 63AB41152B45534E007B37DC /* ApiKeys.xcconfig */; };
+		63AB41192B45D38F007B37DC /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 63AB41182B45D38F007B37DC /* FirebaseStorageCombine-Community */; };
+		63AB411B2B4684E8007B37DC /* VerificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AB411A2B4684E8007B37DC /* VerificationView.swift */; };
+		63AB411D2B468C25007B37DC /* NavigationViewStyleHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AB411C2B468C25007B37DC /* NavigationViewStyleHelper.swift */; };
 		63B563FB2B44653800AEC5E7 /* CountryPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 63B563FA2B44653800AEC5E7 /* CountryPicker */; };
 		63B563FD2B44655C00AEC5E7 /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B563FC2B44655C00AEC5E7 /* Country.swift */; };
 		63B563FF2B44656600AEC5E7 /* Year.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B563FE2B44656600AEC5E7 /* Year.swift */; };
@@ -124,6 +127,8 @@
 		635B097C2B45114B009E60A9 /* MemoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemoryView.swift; sourceTree = "<group>"; };
 		635B097D2B45114B009E60A9 /* FeedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
 		63AB41152B45534E007B37DC /* ApiKeys.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ApiKeys.xcconfig; sourceTree = "<group>"; };
+		63AB411A2B4684E8007B37DC /* VerificationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerificationView.swift; sourceTree = "<group>"; };
+		63AB411C2B468C25007B37DC /* NavigationViewStyleHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewStyleHelper.swift; sourceTree = "<group>"; };
 		63B563FC2B44655C00AEC5E7 /* Country.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
 		63B563FE2B44656600AEC5E7 /* Year.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Year.swift; sourceTree = "<group>"; };
 		63B564002B44656F00AEC5E7 /* countries.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = countries.json; sourceTree = "<group>"; };
@@ -148,6 +153,7 @@
 				412B3A9A2B44F65100C2C7CD /* FirebaseFirestoreCombine-Community in Frameworks */,
 				412B3AA02B44F65100C2C7CD /* FirebaseStorage in Frameworks */,
 				63B563FB2B44653800AEC5E7 /* CountryPicker in Frameworks */,
+				63AB41192B45D38F007B37DC /* FirebaseStorageCombine-Community in Frameworks */,
 				412B3A9C2B44F65100C2C7CD /* FirebaseFirestoreSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -177,6 +183,7 @@
 				41FD9A052B43D5ED0028D38E /* PADOTests */,
 				41FD9A0F2B43D5ED0028D38E /* PADOUITests */,
 				41FD99F32B43D5EC0028D38E /* Products */,
+				63AB41172B45D38F007B37DC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -245,6 +252,7 @@
 				635B094E2B4510C1009E60A9 /* SearchBar.swift */,
 				63B564022B44658600AEC5E7 /* WhiteButtonView.swift */,
 				635B09782B451138009E60A9 /* ChevronButtonView.swift */,
+				63AB411A2B4684E8007B37DC /* VerificationView.swift */,
 			);
 			path = Items;
 			sourceTree = "<group>";
@@ -275,6 +283,7 @@
 			isa = PBXGroup;
 			children = (
 				635B09632B45111A009E60A9 /* ThreeDots.swift */,
+				63AB411C2B468C25007B37DC /* NavigationViewStyleHelper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -304,6 +313,13 @@
 				635B097A2B45114B009E60A9 /* Profile.swift */,
 			);
 			path = Feed;
+			sourceTree = "<group>";
+		};
+		63AB41172B45D38F007B37DC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		63D278552B4464CE0064A7F1 /* Authentication */ = {
@@ -349,6 +365,7 @@
 				412B3A9B2B44F65100C2C7CD /* FirebaseFirestoreSwift */,
 				412B3A9D2B44F65100C2C7CD /* FirebaseMessaging */,
 				412B3A9F2B44F65100C2C7CD /* FirebaseStorage */,
+				63AB41182B45D38F007B37DC /* FirebaseStorageCombine-Community */,
 			);
 			productName = PADO;
 			productReference = 41FD99F22B43D5EC0028D38E /* PADO.app */;
@@ -522,12 +539,14 @@
 				635B09742B451127009E60A9 /* EditProfileView.swift in Sources */,
 				63D2785C2B44650A0064A7F1 /* SelectCountryView.swift in Sources */,
 				63D278612B44650A0064A7F1 /* EnterCodeView.swift in Sources */,
+				63AB411D2B468C25007B37DC /* NavigationViewStyleHelper.swift in Sources */,
 				635B09702B451127009E60A9 /* SettingsView.swift in Sources */,
 				63D2785E2B44650A0064A7F1 /* EnterNameView.swift in Sources */,
 				63D278602B44650A0064A7F1 /* EnterPhoneNumberView.swift in Sources */,
 				63D2785F2B44650A0064A7F1 /* MainAuthenticationView.swift in Sources */,
 				635B097E2B45114B009E60A9 /* Profile.swift in Sources */,
 				41FD99F62B43D5EC0028D38E /* PADOApp.swift in Sources */,
+				63AB411B2B4684E8007B37DC /* VerificationView.swift in Sources */,
 				63D2785D2B44650A0064A7F1 /* EnterAgeView.swift in Sources */,
 				635B09712B451127009E60A9 /* NotificationsView.swift in Sources */,
 			);
@@ -693,10 +712,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PADO/PADO.entitlements;
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PADO/Preview Content\"";
-				DEVELOPMENT_TEAM = ND6356Y385;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = UAG934M4Q7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PADO/Info.plist;
@@ -712,6 +733,8 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.4T2F.PADO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "PADO Debug";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -724,10 +747,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PADO/PADO.entitlements;
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PADO/Preview Content\"";
-				DEVELOPMENT_TEAM = ND6356Y385;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = UAG934M4Q7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PADO/Info.plist;
@@ -743,6 +768,8 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.4T2F.PADO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "PADO Debug";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -922,6 +949,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 412B3A922B44F65100C2C7CD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
+		};
+		63AB41182B45D38F007B37DC /* FirebaseStorageCombine-Community */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 412B3A922B44F65100C2C7CD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseStorageCombine-Community";
 		};
 		63B563FA2B44653800AEC5E7 /* CountryPicker */ = {
 			isa = XCSwiftPackageProductDependency;

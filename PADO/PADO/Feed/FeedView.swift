@@ -96,10 +96,15 @@ struct FeedView: View {
                                     self.mainMenu = "profile"
                                 }
                             } label: {
-                                Image("pp")
-                                    .resizable()
+                                Circle()
                                     .frame(width: 35, height: 35)
                                     .cornerRadius(17.5)
+                                    .foregroundStyle(Color(red: 152/255, green: 163/255, blue: 16/255))
+                                    .overlay {
+                                        Text(viewModel.currentUser!.name.prefix(1).uppercased())
+                                            .foregroundStyle(.white)
+                                            .font(.system(size: 15))
+                                    }
                             }
                         }
                         .padding(.horizontal)
@@ -121,6 +126,6 @@ struct FeedView: View {
     }
 }
 
-#Preview {
-    FeedView(mainMenu: .constant("feed"))
-}
+//#Preview {
+//    FeedView(mainMenu: .constant("feed"))
+//}

@@ -33,10 +33,10 @@ class AuthenticationViewModel: ObservableObject {
     
     static let shared = AuthenticationViewModel()
     
-    //    init() {
-    //        userSession = Auth.auth().currentUser
-    //        fetchUser()
-    //    }
+//    init() {
+//        userSession = Auth.auth().currentUser
+//        fetchUser()
+//    }
     
     // 전화번호 인증을 시작하는 비동기 함수
     func sendOtp() async {
@@ -46,7 +46,7 @@ class AuthenticationViewModel: ObservableObject {
             isLoading = true
             let result = try await PhoneAuthProvider.provider().verifyPhoneNumber("+\(country.phoneCode)\(phoneNumber)", uiDelegate: nil)
             DispatchQueue.main.async {
-                self.isLoading = true
+                self.isLoading = false
                 self.verificationCode = result
                 self.navigationTag = "VERIFICATION"
             }
@@ -117,10 +117,10 @@ class AuthenticationViewModel: ObservableObject {
         db.collection("users").document(uid).delete()
         print("Document sucessfully removed!")
     }
-    
+
     func fetchUser() {
         guard let uid = userSession?.uid else { return }
-        
+//        print(uid)
         Firestore.firestore().collection("users").document(uid).getDocument { snapshot, err in
             if let err = err {
                 print(err.localizedDescription)
@@ -130,7 +130,16 @@ class AuthenticationViewModel: ObservableObject {
             guard let user = try? snapshot?.data(as: User.self) else { return }
             self.currentUser = user
             print("ERROR : User 정보를 받아오질 못했음")
-            print(user)
+        }
+    }
+    // 변경된 정보를 파이어스토어에 저장
+    func saveUserData(data: [String : Any]) async {
+        guard let userId = userSession?.uid else { return }
+        
+        do {
+            try await Firestore.firestore().collection("users").document().updateData(data as [String : Any])
+        } catch {
+            handleError(error: error.localizedDescription)
         }
     }
 }
