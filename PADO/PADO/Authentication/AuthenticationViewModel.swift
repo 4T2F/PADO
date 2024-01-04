@@ -8,8 +8,6 @@
 import SwiftUI
 import Firebase
 
-// UI 관련 변수를 업데이트할 때에는 main 쓰레드에서 업데이트 될 수 있도록 @MainActor 어노테이션을 사용 해야함.
-// 해당 변수를 업데이트하는 코드가 들어있는 함수 선언에 어노테이션을 추가 해줘야함.
 @MainActor
 class AuthenticationViewModel: ObservableObject {
     
@@ -32,40 +30,33 @@ class AuthenticationViewModel: ObservableObject {
     @Published var currentUser: User?
     
     static let shared = AuthenticationViewModel()
-    
+//    
 //    init() {
-//        userSession = Auth.auth().currentUser
-//        fetchUser()
-//    }
+//            userSession = Auth.auth().currentUser
+//            fetchUser()
+//        }
     
-    // 전화번호 인증을 시작하는 비동기 함수
+
     func sendOtp() async {
-        if isLoading { return }
-        
+        guard !isLoading else { return }
+      
         do {
             isLoading = true
             let result = try await PhoneAuthProvider.provider().verifyPhoneNumber("+\(country.phoneCode)\(phoneNumber)", uiDelegate: nil)
-            DispatchQueue.main.async {
-                self.isLoading = false
-                self.verificationCode = result
-                self.navigationTag = "VERIFICATION"
-            }
+            verificationCode = result
+            navigationTag = "VERIFICATION"
+            isLoading = false
         } catch {
-            handleError(error: error.localizedDescription)
-        }
-        
-        self.navigationTag = "VERIFICATION"
-    }
-    
-    func handleError(error: String) {
-        DispatchQueue.main.async {
-            self.isLoading = false
-            self.errorMessage = error
-            self.showAlert.toggle()
+            handleError(error: error)
         }
     }
     
-    // 올바른 OTP인지 검증하는 비동기 함수
+    func handleError(error: Error) {
+        errorMessage = error.localizedDescription
+        showAlert.toggle()
+        isLoading = false
+    }
+    
     func verifyOtp() async {
         do {
             isLoading = true
@@ -74,72 +65,61 @@ class AuthenticationViewModel: ObservableObject {
             let result = try await Auth.auth().signIn(with: credential)
             let db = Firestore.firestore()
             
-            db.collection("users").document(result.user.uid).setData([
+            try await db.collection("users").document(result.user.uid).setData([
                 "fullname": name,
                 "date": year.date,
-                "id": result.user.uid
-            ]) { err in
-                if let err = err {
-                    print(err.localizedDescription)
-                }
-            }
+                "id": result.user.uid,
+                "phoneNumber": "+\(country.phoneCode)\(phoneNumber)"
+            ])
             
-            DispatchQueue.main.async { [self] in
-                self.isLoading = false
-                let user = result.user
-                self.userSession = user
-                self.currentUser = User(name: name, date: year.date)
-                print(user.uid)
-            }
+            userSession = result.user
+            currentUser = User(name: name, date: year.date)
+            isLoading = false
+            print(result.user.uid)
         } catch {
-            print("ERROR : OTP 인증 실패함")
-            handleError(error: error.localizedDescription)
+            handleError(error: error)
         }
     }
     
-    // 로그아웃 함수
     func signOut() {
-        print("signOut!")
         do {
-            self.userSession = nil
+            userSession = nil
             try Auth.auth().signOut()
-        } catch let signOutError as NSError {
-            print("Error signing out: %@", signOutError)
+        } catch {
+            print("Error signing out: \(error.localizedDescription)")
         }
     }
     
-    // 회원탈퇴 함수 - 회원탈퇴시 현재 데이터베이스에서 값만 삭제
-    // 추후 스토리지 구현시 스토리지 내역까지 삭제 필요
-    func deleteAccount() {
-        let db = Firestore.firestore()
+    func deleteAccount() async {
         guard let uid = userSession?.uid else { return }
+        let db = Firestore.firestore()
         
-        db.collection("users").document(uid).delete()
-        print("Document sucessfully removed!")
+        do {
+            try await db.collection("users").document(uid).delete()
+        } catch {
+            print("Error removing document: \(error.localizedDescription)")
+        }
     }
-
+    
     func fetchUser() {
         guard let uid = userSession?.uid else { return }
-//        print(uid)
-        Firestore.firestore().collection("users").document(uid).getDocument { snapshot, err in
-            if let err = err {
-                print(err.localizedDescription)
+        Firestore.firestore().collection("users").document(uid).getDocument { snapshot, error in
+            guard let user = try? snapshot?.data(as: User.self) else {
+                print("Error fetching user: \(error?.localizedDescription ?? "Unknown error")")
                 return
             }
-            
-            guard let user = try? snapshot?.data(as: User.self) else { return }
             self.currentUser = user
-            print("ERROR : User 정보를 받아오질 못했음")
         }
     }
-    // 변경된 정보를 파이어스토어에 저장
-    func saveUserData(data: [String : Any]) async {
+    
+    func saveUserData(data: [String: Any]) async {
         guard let userId = userSession?.uid else { return }
         
         do {
-            try await Firestore.firestore().collection("users").document().updateData(data as [String : Any])
+            try await Firestore.firestore().collection("users").document(userId).updateData(data)
         } catch {
-            handleError(error: error.localizedDescription)
+            handleError(error: error)
         }
     }
 }
+

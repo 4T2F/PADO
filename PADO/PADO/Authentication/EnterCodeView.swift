@@ -50,30 +50,6 @@ struct EnterCodeView: View {
                             VerificationView(otpText: $viewModel.otpText)
                                 .padding(.vertical, 15)
                                 .padding(.horizontal, 25)
-//                            Text("......")
-//                                .foregroundStyle(viewModel.otpText.isEmpty ? .gray : .black)
-//                                .opacity(0.8)
-//                                .font(.system(size: 70))
-//                                .padding(.top, -40)
-//                                .overlay {
-//                                    TextField("", text: $viewModel.otpText)
-//                                        .foregroundStyle(.white)
-//                                        .multilineTextAlignment(.center)
-//                                        .font(.system(size: 24))
-//                                        .fontWeight(.heavy)
-//                                        .keyboardType(.numberPad)
-//                                        .onReceive(Just(viewModel.otpText), perform: { _ in
-//                                            limitText(6)
-//                                        })
-//                                        .onReceive(Just(viewModel.otpText), perform: { newValue in
-//                                            let filtered = newValue.filter({
-//                                                Set("0123456789").contains($0)})
-//                                            
-//                                            if filtered != newValue {
-//                                                viewModel.otpText = filtered
-//                                            }
-//                                        })
-//                                }
                         }
                         .padding(.top, 50)
                         
@@ -81,7 +57,6 @@ struct EnterCodeView: View {
                     }
                     
                     VStack {
-//                        Text("인증 번호를 입력해주세요")
                         Button {
                             dismiss()
                         } label: {
@@ -98,7 +73,7 @@ struct EnterCodeView: View {
                                 }
                             }
                         } label: {
-                            WhiteButtonView(buttonActive: $buttonActive, text: viewModel.otpText.count == 6 ? "계속하기" : "남은 시간 \(timeRemaining)초" )
+                            WhiteButtonView(buttonActive: $buttonActive, text: viewModel.otpText.count == 6 ? "계속하기" : "남은 시간 \(timeRemaining)초" ) // 코드 재전송 추가
                         }
                         .disabled(buttonActive ? false : true)
                         .onChange(of: viewModel.otpText) { oldValue, newValue in

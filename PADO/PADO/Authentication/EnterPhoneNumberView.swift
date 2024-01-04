@@ -63,10 +63,20 @@ struct EnterPhoneNumberView: View {
                             .frame(width: 280)
                             .keyboardType(.numberPad)
                             .foregroundStyle(.white)
-                            .font(.system(size: 40))
+                            .font(.system(size: 30))
                             .fontWeight(.heavy)
+                            .tint(.cursor)
+                            .onChange(of: viewModel.phoneNumber) { newValue, _ in
+                                viewModel.phoneNumber = formatPhoneNumber(newValue)
+                            }
                     }
                     
+                    if viewModel.showAlert {
+                        Text(viewModel.errorMessage)
+                            .foregroundStyle(.red)
+                            .font(.system(size: 14))
+                            .padding(.top, 10)
+                    }
                     Spacer()
                 }
                 .padding(.top, 50)
@@ -106,15 +116,35 @@ struct EnterPhoneNumberView: View {
                 .opacity(viewModel.isLoading ? 1 : 0)
         }
         .background {
+    
             NavigationLink(tag: "VERIFICATION", selection: $viewModel.navigationTag) {
                 EnterCodeView()
-                    .environmentObject(viewModel)
+                    .environmentObject(viewModel)           // 수정 해야할 부분
             } label: {
                 
             }
             .labelsHidden()
         }
         .environment(\.colorScheme, .dark)
+    }
+}
+
+extension EnterPhoneNumberView {
+    func formatPhoneNumber(_ number: String) -> String {
+        let cleanNumber = number.filter("0123456789".contains)
+        let mask = "XXX-XXXX-XXXX"
+        
+        var result = ""
+        var index = cleanNumber.startIndex
+        for ch in mask where index < cleanNumber.endIndex {
+            if ch == "X" {
+                result.append(cleanNumber[index])
+                index = cleanNumber.index(after: index)
+            } else {
+                result.append(ch)
+            }
+        }
+        return result
     }
 }
 

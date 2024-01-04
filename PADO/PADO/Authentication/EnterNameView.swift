@@ -48,6 +48,7 @@ struct EnterNameView: View {
                                     .frame(width: 210)
                                     .multilineTextAlignment(.center)
                                     .foregroundStyle(.white)
+                                    .tint(.cursor)
                     }
                     .foregroundStyle(.white)
                     

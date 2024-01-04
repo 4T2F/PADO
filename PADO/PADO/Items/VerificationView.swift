@@ -51,6 +51,7 @@ struct VerificationView: View {
                 Text(" ")
             }
         }
+        .foregroundStyle(.white)
         .frame(width: 45, height: 45)
         .background {
             // Highlighting Current Active Box
