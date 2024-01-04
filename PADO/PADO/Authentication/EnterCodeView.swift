@@ -17,6 +17,8 @@ struct EnterCodeView: View {
     
     @EnvironmentObject var viewModel: AuthenticationViewModel
     
+    @Environment(\.dismiss) var dismiss
+    
     var body: some View {
         VStack {
             ZStack {
@@ -42,33 +44,36 @@ struct EnterCodeView: View {
                         VStack(alignment: .center, spacing: 8) {
                             Text("+\(viewModel.country.phoneCode) \(viewModel.phoneNumber)로 인증 코드를 보냈어요")
                                 .foregroundStyle(.white)
-                                .fontWeight(.medium)
+                                .fontWeight(.heavy)
                                 .font(.system(size: 16))
                             
-                            Text("......")
-                                .foregroundStyle(viewModel.otpText.isEmpty ? .gray : .black)
-                                .opacity(0.8)
-                                .font(.system(size: 70))
-                                .padding(.top, -40)
-                                .overlay {
-                                    TextField("", text: $viewModel.otpText)
-                                        .foregroundStyle(.white)
-                                        .multilineTextAlignment(.center)
-                                        .font(.system(size: 24))
-                                        .fontWeight(.heavy)
-                                        .keyboardType(.numberPad)
-                                        .onReceive(Just(viewModel.otpText), perform: { _ in
-                                            limitText(6)
-                                        })
-                                        .onReceive(Just(viewModel.otpText), perform: { newValue in
-                                            let filtered = newValue.filter({
-                                                Set("0123456789").contains($0)})
-                                            
-                                            if filtered != newValue {
-                                                viewModel.otpText = filtered
-                                            }
-                                        })
-                                }
+                            VerificationView(otpText: $viewModel.otpText)
+                                .padding(.vertical, 15)
+                                .padding(.horizontal, 25)
+//                            Text("......")
+//                                .foregroundStyle(viewModel.otpText.isEmpty ? .gray : .black)
+//                                .opacity(0.8)
+//                                .font(.system(size: 70))
+//                                .padding(.top, -40)
+//                                .overlay {
+//                                    TextField("", text: $viewModel.otpText)
+//                                        .foregroundStyle(.white)
+//                                        .multilineTextAlignment(.center)
+//                                        .font(.system(size: 24))
+//                                        .fontWeight(.heavy)
+//                                        .keyboardType(.numberPad)
+//                                        .onReceive(Just(viewModel.otpText), perform: { _ in
+//                                            limitText(6)
+//                                        })
+//                                        .onReceive(Just(viewModel.otpText), perform: { newValue in
+//                                            let filtered = newValue.filter({
+//                                                Set("0123456789").contains($0)})
+//                                            
+//                                            if filtered != newValue {
+//                                                viewModel.otpText = filtered
+//                                            }
+//                                        })
+//                                }
                         }
                         .padding(.top, 50)
                         
@@ -76,10 +81,15 @@ struct EnterCodeView: View {
                     }
                     
                     VStack {
-                        Text("인증 번호를 입력해주세요")
-                            .foregroundStyle(.gray)
-                            .font(.system(size: 14))
-                            .fontWeight(.bold)
+//                        Text("인증 번호를 입력해주세요")
+                        Button {
+                            dismiss()
+                        } label: {
+                            Text("휴대폰 번호를 잘못 입력하셨나요?")
+                                .foregroundStyle(.gray)
+                                .font(.system(size: 14))
+                                .fontWeight(.bold)
+                        }
                         
                         Button {
                             if buttonActive {
@@ -88,7 +98,7 @@ struct EnterCodeView: View {
                                 }
                             }
                         } label: {
-                            WhiteButtonView(buttonActive: $buttonActive, text: viewModel.otpText.count == 6 ? "계속하기" : "재전송 까지 \(timeRemaining)초" )
+                            WhiteButtonView(buttonActive: $buttonActive, text: viewModel.otpText.count == 6 ? "계속하기" : "남은 시간 \(timeRemaining)초" )
                         }
                         .disabled(buttonActive ? false : true)
                         .onChange(of: viewModel.otpText) { oldValue, newValue in
@@ -109,6 +119,7 @@ struct EnterCodeView: View {
                 }
             })
         }
+        .navigationBarBackButtonHidden()
     }
     
     func limitText(_ upper: Int) {

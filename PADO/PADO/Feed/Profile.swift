@@ -150,7 +150,7 @@ struct Profile: View {
                             } label: {
                                 ThreeDots(size: 4, color: .white)
                             }
-
+                            
                         }
                         .padding(.horizontal)
                         Spacer()

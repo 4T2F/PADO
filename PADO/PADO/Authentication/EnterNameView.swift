@@ -38,22 +38,16 @@ struct EnterNameView: View {
                 
                 VStack {
                     VStack(alignment: .center, spacing: 8) {
-                        Text("파도에 오신걸 환영합니다. 이름을 입력해주세요")
+                        Text("파도에 오신걸 환영해요. 이름을 입력해주세요")
                             .fontWeight(.heavy)
                             .font(.system(size: 16))
                         
-                        Text(name.isEmpty ? "NAME" : "s")
-                            .foregroundStyle(name.isEmpty ? Color(red: 70/255, green: 70/255, blue: 73/255) : Color.black)
-                            .fontWeight(.heavy)
-                            .font(.system(size: 40))
-                            .frame(width: 210)
-                            .overlay {
-                                TextField("", text: $name)
+                                TextField("NAME", text: $name)
                                     .font(.system(size: 40))
                                     .fontWeight(.heavy)
+                                    .frame(width: 210)
                                     .multilineTextAlignment(.center)
                                     .foregroundStyle(.white)
-                            }
                     }
                     .foregroundStyle(.white)
                     

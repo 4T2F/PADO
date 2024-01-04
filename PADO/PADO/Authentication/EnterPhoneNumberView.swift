@@ -57,20 +57,14 @@ struct EnterPhoneNumberView: View {
                             }
                             .onTapGesture {
                                 self.showCountryList.toggle()
-                        }
-                        
-                        Text("")
-                            .foregroundStyle(viewModel.phoneNumber.isEmpty ? Color(red: 70/255, green: 70/255, blue: 73/255) : Color.black)
-                            .fontWeight(.heavy)
-                            .font(.system(size: 36))
-                            .frame(width: 280)
-                            .overlay {
-                                TextField("", text: $viewModel.phoneNumber)
-                                    .keyboardType(.numberPad)
-                                    .foregroundStyle(.white)
-                                    .font(.system(size: 40))
-                                    .fontWeight(.heavy)
                             }
+                        
+                        TextField("NUMBER", text: $viewModel.phoneNumber)
+                            .frame(width: 280)
+                            .keyboardType(.numberPad)
+                            .foregroundStyle(.white)
+                            .font(.system(size: 40))
+                            .fontWeight(.heavy)
                     }
                     
                     Spacer()
@@ -80,7 +74,7 @@ struct EnterPhoneNumberView: View {
                 VStack {
                     Spacer()
                     
-                    Text("계속 진행하면 개인정보처리방침과 이용약관에 동의처리 됩니다")
+                    Text("계속 진행시 개인정보처리방침과 이용약관에 동의처리 됩니다")
                         .foregroundStyle(Color(red: 70/255, green: 70/255, blue: 73/255))
                         .font(.system(size: 14))
                         .fontWeight(.semibold)
