@@ -55,6 +55,39 @@ struct EnterAgeView: View {
                         .font(.system(size: 16))
                     
                     HStack(spacing: 4){
+                        Text("년도")
+                            .foregroundStyle(year.year.isEmpty ? Color(red: 70/255, green: 70/255, blue: 73/255) : Color.black)
+                            .fontWeight(.heavy)
+                            .font(.system(size: 40))
+                            .frame(width: 120)
+                            .overlay {
+                                TextField("", text: $year.year)
+                                    .foregroundStyle(.white)
+                                    .font(.system(size: 45))
+                                    .fontWeight(.heavy)
+                                    .multilineTextAlignment(.center)
+                                    .keyboardType(.numberPad)
+                                    .focused($focusedField, equals: .year)
+                                    .onChange(of: year.year, { oldValue, newValue in
+                                        if newValue.count == 4 {
+                                            focusedField = .month
+                                        }
+                                    })
+                                    .onReceive(Just(year.year), perform: { newValue in
+                                        let filtered = newValue.filter {
+                                            Set("01234567890").contains($0)
+                                        }
+                                        if newValue != newValue {
+                                            self.year.year = filtered
+                                        }
+                                    })
+                                    .onReceive(Just(year.year), perform: { _ in
+                                        if year.year.count > 4 {
+                                            year.year = String(year.year.prefix(4))
+                                        }
+                                    })
+                            }
+                        
                         Text("월")
                             .foregroundStyle(year.month.isEmpty ? Color(red: 70/255, green: 70/255, blue: 73/255) : Color.black)
                             .fontWeight(.heavy)
@@ -101,11 +134,6 @@ struct EnterAgeView: View {
                                     .multilineTextAlignment(.center)
                                     .keyboardType(.numberPad)
                                     .focused($focusedField, equals: .day)
-                                    .onChange(of: year.day, { oldValue, newValue in
-                                        if newValue.count == 2 {
-                                            focusedField = .year
-                                        }
-                                    })
                                     .onReceive(Just(year.day), perform: { newValue in
                                         let filtered = newValue.filter {
                                             Set("01234567890").contains($0)
@@ -117,34 +145,6 @@ struct EnterAgeView: View {
                                     .onReceive(Just(year.day), perform: { _ in
                                         if year.day.count > 2 {
                                             year.day = String(year.day.prefix(2))
-                                        }
-                                    })
-                            }
-                        
-                        Text("년도")
-                            .foregroundStyle(year.year.isEmpty ? Color(red: 70/255, green: 70/255, blue: 73/255) : Color.black)
-                            .fontWeight(.heavy)
-                            .font(.system(size: 40))
-                            .frame(width: 120)
-                            .overlay {
-                                TextField("", text: $year.year)
-                                    .foregroundStyle(.white)
-                                    .font(.system(size: 45))
-                                    .fontWeight(.heavy)
-                                    .multilineTextAlignment(.center)
-                                    .keyboardType(.numberPad)
-                                    .focused($focusedField, equals: .year)
-                                    .onReceive(Just(year.year), perform: { newValue in
-                                        let filtered = newValue.filter {
-                                            Set("01234567890").contains($0)
-                                        }
-                                        if newValue != newValue {
-                                            self.year.year = filtered
-                                        }
-                                    })
-                                    .onReceive(Just(year.year), perform: { _ in
-                                        if year.year.count > 4 {
-                                            year.year = String(year.year.prefix(4))
                                         }
                                     })
                             }

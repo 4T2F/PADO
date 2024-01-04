@@ -31,12 +31,12 @@ struct Profile: View {
                                         .font(.system(size: 55))
                                 }
                             
-                            Text("천랑성")
+                            Text(viewModel.currentUser!.name)
                                 .foregroundStyle(.white)
                                 .font(.system(size: 25))
                                 .fontWeight(.bold)
                             
-                            Text("kangciu")
+                            Text(viewModel.currentUser!.username ?? viewModel.currentUser!.name.lowercased())
                                 .foregroundStyle(.white)
                                 .fontWeight(.semibold)
                             

@@ -64,12 +64,12 @@ struct SettingsView: View {
                                             }
                                         
                                         VStack(alignment: .leading) {
-                                            Text("천랑성")
+                                            Text(viewModel.currentUser!.name)
                                                 .foregroundStyle(.white)
                                                 .fontWeight(.semibold)
                                                 .font(.system(size: 18))
                                             
-                                            Text("kangciu")
+                                            Text(viewModel.currentUser!.username ?? viewModel.currentUser!.name.lowercased())
                                                 .foregroundStyle(.white)
                                                 .fontWeight(.semibold)
                                                 .font(.system(size: 14))

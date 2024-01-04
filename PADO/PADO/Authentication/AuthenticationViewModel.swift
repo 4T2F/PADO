@@ -117,10 +117,10 @@ class AuthenticationViewModel: ObservableObject {
         db.collection("users").document(uid).delete()
         print("Document sucessfully removed!")
     }
-    
+
     func fetchUser() {
         guard let uid = userSession?.uid else { return }
-        
+//        print(uid)
         Firestore.firestore().collection("users").document(uid).getDocument { snapshot, err in
             if let err = err {
                 print(err.localizedDescription)
@@ -130,6 +130,16 @@ class AuthenticationViewModel: ObservableObject {
             guard let user = try? snapshot?.data(as: User.self) else { return }
             self.currentUser = user
             print("ERROR : User 정보를 받아오질 못했음")
+        }
+    }
+    // 변경된 정보를 파이어스토어에 저장
+    func saveUserData(data: [String : Any]) async {
+        guard let userId = userSession?.uid else { return }
+        
+        do {
+            try await Firestore.firestore().collection("users").document().updateData(data as [String : Any])
+        } catch {
+            handleError(error: error.localizedDescription)
         }
     }
 }

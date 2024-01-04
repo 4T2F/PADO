@@ -49,7 +49,9 @@ struct EditProfileView: View {
                             Spacer()
                             
                             Button {
-                                saveData()
+                                Task {
+                                    await saveData()
+                                }
                                 dismiss()
                             } label: {
                                 Text("저장")
@@ -163,7 +165,7 @@ struct EditProfileView: View {
                                     TextField("", text: $username)
                                         .font(.system(size: 16))
                                         .placeholder(when: username.isEmpty) {
-                                            Text("dearkang")
+                                            Text(viewModel.currentUser!.name.lowercased())
                                                 .foregroundStyle(.white)
                                                 .font(.system(size: 16))
                                         }
@@ -203,7 +205,7 @@ struct EditProfileView: View {
                                         .overlay {
                                             VStack {
                                                 HStack {
-                                                    if bio.isEmpty {
+                                                    if currentUser.bio == "" {
                                                         Text("소개")
                                                             .foregroundStyle(.gray)
                                                             .font(.system(size: 16))
@@ -273,9 +275,25 @@ struct EditProfileView: View {
     }
     
     // 사용자 프로필이 변경되면 변경된 값으로 저장하는 함수
-    func saveData() {
+    func saveData() async {
         if viewModel.currentUser!.name != self.fullname && !self.fullname.isEmpty {
             viewModel.currentUser!.name = self.fullname
+            await viewModel.saveUserData(data: ["name" : self.fullname])
+        }
+        
+        if viewModel.currentUser!.username != self.username && !self.username.isEmpty {
+            viewModel.currentUser!.username = self.username
+            await viewModel.saveUserData(data: ["username" : self.username])
+        }
+        
+        if viewModel.currentUser!.bio != self.bio && !self.bio.isEmpty {
+            viewModel.currentUser!.bio = self.bio
+            await viewModel.saveUserData(data: ["bio" : bio])
+        }
+        
+        if viewModel.currentUser!.location != self.location && !self.location.isEmpty {
+            viewModel.currentUser!.location = self.location
+            await viewModel.saveUserData(data: ["location" : location])
         }
     }
 }
