@@ -22,6 +22,7 @@
 		41FD9A112B43D5ED0028D38E /* PADOUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FD9A102B43D5ED0028D38E /* PADOUITests.swift */; };
 		41FD9A132B43D5ED0028D38E /* PADOUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FD9A122B43D5ED0028D38E /* PADOUITestsLaunchTests.swift */; };
 		41FD9A212B43D94A0028D38E /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 41FD9A202B43D94A0028D38E /* .swiftlint.yml */; };
+		520155022B47052B004E209D /* Friends.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520155012B47052B004E209D /* Friends.swift */; };
 		635B09422B44FA1E009E60A9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 635B09412B44FA1E009E60A9 /* GoogleService-Info.plist */; };
 		635B09482B4500AA009E60A9 /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635B09472B4500AA009E60A9 /* AuthenticationViewModel.swift */; };
 		635B094A2B4500CB009E60A9 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635B09492B4500CB009E60A9 /* User.swift */; };
@@ -98,6 +99,7 @@
 		41FD9A102B43D5ED0028D38E /* PADOUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PADOUITests.swift; sourceTree = "<group>"; };
 		41FD9A122B43D5ED0028D38E /* PADOUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PADOUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		41FD9A202B43D94A0028D38E /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		520155012B47052B004E209D /* Friends.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friends.swift; sourceTree = "<group>"; };
 		635B09412B44FA1E009E60A9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		635B09472B4500AA009E60A9 /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
 		635B09492B4500CB009E60A9 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -267,6 +269,7 @@
 				635B09552B4510D1009E60A9 /* RequestsView.swift */,
 				635B09502B4510D1009E60A9 /* SuggestionCellView.swift */,
 				635B09532B4510D1009E60A9 /* Suggestions.swift */,
+				520155012B47052B004E209D /* Friends.swift */,
 			);
 			path = LeftMenu;
 			sourceTree = "<group>";
@@ -525,6 +528,7 @@
 				63B563FD2B44655C00AEC5E7 /* Country.swift in Sources */,
 				635B09722B451127009E60A9 /* ContactUsView.swift in Sources */,
 				635B09572B4510D1009E60A9 /* SuggestionCellView.swift in Sources */,
+				520155022B47052B004E209D /* Friends.swift in Sources */,
 				635B09752B451127009E60A9 /* HelpView.swift in Sources */,
 				635B09802B45114B009E60A9 /* MemoryView.swift in Sources */,
 				635B09732B451127009E60A9 /* TimeZoneView.swift in Sources */,
