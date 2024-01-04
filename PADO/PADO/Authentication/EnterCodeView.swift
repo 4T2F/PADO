@@ -42,7 +42,7 @@ struct EnterCodeView: View {
                 VStack {
                     VStack {
                         VStack(alignment: .center, spacing: 8) {
-                            Text("+\(viewModel.country.phoneCode) \(viewModel.phoneNumber)로 인증 코드를 보냈어요")
+                            Text("+\(viewModel.country.phoneCode) \(viewModel.phoneNumber)로 인증 번호를 보냈어요")
                                 .foregroundStyle(.white)
                                 .fontWeight(.heavy)
                                 .font(.system(size: 16))
@@ -66,21 +66,37 @@ struct EnterCodeView: View {
                                 .fontWeight(.bold)
                         }
                         
-                        Button {
-                            if buttonActive {
-                                Task {
-                                    await self.viewModel.verifyOtp()
+                        if timeRemaining > 0 {
+                            Button {
+                                if buttonActive {
+                                    Task {
+                                        await self.viewModel.verifyOtp()
+                                    }
+                                }
+                            } label: {
+                                if timeRemaining > 0 {
+                                    WhiteButtonView(buttonActive: $buttonActive, text: viewModel.otpText.count == 6 ? "계속하기" : "남은 시간 \(timeRemaining)초" )
                                 }
                             }
-                        } label: {
-                            WhiteButtonView(buttonActive: $buttonActive, text: viewModel.otpText.count == 6 ? "계속하기" : "남은 시간 \(timeRemaining)초" ) // 코드 재전송 추가
-                        }
-                        .disabled(buttonActive ? false : true)
-                        .onChange(of: viewModel.otpText) { oldValue, newValue in
-                            if !newValue.isEmpty {
-                                buttonActive = true
-                            } else if newValue.isEmpty {
-                                buttonActive = false
+                            .disabled(buttonActive ? false : true)
+                            .onChange(of: viewModel.otpText) { oldValue, newValue in
+                                if !newValue.isEmpty {
+                                    buttonActive = true
+                                } else if newValue.isEmpty {
+                                    buttonActive = false
+                                }
+                            }
+                        } else {
+                            Button {
+                                if buttonActive {
+                                    Task {
+                                        await self.viewModel.sendOtp()
+                                        timeRemaining = 60
+                                        buttonActive = false
+                                    }
+                                }
+                            } label: {
+                                WhiteButtonView(buttonActive: $buttonActive, text: "인증 번호 재전송" )
                             }
                         }
                     }

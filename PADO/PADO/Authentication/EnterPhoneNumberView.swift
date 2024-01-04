@@ -116,7 +116,7 @@ struct EnterPhoneNumberView: View {
                 .opacity(viewModel.isLoading ? 1 : 0)
         }
         .background {
-    
+            
             NavigationLink(tag: "VERIFICATION", selection: $viewModel.navigationTag) {
                 EnterCodeView()
                     .environmentObject(viewModel)           // 수정 해야할 부분
