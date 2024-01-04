@@ -63,8 +63,12 @@ struct EnterPhoneNumberView: View {
                             .frame(width: 280)
                             .keyboardType(.numberPad)
                             .foregroundStyle(.white)
-                            .font(.system(size: 40))
+                            .font(.system(size: 30))
                             .fontWeight(.heavy)
+                            .tint(.cursor)
+//                            .onChange(of: viewModel.phoneNumber) { newValue, _ in
+//                                viewModel.phoneNumber = formatPhoneNumber(newValue)
+//                            }
                     }
                     
                     Spacer()
@@ -82,7 +86,7 @@ struct EnterPhoneNumberView: View {
                     
                     Button {
                         Task {
-                            await viewModel.sendOtp()
+                            await viewModel.checkPhoneNumberExists(phoneNumber: "+\(viewModel.country.phoneCode)\(viewModel.phoneNumber)")
                         }
                     } label: {
                         WhiteButtonView(buttonActive: $buttonActive, text: "인증 문자 보내기")
@@ -114,9 +118,11 @@ struct EnterPhoneNumberView: View {
                 EnterCodeView()
                     .environmentObject(viewModel)
             } label: {
-                
+                EmptyView()
             }
-            .labelsHidden()
+            .onChange(of: viewModel.phoneNumber) { newValue, _ in
+                buttonActive = !newValue.isEmpty
+            }
         }
         .environment(\.colorScheme, .dark)
     }

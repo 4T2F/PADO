@@ -62,6 +62,7 @@ struct EnterAgeView: View {
                             .frame(width: 120)
                             .multilineTextAlignment(.center)
                             .keyboardType(.numberPad)
+                            .tint(.cursor)
                             .focused($focusedField, equals: .year)
                             .onChange(of: year.year, { oldValue, newValue in
                                 if newValue.count == 4 {
@@ -89,6 +90,7 @@ struct EnterAgeView: View {
                             .frame(width: 72)
                             .multilineTextAlignment(.center)
                             .keyboardType(.numberPad)
+                            .tint(.cursor)
                             .focused($focusedField, equals: .month)
                             .onSubmit {
                                 if year.month.count == 1 {
@@ -123,6 +125,7 @@ struct EnterAgeView: View {
                             .fontWeight(.heavy)
                             .multilineTextAlignment(.center)
                             .keyboardType(.numberPad)
+                            .tint(.cursor)
                             .focused($focusedField, equals: .day)
                             .onSubmit {
                                 if year.day.count == 1 {

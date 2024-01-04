@@ -43,12 +43,14 @@ struct EnterNameView: View {
                             .fontWeight(.heavy)
                             .font(.system(size: 16))
                         
-                                TextField("NAME", text: $name)
-                                    .font(.system(size: 40))
-                                    .fontWeight(.heavy)
-                                    .frame(width: 210)
-                                    .multilineTextAlignment(.center)
-                                    .foregroundStyle(.white)
+                        TextField("NAME", text: $name)
+                            .font(.system(size: 40))
+                            .fontWeight(.heavy)
+                            .foregroundStyle(.white)
+                            .frame(width: 210)
+                            .tint(.cursor)
+                            .multilineTextAlignment(.center)
+                          
                     }
                     .foregroundStyle(.white)
                     

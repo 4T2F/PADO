@@ -69,8 +69,15 @@ struct EnterCodeView: View {
                         if timeRemaining > 0 {
                             Button {
                                 if buttonActive {
-                                    Task {
-                                        await self.viewModel.verifyOtp()
+                                    if viewModel.isExisted {
+                                        Task {
+                                            await viewModel.verifyOtp()
+                                        }
+                                    } else {
+                                        Task {
+                                            await viewModel.fetchUIDByPhoneNumber(phoneNumber: "+\(viewModel.country.phoneCode)\(viewModel.phoneNumber)")
+                                            await viewModel.fetchUser()
+                                        }
                                     }
                                 }
                             } label: {

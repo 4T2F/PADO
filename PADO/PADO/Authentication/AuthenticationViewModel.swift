@@ -25,23 +25,46 @@ class AuthenticationViewModel: ObservableObject {
     
     @Published var errorMessage = ""
     @Published var showAlert = false
+    @Published var isExisted = false
     
-    @Published var userSession: Firebase.User?
     @Published var currentUser: User?
     
-    static let shared = AuthenticationViewModel()
-//    
-//    init() {
-//            userSession = Auth.auth().currentUser
-//            fetchUser()
-//        }
+    @AppStorage("userID") var userID: String = ""
+    
+    init() {
+        Task{
+            print(userID)
+            await fetchUser()
+
+        }
+        
+    }
+    
+    func checkPhoneNumberExists(phoneNumber: String) async {
+        let userDB = Firestore.firestore().collection("users")
+        let query = userDB.whereField("phoneNumber", isEqualTo: phoneNumber)
+        
+        do {
+            let querySnapshot = try await query.getDocuments()
+            print("documets: \(querySnapshot.documents)")
+            if !querySnapshot.documents.isEmpty {
+                isExisted = false
+            } else {
+                isExisted = true
+            }
+            await sendOtp()
+            
+        } catch {
+            print("Error: \(error)")
+        }
+    }
     
     func sendOtp() async {
         guard !isLoading else { return }
-      
+        
         do {
             isLoading = true
-            let result = try await PhoneAuthProvider.provider().verifyPhoneNumber("+\(country.phoneCode)\(phoneNumber)", uiDelegate: nil)
+            let result = try await PhoneAuthProvider.provider().verifyPhoneNumber("+\(country.phoneCode)\(phoneNumber)", uiDelegate: nil) // 사용한 가능한 번호인지
             verificationCode = result
             navigationTag = "VERIFICATION"
             isLoading = false
@@ -65,13 +88,12 @@ class AuthenticationViewModel: ObservableObject {
             let db = Firestore.firestore()
             
             try await db.collection("users").document(result.user.uid).setData([
-                "fullname": name,
+                "name": name,
                 "date": year.date,
                 "id": result.user.uid,
                 "phoneNumber": "+\(country.phoneCode)\(phoneNumber)"
             ])
-            
-            userSession = result.user
+
             currentUser = User(name: name, date: year.date)
             isLoading = false
             print(result.user.uid)
@@ -80,9 +102,43 @@ class AuthenticationViewModel: ObservableObject {
         }
     }
     
+    func fetchUIDByPhoneNumber(phoneNumber: String) async {
+        let usersCollection = Firestore.firestore().collection("users")
+        let query = usersCollection.whereField("phoneNumber", isEqualTo: phoneNumber)
+        
+        do {
+            let querySnapshot = try await query.getDocuments()
+            for document in querySnapshot.documents {
+                self.userID = document.documentID
+            }
+        } catch {
+            print("Error fetching user by phone number: (error)")
+        }
+    }
+    
+    func fetchUser() async {
+        guard !userID.isEmpty else { return }
+        
+        do {
+            let snapshot = try await Firestore.firestore().collection("users").document(userID).getDocument()
+            print("UserID: \(userID)")
+            print("Snapshot: \(String(describing: snapshot.data()))")
+            
+            guard let user = try? snapshot.data(as: User.self) else {
+                print("Error: User data could not be decoded")
+                return
+            }
+            self.currentUser = user
+            print("Current User: \(String(describing: currentUser))")
+        } catch {
+            print("Error fetching user: \(error)")
+        }
+    }
+    
+    
     func signOut() {
         do {
-            userSession = nil
+            // 로그아웃 구현 필요
             try Auth.auth().signOut()
         } catch {
             print("Error signing out: \(error.localizedDescription)")
@@ -90,32 +146,19 @@ class AuthenticationViewModel: ObservableObject {
     }
     
     func deleteAccount() async {
-        guard let uid = userSession?.uid else { return }
         let db = Firestore.firestore()
         
         do {
-            try await db.collection("users").document(uid).delete()
+            try await db.collection("users").document(userID).delete()
         } catch {
             print("Error removing document: \(error.localizedDescription)")
         }
     }
     
-    func fetchUser() {
-        guard let uid = userSession?.uid else { return }
-        Firestore.firestore().collection("users").document(uid).getDocument { snapshot, error in
-            guard let user = try? snapshot?.data(as: User.self) else {
-                print("Error fetching user: \(error?.localizedDescription ?? "Unknown error")")
-                return
-            }
-            self.currentUser = user
-        }
-    }
     
     func saveUserData(data: [String: Any]) async {
-        guard let userId = userSession?.uid else { return }
-        
         do {
-            try await Firestore.firestore().collection("users").document(userId).updateData(data)
+            try await Firestore.firestore().collection("users").document(userID).updateData(data)
         } catch {
             handleError(error: error)
         }
