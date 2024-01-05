@@ -31,16 +31,14 @@ class AuthenticationViewModel: ObservableObject {
     
     @AppStorage("userID") var userID: String = ""
     
+    // 초기화
     init() {
-        Task{
-            print(userID)
-            await fetchUser()
-
-        }
-        
+        Task{ await initializeUser() }
     }
     
+    // MARK: - 인증 관련
     func checkPhoneNumberExists(phoneNumber: String) async {
+        // 전화번호 중복 확인
         let userDB = Firestore.firestore().collection("users")
         let query = userDB.whereField("phoneNumber", isEqualTo: phoneNumber)
         
@@ -60,6 +58,7 @@ class AuthenticationViewModel: ObservableObject {
     }
     
     func sendOtp() async {
+        // OTP 발송
         guard !isLoading else { return }
         
         do {
@@ -73,50 +72,28 @@ class AuthenticationViewModel: ObservableObject {
         }
     }
     
-    func handleError(error: Error) {
-        errorMessage = error.localizedDescription
-        showAlert.toggle()
-        isLoading = false
-    }
-    
     func verifyOtp() async {
+        // OTP 검증
+        guard !otpText.isEmpty else { return }
+        isLoading = true
         do {
-            isLoading = true
-            
-            let credential = PhoneAuthProvider.provider().credential(withVerificationID: verificationCode, verificationCode: otpText)
-            let result = try await Auth.auth().signIn(with: credential)
-            let db = Firestore.firestore()
-            
-            try await db.collection("users").document(result.user.uid).setData([
-                "name": name,
-                "date": year.date,
-                "id": result.user.uid,
-                "phoneNumber": "+\(country.phoneCode)\(phoneNumber)"
-            ])
-
-            currentUser = User(name: name, date: year.date)
-            isLoading = false
-            print(result.user.uid)
+            let result = try await signInWithCredential()
+            await saveUserData(result.user)
         } catch {
             handleError(error: error)
         }
+        isLoading = false
     }
     
-    func fetchUIDByPhoneNumber(phoneNumber: String) async {
-        let usersCollection = Firestore.firestore().collection("users")
-        let query = usersCollection.whereField("phoneNumber", isEqualTo: phoneNumber)
-        
-        do {
-            let querySnapshot = try await query.getDocuments()
-            for document in querySnapshot.documents {
-                self.userID = document.documentID
-            }
-        } catch {
-            print("Error fetching user by phone number: (error)")
-        }
+    // MARK: - 사용자 데이터 관리
+    func initializeUser() async {
+        // 사용자 초기화
+        guard !userID.isEmpty else { return }
+        await fetchUser()
     }
     
     func fetchUser() async {
+        // 사용자 데이터 불러오기
         guard !userID.isEmpty else { return }
         
         do {
@@ -135,6 +112,31 @@ class AuthenticationViewModel: ObservableObject {
         }
     }
     
+    func saveUserData(_ user: Firebase.User? = nil, data: [String: Any]? = nil) async {
+        // 사용자 데이터 Firestore에 저장
+        do {
+            let uid = user?.uid ?? userID
+            let userData = data ?? [
+                "name": name,
+                "date": year.date,
+                "id": uid,
+                "phoneNumber": "+\(country.phoneCode)\(phoneNumber)"
+            ]
+            
+            try await Firestore.firestore().collection("users").document(uid).setData(userData)
+            
+            if let user = user {
+                currentUser = User(name: name, date: year.date)
+            }
+        } catch {
+            print("Error saving user data: \(error.localizedDescription)")
+        }
+    }
+    
+    private func signInWithCredential() async throws -> AuthDataResult {
+        let credential = PhoneAuthProvider.provider().credential(withVerificationID: verificationCode, verificationCode: otpText)
+        return try await Auth.auth().signIn(with: credential)
+    }
     
     func signOut() {
         do {
@@ -146,6 +148,7 @@ class AuthenticationViewModel: ObservableObject {
     }
     
     func deleteAccount() async {
+        // 계정 삭제
         let db = Firestore.firestore()
         
         do {
@@ -155,13 +158,28 @@ class AuthenticationViewModel: ObservableObject {
         }
     }
     
-    
-    func saveUserData(data: [String: Any]) async {
+    // MARK: - Firestore 쿼리 처리
+    func fetchUIDByPhoneNumber(phoneNumber: String) async {
+        // 전화번호로 Firestore
+        let usersCollection = Firestore.firestore().collection("users")
+        let query = usersCollection.whereField("phoneNumber", isEqualTo: phoneNumber)
+        
         do {
-            try await Firestore.firestore().collection("users").document(userID).updateData(data)
+            let querySnapshot = try await query.getDocuments()
+            for document in querySnapshot.documents {
+                self.userID = document.documentID
+            }
         } catch {
-            handleError(error: error)
+            print("Error fetching user by phone number: (error)")
         }
     }
+    
+    // MARK: - 오류 처리
+    func handleError(error: Error) {
+        // 오류 처리
+        errorMessage = error.localizedDescription
+        showAlert.toggle()
+        isLoading = false
+    }
+    
 }
-

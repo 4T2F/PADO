@@ -8,7 +8,7 @@
 import Firebase
 import FirebaseFirestoreSwift
 
-struct Friend: Decodable, Identifiable{
+struct Friend: Codable, Identifiable{
     @DocumentID var id: String?
     var username: String?
     var name: String
