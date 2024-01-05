@@ -14,7 +14,11 @@ struct EnterPhoneNumberView: View {
     
     @Binding var phoneNumberButtonClicked: Bool
     
+    @FocusState private var focusedField: Bool
+    
     @EnvironmentObject var viewModel: AuthenticationViewModel
+    
+    var tfFormat = PhoneumberTFFormat()
     
     var body: some View {
         VStack {
@@ -66,8 +70,9 @@ struct EnterPhoneNumberView: View {
                             .font(.system(size: 30))
                             .fontWeight(.heavy)
                             .tint(.cursor)
+                            .focused($focusedField)
 //                            .onChange(of: viewModel.phoneNumber) { newValue, _ in
-//                                viewModel.phoneNumber = formatPhoneNumber(newValue)
+//                                viewModel.phoneNumber = tfFormat.formatPhoneNumber(newValue)
 //                            }
                     }
                     
@@ -78,10 +83,19 @@ struct EnterPhoneNumberView: View {
                 VStack {
                     Spacer()
                     
+                    Button("뒤로가기") {
+                        // 버튼 클릭 시 상위 뷰로 돌아감
+                       
+                    }
+                    .foregroundStyle(Color(red: 70/255, green: 70/255, blue: 73/255))
+                    .fontWeight(.semibold)
+                    .font(.system(size: 14))
+                    
                     Text("계속 진행시 개인정보처리방침과 이용약관에 동의처리 됩니다")
                         .foregroundStyle(Color(red: 70/255, green: 70/255, blue: 73/255))
                         .font(.system(size: 14))
                         .fontWeight(.semibold)
+                        .padding(.top, 10)
                         .multilineTextAlignment(.center)
                     
                     Button {
@@ -90,10 +104,10 @@ struct EnterPhoneNumberView: View {
                         }
                     } label: {
                         WhiteButtonView(buttonActive: $buttonActive, text: "인증 문자 보내기")
-                            .onChange(of: viewModel.phoneNumber) { oldValue, newValue in
-                                if !newValue.isEmpty {
+                            .onChange(of: viewModel.phoneNumber) { _, newValue in
+                                if newValue.count > 9 {
                                     buttonActive = true
-                                } else if newValue.isEmpty {
+                                } else {
                                     buttonActive = false
                                 }
                             }
@@ -101,6 +115,11 @@ struct EnterPhoneNumberView: View {
                     .disabled(viewModel.phoneNumber.isEmpty ? true : false)
                     .padding(.bottom, 10)
                 }
+            }
+        }
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.focusedField = true
             }
         }
         .onTapGesture {
@@ -128,24 +147,7 @@ struct EnterPhoneNumberView: View {
     }
 }
 
-extension EnterPhoneNumberView {
-    func formatPhoneNumber(_ number: String) -> String {
-        let cleanNumber = number.filter("0123456789".contains)
-        let mask = "XXX-XXXX-XXXX"
-        
-        var result = ""
-        var index = cleanNumber.startIndex
-        for ch in mask where index < cleanNumber.endIndex {
-            if ch == "X" {
-                result.append(cleanNumber[index])
-                index = cleanNumber.index(after: index)
-            } else {
-                result.append(ch)
-            }
-        }
-        return result
-    }
-}
+
 
 //#Preview {
 //    EnterPhoneNumberView()

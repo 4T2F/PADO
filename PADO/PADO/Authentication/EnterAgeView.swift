@@ -159,10 +159,14 @@ struct EnterAgeView: View {
                 VStack {
                     Spacer()
                     
-                    Text("파도에 오신걸 환영해요")
-                        .foregroundStyle(Color(red: 70/255, green: 70/255, blue: 73/255))
-                        .fontWeight(.semibold)
-                        .font(.system(size: 14))
+                    Button("뒤로가기") {
+                        // 버튼 클릭 시 상위 뷰로 돌아감
+                       
+                    }
+                    .foregroundStyle(Color(red: 70/255, green: 70/255, blue: 73/255))
+                    .fontWeight(.semibold)
+                    .font(.system(size: 14))
+
                     
                     Button {
                         if buttonActive {
@@ -184,6 +188,7 @@ struct EnterAgeView: View {
             year.month = ""
             year.day = ""
             year.year = ""
+            focusedField = .year
         }
         .onTapGesture {
             self.endTextEditiong()

@@ -14,6 +14,7 @@ struct EnterNameView: View {
     @State private var keyboardHeight:CGFloat = 0
     
     @Binding var nameButtonClicked: Bool
+    @FocusState private var focusedField: Bool
     
     @EnvironmentObject var viewModel: AuthenticationViewModel
     
@@ -50,7 +51,7 @@ struct EnterNameView: View {
                             .frame(width: 210)
                             .tint(.cursor)
                             .multilineTextAlignment(.center)
-                          
+                            .focused($focusedField)
                     }
                     .foregroundStyle(.white)
                     
@@ -83,14 +84,16 @@ struct EnterNameView: View {
         }
         .onAppear() {
             name = ""
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.focusedField = true
+            }
+
         }
         .onTapGesture {
             self.endTextEditiong()
         }
     }
 }
-
-
 
 //#Preview {
 //    EnterNameView()
