@@ -62,6 +62,7 @@ struct EnterAgeView: View {
                             .frame(width: 120)
                             .multilineTextAlignment(.center)
                             .keyboardType(.numberPad)
+                            .tint(.cursor)
                             .focused($focusedField, equals: .year)
                             .onChange(of: year.year, { oldValue, newValue in
                                 if newValue.count == 4 {
@@ -89,6 +90,7 @@ struct EnterAgeView: View {
                             .frame(width: 72)
                             .multilineTextAlignment(.center)
                             .keyboardType(.numberPad)
+                            .tint(.cursor)
                             .focused($focusedField, equals: .month)
                             .onSubmit {
                                 if year.month.count == 1 {
@@ -98,6 +100,8 @@ struct EnterAgeView: View {
                             .onChange(of: year.month, { oldValue, newValue in
                                 if newValue.count == 2 {
                                     focusedField = .day
+                                } else if year.year.count == 4 && newValue.count == 0 {
+                                    focusedField = .year
                                 }
                             })
                             .onReceive(Just(year.month), perform: { newValue in
@@ -121,12 +125,18 @@ struct EnterAgeView: View {
                             .fontWeight(.heavy)
                             .multilineTextAlignment(.center)
                             .keyboardType(.numberPad)
+                            .tint(.cursor)
                             .focused($focusedField, equals: .day)
                             .onSubmit {
                                 if year.day.count == 1 {
                                     year.day = "0" + year.day
                                 }
                             }
+                            .onChange(of: year.day, { oldValue, newValue in
+                                if year.month.count == 2 && newValue.count == 0 {
+                                    focusedField = .month
+                                }
+                            })
                             .onReceive(Just(year.day), perform: { newValue in
                                 let filtered = newValue.filter {
                                     Set("01234567890").contains($0)
@@ -149,10 +159,14 @@ struct EnterAgeView: View {
                 VStack {
                     Spacer()
                     
-                    Text("파도에 오신걸 환영해요")
-                        .foregroundStyle(Color(red: 70/255, green: 70/255, blue: 73/255))
-                        .fontWeight(.semibold)
-                        .font(.system(size: 14))
+                    Button("뒤로가기") {
+                        // 버튼 클릭 시 상위 뷰로 돌아감
+                       
+                    }
+                    .foregroundStyle(Color(red: 70/255, green: 70/255, blue: 73/255))
+                    .fontWeight(.semibold)
+                    .font(.system(size: 14))
+
                     
                     Button {
                         if buttonActive {
@@ -166,6 +180,7 @@ struct EnterAgeView: View {
                             .onChange(of: year.day) { _, _ in updateButtonActive() }
                             .onChange(of: year.year) { _, _ in updateButtonActive() }
                     }
+                    .padding(.bottom, 10)
                 }
             }
         }
@@ -173,6 +188,10 @@ struct EnterAgeView: View {
             year.month = ""
             year.day = ""
             year.year = ""
+            focusedField = .year
+        }
+        .onTapGesture {
+            self.endTextEditiong()
         }
     }
     

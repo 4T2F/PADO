@@ -13,12 +13,10 @@ struct MainView: View {
     
     var body: some View {
         Group {
-            if viewModel.userSession == nil {
+            if viewModel.currentUser == nil {
                 MainAuthenticationView()
             } else {
-                if let user = viewModel.currentUser {
-                    ContentView()
-                }
+                ContentView()
             }
         }
     }

@@ -14,7 +14,11 @@ struct EnterPhoneNumberView: View {
     
     @Binding var phoneNumberButtonClicked: Bool
     
+    @FocusState private var focusedField: Bool
+    
     @EnvironmentObject var viewModel: AuthenticationViewModel
+    
+    var tfFormat = PhoneumberTFFormat()
     
     var body: some View {
         VStack {
@@ -63,8 +67,13 @@ struct EnterPhoneNumberView: View {
                             .frame(width: 280)
                             .keyboardType(.numberPad)
                             .foregroundStyle(.white)
-                            .font(.system(size: 40))
+                            .font(.system(size: 30))
                             .fontWeight(.heavy)
+                            .tint(.cursor)
+                            .focused($focusedField)
+//                            .onChange(of: viewModel.phoneNumber) { newValue, _ in
+//                                viewModel.phoneNumber = tfFormat.formatPhoneNumber(newValue)
+//                            }
                     }
                     
                     Spacer()
@@ -74,29 +83,47 @@ struct EnterPhoneNumberView: View {
                 VStack {
                     Spacer()
                     
+                    Button("뒤로가기") {
+                        // 버튼 클릭 시 상위 뷰로 돌아감
+                       
+                    }
+                    .foregroundStyle(Color(red: 70/255, green: 70/255, blue: 73/255))
+                    .fontWeight(.semibold)
+                    .font(.system(size: 14))
+                    
                     Text("계속 진행시 개인정보처리방침과 이용약관에 동의처리 됩니다")
                         .foregroundStyle(Color(red: 70/255, green: 70/255, blue: 73/255))
                         .font(.system(size: 14))
                         .fontWeight(.semibold)
+                        .padding(.top, 10)
                         .multilineTextAlignment(.center)
                     
                     Button {
                         Task {
-                            await viewModel.sendOtp()
+                            await viewModel.checkPhoneNumberExists(phoneNumber: "+\(viewModel.country.phoneCode)\(viewModel.phoneNumber)")
                         }
                     } label: {
                         WhiteButtonView(buttonActive: $buttonActive, text: "인증 문자 보내기")
-                            .onChange(of: viewModel.phoneNumber) { oldValue, newValue in
-                                if !newValue.isEmpty {
+                            .onChange(of: viewModel.phoneNumber) { _, newValue in
+                                if newValue.count > 9 {
                                     buttonActive = true
-                                } else if newValue.isEmpty {
+                                } else {
                                     buttonActive = false
                                 }
                             }
                     }
                     .disabled(viewModel.phoneNumber.isEmpty ? true : false)
+                    .padding(.bottom, 10)
                 }
             }
+        }
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.focusedField = true
+            }
+        }
+        .onTapGesture {
+            self.endTextEditiong()
         }
         .sheet(isPresented: $showCountryList, content: {
             SelectCountryView(countryChosen: $viewModel.country)
@@ -110,13 +137,17 @@ struct EnterPhoneNumberView: View {
                 EnterCodeView()
                     .environmentObject(viewModel)
             } label: {
-                
+                EmptyView()
             }
-            .labelsHidden()
+            .onChange(of: viewModel.phoneNumber) { newValue, _ in
+                buttonActive = !newValue.isEmpty
+            }
         }
         .environment(\.colorScheme, .dark)
     }
 }
+
+
 
 //#Preview {
 //    EnterPhoneNumberView()

@@ -42,7 +42,7 @@ struct EnterCodeView: View {
                 VStack {
                     VStack {
                         VStack(alignment: .center, spacing: 8) {
-                            Text("+\(viewModel.country.phoneCode) \(viewModel.phoneNumber)로 인증 코드를 보냈어요")
+                            Text("+\(viewModel.country.phoneCode) \(viewModel.phoneNumber)로 인증 번호를 보냈어요")
                                 .foregroundStyle(.white)
                                 .fontWeight(.heavy)
                                 .font(.system(size: 16))
@@ -50,30 +50,6 @@ struct EnterCodeView: View {
                             VerificationView(otpText: $viewModel.otpText)
                                 .padding(.vertical, 15)
                                 .padding(.horizontal, 25)
-//                            Text("......")
-//                                .foregroundStyle(viewModel.otpText.isEmpty ? .gray : .black)
-//                                .opacity(0.8)
-//                                .font(.system(size: 70))
-//                                .padding(.top, -40)
-//                                .overlay {
-//                                    TextField("", text: $viewModel.otpText)
-//                                        .foregroundStyle(.white)
-//                                        .multilineTextAlignment(.center)
-//                                        .font(.system(size: 24))
-//                                        .fontWeight(.heavy)
-//                                        .keyboardType(.numberPad)
-//                                        .onReceive(Just(viewModel.otpText), perform: { _ in
-//                                            limitText(6)
-//                                        })
-//                                        .onReceive(Just(viewModel.otpText), perform: { newValue in
-//                                            let filtered = newValue.filter({
-//                                                Set("0123456789").contains($0)})
-//                                            
-//                                            if filtered != newValue {
-//                                                viewModel.otpText = filtered
-//                                            }
-//                                        })
-//                                }
                         }
                         .padding(.top, 50)
                         
@@ -81,7 +57,6 @@ struct EnterCodeView: View {
                     }
                     
                     VStack {
-//                        Text("인증 번호를 입력해주세요")
                         Button {
                             dismiss()
                         } label: {
@@ -91,21 +66,44 @@ struct EnterCodeView: View {
                                 .fontWeight(.bold)
                         }
                         
-                        Button {
-                            if buttonActive {
-                                Task {
-                                    await self.viewModel.verifyOtp()
+                        if timeRemaining > 0 {
+                            Button {
+                                if buttonActive {
+                                    if viewModel.isExisted {
+                                        Task {
+                                            await viewModel.verifyOtp()
+                                        }
+                                    } else {
+                                        Task {
+                                            await viewModel.fetchUIDByPhoneNumber(phoneNumber: "+\(viewModel.country.phoneCode)\(viewModel.phoneNumber)")
+                                            await viewModel.fetchUser()
+                                        }
+                                    }
+                                }
+                            } label: {
+                                if timeRemaining > 0 {
+                                    WhiteButtonView(buttonActive: $buttonActive, text: viewModel.otpText.count == 6 ? "계속하기" : "남은 시간 \(timeRemaining)초" )
                                 }
                             }
-                        } label: {
-                            WhiteButtonView(buttonActive: $buttonActive, text: viewModel.otpText.count == 6 ? "계속하기" : "남은 시간 \(timeRemaining)초" )
-                        }
-                        .disabled(buttonActive ? false : true)
-                        .onChange(of: viewModel.otpText) { oldValue, newValue in
-                            if !newValue.isEmpty {
-                                buttonActive = true
-                            } else if newValue.isEmpty {
-                                buttonActive = false
+                            .disabled(buttonActive ? false : true)
+                            .onChange(of: viewModel.otpText) { oldValue, newValue in
+                                if !newValue.isEmpty {
+                                    buttonActive = true
+                                } else if newValue.isEmpty {
+                                    buttonActive = false
+                                }
+                            }
+                        } else {
+                            Button {
+                                if buttonActive {
+                                    Task {
+                                        await self.viewModel.sendOtp()
+                                        timeRemaining = 60
+                                        buttonActive = false
+                                    }
+                                }
+                            } label: {
+                                WhiteButtonView(buttonActive: $buttonActive, text: "인증 번호 재전송" )
                             }
                         }
                     }
