@@ -17,4 +17,8 @@ struct User: Codable, Identifiable {
     var bio: String?
     var location: String?
     var phoneNumber: String?
+    var followers: [Friend]?
+    var followings: [Friend]?
+
 }
+
