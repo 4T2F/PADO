@@ -80,6 +80,15 @@
 		64D0E7552B5509CD00060A73 /* MyFeedContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D0E7542B5509CD00060A73 /* MyFeedContentView.swift */; };
 		64D0E7572B551D2A00060A73 /* SocialNetWorkBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D0E7562B551D2A00060A73 /* SocialNetWorkBarView.swift */; };
 		64D0E7592B55214900060A73 /* SocialGlobeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D0E7582B55214900060A73 /* SocialGlobeView.swift */; };
+		B1A91D0F2B55928D00FE7F62 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A91D062B55928D00FE7F62 /* SettingView.swift */; };
+		B1A91D102B55928D00FE7F62 /* SettingNormalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A91D072B55928D00FE7F62 /* SettingNormalCell.swift */; };
+		B1A91D112B55928D00FE7F62 /* SettingNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A91D082B55928D00FE7F62 /* SettingNotificationView.swift */; };
+		B1A91D122B55928D00FE7F62 /* SettingOthersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A91D092B55928D00FE7F62 /* SettingOthersView.swift */; };
+		B1A91D132B55928D00FE7F62 /* SettingToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A91D0A2B55928D00FE7F62 /* SettingToggleCell.swift */; };
+		B1A91D142B55928D00FE7F62 /* SettingAskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A91D0B2B55928D00FE7F62 /* SettingAskView.swift */; };
+		B1A91D152B55928D00FE7F62 /* SettingAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A91D0C2B55928D00FE7F62 /* SettingAlertView.swift */; };
+		B1A91D162B55928D00FE7F62 /* SettingInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A91D0D2B55928D00FE7F62 /* SettingInfoView.swift */; };
+		B1A91D172B55928D00FE7F62 /* SettingProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A91D0E2B55928D00FE7F62 /* SettingProfileView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -169,6 +178,15 @@
 		64D0E7542B5509CD00060A73 /* MyFeedContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFeedContentView.swift; sourceTree = "<group>"; };
 		64D0E7562B551D2A00060A73 /* SocialNetWorkBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialNetWorkBarView.swift; sourceTree = "<group>"; };
 		64D0E7582B55214900060A73 /* SocialGlobeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialGlobeView.swift; sourceTree = "<group>"; };
+		B1A91D062B55928D00FE7F62 /* SettingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
+		B1A91D072B55928D00FE7F62 /* SettingNormalCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingNormalCell.swift; sourceTree = "<group>"; };
+		B1A91D082B55928D00FE7F62 /* SettingNotificationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingNotificationView.swift; sourceTree = "<group>"; };
+		B1A91D092B55928D00FE7F62 /* SettingOthersView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingOthersView.swift; sourceTree = "<group>"; };
+		B1A91D0A2B55928D00FE7F62 /* SettingToggleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingToggleCell.swift; sourceTree = "<group>"; };
+		B1A91D0B2B55928D00FE7F62 /* SettingAskView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingAskView.swift; sourceTree = "<group>"; };
+		B1A91D0C2B55928D00FE7F62 /* SettingAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingAlertView.swift; sourceTree = "<group>"; };
+		B1A91D0D2B55928D00FE7F62 /* SettingInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingInfoView.swift; sourceTree = "<group>"; };
+		B1A91D0E2B55928D00FE7F62 /* SettingProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingProfileView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -389,6 +407,7 @@
 		64D0E7472B55053500060A73 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				B1A91D042B55926200FE7F62 /* Setting */,
 				63824C2E2B55875C00D1D653 /* Login */,
 				64D0E7482B55053C00060A73 /* MyFeed */,
 			);
@@ -422,6 +441,30 @@
 				64D0E7542B5509CD00060A73 /* MyFeedContentView.swift */,
 			);
 			path = Component;
+			sourceTree = "<group>";
+		};
+		B1A91D042B55926200FE7F62 /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				B1A91D052B55927700FE7F62 /* View */,
+			);
+			path = Setting;
+			sourceTree = "<group>";
+		};
+		B1A91D052B55927700FE7F62 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B1A91D0C2B55928D00FE7F62 /* SettingAlertView.swift */,
+				B1A91D0B2B55928D00FE7F62 /* SettingAskView.swift */,
+				B1A91D0D2B55928D00FE7F62 /* SettingInfoView.swift */,
+				B1A91D072B55928D00FE7F62 /* SettingNormalCell.swift */,
+				B1A91D082B55928D00FE7F62 /* SettingNotificationView.swift */,
+				B1A91D092B55928D00FE7F62 /* SettingOthersView.swift */,
+				B1A91D0E2B55928D00FE7F62 /* SettingProfileView.swift */,
+				B1A91D0A2B55928D00FE7F62 /* SettingToggleCell.swift */,
+				B1A91D062B55928D00FE7F62 /* SettingView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -593,7 +636,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				635B09612B451103009E60A9 /* Extensions.swift in Sources */,
-				B1E918E32B550C4000D30994 /* SettingView.swift in Sources */,
 				635B094A2B4500CB009E60A9 /* User.swift in Sources */,
 				635B095C2B4510D1009E60A9 /* RequestsView.swift in Sources */,
 				635B096E2B451127009E60A9 /* NotificationsButtonView.swift in Sources */,
@@ -605,12 +647,13 @@
 				635B09812B45114B009E60A9 /* FeedView.swift in Sources */,
 				635B09792B451138009E60A9 /* ChevronButtonView.swift in Sources */,
 				635B09482B4500AA009E60A9 /* AuthenticationViewModel.swift in Sources */,
+				B1A91D132B55928D00FE7F62 /* SettingToggleCell.swift in Sources */,
+				B1A91D172B55928D00FE7F62 /* SettingProfileView.swift in Sources */,
 				41FD99F82B43D5EC0028D38E /* ContentView.swift in Sources */,
 				63824C432B558B2400D1D653 /* CodeView.swift in Sources */,
 				635B09592B4510D1009E60A9 /* LeftMenu.swift in Sources */,
-				B1E918F32B55761A00D30994 /* SettingAlertView.swift in Sources */,
 				63B563FD2B44655C00AEC5E7 /* Country.swift in Sources */,
-				B1E918EF2B5566AD00D30994 /* SettingAskView.swift in Sources */,
+				B1A91D102B55928D00FE7F62 /* SettingNormalCell.swift in Sources */,
 				635B09722B451127009E60A9 /* ContactUsView.swift in Sources */,
 				64D0E7592B55214900060A73 /* SocialGlobeView.swift in Sources */,
 				635B09572B4510D1009E60A9 /* SuggestionCellView.swift in Sources */,
@@ -622,9 +665,12 @@
 				64D0E7552B5509CD00060A73 /* MyFeedContentView.swift in Sources */,
 				63824C462B558B2400D1D653 /* IdView.swift in Sources */,
 				63B563FF2B44656600AEC5E7 /* Year.swift in Sources */,
+				B1A91D0F2B55928D00FE7F62 /* SettingView.swift in Sources */,
 				63824C4C2B558B5500D1D653 /* ModalBlackButton.swift in Sources */,
 				64D0E74D2B5505C800060A73 /* CircularImageView.swift in Sources */,
+				B1A91D122B55928D00FE7F62 /* SettingOthersView.swift in Sources */,
 				635B096F2B451127009E60A9 /* MemoriesView.swift in Sources */,
+				B1A91D152B55928D00FE7F62 /* SettingAlertView.swift in Sources */,
 				63824C4F2B558B5500D1D653 /* VerificationView.swift in Sources */,
 				635B095D2B4510D1009E60A9 /* LeftMenuTopView.swift in Sources */,
 				63824C502B558B5500D1D653 /* WhiteButtonView.swift in Sources */,
@@ -637,7 +683,9 @@
 				635B09742B451127009E60A9 /* EditProfileView.swift in Sources */,
 				63824C522B558B6900D1D653 /* UseIDModalView.swift in Sources */,
 				63D2785C2B44650A0064A7F1 /* SelectCountryView.swift in Sources */,
+				B1A91D112B55928D00FE7F62 /* SettingNotificationView.swift in Sources */,
 				63D278612B44650A0064A7F1 /* EnterCodeView.swift in Sources */,
+				B1A91D162B55928D00FE7F62 /* SettingInfoView.swift in Sources */,
 				63824C442B558B2400D1D653 /* PhoneNumberView.swift in Sources */,
 				63AB411D2B468C25007B37DC /* NavigationViewStyleHelper.swift in Sources */,
 				635B09702B451127009E60A9 /* SettingsView.swift in Sources */,
@@ -649,6 +697,7 @@
 				63D2785F2B44650A0064A7F1 /* MainAuthenticationView.swift in Sources */,
 				635B097E2B45114B009E60A9 /* Profile.swift in Sources */,
 				64D0E7532B55092700060A73 /* MyFeedHeaderView.swift in Sources */,
+				B1A91D142B55928D00FE7F62 /* SettingAskView.swift in Sources */,
 				41FD99F62B43D5EC0028D38E /* PADOApp.swift in Sources */,
 				63D2785D2B44650A0064A7F1 /* EnterAgeView.swift in Sources */,
 				635B09712B451127009E60A9 /* NotificationsView.swift in Sources */,
@@ -753,7 +802,6 @@
 		};
 		41FD9A152B43D5EE0028D38E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B1E918DC2B550BBE00D30994 /* ApiKeys.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -843,7 +891,6 @@
 		};
 		41FD9A182B43D5EE0028D38E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B1E918DC2B550BBE00D30994 /* ApiKeys.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -877,7 +924,6 @@
 		};
 		41FD9A1A2B43D5EE0028D38E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B1E918DC2B550BBE00D30994 /* ApiKeys.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -898,7 +944,6 @@
 		};
 		41FD9A1B2B43D5EE0028D38E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B1E918DC2B550BBE00D30994 /* ApiKeys.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -919,7 +964,6 @@
 		};
 		41FD9A1D2B43D5EE0028D38E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B1E918DC2B550BBE00D30994 /* ApiKeys.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -938,7 +982,6 @@
 		};
 		41FD9A1E2B43D5EE0028D38E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B1E918DC2B550BBE00D30994 /* ApiKeys.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
