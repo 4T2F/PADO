@@ -27,7 +27,7 @@ struct PADOApp: App {
     
     var body: some Scene {
         WindowGroup {
-            PhoneNumberView()
+            CodeView()
         }
         .environmentObject(AuthenticationViewModel())
     }

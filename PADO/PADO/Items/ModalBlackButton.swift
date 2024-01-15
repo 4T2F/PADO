@@ -1,13 +1,13 @@
 //
-//  WhiteButtonView.swift
-//  BeReal
+//  BlackButtonView.swift
+//  PADO
 //
-//  Created by 강치우 on 1/2/24.
+//  Created by 강치우 on 1/15/24.
 //
 
 import SwiftUI
 
-struct WhiteButtonView: View {
+struct ModalBlackButton: View {
     
     @Binding var buttonActive: Bool
     var text: String
@@ -16,20 +16,19 @@ struct WhiteButtonView: View {
         ZStack {
             RoundedRectangle(cornerRadius: 10)
                 .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
-                .foregroundStyle(buttonActive ? Color(red: 250/255, green: 250/255, blue: 250/255) : Color.grayButton)
-            
+                .foregroundStyle(.modalBlackButton)
             HStack {
                 
                 Text(text)
-                    .foregroundStyle(.black)
-                    .font(.system(size: 14))
+                    .foregroundStyle(.white)
+                    .font(.system(size: 16))
                     .fontWeight(.medium)
                 
                 Spacer()
                 
                 Image(systemName: "arrow.right")
-                    .foregroundStyle(.black)
-                    .font(.system(size: 14))
+                    .foregroundStyle(.white)
+                    .font(.system(size: 16))
                     .fontWeight(.medium)
             }
             .padding(.horizontal, UIScreen.main.bounds.width * 0.1)
@@ -39,5 +38,5 @@ struct WhiteButtonView: View {
 }
 
 #Preview {
-    WhiteButtonView(buttonActive: .constant(true), text: "로그인 하기")
+    ModalBlackButton(buttonActive: .constant(true), text: "시작화면으로 이동")
 }

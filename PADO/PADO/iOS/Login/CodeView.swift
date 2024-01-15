@@ -12,7 +12,8 @@ struct CodeView: View {
     @Environment(\.dismiss) var dismiss
     
     @State private var otpText = ""
-    @State private var buttonActive: Bool = false
+    @State private var buttonActive: Bool = true
+    @State private var showUseID: Bool = false
     
     var body: some View {
         ZStack {
@@ -42,6 +43,7 @@ struct CodeView: View {
             }
             
             VStack(alignment: .leading) {
+                // 휴대폰 번호 받아와야함
                 Text("010-1111-1111 로 인증번호를 보냈어요")
                     .font(.system(size: 20))
                     .fontWeight(.medium)
@@ -63,6 +65,7 @@ struct CodeView: View {
                 
                 Button {
                     // 다음 뷰로 넘어가는 네비게이션 링크 추가 해야함
+                    showUseID.toggle() // 중복된 번호 일 경우 토글 true 처리 되면서 sheet 올라오게함
                 } label: {
                     WhiteButtonView(buttonActive: $buttonActive, text: "다음")
                     // true 일 때 버튼 변하게 하는 onChange 로직 추가해야함
@@ -70,6 +73,11 @@ struct CodeView: View {
                 .padding(.bottom)
             }
             .padding(.top, 150)
+            .sheet(isPresented: $showUseID, content: {
+                UseIDModalView()
+                    .presentationDetents([.height(250)])
+                    .presentationCornerRadius(30)
+            })
             
         }
     }
