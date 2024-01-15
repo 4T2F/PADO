@@ -259,9 +259,9 @@
 		419742012B55900D0055F2AB /* MainView */ = {
 			isa = PBXGroup;
 			children = (
-				419742022B55900D0055F2AB /* Feed */,
 				419742082B55900D0055F2AB /* MainView.swift */,
 				419742092B55900D0055F2AB /* ContentView.swift */,
+				419742022B55900D0055F2AB /* Feed */,
 			);
 			path = MainView;
 			sourceTree = "<group>";
