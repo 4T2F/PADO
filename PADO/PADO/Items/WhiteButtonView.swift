@@ -16,9 +16,10 @@ struct WhiteButtonView: View {
         ZStack {
             RoundedRectangle(cornerRadius: 10)
                 .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
-                .foregroundStyle(buttonActive ? Color(red: 250/255, green: 250/255, blue: 250/255) : Color.grayButton)
+                .foregroundStyle(buttonActive ? Color(red: 250/255, green: 250/255, blue: 250/255) : Color(red: 86/255, green: 86/255, blue: 88/255))
             
             HStack {
+                Spacer()
                 
                 Text(text)
                     .foregroundStyle(.black)
@@ -26,11 +27,6 @@ struct WhiteButtonView: View {
                     .fontWeight(.medium)
                 
                 Spacer()
-                
-                Image(systemName: "arrow.right")
-                    .foregroundStyle(.black)
-                    .font(.system(size: 14))
-                    .fontWeight(.medium)
             }
             .padding(.horizontal, UIScreen.main.bounds.width * 0.1)
             .frame(height: 30)
@@ -39,5 +35,5 @@ struct WhiteButtonView: View {
 }
 
 #Preview {
-    WhiteButtonView(buttonActive: .constant(true), text: "로그인 하기")
+    WhiteButtonView(buttonActive: .constant(true), text: "저장")
 }

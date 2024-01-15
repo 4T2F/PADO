@@ -52,7 +52,7 @@ struct VerificationView: View {
             }
         }
         .foregroundStyle(.white)
-        .frame(width: 50, height: 50)
+        .frame(width: 45, height: 45)
         .background {
             // Highlighting Current Active Box
             let status = (isKeyboardShowing && otpText.count == index)
