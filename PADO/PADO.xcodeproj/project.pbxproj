@@ -593,6 +593,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				635B09612B451103009E60A9 /* Extensions.swift in Sources */,
+				B1E918E32B550C4000D30994 /* SettingView.swift in Sources */,
 				635B094A2B4500CB009E60A9 /* User.swift in Sources */,
 				635B095C2B4510D1009E60A9 /* RequestsView.swift in Sources */,
 				635B096E2B451127009E60A9 /* NotificationsButtonView.swift in Sources */,
@@ -607,7 +608,9 @@
 				41FD99F82B43D5EC0028D38E /* ContentView.swift in Sources */,
 				63824C432B558B2400D1D653 /* CodeView.swift in Sources */,
 				635B09592B4510D1009E60A9 /* LeftMenu.swift in Sources */,
+				B1E918F32B55761A00D30994 /* SettingAlertView.swift in Sources */,
 				63B563FD2B44655C00AEC5E7 /* Country.swift in Sources */,
+				B1E918EF2B5566AD00D30994 /* SettingAskView.swift in Sources */,
 				635B09722B451127009E60A9 /* ContactUsView.swift in Sources */,
 				64D0E7592B55214900060A73 /* SocialGlobeView.swift in Sources */,
 				635B09572B4510D1009E60A9 /* SuggestionCellView.swift in Sources */,
@@ -750,6 +753,7 @@
 		};
 		41FD9A152B43D5EE0028D38E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B1E918DC2B550BBE00D30994 /* ApiKeys.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -839,6 +843,7 @@
 		};
 		41FD9A182B43D5EE0028D38E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B1E918DC2B550BBE00D30994 /* ApiKeys.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -872,6 +877,7 @@
 		};
 		41FD9A1A2B43D5EE0028D38E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B1E918DC2B550BBE00D30994 /* ApiKeys.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -892,6 +898,7 @@
 		};
 		41FD9A1B2B43D5EE0028D38E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B1E918DC2B550BBE00D30994 /* ApiKeys.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -912,6 +919,7 @@
 		};
 		41FD9A1D2B43D5EE0028D38E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B1E918DC2B550BBE00D30994 /* ApiKeys.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -930,6 +938,7 @@
 		};
 		41FD9A1E2B43D5EE0028D38E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B1E918DC2B550BBE00D30994 /* ApiKeys.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
