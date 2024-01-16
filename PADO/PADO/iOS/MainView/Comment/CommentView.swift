@@ -33,13 +33,12 @@ struct CommentSheetView: View {
                     .font(.system(size: 22))
                     .fontWeight(.bold)
                 
-                Divider()
-                
-                FaceMojiView()
-                
-                Divider()
-                
                 ScrollView {
+                    Divider()
+                    FaceMojiView()
+                        .padding(4)
+                    Divider()
+                    
                     VStack(alignment: .leading) {
                         ForEach(comments) { comment in
                             CommentCell(comment: comment)

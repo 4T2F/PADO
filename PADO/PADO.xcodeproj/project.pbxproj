@@ -284,8 +284,6 @@
 		419742012B55900D0055F2AB /* MainView */ = {
 			isa = PBXGroup;
 			children = (
-				419742082B55900D0055F2AB /* MainView.swift */,
-				419742092B55900D0055F2AB /* ContentView.swift */,
 				419742022B55900D0055F2AB /* Feed */,
 				41E5F6962B565352001750C2 /* Comment */,
 			);
@@ -489,6 +487,8 @@
 		64D0E7472B55053500060A73 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				419742082B55900D0055F2AB /* MainView.swift */,
+				419742092B55900D0055F2AB /* ContentView.swift */,
 				419742012B55900D0055F2AB /* MainView */,
 				419741E32B558F4A0055F2AB /* MyFeed */,
 				B1A91D042B55926200FE7F62 /* Setting */,
