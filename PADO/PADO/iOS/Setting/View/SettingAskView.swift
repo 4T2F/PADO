@@ -10,14 +10,18 @@ import SwiftUI
 struct SettingAskView: View {
     @State var width = UIScreen.main.bounds.width
     @State var height = UIScreen.main.bounds.height
+    
     let placeholder: String = "저희 PADO를 이용하시는 동안 불편한 점이나\n문의사항이 있으시다면 의견을 보내주세요."
+    
     @State var inquiry: String = ""
     @State var filenum: Int = 0
+    
     var body: some View {
         VStack {
             ZStack {
                 Color("mainBackgroundColor").ignoresSafeArea()
                 
+                // MARK: - 문의하기뷰, 탑셀
                 VStack {
                     ZStack {
                         Text("문의하기")
@@ -40,9 +44,9 @@ struct SettingAskView: View {
                     
                     Spacer()
                 }
-                .foregroundStyle(.white)
                 
                 VStack {
+                    // MARK: - 문의하기뷰, 콘텐츠(글)
                     ZStack(alignment: .topLeading) {
                         TextEditor(text: $inquiry)
                             .foregroundStyle(Color.white)
@@ -50,7 +54,10 @@ struct SettingAskView: View {
                             .frame(width: width * 0.9, height: 200)
                             .scrollContentBackground(.hidden) // <- Hide it
                             .background(Color("mainBackgroundColor"))
-                            .modifier(RoundedEdge(width: 1.5, color: .gray, cornerRadius: 10))
+                            .modifier(RoundedEdge(width: 1.5,
+                                                  color: .gray,
+                                                  cornerRadius: 10)
+                            )
                             .padding(.bottom)
                         
                         if inquiry.isEmpty {
@@ -62,6 +69,7 @@ struct SettingAskView: View {
                                 .padding(.top, 80)
                         }
                     }
+                    // MARK: - 문의하기뷰, 콘텐츠(사진)
                     ZStack {
                         Rectangle()
                             .frame(width: width * 0.9, height: 120)
@@ -96,36 +104,36 @@ struct SettingAskView: View {
                                 } label: {
                                     Image("addFileButton")
                                 }
-                                
-                                
                                 Spacer()
+                                
                             }
                             .padding(.horizontal)
                         }
                     }
                     Spacer()
                     
+                    VStack {
+                        Button {
+                            // TODO: - 보내기 버튼 구현
+                        } label: {
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 10)
+                                    .frame(width: width * 0.9, height: 46)
+                                    .foregroundStyle(Color("grayButtonColor"))
+                                    
+                                HStack {
+                                    Text("보내기")
+                                        .foregroundStyle(.white)
+                                        .font(.system(size: 14))
+                                        .fontWeight(.semibold)
+                                }
+                            }
+                        }
+                    }
                 }
                 .padding(.horizontal)
                 .padding(.top, 50)
             }
         }
-        
     }
-}
-
-struct RoundedEdge: ViewModifier {
-    let width: CGFloat
-    let color: Color
-    let cornerRadius: CGFloat
-    
-    func body(content: Content) -> some View {
-        content.cornerRadius(cornerRadius - width)
-            .padding(width)
-            .background(color)
-            .cornerRadius(cornerRadius)
-    }
-}
-#Preview {
-    SettingAskView()
 }

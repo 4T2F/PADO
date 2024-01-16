@@ -245,34 +245,6 @@ struct SettingView: View {
     }
 }
 
-struct SettingDevider: View {
-    var body: some View {
-        Rectangle()
-            .frame(width: UIScreen.main.bounds.width * 0.9, height: 0.3)
-            .opacity(0.4)
-            .foregroundStyle(.gray)
-    }
-}
-
-extension View {
-    func settingMidCellModi() -> some View {
-        self
-            .foregroundStyle(.gray)
-            .fontWeight(.semibold)
-            .font(.system(size: 12))
-            .padding(.horizontal, UIScreen.main.bounds.width * 0.05)
-    }
-}
-
-extension View {
-    func settingFontModi() -> some View {
-        self
-            .foregroundStyle(.white)
-            .font(.system(size: 16))
-            .fontWeight(.semibold)
-    }
-}
-
 #Preview {
     SettingView()
 }

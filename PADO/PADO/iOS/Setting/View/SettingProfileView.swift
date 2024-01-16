@@ -277,15 +277,6 @@ struct SettingProfileView: View {
     }
 }
 
-struct SettingProfileDevider: View {
-    var body: some View {
-        Rectangle()
-            .frame(width: UIScreen.main.bounds.width * 0.9, height: 0.7)
-            .foregroundStyle(.gray)
-            .opacity(0.3)
-    }
-}
-
 #Preview {
     SettingProfileView()
 }
