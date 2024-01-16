@@ -10,7 +10,6 @@
 		040914F72B561A18001B549B /* ReportSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040914F62B561A18001B549B /* ReportSelectView.swift */; };
 		040914F92B561FA8001B549B /* ReportSelectCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040914F82B561FA8001B549B /* ReportSelectCellView.swift */; };
 		040914FB2B5624E7001B549B /* ReportResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040914FA2B5624E7001B549B /* ReportResultView.swift */; };
-		040914FF2B567231001B549B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 040914FE2B567231001B549B /* GoogleService-Info.plist */; };
 		412B3A942B44F65100C2C7CD /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 412B3A932B44F65100C2C7CD /* FirebaseAnalytics */; };
 		412B3A962B44F65100C2C7CD /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 412B3A952B44F65100C2C7CD /* FirebaseAuth */; };
 		412B3A982B44F65100C2C7CD /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 412B3A972B44F65100C2C7CD /* FirebaseFirestore */; };
@@ -78,6 +77,13 @@
 		63B563FD2B44655C00AEC5E7 /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B563FC2B44655C00AEC5E7 /* Country.swift */; };
 		63B563FF2B44656600AEC5E7 /* Year.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B563FE2B44656600AEC5E7 /* Year.swift */; };
 		63B564012B44656F00AEC5E7 /* countries.json in Resources */ = {isa = PBXBuildFile; fileRef = 63B564002B44656F00AEC5E7 /* countries.json */; };
+		63C8BA492B561DC200025422 /* SignUpButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA482B561DC200025422 /* SignUpButton.swift */; };
+		63C8BA4B2B561FA900025422 /* EnjoyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA4A2B561FA900025422 /* EnjoyButton.swift */; };
+		63C8BA4D2B56241200025422 /* TextAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA4C2B56241200025422 /* TextAnimation.swift */; };
+		63C8BA522B5661A500025422 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA512B5661A500025422 /* NotificationView.swift */; };
+		63C8BA542B56623500025422 /* FollowerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA532B56623500025422 /* FollowerCell.swift */; };
+		63C8BA562B56644600025422 /* CreateFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA552B56644600025422 /* CreateFeedCell.swift */; };
+		63C8BA582B56659800025422 /* SurferCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA572B56659800025422 /* SurferCell.swift */; };
 		63D2785C2B44650A0064A7F1 /* SelectCountryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D278562B44650A0064A7F1 /* SelectCountryView.swift */; };
 		63D2785D2B44650A0064A7F1 /* EnterAgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D278572B44650A0064A7F1 /* EnterAgeView.swift */; };
 		63D2785E2B44650A0064A7F1 /* EnterNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D278582B44650A0064A7F1 /* EnterNameView.swift */; };
@@ -201,6 +207,14 @@
 		63B563FC2B44655C00AEC5E7 /* Country.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
 		63B563FE2B44656600AEC5E7 /* Year.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Year.swift; sourceTree = "<group>"; };
 		63B564002B44656F00AEC5E7 /* countries.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = countries.json; sourceTree = "<group>"; };
+		63C8BA482B561DC200025422 /* SignUpButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpButton.swift; sourceTree = "<group>"; };
+		63C8BA4A2B561FA900025422 /* EnjoyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnjoyButton.swift; sourceTree = "<group>"; };
+		63C8BA4C2B56241200025422 /* TextAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextAnimation.swift; sourceTree = "<group>"; };
+		63C8BA4E2B5643C800025422 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		63C8BA512B5661A500025422 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
+		63C8BA532B56623500025422 /* FollowerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerCell.swift; sourceTree = "<group>"; };
+		63C8BA552B56644600025422 /* CreateFeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateFeedCell.swift; sourceTree = "<group>"; };
+		63C8BA572B56659800025422 /* SurferCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurferCell.swift; sourceTree = "<group>"; };
 		63D278562B44650A0064A7F1 /* SelectCountryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectCountryView.swift; sourceTree = "<group>"; };
 		63D278572B44650A0064A7F1 /* EnterAgeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterAgeView.swift; sourceTree = "<group>"; };
 		63D278582B44650A0064A7F1 /* EnterNameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterNameView.swift; sourceTree = "<group>"; };
@@ -351,6 +365,7 @@
 				41FD9A0F2B43D5ED0028D38E /* PADOUITests */,
 				41FD99F32B43D5EC0028D38E /* Products */,
 				63AB41172B45D38F007B37DC /* Frameworks */,
+				63E5620F2B567E590060E561 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -367,7 +382,7 @@
 		41FD99F42B43D5EC0028D38E /* PADO */ = {
 			isa = PBXGroup;
 			children = (
-				040914FE2B567231001B549B /* GoogleService-Info.plist */,
+				63C8BA4E2B5643C800025422 /* GoogleService-Info.plist */,
 				649372ED2B560E1F00BCDA71 /* ApiKeys.xcconfig */,
 				64D0E7472B55053500060A73 /* iOS */,
 				412B3AA42B44F6EC00C2C7CD /* Info.plist */,
@@ -423,6 +438,8 @@
 				635B09782B451138009E60A9 /* ChevronButtonView.swift */,
 				419741DF2B558F3A0055F2AB /* BlueButtonView.swift */,
 				419741E02B558F3A0055F2AB /* FeedSurfers.swift */,
+				63C8BA482B561DC200025422 /* SignUpButton.swift */,
+				63C8BA4A2B561FA900025422 /* EnjoyButton.swift */,
 			);
 			path = Items;
 			sourceTree = "<group>";
@@ -480,6 +497,7 @@
 			isa = PBXGroup;
 			children = (
 				63824C402B558B2400D1D653 /* StartView.swift */,
+				63C8BA4C2B56241200025422 /* TextAnimation.swift */,
 				63824C3F2B558B2400D1D653 /* PhoneNumberView.swift */,
 				63824C3E2B558B2400D1D653 /* CodeView.swift */,
 				63824C512B558B6900D1D653 /* UseIDModalView.swift */,
@@ -494,6 +512,17 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		63C8BA502B56618B00025422 /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				63C8BA512B5661A500025422 /* NotificationView.swift */,
+				63C8BA532B56623500025422 /* FollowerCell.swift */,
+				63C8BA552B56644600025422 /* CreateFeedCell.swift */,
+				63C8BA572B56659800025422 /* SurferCell.swift */,
+			);
+			path = Notification;
 			sourceTree = "<group>";
 		};
 		63D278552B4464CE0064A7F1 /* Authentication */ = {
@@ -513,11 +542,20 @@
 			path = Authentication;
 			sourceTree = "<group>";
 		};
+		63E5620F2B567E590060E561 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				040914FE2B567231001B549B /* GoogleService-Info.plist */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		64D0E7472B55053500060A73 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
 				419742012B55900D0055F2AB /* MainView */,
 				419741E32B558F4A0055F2AB /* MyFeed */,
+				63C8BA502B56618B00025422 /* Notification */,
 				B1A91D042B55926200FE7F62 /* Setting */,
 				63824C2E2B55875C00D1D653 /* Login */,
 				64D0E7482B55053C00060A73 /* MyFeed */,
@@ -734,7 +772,6 @@
 				B198BB9D2B56259600EAA6C0 /* GoogleService-Info.plist in Resources */,
 				B198BB9E2B56259600EAA6C0 /* ApiKeys.xcconfig in Resources */,
 				63B564012B44656F00AEC5E7 /* countries.json in Resources */,
-				040914FF2B567231001B549B /* GoogleService-Info.plist in Resources */,
 				41FD99FA2B43D5ED0028D38E /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -783,6 +820,7 @@
 				64D0E74D2B5505C800060A73 /* CircularImageView.swift in Sources */,
 				649372F22B56103B00BCDA71 /* SocialNetWorkBarView.swift in Sources */,
 				649372F12B56102D00BCDA71 /* MyFeedContentView.swift in Sources */,
+				63C8BA542B56623500025422 /* FollowerCell.swift in Sources */,
 				635B09612B451103009E60A9 /* Extensions.swift in Sources */,
 				635B094A2B4500CB009E60A9 /* User.swift in Sources */,
 				419741ED2B558F4A0055F2AB /* SocialGlobeView.swift in Sources */,
@@ -806,6 +844,7 @@
 				635B09592B4510D1009E60A9 /* LeftMenu.swift in Sources */,
 				63B563FD2B44655C00AEC5E7 /* Country.swift in Sources */,
 				B1A91D102B55928D00FE7F62 /* SettingNormalCell.swift in Sources */,
+				63C8BA492B561DC200025422 /* SignUpButton.swift in Sources */,
 				635B09722B451127009E60A9 /* ContactUsView.swift in Sources */,
 				4197420B2B55900D0055F2AB /* Profile.swift in Sources */,
 				635B09572B4510D1009E60A9 /* SuggestionCellView.swift in Sources */,
@@ -838,6 +877,7 @@
 				63824C522B558B6900D1D653 /* UseIDModalView.swift in Sources */,
 				63D2785C2B44650A0064A7F1 /* SelectCountryView.swift in Sources */,
 				B1A91D112B55928D00FE7F62 /* SettingNotificationView.swift in Sources */,
+				63C8BA562B56644600025422 /* CreateFeedCell.swift in Sources */,
 				63D278612B44650A0064A7F1 /* EnterCodeView.swift in Sources */,
 				B1A91D162B55928D00FE7F62 /* SettingInfoView.swift in Sources */,
 				63824C442B558B2400D1D653 /* PhoneNumberView.swift in Sources */,
@@ -848,6 +888,8 @@
 				040914FB2B5624E7001B549B /* ReportResultView.swift in Sources */,
 				417568642B47999E003AA8C0 /* PhoneumberTFFormat.swift in Sources */,
 				63824C4E2B558B5500D1D653 /* CustomTF.swift in Sources */,
+				63C8BA522B5661A500025422 /* NotificationView.swift in Sources */,
+				63C8BA4D2B56241200025422 /* TextAnimation.swift in Sources */,
 				63D2785E2B44650A0064A7F1 /* EnterNameView.swift in Sources */,
 				649372FE2B56665200BCDA71 /* FollowerUserCellView.swift in Sources */,
 				4197420F2B55900D0055F2AB /* MainView.swift in Sources */,
@@ -856,6 +898,7 @@
 				419742102B55900D0055F2AB /* ContentView.swift in Sources */,
 				B1D7CDE72B5668CD0090544B /* RoundedEdge.swift in Sources */,
 				4197420C2B55900D0055F2AB /* MemoryView.swift in Sources */,
+				63C8BA4B2B561FA900025422 /* EnjoyButton.swift in Sources */,
 				63824C4D2B558B5500D1D653 /* ModalWhiteButton.swift in Sources */,
 				B1D7CDEC2B5669B80090544B /* SettingDevider.swift in Sources */,
 				63D2785F2B44650A0064A7F1 /* MainAuthenticationView.swift in Sources */,
@@ -865,6 +908,7 @@
 				63D2785D2B44650A0064A7F1 /* EnterAgeView.swift in Sources */,
 				040914F92B561FA8001B549B /* ReportSelectCellView.swift in Sources */,
 				635B09712B451127009E60A9 /* NotificationsView.swift in Sources */,
+				63C8BA582B56659800025422 /* SurferCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1064,10 +1108,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PADO/PADO.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PADO/Preview Content\"";
-				DEVELOPMENT_TEAM = H545GGT7HM;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = UAG934M4Q7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PADO/Info.plist;
@@ -1085,6 +1131,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.4T2F.PADO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "PADO Release";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
