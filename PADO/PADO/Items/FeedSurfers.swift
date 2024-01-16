@@ -23,22 +23,30 @@ struct FeedSurfers: View {
                     .offset(x: -15, y: 0) // 왼쪽으로 10 포인트 이동
             }
             .padding(.leading, 8)
-            .padding(.trailing, 12)
+            .padding(.trailing, 20)
             
             VStack(alignment: .leading) {
                 HStack {
-                    Text("Hsungjin")
-                        .foregroundStyle(.blueButton)
-                        .fontWeight(.semibold)
-                        .font(.system(size: 16))
+                    Button {
+                        // 유저 프로필
+                    } label: {
+                        Text("Hsungjin")
+                            .fontWeight(.semibold)
+                            .font(.system(size: 16))
+                    }
+
+                   
                     Text("x")
                         .foregroundStyle(.white)
                         .fontWeight(.semibold)
                         .font(.system(size: 16))
-                    Text("DogStar")
-                        .foregroundStyle(.blueButton)
-                        .fontWeight(.semibold)
-                        .font(.system(size: 16))
+                    Button {
+                        // 유저 프로필
+                    } label: {
+                        Text("DogStar")      
+                            .fontWeight(.semibold)
+                            .font(.system(size: 16))
+                    }
                 }
                 
                 Text("어제 오후 11:44:23") // • option + num8

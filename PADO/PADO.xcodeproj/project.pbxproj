@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		040914F72B561A18001B549B /* ReportSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040914F62B561A18001B549B /* ReportSelectView.swift */; };
+		040914F92B561FA8001B549B /* ReportSelectCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040914F82B561FA8001B549B /* ReportSelectCellView.swift */; };
+		040914FB2B5624E7001B549B /* ReportResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040914FA2B5624E7001B549B /* ReportResultView.swift */; };
+		040914FF2B567231001B549B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 040914FE2B567231001B549B /* GoogleService-Info.plist */; };
 		412B3A942B44F65100C2C7CD /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 412B3A932B44F65100C2C7CD /* FirebaseAnalytics */; };
 		412B3A962B44F65100C2C7CD /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 412B3A952B44F65100C2C7CD /* FirebaseAuth */; };
 		412B3A982B44F65100C2C7CD /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 412B3A972B44F65100C2C7CD /* FirebaseFirestore */; };
@@ -80,7 +84,6 @@
 		63D2785F2B44650A0064A7F1 /* MainAuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D278592B44650A0064A7F1 /* MainAuthenticationView.swift */; };
 		63D278602B44650A0064A7F1 /* EnterPhoneNumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D2785A2B44650A0064A7F1 /* EnterPhoneNumberView.swift */; };
 		63D278612B44650A0064A7F1 /* EnterCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D2785B2B44650A0064A7F1 /* EnterCodeView.swift */; };
-		649372F02B560E2A00BCDA71 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 649372EF2B560E2A00BCDA71 /* GoogleService-Info.plist */; };
 		649372F12B56102D00BCDA71 /* MyFeedContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419741E72B558F4A0055F2AB /* MyFeedContentView.swift */; };
 		649372F22B56103B00BCDA71 /* SocialNetWorkBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419741E92B558F4A0055F2AB /* SocialNetWorkBarView.swift */; };
 		649372F42B5612E700BCDA71 /* FollowingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649372F32B5612E700BCDA71 /* FollowingView.swift */; };
@@ -115,6 +118,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		040914F62B561A18001B549B /* ReportSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportSelectView.swift; sourceTree = "<group>"; };
+		040914F82B561FA8001B549B /* ReportSelectCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportSelectCellView.swift; sourceTree = "<group>"; };
+		040914FA2B5624E7001B549B /* ReportResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportResultView.swift; sourceTree = "<group>"; };
+		040914FE2B567231001B549B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		412B3AA32B44F67100C2C7CD /* PADO.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PADO.entitlements; sourceTree = "<group>"; };
 		412B3AA42B44F6EC00C2C7CD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		417568632B47999E003AA8C0 /* PhoneumberTFFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneumberTFFormat.swift; sourceTree = "<group>"; };
@@ -188,7 +195,6 @@
 		63D2785A2B44650A0064A7F1 /* EnterPhoneNumberView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterPhoneNumberView.swift; sourceTree = "<group>"; };
 		63D2785B2B44650A0064A7F1 /* EnterCodeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterCodeView.swift; sourceTree = "<group>"; };
 		649372ED2B560E1F00BCDA71 /* ApiKeys.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ApiKeys.xcconfig; sourceTree = "<group>"; };
-		649372EF2B560E2A00BCDA71 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		649372F32B5612E700BCDA71 /* FollowingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingView.swift; sourceTree = "<group>"; };
 		649372F52B5612EE00BCDA71 /* FollowerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerView.swift; sourceTree = "<group>"; };
 		64D0E74C2B5505C800060A73 /* CircularImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularImageView.swift; sourceTree = "<group>"; };
@@ -242,6 +248,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		040914F52B56150E001B549B /* Report */ = {
+			isa = PBXGroup;
+			children = (
+				040914F62B561A18001B549B /* ReportSelectView.swift */,
+				040914FA2B5624E7001B549B /* ReportResultView.swift */,
+				040914F82B561FA8001B549B /* ReportSelectCellView.swift */,
+			);
+			path = Report;
+			sourceTree = "<group>";
+		};
 		419741E32B558F4A0055F2AB /* MyFeed */ = {
 			isa = PBXGroup;
 			children = (
@@ -278,6 +294,7 @@
 			children = (
 				419742082B55900D0055F2AB /* MainView.swift */,
 				419742092B55900D0055F2AB /* ContentView.swift */,
+				040914F52B56150E001B549B /* Report */,
 				419742022B55900D0055F2AB /* Feed */,
 			);
 			path = MainView;
@@ -320,8 +337,8 @@
 		41FD99F42B43D5EC0028D38E /* PADO */ = {
 			isa = PBXGroup;
 			children = (
+				040914FE2B567231001B549B /* GoogleService-Info.plist */,
 				649372ED2B560E1F00BCDA71 /* ApiKeys.xcconfig */,
-				649372EF2B560E2A00BCDA71 /* GoogleService-Info.plist */,
 				64D0E7472B55053500060A73 /* iOS */,
 				412B3AA42B44F6EC00C2C7CD /* Info.plist */,
 				412B3AA32B44F67100C2C7CD /* PADO.entitlements */,
@@ -654,8 +671,8 @@
 				41FD9A212B43D94A0028D38E /* .swiftlint.yml in Resources */,
 				41FD99FD2B43D5ED0028D38E /* Preview Assets.xcassets in Resources */,
 				63B564012B44656F00AEC5E7 /* countries.json in Resources */,
+				040914FF2B567231001B549B /* GoogleService-Info.plist in Resources */,
 				41FD99FA2B43D5ED0028D38E /* Assets.xcassets in Resources */,
-				649372F02B560E2A00BCDA71 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -730,6 +747,7 @@
 				635B09752B451127009E60A9 /* HelpView.swift in Sources */,
 				635B09732B451127009E60A9 /* TimeZoneView.swift in Sources */,
 				63824C462B558B2400D1D653 /* IdView.swift in Sources */,
+				040914F72B561A18001B549B /* ReportSelectView.swift in Sources */,
 				63B563FF2B44656600AEC5E7 /* Year.swift in Sources */,
 				B1A91D0F2B55928D00FE7F62 /* SettingView.swift in Sources */,
 				63824C4C2B558B5500D1D653 /* ModalBlackButton.swift in Sources */,
@@ -756,6 +774,7 @@
 				63824C442B558B2400D1D653 /* PhoneNumberView.swift in Sources */,
 				63AB411D2B468C25007B37DC /* NavigationViewStyleHelper.swift in Sources */,
 				635B09702B451127009E60A9 /* SettingsView.swift in Sources */,
+				040914FB2B5624E7001B549B /* ReportResultView.swift in Sources */,
 				417568642B47999E003AA8C0 /* PhoneumberTFFormat.swift in Sources */,
 				63824C4E2B558B5500D1D653 /* CustomTF.swift in Sources */,
 				63D2785E2B44650A0064A7F1 /* EnterNameView.swift in Sources */,
@@ -770,6 +789,7 @@
 				41FD99F62B43D5EC0028D38E /* PADOApp.swift in Sources */,
 				4197420A2B55900D0055F2AB /* LoginAlert.swift in Sources */,
 				63D2785D2B44650A0064A7F1 /* EnterAgeView.swift in Sources */,
+				040914F92B561FA8001B549B /* ReportSelectCellView.swift in Sources */,
 				635B09712B451127009E60A9 /* NotificationsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -936,10 +956,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PADO/PADO.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PADO/Preview Content\"";
-				DEVELOPMENT_TEAM = KKR332Q2BZ;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = UAG934M4Q7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PADO/Info.plist;
@@ -957,6 +979,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.4T2F.PADO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "PADO Release";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -974,7 +997,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PADO/Preview Content\"";
-				DEVELOPMENT_TEAM = KKR332Q2BZ;
+				DEVELOPMENT_TEAM = H545GGT7HM;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PADO/Info.plist;
