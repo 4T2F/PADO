@@ -128,7 +128,6 @@ struct SettingAskView: View {
                             }
                         }
                     }
-                    
                 }
                 .padding(.horizontal)
                 .padding(.top, 50)
