@@ -15,6 +15,18 @@ struct ReportSelectView: View {
         ZStack {
             VStack(alignment: .leading) {
 
+                Spacer()
+                
+                HStack {
+                    Spacer()
+                    
+                    RoundedRectangle(cornerRadius: 100)
+                        .frame(width: 60, height: 5)
+                        .foregroundStyle(.gray)
+                    
+                    Spacer()
+                }
+                .padding()
                 
                 HStack {
                     Spacer()
@@ -34,6 +46,7 @@ struct ReportSelectView: View {
                     .padding(.leading)
                 Text("지식재산권 침해를 신고하는 경우를 제외하고 회원님의 신고는 익명으로 처리\n됩니다. 누군가 위급한 상황에 있다고 생각된다면 즉시 현지응급 서비스 기관\n에 연락하시기 바랍니다.")
                     .font(.system(size: 12))
+                    .fontWeight(.semibold)
                     .foregroundStyle(.gray)
                     .lineSpacing(5)
                     .padding(.horizontal)

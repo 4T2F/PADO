@@ -10,6 +10,7 @@ import SwiftUI
 struct FeedCell: View {
     
     @Binding var isShowFollowButton: Bool
+    @State var isShowingReportView = false
     @State var isFollowed = true
     
     var body: some View {
@@ -21,11 +22,11 @@ struct FeedCell: View {
                 // Username
                 HStack {
                     FeedSurfers()
-
+                    
                     Spacer()
                     
                     Button {
-                        
+                        isShowingReportView.toggle()
                     } label: {
                         Image(systemName: "ellipsis")
                             .resizable()
@@ -33,6 +34,10 @@ struct FeedCell: View {
                             .foregroundStyle(.white)
                     }
                     .padding(.trailing, 12)
+                    .sheet(isPresented: $isShowingReportView) {
+                        ReportSelectView()
+                            .presentationDetents([.height(600)]) // 모달높이 조절
+                    }
                 }
                 .padding(.top, 50)
                 
@@ -65,7 +70,7 @@ struct FeedCell: View {
                     
                 }
                 .padding(.bottom)
-            
+                
                 HStack {
                     Button {
                         // 댓글 뷰 열기
