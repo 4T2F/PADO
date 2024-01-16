@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct FeedSurfers: View {
+    
+    var timeStamp: String?
+    
     var body: some View {
         HStack {
             ZStack {
@@ -48,10 +51,11 @@ struct FeedSurfers: View {
                             .font(.system(size: 16))
                     }
                 }
-                
-                Text("어제 오후 11:44:23") // • option + num8
-                    .foregroundStyle(.white)
-                    .font(.system(size: 14))
+                if let timeStamp {
+                    Text("어제 오후 11:44:23") // • option + num8
+                        .foregroundStyle(.white)
+                        .font(.system(size: 14))
+                }
             }
         }
         .padding(.horizontal)
