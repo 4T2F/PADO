@@ -10,7 +10,6 @@
 		040914F72B561A18001B549B /* ReportSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040914F62B561A18001B549B /* ReportSelectView.swift */; };
 		040914F92B561FA8001B549B /* ReportSelectCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040914F82B561FA8001B549B /* ReportSelectCellView.swift */; };
 		040914FB2B5624E7001B549B /* ReportResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040914FA2B5624E7001B549B /* ReportResultView.swift */; };
-		040914FF2B567231001B549B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 040914FE2B567231001B549B /* GoogleService-Info.plist */; };
 		412B3A942B44F65100C2C7CD /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 412B3A932B44F65100C2C7CD /* FirebaseAnalytics */; };
 		412B3A962B44F65100C2C7CD /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 412B3A952B44F65100C2C7CD /* FirebaseAuth */; };
 		412B3A982B44F65100C2C7CD /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 412B3A972B44F65100C2C7CD /* FirebaseFirestore */; };
@@ -81,7 +80,6 @@
 		63C8BA492B561DC200025422 /* SignUpButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA482B561DC200025422 /* SignUpButton.swift */; };
 		63C8BA4B2B561FA900025422 /* EnjoyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA4A2B561FA900025422 /* EnjoyButton.swift */; };
 		63C8BA4D2B56241200025422 /* TextAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA4C2B56241200025422 /* TextAnimation.swift */; };
-		63C8BA4F2B5643C800025422 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 63C8BA4E2B5643C800025422 /* GoogleService-Info.plist */; };
 		63C8BA522B5661A500025422 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA512B5661A500025422 /* NotificationView.swift */; };
 		63C8BA542B56623500025422 /* FollowerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA532B56623500025422 /* FollowerCell.swift */; };
 		63C8BA562B56644600025422 /* CreateFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA552B56644600025422 /* CreateFeedCell.swift */; };
@@ -337,6 +335,7 @@
 				41FD9A0F2B43D5ED0028D38E /* PADOUITests */,
 				41FD99F32B43D5EC0028D38E /* Products */,
 				63AB41172B45D38F007B37DC /* Frameworks */,
+				63E5620F2B567E590060E561 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -511,6 +510,14 @@
 				635B09492B4500CB009E60A9 /* User.swift */,
 			);
 			path = Authentication;
+			sourceTree = "<group>";
+		};
+		63E5620F2B567E590060E561 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				040914FE2B567231001B549B /* GoogleService-Info.plist */,
+			);
+			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 		64D0E7472B55053500060A73 /* iOS */ = {
@@ -699,11 +706,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				63C8BA4F2B5643C800025422 /* GoogleService-Info.plist in Resources */,
 				41FD9A212B43D94A0028D38E /* .swiftlint.yml in Resources */,
 				41FD99FD2B43D5ED0028D38E /* Preview Assets.xcassets in Resources */,
 				63B564012B44656F00AEC5E7 /* countries.json in Resources */,
-				040914FF2B567231001B549B /* GoogleService-Info.plist in Resources */,
 				41FD99FA2B43D5ED0028D38E /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
