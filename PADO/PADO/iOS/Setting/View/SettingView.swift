@@ -113,7 +113,7 @@ struct SettingView: View {
                                     .padding(.horizontal, width * 0.1)
                                     .frame(height: 30)
                                     
-                                    SettingDevider()
+                                    SettingDivider()
                                     
                                     HStack {
                                         Image(systemName: "gearshape.2")
@@ -166,7 +166,7 @@ struct SettingView: View {
                                     .padding(.horizontal, width * 0.1)
                                     .frame(height: 30)
                                     
-                                    SettingDevider()
+                                    SettingDivider()
                                     
                                     HStack {
                                         Image(systemName: "questionmark.circle")
@@ -184,7 +184,7 @@ struct SettingView: View {
                                     .padding(.horizontal, width * 0.1)
                                     .frame(height: 30)
                                     
-                                    SettingDevider()
+                                    SettingDivider()
                                     
                                     HStack {
                                         Image(systemName: "info.circle")
