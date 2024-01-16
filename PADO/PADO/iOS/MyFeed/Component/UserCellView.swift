@@ -10,6 +10,7 @@ import SwiftUI
 struct UserCellView: View {
     // MARK: - PROPERTY
     @State private var buttonActive: Bool = false
+    var blueButtonshow: Bool
     
     // MARK: - BODY
     var body: some View {
@@ -28,13 +29,15 @@ struct UserCellView: View {
             
             Spacer()
             
-            BlueButtonView(buttonActive: $buttonActive, activeText: "팔로우", unActiveText: "팔로잉", widthValue: 80, heightValue: 30)
-                .padding(.horizontal)
+            if blueButtonshow {
+                BlueButtonView(buttonActive: $buttonActive, activeText: "팔로우", unActiveText: "팔로잉", widthValue: 80, heightValue: 30)
+                    .padding(.horizontal)
+            }
             
         } //: HSTACK
     }
 }
 
 #Preview {
-    UserCellView()
+    UserCellView(blueButtonshow: true)
 }
