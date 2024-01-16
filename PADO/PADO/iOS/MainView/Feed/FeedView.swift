@@ -11,7 +11,6 @@ struct FeedView: View {
     
     @State var isShowFollowButton: Bool
     @Binding var mainMenu: String
-    
     @EnvironmentObject var viewModel: AuthenticationViewModel
     
 
@@ -68,6 +67,6 @@ struct FeedView: View {
     }
 }
 
-//#Preview {
-//    FeedView(mainMenu: .constant("feed"))
-//}
+#Preview {
+    FeedView(isShowFollowButton: true, mainMenu: .constant("feed"))
+}

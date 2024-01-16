@@ -12,7 +12,7 @@ struct ReportSelectCellView: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 10)
-                .frame(width: UIScreen.main.bounds.width, height: 45)
+                .frame(width: UIScreen.main.bounds.width * 0.95, height: 45)
                 .foregroundStyle(Color(.systemGray5))
             HStack {
                 
@@ -28,7 +28,7 @@ struct ReportSelectCellView: View {
                     .font(.system(size: 16))
                     .fontWeight(.medium)
             }
-            .padding(.horizontal, UIScreen.main.bounds.width * 0.03)
+            .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
             .frame(height: 30)
         }
     }

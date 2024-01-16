@@ -21,92 +21,62 @@ struct FeedCell: View {
                 // Username
                 HStack {
                     FeedSurfers()
-                    
+
                     Spacer()
-                    if isShowFollowButton {
-                        BlueButtonView(buttonActive: $isFollowed,
-                                       activeText: "팔로우",
-                                       unActiveText: "팔로잉",
-                                       widthValue: UIScreen.main.bounds.width * 0.2,
-                                       heightValue: 30)
-                        .padding(.trailing, 10)
+                    
+                    Button {
+                        
+                    } label: {
+                        Image(systemName: "ellipsis")
+                            .resizable()
+                            .frame(width: 25, height: 6)
+                            .foregroundStyle(.white)
                     }
+                    .padding(.trailing, 12)
                 }
+                .padding(.top, 50)
                 
                 // Image
-                ZStack {
-                    VStack {
-                        Spacer()
-                        HStack {
-                            Spacer()
-                            VStack {
-                                Button(action: {
-                                    // 하트 버튼 클릭 시 수행할 동작
-                                }) {
-                                    Image(systemName: "ellipsis")
-                                        .foregroundStyle(.white)
-                                        .font(.system(size: 25))
-                                }
-                                .padding(.top, 20)
-                                
-                                Button(action: {
-                                    // 하트 버튼 클릭 시 수행할 동작
-                                }) {
-                                    Image(systemName: "heart")
-                                        .foregroundStyle(.white)
-                                        .font(.system(size: 25))
-                                }
-                                .padding(.top, 20)
-                                
-                                Button(action: {
-                                    // 텍스트 클릭 시 수행할 동작
-                                }) {
-                                    Text("16.7K")
-                                        .foregroundStyle(.white)
-                                        .font(.system(size: 14))
-                                }
-                                .padding(.top, 2)
-                                
-                                Button(action: {
-                                    // 얼굴 아이콘 클릭 시 수행할 동작
-                                }) {
-                                    Image(systemName: "face.smiling.fill")
-                                        .foregroundStyle(.white)
-                                        .font(.system(size: 25))
-                                }
-                                .padding(.top, 10)
-                            }
-                            .padding(.trailing, 20)
-                            .padding(.bottom, 50)
-                        }
-                    }
-                    .zIndex(1)
+                Image("back")
+                    .resizable()
+                    .frame(width: UIScreen.main.bounds.width, height: 520)
+                    .padding(.bottom, 10)
+                HStack {
+                    Text("Hsungjin")
+                        .foregroundStyle(.white)
+                        .font(.system(size: 16))
+                        .fontWeight(.semibold)
+                        .padding(.leading, 10)
+                    Text("제목입니다")
+                        .foregroundStyle(.white)
+                        .font(.system(size: 16))
+                        .fontWeight(.semibold)
                     
-                    VStack {
-                        Image("back")
-                            .resizable()
-                            .scaledToFit()
-                        
-                        HStack {
-                            Text("게시글 제목임")
-                                .foregroundStyle(.white)
-                                .font(.system(size: 20))
-                                .fontWeight(.semibold)
-                                .padding(.leading, 4)
-                            
-                            Spacer()
-                            
-                            Button(action: {
-                                // "댓글 달기..." 클릭 시 수행할 동작
-                            }) {
-                                Text("댓글 달기...")
-                                    .foregroundStyle(.gray)
-                                    .fontWeight(.semibold)
-                                    .font(.system(size: 16))
-                            }
-                            .padding(.trailing, 4)
-                        }
+                    Spacer()
+                    
+                    Button(action: {
+                        // 좋아요 버튼
+                    }) {
+                        Image(systemName: "heart")
+                            .foregroundStyle(.white)
+                            .font(.system(size: 18))
                     }
+                    .padding(.trailing, 10)
+                    
+                }
+                .padding(.bottom)
+            
+                HStack {
+                    Button {
+                        // 댓글 뷰 열기
+                    } label: {
+                        Text("댓글 달기...")
+                            .font(.system(size: 16))
+                            .foregroundStyle(.gray)
+                            .fontWeight(.semibold)
+                            .padding(.leading, 10)
+                    }
+                    Spacer()
                 }
             }
             .frame(width: UIScreen.main.bounds.width, height: 600)
@@ -114,6 +84,6 @@ struct FeedCell: View {
     }
 }
 
-//#Preview {
-//    FeedCell()
-//}
+#Preview {
+    FeedView(isShowFollowButton: true, mainMenu: .constant("feed"))
+}
