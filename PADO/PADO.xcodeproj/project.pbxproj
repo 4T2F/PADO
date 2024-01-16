@@ -107,6 +107,12 @@
 		649372FC2B565FB300BCDA71 /* FollowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649372FB2B565FB300BCDA71 /* FollowView.swift */; };
 		649372FE2B56665200BCDA71 /* FollowerUserCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649372FD2B56665100BCDA71 /* FollowerUserCellView.swift */; };
 		64D0E74D2B5505C800060A73 /* CircularImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D0E74C2B5505C800060A73 /* CircularImageView.swift */; };
+		B102FE7E2B56CC360005C310 /* SurfingMakeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B102FE7D2B56CC360005C310 /* SurfingMakeView.swift */; };
+		B102FE802B56D34C0005C310 /* VerificationPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B102FE7F2B56D34C0005C310 /* VerificationPostView.swift */; };
+		B102FE822B56DB5B0005C310 /* PostButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B102FE812B56DB5B0005C310 /* PostButtonView.swift */; };
+		B102FE842B56DC030005C310 /* GrayButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B102FE832B56DC030005C310 /* GrayButtonView.swift */; };
+		B1749A5A2B56EADA00BCC6BA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B1749A582B56EADA00BCC6BA /* GoogleService-Info.plist */; };
+		B1749A5B2B56EADA00BCC6BA /* ApiKeys.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = B1749A592B56EADA00BCC6BA /* ApiKeys.xcconfig */; };
 		B198BBA02B5639D500EAA6C0 /* ModalAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B198BB9F2B5639D500EAA6C0 /* ModalAlertView.swift */; };
 		B1A91D0F2B55928D00FE7F62 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A91D062B55928D00FE7F62 /* SettingView.swift */; };
 		B1A91D102B55928D00FE7F62 /* SettingNormalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A91D072B55928D00FE7F62 /* SettingNormalCell.swift */; };
@@ -121,7 +127,7 @@
 		B1D7CDE42B5656B10090544B /* ModalBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D7CDE32B5656B10090544B /* ModalBackground.swift */; };
 		B1D7CDE72B5668CD0090544B /* RoundedEdge.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D7CDE62B5668CD0090544B /* RoundedEdge.swift */; };
 		B1D7CDE92B5669200090544B /* SettingRedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D7CDE82B5669200090544B /* SettingRedCell.swift */; };
-		B1D7CDEC2B5669B80090544B /* SettingDevider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D7CDEB2B5669B80090544B /* SettingDevider.swift */; };
+		B1D7CDEC2B5669B80090544B /* SettingDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D7CDEB2B5669B80090544B /* SettingDivider.swift */; };
 		B1D7CDEF2B566A2F0090544B /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D7CDEE2B566A2F0090544B /* ViewExtension.swift */; };
 /* End PBXBuildFile section */
 
@@ -246,6 +252,12 @@
 		64D0E7542B5509CD00060A73 /* MyFeedContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFeedContentView.swift; sourceTree = "<group>"; };
 		64D0E7562B551D2A00060A73 /* SocialNetWorkBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialNetWorkBarView.swift; sourceTree = "<group>"; };
 		64D0E7582B55214900060A73 /* SocialGlobeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialGlobeView.swift; sourceTree = "<group>"; };
+		B102FE7D2B56CC360005C310 /* SurfingMakeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurfingMakeView.swift; sourceTree = "<group>"; };
+		B102FE7F2B56D34C0005C310 /* VerificationPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationPostView.swift; sourceTree = "<group>"; };
+		B102FE812B56DB5B0005C310 /* PostButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostButtonView.swift; sourceTree = "<group>"; };
+		B102FE832B56DC030005C310 /* GrayButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrayButtonView.swift; sourceTree = "<group>"; };
+		B1749A582B56EADA00BCC6BA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		B1749A592B56EADA00BCC6BA /* ApiKeys.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ApiKeys.xcconfig; sourceTree = "<group>"; };
 		B198BB9B2B56259600EAA6C0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B198BB9C2B56259600EAA6C0 /* ApiKeys.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ApiKeys.xcconfig; sourceTree = "<group>"; };
 		B198BB9F2B5639D500EAA6C0 /* ModalAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalAlertView.swift; sourceTree = "<group>"; };
@@ -262,7 +274,7 @@
 		B1D7CDE32B5656B10090544B /* ModalBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalBackground.swift; sourceTree = "<group>"; };
 		B1D7CDE62B5668CD0090544B /* RoundedEdge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedEdge.swift; sourceTree = "<group>"; };
 		B1D7CDE82B5669200090544B /* SettingRedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingRedCell.swift; sourceTree = "<group>"; };
-		B1D7CDEB2B5669B80090544B /* SettingDevider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingDevider.swift; sourceTree = "<group>"; };
+		B1D7CDEB2B5669B80090544B /* SettingDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingDivider.swift; sourceTree = "<group>"; };
 		B1D7CDEE2B566A2F0090544B /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -404,6 +416,8 @@
 		41FD99F42B43D5EC0028D38E /* PADO */ = {
 			isa = PBXGroup;
 			children = (
+				B1749A592B56EADA00BCC6BA /* ApiKeys.xcconfig */,
+				B1749A582B56EADA00BCC6BA /* GoogleService-Info.plist */,
 				412B3AA42B44F6EC00C2C7CD /* Info.plist */,
 				63C20BE72B56A12500911F64 /* ApiKeys.xcconfig */,
 				63C20BE62B56A12500911F64 /* GoogleService-Info.plist */,
@@ -461,6 +475,8 @@
 				419741E02B558F3A0055F2AB /* FeedSurfers.swift */,
 				63C8BA482B561DC200025422 /* SignUpButton.swift */,
 				63C8BA4A2B561FA900025422 /* EnjoyButton.swift */,
+				B102FE832B56DC030005C310 /* GrayButtonView.swift */,
+				B102FE812B56DB5B0005C310 /* PostButtonView.swift */,
 			);
 			path = Items;
 			sourceTree = "<group>";
@@ -544,6 +560,7 @@
 				63C8BA572B56659800025422 /* SurferCell.swift */,
 				63C20BEA2B56CEDB00911F64 /* AdvancedSettingsView.swift */,
 				63C20BEC2B56CFAF00911F64 /* AdvancedSettingsCell.swift */,
+				B102FE7F2B56D34C0005C310 /* VerificationPostView.swift */,
 			);
 			path = Notification;
 			sourceTree = "<group>";
@@ -578,6 +595,7 @@
 		64D0E7472B55053500060A73 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				B102FE7C2B56CB0A0005C310 /* Surfing */,
 				419742082B55900D0055F2AB /* MainView.swift */,
 				419742092B55900D0055F2AB /* ContentView.swift */,
 				635B094D2B4510B1009E60A9 /* Items */,
@@ -620,6 +638,14 @@
 			path = Component;
 			sourceTree = "<group>";
 		};
+		B102FE7C2B56CB0A0005C310 /* Surfing */ = {
+			isa = PBXGroup;
+			children = (
+				B102FE7D2B56CC360005C310 /* SurfingMakeView.swift */,
+			);
+			path = Surfing;
+			sourceTree = "<group>";
+		};
 		B1A91D042B55926200FE7F62 /* Setting */ = {
 			isa = PBXGroup;
 			children = (
@@ -652,7 +678,7 @@
 			children = (
 				B1D7CDE62B5668CD0090544B /* RoundedEdge.swift */,
 				B1D7CDE32B5656B10090544B /* ModalBackground.swift */,
-				B1D7CDEB2B5669B80090544B /* SettingDevider.swift */,
+				B1D7CDEB2B5669B80090544B /* SettingDivider.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -856,6 +882,7 @@
 				635B095C2B4510D1009E60A9 /* RequestsView.swift in Sources */,
 				63C20BEB2B56CEDC00911F64 /* AdvancedSettingsView.swift in Sources */,
 				649372F82B561A6F00BCDA71 /* FollowingCellView.swift in Sources */,
+				B102FE802B56D34C0005C310 /* VerificationPostView.swift in Sources */,
 				635B096E2B451127009E60A9 /* NotificationsButtonView.swift in Sources */,
 				635B09762B451127009E60A9 /* OtherView.swift in Sources */,
 				635B09642B45111A009E60A9 /* ThreeDots.swift in Sources */,
@@ -906,6 +933,7 @@
 				419741E22B558F3A0055F2AB /* FeedSurfers.swift in Sources */,
 				635B095B2B4510D1009E60A9 /* FriendsView.swift in Sources */,
 				635B09582B4510D1009E60A9 /* FriendCellView.swift in Sources */,
+				B102FE842B56DC030005C310 /* GrayButtonView.swift in Sources */,
 				635B09742B451127009E60A9 /* EditProfileView.swift in Sources */,
 				63824C522B558B6900D1D653 /* UseIDModalView.swift in Sources */,
 				63D2785C2B44650A0064A7F1 /* SelectCountryView.swift in Sources */,
@@ -924,6 +952,7 @@
 				63C8BA522B5661A500025422 /* NotificationView.swift in Sources */,
 				63C8BA4D2B56241200025422 /* TextAnimation.swift in Sources */,
 				63D2785E2B44650A0064A7F1 /* EnterNameView.swift in Sources */,
+				B102FE7E2B56CC360005C310 /* SurfingMakeView.swift in Sources */,
 				649372FE2B56665200BCDA71 /* FollowerUserCellView.swift in Sources */,
 				63C20BED2B56CFAF00911F64 /* AdvancedSettingsCell.swift in Sources */,
 				4197420F2B55900D0055F2AB /* MainView.swift in Sources */,
@@ -932,9 +961,10 @@
 				419742102B55900D0055F2AB /* ContentView.swift in Sources */,
 				B1D7CDE72B5668CD0090544B /* RoundedEdge.swift in Sources */,
 				4197420C2B55900D0055F2AB /* MemoryView.swift in Sources */,
+				B102FE822B56DB5B0005C310 /* PostButtonView.swift in Sources */,
 				63C8BA4B2B561FA900025422 /* EnjoyButton.swift in Sources */,
 				63824C4D2B558B5500D1D653 /* ModalWhiteButton.swift in Sources */,
-				B1D7CDEC2B5669B80090544B /* SettingDevider.swift in Sources */,
+				B1D7CDEC2B5669B80090544B /* SettingDivider.swift in Sources */,
 				63D2785F2B44650A0064A7F1 /* MainAuthenticationView.swift in Sources */,
 				B1A91D142B55928D00FE7F62 /* SettingAskView.swift in Sources */,
 				41FD99F62B43D5EC0028D38E /* PADOApp.swift in Sources */,
@@ -981,7 +1011,7 @@
 /* Begin XCBuildConfiguration section */
 		41FD9A142B43D5EE0028D38E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 63C20BE72B56A12500911F64 /* ApiKeys.xcconfig */;
+			baseConfigurationReference = B1749A592B56EADA00BCC6BA /* ApiKeys.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -1045,7 +1075,7 @@
 		};
 		41FD9A152B43D5EE0028D38E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 63C20BE72B56A12500911F64 /* ApiKeys.xcconfig */;
+			baseConfigurationReference = B1749A592B56EADA00BCC6BA /* ApiKeys.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -1102,7 +1132,7 @@
 		};
 		41FD9A172B43D5EE0028D38E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 63C20BE72B56A12500911F64 /* ApiKeys.xcconfig */;
+			baseConfigurationReference = B1749A592B56EADA00BCC6BA /* ApiKeys.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1140,7 +1170,7 @@
 		};
 		41FD9A182B43D5EE0028D38E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 63C20BE72B56A12500911F64 /* ApiKeys.xcconfig */;
+			baseConfigurationReference = B1749A592B56EADA00BCC6BA /* ApiKeys.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1178,7 +1208,7 @@
 		};
 		41FD9A1A2B43D5EE0028D38E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 63C20BE72B56A12500911F64 /* ApiKeys.xcconfig */;
+			baseConfigurationReference = B1749A592B56EADA00BCC6BA /* ApiKeys.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1199,7 +1229,7 @@
 		};
 		41FD9A1B2B43D5EE0028D38E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 63C20BE72B56A12500911F64 /* ApiKeys.xcconfig */;
+			baseConfigurationReference = B1749A592B56EADA00BCC6BA /* ApiKeys.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1220,7 +1250,7 @@
 		};
 		41FD9A1D2B43D5EE0028D38E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 63C20BE72B56A12500911F64 /* ApiKeys.xcconfig */;
+			baseConfigurationReference = B1749A592B56EADA00BCC6BA /* ApiKeys.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -1239,7 +1269,7 @@
 		};
 		41FD9A1E2B43D5EE0028D38E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 63C20BE72B56A12500911F64 /* ApiKeys.xcconfig */;
+			baseConfigurationReference = B1749A592B56EADA00BCC6BA /* ApiKeys.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;

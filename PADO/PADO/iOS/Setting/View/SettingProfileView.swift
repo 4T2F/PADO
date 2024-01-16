@@ -54,7 +54,7 @@ struct SettingProfileView: View {
                     
                     HStack {
                         
-                        SettingProfileDevider()
+                        SettingProfileDivider()
                     }
                     
                     Spacer()
@@ -100,7 +100,7 @@ struct SettingProfileView: View {
                         }
                         // MARK: - 프로필수정, 이름
                         VStack {
-                            SettingProfileDevider()
+                            SettingProfileDivider()
                             
                             HStack {
                                 HStack {
@@ -129,7 +129,7 @@ struct SettingProfileView: View {
                             }
                             .padding(.top, 4)
                             
-                            SettingProfileDevider()
+                            SettingProfileDivider()
                             
                             // MARK: - 프로필수정, 나이
                             HStack {
@@ -159,7 +159,7 @@ struct SettingProfileView: View {
                             }
                             .padding(.top, 4)
                             
-                            SettingProfileDevider()
+                            SettingProfileDivider()
                             
                             // MARK: - 프로필수정, 소개
                             HStack(alignment: .top) {
@@ -202,7 +202,7 @@ struct SettingProfileView: View {
                                 
                             }
                             
-                            SettingProfileDevider()
+                            SettingProfileDivider()
                             
                             // MARK: - 프로필수정, 인스타그램 주소
                             HStack {
@@ -232,7 +232,7 @@ struct SettingProfileView: View {
                             }
                             .padding(.top, 4)
                             
-                            SettingProfileDevider()
+                            SettingProfileDivider()
                             
                             // MARK: - 프로필수정, 틱톡주소
                             HStack {
@@ -261,7 +261,7 @@ struct SettingProfileView: View {
                                 .frame(width: width * 0.63)
                             }
                             
-                            SettingProfileDevider()
+                            SettingProfileDivider()
                             
                                 .padding(.top, 4)
                         }

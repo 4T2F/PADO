@@ -6,7 +6,7 @@
 //
 import SwiftUI
 
-struct SettingProfileDevider: View {
+struct SettingProfileDivider: View {
     var body: some View {
         Rectangle()
             .frame(width: UIScreen.main.bounds.width * 0.9, height: 0.7)
@@ -15,7 +15,7 @@ struct SettingProfileDevider: View {
     }
 }
 
-struct SettingDevider: View {
+struct SettingDivider: View {
     var body: some View {
         Rectangle()
             .frame(width: UIScreen.main.bounds.width * 0.9, height: 0.3)
