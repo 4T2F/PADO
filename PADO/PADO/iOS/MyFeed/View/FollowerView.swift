@@ -10,6 +10,7 @@ import SwiftUI
 struct FollowerView: View {
     // MARK: - PROPERTY
     @Environment (\.dismiss) var dismiss
+    @State private var searchText: String = ""
     
     // MARK: - BODY
     var body: some View {
@@ -17,7 +18,7 @@ struct FollowerView: View {
             Color.mainBackground.ignoresSafeArea()
             VStack {
                 ZStack {
-                    Text("팔로잉")
+                    Text("팔로워")
                         .font(.system(size: 22))
                         .fontWeight(.bold)
                     
@@ -36,8 +37,38 @@ struct FollowerView: View {
                 .padding(.horizontal)
                 
                 Spacer()
+                VStack {
+                    SearchView(searchText: $searchText)
+                        .padding()
+                    
+                    HStack{
+                        Text("내 서퍼")
+                            .font(.system(size: 14, weight: .semibold))
+                            .padding()
+                        Spacer()
+                    } //: HSTACK
+                    
+                    ForEach(1...2, id: \.self) { _ in
+                        FollowerUserCellView(sufferset: .removesuffer)
+                            .padding(.vertical)
+                    }
+                    
+                    HStack{
+                        Text("팔로워")
+                            .font(.system(size: 14, weight: .semibold))
+                        Spacer()
+                    } //: HSTACK
+                    .padding(.horizontal)
+                    
+                    ScrollView(.vertical) {
+                        ForEach(1...10, id: \.self) { _ in
+                            FollowerUserCellView(sufferset: .setsuffer)
+                                .padding(.vertical)
+                        }
+                    }
+                    
+                } //: VSTACK
             } //: VSTACK
-            // code
         } //: ZSTACK
     }
 }

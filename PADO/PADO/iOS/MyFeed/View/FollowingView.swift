@@ -44,7 +44,7 @@ struct FollowingView: View {
                         
                         ScrollView {
                             ForEach(1...10, id: \.self) { _ in
-                                UserCellView(blueButtonshow: true)
+                                FollowingCellView()
                                     .padding(.vertical)
                             }
                         } //: SCROLL
