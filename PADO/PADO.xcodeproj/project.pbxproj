@@ -78,6 +78,10 @@
 		63C8BA4B2B561FA900025422 /* EnjoyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA4A2B561FA900025422 /* EnjoyButton.swift */; };
 		63C8BA4D2B56241200025422 /* TextAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA4C2B56241200025422 /* TextAnimation.swift */; };
 		63C8BA4F2B5643C800025422 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 63C8BA4E2B5643C800025422 /* GoogleService-Info.plist */; };
+		63C8BA522B5661A500025422 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA512B5661A500025422 /* NotificationView.swift */; };
+		63C8BA542B56623500025422 /* FollowerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA532B56623500025422 /* FollowerCell.swift */; };
+		63C8BA562B56644600025422 /* CreateFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA552B56644600025422 /* CreateFeedCell.swift */; };
+		63C8BA582B56659800025422 /* SurferCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA572B56659800025422 /* SurferCell.swift */; };
 		63D2785C2B44650A0064A7F1 /* SelectCountryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D278562B44650A0064A7F1 /* SelectCountryView.swift */; };
 		63D2785D2B44650A0064A7F1 /* EnterAgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D278572B44650A0064A7F1 /* EnterAgeView.swift */; };
 		63D2785E2B44650A0064A7F1 /* EnterNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D278582B44650A0064A7F1 /* EnterNameView.swift */; };
@@ -188,6 +192,10 @@
 		63C8BA4A2B561FA900025422 /* EnjoyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnjoyButton.swift; sourceTree = "<group>"; };
 		63C8BA4C2B56241200025422 /* TextAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextAnimation.swift; sourceTree = "<group>"; };
 		63C8BA4E2B5643C800025422 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		63C8BA512B5661A500025422 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
+		63C8BA532B56623500025422 /* FollowerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerCell.swift; sourceTree = "<group>"; };
+		63C8BA552B56644600025422 /* CreateFeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateFeedCell.swift; sourceTree = "<group>"; };
+		63C8BA572B56659800025422 /* SurferCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurferCell.swift; sourceTree = "<group>"; };
 		63D278562B44650A0064A7F1 /* SelectCountryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectCountryView.swift; sourceTree = "<group>"; };
 		63D278572B44650A0064A7F1 /* EnterAgeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterAgeView.swift; sourceTree = "<group>"; };
 		63D278582B44650A0064A7F1 /* EnterNameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterNameView.swift; sourceTree = "<group>"; };
@@ -458,6 +466,17 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		63C8BA502B56618B00025422 /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				63C8BA512B5661A500025422 /* NotificationView.swift */,
+				63C8BA532B56623500025422 /* FollowerCell.swift */,
+				63C8BA552B56644600025422 /* CreateFeedCell.swift */,
+				63C8BA572B56659800025422 /* SurferCell.swift */,
+			);
+			path = Notification;
+			sourceTree = "<group>";
+		};
 		63D278552B4464CE0064A7F1 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
@@ -480,6 +499,7 @@
 			children = (
 				419742012B55900D0055F2AB /* MainView */,
 				419741E32B558F4A0055F2AB /* MyFeed */,
+				63C8BA502B56618B00025422 /* Notification */,
 				B1A91D042B55926200FE7F62 /* Setting */,
 				63824C2E2B55875C00D1D653 /* Login */,
 				64D0E7482B55053C00060A73 /* MyFeed */,
@@ -712,6 +732,7 @@
 				64D0E74D2B5505C800060A73 /* CircularImageView.swift in Sources */,
 				649372F22B56103B00BCDA71 /* SocialNetWorkBarView.swift in Sources */,
 				649372F12B56102D00BCDA71 /* MyFeedContentView.swift in Sources */,
+				63C8BA542B56623500025422 /* FollowerCell.swift in Sources */,
 				635B09612B451103009E60A9 /* Extensions.swift in Sources */,
 				635B094A2B4500CB009E60A9 /* User.swift in Sources */,
 				419741ED2B558F4A0055F2AB /* SocialGlobeView.swift in Sources */,
@@ -761,6 +782,7 @@
 				63824C522B558B6900D1D653 /* UseIDModalView.swift in Sources */,
 				63D2785C2B44650A0064A7F1 /* SelectCountryView.swift in Sources */,
 				B1A91D112B55928D00FE7F62 /* SettingNotificationView.swift in Sources */,
+				63C8BA562B56644600025422 /* CreateFeedCell.swift in Sources */,
 				63D278612B44650A0064A7F1 /* EnterCodeView.swift in Sources */,
 				B1A91D162B55928D00FE7F62 /* SettingInfoView.swift in Sources */,
 				63824C442B558B2400D1D653 /* PhoneNumberView.swift in Sources */,
@@ -768,6 +790,7 @@
 				635B09702B451127009E60A9 /* SettingsView.swift in Sources */,
 				417568642B47999E003AA8C0 /* PhoneumberTFFormat.swift in Sources */,
 				63824C4E2B558B5500D1D653 /* CustomTF.swift in Sources */,
+				63C8BA522B5661A500025422 /* NotificationView.swift in Sources */,
 				63C8BA4D2B56241200025422 /* TextAnimation.swift in Sources */,
 				63D2785E2B44650A0064A7F1 /* EnterNameView.swift in Sources */,
 				4197420F2B55900D0055F2AB /* MainView.swift in Sources */,
@@ -783,6 +806,7 @@
 				4197420A2B55900D0055F2AB /* LoginAlert.swift in Sources */,
 				63D2785D2B44650A0064A7F1 /* EnterAgeView.swift in Sources */,
 				635B09712B451127009E60A9 /* NotificationsView.swift in Sources */,
+				63C8BA582B56659800025422 /* SurferCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
