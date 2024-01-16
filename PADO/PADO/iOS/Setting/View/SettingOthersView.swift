@@ -7,6 +7,8 @@
 import SwiftUI
 
 struct SettingOthersView: View {
+    @State private var showingModal: Bool = false
+    
     var body: some View {
         VStack {
             ZStack {
@@ -47,7 +49,7 @@ struct SettingOthersView: View {
                     }
                     
                     Button {
-                        //TODO: - 계정삭제 로직 구현
+                        showingModal.toggle()
                     } label: {
                         VStack {
                             SettingRedCell(icon: "multiply.square", text: "계정 삭제")
@@ -60,9 +62,14 @@ struct SettingOthersView: View {
                 .padding(.horizontal)
                 .padding(.top, 50)
             }
-        }
+        }.sheet(isPresented: $showingModal, content: {
+            ModalAlertView(showingCircleImage: false, mainTitle: .account, subTitle: .account, removeMessage: .account)
+                .background(Color.clear)
+                .presentationDetents([.fraction(0.4)])
+        })
     }
 }
+
 
 #Preview {
     SettingOthersView()
