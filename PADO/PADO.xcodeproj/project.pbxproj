@@ -99,8 +99,8 @@
 		649372FC2B565FB300BCDA71 /* FollowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649372FB2B565FB300BCDA71 /* FollowView.swift */; };
 		649372FE2B56665200BCDA71 /* FollowerUserCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649372FD2B56665100BCDA71 /* FollowerUserCellView.swift */; };
 		64D0E74D2B5505C800060A73 /* CircularImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D0E74C2B5505C800060A73 /* CircularImageView.swift */; };
-		B198BB9D2B56259600EAA6C0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B198BB9B2B56259600EAA6C0 /* GoogleService-Info.plist */; };
-		B198BB9E2B56259600EAA6C0 /* ApiKeys.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = B198BB9C2B56259600EAA6C0 /* ApiKeys.xcconfig */; };
+		B102FE7A2B5682570005C310 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B102FE782B5682570005C310 /* GoogleService-Info.plist */; };
+		B102FE7B2B5682570005C310 /* ApiKeys.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = B102FE792B5682570005C310 /* ApiKeys.xcconfig */; };
 		B198BBA02B5639D500EAA6C0 /* ModalAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B198BB9F2B5639D500EAA6C0 /* ModalAlertView.swift */; };
 		B1A91D0F2B55928D00FE7F62 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A91D062B55928D00FE7F62 /* SettingView.swift */; };
 		B1A91D102B55928D00FE7F62 /* SettingNormalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A91D072B55928D00FE7F62 /* SettingNormalCell.swift */; };
@@ -210,7 +210,6 @@
 		63C8BA482B561DC200025422 /* SignUpButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpButton.swift; sourceTree = "<group>"; };
 		63C8BA4A2B561FA900025422 /* EnjoyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnjoyButton.swift; sourceTree = "<group>"; };
 		63C8BA4C2B56241200025422 /* TextAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextAnimation.swift; sourceTree = "<group>"; };
-		63C8BA4E2B5643C800025422 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		63C8BA512B5661A500025422 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		63C8BA532B56623500025422 /* FollowerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerCell.swift; sourceTree = "<group>"; };
 		63C8BA552B56644600025422 /* CreateFeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateFeedCell.swift; sourceTree = "<group>"; };
@@ -221,7 +220,6 @@
 		63D278592B44650A0064A7F1 /* MainAuthenticationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainAuthenticationView.swift; sourceTree = "<group>"; };
 		63D2785A2B44650A0064A7F1 /* EnterPhoneNumberView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterPhoneNumberView.swift; sourceTree = "<group>"; };
 		63D2785B2B44650A0064A7F1 /* EnterCodeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterCodeView.swift; sourceTree = "<group>"; };
-		649372ED2B560E1F00BCDA71 /* ApiKeys.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ApiKeys.xcconfig; sourceTree = "<group>"; };
 		649372F32B5612E700BCDA71 /* FollowingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingView.swift; sourceTree = "<group>"; };
 		649372F52B5612EE00BCDA71 /* FollowerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerView.swift; sourceTree = "<group>"; };
 		649372F72B561A6F00BCDA71 /* FollowingCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingCellView.swift; sourceTree = "<group>"; };
@@ -234,6 +232,8 @@
 		64D0E7542B5509CD00060A73 /* MyFeedContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFeedContentView.swift; sourceTree = "<group>"; };
 		64D0E7562B551D2A00060A73 /* SocialNetWorkBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialNetWorkBarView.swift; sourceTree = "<group>"; };
 		64D0E7582B55214900060A73 /* SocialGlobeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialGlobeView.swift; sourceTree = "<group>"; };
+		B102FE782B5682570005C310 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		B102FE792B5682570005C310 /* ApiKeys.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = ApiKeys.xcconfig; path = "../../../../../Downloads/PADO자료/ApiKeys.xcconfig"; sourceTree = "<group>"; };
 		B198BB9B2B56259600EAA6C0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B198BB9C2B56259600EAA6C0 /* ApiKeys.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ApiKeys.xcconfig; sourceTree = "<group>"; };
 		B198BB9F2B5639D500EAA6C0 /* ModalAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalAlertView.swift; sourceTree = "<group>"; };
@@ -382,8 +382,8 @@
 		41FD99F42B43D5EC0028D38E /* PADO */ = {
 			isa = PBXGroup;
 			children = (
-				63C8BA4E2B5643C800025422 /* GoogleService-Info.plist */,
-				649372ED2B560E1F00BCDA71 /* ApiKeys.xcconfig */,
+				B102FE792B5682570005C310 /* ApiKeys.xcconfig */,
+				B102FE782B5682570005C310 /* GoogleService-Info.plist */,
 				64D0E7472B55053500060A73 /* iOS */,
 				412B3AA42B44F6EC00C2C7CD /* Info.plist */,
 				412B3AA32B44F67100C2C7CD /* PADO.entitlements */,
@@ -546,6 +546,8 @@
 			isa = PBXGroup;
 			children = (
 				040914FE2B567231001B549B /* GoogleService-Info.plist */,
+				B198BB9B2B56259600EAA6C0 /* GoogleService-Info.plist */,
+				B198BB9C2B56259600EAA6C0 /* ApiKeys.xcconfig */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -769,8 +771,8 @@
 			files = (
 				41FD9A212B43D94A0028D38E /* .swiftlint.yml in Resources */,
 				41FD99FD2B43D5ED0028D38E /* Preview Assets.xcassets in Resources */,
-				B198BB9D2B56259600EAA6C0 /* GoogleService-Info.plist in Resources */,
-				B198BB9E2B56259600EAA6C0 /* ApiKeys.xcconfig in Resources */,
+				B102FE7A2B5682570005C310 /* GoogleService-Info.plist in Resources */,
+				B102FE7B2B5682570005C310 /* ApiKeys.xcconfig in Resources */,
 				63B564012B44656F00AEC5E7 /* countries.json in Resources */,
 				41FD99FA2B43D5ED0028D38E /* Assets.xcassets in Resources */,
 			);
