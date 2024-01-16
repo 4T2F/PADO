@@ -8,8 +8,37 @@
 import SwiftUI
 
 struct FollowerView: View {
+    // MARK: - PROPERTY
+    @Environment (\.dismiss) var dismiss
+    
+    // MARK: - BODY
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack {
+            Color.mainBackground.ignoresSafeArea()
+            VStack {
+                ZStack {
+                    Text("팔로잉")
+                        .font(.system(size: 22))
+                        .fontWeight(.bold)
+                    
+                    HStack {
+                        Button {
+                            dismiss()
+                        } label: {
+                            Image(systemName: "arrow.backward")
+                                .foregroundStyle(.white)
+                                .font(.system(size: 22))
+                        }
+                        
+                        Spacer()
+                    }
+                }
+                .padding(.horizontal)
+                
+                Spacer()
+            } //: VSTACK
+            // code
+        } //: ZSTACK
     }
 }
 
