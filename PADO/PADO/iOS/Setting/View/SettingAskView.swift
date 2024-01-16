@@ -10,7 +10,9 @@ import SwiftUI
 struct SettingAskView: View {
     @State var width = UIScreen.main.bounds.width
     @State var height = UIScreen.main.bounds.height
+    
     let placeholder: String = "저희 PADO를 이용하시는 동안 불편한 점이나\n문의사항이 있으시다면 의견을 보내주세요."
+    
     @State var inquiry: String = ""
     @State var filenum: Int = 0
     
@@ -134,20 +136,4 @@ struct SettingAskView: View {
             }
         }
     }
-}
-
-struct RoundedEdge: ViewModifier {
-    let width: CGFloat
-    let color: Color
-    let cornerRadius: CGFloat
-    
-    func body(content: Content) -> some View {
-        content.cornerRadius(cornerRadius - width)
-            .padding(width)
-            .background(color)
-            .cornerRadius(cornerRadius)
-    }
-}
-#Preview {
-    SettingAskView()
 }
