@@ -4,7 +4,7 @@
 //
 //  Created by 황민채 on 1/15/24.
 //
-
+// 파기할 파일
 import SwiftUI
 
 struct SettingAlertView: View {
