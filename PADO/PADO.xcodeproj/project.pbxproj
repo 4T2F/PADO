@@ -81,6 +81,10 @@
 		63B563FD2B44655C00AEC5E7 /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B563FC2B44655C00AEC5E7 /* Country.swift */; };
 		63B563FF2B44656600AEC5E7 /* Year.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B563FE2B44656600AEC5E7 /* Year.swift */; };
 		63B564012B44656F00AEC5E7 /* countries.json in Resources */ = {isa = PBXBuildFile; fileRef = 63B564002B44656F00AEC5E7 /* countries.json */; };
+		63C20BE82B56A12500911F64 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 63C20BE62B56A12500911F64 /* GoogleService-Info.plist */; };
+		63C20BE92B56A12500911F64 /* ApiKeys.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 63C20BE72B56A12500911F64 /* ApiKeys.xcconfig */; };
+		63C20BEB2B56CEDC00911F64 /* AdvancedSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C20BEA2B56CEDB00911F64 /* AdvancedSettingsView.swift */; };
+		63C20BED2B56CFAF00911F64 /* AdvancedSettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C20BEC2B56CFAF00911F64 /* AdvancedSettingsCell.swift */; };
 		63C8BA492B561DC200025422 /* SignUpButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA482B561DC200025422 /* SignUpButton.swift */; };
 		63C8BA4B2B561FA900025422 /* EnjoyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA4A2B561FA900025422 /* EnjoyButton.swift */; };
 		63C8BA4D2B56241200025422 /* TextAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA4C2B56241200025422 /* TextAnimation.swift */; };
@@ -94,7 +98,6 @@
 		63D2785F2B44650A0064A7F1 /* MainAuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D278592B44650A0064A7F1 /* MainAuthenticationView.swift */; };
 		63D278602B44650A0064A7F1 /* EnterPhoneNumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D2785A2B44650A0064A7F1 /* EnterPhoneNumberView.swift */; };
 		63D278612B44650A0064A7F1 /* EnterCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D2785B2B44650A0064A7F1 /* EnterCodeView.swift */; };
-		63E562112B5680940060E561 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 63E562102B5680940060E561 /* GoogleService-Info.plist */; };
 		649372F12B56102D00BCDA71 /* MyFeedContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419741E72B558F4A0055F2AB /* MyFeedContentView.swift */; };
 		649372F22B56103B00BCDA71 /* SocialNetWorkBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419741E92B558F4A0055F2AB /* SocialNetWorkBarView.swift */; };
 		649372F42B5612E700BCDA71 /* FollowingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649372F32B5612E700BCDA71 /* FollowingView.swift */; };
@@ -166,8 +169,6 @@
 		41E5F6972B56536D001750C2 /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
 		41E5F6992B565409001750C2 /* FaceMojiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceMojiView.swift; sourceTree = "<group>"; };
 		41E5F69B2B5666D7001750C2 /* FaceMojiCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceMojiCell.swift; sourceTree = "<group>"; };
-		41E5F69F2B569B3B001750C2 /* ApiKeys.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = ApiKeys.xcconfig; sourceTree = "<group>"; };
-		41E5F6A02B569B3B001750C2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		41FD99F22B43D5EC0028D38E /* PADO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PADO.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		41FD99F52B43D5EC0028D38E /* PADOApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PADOApp.swift; sourceTree = "<group>"; };
 		41FD99F92B43D5ED0028D38E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -216,6 +217,10 @@
 		63B563FC2B44655C00AEC5E7 /* Country.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
 		63B563FE2B44656600AEC5E7 /* Year.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Year.swift; sourceTree = "<group>"; };
 		63B564002B44656F00AEC5E7 /* countries.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = countries.json; sourceTree = "<group>"; };
+		63C20BE62B56A12500911F64 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		63C20BE72B56A12500911F64 /* ApiKeys.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ApiKeys.xcconfig; sourceTree = "<group>"; };
+		63C20BEA2B56CEDB00911F64 /* AdvancedSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSettingsView.swift; sourceTree = "<group>"; };
+		63C20BEC2B56CFAF00911F64 /* AdvancedSettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSettingsCell.swift; sourceTree = "<group>"; };
 		63C8BA482B561DC200025422 /* SignUpButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpButton.swift; sourceTree = "<group>"; };
 		63C8BA4A2B561FA900025422 /* EnjoyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnjoyButton.swift; sourceTree = "<group>"; };
 		63C8BA4C2B56241200025422 /* TextAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextAnimation.swift; sourceTree = "<group>"; };
@@ -229,8 +234,7 @@
 		63D278592B44650A0064A7F1 /* MainAuthenticationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainAuthenticationView.swift; sourceTree = "<group>"; };
 		63D2785A2B44650A0064A7F1 /* EnterPhoneNumberView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterPhoneNumberView.swift; sourceTree = "<group>"; };
 		63D2785B2B44650A0064A7F1 /* EnterCodeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterCodeView.swift; sourceTree = "<group>"; };
-		63E562102B5680940060E561 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		649372ED2B560E1F00BCDA71 /* ApiKeys.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ApiKeys.xcconfig; sourceTree = "<group>"; };		649372F32B5612E700BCDA71 /* FollowingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingView.swift; sourceTree = "<group>"; };
+		649372F32B5612E700BCDA71 /* FollowingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingView.swift; sourceTree = "<group>"; };
 		649372F52B5612EE00BCDA71 /* FollowerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerView.swift; sourceTree = "<group>"; };
 		649372F72B561A6F00BCDA71 /* FollowingCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingCellView.swift; sourceTree = "<group>"; };
 		649372F92B561C5000BCDA71 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
@@ -400,12 +404,9 @@
 		41FD99F42B43D5EC0028D38E /* PADO */ = {
 			isa = PBXGroup;
 			children = (
-				649372ED2B560E1F00BCDA71 /* ApiKeys.xcconfig */,
-				63E562102B5680940060E561 /* GoogleService-Info.plist */,
-				64D0E7472B55053500060A73 /* iOS */,
 				412B3AA42B44F6EC00C2C7CD /* Info.plist */,
-				41E5F69F2B569B3B001750C2 /* ApiKeys.xcconfig */,
-				41E5F6A02B569B3B001750C2 /* GoogleService-Info.plist */,
+				63C20BE72B56A12500911F64 /* ApiKeys.xcconfig */,
+				63C20BE62B56A12500911F64 /* GoogleService-Info.plist */,
 				412B3AA32B44F67100C2C7CD /* PADO.entitlements */,
 				41FD99F52B43D5EC0028D38E /* PADOApp.swift */,
 				64D0E7472B55053500060A73 /* iOS */,
@@ -541,6 +542,8 @@
 				63C8BA532B56623500025422 /* FollowerCell.swift */,
 				63C8BA552B56644600025422 /* CreateFeedCell.swift */,
 				63C8BA572B56659800025422 /* SurferCell.swift */,
+				63C20BEA2B56CEDB00911F64 /* AdvancedSettingsView.swift */,
+				63C20BEC2B56CFAF00911F64 /* AdvancedSettingsCell.swift */,
 			);
 			path = Notification;
 			sourceTree = "<group>";
@@ -792,9 +795,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				63E562112B5680940060E561 /* GoogleService-Info.plist in Resources */,
+				63C20BE82B56A12500911F64 /* GoogleService-Info.plist in Resources */,
 				41FD9A212B43D94A0028D38E /* .swiftlint.yml in Resources */,
 				41FD99FD2B43D5ED0028D38E /* Preview Assets.xcassets in Resources */,
+				63C20BE92B56A12500911F64 /* ApiKeys.xcconfig in Resources */,
 				63B564012B44656F00AEC5E7 /* countries.json in Resources */,
 				41FD99FA2B43D5ED0028D38E /* Assets.xcassets in Resources */,
 			);
@@ -850,6 +854,7 @@
 				635B094A2B4500CB009E60A9 /* User.swift in Sources */,
 				419741ED2B558F4A0055F2AB /* SocialGlobeView.swift in Sources */,
 				635B095C2B4510D1009E60A9 /* RequestsView.swift in Sources */,
+				63C20BEB2B56CEDC00911F64 /* AdvancedSettingsView.swift in Sources */,
 				649372F82B561A6F00BCDA71 /* FollowingCellView.swift in Sources */,
 				635B096E2B451127009E60A9 /* NotificationsButtonView.swift in Sources */,
 				635B09762B451127009E60A9 /* OtherView.swift in Sources */,
@@ -920,6 +925,7 @@
 				63C8BA4D2B56241200025422 /* TextAnimation.swift in Sources */,
 				63D2785E2B44650A0064A7F1 /* EnterNameView.swift in Sources */,
 				649372FE2B56665200BCDA71 /* FollowerUserCellView.swift in Sources */,
+				63C20BED2B56CFAF00911F64 /* AdvancedSettingsCell.swift in Sources */,
 				4197420F2B55900D0055F2AB /* MainView.swift in Sources */,
 				419741EF2B558F4A0055F2AB /* MyFeedHeaderView.swift in Sources */,
 				63D278602B44650A0064A7F1 /* EnterPhoneNumberView.swift in Sources */,
@@ -975,7 +981,7 @@
 /* Begin XCBuildConfiguration section */
 		41FD9A142B43D5EE0028D38E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 41E5F69F2B569B3B001750C2 /* ApiKeys.xcconfig */;
+			baseConfigurationReference = 63C20BE72B56A12500911F64 /* ApiKeys.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -1039,6 +1045,7 @@
 		};
 		41FD9A152B43D5EE0028D38E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63C20BE72B56A12500911F64 /* ApiKeys.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -1095,6 +1102,7 @@
 		};
 		41FD9A172B43D5EE0028D38E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63C20BE72B56A12500911F64 /* ApiKeys.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1132,6 +1140,7 @@
 		};
 		41FD9A182B43D5EE0028D38E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63C20BE72B56A12500911F64 /* ApiKeys.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1169,6 +1178,7 @@
 		};
 		41FD9A1A2B43D5EE0028D38E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63C20BE72B56A12500911F64 /* ApiKeys.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1189,6 +1199,7 @@
 		};
 		41FD9A1B2B43D5EE0028D38E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63C20BE72B56A12500911F64 /* ApiKeys.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1209,6 +1220,7 @@
 		};
 		41FD9A1D2B43D5EE0028D38E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63C20BE72B56A12500911F64 /* ApiKeys.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -1227,6 +1239,7 @@
 		};
 		41FD9A1E2B43D5EE0028D38E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63C20BE72B56A12500911F64 /* ApiKeys.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
