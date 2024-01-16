@@ -27,6 +27,10 @@
 		4197420E2B55900D0055F2AB /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419742072B55900D0055F2AB /* FeedCell.swift */; };
 		4197420F2B55900D0055F2AB /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419742082B55900D0055F2AB /* MainView.swift */; };
 		419742102B55900D0055F2AB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419742092B55900D0055F2AB /* ContentView.swift */; };
+		41E5F6952B56534A001750C2 /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E5F6942B56534A001750C2 /* CommentView.swift */; };
+		41E5F6982B56536D001750C2 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E5F6972B56536D001750C2 /* CommentCell.swift */; };
+		41E5F69A2B565409001750C2 /* FaceMojiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E5F6992B565409001750C2 /* FaceMojiView.swift */; };
+		41E5F69C2B5666D7001750C2 /* FaceMojiCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E5F69B2B5666D7001750C2 /* FaceMojiCell.swift */; };
 		41FD99F62B43D5EC0028D38E /* PADOApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FD99F52B43D5EC0028D38E /* PADOApp.swift */; };
 		41FD99FA2B43D5ED0028D38E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 41FD99F92B43D5ED0028D38E /* Assets.xcassets */; };
 		41FD99FD2B43D5ED0028D38E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 41FD99FC2B43D5ED0028D38E /* Preview Assets.xcassets */; };
@@ -133,6 +137,10 @@
 		419742072B55900D0055F2AB /* FeedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
 		419742082B55900D0055F2AB /* MainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		419742092B55900D0055F2AB /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		41E5F6942B56534A001750C2 /* CommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
+		41E5F6972B56536D001750C2 /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
+		41E5F6992B565409001750C2 /* FaceMojiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceMojiView.swift; sourceTree = "<group>"; };
+		41E5F69B2B5666D7001750C2 /* FaceMojiCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceMojiCell.swift; sourceTree = "<group>"; };
 		41FD99F22B43D5EC0028D38E /* PADO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PADO.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		41FD99F52B43D5EC0028D38E /* PADOApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PADOApp.swift; sourceTree = "<group>"; };
 		41FD99F92B43D5ED0028D38E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -279,6 +287,7 @@
 				419742082B55900D0055F2AB /* MainView.swift */,
 				419742092B55900D0055F2AB /* ContentView.swift */,
 				419742022B55900D0055F2AB /* Feed */,
+				41E5F6962B565352001750C2 /* Comment */,
 			);
 			path = MainView;
 			sourceTree = "<group>";
@@ -293,6 +302,17 @@
 				419742072B55900D0055F2AB /* FeedCell.swift */,
 			);
 			path = Feed;
+			sourceTree = "<group>";
+		};
+		41E5F6962B565352001750C2 /* Comment */ = {
+			isa = PBXGroup;
+			children = (
+				41E5F6942B56534A001750C2 /* CommentView.swift */,
+				41E5F6972B56536D001750C2 /* CommentCell.swift */,
+				41E5F6992B565409001750C2 /* FaceMojiView.swift */,
+				41E5F69B2B5666D7001750C2 /* FaceMojiCell.swift */,
+			);
+			path = Comment;
 			sourceTree = "<group>";
 		};
 		41FD99E92B43D5EC0028D38E = {
@@ -322,10 +342,10 @@
 			children = (
 				649372ED2B560E1F00BCDA71 /* ApiKeys.xcconfig */,
 				649372EF2B560E2A00BCDA71 /* GoogleService-Info.plist */,
-				64D0E7472B55053500060A73 /* iOS */,
 				412B3AA42B44F6EC00C2C7CD /* Info.plist */,
 				412B3AA32B44F67100C2C7CD /* PADO.entitlements */,
 				41FD99F52B43D5EC0028D38E /* PADOApp.swift */,
+				64D0E7472B55053500060A73 /* iOS */,
 				635B094D2B4510B1009E60A9 /* Items */,
 				635B095E2B4510D8009E60A9 /* LeftMenu */,
 				635B095F2B4510E8009E60A9 /* Extensions */,
@@ -700,6 +720,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41E5F6982B56536D001750C2 /* CommentCell.swift in Sources */,
 				64D0E74D2B5505C800060A73 /* CircularImageView.swift in Sources */,
 				649372F22B56103B00BCDA71 /* SocialNetWorkBarView.swift in Sources */,
 				649372F12B56102D00BCDA71 /* MyFeedContentView.swift in Sources */,
@@ -716,13 +737,16 @@
 				635B09792B451138009E60A9 /* ChevronButtonView.swift in Sources */,
 				419741F12B558F4A0055F2AB /* MyFeedView.swift in Sources */,
 				635B09482B4500AA009E60A9 /* AuthenticationViewModel.swift in Sources */,
+				41E5F69A2B565409001750C2 /* FaceMojiView.swift in Sources */,
 				B1A91D132B55928D00FE7F62 /* SettingToggleCell.swift in Sources */,
 				B1A91D172B55928D00FE7F62 /* SettingProfileView.swift in Sources */,
+				41E5F6952B56534A001750C2 /* CommentView.swift in Sources */,
 				649372F62B5612EE00BCDA71 /* FollowerView.swift in Sources */,
 				63824C432B558B2400D1D653 /* CodeView.swift in Sources */,
 				635B09592B4510D1009E60A9 /* LeftMenu.swift in Sources */,
 				63B563FD2B44655C00AEC5E7 /* Country.swift in Sources */,
 				B1A91D102B55928D00FE7F62 /* SettingNormalCell.swift in Sources */,
+				41E5F69C2B5666D7001750C2 /* FaceMojiCell.swift in Sources */,
 				635B09722B451127009E60A9 /* ContactUsView.swift in Sources */,
 				4197420B2B55900D0055F2AB /* Profile.swift in Sources */,
 				635B09572B4510D1009E60A9 /* SuggestionCellView.swift in Sources */,
