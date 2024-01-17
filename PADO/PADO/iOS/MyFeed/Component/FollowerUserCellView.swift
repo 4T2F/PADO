@@ -44,6 +44,7 @@ struct FollowerUserCellView: View {
                         .padding()
                         .foregroundStyle(.black)
                         .background(.white)
+                        .frame(height: 30)
                 }
                 .offset(x: 8)
                 
@@ -54,10 +55,12 @@ struct FollowerUserCellView: View {
                         .padding()
                         .foregroundColor(.white)
                         .background(.red)
+                        .frame(height: 30)
                 }
             }
             
         } //: HSTACK
+        .contentShape(Rectangle())
         .gesture(
             DragGesture()
                 .onChanged({ value in
