@@ -18,7 +18,7 @@ struct FeedView: View {
     
     var body: some View {
         ZStack {
-            Color.black
+            Color.mainBackground
                 .ignoresSafeArea()
             
             ZStack {
