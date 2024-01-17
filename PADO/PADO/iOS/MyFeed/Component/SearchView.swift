@@ -25,6 +25,7 @@ struct SearchView: View {
                         self.searchText = ""
                     }) {
                         Image(systemName: "xmark.circle.fill")
+                            .foregroundStyle(.grayButton)
                     }
                 } else {
                     EmptyView()
