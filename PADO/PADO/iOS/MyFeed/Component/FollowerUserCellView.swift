@@ -38,7 +38,9 @@ struct FollowerUserCellView: View {
             
             if transitions {
                 Button {
-                    transitions = false
+                    withAnimation(.easeIn(duration: 0.5)) {
+                        transitions = false
+                    }
                 } label: {
                     Text(sufferset.rawValue)
                         .padding()
@@ -49,7 +51,9 @@ struct FollowerUserCellView: View {
                 .offset(x: 8)
                 
                 Button {
-                    transitions = false
+                    withAnimation(.easeIn(duration: 0.5)) {
+                        transitions = false
+                    }
                 } label: {
                     Text("삭제")
                         .padding()
@@ -66,12 +70,16 @@ struct FollowerUserCellView: View {
             DragGesture()
                 .onChanged({ value in
                     if value.translation.width < 0 { // 왼쪽으로 스와이프하는 경우에만
-                        transitions = true
+                        withAnimation(.easeIn(duration: 0.5)) {
+                            transitions = true
+                        }
                     }
                 })
         )
         .onTapGesture {
-            transitions = false
+            withAnimation(.easeIn(duration: 0.5)) {
+                transitions = false
+            }
         }
     }
 }

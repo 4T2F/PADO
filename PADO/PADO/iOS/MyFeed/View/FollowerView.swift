@@ -37,6 +37,7 @@ struct FollowerView: View {
                 .padding(.horizontal)
                 
                 Spacer()
+                
                 VStack {
                     SearchView(searchText: $searchText)
                         .padding()
