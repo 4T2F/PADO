@@ -13,7 +13,6 @@ class AuthenticationViewModel: ObservableObject {
     
     @Published var name = ""
     @Published var year = Year(day: "", month: "", year: "")
-    @Published var country: Country = Country(isoCode: "KR")
     @Published var phoneNumber = ""
     
     @Published var otpText = ""
@@ -63,7 +62,7 @@ class AuthenticationViewModel: ObservableObject {
         
         do {
             isLoading = true
-            let result = try await PhoneAuthProvider.provider().verifyPhoneNumber("+\(country.phoneCode)\(phoneNumber)", uiDelegate: nil) // 사용한 가능한 번호인지
+            let result = try await PhoneAuthProvider.provider().verifyPhoneNumber("+82\(phoneNumber)", uiDelegate: nil) // 사용한 가능한 번호인지
             verificationCode = result
             navigationTag = "VERIFICATION"
             isLoading = false
@@ -120,7 +119,7 @@ class AuthenticationViewModel: ObservableObject {
                 "name": name,
                 "date": year.date,
                 "id": uid,
-                "phoneNumber": "+\(country.phoneCode)\(phoneNumber)"
+                "phoneNumber": "+82\(phoneNumber)"
             ]
             
             try await Firestore.firestore().collection("users").document(uid).setData(userData)

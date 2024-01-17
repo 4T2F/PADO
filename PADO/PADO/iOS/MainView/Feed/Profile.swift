@@ -148,7 +148,7 @@ struct Profile: View {
                                 SettingsView()
                                     .navigationBarBackButtonHidden()
                             } label: {
-                                ThreeDots(size: 4, color: .white)
+//                                ThreeDots(size: 4, color: .white)
                             }
                             
                         }

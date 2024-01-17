@@ -42,7 +42,7 @@ struct EnterCodeView: View {
                 VStack {
                     VStack {
                         VStack(alignment: .center, spacing: 8) {
-                            Text("+\(viewModel.country.phoneCode) \(viewModel.phoneNumber)로 인증 번호를 보냈어요")
+                            Text("+82 \(viewModel.phoneNumber)로 인증 번호를 보냈어요")
                                 .foregroundStyle(.white)
                                 .fontWeight(.heavy)
                                 .font(.system(size: 16))
@@ -75,7 +75,7 @@ struct EnterCodeView: View {
                                         }
                                     } else {
                                         Task {
-                                            await viewModel.fetchUIDByPhoneNumber(phoneNumber: "+\(viewModel.country.phoneCode)\(viewModel.phoneNumber)")
+                                            await viewModel.fetchUIDByPhoneNumber(phoneNumber: "+82\(viewModel.phoneNumber)")
                                             await viewModel.fetchUser()
                                         }
                                     }
