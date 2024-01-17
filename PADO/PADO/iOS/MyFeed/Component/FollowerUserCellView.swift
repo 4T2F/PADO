@@ -44,6 +44,7 @@ struct FollowerUserCellView: View {
                         .padding()
                         .foregroundStyle(.black)
                         .background(.white)
+                        .frame(height: 30)
                 }
                 .offset(x: 8)
                 
@@ -54,14 +55,19 @@ struct FollowerUserCellView: View {
                         .padding()
                         .foregroundColor(.white)
                         .background(.red)
+                        .frame(height: 30)
                 }
             }
             
         } //: HSTACK
+        // contentShape 를 사용해서 H스택 전체적인 부분에 대해 패딩을 줌
+        .contentShape(Rectangle())
         .gesture(
             DragGesture()
                 .onChanged({ value in
-                    transitions = true
+                    if value.translation.width < 0 { // 왼쪽으로 스와이프하는 경우에만
+                        transitions = true
+                    }
                 })
         )
         .onTapGesture {

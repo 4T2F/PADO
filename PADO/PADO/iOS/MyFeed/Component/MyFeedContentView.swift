@@ -34,40 +34,40 @@ struct MyFeedContentView: View {
     
     // MARK: - BODY
     var body: some View {
-        VStack {
-            HStack {
-                ForEach(MyFeedFilter.allCases) { filter in
-                    VStack {
-                        Image(systemName: filter.title)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 35, height: 22)
-                            .fontWeight(selectedFilter == filter ? .bold : .regular)
-                            .foregroundStyle(selectedFilter == filter ? .white : .grayButton)
-                            .padding(.horizontal, 50)
-                            .padding(.vertical)
+        ScrollView(.vertical) {
+            VStack {
+                HStack {
+                    ForEach(MyFeedFilter.allCases) { filter in
+                        VStack {
+                            Image(systemName: filter.title)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 35, height: 22)
+                                .fontWeight(selectedFilter == filter ? .bold : .regular)
+                                .foregroundStyle(selectedFilter == filter ? .white : .grayButton)
+                                .padding(.horizontal, 50)
+                                .padding(.vertical)
+                            
+                            if selectedFilter == filter {
+                                Rectangle()
+                                    .foregroundStyle(.white)
+                                    .frame(width: filterBarWidth, height: 1)
+                                    .matchedGeometryEffect(id: "itme", in: animation)
+                            } else {
+                                Rectangle()
+                                    .foregroundStyle(.clear)
+                                    .frame(width: filterBarWidth, height: 1)
+                            }
+                        } //: VSTACK
+                        .onTapGesture {
+                            withAnimation(.spring()) {
+                                selectedFilter = filter
+                            }
+                        }
                         
-                        if selectedFilter == filter {
-                            Rectangle()
-                                .foregroundStyle(.white)
-                                .frame(width: filterBarWidth, height: 1)
-                                .matchedGeometryEffect(id: "itme", in: animation)
-                        } else {
-                            Rectangle()
-                                .foregroundStyle(.clear)
-                                .frame(width: filterBarWidth, height: 1)
-                        }
-                    } //: VSTACK
-                    .onTapGesture {
-                        withAnimation(.spring()) {
-                            selectedFilter = filter
-                        }
-                    }
-                    
-                } // LOOP
-            } //: HSTACK
-            
-            ScrollView(.vertical) {
+                    } // LOOP
+                } //: HSTACK
+                
                 LazyVGrid(columns: columns) {
                     ForEach(1...10, id: \.self) { _ in
                         ZStack(alignment: .leading) {
@@ -87,8 +87,8 @@ struct MyFeedContentView: View {
                         } //: ZSTACK
                     } //: LOOP
                 } // GRID
-            } //: SCROLL
-        } //: VSTACK
+            } //: VSTACK
+        } //: SCROLL
     }
 }
 

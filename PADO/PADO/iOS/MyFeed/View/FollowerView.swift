@@ -41,32 +41,31 @@ struct FollowerView: View {
                     SearchView(searchText: $searchText)
                         .padding()
                     
-                    HStack{
-                        Text("내 서퍼")
-                            .font(.system(size: 14, weight: .semibold))
-                            .padding()
-                        Spacer()
-                    } //: HSTACK
-                    
-                    ForEach(1...2, id: \.self) { _ in
-                        FollowerUserCellView(sufferset: .removesuffer)
-                            .padding(.vertical)
-                    }
-                    
-                    HStack{
-                        Text("팔로워")
-                            .font(.system(size: 14, weight: .semibold))
-                        Spacer()
-                    } //: HSTACK
-                    .padding(.horizontal)
-                    
                     ScrollView(.vertical) {
+                        HStack{
+                            Text("내 서퍼")
+                                .font(.system(size: 14, weight: .semibold))
+                                .padding()
+                            Spacer()
+                        } //: HSTACK
+                        
+                        ForEach(1...2, id: \.self) { _ in
+                            FollowerUserCellView(sufferset: .removesuffer)
+                                .padding(.vertical)
+                        }
+                        
+                        HStack{
+                            Text("팔로워")
+                                .font(.system(size: 14, weight: .semibold))
+                            Spacer()
+                        } //: HSTACK
+                        .padding(.horizontal)
+                        
                         ForEach(1...10, id: \.self) { _ in
                             FollowerUserCellView(sufferset: .setsuffer)
                                 .padding(.vertical)
                         }
-                    }
-                    
+                    } //: SCROLL
                 } //: VSTACK
             } //: VSTACK
         } //: ZSTACK
