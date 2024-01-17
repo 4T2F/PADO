@@ -20,7 +20,6 @@ struct MyFeedView: View {
                 MyFeedHeaderView()
                 
                 MyFeedContentView()
-                
             } //: VSTACK
         } //: ZSTACK
     }
