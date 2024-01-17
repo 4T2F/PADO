@@ -9,80 +9,97 @@ import SwiftUI
 
 struct CodeView: View {
     
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     @Environment(\.dismiss) var dismiss
     
-    @State private var otpText = ""
     @State private var buttonActive: Bool = true
-    @State private var showUseID: Bool = false
+    @State private var otpVerificationFailed = false
     
     var body: some View {
-        ZStack {
-            Color.mainBackground.ignoresSafeArea()
-            
-            VStack {
-                ZStack {
-                    Text("PADO")
-                        .font(.system(size: 22))
-                        .fontWeight(.bold)
-                    
-                    HStack {
-                        Button {
-                            dismiss()
-                        } label: {
-                            Image(systemName: "arrow.backward")
-                                .foregroundStyle(.white)
-                                .font(.system(size: 22))
-                        }
+        NavigationStack {
+            ZStack {
+                Color.mainBackground.ignoresSafeArea()
+                
+                VStack {
+                    ZStack {
+                        Text("PADO")
+                            .font(.system(size: 22))
+                            .fontWeight(.bold)
                         
-                        Spacer()
+                        HStack {
+                            Button {
+                                viewModel.otpText = ""
+                                viewModel.showUseID = false
+                                dismiss()
+                            } label: {
+                                Image(systemName: "arrow.backward")
+                                    .foregroundStyle(.white)
+                                    .font(.system(size: 22))
+                            }
+                            
+                            Spacer()
+                        }
                     }
+                    .padding(.horizontal)
+                    
+                    Spacer()
                 }
-                .padding(.horizontal)
                 
-                Spacer()
-            }
-            
-            VStack(alignment: .leading) {
-                // 휴대폰 번호 받아와야함
-                Text("010-1111-1111 로 인증번호를 보냈어요")
-                    .font(.system(size: 20))
-                    .fontWeight(.medium)
-                    .padding(.horizontal, 20)
-                
-                VStack(alignment: .leading, spacing: 20) {
-                    VerificationView(otpText: $otpText)
-                        .keyboardType(.numberPad)
-                        .padding(.horizontal)
-                    // 인증 번호 틀렸을 때 나오게 하는 로직 추가 해야함
-                    Text("인증 번호가 틀렸습니다")
-                        .font(.system(size: 14))
-                        .fontWeight(.semibold)
-                        .foregroundStyle(.red)
+                VStack(alignment: .leading) {
+                    // 휴대폰 번호 받아와야함
+                    Text("\(viewModel.phoneNumber) 로 인증번호를 보냈어요")
+                        .font(.system(size: 20))
+                        .fontWeight(.medium)
                         .padding(.horizontal, 20)
+                    
+                    VStack(alignment: .leading, spacing: 20) {
+                        VerificationView(otpText: $viewModel.otpText)
+                            .keyboardType(.numberPad)
+                            .padding(.horizontal)
+                        
+                        if otpVerificationFailed {
+                            Text("인증 번호가 틀렸습니다")
+                                .font(.system(size: 14))
+                                .fontWeight(.semibold)
+                                .foregroundStyle(.red)
+                                .padding(.horizontal, 20)
+                        }
+                    }
+                    
+                    Spacer()
+                    
+                    Button {
+                        Task {
+                            let verificationResult = await viewModel.verifyOtp()
+                            if verificationResult {
+                                await viewModel.checkPhoneNumberExists(phoneNumber: "+82\(viewModel.phoneNumber)")
+                            } else {
+                                otpVerificationFailed = true
+                            }
+
+                        }
+                        // 다음 뷰로 넘어가는 네비게이션 링크 추가 해야함
+                    } label: {
+                        WhiteButtonView(buttonActive: $buttonActive, text: "다음")
+                        // true 일 때 버튼 변하게 하는 onChange 로직 추가해야함
+                    }
+                    .padding(.bottom)
                 }
+                .padding(.top, 150)
+                .sheet(isPresented: $viewModel.showUseID, content: {
+                    UseIDModalView()
+                        .presentationDetents([.height(250)])
+                        .presentationCornerRadius(30)
+                })
+                .interactiveDismissDisabled(viewModel.showUseID)
                 
-                Spacer()
-                
-                Button {
-                    // 다음 뷰로 넘어가는 네비게이션 링크 추가 해야함
-                    showUseID.toggle() // 중복된 번호 일 경우 토글 true 처리 되면서 sheet 올라오게함
-                } label: {
-                    WhiteButtonView(buttonActive: $buttonActive, text: "다음")
-                    // true 일 때 버튼 변하게 하는 onChange 로직 추가해야함
-                }
-                .padding(.bottom)
             }
-            .padding(.top, 150)
-            .sheet(isPresented: $showUseID, content: {
-                UseIDModalView()
-                    .presentationDetents([.height(250)])
-                    .presentationCornerRadius(30)
-            })
-            
         }
+        .navigationBarBackButtonHidden(true)
+    
     }
 }
 
-#Preview {
-    CodeView()
-}
+//#Preview {
+//    CodeView()
+//}

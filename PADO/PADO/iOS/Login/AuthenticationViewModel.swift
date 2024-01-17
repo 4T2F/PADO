@@ -17,7 +17,7 @@ class AuthenticationViewModel: ObservableObject {
     
     @Published var otpText = ""
     
-    @Published var navigationTag: String?
+    @Published var showUseID: Bool = false
     
     @Published var isLoading: Bool = false
     @Published var verificationCode: String = ""
@@ -36,26 +36,6 @@ class AuthenticationViewModel: ObservableObject {
     }
     
     // MARK: - 인증 관련
-    func checkPhoneNumberExists(phoneNumber: String) async {
-        // 전화번호 중복 확인
-        let userDB = Firestore.firestore().collection("users")
-        let query = userDB.whereField("phoneNumber", isEqualTo: phoneNumber)
-        
-        do {
-            let querySnapshot = try await query.getDocuments()
-            print("documets: \(querySnapshot.documents)")
-            if !querySnapshot.documents.isEmpty {
-                isExisted = false
-            } else {
-                isExisted = true
-            }
-            await sendOtp()
-            
-        } catch {
-            print("Error: \(error)")
-        }
-    }
-    
     func sendOtp() async {
         // OTP 발송
         guard !isLoading else { return }
@@ -64,51 +44,30 @@ class AuthenticationViewModel: ObservableObject {
             isLoading = true
             let result = try await PhoneAuthProvider.provider().verifyPhoneNumber("+82\(phoneNumber)", uiDelegate: nil) // 사용한 가능한 번호인지
             verificationCode = result
-            navigationTag = "VERIFICATION"
             isLoading = false
         } catch {
             handleError(error: error)
         }
     }
     
-    func verifyOtp() async {
-        // OTP 검증
-        guard !otpText.isEmpty else { return }
+    func verifyOtp() async -> Bool {
+        // Otp 검증
+        guard !otpText.isEmpty else { return false }
         isLoading = true
         do {
-            let result = try await signInWithCredential()
-            await saveUserData(result.user)
+            let _ = try await signInWithCredential()
+            isLoading = false
+            return true
         } catch {
             handleError(error: error)
+            isLoading = false
+            return false        
         }
-        isLoading = false
     }
     
-    // MARK: - 사용자 데이터 관리
-    func initializeUser() async {
-        // 사용자 초기화
-        guard !userID.isEmpty else { return }
-        await fetchUser()
-    }
-    
-    func fetchUser() async {
-        // 사용자 데이터 불러오기
-        guard !userID.isEmpty else { return }
-        
-        do {
-            let snapshot = try await Firestore.firestore().collection("users").document(userID).getDocument()
-            print("UserID: \(userID)")
-            print("Snapshot: \(String(describing: snapshot.data()))")
-            
-            guard let user = try? snapshot.data(as: User.self) else {
-                print("Error: User data could not be decoded")
-                return
-            }
-            self.currentUser = user
-            print("Current User: \(String(describing: currentUser))")
-        } catch {
-            print("Error fetching user: \(error)")
-        }
+    private func signInWithCredential() async throws -> AuthDataResult {
+        let credential = PhoneAuthProvider.provider().credential(withVerificationID: verificationCode, verificationCode: otpText)
+        return try await Auth.auth().signIn(with: credential)
     }
     
     func saveUserData(_ user: Firebase.User? = nil, data: [String: Any]? = nil) async {
@@ -132,10 +91,58 @@ class AuthenticationViewModel: ObservableObject {
         }
     }
     
-    private func signInWithCredential() async throws -> AuthDataResult {
-        let credential = PhoneAuthProvider.provider().credential(withVerificationID: verificationCode, verificationCode: otpText)
-        return try await Auth.auth().signIn(with: credential)
+    func fetchUser() async {
+        // 사용자 데이터 불러오기
+        guard !userID.isEmpty else { return }
+        
+        do {
+            let snapshot = try await Firestore.firestore().collection("users").document(userID).getDocument()
+            print("UserID: \(userID)")
+            print("Snapshot: \(String(describing: snapshot.data()))")
+            
+            guard let user = try? snapshot.data(as: User.self) else {
+                print("Error: User data could not be decoded")
+                return
+            }
+            self.currentUser = user
+            print("Current User: \(String(describing: currentUser))")
+        } catch {
+            print("Error fetching user: \(error)")
+        }
     }
+    
+    
+    func checkPhoneNumberExists(phoneNumber: String) async {
+        // 전화번호 중복 확인
+        let userDB = Firestore.firestore().collection("users")
+        let query = userDB.whereField("phoneNumber", isEqualTo: phoneNumber)
+        
+        do {
+            let querySnapshot = try await query.getDocuments()
+            print("documets: \(querySnapshot.documents)")
+            if !querySnapshot.documents.isEmpty {
+                showUseID.toggle()
+            }
+        } catch {
+            print("Error: \(error)")
+        }
+    }
+    
+
+    
+  
+    
+    // MARK: - 사용자 데이터 관리
+    func initializeUser() async {
+        // 사용자 초기화
+        guard !userID.isEmpty else { return }
+        await fetchUser()
+    }
+    
+
+  
+    
+
     
     func signOut() {
         do {

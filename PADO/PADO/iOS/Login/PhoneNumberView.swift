@@ -27,8 +27,8 @@ struct PhoneNumberView: View {
                         
                         HStack {
                             Button {
+                                viewModel.phoneNumber = ""
                                 dismiss()
-                                
                             } label: {
                                 Image(systemName: "arrow.backward")
                                     .foregroundStyle(.white)
@@ -66,13 +66,16 @@ struct PhoneNumberView: View {
                     .padding(.horizontal)
                     
                     Spacer()
-                    
-                    Button {
-                        // 다음 뷰로 넘어가는 네비게이션 링크 추가 해야함
-                    } label: {
+                    NavigationLink(destination: CodeView()) {
                         WhiteButtonView(buttonActive: $buttonActive, text: "인증 번호 전송")
-                        // true 일 때 버튼 변하게 하는 onChange 로직 추가해야함
                     }
+                    .simultaneousGesture(TapGesture().onEnded {
+                        if buttonActive {
+                            Task {
+                                await viewModel.sendOtp()
+                            }
+                        }
+                    })
                     .padding(.bottom)
                     
                 }
