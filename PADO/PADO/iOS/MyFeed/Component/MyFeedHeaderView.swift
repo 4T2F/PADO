@@ -40,34 +40,37 @@ struct MyFeedHeaderView: View {
             .padding()
             
             
-            ZStack {
+            ZStack(alignment: .bottomTrailing) {
                 CircularImageView(size: .xxLarge)
                 
                 // 버튼버전이랑 view버전(SocialGlobeView) 두개 만들어놨어요 쓰고싶은거 쓰세요
                 if showingGlobeView {
                     Button {
-                        displayBar.toggle()
+                        withAnimation() {
+                            displayBar.toggle()
+                        }
                     } label: {
                         Image(systemName: "globe")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 36, height: 36)
+                            .frame(width: 30, height: 30)
                             .foregroundStyle(.white)
                             .padding()
                             .background(
                                 Circle()
                                     .foregroundStyle(Color.black)
                             )
-                            .offset(x: 50, y: 50)
                     }
+                    .padding(-20)
+                }
+                
+                if displayBar {
+                    SocialNetWorkBarView()
+                        .transition(.opacity) // 여기서 원하는 트랜지션을 적용할 수 있습니다.
+                        .padding(.horizontal, -70)
+                        .padding(.bottom, -30)
                 }
             } //: ZSTACK
-            .overlay(
-                displayBar ? 
-                SocialNetWorkBarView()
-                    .offset(x: 80, y: 50)
-                : nil
-            )
             
             Text(userNickName)
                 .font(.system(size: 16, weight: .semibold))
