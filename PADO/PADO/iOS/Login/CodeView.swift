@@ -12,6 +12,7 @@ struct CodeView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
     @Environment(\.dismiss) var dismiss
     
+    @State private var showUseID: Bool = false
     @State private var buttonActive: Bool = true
     @State private var otpVerificationFailed = false
     
@@ -29,7 +30,7 @@ struct CodeView: View {
                         HStack {
                             Button {
                                 viewModel.otpText = ""
-                                viewModel.showUseID = false
+                                showUseID = false
                                 dismiss()
                             } label: {
                                 Image(systemName: "arrow.backward")
@@ -68,30 +69,35 @@ struct CodeView: View {
                     
                     Spacer()
                     
+                    
                     Button {
                         Task {
                             let verificationResult = await viewModel.verifyOtp()
                             if verificationResult {
-                                await viewModel.checkPhoneNumberExists(phoneNumber: "+82\(viewModel.phoneNumber)")
+                                let isUserExisted = await viewModel.checkPhoneNumberExists(phoneNumber: "+82\(viewModel.phoneNumber)")
+                                if !isUserExisted {
+                                    showUseID.toggle()
+                                } else {
+                                    // IdView로 이동
+                                }
                             } else {
                                 otpVerificationFailed = true
                             }
-
                         }
-                        // 다음 뷰로 넘어가는 네비게이션 링크 추가 해야함
                     } label: {
-                        WhiteButtonView(buttonActive: $buttonActive, text: "다음")
+                            WhiteButtonView(buttonActive: $buttonActive, text: "다음")
+
                         // true 일 때 버튼 변하게 하는 onChange 로직 추가해야함
                     }
                     .padding(.bottom)
                 }
                 .padding(.top, 150)
-                .sheet(isPresented: $viewModel.showUseID, content: {
+                .sheet(isPresented: $showUseID, content: {
                     UseIDModalView()
                         .presentationDetents([.height(250)])
                         .presentationCornerRadius(30)
                 })
-                .interactiveDismissDisabled(viewModel.showUseID)
+                .interactiveDismissDisabled(showUseID)
                 
             }
         }

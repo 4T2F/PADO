@@ -17,8 +17,6 @@ class AuthenticationViewModel: ObservableObject {
     
     @Published var otpText = ""
     
-    @Published var showUseID: Bool = false
-    
     @Published var isLoading: Bool = false
     @Published var verificationCode: String = ""
     
@@ -112,25 +110,26 @@ class AuthenticationViewModel: ObservableObject {
     }
     
     
-    func checkPhoneNumberExists(phoneNumber: String) async {
-        // 전화번호 중복 확인
-        let userDB = Firestore.firestore().collection("users")
-        let query = userDB.whereField("phoneNumber", isEqualTo: phoneNumber)
-        
-        do {
-            let querySnapshot = try await query.getDocuments()
-            print("documets: \(querySnapshot.documents)")
-            if !querySnapshot.documents.isEmpty {
-                showUseID.toggle()
-            }
-        } catch {
-            print("Error: \(error)")
-        }
-    }
-    
+    func checkPhoneNumberExists(phoneNumber: String) async  -> Bool{
+          // 전화번호 중복 확인
+          let userDB = Firestore.firestore().collection("users")
+          let query = userDB.whereField("phoneNumber", isEqualTo: phoneNumber)
+          
+          do {
+              let querySnapshot = try await query.getDocuments()
+              print("documets: \(querySnapshot.documents)")
+              if !querySnapshot.documents.isEmpty {
+                  return true
+              } else {
+                  return false
+              }
+          } catch {
+              print("Error: \(error)")
+              return false
+          }
+      }
 
-    
-  
+
     
     // MARK: - 사용자 데이터 관리
     func initializeUser() async {
@@ -139,10 +138,6 @@ class AuthenticationViewModel: ObservableObject {
         await fetchUser()
     }
     
-
-  
-    
-
     
     func signOut() {
         do {

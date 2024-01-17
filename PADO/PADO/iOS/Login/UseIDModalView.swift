@@ -11,7 +11,9 @@ struct UseIDModalView: View {
     
     @State private var buttonActive: Bool = true
     
-    @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var viewModel: AuthenticationViewModel
+    
+//    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         
@@ -34,7 +36,9 @@ struct UseIDModalView: View {
                 
                 VStack(spacing: 20) {
                     Button {
-                        // PhoneNumberView 이동
+                        Task {
+                            await viewModel.fetchUser()
+                        }
                     } label: {
                         ModalWhiteButton(buttonActive: $buttonActive, text: "로그인 하기")
                     }
