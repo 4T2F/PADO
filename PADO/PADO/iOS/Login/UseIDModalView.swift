@@ -16,7 +16,6 @@ struct UseIDModalView: View {
 //    @Environment(\.dismiss) var dismiss
     
     var body: some View {
-        
         ZStack {
             Color.modal.ignoresSafeArea()
             VStack(alignment: .leading, spacing: 15, content: {
@@ -37,6 +36,7 @@ struct UseIDModalView: View {
                 VStack(spacing: 20) {
                     Button {
                         Task {
+                            await viewModel.fetchUIDByPhoneNumber(phoneNumber: "+82\(viewModel.phoneNumber)")
                             await viewModel.fetchUser()
                         }
                     } label: {

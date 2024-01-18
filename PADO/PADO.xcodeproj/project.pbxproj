@@ -96,7 +96,6 @@
 		63D2785E2B44650A0064A7F1 /* EnterNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D278582B44650A0064A7F1 /* EnterNameView.swift */; };
 		63D2785F2B44650A0064A7F1 /* MainAuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D278592B44650A0064A7F1 /* MainAuthenticationView.swift */; };
 		63D278602B44650A0064A7F1 /* EnterPhoneNumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D2785A2B44650A0064A7F1 /* EnterPhoneNumberView.swift */; };
-		63D278612B44650A0064A7F1 /* EnterCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D2785B2B44650A0064A7F1 /* EnterCodeView.swift */; };
 		649372F12B56102D00BCDA71 /* MyFeedContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419741E72B558F4A0055F2AB /* MyFeedContentView.swift */; };
 		649372F22B56103B00BCDA71 /* SocialNetWorkBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419741E92B558F4A0055F2AB /* SocialNetWorkBarView.swift */; };
 		649372F42B5612E700BCDA71 /* FollowingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649372F32B5612E700BCDA71 /* FollowingView.swift */; };
@@ -236,7 +235,6 @@
 		63D278582B44650A0064A7F1 /* EnterNameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterNameView.swift; sourceTree = "<group>"; };
 		63D278592B44650A0064A7F1 /* MainAuthenticationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainAuthenticationView.swift; sourceTree = "<group>"; };
 		63D2785A2B44650A0064A7F1 /* EnterPhoneNumberView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterPhoneNumberView.swift; sourceTree = "<group>"; };
-		63D2785B2B44650A0064A7F1 /* EnterCodeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterCodeView.swift; sourceTree = "<group>"; };
 		649372F32B5612E700BCDA71 /* FollowingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingView.swift; sourceTree = "<group>"; };
 		649372F52B5612EE00BCDA71 /* FollowerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerView.swift; sourceTree = "<group>"; };
 		649372F72B561A6F00BCDA71 /* FollowingCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingCellView.swift; sourceTree = "<group>"; };
@@ -572,7 +570,6 @@
 				63D278572B44650A0064A7F1 /* EnterAgeView.swift */,
 				63D278562B44650A0064A7F1 /* SelectCountryView.swift */,
 				63D2785A2B44650A0064A7F1 /* EnterPhoneNumberView.swift */,
-				63D2785B2B44650A0064A7F1 /* EnterCodeView.swift */,
 				63D278592B44650A0064A7F1 /* MainAuthenticationView.swift */,
 				63B563FC2B44655C00AEC5E7 /* Country.swift */,
 				63B563FE2B44656600AEC5E7 /* Year.swift */,
@@ -940,7 +937,6 @@
 				63D2785C2B44650A0064A7F1 /* SelectCountryView.swift in Sources */,
 				B1A91D112B55928D00FE7F62 /* SettingNotificationView.swift in Sources */,
 				63C8BA562B56644600025422 /* CreateFeedCell.swift in Sources */,
-				63D278612B44650A0064A7F1 /* EnterCodeView.swift in Sources */,
 				B1A91D162B55928D00FE7F62 /* SettingInfoView.swift in Sources */,
 				63824C442B558B2400D1D653 /* PhoneNumberView.swift in Sources */,
 				B1D7CDE92B5669200090544B /* SettingRedCell.swift in Sources */,
@@ -1140,12 +1136,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PADO/PADO.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PADO/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = UAG934M4Q7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PADO/Info.plist;
@@ -1163,7 +1157,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.4T2F.PADO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "PADO Debug";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1178,12 +1171,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PADO/PADO.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PADO/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = UAG934M4Q7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PADO/Info.plist;
@@ -1201,7 +1192,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.4T2F.PADO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "PADO Debug";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

@@ -80,37 +80,17 @@ class AuthenticationViewModel: ObservableObject {
             ]
             
             try await Firestore.firestore().collection("users").document(uid).setData(userData)
-            
-            if let user = user {
-                currentUser = User(name: name, date: year.date)
-            }
+        
+            currentUser = User(name: name, date: year.date)
+
         } catch {
             print("Error saving user data: \(error.localizedDescription)")
         }
     }
     
-    func fetchUser() async {
-        // 사용자 데이터 불러오기
-        guard !userID.isEmpty else { return }
-        
-        do {
-            let snapshot = try await Firestore.firestore().collection("users").document(userID).getDocument()
-            print("UserID: \(userID)")
-            print("Snapshot: \(String(describing: snapshot.data()))")
-            
-            guard let user = try? snapshot.data(as: User.self) else {
-                print("Error: User data could not be decoded")
-                return
-            }
-            self.currentUser = user
-            print("Current User: \(String(describing: currentUser))")
-        } catch {
-            print("Error fetching user: \(error)")
-        }
-    }
-    
-    
-    func checkPhoneNumberExists(phoneNumber: String) async  -> Bool{
+   
+   
+    func checkPhoneNumberExists(phoneNumber: String) async  -> Bool {
           // 전화번호 중복 확인
           let userDB = Firestore.firestore().collection("users")
           let query = userDB.whereField("phoneNumber", isEqualTo: phoneNumber)
@@ -129,7 +109,6 @@ class AuthenticationViewModel: ObservableObject {
           }
       }
 
-
     
     // MARK: - 사용자 데이터 관리
     func initializeUser() async {
@@ -137,7 +116,6 @@ class AuthenticationViewModel: ObservableObject {
         guard !userID.isEmpty else { return }
         await fetchUser()
     }
-    
     
     func signOut() {
         do {
@@ -170,8 +148,29 @@ class AuthenticationViewModel: ObservableObject {
             for document in querySnapshot.documents {
                 self.userID = document.documentID
             }
+            
         } catch {
             print("Error fetching user by phone number: (error)")
+        }
+    }
+    
+    func fetchUser() async {
+        // 사용자 데이터 불러오기
+        guard !userID.isEmpty else { return }
+        
+        do {
+            let snapshot = try await Firestore.firestore().collection("users").document(userID).getDocument()
+            print("UserID: \(userID)")
+            print("Snapshot: \(String(describing: snapshot.data()))")
+            
+            guard let user = try? snapshot.data(as: User.self) else {
+                print("Error: User data could not be decoded")
+                return
+            }
+            self.currentUser = user
+            print("Current User: \(String(describing: currentUser))")
+        } catch {
+            print("Error fetching user: \(error)")
         }
     }
     

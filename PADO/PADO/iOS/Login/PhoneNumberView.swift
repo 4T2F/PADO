@@ -16,71 +16,70 @@ struct PhoneNumberView: View {
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
-        NavigationStack {
-            ZStack {
-                Color.mainBackground.ignoresSafeArea()
-                VStack {
-                    ZStack {
-                        Text("PADO")
-                            .font(.system(size: 22))
-                            .fontWeight(.bold)
-                        
-                        HStack {
-                            Button {
-                                viewModel.phoneNumber = ""
-                                dismiss()
-                            } label: {
-                                Image(systemName: "arrow.backward")
-                                    .foregroundStyle(.white)
-                                    .font(.system(size: 22))
-                            }
-                            
-                            Spacer()
-                        }
-                    }
-                    .padding(.horizontal)
+        
+        ZStack {
+            Color.mainBackground.ignoresSafeArea()
+            VStack {
+                ZStack {
+                    Text("PADO")
+                        .font(.system(size: 22))
+                        .fontWeight(.bold)
                     
-                    Spacer()
+                    HStack {
+                        Button {
+                            viewModel.phoneNumber = ""
+                            dismiss()
+                        } label: {
+                            Image(systemName: "arrow.backward")
+                                .foregroundStyle(.white)
+                                .font(.system(size: 22))
+                        }
+                        
+                        Spacer()
+                    }
                 }
+                .padding(.horizontal)
                 
-                VStack(alignment: .leading) {
-                    Text("휴대폰 번호")
-                        .font(.system(size: 20))
-                        .fontWeight(.medium)
-                        .padding(.horizontal)
-                    
-                    VStack(alignment: .leading, spacing: 20) {
-                        CustomTF(hint: "휴대폰 번호를 입력해주세요", value: $viewModel.phoneNumber)
-                            .onChange(of: viewModel.phoneNumber) { newValue, _ in
-                                let formattedNumber = tfFormat.formatPhoneNumber(newValue)
-                                viewModel.phoneNumber = formattedNumber
-                                buttonActive = formattedNumber.count == 12 || formattedNumber.count == 13
-                            }
-                            .tint(.white)
-                            .keyboardType(.numberPad)
-                        
-                        Text("Thank you for Signing up the PADO")
-                            .font(.system(size: 14))
-                            .fontWeight(.semibold)
-                    }
-                    .padding(.horizontal)
-                    
-                    Spacer()
-                    NavigationLink(destination: CodeView()) {
-                        WhiteButtonView(buttonActive: $buttonActive, text: "인증 번호 전송")
-                    }
-                    .simultaneousGesture(TapGesture().onEnded {
-                        if buttonActive {
-                            Task {
-                                await viewModel.sendOtp()
-                            }
-                        }
-                    })
-                    .padding(.bottom)
-                    
-                }
-                .padding(.top, 150)
+                Spacer()
             }
+            
+            VStack(alignment: .leading) {
+                Text("휴대폰 번호")
+                    .font(.system(size: 20))
+                    .fontWeight(.medium)
+                    .padding(.horizontal)
+                
+                VStack(alignment: .leading, spacing: 20) {
+                    CustomTF(hint: "휴대폰 번호를 입력해주세요", value: $viewModel.phoneNumber)
+                        .onChange(of: viewModel.phoneNumber) { newValue, _ in
+                            let formattedNumber = tfFormat.formatPhoneNumber(newValue)
+                            viewModel.phoneNumber = formattedNumber
+                            buttonActive = formattedNumber.count == 12 || formattedNumber.count == 13
+                        }
+                        .tint(.white)
+                        .keyboardType(.numberPad)
+                    
+                    Text("Thank you for Signing up the PADO")
+                        .font(.system(size: 14))
+                        .fontWeight(.semibold)
+                }
+                .padding(.horizontal)
+                
+                Spacer()
+                NavigationLink(destination: CodeView()) {
+                    WhiteButtonView(buttonActive: $buttonActive, text: "인증 번호 전송")
+                }
+                .simultaneousGesture(TapGesture().onEnded {
+                    if buttonActive {
+                        Task {
+                            await viewModel.sendOtp()
+                        }
+                    }
+                })
+                .padding(.bottom)
+                
+            }
+            .padding(.top, 150)
         }
         .navigationBarBackButtonHidden(true)
     }
