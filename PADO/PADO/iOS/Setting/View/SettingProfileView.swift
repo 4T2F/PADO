@@ -6,11 +6,14 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct SettingProfileView: View {
     
     @State var width = UIScreen.main.bounds.width
-
+    
+    let user: User
+    
     @State var username: String = ""
     @State var age: String = ""
     @State var bio: String = ""
@@ -18,6 +21,7 @@ struct SettingProfileView: View {
     @State var tiktokAddress: String = ""
     
     @Environment (\.dismiss) var dismiss
+    @StateObject var viewModel = AuthenticationViewModel()
     
     var body: some View {
         VStack {
@@ -39,7 +43,10 @@ struct SettingProfileView: View {
                             Spacer()
                             
                             Button {
-                                //TODO: - 저장버튼 동작 구현필요
+                                Task {
+                                    try await viewModel.updateUserData()
+                                    dismiss()
+                                }
                             } label: {
                                 Text("저장")
                                     .foregroundStyle(.gray)
@@ -64,40 +71,15 @@ struct SettingProfileView: View {
                 
                 VStack {
                     VStack {
-                        VStack {
-                            ZStack(alignment: .bottomTrailing) {
-                                Circle()
-                                    .frame(width: 120, height: 120)
-                                    .cornerRadius(60)
-                                    .foregroundStyle(Color(red: 152/255, green: 163/255, blue: 16/255))
-                                    .overlay {
-                                        Text("\(username)")
-                                            .foregroundStyle(.white)
-                                            .font(.system(size: 55))
-                                    }
-                                
-                                ZStack {
-                                    ZStack {
-                                        Circle()
-                                            .frame(width: 34, height: 34)
-                                            .foregroundStyle(.black)
-                                        Circle()
-                                            .frame(width: 30, height: 30)
-                                            .foregroundStyle(.white)
-                                        Circle()
-                                            .frame(width: 30, height: 30)
-                                            .foregroundStyle(.black)
-                                            .opacity(0.1)
-                                    }
-                                    Button {
-                                        //TODO: - 카메라/포토피커 동작 구현필요
-                                    } label: {
-                                        Image(systemName: "camera.fill")
-                                            .foregroundStyle(.black)
-                                            .font(.system(size: 16))
-                                            .shadow(color: .white, radius: 1, x: 1, y: 1)
-                                    }
-                                }
+                        PhotosPicker(selection: $viewModel.selectedItem) {
+                            if let image = viewModel.profileImageUrl {
+                                image
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 129, height: 129)
+                                    .clipShape(Circle())
+                            } else {
+                                CircularImageView(user: user, size: .xxLarge)
                             }
                         }
                         // MARK: - 프로필수정, 이름
@@ -260,6 +242,6 @@ struct SettingProfileView: View {
     }
 }
 
-#Preview {
-    SettingProfileView()
-}
+//#Preview {
+//    SettingProfileView()
+//}

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Firebase
+import PhotosUI
 
 @MainActor
 class AuthenticationViewModel: ObservableObject {
@@ -23,6 +24,16 @@ class AuthenticationViewModel: ObservableObject {
     @Published var errorMessage = ""
     @Published var showAlert = false
     @Published var isExisted = false
+    
+    @Published var selectedItem: PhotosPickerItem? {
+        didSet {
+            Task {
+                await loadImage()
+            }
+        }
+    }
+    @Published var profileImageUrl: Image?
+    private var uiImage: UIImage?
     
     @Published var currentUser: User?
     
@@ -182,4 +193,35 @@ class AuthenticationViewModel: ObservableObject {
         isLoading = false
     }
     
+    // MARK: - 스토리지 관련
+    
+    func updateUserData() async throws {
+        try await updateProfileImage()
+    }
+    
+    // PhotosUI를 통해 사용자 이미지에서 데이터를 받아옴
+    private func loadImage() async {
+        guard let item = selectedItem else { return }
+        
+        guard let data = try? await item.loadTransferable(type: Data.self) else { return }
+        guard let uiImage = UIImage(data: data) else { return }
+        self.uiImage = uiImage
+        self.profileImageUrl = Image(uiImage: uiImage)
+    }
+    
+    // ImageUploader를 통해 Storage에 이미지를 올리고 imageurl을 매게변수로 updateUserProfileImage 에 넣어줌
+    private func updateProfileImage() async throws {
+        guard let image = self.uiImage else { return }
+        guard let imageUrl = try? await ImageUploader.uploadImage(image) else { return }
+        try await updateUserProfileImage(withImageUrl: imageUrl)
+    }
+
+    // 전달받은 imageUrl 의 값을 파이어 스토어 모델에 올리고 뷰모델에 넣어줌
+    func updateUserProfileImage(withImageUrl imageUrl: String) async throws {
+        guard let currentUid = Auth.auth().currentUser?.uid else { return }
+        try await Firestore.firestore().collection("users").document(currentUid).updateData([
+            "profileImageUrl": imageUrl
+        ])
+        self.currentUser?.profileImageUrl = imageUrl
+    }
 }
