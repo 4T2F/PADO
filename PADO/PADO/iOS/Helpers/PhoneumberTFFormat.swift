@@ -10,10 +10,11 @@ import Foundation
 class PhoneumberTFFormat {
     func formatPhoneNumber(_ number: String) -> String {
         let cleanNumber = number.filter("0123456789".contains)
-        let mask = "XXX-XXXX-XXXX"
-        
         var result = ""
         var index = cleanNumber.startIndex
+        
+        let mask = cleanNumber.count == 11 ? "XXX-XXXX-XXXX" : "XXX-XXX-XXXX"
+
         for ch in mask where index < cleanNumber.endIndex {
             if ch == "X" {
                 result.append(cleanNumber[index])
