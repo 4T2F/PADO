@@ -11,8 +11,10 @@ struct EnterNameView: View {
     
     @Binding var name: String
     @State var buttonActive = false
+    @State private var keyboardHeight:CGFloat = 0
     
     @Binding var nameButtonClicked: Bool
+    @FocusState private var focusedField: Bool
     
     @EnvironmentObject var viewModel: AuthenticationViewModel
     
@@ -38,22 +40,18 @@ struct EnterNameView: View {
                 
                 VStack {
                     VStack(alignment: .center, spacing: 8) {
-                        Text("파도에 오신걸 환영합니다. 이름을 입력해주세요")
+                        Text("파도에 오신걸 환영해요. 이름을 입력해주세요")
                             .fontWeight(.heavy)
                             .font(.system(size: 16))
                         
-                        Text(name.isEmpty ? "NAME" : "s")
-                            .foregroundStyle(name.isEmpty ? Color(red: 70/255, green: 70/255, blue: 73/255) : Color.black)
-                            .fontWeight(.heavy)
+                        TextField("NAME", text: $name)
                             .font(.system(size: 40))
+                            .fontWeight(.heavy)
+                            .foregroundStyle(.white)
                             .frame(width: 210)
-                            .overlay {
-                                TextField("", text: $name)
-                                    .font(.system(size: 40))
-                                    .fontWeight(.heavy)
-                                    .multilineTextAlignment(.center)
-                                    .foregroundStyle(.white)
-                            }
+                            .tint(.cursor)
+                            .multilineTextAlignment(.center)
+                            .focused($focusedField)
                     }
                     .foregroundStyle(.white)
                     
@@ -81,10 +79,18 @@ struct EnterNameView: View {
                             }
                     }
                 }
+                .padding(.bottom, 10)
             }
         }
         .onAppear() {
             name = ""
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.focusedField = true
+            }
+
+        }
+        .onTapGesture {
+            self.endTextEditiong()
         }
     }
 }

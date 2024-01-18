@@ -21,7 +21,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 }
 
 @main
-struct BeRealApp: App {
+struct PADOApp: App {
     // register app delegate for Firebase setup
       @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
@@ -29,6 +29,6 @@ struct BeRealApp: App {
         WindowGroup {
             MainView()
         }
-        .environmentObject(AuthenticationViewModel.shared)
+        .environmentObject(AuthenticationViewModel())
     }
 }
