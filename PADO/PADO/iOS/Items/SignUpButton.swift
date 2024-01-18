@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SignUpButton: View {
     
-    @Binding var buttonActive: Bool
+//    @Binding var buttonActive: Bool
     var text: String
     
     var body: some View {
@@ -37,5 +37,5 @@ struct SignUpButton: View {
 }
 
 #Preview {
-    SignUpButton(buttonActive: .constant(true), text: "Sign Up")
+    SignUpButton(text: "Sign Up")
 }

@@ -9,12 +9,14 @@ import SwiftUI
 
 struct PhoneNumberView: View {
     
-    @State private var phoneNumber: String = ""
     @State var buttonActive: Bool = false
+    var tfFormat = PhoneumberTFFormat()
     
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
+        
         ZStack {
             Color.mainBackground.ignoresSafeArea()
             VStack {
@@ -25,6 +27,7 @@ struct PhoneNumberView: View {
                     
                     HStack {
                         Button {
+                            viewModel.phoneNumber = ""
                             dismiss()
                         } label: {
                             Image(systemName: "arrow.backward")
@@ -47,7 +50,12 @@ struct PhoneNumberView: View {
                     .padding(.horizontal)
                 
                 VStack(alignment: .leading, spacing: 20) {
-                    CustomTF(hint: "휴대폰 번호를 입력해주세요", value: $phoneNumber)
+                    CustomTF(hint: "휴대폰 번호를 입력해주세요", value: $viewModel.phoneNumber)
+                        .onChange(of: viewModel.phoneNumber) { newValue, _ in
+                            let formattedNumber = tfFormat.formatPhoneNumber(newValue)
+                            viewModel.phoneNumber = formattedNumber
+                            buttonActive = formattedNumber.count == 12 || formattedNumber.count == 13
+                        }
                         .tint(.white)
                         .keyboardType(.numberPad)
                     
@@ -58,21 +66,25 @@ struct PhoneNumberView: View {
                 .padding(.horizontal)
                 
                 Spacer()
-                
-                Button {
-                    // 다음 뷰로 넘어가는 네비게이션 링크 추가 해야함
-                } label: {
+                NavigationLink(destination: CodeView()) {
                     WhiteButtonView(buttonActive: $buttonActive, text: "인증 번호 전송")
-                    // true 일 때 버튼 변하게 하는 onChange 로직 추가해야함
                 }
+                .simultaneousGesture(TapGesture().onEnded {
+                    if buttonActive {
+                        Task {
+                            await viewModel.sendOtp()
+                        }
+                    }
+                })
                 .padding(.bottom)
                 
             }
             .padding(.top, 150)
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
 
-#Preview {
-    PhoneNumberView()
-}
+//#Preview {
+//    PhoneNumberView()
+//}
