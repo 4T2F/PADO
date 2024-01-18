@@ -23,13 +23,13 @@ struct EnjoyButton: View {
                 Text(text)
                     .foregroundStyle(.black)
                     .font(.system(size: 16))
-                    .fontWeight(.medium)
-                    .padding(.trailing, 90)
+                    .fontWeight(.regular)
+                    .padding(.trailing, 80)
                 
                 Image(systemName: "arrow.right")
                     .foregroundStyle(.black)
                     .font(.system(size: 16))
-                    .fontWeight(.medium)
+                    .fontWeight(.regular)
             }
             .frame(height: 30)
         }
