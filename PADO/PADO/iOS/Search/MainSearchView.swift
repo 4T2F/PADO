@@ -1,16 +1,18 @@
 //
-//  SurfingSearchView.swift
+//  MainSearchView.swift
 //  PADO
 //
-//  Created by 황성진 on 1/17/24.
+//  Created by 황성진 on 1/18/24.
 //
 
 import SwiftUI
 
-struct SurfingSearchView: View {
+struct MainSearchView: View {
+    // MARK: - PROPERTY
     
-    @State var surfingSearch: String = ""
+    @State var mainSearch: String = ""
     
+    // MARK: - BODY
     var body: some View {
         ZStack {
             Color.mainBackground.ignoresSafeArea()
@@ -30,7 +32,7 @@ struct SurfingSearchView: View {
                 
                 Spacer()
                 
-                SearchView(searchText: $surfingSearch)
+                SearchView(searchText: $mainSearch)
                     .padding(.horizontal)
                 
                 Spacer()
@@ -41,7 +43,7 @@ struct SurfingSearchView: View {
                 
                 ScrollView {
                     ForEach(1...10, id: \.self) {_ in
-                        FriendCellView(searchRightSymbol: .chevron)
+                        FriendCellView(searchRightSymbol: .xmark)
                     }
                     HStack {
                         Spacer()
@@ -61,7 +63,6 @@ struct SurfingSearchView: View {
     }
 }
 
-
 #Preview {
-    SurfingSearchView()
+    MainSearchView()
 }

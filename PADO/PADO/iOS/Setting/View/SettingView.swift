@@ -8,6 +8,7 @@ import SwiftUI
 
 struct SettingView: View {
     @State var width = UIScreen.main.bounds.width
+    @Environment (\.dismiss) var dismiss
     
     var name: String = "PADO"
     var nickName: String = "pado"
@@ -28,7 +29,7 @@ struct SettingView: View {
                             
                             HStack {
                                 Button {
-                                    
+                                    dismiss()
                                 } label: {
                                     Image(systemName: "arrow.backward")
                                         .foregroundStyle(.white)
@@ -74,8 +75,10 @@ struct SettingView: View {
                                     
                                     Spacer()
                                     
-                                    Image(systemName: "arrow.forward")
-                                        .foregroundStyle(.gray)
+                                    NavigationLink(destination: SettingProfileView()) {
+                                        Image(systemName: "arrow.forward")
+                                            .foregroundStyle(.gray)
+                                    }
                                 }
                                 .padding(.horizontal)
                             }
@@ -106,9 +109,11 @@ struct SettingView: View {
                                         
                                         Spacer()
                                         
-                                        Image(systemName: "arrow.forward")
-                                            .foregroundStyle(.gray)
-                                            .font(.system(size: 14))
+                                        NavigationLink(destination: SettingNotificationView()) {
+                                            Image(systemName: "arrow.forward")
+                                                .foregroundStyle(.gray)
+                                                .font(.system(size: 14))
+                                        }
                                     }
                                     .padding(.horizontal, width * 0.1)
                                     .frame(height: 30)
@@ -124,9 +129,11 @@ struct SettingView: View {
                                         
                                         Spacer()
                                         
-                                        Image(systemName: "arrow.forward")
-                                            .foregroundStyle(.gray)
-                                            .font(.system(size: 14))
+                                        NavigationLink(destination: SettingOthersView()) {
+                                            Image(systemName: "arrow.forward")
+                                                .foregroundStyle(.gray)
+                                                .font(.system(size: 14))
+                                        }
                                     }
                                     .padding(.horizontal, width * 0.1)
                                     .frame(height: 30)
@@ -177,9 +184,11 @@ struct SettingView: View {
                                         
                                         Spacer()
                                         
-                                        Image(systemName: "arrow.forward")
-                                            .foregroundStyle(.gray)
-                                            .font(.system(size: 14))
+                                        NavigationLink(destination: SettingAskView()) {
+                                            Image(systemName: "arrow.forward")
+                                                .foregroundStyle(.gray)
+                                                .font(.system(size: 14))
+                                        }
                                     }
                                     .padding(.horizontal, width * 0.1)
                                     .frame(height: 30)
@@ -195,9 +204,11 @@ struct SettingView: View {
                                         
                                         Spacer()
                                         
-                                        Image(systemName: "arrow.forward")
-                                            .foregroundStyle(.gray)
-                                            .font(.system(size: 14))
+                                        NavigationLink(destination: SettingInfoView()) {
+                                            Image(systemName: "arrow.forward")
+                                                .foregroundStyle(.gray)
+                                                .font(.system(size: 14))
+                                        }
                                     }
                                     .padding(.horizontal, width * 0.1)
                                     .frame(height: 30)
@@ -242,6 +253,7 @@ struct SettingView: View {
                 }
             }
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
 

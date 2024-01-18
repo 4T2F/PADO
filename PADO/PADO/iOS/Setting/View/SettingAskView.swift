@@ -10,6 +10,7 @@ import SwiftUI
 struct SettingAskView: View {
     @State var width = UIScreen.main.bounds.width
     @State var height = UIScreen.main.bounds.height
+    @Environment (\.dismiss) var dismiss
     
     let placeholder: String = "저희 PADO를 이용하시는 동안 불편한 점이나\n문의사항이 있으시다면 의견을 보내주세요."
     
@@ -31,10 +32,11 @@ struct SettingAskView: View {
                         
                         HStack {
                             Button {
-                                // TODO: - 뒤로가기 버튼 구현
+                                dismiss()
                             } label: {
                                 Image(systemName: "arrow.backward")
                                     .font(.system(size: 20))
+                                    .foregroundStyle(.grayButton)
                             }
                             
                             Spacer()
@@ -135,5 +137,6 @@ struct SettingAskView: View {
                 .padding(.top, 50)
             }
         }
+        .navigationBarBackButtonHidden(true)
     }
 }

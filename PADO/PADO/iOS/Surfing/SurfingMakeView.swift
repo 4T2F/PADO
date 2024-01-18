@@ -13,6 +13,7 @@ struct SurfingMakeView: View {
     @State var postTitle: String = ""
     @State var width = UIScreen.main.bounds.width
     @State var buttonActive: Bool = false
+    @Environment (\.dismiss) var dismiss
     
     var body: some View {
         NavigationStack {
@@ -30,7 +31,7 @@ struct SurfingMakeView: View {
                             
                             HStack {
                                 Button {
-                                    
+                                    dismiss()
                                 } label: {
                                     Image(systemName: "arrow.backward")
                                         .foregroundStyle(.white)
@@ -97,6 +98,7 @@ struct SurfingMakeView: View {
                 }
             }
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
 
