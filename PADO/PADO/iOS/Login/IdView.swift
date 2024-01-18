@@ -64,7 +64,7 @@ struct IdView: View {
                 
                 
                 NavigationLink(destination: BirthView()) {
-                    WhiteButtonView(buttonActive: $buttonActive, text: "다음")
+                    WhiteButtonView(buttonActive: $buttonActive, text: "다음으로")
                 }
                 .padding(.bottom)
             }

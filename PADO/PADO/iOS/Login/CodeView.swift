@@ -84,7 +84,7 @@ struct CodeView: View {
                         }
                     }
                 } label: {
-                    WhiteButtonView(buttonActive: $buttonActive, text: "다음")
+                    WhiteButtonView(buttonActive: $buttonActive, text: "다음으로")
                     
                     // true 일 때 버튼 변하게 하는 onChange 로직 추가해야함
                 }

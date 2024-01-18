@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+import Kingfisher
 
 // 이미지 사용을 위해 enum 형식으로 크기를 미리 정의
 enum ProfileImageSize {
@@ -33,16 +33,25 @@ enum ProfileImageSize {
 
 struct CircularImageView: View {
     // MARK: - PROPERTY
-    
+    var user: User?
     // ProfileImageSize 를 사용하기 위해 사용
     let size: ProfileImageSize
     // MARK: - BODY
     var body: some View {
-        Image("pp")
-            .resizable()
-            .scaledToFill()
-            .frame(width: size.dimension, height: size.dimension)
-            .clipShape(Circle())
+        if let imageUrl = user?.profileImageUrl {
+            KFImage(URL(string: imageUrl))
+                .resizable()
+                .scaledToFill()
+                .frame(width: size.dimension, height: size.dimension)
+                .clipShape(Circle())
+        } else {
+            Image(systemName: "person.circle.fill")
+                .resizable()
+                .scaledToFill()
+                .frame(width: size.dimension, height: size.dimension)
+                .clipShape(Circle())
+                .foregroundStyle(Color(.systemGray4))
+        }
     }
 }
 

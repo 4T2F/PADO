@@ -9,6 +9,12 @@ import SwiftUI
 struct SettingView: View {
     @State var width = UIScreen.main.bounds.width
     @Environment (\.dismiss) var dismiss
+    @StateObject var viewModel = AuthenticationViewModel()
+    
+    private var currentUser: User? {
+        return viewModel.currentUser
+    }
+    
     
     var name: String = "PADO"
     var nickName: String = "pado"
@@ -51,15 +57,9 @@ struct SettingView: View {
                             .opacity(0.04)
                             .overlay {
                                 HStack {
-                                    Circle()
-                                        .frame(width: 60, height: 60)
-                                        .cornerRadius(30)
-                                        .foregroundStyle(Color(red: 152/255, green: 163/255, blue: 16/255))
-                                        .overlay {
-                                            Text("?")
-                                                .foregroundStyle(.white)
-                                                .font(.system(size: 25))
-                                        }
+                                    if let user = currentUser {
+                                        CircularImageView(user: user, size: .medium)
+                                    }
                                     
                                     VStack(alignment: .leading) {
                                         Text("\(name)")
@@ -75,9 +75,11 @@ struct SettingView: View {
                                     
                                     Spacer()
                                     
-                                    NavigationLink(destination: SettingProfileView()) {
-                                        Image(systemName: "arrow.forward")
-                                            .foregroundStyle(.gray)
+                                    if let user = currentUser {
+                                        NavigationLink(destination: SettingProfileView(user: user)) {
+                                            Image(systemName: "arrow.forward")
+                                                .foregroundStyle(.gray)
+                                        }
                                     }
                                 }
                                 .padding(.horizontal)
