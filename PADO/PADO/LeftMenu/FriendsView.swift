@@ -53,7 +53,7 @@ struct FriendsView: View {
                         }
                         
                         ForEach(1..<10) { _ in
-                            FriendCellView()
+                            FriendCellView(searchRightSymbol: .chevron)
                         }
                     }
                     .padding(.top)
