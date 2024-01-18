@@ -115,13 +115,8 @@ struct SettingProfileView: View {
                                 .frame(width: width * 0.22)
                                 
                                 HStack {
-                                    TextField("", text: $username)
+                                    TextField("이름", text: $username)
                                         .font(.system(size: 16))
-                                        .placeholder(when: username.isEmpty) {
-                                            Text("이름")
-                                                .foregroundStyle(.gray)
-                                                .font(.system(size: 16))
-                                        }
                                         .foregroundStyle(.white)
                                         .padding(.leading, width * 0.05)
                                     
@@ -145,13 +140,8 @@ struct SettingProfileView: View {
                                 .frame(width: width * 0.22)
                                 
                                 HStack {
-                                    TextField("", text: $age)
+                                    TextField("나이", text: $age)
                                         .font(.system(size: 16))
-                                        .placeholder(when: age.isEmpty) {
-                                            Text("나이")
-                                                .foregroundStyle(.gray)
-                                                .font(.system(size: 16))
-                                        }
                                         .foregroundStyle(.white)
                                         .padding(.leading, width * 0.05)
                                     
@@ -218,13 +208,8 @@ struct SettingProfileView: View {
                                 .frame(width: width * 0.22)
                                 
                                 HStack {
-                                    TextField("", text: $instaAddress)
+                                    TextField("계정명", text: $instaAddress)
                                         .font(.system(size: 16))
-                                        .placeholder(when: instaAddress.isEmpty) {
-                                            Text("계정명")
-                                                .foregroundStyle(.gray)
-                                                .font(.system(size: 16))
-                                        }
                                         .foregroundStyle(.white)
                                         .padding(.leading, width * 0.05)
                                     
@@ -248,13 +233,8 @@ struct SettingProfileView: View {
                                 .frame(width: width * 0.22)
                                 
                                 HStack {
-                                    TextField("", text: $tiktokAddress)
+                                    TextField("계정명", text: $tiktokAddress)
                                         .font(.system(size: 16))
-                                        .placeholder(when: tiktokAddress.isEmpty) {
-                                            Text("계정명")
-                                                .foregroundStyle(.gray)
-                                                .font(.system(size: 16))
-                                        }
                                         .foregroundStyle(.white)
                                         .padding(.leading, width * 0.05)
                                     

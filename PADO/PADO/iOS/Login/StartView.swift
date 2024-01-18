@@ -80,7 +80,7 @@ struct StartView: View {
             .onAppear {
                 currentIndex = 0
             }
-            .onChange(of: currentIndex) { oldValue, newValue in
+            .onChange(of: currentIndex) { _, _ in
                 getSpilitedText(text: titles[currentIndex]) {
                     
                     withAnimation(.easeInOut(duration: 1)) {
@@ -102,6 +102,7 @@ struct StartView: View {
             }
         }
     }
+    
     
     // 텍스트를 문자 배열로 분할하여 애니메이션화 하는 함수
     func getSpilitedText(text: String, completion: @escaping () -> ()) {
@@ -132,3 +133,4 @@ struct StartView: View {
 #Preview {
     StartView()
 }
+
