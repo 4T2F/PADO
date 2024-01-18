@@ -7,6 +7,8 @@
 import SwiftUI
 
 struct SettingInfoView: View {
+    @Environment (\.dismiss) var dismiss
+    
     var body: some View {
         VStack {
             ZStack {
@@ -21,7 +23,7 @@ struct SettingInfoView: View {
                         
                         HStack {
                             Button {
-                                // TODO: - 뒤로가기 버튼 구현
+                                dismiss()
                             } label: {
                                 Image(systemName: "arrow.backward")
                                     .font(.system(size: 20))
@@ -70,6 +72,7 @@ struct SettingInfoView: View {
                 .padding(.top, 50)
             }
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
 

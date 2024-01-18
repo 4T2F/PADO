@@ -51,7 +51,7 @@ struct IdView: View {
                         .tint(.white)
                     VStack(alignment: .leading) {
                         Text("영어 대, 소문자, 숫자, 특수문자만 입력 가능해요")
-                            
+                        
                         Text("한 번 설정한 ID는 수정 불가능해요")
                     }
                     .font(.system(size: 14))
@@ -62,19 +62,18 @@ struct IdView: View {
                 
                 Spacer()
                 
-                Button {
-                    // 다음 뷰로 넘어가는 네비게이션 링크 추가 해야함
-                } label: {
+                
+                NavigationLink(destination: BirthView()) {
                     WhiteButtonView(buttonActive: $buttonActive, text: "다음")
-                    // true 일 때 버튼 변하게 하는 onChange 로직 추가해야함
                 }
                 .padding(.bottom)
             }
             .padding(.top, 150)
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
-
-#Preview {
-    IdView()
-}
+//
+//#Preview {
+//    IdView()
+//}

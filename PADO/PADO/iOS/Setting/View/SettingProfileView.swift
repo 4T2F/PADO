@@ -17,6 +17,8 @@ struct SettingProfileView: View {
     @State var instaAddress: String = ""
     @State var tiktokAddress: String = ""
     
+    @Environment (\.dismiss) var dismiss
+    
     var body: some View {
         VStack {
             ZStack {
@@ -27,7 +29,7 @@ struct SettingProfileView: View {
                     ZStack {
                         HStack {
                             Button {
-                                //TODO: - 취소버튼 동작 구현필요
+                                dismiss()
                             } label: {
                                 Text("취소")
                                     .foregroundStyle(.white)
@@ -274,6 +276,7 @@ struct SettingProfileView: View {
                 }
             }
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
 

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SettingNotificationView: View {
     
+    @Environment (\.dismiss) var dismiss
     @State var noti = false
     
     var body: some View {
@@ -25,7 +26,7 @@ struct SettingNotificationView: View {
                         
                         HStack {
                             Button {
-                                // TODO: - 뒤로가기 버튼 구현
+                                dismiss()
                             } label: {
                                 Image(systemName: "arrow.backward")
                                     .font(.system(size: 20))
@@ -51,6 +52,7 @@ struct SettingNotificationView: View {
                 .padding(.top, 50)
             }
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
 

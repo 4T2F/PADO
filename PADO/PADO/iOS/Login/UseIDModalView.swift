@@ -11,22 +11,23 @@ struct UseIDModalView: View {
     
     @State private var buttonActive: Bool = true
     
-    @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var viewModel: AuthenticationViewModel
+    
+//    @Environment(\.dismiss) var dismiss
     
     var body: some View {
-        
         ZStack {
             Color.modal.ignoresSafeArea()
             VStack(alignment: .leading, spacing: 15, content: {
-                // Back Button
-                Button(action: {
-                    dismiss()
-                }, label: {
-                    Image(systemName: "arrow.left")
-                        .font(.title2)
-                        .foregroundStyle(.gray)
-                })
-                .padding(.top, 10)
+//                // Back Button
+//                Button(action: {
+//                    dismiss()
+//                }, label: {
+//                    Image(systemName: "arrow.left")
+//                        .font(.title2)
+//                        .foregroundStyle(.gray)
+//                })
+//                .padding(.top, 10)
                 Text("이미 가입된 사용자 입니다")
                     .font(.system(size: 24))
                     .fontWeight(.heavy)
@@ -34,7 +35,10 @@ struct UseIDModalView: View {
                 
                 VStack(spacing: 20) {
                     Button {
-                        // PhoneNumberView 이동
+                        Task {
+                            await viewModel.fetchUIDByPhoneNumber(phoneNumber: "+82\(viewModel.phoneNumber)")
+                            await viewModel.fetchUser()
+                        }
                     } label: {
                         ModalWhiteButton(buttonActive: $buttonActive, text: "로그인 하기")
                     }

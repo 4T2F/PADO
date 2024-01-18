@@ -34,7 +34,7 @@ struct ContentView: View {
                     .onAppear { selectedTab = 0 }
                     .tag(0)
                 
-                Text("검색")
+                MainSearchView()
                     .tabItem {
                         Image(selectedTab == 1 ? "Search_light" : "Search_gray")
                             .scaledToFit()
@@ -42,7 +42,7 @@ struct ContentView: View {
                     }
                     .onAppear { selectedTab = 1 }
                     .tag(1)
-                Text("서핑")
+                SurfingSearchView()
                     .tabItem {
                         Image(selectedTab == 2 ? "Add_square_light" : "Add_square_gray")
                             .scaledToFit()
@@ -58,7 +58,7 @@ struct ContentView: View {
                     }
                     .onAppear { selectedTab = 3 }
                     .tag(3)
-                Text("프로필")
+                MyFeedView()
                     .tabItem {
                         Image(selectedTab == 4 ? "User_light" : "User_gray")
                             .scaledToFit()
