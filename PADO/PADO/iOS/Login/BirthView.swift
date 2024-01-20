@@ -11,14 +11,15 @@ struct BirthView: View {
     
     @State private var birth: String = ""
     @State var buttonActive: Bool = false
-    
-    @Environment(\.dismiss) var dismiss
+    @Binding var currentStep: SignUpStep
+
+    @ObservedObject var viewModel: AuthenticationViewModel
     
     var body: some View {
         ZStack {     
             VStack(alignment: .leading) {
                 // id값 불러오는 로직 추가 해야함
-                Text("dear.kang님 환영합니다\n생일을 입력해주세요")
+                Text("\(viewModel.nameID)님 환영합니다\n생일을 입력해주세요")
                     .font(.system(size: 20))
                     .fontWeight(.medium)
                     .padding(.horizontal)
@@ -52,6 +53,6 @@ struct BirthView: View {
     }
 }
 
-#Preview {
-    BirthView()
-}
+//#Preview {
+//    BirthView(viewModel: MainView().viewModel)
+//}

@@ -7,10 +7,18 @@
 
 import SwiftUI
 
+enum SignUpStep {
+    case phoneNumber
+    case code
+    case id
+    case birth
+}
+
 struct SignUpView: View {
     
     @ObservedObject var viewModel: AuthenticationViewModel
     @Environment(\.dismiss) var dismiss
+    @State var currentStep: SignUpStep = .phoneNumber
     
     var body: some View {
         
@@ -24,8 +32,7 @@ struct SignUpView: View {
                     
                     HStack {
                         Button {
-                            viewModel.phoneNumber = ""
-                            dismiss()
+                            handleBackButton()
                         } label: {
                             Image("dismissArrow")
                                 .foregroundStyle(.white)
@@ -40,9 +47,43 @@ struct SignUpView: View {
                 Spacer()
             }
             
-            PhoneNumberView(viewModel: viewModel)
+            switch currentStep {
+            case .phoneNumber:
+                PhoneNumberView(currentStep: $currentStep,
+                                viewModel: viewModel)
+            case .code:
+                CodeView(currentStep: $currentStep,
+                         dismissAction: { dismiss() },
+                         viewModel: viewModel)
+            case .id:
+                IdView(currentStep: $currentStep,
+                       viewModel: viewModel)
+            case .birth:
+                BirthView(currentStep: $currentStep,
+                          viewModel: viewModel)
+            }
         }
         .navigationBarBackButtonHidden(true)
+    }
+    
+    func handleBackButton() {
+        switch currentStep {
+        case .phoneNumber:
+            dismiss()
+            viewModel.phoneNumber = ""
+        case .code:
+            currentStep = .phoneNumber
+            viewModel.phoneNumber = ""
+            viewModel.otpText = ""
+        case .id:
+            currentStep = .phoneNumber
+            viewModel.phoneNumber = ""
+            viewModel.otpText = ""
+            viewModel.userID = ""
+        case .birth:
+            currentStep = .id
+            
+        }
     }
 }
 

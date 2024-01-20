@@ -12,7 +12,7 @@ import PhotosUI
 @MainActor
 class AuthenticationViewModel: ObservableObject {
     
-    @Published var name = ""
+    @Published var nameID = ""
     @Published var year = Year(day: "", month: "", year: "")
     @Published var phoneNumber = ""
     
@@ -84,7 +84,7 @@ class AuthenticationViewModel: ObservableObject {
         do {
             let uid = user?.uid ?? userID
             let userData = data ?? [
-                "name": name,
+                "nameID": nameID,
                 "date": year.date,
                 "id": uid,
                 "phoneNumber": "+82\(phoneNumber)"
@@ -92,7 +92,7 @@ class AuthenticationViewModel: ObservableObject {
             
             try await Firestore.firestore().collection("users").document(uid).setData(userData)
         
-            currentUser = User(name: name, date: year.date)
+            currentUser = User(nameID: nameID, date: year.date, phoneNumber: phoneNumber)
 
         } catch {
             print("Error saving user data: \(error.localizedDescription)")

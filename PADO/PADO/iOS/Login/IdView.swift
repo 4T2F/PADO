@@ -9,10 +9,10 @@ import SwiftUI
 
 struct IdView: View {
     
-    @State private var useId: String = ""
     @State var buttonActive: Bool = false
-    
-    @Environment(\.dismiss) var dismiss
+    @Binding var currentStep: SignUpStep
+
+    @ObservedObject var viewModel: AuthenticationViewModel
     
     var body: some View {
         ZStack {
@@ -25,7 +25,7 @@ struct IdView: View {
                     .padding(.horizontal)
                 
                 VStack(alignment: .leading, spacing: 20) {
-                    CustomTF(hint: "ID를 입력해주세요", value: $useId)
+                    CustomTF(hint: "ID를 입력해주세요", value: $viewModel.nameID)
                         .tint(.white)
                     VStack(alignment: .leading) {
                         Text("영어 대, 소문자, 숫자, 특수문자만 입력 가능해요")
@@ -40,9 +40,8 @@ struct IdView: View {
                 
                 Spacer()
                 
-                
                 Button {
-                    
+                    currentStep = .birth
                 } label: {
                     WhiteButtonView(buttonActive: $buttonActive, text: "다음으로")
                 }

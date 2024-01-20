@@ -9,9 +9,11 @@ import SwiftUI
 
 struct PhoneNumberView: View {
     
-    @State var buttonActive: Bool = false
     var tfFormat = PhoneumberTFFormat()
     
+    @State var buttonActive: Bool = false
+    @Binding var currentStep: SignUpStep
+
     @ObservedObject var viewModel: AuthenticationViewModel
     @Environment(\.dismiss) var dismiss
     
@@ -45,6 +47,7 @@ struct PhoneNumberView: View {
                     if buttonActive {
                         Task {
                             await viewModel.sendOtp()
+                            currentStep = .code
                         }
                     }
                 } label: {
