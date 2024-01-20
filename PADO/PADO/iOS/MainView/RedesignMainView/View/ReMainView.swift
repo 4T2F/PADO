@@ -9,24 +9,26 @@ import SwiftUI
 
 struct ReMainView: View {
     var body: some View {
-        GeometryReader { geometry in
+        NavigationStack {
             ZStack {
                 Image("Pic3")
                     .resizable()
                     .scaledToFill()
                     .ignoresSafeArea()
-
+                
                 VStack {
                     // MARK: - Header
                     MainHeaderCell()
-                        .padding(.leading, 5)
+                        .frame(width: UIScreen.main.bounds.width)
+                        .padding(.leading, 4)
                         .padding(.top, 5)
                     
                     Spacer()
                     
-                    // MARK: - HeartComment
+                    //MARK: - HeartComment
                     HeartCommentCell()
-                        .padding(.leading, geometry.size.width / 2.5) // 예를 들어 부모 뷰의 너비를 기준으로 패딩 조정
+                        .padding(.leading, UIScreen.main.bounds.width)
+                        .padding(.trailing, 55)
                         .padding(.top)
                     
                     // MARK: - Story
@@ -39,13 +41,13 @@ struct ReMainView: View {
                         .padding(.horizontal)
                     }
                     .frame(width: UIScreen.main.bounds.width)
-//                    .frame(width: geometry.size.width) // 부모 뷰의 너비를 사용
-//                    .padding()
+                    .padding()
                 }
             }
         }
     }
 }
+
 
 #Preview {
     ReMainView()

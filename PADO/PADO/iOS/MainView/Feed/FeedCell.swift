@@ -35,7 +35,7 @@ struct FeedCell: View {
                     }
                     .padding(.trailing, 12)
                     .sheet(isPresented: $isShowingReportView) {
-                        ReportSelectView()
+                        ReportSelectView(isShowingReportView: $isShowingReportView)
                             .presentationDetents([.height(600)]) // 모달높이 조절
                     }
                 }

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct HeartCommentCell: View {
     @State var heartOnOff: Bool = false
+    @State var isShowingReportView = false
     
     var body: some View {
         VStack(spacing: 16) {
@@ -42,12 +43,16 @@ struct HeartCommentCell: View {
             
             VStack {
                 Button {
-                    
+                    isShowingReportView.toggle()
                 } label: {
                     Text("...")
                         .font(.system(size: 32))
                         .fontWeight(.light)
                         .foregroundStyle(.white)
+                }
+                .sheet(isPresented: $isShowingReportView) {
+                    ReportSelectView(isShowingReportView: $isShowingReportView)
+                        .presentationDetents([.height(500)]) // 모달높이 조절
                 }
             }
             .padding(.top, -15)
