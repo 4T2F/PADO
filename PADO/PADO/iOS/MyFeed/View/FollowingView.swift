@@ -15,7 +15,7 @@ struct FollowingView: View {
     // MARK: - BODY
     var body: some View {
             ZStack {
-                Color.mainBackground.ignoresSafeArea()
+                Color.black.ignoresSafeArea()
                 VStack {
                     ZStack {
                         Text("팔로잉")

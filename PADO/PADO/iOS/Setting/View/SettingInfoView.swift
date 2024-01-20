@@ -12,7 +12,7 @@ struct SettingInfoView: View {
     var body: some View {
         VStack {
             ZStack {
-                Color("mainBackgroundColor").ignoresSafeArea()
+                Color.black.ignoresSafeArea()
                 
                 VStack {
                     ZStack {

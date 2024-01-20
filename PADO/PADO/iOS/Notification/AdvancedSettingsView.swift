@@ -14,7 +14,7 @@ struct AdvancedSettingsView: View {
     var body: some View {
         VStack {
             ZStack {
-                Color.mainBackground.ignoresSafeArea()
+                Color.black.ignoresSafeArea()
                 
                 VStack {
                     ZStack {

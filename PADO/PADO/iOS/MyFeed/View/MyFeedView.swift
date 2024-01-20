@@ -17,8 +17,7 @@ struct MyFeedView: View {
     // MARK: - BODY
     var body: some View {
         ZStack {
-            Color("mainBackgroundColor")
-                .ignoresSafeArea(.all)
+            Color.black.ignoresSafeArea(.all)
             
             VStack {
                 MyFeedHeaderView(user: currentUser)

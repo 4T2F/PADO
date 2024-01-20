@@ -19,7 +19,7 @@ struct SurfingMakeView: View {
         NavigationStack {
             VStack {
                 ZStack {
-                    Color("mainBackgroundColor").ignoresSafeArea()
+                    Color.black.ignoresSafeArea()
                     
                     // MARK: - 서핑뷰, 탑셀
                     VStack {

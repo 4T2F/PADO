@@ -23,7 +23,7 @@ struct SettingView: View {
         NavigationStack {
             VStack {
                 ZStack {
-                    Color("mainBackgroundColor").ignoresSafeArea()
+                    Color.black.ignoresSafeArea()
                     
                     // MARK: - 설정뷰, 탑셀
                     VStack {

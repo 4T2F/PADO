@@ -18,8 +18,7 @@ struct FeedView: View {
     
     var body: some View {
         ZStack {
-            Color.mainBackground
-                .ignoresSafeArea()
+            Color.black.ignoresSafeArea()
             
             ZStack {
                 ScrollView(showsIndicators: false) {

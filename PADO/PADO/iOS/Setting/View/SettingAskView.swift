@@ -20,7 +20,7 @@ struct SettingAskView: View {
     var body: some View {
         VStack {
             ZStack {
-                Color("mainBackgroundColor").ignoresSafeArea()
+                Color.black.ignoresSafeArea()
                 
                 // MARK: - 문의하기뷰, 탑셀
                 VStack {

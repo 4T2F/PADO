@@ -26,7 +26,7 @@ struct SettingProfileView: View {
     var body: some View {
         VStack {
             ZStack {
-                Color("mainBackgroundColor").ignoresSafeArea()
+                Color.black.ignoresSafeArea()
                 
                 // MARK: - 프로필수정, 탑셀
                 VStack {
