@@ -30,7 +30,7 @@ struct ContentView: View {
     
     var body: some View {
         NavigationStack {
-            VStack {
+            GeometryReader { geometry in
                 TabView(selection: $selectedTab) {
                     ReMainView()
                         .tabItem {
@@ -77,8 +77,8 @@ struct ContentView: View {
                     
                 }
                 .tint(.white)
+                .frame(width: geometry.size.width, height: geometry.size.height)
             }
-            .frame(height: UIScreen.main.bounds.height)
         }
     }
     // 터치 했을 때 진동 울리게 하는 haptics vibration 싱글톤
