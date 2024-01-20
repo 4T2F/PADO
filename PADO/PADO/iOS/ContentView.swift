@@ -84,7 +84,7 @@ struct ContentView: View {
     // 터치 했을 때 진동 울리게 하는 haptics vibration 싱글톤
     class HapticManager {
         
-//        static let instance = HapticManager()
+        static let instance = HapticManager()
         
         // notification 함수
         func simpleSuccess() {
