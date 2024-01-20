@@ -27,8 +27,12 @@ struct IdView: View {
                 VStack(alignment: .leading, spacing: 20) {
                     CustomTF(hint: "ID를 입력해주세요", value: $viewModel.nameID)
                         .tint(.white)
+                        .onChange(of: viewModel.nameID) { _, newValue in
+                            buttonActive = newValue.count > 3
+                        }
                     VStack(alignment: .leading) {
-                        Text("영어 대, 소문자, 숫자, 특수문자만 입력 가능해요")
+                        Text("영어, 숫자, 특수문자(4글자 이상)만 입력 가능해요")
+                        // 여기 영어, 숫자, 특수문자만 가능하게
                         
                         Text("한 번 설정한 ID는 수정 불가능해요")
                     }
@@ -41,7 +45,11 @@ struct IdView: View {
                 Spacer()
                 
                 Button {
-                    currentStep = .birth
+                    if buttonActive {
+                        viewModel.nameID = viewModel.nameID.lowercased()
+                        currentStep = .birth
+                        // 파이어베이스에서 중복 검사 기능 추가
+                    }
                 } label: {
                     WhiteButtonView(buttonActive: $buttonActive, text: "다음으로")
                 }

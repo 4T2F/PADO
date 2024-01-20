@@ -13,7 +13,7 @@ import PhotosUI
 class AuthenticationViewModel: ObservableObject {
     
     @Published var nameID = ""
-    @Published var year = Year(day: "", month: "", year: "")
+    @Published var year = ""
     @Published var phoneNumber = ""
     
     @Published var otpText = ""
@@ -25,6 +25,14 @@ class AuthenticationViewModel: ObservableObject {
     @Published var showAlert = false
     @Published var isExisted = false
     
+    @Published var birthDate = Date() {
+        didSet {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy년 MM월 dd일"
+            year = dateFormatter.string(from: birthDate)
+        }
+    }
+    
     @Published var selectedItem: PhotosPickerItem? {
         didSet {
             Task {
@@ -35,6 +43,7 @@ class AuthenticationViewModel: ObservableObject {
     @Published var profileImageUrl: Image?
     private var uiImage: UIImage?
     
+    @Published var authResult: AuthDataResult?
     @Published var currentUser: User?
     
     @AppStorage("userID") var userID: String = ""
@@ -64,7 +73,9 @@ class AuthenticationViewModel: ObservableObject {
         guard !otpText.isEmpty else { return false }
         isLoading = true
         do {
-            let _ = try await signInWithCredential()
+            let result = try await signInWithCredential()
+            authResult = result
+            
             isLoading = false
             return true
         } catch {
@@ -82,24 +93,22 @@ class AuthenticationViewModel: ObservableObject {
     func saveUserData(_ user: Firebase.User? = nil, data: [String: Any]? = nil) async {
         // 사용자 데이터 Firestore에 저장
         do {
-            let uid = user?.uid ?? userID
+            let uid = user?.uid ?? authResult?.user.uid
             let userData = data ?? [
                 "nameID": nameID,
-                "date": year.date,
-                "id": uid,
+                "date": year,
+                "id": uid!,
                 "phoneNumber": "+82\(phoneNumber)"
             ]
             
-            try await Firestore.firestore().collection("users").document(uid).setData(userData)
+            try await Firestore.firestore().collection("users").document(uid!).setData(userData)
         
-            currentUser = User(nameID: nameID, date: year.date, phoneNumber: phoneNumber)
+            currentUser = User(nameID: nameID, date: year, phoneNumber: phoneNumber)
 
         } catch {
             print("Error saving user data: \(error.localizedDescription)")
         }
     }
-    
-   
    
     func checkPhoneNumberExists(phoneNumber: String) async  -> Bool {
           // 전화번호 중복 확인

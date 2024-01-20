@@ -28,7 +28,7 @@ struct PhoneNumberView: View {
                 
                 VStack(alignment: .leading, spacing: 20) {
                     CustomTF(hint: "휴대폰 번호를 입력해주세요", value: $viewModel.phoneNumber)
-                        .onChange(of: viewModel.phoneNumber) { newValue, _ in
+                        .onChange(of: viewModel.phoneNumber) { _, newValue in
                             let formattedNumber = tfFormat.formatPhoneNumber(newValue)
                             viewModel.phoneNumber = formattedNumber
                             buttonActive = formattedNumber.count == 12 || formattedNumber.count == 13

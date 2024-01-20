@@ -9,7 +9,6 @@ import SwiftUI
 
 struct BirthView: View {
     
-    @State private var birth: String = ""
     @State var buttonActive: Bool = false
     @Binding var currentStep: SignUpStep
 
@@ -25,9 +24,18 @@ struct BirthView: View {
                     .padding(.horizontal)
                 
                 VStack(alignment: .leading, spacing: 20) {
-                    CustomTF(hint: "YYYY / MM / DD", value: $birth)
-                        .keyboardType(.numberPad)
-                        .tint(.white)
+                    HStack(alignment: .top, spacing: 8, content: {
+                        VStack(alignment: .leading, spacing: 8, content: {
+                            TextField("YYYY / MM / DD", text: $viewModel.year)
+                                .disabled(true)
+                                .tint(.white)
+                                .onChange(of: viewModel.year) { _, newValue in
+                                    buttonActive = newValue.count > 0
+                                }
+                            
+                            Divider()
+                        })
+                    })
                     
                     VStack(alignment: .leading) {
                         Text("공개여부를 선택할 수 있어요")
@@ -35,13 +43,32 @@ struct BirthView: View {
                     .font(.system(size: 14))
                     .fontWeight(.semibold)
                     .foregroundStyle(.gray)
+                    
                 }
                 .padding(.horizontal)
                 
                 Spacer()
                 
+                HStack{
+                    Spacer()
+                    
+                    DatePicker("", selection: $viewModel.birthDate,
+                               displayedComponents: .date)
+                    .datePickerStyle(.wheel)
+                    .labelsHidden()
+                    
+                    Spacer()
+                }
+                .padding(.bottom, 20)
+                
                 Button {
-                    // 다음 뷰로 넘어가는 네비게이션 링크 추가 해야함
+                    if buttonActive {
+                        Task{
+                            await viewModel.fetchUIDByPhoneNumber(phoneNumber: "+82\(viewModel.phoneNumber)")
+                            await viewModel.saveUserData()
+                        }
+                        // 14세 이상이 아니면 나이가 안된다는 알림 창 만들어야함
+                    }
                 } label: {
                     WhiteButtonView(buttonActive: $buttonActive, text: "가입하기")
                     // true 일 때 버튼 변하게 하는 onChange 로직 추가해야함

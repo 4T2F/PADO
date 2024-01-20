@@ -32,8 +32,8 @@ struct CodeView: View {
                     VerificationView(otpText: $viewModel.otpText)
                         .keyboardType(.numberPad)
                         .padding(.horizontal)
-                        .onChange(of: viewModel.otpText) { newValue, _ in
-                            buttonActive = newValue.count == 5
+                        .onChange(of: viewModel.otpText) { _, newValue in
+                            buttonActive = newValue.count == 6
                         }
                     
                     if otpVerificationFailed {
@@ -42,6 +42,7 @@ struct CodeView: View {
                             .fontWeight(.semibold)
                             .foregroundStyle(.red)
                             .padding(.horizontal, 20)
+                        // otpText 수가 줄어들면 다시 사라져야함
                     }
                 }
                 
