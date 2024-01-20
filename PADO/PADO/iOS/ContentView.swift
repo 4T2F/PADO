@@ -16,6 +16,10 @@ struct ContentView: View {
     
     @State private var selectedTab = 0
     
+//    init() {
+//        UITabBar.appearance().backgroundColor = UIColor.black
+//    }
+    
     init() {
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
@@ -28,7 +32,7 @@ struct ContentView: View {
         NavigationStack {
             VStack {
                 TabView(selection: $selectedTab) {
-                    FeedView(isShowFollowButton: false, mainMenu: $menu)
+                    ReMainView()
                         .tabItem {
                             Image(selectedTab == 0 ? "tab_home" : "tab_home_gray")
                                 
@@ -80,7 +84,7 @@ struct ContentView: View {
     // 터치 했을 때 진동 울리게 하는 haptics vibration 싱글톤
     class HapticManager {
         
-        static let instance = HapticManager()
+//        static let instance = HapticManager()
         
         // notification 함수
         func simpleSuccess() {

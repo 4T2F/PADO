@@ -24,8 +24,7 @@ struct ReportSelectCellView: View {
                 
                 Spacer()
                 
-                Image("dismissArrow")
-                    .foregroundStyle(.white)
+                Image("Arrow_right_light")
                     .font(.system(size: 16))
                     .fontWeight(.medium)
             }

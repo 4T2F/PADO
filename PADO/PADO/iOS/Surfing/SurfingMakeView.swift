@@ -85,8 +85,7 @@ struct SurfingMakeView: View {
                                     
                                     Spacer()
                                     
-                                    Image(systemName: "arrow.right")
-                                        .foregroundStyle(.white)
+                                    Image("Arrow_right_light")
                                         .font(.system(size: 16))
                                         .fontWeight(.medium)
                                 }
