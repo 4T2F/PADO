@@ -12,37 +12,12 @@ struct PhoneNumberView: View {
     @State var buttonActive: Bool = false
     var tfFormat = PhoneumberTFFormat()
     
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @ObservedObject var viewModel: AuthenticationViewModel
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
         
         ZStack {
-            Color.mainBackground.ignoresSafeArea()
-            VStack {
-                ZStack {
-                    Text("PADO")
-                        .font(.system(size: 22))
-                        .fontWeight(.bold)
-                    
-                    HStack {
-                        Button {
-                            viewModel.phoneNumber = ""
-                            dismiss()
-                        } label: {
-                            Image("dismissArrow")
-                                .foregroundStyle(.white)
-                                .font(.system(size: 22))
-                        }
-                        
-                        Spacer()
-                    }
-                }
-                .padding(.horizontal)
-                
-                Spacer()
-            }
-            
             VStack(alignment: .leading) {
                 Text("휴대폰 번호")
                     .font(.system(size: 20))
@@ -66,22 +41,20 @@ struct PhoneNumberView: View {
                 .padding(.horizontal)
                 
                 Spacer()
-                NavigationLink(destination: CodeView()) {
-                    WhiteButtonView(buttonActive: $buttonActive, text: "인증 번호 전송")
-                }
-                .simultaneousGesture(TapGesture().onEnded {
+                Button {
                     if buttonActive {
                         Task {
                             await viewModel.sendOtp()
                         }
                     }
-                })
+                } label: {
+                    WhiteButtonView(buttonActive: $buttonActive, text: "인증 번호 전송")
+                }
                 .padding(.bottom)
                 
             }
             .padding(.top, 150)
         }
-        .navigationBarBackButtonHidden(true)
     }
 }
 

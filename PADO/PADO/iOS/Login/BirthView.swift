@@ -15,31 +15,7 @@ struct BirthView: View {
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
-        ZStack {
-            Color.mainBackground.ignoresSafeArea()
-            VStack {
-                ZStack {
-                    Text("PADO")
-                        .font(.system(size: 22))
-                        .fontWeight(.bold)
-                    
-                    HStack {
-                        Button {
-                            dismiss()
-                        } label: {
-                            Image("dismissArrow")
-                                .foregroundStyle(.white)
-                                .font(.system(size: 22))
-                        }
-                        
-                        Spacer()
-                    }
-                }
-                .padding(.horizontal)
-                
-                Spacer()
-            }
-            
+        ZStack {     
             VStack(alignment: .leading) {
                 // id값 불러오는 로직 추가 해야함
                 Text("dear.kang님 환영합니다\n생일을 입력해주세요")

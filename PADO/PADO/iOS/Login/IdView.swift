@@ -16,29 +16,7 @@ struct IdView: View {
     
     var body: some View {
         ZStack {
-            Color.mainBackground.ignoresSafeArea()
-            VStack {
-                ZStack {
-                    Text("PADO")
-                        .font(.system(size: 22))
-                        .fontWeight(.bold)
-                    
-                    HStack {
-                        Button {
-                            dismiss()
-                        } label: {
-                            Image("dismissArrow")
-                                .foregroundStyle(.white)
-                                .font(.system(size: 22))
-                        }
-                        
-                        Spacer()
-                    }
-                }
-                .padding(.horizontal)
-                
-                Spacer()
-            }
+    
             
             VStack(alignment: .leading) {
                 Text("파도에서 사용할 아이디를 입력해주세요")
@@ -63,14 +41,16 @@ struct IdView: View {
                 Spacer()
                 
                 
-                NavigationLink(destination: BirthView()) {
+                Button {
+                    
+                } label: {
                     WhiteButtonView(buttonActive: $buttonActive, text: "다음으로")
                 }
                 .padding(.bottom)
             }
             .padding(.top, 150)
         }
-        .navigationBarBackButtonHidden(true)
+
     }
 }
 //

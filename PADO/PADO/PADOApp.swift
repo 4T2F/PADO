@@ -29,6 +29,5 @@ struct PADOApp: App {
         WindowGroup {
             ContentView()
         }
-        .environmentObject(AuthenticationViewModel())
     }
 }

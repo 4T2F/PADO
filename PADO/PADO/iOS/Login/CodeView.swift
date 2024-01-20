@@ -18,33 +18,6 @@ struct CodeView: View {
     
     var body: some View {
         ZStack {
-            Color.mainBackground.ignoresSafeArea()
-            
-            VStack {
-                ZStack {
-                    Text("PADO")
-                        .font(.system(size: 22))
-                        .fontWeight(.bold)
-                    
-                    HStack {
-                        Button {
-                            viewModel.otpText = ""
-                            showUseID = false
-                            dismiss()
-                        } label: {
-                            Image("dismissArrow")
-                                .foregroundStyle(.white)
-                                .font(.system(size: 22))
-                        }
-                        
-                        Spacer()
-                    }
-                }
-                .padding(.horizontal)
-                
-                Spacer()
-            }
-            
             VStack(alignment: .leading) {
                 // 휴대폰 번호 받아와야함
                 Text("\(viewModel.phoneNumber) 로 인증번호를 보냈어요")
@@ -99,7 +72,6 @@ struct CodeView: View {
             .interactiveDismissDisabled(showUseID)
 
         }
-        .navigationBarBackButtonHidden(true)
         
     }
 }
