@@ -13,21 +13,10 @@ struct UseIDModalView: View {
     
     @EnvironmentObject var viewModel: AuthenticationViewModel
     
-//    @Environment(\.dismiss) var dismiss
-    
     var body: some View {
         ZStack {
             Color.modal.ignoresSafeArea()
             VStack(alignment: .leading, spacing: 15, content: {
-//                // Back Button
-//                Button(action: {
-//                    dismiss()
-//                }, label: {
-//                    Image(systemName: "arrow.left")
-//                        .font(.title2)
-//                        .foregroundStyle(.gray)
-//                })
-//                .padding(.top, 10)
                 Text("이미 가입된 사용자 입니다")
                     .font(.system(size: 24))
                     .fontWeight(.heavy)
@@ -54,7 +43,7 @@ struct UseIDModalView: View {
             })
             .padding(.vertical, 15)
             .padding(.horizontal, 25)
-        .interactiveDismissDisabled()
+            .interactiveDismissDisabled()
         }
     }
 }

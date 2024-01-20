@@ -16,7 +16,7 @@ struct ModalBlackButton: View {
         ZStack {
             RoundedRectangle(cornerRadius: 10)
                 .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
-                .foregroundStyle(.modalBlackButton)
+                .foregroundStyle(.black)
             HStack {
                 
                 Text(text)
@@ -26,8 +26,7 @@ struct ModalBlackButton: View {
                 
                 Spacer()
                 
-                Image(systemName: "arrow.right")
-                    .foregroundStyle(.white)
+                Image("Arrow_right_light")
                     .font(.system(size: 16))
                     .fontWeight(.medium)
             }

@@ -19,7 +19,7 @@ struct SurfingMakeView: View {
         NavigationStack {
             VStack {
                 ZStack {
-                    Color("mainBackgroundColor").ignoresSafeArea()
+                    Color.black.ignoresSafeArea()
                     
                     // MARK: - 서핑뷰, 탑셀
                     VStack {
@@ -33,7 +33,7 @@ struct SurfingMakeView: View {
                                 Button {
                                     dismiss()
                                 } label: {
-                                    Image(systemName: "arrow.backward")
+                                    Image("dismissArrow")
                                         .foregroundStyle(.white)
                                         .font(.system(size: 20))
                                 }
@@ -85,8 +85,7 @@ struct SurfingMakeView: View {
                                     
                                     Spacer()
                                     
-                                    Image(systemName: "arrow.right")
-                                        .foregroundStyle(.white)
+                                    Image("Arrow_right_light")
                                         .font(.system(size: 16))
                                         .fontWeight(.medium)
                                 }

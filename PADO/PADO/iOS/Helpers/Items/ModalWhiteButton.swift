@@ -27,8 +27,7 @@ struct ModalWhiteButton: View {
                 
                 Spacer()
                 
-                Image(systemName: "arrow.right")
-                    .foregroundStyle(.black)
+                Image("Arrow_right_dark")
                     .font(.system(size: 16))
                     .fontWeight(.medium)
             }
@@ -39,6 +38,6 @@ struct ModalWhiteButton: View {
 }
 
 #Preview {
-    ModalWhiteButton(buttonActive: .constant(true), text: "")
+    ModalWhiteButton(buttonActive: .constant(true), text: "로그인 하기")
 }
 
