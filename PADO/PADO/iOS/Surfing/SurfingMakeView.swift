@@ -33,7 +33,7 @@ struct SurfingMakeView: View {
                                 Button {
                                     dismiss()
                                 } label: {
-                                    Image(systemName: "arrow.backward")
+                                    Image("dismissArrow")
                                         .foregroundStyle(.white)
                                         .font(.system(size: 20))
                                 }

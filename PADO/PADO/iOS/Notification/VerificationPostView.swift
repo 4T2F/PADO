@@ -28,7 +28,7 @@ struct VerificationPostView: View {
                                 Button {
                                     
                                 } label: {
-                                    Image(systemName: "arrow.backward")
+                                    Image("dismissArrow")
                                         .foregroundStyle(.white)
                                         .font(.system(size: 20))
                                 }

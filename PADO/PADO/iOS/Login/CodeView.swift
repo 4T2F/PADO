@@ -32,7 +32,7 @@ struct CodeView: View {
                             showUseID = false
                             dismiss()
                         } label: {
-                            Image(systemName: "arrow.backward")
+                            Image("dismissArrow")
                                 .foregroundStyle(.white)
                                 .font(.system(size: 22))
                         }

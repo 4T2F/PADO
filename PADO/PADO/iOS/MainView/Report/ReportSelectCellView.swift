@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ReportSelectCellView: View {
     var text: String
+    
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 10)
@@ -23,7 +24,7 @@ struct ReportSelectCellView: View {
                 
                 Spacer()
                 
-                Image(systemName: "arrow.right")
+                Image("dismissArrow")
                     .foregroundStyle(.white)
                     .font(.system(size: 16))
                     .fontWeight(.medium)

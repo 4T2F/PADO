@@ -28,7 +28,7 @@ struct SettingNotificationView: View {
                             Button {
                                 dismiss()
                             } label: {
-                                Image(systemName: "arrow.backward")
+                                Image("dismissArrow")
                                     .font(.system(size: 20))
                             }
                             
