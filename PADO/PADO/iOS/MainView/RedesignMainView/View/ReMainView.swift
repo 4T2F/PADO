@@ -11,7 +11,8 @@ struct ReMainView: View {
     @State private var isShowingReportView = false
     @State private var isShowingCommentView = false
     
-    @State private var isHeaderVisible = true // 상태 변수 추가
+    @State private var isHeaderVisible = true
+    let dragThreshold: CGFloat = 80
     
     var body: some View {
         NavigationStack {
@@ -22,8 +23,8 @@ struct ReMainView: View {
                     .ignoresSafeArea()
                 
                 VStack {
+                    // MARK: - Header
                     if isHeaderVisible {
-                        // MARK: - Header
                         MainHeaderCell()
                             .frame(width: UIScreen.main.bounds.width)
                             .padding(.leading, 4)
@@ -49,17 +50,20 @@ struct ReMainView: View {
                         }
                         .frame(width: UIScreen.main.bounds.width)
                         .padding()
+                        .transition(.opacity)
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
             .gesture(DragGesture().onEnded { value in
-                if value.translation.height > 0 {
-                    // 사용자가 위로 스와이프했을 때
-                    isHeaderVisible = false
-                } else if value.translation.height < 0 {
-                    // 사용자가 아래로 스와이프했을 때
-                    isHeaderVisible = true
+                withAnimation(.easeInOut(duration: 0.2)) {
+                    if value.translation.height > dragThreshold {
+                        // 사용자가 아래로 충분히 스와이프했을 때
+                        isHeaderVisible = false
+                    } else if -value.translation.height > dragThreshold {
+                        // 사용자가 위로 충분히 스와이프했을 때
+                        isHeaderVisible = true
+                    }
                 }
             })
         }
