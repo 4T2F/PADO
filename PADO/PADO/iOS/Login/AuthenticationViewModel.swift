@@ -81,7 +81,7 @@ class AuthenticationViewModel: ObservableObject {
         } catch {
             handleError(error: error)
             isLoading = false
-            return false        
+            return false
         }
     }
     
@@ -112,7 +112,7 @@ class AuthenticationViewModel: ObservableObject {
     func updateUserData(userID: String, newData: [String: Any]) async {
         await saveUserData(userID, data: newData)
     }
-
+    
     func saveUserData(_ userID: String, data: [String: Any]) async {
         do {
             try await Firestore.firestore().collection("users").document(userID).setData(data)
@@ -123,24 +123,38 @@ class AuthenticationViewModel: ObservableObject {
     }
     
     func checkPhoneNumberExists(phoneNumber: String) async  -> Bool {
-          // 전화번호 중복 확인
-          let userDB = Firestore.firestore().collection("users")
-          let query = userDB.whereField("phoneNumber", isEqualTo: phoneNumber)
-          
-          do {
-              let querySnapshot = try await query.getDocuments()
-              print("documets: \(querySnapshot.documents)")
-              if !querySnapshot.documents.isEmpty {
-                  return true
-              } else {
-                  return false
-              }
-          } catch {
-              print("Error: \(error)")
-              return false
-          }
-      }
-
+        // 전화번호 중복 확인
+        let userDB = Firestore.firestore().collection("users")
+        let query = userDB.whereField("phoneNumber", isEqualTo: phoneNumber)
+        
+        do {
+            let querySnapshot = try await query.getDocuments()
+            print("documets: \(querySnapshot.documents)")
+            if !querySnapshot.documents.isEmpty {
+                return true
+            } else {
+                return false
+            }
+        } catch {
+            print("Error: \(error)")
+            return false
+        }
+    }
+    
+    func checkForDuplicateID() async -> Bool {
+        // ID 중복 확인
+        let usersCollection = Firestore.firestore().collection("users")
+        let query = usersCollection.whereField("nameID", isEqualTo: nameID.lowercased())
+        
+        do {
+            let querySnapshot = try await query.getDocuments()
+            return !querySnapshot.documents.isEmpty
+        } catch {
+            print("Error checking for duplicate ID: \(error)")
+            return true 
+        }
+    }
+    
     
     // MARK: - 사용자 데이터 관리
     func initializeUser() async {
@@ -238,7 +252,7 @@ class AuthenticationViewModel: ObservableObject {
         guard let imageUrl = try? await ImageUploader.uploadImage(image) else { return }
         try await updateUserProfileImage(withImageUrl: imageUrl)
     }
-
+    
     // 전달받은 imageUrl 의 값을 파이어 스토어 모델에 올리고 뷰모델에 넣어줌
     func updateUserProfileImage(withImageUrl imageUrl: String) async throws {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
