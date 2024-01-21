@@ -14,6 +14,9 @@ struct ReMainView: View {
     @State private var isHeaderVisible = true
     let dragThreshold: CGFloat = 80
     
+    @State private var isCommentVisible = false
+    @StateObject private var commentVM = CommentViewModel()
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -31,6 +34,12 @@ struct ReMainView: View {
                     }
                     
                     Spacer()
+                    
+                    if !isHeaderVisible {
+                        ForEach(commentVM.comments) { comment in
+                            CommentCell(comment: comment, showDetails: false)
+                        }
+                    }
                     
                     //MARK: - HeartComment
                     HeartCommentCell(isShowingReportView: $isShowingReportView, isShowingCommentView: $isShowingCommentView)
@@ -53,7 +62,6 @@ struct ReMainView: View {
                         .transition(.opacity)
                     }
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
             .gesture(DragGesture().onEnded { value in
                 withAnimation(.easeInOut(duration: 0.2)) {

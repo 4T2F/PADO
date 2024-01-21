@@ -9,7 +9,8 @@ import SwiftUI
 
 struct CommentCell: View {
     let comment: Comment
-    
+    var showDetails: Bool = true
+
     var body: some View {
         HStack(alignment: .top) {
             Circle()
@@ -21,35 +22,35 @@ struct CommentCell: View {
                         .foregroundColor(.white)
                 )
                 .padding(.trailing, 6)
-            
+
             VStack(alignment: .leading, spacing: 4) {
                 HStack {
                     Text(comment.username)
                         .fontWeight(.semibold)
                         .font(.system(size: 14))
                         .padding(.trailing, 4)
-                   
-                    Text(comment.time)
-                        .font(.caption)
-                        .foregroundColor(.secondary)
                     
-                    Spacer()
-                    
-                    Button {
+                    if showDetails {
+                        Text(comment.time)
+                            .font(.caption)
+                            .foregroundColor(.secondary)
                         
-                    } label: {
-                        Image(systemName: "ellipsis")
-                            .foregroundStyle(.white)
+                        Spacer()
+                        
+                        Button {
+                            // 버튼 액션
+                        } label: {
+                            Image(systemName: "ellipsis")
+                                .foregroundStyle(.white)
+                        }
                     }
                 }
                 
                 Text(comment.comment)
                     .font(.system(size: 14))
                     .foregroundStyle(.white)
-                    .padding(.bottom, 2)
             }
         }
-
     }
 }
 

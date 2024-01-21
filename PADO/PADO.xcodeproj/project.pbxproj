@@ -80,8 +80,7 @@
 		63C8BA542B56623500025422 /* FollowerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA532B56623500025422 /* FollowerCell.swift */; };
 		63C8BA562B56644600025422 /* CreateFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA552B56644600025422 /* CreateFeedCell.swift */; };
 		63C8BA582B56659800025422 /* SurferCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA572B56659800025422 /* SurferCell.swift */; };
-		649372F12B56102D00BCDA71 /* MyFeedContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419741E72B558F4A0055F2AB /* MyFeedContentView.swift */; };
-		649372F22B56103B00BCDA71 /* SocialNetWorkBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419741E92B558F4A0055F2AB /* SocialNetWorkBarView.swift */; };
+		63D9DE492B5D86D5000668E0 /* CommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D9DE482B5D86D5000668E0 /* CommentViewModel.swift */; };
 		649372F42B5612E700BCDA71 /* FollowingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649372F32B5612E700BCDA71 /* FollowingView.swift */; };
 		649372F62B5612EE00BCDA71 /* FollowerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649372F52B5612EE00BCDA71 /* FollowerView.swift */; };
 		649372F82B561A6F00BCDA71 /* FollowingCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649372F72B561A6F00BCDA71 /* FollowingCellView.swift */; };
@@ -202,6 +201,7 @@
 		63C8BA532B56623500025422 /* FollowerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerCell.swift; sourceTree = "<group>"; };
 		63C8BA552B56644600025422 /* CreateFeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateFeedCell.swift; sourceTree = "<group>"; };
 		63C8BA572B56659800025422 /* SurferCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurferCell.swift; sourceTree = "<group>"; };
+		63D9DE482B5D86D5000668E0 /* CommentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewModel.swift; sourceTree = "<group>"; };
 		649372F32B5612E700BCDA71 /* FollowingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingView.swift; sourceTree = "<group>"; };
 		649372F52B5612EE00BCDA71 /* FollowerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerView.swift; sourceTree = "<group>"; };
 		649372F72B561A6F00BCDA71 /* FollowingCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingCellView.swift; sourceTree = "<group>"; };
@@ -354,10 +354,9 @@
 		41E5F6962B565352001750C2 /* Comment */ = {
 			isa = PBXGroup;
 			children = (
-				41E5F6942B56534A001750C2 /* CommentView.swift */,
-				41E5F6972B56536D001750C2 /* CommentCell.swift */,
-				41E5F6992B565409001750C2 /* FaceMojiView.swift */,
-				41E5F69B2B5666D7001750C2 /* FaceMojiCell.swift */,
+				63D9DE4C2B5D8771000668E0 /* View */,
+				63D9DE4B2B5D876F000668E0 /* ViewModel */,
+				63D9DE4A2B5D876C000668E0 /* Cell */,
 			);
 			path = Comment;
 			sourceTree = "<group>";
@@ -536,6 +535,32 @@
 				B102FE7F2B56D34C0005C310 /* VerificationPostView.swift */,
 			);
 			path = Notification;
+			sourceTree = "<group>";
+		};
+		63D9DE4A2B5D876C000668E0 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				41E5F6972B56536D001750C2 /* CommentCell.swift */,
+				41E5F69B2B5666D7001750C2 /* FaceMojiCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		63D9DE4B2B5D876F000668E0 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				63D9DE482B5D86D5000668E0 /* CommentViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		63D9DE4C2B5D8771000668E0 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				41E5F6942B56534A001750C2 /* CommentView.swift */,
+				41E5F6992B565409001750C2 /* FaceMojiView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		63E5620F2B567E590060E561 /* Recovered References */ = {
@@ -820,7 +845,6 @@
 				B1D7CDEF2B566A2F0090544B /* ViewExtension.swift in Sources */,
 				649372F42B5612E700BCDA71 /* FollowingView.swift in Sources */,
 				635B09792B451138009E60A9 /* ChevronButtonView.swift in Sources */,
-				419741F12B558F4A0055F2AB /* MyFeedView.swift in Sources */,
 				635B09482B4500AA009E60A9 /* AuthenticationViewModel.swift in Sources */,
 				41E5F69A2B565409001750C2 /* FaceMojiView.swift in Sources */,
 				B1A91D132B55928D00FE7F62 /* SettingToggleCell.swift in Sources */,
@@ -847,6 +871,7 @@
 				4197420E2B55900D0055F2AB /* FeedCell.swift in Sources */,
 				B1A91D122B55928D00FE7F62 /* SettingOthersView.swift in Sources */,
 				B1A91D152B55928D00FE7F62 /* SettingAlertView.swift in Sources */,
+				63D9DE492B5D86D5000668E0 /* CommentViewModel.swift in Sources */,
 				B1D7CDE42B5656B10090544B /* ModalBackground.swift in Sources */,
 				63824C4F2B558B5500D1D653 /* VerificationView.swift in Sources */,
 				63824C502B558B5500D1D653 /* WhiteButtonView.swift in Sources */,
