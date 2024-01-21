@@ -10,5 +10,5 @@ import SwiftUI
 struct TextAnimation: Identifiable {
     var id = UUID().uuidString
     var text: String
-    var offset: CGFloat = 110
+    var offset: CGFloat = 80
 }

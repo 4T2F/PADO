@@ -13,12 +13,13 @@ struct SurfingMakeView: View {
     @State var postTitle: String = ""
     @State var width = UIScreen.main.bounds.width
     @State var buttonActive: Bool = false
+    @Environment (\.dismiss) var dismiss
     
     var body: some View {
         NavigationStack {
             VStack {
                 ZStack {
-                    Color("mainBackgroundColor").ignoresSafeArea()
+                    Color.black.ignoresSafeArea()
                     
                     // MARK: - 서핑뷰, 탑셀
                     VStack {
@@ -30,9 +31,9 @@ struct SurfingMakeView: View {
                             
                             HStack {
                                 Button {
-                                    
+                                    dismiss()
                                 } label: {
-                                    Image(systemName: "arrow.backward")
+                                    Image("dismissArrow")
                                         .foregroundStyle(.white)
                                         .font(.system(size: 20))
                                 }
@@ -84,8 +85,7 @@ struct SurfingMakeView: View {
                                     
                                     Spacer()
                                     
-                                    Image(systemName: "arrow.right")
-                                        .foregroundStyle(.white)
+                                    Image("Arrow_right_light")
                                         .font(.system(size: 16))
                                         .fontWeight(.medium)
                                 }
@@ -97,6 +97,7 @@ struct SurfingMakeView: View {
                 }
             }
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
 

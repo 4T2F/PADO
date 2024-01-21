@@ -10,7 +10,7 @@ import SwiftUI
 struct FollowView: View {
     // MARK: - PROPERTY
     @State var width = UIScreen.main.bounds.width
-    @State var menu = "following"
+    @State var menu = "follower"
     
     // MARK: - BODY
     var body: some View {
@@ -18,11 +18,10 @@ struct FollowView: View {
             ZStack {
                 Color.black.ignoresSafeArea()
                 
-                
-                if menu == "following" {
-                    FollowingView()
-                } else if menu == "follower" {
+                if menu == "follower" {
                     FollowerView()
+                } else if menu == "following" {
+                    FollowingView()
                 }
                 
                 VStack {
@@ -40,20 +39,6 @@ struct FollowView: View {
                                         .frame(width: 71, height: 32)
                                         .foregroundStyle(Color("grayButtonColor"))
                                         .cornerRadius(25)
-                                        .opacity(menu == "following" ? 1: 0)
-                                        .overlay {
-                                            Text("팔로잉")
-                                                .foregroundStyle(.white)
-                                                .font(.system(size: 14, weight: .semibold))
-                                        }
-                                        .onTapGesture {
-                                            self.menu = "following"
-                                        }
-                                    
-                                    Rectangle()
-                                        .frame(width: 71, height: 32)
-                                        .foregroundStyle(Color("grayButtonColor"))
-                                        .cornerRadius(25)
                                         .opacity(menu == "follower" ? 1: 0)
                                         .overlay {
                                             Text("팔로워")
@@ -63,6 +48,20 @@ struct FollowView: View {
                                         .onTapGesture {
                                             self.menu = "follower"
                                         }
+                                    
+                                    Rectangle()
+                                        .frame(width: 71, height: 32)
+                                        .foregroundStyle(Color("grayButtonColor"))
+                                        .cornerRadius(25)
+                                        .opacity(menu == "following" ? 1: 0)
+                                        .overlay {
+                                            Text("팔로잉")
+                                                .foregroundStyle(.white)
+                                                .font(.system(size: 14, weight: .semibold))
+                                        }
+                                        .onTapGesture {
+                                            self.menu = "following"
+                                        }
                                 } //: HSTACK
                             } //: ZSTACK
                         } //: VSTACK
@@ -71,7 +70,8 @@ struct FollowView: View {
                     } //: ZSTACK
                 }
             }
-        }
+        } //: VSTACK
+        .navigationBarBackButtonHidden(true)
     }
 }
 

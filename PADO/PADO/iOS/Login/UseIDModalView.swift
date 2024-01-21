@@ -10,23 +10,16 @@ import SwiftUI
 struct UseIDModalView: View {
     
     @State private var buttonActive: Bool = true
+    @Binding var showUseID: Bool
     
-    @Environment(\.dismiss) var dismiss
+    var dismissSignUpView: () -> Void
+    
+    @ObservedObject var viewModel: AuthenticationViewModel
     
     var body: some View {
-        
         ZStack {
             Color.modal.ignoresSafeArea()
             VStack(alignment: .leading, spacing: 15, content: {
-                // Back Button
-                Button(action: {
-                    dismiss()
-                }, label: {
-                    Image(systemName: "arrow.left")
-                        .font(.title2)
-                        .foregroundStyle(.gray)
-                })
-                .padding(.top, 10)
                 Text("이미 가입된 사용자 입니다")
                     .font(.system(size: 24))
                     .fontWeight(.heavy)
@@ -34,15 +27,24 @@ struct UseIDModalView: View {
                 
                 VStack(spacing: 20) {
                     Button {
-                        // PhoneNumberView 이동
+                        Task {
+                            await viewModel.fetchUIDByPhoneNumber(phoneNumber: "+82\(viewModel.phoneNumber)")
+                            await viewModel.fetchUser()
+                        }
                     } label: {
-                        ModalWhiteButton(buttonActive: $buttonActive, text: "로그인 하기")
+                        ModalWhiteButton(buttonActive: $buttonActive,
+                                         text: "로그인 하기")
                     }
                     
                     Button {
                         // StartView 이동
+                        showUseID = false
+                        viewModel.phoneNumber = ""
+                        viewModel.otpText = ""
+                        dismissSignUpView()
                     } label: {
-                        ModalBlackButton(buttonActive: $buttonActive, text: "시작 화면으로 이동")
+                        ModalBlackButton(buttonActive: $buttonActive,
+                                         text: "시작 화면으로 이동")
                     }
                 }
                 .padding(.top, 20)
@@ -50,11 +52,11 @@ struct UseIDModalView: View {
             })
             .padding(.vertical, 15)
             .padding(.horizontal, 25)
-        .interactiveDismissDisabled()
+            .interactiveDismissDisabled()
         }
     }
 }
 
-#Preview {
-    UseIDModalView()
-}
+//#Preview {
+//    UseIDModalView(viewModel: MainView().viewModel)
+//}

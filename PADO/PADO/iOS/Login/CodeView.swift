@@ -9,80 +9,84 @@ import SwiftUI
 
 struct CodeView: View {
     
-    @Environment(\.dismiss) var dismiss
-    
-    @State private var otpText = ""
-    @State private var buttonActive: Bool = true
     @State private var showUseID: Bool = false
+    @State private var buttonActive: Bool = false
+    @State private var otpVerificationFailed = false
+    
+    @Binding var currentStep: SignUpStep
+    
+    var dismissAction: () -> Void
+    
+    @ObservedObject var viewModel: AuthenticationViewModel
     
     var body: some View {
         ZStack {
-            Color.mainBackground.ignoresSafeArea()
-            
-            VStack {
-                ZStack {
-                    Text("PADO")
-                        .font(.system(size: 22))
-                        .fontWeight(.bold)
-                    
-                    HStack {
-                        Button {
-                            dismiss()
-                        } label: {
-                            Image(systemName: "arrow.backward")
-                                .foregroundStyle(.white)
-                                .font(.system(size: 22))
-                        }
-                        
-                        Spacer()
-                    }
-                }
-                .padding(.horizontal)
-                
-                Spacer()
-            }
-            
             VStack(alignment: .leading) {
                 // 휴대폰 번호 받아와야함
-                Text("010-1111-1111 로 인증번호를 보냈어요")
+                Text("\(viewModel.phoneNumber) 로 인증번호를 보냈어요")
                     .font(.system(size: 20))
                     .fontWeight(.medium)
                     .padding(.horizontal, 20)
                 
                 VStack(alignment: .leading, spacing: 20) {
-                    VerificationView(otpText: $otpText)
+                    VerificationView(otpText: $viewModel.otpText)
                         .keyboardType(.numberPad)
                         .padding(.horizontal)
-                    // 인증 번호 틀렸을 때 나오게 하는 로직 추가 해야함
-                    Text("인증 번호가 틀렸습니다")
-                        .font(.system(size: 14))
-                        .fontWeight(.semibold)
-                        .foregroundStyle(.red)
-                        .padding(.horizontal, 20)
+                        .onChange(of: viewModel.otpText) { _, newValue in
+                            buttonActive = newValue.count == 6
+                            if otpVerificationFailed && newValue.count < 6 {
+                                otpVerificationFailed = false
+                            }
+                        }
+                    
+                    if otpVerificationFailed {
+                        Text("인증 번호가 틀렸습니다")
+                            .font(.system(size: 14))
+                            .fontWeight(.semibold)
+                            .foregroundStyle(.red)
+                            .padding(.horizontal, 20)
+                        
+                    }
                 }
                 
                 Spacer()
                 
                 Button {
-                    // 다음 뷰로 넘어가는 네비게이션 링크 추가 해야함
-                    showUseID.toggle() // 중복된 번호 일 경우 토글 true 처리 되면서 sheet 올라오게함
+                    if buttonActive {
+                        Task {
+                            let verificationResult = await viewModel.verifyOtp()
+                            if verificationResult {
+                                let isUserExisted = await viewModel.checkPhoneNumberExists(phoneNumber: "+82\(viewModel.phoneNumber)")
+                                if isUserExisted {
+                                    showUseID.toggle()
+                                } else {
+                                    currentStep = .id
+                                }
+                            } else {
+                                otpVerificationFailed = true
+                            }
+                        }
+                    }
                 } label: {
-                    WhiteButtonView(buttonActive: $buttonActive, text: "다음")
-                    // true 일 때 버튼 변하게 하는 onChange 로직 추가해야함
+                    WhiteButtonView(buttonActive: $buttonActive, text: "다음으로")
                 }
                 .padding(.bottom)
             }
             .padding(.top, 150)
             .sheet(isPresented: $showUseID, content: {
-                UseIDModalView()
+                UseIDModalView(showUseID: $showUseID,
+                               dismissSignUpView: dismissAction,
+                               viewModel: viewModel)
                     .presentationDetents([.height(250)])
                     .presentationCornerRadius(30)
             })
+            .interactiveDismissDisabled(showUseID)
             
         }
+        
     }
 }
 
-#Preview {
-    CodeView()
-}
+//#Preview {
+//    CodeView()
+//}

@@ -9,11 +9,11 @@ import SwiftUI
 
 struct SurfingSearchView: View {
     
-    @State var textfield: String = ""
+    @State var surfingSearch: String = ""
     
     var body: some View {
         ZStack {
-            Color.mainBackground.ignoresSafeArea()
+            Color.black.ignoresSafeArea()
             VStack(alignment: .leading) {
                 ZStack {
                     
@@ -30,7 +30,7 @@ struct SurfingSearchView: View {
                 
                 Spacer()
                 
-                SearchView(searchText: $textfield)
+                SearchView(searchText: $surfingSearch)
                     .padding(.horizontal)
                 
                 Spacer()
@@ -41,7 +41,7 @@ struct SurfingSearchView: View {
                 
                 ScrollView {
                     ForEach(1...10, id: \.self) {_ in
-                        FriendCellView()
+                        FriendCellView(searchRightSymbol: .chevron)
                     }
                     HStack {
                         Spacer()

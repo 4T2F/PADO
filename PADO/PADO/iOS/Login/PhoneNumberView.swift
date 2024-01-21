@@ -9,37 +9,17 @@ import SwiftUI
 
 struct PhoneNumberView: View {
     
-    @State private var phoneNumber: String = ""
-    @State var buttonActive: Bool = false
+    var tfFormat = PhoneumberTFFormat()
     
+    @State var buttonActive: Bool = false
+    @Binding var currentStep: SignUpStep
+
+    @ObservedObject var viewModel: AuthenticationViewModel
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
+        
         ZStack {
-            Color.mainBackground.ignoresSafeArea()
-            VStack {
-                ZStack {
-                    Text("PADO")
-                        .font(.system(size: 22))
-                        .fontWeight(.bold)
-                    
-                    HStack {
-                        Button {
-                            dismiss()
-                        } label: {
-                            Image(systemName: "arrow.backward")
-                                .foregroundStyle(.white)
-                                .font(.system(size: 22))
-                        }
-                        
-                        Spacer()
-                    }
-                }
-                .padding(.horizontal)
-                
-                Spacer()
-            }
-            
             VStack(alignment: .leading) {
                 Text("휴대폰 번호")
                     .font(.system(size: 20))
@@ -47,7 +27,12 @@ struct PhoneNumberView: View {
                     .padding(.horizontal)
                 
                 VStack(alignment: .leading, spacing: 20) {
-                    CustomTF(hint: "휴대폰 번호를 입력해주세요", value: $phoneNumber)
+                    CustomTF(hint: "휴대폰 번호를 입력해주세요", value: $viewModel.phoneNumber)
+                        .onChange(of: viewModel.phoneNumber) { _, newValue in
+                            let formattedNumber = tfFormat.formatPhoneNumber(newValue)
+                            viewModel.phoneNumber = formattedNumber
+                            buttonActive = formattedNumber.count == 12 || formattedNumber.count == 13
+                        }
                         .tint(.white)
                         .keyboardType(.numberPad)
                     
@@ -58,12 +43,15 @@ struct PhoneNumberView: View {
                 .padding(.horizontal)
                 
                 Spacer()
-                
                 Button {
-                    // 다음 뷰로 넘어가는 네비게이션 링크 추가 해야함
+                    if buttonActive {
+                        Task {
+                            await viewModel.sendOtp()
+                            currentStep = .code
+                        }
+                    }
                 } label: {
                     WhiteButtonView(buttonActive: $buttonActive, text: "인증 번호 전송")
-                    // true 일 때 버튼 변하게 하는 onChange 로직 추가해야함
                 }
                 .padding(.bottom)
                 
@@ -73,6 +61,6 @@ struct PhoneNumberView: View {
     }
 }
 
-#Preview {
-    PhoneNumberView()
-}
+//#Preview {
+//    PhoneNumberView()
+//}

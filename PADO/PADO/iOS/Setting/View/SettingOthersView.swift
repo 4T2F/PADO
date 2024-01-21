@@ -7,12 +7,14 @@
 import SwiftUI
 
 struct SettingOthersView: View {
-    @State private var showingModal: Bool = false
+    @State private var showingCashModal: Bool = false
+    @State private var showingDeleteModal: Bool = false
+    @Environment (\.dismiss) var dismiss
     
     var body: some View {
         VStack {
             ZStack {
-                Color("mainBackgroundColor").ignoresSafeArea()
+                Color.black.ignoresSafeArea()
                 
                 VStack {
                     ZStack {
@@ -23,9 +25,9 @@ struct SettingOthersView: View {
                         
                         HStack {
                             Button {
-                                // TODO: - 뒤로가기 버튼 구현
+                                dismiss()
                             } label: {
-                                Image(systemName: "arrow.backward")
+                                Image("dismissArrow")
                                     .font(.system(size: 20))
                             }
                             
@@ -40,7 +42,7 @@ struct SettingOthersView: View {
                 
                 VStack {
                     Button {
-                        //TODO: - 캐시지우기 로직 구현
+                        showingCashModal.toggle()
                     } label: {
                         VStack {
                             SettingNormalCell(icon: "trash", text: "캐시 지우기")
@@ -49,7 +51,7 @@ struct SettingOthersView: View {
                     }
                     
                     Button {
-                        showingModal.toggle()
+                        showingDeleteModal.toggle()
                     } label: {
                         VStack {
                             SettingRedCell(icon: "multiply.square", text: "계정 삭제")
@@ -62,11 +64,18 @@ struct SettingOthersView: View {
                 .padding(.horizontal)
                 .padding(.top, 50)
             }
-        }.sheet(isPresented: $showingModal, content: {
+        }.sheet(isPresented: $showingCashModal, content: {
+            ModalAlertView(showingCircleImage: false, mainTitle: .cash, subTitle: .cash, removeMessage: .cash)
+                .background(Color.clear)
+                .presentationDetents([.fraction(0.4)])
+        })
+        
+        .sheet(isPresented: $showingDeleteModal, content: {
             ModalAlertView(showingCircleImage: false, mainTitle: .account, subTitle: .account, removeMessage: .account)
                 .background(Color.clear)
                 .presentationDetents([.fraction(0.4)])
         })
+        .navigationBarBackButtonHidden(true)
     }
 }
 

@@ -9,15 +9,18 @@ import SwiftUI
 
 struct MyFeedView: View {
     // MARK: - PROPERTY
+    @StateObject var viewModel = AuthenticationViewModel()
+    private var currentUser: User? {
+        return viewModel.currentUser
+    }
     
     // MARK: - BODY
     var body: some View {
         ZStack {
-            Color("mainBackgroundColor")
-                .ignoresSafeArea(.all)
+            Color.black.ignoresSafeArea(.all)
             
             VStack {
-                MyFeedHeaderView()
+                MyFeedHeaderView(user: currentUser)
                 
                 MyFeedContentView()
             } //: VSTACK
@@ -25,6 +28,6 @@ struct MyFeedView: View {
     }
 }
 
-#Preview {
-    MyFeedView()
-}
+//#Preview {
+//    MyFeedView()
+//}

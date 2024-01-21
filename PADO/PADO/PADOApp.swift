@@ -104,8 +104,7 @@ struct PADOApp: App {
     
     var body: some Scene {
         WindowGroup {
-            StartView()
+            MainView()
         }
-        .environmentObject(AuthenticationViewModel())
     }
 }
