@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct StartView: View {
+    
+    @ObservedObject var viewModel: AuthenticationViewModel
     @State private var currentIndex: Int = 0
     @State private var titleText: [TextAnimation] = []
     @State private var subTitleAnimation: Bool = false
@@ -54,7 +56,7 @@ struct StartView: View {
                     .padding(.bottom, 80)
 
                     HStack(spacing: 20) {
-                        NavigationLink(destination: PhoneNumberView()) {
+                        NavigationLink(destination: SignUpView(viewModel: viewModel)) {
                             SignUpButton(text: "회원가입")
                         }
 
@@ -126,6 +128,6 @@ struct StartView: View {
 }
 
 #Preview {
-    StartView()
+    StartView(viewModel: MainView().viewModel)
 }
 

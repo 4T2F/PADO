@@ -1,19 +1,18 @@
 //
-//  CodeView.swift
+//  LoginCodeView.swift
 //  PADO
 //
-//  Created by 강치우 on 1/15/24.
+//  Created by 최동호 on 1/21/24.
 //
 
 import SwiftUI
 
-struct CodeView: View {
-    
-    @State private var showUseID: Bool = false
+struct LoginCodeView: View {
+
     @State private var buttonActive: Bool = false
     @State private var otpVerificationFailed = false
     
-    @Binding var currentStep: SignUpStep
+    @Binding var currentStep: LoginStep
     
     var dismissAction: () -> Void
     
@@ -58,9 +57,10 @@ struct CodeView: View {
                             if verificationResult {
                                 let isUserExisted = await viewModel.checkPhoneNumberExists(phoneNumber: "+82\(viewModel.phoneNumber)")
                                 if isUserExisted {
-                                    showUseID.toggle()
+                                    await viewModel.fetchUIDByPhoneNumber(phoneNumber: "+82\(viewModel.phoneNumber)")
+                                    await viewModel.fetchUser()
                                 } else {
-                                    currentStep = .id
+                                    // 가입되지 않은 번호 -> 회원가입 페이지로 이동하게 구현
                                 }
                             } else {
                                 otpVerificationFailed = true
@@ -68,19 +68,11 @@ struct CodeView: View {
                         }
                     }
                 } label: {
-                    WhiteButtonView(buttonActive: $buttonActive, text: "다음으로")
+                    WhiteButtonView(buttonActive: $buttonActive, text: "로그인하기")
                 }
                 .padding(.bottom)
             }
             .padding(.top, 150)
-            .sheet(isPresented: $showUseID, content: {
-                UseIDModalView(showUseID: $showUseID,
-                               dismissSignUpView: dismissAction,
-                               viewModel: viewModel)
-                    .presentationDetents([.height(250)])
-                    .presentationCornerRadius(30)
-            })
-            .interactiveDismissDisabled(showUseID)
             
         }
         
@@ -88,5 +80,5 @@ struct CodeView: View {
 }
 
 //#Preview {
-//    CodeView()
+//    LoginCodeView()
 //}

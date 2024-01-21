@@ -10,8 +10,11 @@ import SwiftUI
 struct UseIDModalView: View {
     
     @State private var buttonActive: Bool = true
+    @Binding var showUseID: Bool
     
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    var dismissSignUpView: () -> Void
+    
+    @ObservedObject var viewModel: AuthenticationViewModel
     
     var body: some View {
         ZStack {
@@ -29,13 +32,19 @@ struct UseIDModalView: View {
                             await viewModel.fetchUser()
                         }
                     } label: {
-                        ModalWhiteButton(buttonActive: $buttonActive, text: "로그인 하기")
+                        ModalWhiteButton(buttonActive: $buttonActive,
+                                         text: "로그인 하기")
                     }
                     
                     Button {
                         // StartView 이동
+                        showUseID = false
+                        viewModel.phoneNumber = ""
+                        viewModel.otpText = ""
+                        dismissSignUpView()
                     } label: {
-                        ModalBlackButton(buttonActive: $buttonActive, text: "시작 화면으로 이동")
+                        ModalBlackButton(buttonActive: $buttonActive,
+                                         text: "시작 화면으로 이동")
                     }
                 }
                 .padding(.top, 20)
@@ -48,6 +57,6 @@ struct UseIDModalView: View {
     }
 }
 
-#Preview {
-    UseIDModalView()
-}
+//#Preview {
+//    UseIDModalView(viewModel: MainView().viewModel)
+//}

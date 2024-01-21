@@ -11,13 +11,12 @@ import FirebaseFirestoreSwift
 struct User: Codable, Identifiable, Hashable {
     @DocumentID var id: String?
     var username: String?
+    var nameID: String
     var profileImageUrl: String?
-    var name: String
     var date: String
     var bio: String?
     var location: String?
-    var phoneNumber: String?
-
+    var phoneNumber: String
 
 }
 

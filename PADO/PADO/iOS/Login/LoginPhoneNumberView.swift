@@ -1,18 +1,17 @@
 //
-//  PhoneNumberView.swift
+//  LoginPhoneNumberView.swift
 //  PADO
 //
-//  Created by 강치우 on 1/15/24.
+//  Created by 최동호 on 1/21/24.
 //
 
 import SwiftUI
 
-struct PhoneNumberView: View {
-    
+struct LoginPhoneNumberView: View {
     var tfFormat = PhoneumberTFFormat()
     
     @State var buttonActive: Bool = false
-    @Binding var currentStep: SignUpStep
+    @Binding var currentStep: LoginStep
 
     @ObservedObject var viewModel: AuthenticationViewModel
     @Environment(\.dismiss) var dismiss
@@ -60,7 +59,7 @@ struct PhoneNumberView: View {
         }
     }
 }
-
+//
 //#Preview {
-//    PhoneNumberView()
+//    LoginPhoneNumberView()
 //}

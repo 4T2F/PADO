@@ -27,8 +27,7 @@ struct PADOApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainView()
         }
-        .environmentObject(AuthenticationViewModel())
     }
 }
