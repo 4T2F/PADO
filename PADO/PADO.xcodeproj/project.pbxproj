@@ -19,6 +19,8 @@
 		412B3AA02B44F65100C2C7CD /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 412B3A9F2B44F65100C2C7CD /* FirebaseStorage */; };
 		4165C23A2B58FD660002053E /* ApiKeys.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 4165C2392B58FD660002053E /* ApiKeys.xcconfig */; };
 		417568642B47999E003AA8C0 /* PhoneumberTFFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417568632B47999E003AA8C0 /* PhoneumberTFFormat.swift */; };
+		417D188A2B5CFEE400545A5E /* LoginPhoneNumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417D18892B5CFEE400545A5E /* LoginPhoneNumberView.swift */; };
+		417D188C2B5CFEF100545A5E /* LoginCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417D188B2B5CFEF100545A5E /* LoginCodeView.swift */; };
 		4187431F2B5C32CF00D93CBE /* SocialGlobeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4187431A2B5C32CF00D93CBE /* SocialGlobeView.swift */; };
 		418743202B5C32CF00D93CBE /* MyFeedHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4187431B2B5C32CF00D93CBE /* MyFeedHeaderView.swift */; };
 		418743212B5C32CF00D93CBE /* CircularImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4187431C2B5C32CF00D93CBE /* CircularImageView.swift */; };
@@ -136,6 +138,8 @@
 		412B3AA42B44F6EC00C2C7CD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		4165C2392B58FD660002053E /* ApiKeys.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ApiKeys.xcconfig; sourceTree = "<group>"; };
 		417568632B47999E003AA8C0 /* PhoneumberTFFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneumberTFFormat.swift; sourceTree = "<group>"; };
+		417D18892B5CFEE400545A5E /* LoginPhoneNumberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPhoneNumberView.swift; sourceTree = "<group>"; };
+		417D188B2B5CFEF100545A5E /* LoginCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCodeView.swift; sourceTree = "<group>"; };
 		4187431A2B5C32CF00D93CBE /* SocialGlobeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialGlobeView.swift; sourceTree = "<group>"; };
 		4187431B2B5C32CF00D93CBE /* MyFeedHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyFeedHeaderView.swift; sourceTree = "<group>"; };
 		4187431C2B5C32CF00D93CBE /* CircularImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircularImageView.swift; sourceTree = "<group>"; };
@@ -492,6 +496,8 @@
 			children = (
 				63824C402B558B2400D1D653 /* StartView.swift */,
 				418743282B5C42AB00D93CBE /* LoginView.swift */,
+				417D18892B5CFEE400545A5E /* LoginPhoneNumberView.swift */,
+				417D188B2B5CFEF100545A5E /* LoginCodeView.swift */,
 				418743262B5C42A300D93CBE /* SignUpView.swift */,
 				63C8BA4C2B56241200025422 /* TextAnimation.swift */,
 				63824C3F2B558B2400D1D653 /* PhoneNumberView.swift */,
@@ -818,6 +824,7 @@
 				649372F82B561A6F00BCDA71 /* FollowingCellView.swift in Sources */,
 				B102FE802B56D34C0005C310 /* VerificationPostView.swift in Sources */,
 				418743252B5C32D300D93CBE /* MyFeedView.swift in Sources */,
+				417D188A2B5CFEE400545A5E /* LoginPhoneNumberView.swift in Sources */,
 				63824C452B558B2400D1D653 /* StartView.swift in Sources */,
 				B1D7CDEF2B566A2F0090544B /* ViewExtension.swift in Sources */,
 				649372F42B5612E700BCDA71 /* FollowingView.swift in Sources */,
@@ -877,6 +884,7 @@
 				B102FE7E2B56CC360005C310 /* SurfingMakeView.swift in Sources */,
 				649372FE2B56665200BCDA71 /* FollowerUserCellView.swift in Sources */,
 				63C20BED2B56CFAF00911F64 /* AdvancedSettingsCell.swift in Sources */,
+				417D188C2B5CFEF100545A5E /* LoginCodeView.swift in Sources */,
 				4197420F2B55900D0055F2AB /* MainView.swift in Sources */,
 				632291402B5BF768007C51D1 /* ReMainView.swift in Sources */,
 				419742102B55900D0055F2AB /* ContentView.swift in Sources */,
