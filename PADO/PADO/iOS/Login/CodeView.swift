@@ -34,7 +34,9 @@ struct CodeView: View {
                         .padding(.horizontal)
                         .onChange(of: viewModel.otpText) { _, newValue in
                             buttonActive = newValue.count == 6
-                            
+                            if otpVerificationFailed && newValue.count < 6 {
+                                otpVerificationFailed = false
+                            }
                         }
                     
                     if otpVerificationFailed {
@@ -43,7 +45,7 @@ struct CodeView: View {
                             .fontWeight(.semibold)
                             .foregroundStyle(.red)
                             .padding(.horizontal, 20)
-                        // otpText 수가 줄어들면 다시 사라져야함
+                        
                     }
                 }
                 
