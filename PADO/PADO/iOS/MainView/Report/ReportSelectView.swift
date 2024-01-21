@@ -48,7 +48,7 @@ struct ReportSelectView: View {
                         }
                     }
                 }
-                .padding(.top, 20)
+                .padding(.top, 30)
             }
         }
     }

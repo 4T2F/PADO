@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct ReMainView: View {
+    @State private var isShowingReportView = false
+    @State private var isShowingCommentView = false
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -21,12 +24,11 @@ struct ReMainView: View {
                     MainHeaderCell()
                         .frame(width: UIScreen.main.bounds.width)
                         .padding(.leading, 4)
-                        .padding(.top, 5)
                     
                     Spacer()
                     
                     //MARK: - HeartComment
-                    HeartCommentCell()
+                    HeartCommentCell(isShowingReportView: $isShowingReportView, isShowingCommentView: $isShowingCommentView)
                         .padding(.leading, UIScreen.main.bounds.width)
                         .padding(.trailing, 55)
                         .padding(.top)
@@ -43,6 +45,7 @@ struct ReMainView: View {
                     .frame(width: UIScreen.main.bounds.width)
                     .padding()
                 }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
     }

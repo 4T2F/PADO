@@ -14,18 +14,19 @@ struct CommentCell: View {
         HStack(alignment: .top) {
             Circle()
                 .fill(Color.gray)
-                .frame(width: 50, height: 50)
+                .frame(width: 35, height: 35)
                 .overlay(
                     Text(comment.username.prefix(1))
-                        .bold()
+                        .fontWeight(.semibold)
                         .foregroundColor(.white)
                 )
                 .padding(.trailing, 6)
             
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 4) {
                 HStack {
                     Text(comment.username)
                         .fontWeight(.semibold)
+                        .font(.system(size: 14))
                         .padding(.trailing, 4)
                    
                     Text(comment.time)
@@ -41,26 +42,17 @@ struct CommentCell: View {
                             .foregroundStyle(.white)
                     }
                 }
-                .padding(.bottom, 4)
                 
                 Text(comment.comment)
-                    .font(.system(size: 16))
-                    .foregroundColor(.secondary)
+                    .font(.system(size: 14))
+                    .foregroundStyle(.white)
                     .padding(.bottom, 2)
-                
-                Button {
-                    // 답장
-                } label: {
-                    Text("답장")
-                        .font(.system(size: 14))
-                        .foregroundStyle(.grayButton)
-                }
             }
         }
 
     }
 }
 
-//#Preview {
-//    CommentCell()
-//}
+#Preview {
+    CommentCell(comment: Comment(username: "dearkang", comment: "하하하 너무재밌네요", time: "1분 전"))
+}
