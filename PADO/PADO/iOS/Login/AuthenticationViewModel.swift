@@ -13,8 +13,8 @@ import FirebaseStorage
 @MainActor
 class AuthenticationViewModel: ObservableObject {
     
-    @Published var name = ""
-    @Published var year = Year(day: "", month: "", year: "")
+    @Published var nameID = ""
+    @Published var year = ""
     @Published var phoneNumber = ""
     
     @Published var otpText = ""
@@ -26,6 +26,14 @@ class AuthenticationViewModel: ObservableObject {
     @Published var showAlert = false
     @Published var isExisted = false
     
+    @Published var birthDate = Date() {
+        didSet {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy년 MM월 dd일"
+            year = dateFormatter.string(from: birthDate)
+        }
+    }
+    
     @Published var selectedItem: PhotosPickerItem? {
         didSet {
             Task {
@@ -36,6 +44,7 @@ class AuthenticationViewModel: ObservableObject {
     @Published var profileImageUrl: Image?
     private var uiImage: UIImage?
     
+    @Published var authResult: AuthDataResult?
     @Published var currentUser: User?
     
     @AppStorage("userID") var userID: String = ""
@@ -65,13 +74,15 @@ class AuthenticationViewModel: ObservableObject {
         guard !otpText.isEmpty else { return false }
         isLoading = true
         do {
-            let _ = try await signInWithCredential()
+            let result = try await signInWithCredential()
+            authResult = result
+            
             isLoading = false
             return true
         } catch {
             handleError(error: error)
             isLoading = false
-            return false        
+            return false
         }
     }
     
@@ -80,47 +91,71 @@ class AuthenticationViewModel: ObservableObject {
         return try await Auth.auth().signIn(with: credential)
     }
     
-    func saveUserData(_ user: Firebase.User? = nil, data: [String: Any]? = nil) async {
-        // 사용자 데이터 Firestore에 저장
-        do {
-            let uid = user?.uid ?? userID
-            let userData = data ?? [
-                "name": name,
-                "date": year.date,
-                "id": uid,
-                "phoneNumber": "+82\(phoneNumber)"
-            ]
-            
-            try await Firestore.firestore().collection("users").document(uid).setData(userData)
+    
+    func signUpUser(user: Firebase.User?) async {
+        guard let unwrappedUser = user else {
+            print("Error: User is nil")
+            return
+        }
         
-            currentUser = User(name: name, date: year.date)
-
+        userID = unwrappedUser.uid
+        
+        let initialUserData = [
+            "nameID": nameID,
+            "date": year,
+            "id": userID,
+            "phoneNumber": "+82\(phoneNumber)"
+        ]
+        
+        await saveUserData(userID, data: initialUserData)
+    }
+    
+    func updateUserData(userID: String, newData: [String: Any]) async {
+        await saveUserData(userID, data: newData)
+    }
+    
+    func saveUserData(_ userID: String, data: [String: Any]) async {
+        do {
+            try await Firestore.firestore().collection("users").document(userID).setData(data)
+            currentUser = User(nameID: nameID, date: year, phoneNumber: phoneNumber)
         } catch {
             print("Error saving user data: \(error.localizedDescription)")
         }
     }
     
-   
-   
     func checkPhoneNumberExists(phoneNumber: String) async  -> Bool {
-          // 전화번호 중복 확인
-          let userDB = Firestore.firestore().collection("users")
-          let query = userDB.whereField("phoneNumber", isEqualTo: phoneNumber)
-          
-          do {
-              let querySnapshot = try await query.getDocuments()
-              print("documets: \(querySnapshot.documents)")
-              if !querySnapshot.documents.isEmpty {
-                  return true
-              } else {
-                  return false
-              }
-          } catch {
-              print("Error: \(error)")
-              return false
-          }
-      }
-
+        // 전화번호 중복 확인
+        let userDB = Firestore.firestore().collection("users")
+        let query = userDB.whereField("phoneNumber", isEqualTo: phoneNumber)
+        
+        do {
+            let querySnapshot = try await query.getDocuments()
+            print("documets: \(querySnapshot.documents)")
+            if !querySnapshot.documents.isEmpty {
+                return true
+            } else {
+                return false
+            }
+        } catch {
+            print("Error: \(error)")
+            return false
+        }
+    }
+    
+    func checkForDuplicateID() async -> Bool {
+        // ID 중복 확인
+        let usersCollection = Firestore.firestore().collection("users")
+        let query = usersCollection.whereField("nameID", isEqualTo: nameID.lowercased())
+        
+        do {
+            let querySnapshot = try await query.getDocuments()
+            return !querySnapshot.documents.isEmpty
+        } catch {
+            print("Error checking for duplicate ID: \(error)")
+            return true 
+        }
+    }
+    
     
     // MARK: - 사용자 데이터 관리
     func initializeUser() async {
@@ -150,6 +185,8 @@ class AuthenticationViewModel: ObservableObject {
     }
     
     // MARK: - Firestore 쿼리 처리
+    
+    // 이 함수 필요없는거같으니 확인바람
     func fetchUIDByPhoneNumber(phoneNumber: String) async {
         // 전화번호로 Firestore
         let usersCollection = Firestore.firestore().collection("users")

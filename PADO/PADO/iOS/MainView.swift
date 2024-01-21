@@ -9,12 +9,12 @@ import SwiftUI
 
 struct MainView: View {
     
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @StateObject var viewModel = AuthenticationViewModel()
     
     var body: some View {
         Group {
             if viewModel.currentUser == nil {
-                StartView()
+                StartView(viewModel: viewModel)
             } else {
                 ContentView()
             }

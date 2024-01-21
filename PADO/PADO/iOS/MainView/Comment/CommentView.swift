@@ -27,7 +27,7 @@ struct CommentSheetView: View {
     
     var body: some View {
         ZStack {
-            Color.mainBackground.ignoresSafeArea()
+            Color.black.ignoresSafeArea()
             VStack {
                 Text("댓글")
                     .font(.system(size: 22))

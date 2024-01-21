@@ -15,7 +15,7 @@ struct FeedCell: View {
     
     var body: some View {
         ZStack {
-            Color.mainBackground.ignoresSafeArea()
+            Color.black.ignoresSafeArea()
             
             VStack(alignment: .leading) {
                 
@@ -35,7 +35,7 @@ struct FeedCell: View {
                     }
                     .padding(.trailing, 12)
                     .sheet(isPresented: $isShowingReportView) {
-                        ReportSelectView()
+                        ReportSelectView(isShowingReportView: $isShowingReportView)
                             .presentationDetents([.height(600)]) // 모달높이 조절
                     }
                 }

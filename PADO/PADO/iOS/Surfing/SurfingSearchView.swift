@@ -13,7 +13,7 @@ struct SurfingSearchView: View {
     
     var body: some View {
         ZStack {
-            Color.mainBackground.ignoresSafeArea()
+            Color.black.ignoresSafeArea()
             VStack(alignment: .leading) {
                 ZStack {
                     

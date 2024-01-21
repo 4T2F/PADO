@@ -15,7 +15,7 @@ struct MainSearchView: View {
     // MARK: - BODY
     var body: some View {
         ZStack {
-            Color.mainBackground.ignoresSafeArea()
+            Color.black.ignoresSafeArea()
             VStack(alignment: .leading) {
                 ZStack {
                     
