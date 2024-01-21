@@ -90,26 +90,38 @@ class AuthenticationViewModel: ObservableObject {
         return try await Auth.auth().signIn(with: credential)
     }
     
-    func saveUserData(_ user: Firebase.User? = nil, data: [String: Any]? = nil) async {
-        // 사용자 데이터 Firestore에 저장
-        do {
-            let uid = user?.uid ?? authResult?.user.uid
-            let userData = data ?? [
-                "nameID": nameID,
-                "date": year,
-                "id": uid!,
-                "phoneNumber": "+82\(phoneNumber)"
-            ]
-            
-            try await Firestore.firestore().collection("users").document(uid!).setData(userData)
+    
+    func signUpUser(user: Firebase.User?) async {
+        guard let unwrappedUser = user else {
+            print("Error: User is nil")
+            return
+        }
         
-            currentUser = User(nameID: nameID, date: year, phoneNumber: phoneNumber)
+        userID = unwrappedUser.uid
+        
+        let initialUserData = [
+            "nameID": nameID,
+            "date": year,
+            "id": userID,
+            "phoneNumber": "+82\(phoneNumber)"
+        ]
+        
+        await saveUserData(userID, data: initialUserData)
+    }
+    
+    func updateUserData(userID: String, newData: [String: Any]) async {
+        await saveUserData(userID, data: newData)
+    }
 
+    func saveUserData(_ userID: String, data: [String: Any]) async {
+        do {
+            try await Firestore.firestore().collection("users").document(userID).setData(data)
+            currentUser = User(nameID: nameID, date: year, phoneNumber: phoneNumber)
         } catch {
             print("Error saving user data: \(error.localizedDescription)")
         }
     }
-   
+    
     func checkPhoneNumberExists(phoneNumber: String) async  -> Bool {
           // 전화번호 중복 확인
           let userDB = Firestore.firestore().collection("users")
@@ -158,6 +170,8 @@ class AuthenticationViewModel: ObservableObject {
     }
     
     // MARK: - Firestore 쿼리 처리
+    
+    // 이 함수 필요없는거같으니 확인바람
     func fetchUIDByPhoneNumber(phoneNumber: String) async {
         // 전화번호로 Firestore
         let usersCollection = Firestore.firestore().collection("users")

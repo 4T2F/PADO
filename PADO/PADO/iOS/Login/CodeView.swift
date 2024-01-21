@@ -34,6 +34,7 @@ struct CodeView: View {
                         .padding(.horizontal)
                         .onChange(of: viewModel.otpText) { _, newValue in
                             buttonActive = newValue.count == 6
+                            
                         }
                     
                     if otpVerificationFailed {

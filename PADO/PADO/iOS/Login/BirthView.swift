@@ -63,9 +63,9 @@ struct BirthView: View {
                 
                 Button {
                     if buttonActive {
+
                         Task{
-                            await viewModel.fetchUIDByPhoneNumber(phoneNumber: "+82\(viewModel.phoneNumber)")
-                            await viewModel.saveUserData()
+                            await viewModel.signUpUser(user: viewModel.authResult?.user)
                         }
                         // 14세 이상이 아니면 나이가 안된다는 알림 창 만들어야함
                     }
