@@ -9,42 +9,45 @@ import SwiftUI
 
 struct ReMainView: View {
     var body: some View {
-        ZStack {
-            Image("Pic3")
-                .resizable()
-                .scaledToFill()
-                .ignoresSafeArea()
-            
-            VStack {
-                // MARK: - Header
-                MainHeaderCell()
-                    .padding(.horizontal, 70)
-                    .padding(.leading, 5)
-                    .padding(.top, 5)
+        NavigationStack {
+            ZStack {
+                Image("Pic3")
+                    .resizable()
+                    .scaledToFill()
+                    .ignoresSafeArea()
                 
-                Spacer()
-                
-                //MARK: - HeartComment
-                HeartCommentCell()
-                    .padding(.leading, UIScreen.main.bounds.width)
-                    .padding(.trailing, 55)
-                    .padding(.top)
-                
-                // MARK: - Story
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 16) {
-                        ForEach(0..<storyData.count, id: \.self) { cell in
-                            StoryCell(story: storyData[cell])
+                VStack {
+                    // MARK: - Header
+                    MainHeaderCell()
+                        .frame(width: UIScreen.main.bounds.width)
+                        .padding(.leading, 4)
+                        .padding(.top, 5)
+                    
+                    Spacer()
+                    
+                    //MARK: - HeartComment
+                    HeartCommentCell()
+                        .padding(.leading, UIScreen.main.bounds.width)
+                        .padding(.trailing, 55)
+                        .padding(.top)
+                    
+                    // MARK: - Story
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 16) {
+                            ForEach(0..<storyData.count, id: \.self) { cell in
+                                StoryCell(story: storyData[cell])
+                            }
                         }
+                        .padding(.horizontal)
                     }
-                    .padding(.horizontal)
+                    .frame(width: UIScreen.main.bounds.width)
+                    .padding()
                 }
-                .frame(width: UIScreen.main.bounds.width)
-                .padding()
             }
         }
     }
 }
+
 
 #Preview {
     ReMainView()

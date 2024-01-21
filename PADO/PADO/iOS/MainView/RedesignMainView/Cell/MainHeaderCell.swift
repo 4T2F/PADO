@@ -41,8 +41,9 @@ struct MainHeaderCell: View {
                 Image("Bell_pin_light")
             }
         }
-        .padding(.horizontal, UIScreen.main.bounds.width * 0.03)
-        .padding(.leading, 24)
+        .padding(.horizontal)
+        .padding(.leading, 20)
+        .padding(.top, 10)
         
         VStack(alignment: .leading) {
             HStack {
@@ -52,10 +53,9 @@ struct MainHeaderCell: View {
                 
                 Spacer()
             }
+            .padding(.leading)
         }
-        .padding(.leading)
         
-        Spacer()
     }
 }
 
