@@ -8,6 +8,7 @@
 import SwiftUI
 import Firebase
 import PhotosUI
+import FirebaseStorage
 
 @MainActor
 class AuthenticationViewModel: ObservableObject {
@@ -231,7 +232,6 @@ class AuthenticationViewModel: ObservableObject {
     }
     
     // MARK: - 스토리지 관련
-    
     func updateUserData() async throws {
         try await updateProfileImage()
     }
@@ -249,10 +249,27 @@ class AuthenticationViewModel: ObservableObject {
     // ImageUploader를 통해 Storage에 이미지를 올리고 imageurl을 매게변수로 updateUserProfileImage 에 넣어줌
     private func updateProfileImage() async throws {
         guard let image = self.uiImage else { return }
-        guard let imageUrl = try? await ImageUploader.uploadImage(image) else { return }
+        guard let imageUrl = try? await uploadImage(image) else { return }
         try await updateUserProfileImage(withImageUrl: imageUrl)
     }
     
+    // 파베스토리지에 이미지를 업로드하는 친구
+    private func uploadImage(_ image: UIImage) async throws -> String? {
+        guard let currentUid = Auth.auth().currentUser?.uid else { return nil }
+        guard let imageData = image.jpegData(compressionQuality: 0.25) else { return nil }
+        let filename = currentUid
+        let storageRef = Storage.storage().reference(withPath: "/profile_image/\(filename)")
+        
+        do {
+            let _ = try await storageRef.putDataAsync(imageData)
+            let url = try await storageRef.downloadURL()
+            return url.absoluteString
+        } catch {
+            print("DEBUG: Faile to upload image with error: \(error.localizedDescription)")
+            return nil
+        }
+    }
+
     // 전달받은 imageUrl 의 값을 파이어 스토어 모델에 올리고 뷰모델에 넣어줌
     func updateUserProfileImage(withImageUrl imageUrl: String) async throws {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
