@@ -28,7 +28,6 @@ struct CommentCell: View {
                         .fontWeight(.semibold)
                         .font(.system(size: 14))
                         .padding(.trailing, 4)
-                   
                     Text(comment.time)
                         .font(.caption)
                         .foregroundColor(.secondary)
@@ -36,7 +35,7 @@ struct CommentCell: View {
                     Spacer()
                     
                     Button {
-                        
+                        // 버튼 액션
                     } label: {
                         Image(systemName: "ellipsis")
                             .foregroundStyle(.white)
@@ -46,10 +45,8 @@ struct CommentCell: View {
                 Text(comment.comment)
                     .font(.system(size: 14))
                     .foregroundStyle(.white)
-                    .padding(.bottom, 2)
             }
         }
-
     }
 }
 

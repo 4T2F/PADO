@@ -52,10 +52,14 @@ struct HeartCommentCell: View {
                 Button {
                     isShowingReportView.toggle()
                 } label: {
-                    Text("...")
-                        .font(.system(size: 32))
-                        .fontWeight(.light)
-                        .foregroundStyle(.white)
+                    VStack {
+                        Text("...")
+                            .font(.system(size: 32))
+                            .fontWeight(.light)
+                            .foregroundStyle(.white)
+                        
+                        Text("")
+                    }
                 }
                 .sheet(isPresented: $isShowingReportView) {
                     ReportSelectView(isShowingReportView: $isShowingReportView)

@@ -11,6 +11,13 @@ struct ReMainView: View {
     @State private var isShowingReportView = false
     @State private var isShowingCommentView = false
     
+    @State private var isHeaderVisible = true
+    let dragThreshold: CGFloat = 80
+    
+    @State private var isCommentVisible = false
+    @StateObject private var commentVM = CommentViewModel()
+    @StateObject private var mainCommentVM = MainCommentViewModel()
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -21,9 +28,11 @@ struct ReMainView: View {
                 
                 VStack {
                     // MARK: - Header
-                    MainHeaderCell()
-                        .frame(width: UIScreen.main.bounds.width)
-                        .padding(.leading, 4)
+                    if isHeaderVisible {
+                        MainHeaderCell()
+                            .frame(width: UIScreen.main.bounds.width)
+                            .padding(.leading, 4)
+                    }
                     
                     Spacer()
                     
@@ -34,19 +43,42 @@ struct ReMainView: View {
                         .padding(.top)
                     
                     // MARK: - Story
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 16) {
-                            ForEach(0..<storyData.count, id: \.self) { cell in
-                                StoryCell(story: storyData[cell])
+                    if isHeaderVisible {
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 16) {
+                                ForEach(0..<storyData.count, id: \.self) { cell in
+                                    StoryCell(story: storyData[cell])
+                                }
                             }
+                            .padding(.horizontal)
                         }
-                        .padding(.horizontal)
+                        .frame(width: UIScreen.main.bounds.width)
+                        .padding()
+                        .transition(.opacity)
                     }
-                    .frame(width: UIScreen.main.bounds.width)
-                    .padding()
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .overlay {
+                    if !isHeaderVisible {
+                        VStack {
+                            ForEach(mainCommentVM.mainComments) { comment in
+                                        MainCommentCell(mainComment: comment)
+                            }
+                        }
+                    }
+                }
             }
+            .gesture(DragGesture().onEnded { value in
+                withAnimation(.easeInOut(duration: 0.2)) {
+                    if value.translation.height > dragThreshold {
+                        // 사용자가 아래로 충분히 스와이프했을 때
+                        isHeaderVisible = false
+                    } else if -value.translation.height > dragThreshold {
+                        // 사용자가 위로 충분히 스와이프했을 때
+                        isHeaderVisible = true
+                    }
+                }
+            })
         }
     }
 }
