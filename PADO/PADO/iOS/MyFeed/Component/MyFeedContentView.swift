@@ -25,16 +25,15 @@ struct MyFeedContentView: View {
     // MARK: - PROPERTY
     @State private var selectedFilter: MyFeedFilter = .myfeed
     @Namespace var animation
-    let columns = [GridItem(.flexible()), GridItem(.flexible())]
+    let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
     
     private var filterBarWidth: CGFloat {
         let count = CGFloat(MyFeedFilter.allCases.count)
-        return UIScreen.main.bounds.width / count - 150
+        return UIScreen.main.bounds.width / count
     }
     
     // MARK: - BODY
     var body: some View {
-        ScrollView(.vertical) {
             VStack {
                 HStack {
                     ForEach(MyFeedFilter.allCases) { filter in
@@ -43,7 +42,7 @@ struct MyFeedContentView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 35, height: 22)
-                                .fontWeight(selectedFilter == filter ? .bold : .regular)
+                                .fontWeight(selectedFilter == filter ? .light : .light)
                                 .foregroundStyle(selectedFilter == filter ? .white : .grayButton)
                                 .padding(.horizontal, 50)
                                 .padding(.vertical)
@@ -58,37 +57,32 @@ struct MyFeedContentView: View {
                                     .foregroundStyle(.clear)
                                     .frame(width: filterBarWidth, height: 1)
                             }
-                        } //: VSTACK
+                        }
+                        .offset(y: 4)
                         .onTapGesture {
                             withAnimation(.spring()) {
                                 selectedFilter = filter
                             }
                         }
                         
-                    } // LOOP
-                } //: HSTACK
+                    }
+                }
                 
-                LazyVGrid(columns: columns) {
+                LazyVGrid(columns: columns, spacing: 6) {
                     ForEach(1...10, id: \.self) { _ in
                         ZStack(alignment: .leading) {
                             Image("pp")
                                 .resizable()
-                                .frame(width: 190, height: 300)
+                                .frame(width: UIScreen.main.bounds.width / 3, height: 180)
                             
-                            Text("시리우스 셀카 사진")
+                            Text("chunrangsung")
                                 .foregroundStyle(.white)
-                                .font(.system(size: 18, weight: .bold))
-                                .offset(y: 100)
-                            
-                            Text("Dog Star")
-                                .foregroundStyle(.white)
-                                .font(.system(size: 16, weight: .semibold))
-                                .offset(y: 130)
-                        } //: ZSTACK
-                    } //: LOOP
-                } // GRID
-            } //: VSTACK
-        } //: SCROLL
+                                .font(.system(size: 12))
+                                .offset(x: 6,y: 80)
+                        }
+                    }
+                }
+            }
     }
 }
 

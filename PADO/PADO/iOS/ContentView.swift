@@ -65,7 +65,7 @@ struct ContentView: View {
                         }
                         .onAppear { selectedTab = 3 }
                         .tag(3)
-                    MyFeedView()
+                    ReMyFeedView()
                         .tabItem {
                             Image(selectedTab == 4 ? "tab_profile" : "tab_profile_gray")
                             
