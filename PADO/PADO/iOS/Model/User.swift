@@ -17,15 +17,25 @@ var userToken: String {
     }
 }
 
+var userAlertAccept: String {
+    get {
+        UserDefaults.standard.string(forKey: "userAlertAccept") ?? "no"
+    }
+    set {
+        UserDefaults.standard.set(newValue, forKey: "userAlertAccept")
+    }
+}
+
 struct User: Codable, Identifiable, Hashable {
     @DocumentID var id: String?
     var username: String?
     var nameID: String
     var profileImageUrl: String?
-    var date: String
+    var date: String // 날짜가 문자열로 저장된 경우
     var bio: String?
     var location: String?
     var phoneNumber: String
     var fcmToken: String
+    var alertAccept: String // 필드 이름 수정
 }
 

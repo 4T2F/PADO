@@ -92,7 +92,6 @@ class AuthenticationViewModel: ObservableObject {
         return try await Auth.auth().signIn(with: credential)
     }
     
-    
     func signUpUser(user: Firebase.User?) async {
         guard let unwrappedUser = user else {
             print("Error: User is nil")
@@ -102,11 +101,12 @@ class AuthenticationViewModel: ObservableObject {
         userID = unwrappedUser.uid
         
         let initialUserData = [
+            "id": userID,
             "nameID": nameID,
             "date": year,
-            "id": userID,
             "phoneNumber": "+82\(phoneNumber)",
-            "fcmToken": userToken
+            "fcmToken": userToken,
+            "alertAccept": userAlertAccept
         ]
         
         await createUserData(userID, data: initialUserData)
@@ -115,7 +115,7 @@ class AuthenticationViewModel: ObservableObject {
     func createUserData(_ userID: String, data: [String: Any]) async {
         do {
             try await Firestore.firestore().collection("users").document(userID).setData(data)
-            currentUser = User(nameID: nameID, date: year, phoneNumber: phoneNumber, fcmToken: userToken)
+            currentUser = User(id: userID, nameID: nameID, date: year, phoneNumber: "+82\(phoneNumber)", fcmToken: userToken, alertAccept: userAlertAccept)
         } catch {
             print("Error saving user data: \(error.localizedDescription)")
         }

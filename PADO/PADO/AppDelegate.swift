@@ -17,29 +17,29 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         FirebaseApp.configure()
         
         // MARK: - 사용자에게 알림 권한을 요청하고, 알림 타입(알림, 배지, 소리)을 설정
-        if #available(iOS 10.0, *) {
-            // For iOS 10 display notification (sent via APNS)
-            UNUserNotificationCenter.current().delegate = self
-            
-            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-            UNUserNotificationCenter.current().requestAuthorization(
-                options: authOptions,
-                completionHandler: { _, _ in }
-            )
-        } else {
-            let settings: UIUserNotificationSettings =
-            UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
-            application.registerUserNotificationSettings(settings)
-        }
         
-        // MARK: - 원격 알림을 위해 앱을 등록
-        application.registerForRemoteNotifications()
-        
-        // MARK: - firebase Messaging Delegate 설정
-        Messaging.messaging().delegate = self // Firebase 메시징 서비스의 대리자(delegate)를 현재의 AppDelegate 객체로 설정
-        
+        // For iOS 10 display notification (sent via APNS)
         UNUserNotificationCenter.current().delegate = self
         
+        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+        UNUserNotificationCenter.current().requestAuthorization(
+            options: authOptions,
+            completionHandler: { granted, _ in
+                if granted {
+                    userAlertAccept = "yes"
+                }
+            }
+        )
+        
+        DispatchQueue.main.async {
+            application.registerForRemoteNotifications()
+            
+            // MARK: - firebase Messaging Delegate 설정
+            Messaging.messaging().delegate = self // Firebase 메시징 서비스의 대리자(delegate)를 현재의 AppDelegate 객체로 설정
+            
+            UNUserNotificationCenter.current().delegate = self
+        }
+        // MARK: - 원격 알림을 위해 앱을 등록
         return true
     }
     
