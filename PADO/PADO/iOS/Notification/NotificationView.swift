@@ -62,6 +62,7 @@ struct NotificationView: View {
                 }
             }
         }
+        .navigationBarBackButtonHidden()
     }
 }
 

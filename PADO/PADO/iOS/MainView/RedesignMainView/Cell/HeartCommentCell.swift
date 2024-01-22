@@ -9,7 +9,9 @@ import SwiftUI
 
 struct HeartCommentCell: View {
     @State var heartOnOff: Bool = false
-    @State var isShowingReportView = false
+    
+    @Binding var isShowingReportView: Bool
+    @Binding var isShowingCommentView: Bool
     
     var body: some View {
         VStack(spacing: 16) {
@@ -31,9 +33,14 @@ struct HeartCommentCell: View {
             
             VStack {
                 Button {
-                    // chat func
+                    isShowingCommentView.toggle()
                 } label: {
                     Image("Chat")
+                }
+                .sheet(isPresented: $isShowingCommentView) {
+                    CommentView()
+                        .presentationDetents([.fraction(0.99), .fraction(0.8)])
+                        .presentationDragIndicator(.visible)
                 }
                 
                 Text("13")
@@ -45,14 +52,19 @@ struct HeartCommentCell: View {
                 Button {
                     isShowingReportView.toggle()
                 } label: {
-                    Text("...")
-                        .font(.system(size: 32))
-                        .fontWeight(.light)
-                        .foregroundStyle(.white)
+                    VStack {
+                        Text("...")
+                            .font(.system(size: 32))
+                            .fontWeight(.light)
+                            .foregroundStyle(.white)
+                        
+                        Text("")
+                    }
                 }
                 .sheet(isPresented: $isShowingReportView) {
                     ReportSelectView(isShowingReportView: $isShowingReportView)
-                        .presentationDetents([.height(500)]) // 모달높이 조절
+                        .presentationDetents([.medium, .fraction(0.8)]) // 모달높이 조절
+                        .presentationDragIndicator(.visible)
                 }
             }
             .padding(.top, -15)
@@ -61,5 +73,5 @@ struct HeartCommentCell: View {
 }
 
 #Preview {
-    HeartCommentCell()
+    HeartCommentCell(isShowingReportView: .constant(false), isShowingCommentView: .constant(false))
 }

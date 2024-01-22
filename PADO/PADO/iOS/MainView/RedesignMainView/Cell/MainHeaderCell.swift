@@ -35,9 +35,7 @@ struct MainHeaderCell: View {
             Spacer()
             
             // 알림이 없으면 기본 Bell_light 바꾸는 로직 추가해야함
-            Button {
-                // func
-            } label: {
+            NavigationLink(destination: NotificationView()) {
                 Image("Bell_pin_light")
             }
         }
@@ -55,6 +53,7 @@ struct MainHeaderCell: View {
             }
             .padding(.leading)
         }
+        .padding(.top, 5)
         
     }
 }

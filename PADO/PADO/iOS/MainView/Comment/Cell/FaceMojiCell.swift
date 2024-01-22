@@ -61,7 +61,7 @@ struct FaceMojiCell: View {
             }
             Text(faceMojiUser)
                 .foregroundStyle(.white)
-                .font(.system(size: 16))
+                .font(.system(size: 14))
         }
     }
 }

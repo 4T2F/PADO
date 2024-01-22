@@ -13,7 +13,7 @@ struct FaceMojiView: View {
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            LazyHStack {
+            HStack {
                 ForEach(Array(zip(emotions, users)), id: \.0.self) { (emotion, user) in
                         FaceMojiCell(emotion: emotion, faceMojiUser: user)
                             .padding(.horizontal, 6)
