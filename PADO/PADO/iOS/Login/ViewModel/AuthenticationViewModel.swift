@@ -214,6 +214,8 @@ class AuthenticationViewModel: ObservableObject {
                 print("Error: User data could not be decoded")
                 return
             }
+            userToken = user.fcmToken
+            userAlertAccept = user.alertAccept
             self.currentUser = user
             print("Current User: \(String(describing: currentUser))")
         } catch {
