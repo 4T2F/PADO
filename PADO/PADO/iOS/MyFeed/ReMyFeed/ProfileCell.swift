@@ -10,8 +10,6 @@ import SwiftUI
 struct ProfileCell: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Spacer()
-            
             CircularImageView(size: .xxLarge)
             
             HStack {

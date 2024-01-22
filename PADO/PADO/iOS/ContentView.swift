@@ -31,8 +31,11 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             GeometryReader { geometry in
+                let safeArea = geometry.safeAreaInsets
+                let size = geometry.size
+                
                 TabView(selection: $selectedTab) {
-                    ReMainView()
+                    ReMainView(heartOnOff: .constant(false), safeArea: safeArea)
                         .tabItem {
                             Image(selectedTab == 0 ? "tab_home" : "tab_home_gray")
                                 
