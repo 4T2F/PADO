@@ -8,6 +8,15 @@
 import Firebase
 import FirebaseFirestoreSwift
 
+var userToken: String {
+    get {
+        UserDefaults.standard.string(forKey: "userToken") ?? ""
+    }
+    set {
+        UserDefaults.standard.set(newValue, forKey: "userToken")
+    }
+}
+
 struct User: Codable, Identifiable, Hashable {
     @DocumentID var id: String?
     var username: String?
@@ -17,6 +26,6 @@ struct User: Codable, Identifiable, Hashable {
     var bio: String?
     var location: String?
     var phoneNumber: String
-    var fcmToken: String?
+    var fcmToken: String
 }
 

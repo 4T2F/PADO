@@ -16,7 +16,7 @@ struct MainView: View {
             if viewModel.currentUser == nil {
                 StartView(viewModel: viewModel)
             } else {
-                ContentView()
+                MainView()
             }
         }
     }

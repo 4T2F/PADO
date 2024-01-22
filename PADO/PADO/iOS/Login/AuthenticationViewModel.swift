@@ -41,6 +41,7 @@ class AuthenticationViewModel: ObservableObject {
             }
         }
     }
+    
     @Published var profileImageUrl: Image?
     private var uiImage: UIImage?
     
@@ -57,12 +58,12 @@ class AuthenticationViewModel: ObservableObject {
     // MARK: - 인증 관련
     func sendOtp() async {
         // OTP 발송
-        guard !isLoading else { return }
-        
         do {
             isLoading = true
             let result = try await PhoneAuthProvider.provider().verifyPhoneNumber("+82\(phoneNumber)", uiDelegate: nil) // 사용한 가능한 번호인지
+            print(result)
             verificationCode = result
+            print(verificationCode)
             isLoading = false
         } catch {
             handleError(error: error)
@@ -117,7 +118,7 @@ class AuthenticationViewModel: ObservableObject {
     func saveUserData(_ userID: String, data: [String: Any]) async {
         do {
             try await Firestore.firestore().collection("users").document(userID).setData(data)
-            currentUser = User(nameID: nameID, date: year, phoneNumber: phoneNumber)
+            currentUser = User(nameID: nameID, date: year, phoneNumber: phoneNumber, fcmToken: userToken)
         } catch {
             print("Error saving user data: \(error.localizedDescription)")
         }
@@ -279,20 +280,18 @@ class AuthenticationViewModel: ObservableObject {
         self.currentUser?.profileImageUrl = imageUrl
     }
     
-    func updateFCMToken(_ token: String) {
-        guard let userID = self.currentUser?.id else { return }
-        
-        // User 모델 업데이트
-        self.currentUser?.fcmToken = token
-        
-        // Firestore에 업데이트
-        let userRef = Firestore.firestore().collection("users").document(userID)
-        userRef.updateData(["fcmToken": token]) { error in
-            if let error = error {
-                print("Error updating token: \(error)")
-            } else {
-                print("FCM token successfully updated in Firestore")
-            }
-        }
-    }
+//    func updateFCMToken(_ token: String) {
+//        // User 모델 업데이트
+//        self.currentUser?.fcmToken = token
+//        
+//        // Firestore에 업데이트
+//        let userRef = Firestore.firestore().collection("users").document(userID)
+//        userRef.updateData(["fcmToken": token]) { error in
+//            if let error = error {
+//                print("Error updating token: \(error)")
+//            } else {
+//                print("FCM token successfully updated in Firestore")
+//            }
+//        }
+//    }
 }

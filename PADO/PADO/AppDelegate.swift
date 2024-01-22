@@ -11,7 +11,6 @@ import FirebaseMessaging
 import SwiftUI
 
 class AppDelegate: NSObject, UIApplicationDelegate {
-    var viewModel = AuthenticationViewModel()
     
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
@@ -56,11 +55,11 @@ extension AppDelegate : MessagingDelegate {
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         print("Firebase registration token: \(String(describing: fcmToken))")
         
-        if let token = fcmToken {
-            viewModel.updateFCMToken(token)
-        }
+        guard let token = fcmToken else { return }
         
-        let dataDict: [String: String] = ["token": fcmToken ?? ""]
+        userToken = token
+        
+        let dataDict: [String: String] = ["token": userToken]
         NotificationCenter.default.post(
             name: Notification.Name("FCMToken"),
             object: nil,
