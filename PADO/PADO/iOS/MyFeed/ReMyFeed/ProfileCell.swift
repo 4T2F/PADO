@@ -26,16 +26,16 @@ struct ProfileCell: View {
                 ZStack {
                     RoundedRectangle(cornerRadius:4)
                         .stroke(Color.gray, lineWidth: 1)
-                        .frame(width: 88, height: 28)
+                        .frame(width: 78, height: 28)
                     Text("프로필 편집")
-                        .font(.system(size: 14))
-                        .fontWeight(.semibold)
+                        .font(.system(size: 12))
+                        .fontWeight(.medium)
                         .foregroundStyle(.gray)
                 }
             }
             
             HStack {
-                HStack {
+                HStack(spacing: 5) {
                     Text("5")
                         .font(.system(size: 14, weight: .semibold))
                         .foregroundStyle(.white)
@@ -43,14 +43,15 @@ struct ProfileCell: View {
                     Text("wave time")
                         .font(.system(size: 14, weight: .semibold))
                         .foregroundStyle(.white)
-                } //: VSTACK
+                }
                 
                 Rectangle()
                     .foregroundStyle(Color(.systemGray2))
-                    .frame(width: 1, height: 20)
+                    .frame(width: 1, height: 18)
+                    .padding(.horizontal, 2)
                 
                 NavigationLink(destination: FollowView()) {
-                    HStack {
+                    HStack(spacing: 5) {
                         Text("1")
                             .font(.system(size: 14, weight: .semibold))
                             .foregroundStyle(.white)
@@ -59,15 +60,16 @@ struct ProfileCell: View {
                         Text("follower")
                             .font(.system(size: 14, weight: .semibold))
                             .foregroundStyle(.white)
-                    } //: VSTACK
+                    }
                 }
                 
                 Rectangle()
                     .foregroundStyle(Color(.systemGray2))
-                    .frame(width: 1, height: 20)
+                    .frame(width: 1, height: 18)
+                    .padding(.horizontal, 2)
                 
                 NavigationLink(destination: FollowView()) {
-                    HStack {
+                    HStack(spacing: 5) {
                         Text("1")
                             .font(.system(size: 14, weight: .semibold))
                             .foregroundStyle(.white)
@@ -75,7 +77,7 @@ struct ProfileCell: View {
                         Text("following")
                             .font(.system(size: 14, weight: .semibold))
                             .foregroundStyle(.white)
-                    } //: VSTACK
+                    }
                 }
             }
         }

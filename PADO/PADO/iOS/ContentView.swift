@@ -35,7 +35,7 @@ struct ContentView: View {
                 let size = geometry.size
                 
                 TabView(selection: $selectedTab) {
-                    ReMainView(heartOnOff: .constant(false), safeArea: safeArea)
+                    ReMainView()
                         .tabItem {
                             Image(selectedTab == 0 ? "tab_home" : "tab_home_gray")
                                 
@@ -60,7 +60,7 @@ struct ContentView: View {
                         }
                         .onAppear { selectedTab = 2 }
                         .tag(2)
-                    FeedView(isShowFollowButton: true, mainMenu: $menu)
+                    TodayView()
                         .tabItem {
                             Image(selectedTab == 3 ? "tab_todaypado" : "tab_todaypado_gray")
                             

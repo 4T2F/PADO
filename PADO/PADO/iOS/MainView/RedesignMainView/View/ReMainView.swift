@@ -12,11 +12,14 @@ struct ReMainView: View {
     @State private var isShowingCommentView = false
     
     @State private var isHeaderVisible = true
-    let dragThreshold: CGFloat = 80
+    let dragThreshold: CGFloat = 0
     
     @State private var isCommentVisible = false
     @StateObject private var commentVM = CommentViewModel()
     @StateObject private var mainCommentVM = MainCommentViewModel()
+    
+    @State private var textPosition = CGPoint(x: 300, y: 300)
+    @State private var dragStart: CGPoint?
     
     var body: some View {
         NavigationStack {
@@ -39,8 +42,8 @@ struct ReMainView: View {
                     //MARK: - HeartComment
                     HeartCommentCell(isShowingReportView: $isShowingReportView, isShowingCommentView: $isShowingCommentView)
                         .padding(.leading, UIScreen.main.bounds.width)
-                        .padding(.trailing, 55)
-                        .padding(.top)
+                        .padding(.trailing, 60)
+                        .padding(.bottom, 10)
                     
                     // MARK: - Story
                     if isHeaderVisible {
@@ -65,6 +68,21 @@ struct ReMainView: View {
                                         MainCommentCell(mainComment: comment)
                             }
                         }
+                        .position(textPosition)
+                        .gesture(
+                            DragGesture()
+                                .onChanged { gesture in
+                                    if dragStart == nil {
+                                        dragStart = gesture.startLocation
+                                    }
+                                    let dragAmount = CGPoint(x: gesture.translation.width, y: gesture.translation.height)
+                                    let initialPosition = dragStart ?? CGPoint.zero
+                                    self.textPosition = CGPoint(x: initialPosition.x + dragAmount.x, y: initialPosition.y + dragAmount.y)
+                                }
+                                .onEnded { _ in
+                                    dragStart = nil
+                                }
+                        )
                     }
                 }
             }
