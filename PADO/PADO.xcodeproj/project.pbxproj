@@ -47,6 +47,8 @@
 		41FD9A112B43D5ED0028D38E /* PADOUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FD9A102B43D5ED0028D38E /* PADOUITests.swift */; };
 		41FD9A132B43D5ED0028D38E /* PADOUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FD9A122B43D5ED0028D38E /* PADOUITestsLaunchTests.swift */; };
 		41FD9A212B43D94A0028D38E /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 41FD9A202B43D94A0028D38E /* .swiftlint.yml */; };
+		63077D512B5E2542006A9DBB /* MainCommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63077D502B5E2542006A9DBB /* MainCommentViewModel.swift */; };
+		63077D532B5E259E006A9DBB /* MainCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63077D522B5E259E006A9DBB /* MainCommentCell.swift */; };
 		6322913C2B5BF433007C51D1 /* MainHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6322913B2B5BF433007C51D1 /* MainHeaderCell.swift */; };
 		632291402B5BF768007C51D1 /* ReMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6322913F2B5BF768007C51D1 /* ReMainView.swift */; };
 		632291432B5C017E007C51D1 /* StoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632291422B5C017E007C51D1 /* StoryModel.swift */; };
@@ -169,6 +171,8 @@
 		41FD9A102B43D5ED0028D38E /* PADOUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PADOUITests.swift; sourceTree = "<group>"; };
 		41FD9A122B43D5ED0028D38E /* PADOUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PADOUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		41FD9A202B43D94A0028D38E /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		63077D502B5E2542006A9DBB /* MainCommentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCommentViewModel.swift; sourceTree = "<group>"; };
+		63077D522B5E259E006A9DBB /* MainCommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCommentCell.swift; sourceTree = "<group>"; };
 		6322913B2B5BF433007C51D1 /* MainHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainHeaderCell.swift; sourceTree = "<group>"; };
 		6322913F2B5BF768007C51D1 /* ReMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReMainView.swift; sourceTree = "<group>"; };
 		632291422B5C017E007C51D1 /* StoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryModel.swift; sourceTree = "<group>"; };
@@ -424,9 +428,18 @@
 			path = PADOUITests;
 			sourceTree = "<group>";
 		};
+		63077D4F2B5E239F006A9DBB /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				63077D502B5E2542006A9DBB /* MainCommentViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		632291382B5BF412007C51D1 /* RedesignMainView */ = {
 			isa = PBXGroup;
 			children = (
+				63077D4F2B5E239F006A9DBB /* ViewModel */,
 				632291412B5C016D007C51D1 /* Model */,
 				6322913A2B5BF422007C51D1 /* Cell */,
 				632291392B5BF41D007C51D1 /* View */,
@@ -448,6 +461,7 @@
 				6322913B2B5BF433007C51D1 /* MainHeaderCell.swift */,
 				632291442B5C028D007C51D1 /* StoryCell.swift */,
 				632291462B5C1674007C51D1 /* HeartCommentCell.swift */,
+				63077D522B5E259E006A9DBB /* MainCommentCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -869,9 +883,11 @@
 				4197420D2B55900D0055F2AB /* FeedView.swift in Sources */,
 				B1D7CDE02B564BF20090544B /* DummyView.swift in Sources */,
 				4197420E2B55900D0055F2AB /* FeedCell.swift in Sources */,
+				63077D512B5E2542006A9DBB /* MainCommentViewModel.swift in Sources */,
 				B1A91D122B55928D00FE7F62 /* SettingOthersView.swift in Sources */,
 				B1A91D152B55928D00FE7F62 /* SettingAlertView.swift in Sources */,
 				63D9DE492B5D86D5000668E0 /* CommentViewModel.swift in Sources */,
+				63077D532B5E259E006A9DBB /* MainCommentCell.swift in Sources */,
 				B1D7CDE42B5656B10090544B /* ModalBackground.swift in Sources */,
 				63824C4F2B558B5500D1D653 /* VerificationView.swift in Sources */,
 				63824C502B558B5500D1D653 /* WhiteButtonView.swift in Sources */,

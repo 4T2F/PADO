@@ -16,6 +16,7 @@ struct ReMainView: View {
     
     @State private var isCommentVisible = false
     @StateObject private var commentVM = CommentViewModel()
+    @StateObject private var mainCommentVM = MainCommentViewModel()
     
     var body: some View {
         NavigationStack {
@@ -34,12 +35,6 @@ struct ReMainView: View {
                     }
                     
                     Spacer()
-                    
-                    if !isHeaderVisible {
-                        ForEach(commentVM.comments) { comment in
-                            CommentCell(comment: comment, showDetails: false)
-                        }
-                    }
                     
                     //MARK: - HeartComment
                     HeartCommentCell(isShowingReportView: $isShowingReportView, isShowingCommentView: $isShowingCommentView)
@@ -60,6 +55,16 @@ struct ReMainView: View {
                         .frame(width: UIScreen.main.bounds.width)
                         .padding()
                         .transition(.opacity)
+                    }
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .overlay {
+                    if !isHeaderVisible {
+                        VStack {
+                            ForEach(mainCommentVM.mainComments) { comment in
+                                        MainCommentCell(mainComment: comment)
+                            }
+                        }
                     }
                 }
             }
