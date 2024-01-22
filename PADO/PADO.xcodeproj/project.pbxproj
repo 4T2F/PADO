@@ -304,6 +304,39 @@
 			path = Extenssions;
 			sourceTree = "<group>";
 		};
+		418B6C862B5E5C6600E8289D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				63824C402B558B2400D1D653 /* StartView.swift */,
+				418743282B5C42AB00D93CBE /* LoginView.swift */,
+				418743262B5C42A300D93CBE /* SignUpView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		418B6C872B5E5C6B00E8289D /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				417D18892B5CFEE400545A5E /* LoginPhoneNumberView.swift */,
+				417D188B2B5CFEF100545A5E /* LoginCodeView.swift */,
+				63C8BA4C2B56241200025422 /* TextAnimation.swift */,
+				63824C3F2B558B2400D1D653 /* PhoneNumberView.swift */,
+				63824C3E2B558B2400D1D653 /* CodeView.swift */,
+				63824C512B558B6900D1D653 /* UseIDModalView.swift */,
+				63824C412B558B2400D1D653 /* IdView.swift */,
+				63824C3D2B558B2400D1D653 /* BirthView.swift */,
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
+		418B6C882B5E5C9B00E8289D /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				635B09472B4500AA009E60A9 /* AuthenticationViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		419741E32B558F4A0055F2AB /* MyFeed */ = {
 			isa = PBXGroup;
 			children = (
@@ -512,18 +545,9 @@
 		63824C2E2B55875C00D1D653 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				63824C402B558B2400D1D653 /* StartView.swift */,
-				418743282B5C42AB00D93CBE /* LoginView.swift */,
-				417D18892B5CFEE400545A5E /* LoginPhoneNumberView.swift */,
-				417D188B2B5CFEF100545A5E /* LoginCodeView.swift */,
-				418743262B5C42A300D93CBE /* SignUpView.swift */,
-				63C8BA4C2B56241200025422 /* TextAnimation.swift */,
-				63824C3F2B558B2400D1D653 /* PhoneNumberView.swift */,
-				63824C3E2B558B2400D1D653 /* CodeView.swift */,
-				63824C512B558B6900D1D653 /* UseIDModalView.swift */,
-				63824C412B558B2400D1D653 /* IdView.swift */,
-				63824C3D2B558B2400D1D653 /* BirthView.swift */,
-				635B09472B4500AA009E60A9 /* AuthenticationViewModel.swift */,
+				418B6C882B5E5C9B00E8289D /* ViewModel */,
+				418B6C872B5E5C6B00E8289D /* Component */,
+				418B6C862B5E5C6600E8289D /* View */,
 			);
 			path = Login;
 			sourceTree = "<group>";

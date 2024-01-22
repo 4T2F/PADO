@@ -277,18 +277,4 @@ class AuthenticationViewModel: ObservableObject {
         self.currentUser?.profileImageUrl = imageUrl
     }
     
-//    func updateFCMToken(_ token: String) {
-//        // User 모델 업데이트
-//        self.currentUser?.fcmToken = token
-//        
-//        // Firestore에 업데이트
-//        let userRef = Firestore.firestore().collection("users").document(userID)
-//        userRef.updateData(["fcmToken": token]) { error in
-//            if let error = error {
-//                print("Error updating token: \(error)")
-//            } else {
-//                print("FCM token successfully updated in Firestore")
-//            }
-//        }
-//    }
 }
