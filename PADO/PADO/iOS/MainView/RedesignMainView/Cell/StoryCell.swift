@@ -27,6 +27,7 @@ struct StoryCell: View {
                 .font(.system(size: 12))
                 .foregroundStyle(.white)
         }
+        
     }
 }
 
