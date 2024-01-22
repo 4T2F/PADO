@@ -152,7 +152,7 @@ class AuthenticationViewModel: ObservableObject {
             return !querySnapshot.documents.isEmpty
         } catch {
             print("Error checking for duplicate ID: \(error)")
-            return true 
+            return true
         }
     }
     
@@ -269,7 +269,7 @@ class AuthenticationViewModel: ObservableObject {
             return nil
         }
     }
-
+    
     // 전달받은 imageUrl 의 값을 파이어 스토어 모델에 올리고 뷰모델에 넣어줌
     func updateUserProfileImage(withImageUrl imageUrl: String) async throws {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
@@ -277,5 +277,22 @@ class AuthenticationViewModel: ObservableObject {
             "profileImageUrl": imageUrl
         ])
         self.currentUser?.profileImageUrl = imageUrl
+    }
+    
+    func updateFCMToken(_ token: String) {
+        guard let userID = self.currentUser?.id else { return }
+        
+        // User 모델 업데이트
+        self.currentUser?.fcmToken = token
+        
+        // Firestore에 업데이트
+        let userRef = Firestore.firestore().collection("users").document(userID)
+        userRef.updateData(["fcmToken": token]) { error in
+            if let error = error {
+                print("Error updating token: \(error)")
+            } else {
+                print("FCM token successfully updated in Firestore")
+            }
+        }
     }
 }

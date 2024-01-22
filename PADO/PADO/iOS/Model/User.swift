@@ -17,6 +17,6 @@ struct User: Codable, Identifiable, Hashable {
     var bio: String?
     var location: String?
     var phoneNumber: String
-
+    var fcmToken: String?
 }
 
