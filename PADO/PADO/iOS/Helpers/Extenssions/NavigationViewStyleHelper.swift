@@ -17,3 +17,9 @@ extension UINavigationController: ObservableObject, UIGestureRecognizerDelegate 
         return viewControllers.count > 1
     }
 }
+
+extension View {
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}

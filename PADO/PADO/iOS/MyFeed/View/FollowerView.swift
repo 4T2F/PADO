@@ -11,9 +11,17 @@ struct FollowerView: View {
     // MARK: - PROPERTY
     @Environment (\.dismiss) var dismiss
     @State private var searchText: String = ""
+    @ObservedObject var viewModel = FollowViewModel()
     
     // MARK: - BODY
     var body: some View {
+        let searchTextBinding = Binding {
+            return searchText
+        } set: {
+            searchText = $0
+            viewModel.updateSearchText(with: $0)
+        }
+        
         ZStack {
             Color.black.ignoresSafeArea()
             VStack {
@@ -38,7 +46,8 @@ struct FollowerView: View {
                 
                 Spacer()
                 VStack {
-                    SearchView(searchText: $searchText)
+                    SearchBar(text: searchTextBinding,
+                              isLoading: $viewModel.isLoading)
                         .padding()
                     
                     ScrollView(.vertical) {
