@@ -96,6 +96,7 @@
 		B102FE802B56D34C0005C310 /* VerificationPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B102FE7F2B56D34C0005C310 /* VerificationPostView.swift */; };
 		B102FE822B56DB5B0005C310 /* PostButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B102FE812B56DB5B0005C310 /* PostButtonView.swift */; };
 		B102FE842B56DC030005C310 /* GrayButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B102FE832B56DC030005C310 /* GrayButtonView.swift */; };
+		B1749A672B5E41AA00BCC6BA /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1749A662B5E41AA00BCC6BA /* Post.swift */; };
 		B198BBA02B5639D500EAA6C0 /* ModalAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B198BB9F2B5639D500EAA6C0 /* ModalAlertView.swift */; };
 		B1A91D0F2B55928D00FE7F62 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A91D062B55928D00FE7F62 /* SettingView.swift */; };
 		B1A91D102B55928D00FE7F62 /* SettingNormalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A91D072B55928D00FE7F62 /* SettingNormalCell.swift */; };
@@ -218,6 +219,7 @@
 		B102FE7F2B56D34C0005C310 /* VerificationPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationPostView.swift; sourceTree = "<group>"; };
 		B102FE812B56DB5B0005C310 /* PostButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostButtonView.swift; sourceTree = "<group>"; };
 		B102FE832B56DC030005C310 /* GrayButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrayButtonView.swift; sourceTree = "<group>"; };
+		B1749A662B5E41AA00BCC6BA /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		B198BB9B2B56259600EAA6C0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B198BB9C2B56259600EAA6C0 /* ApiKeys.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ApiKeys.xcconfig; sourceTree = "<group>"; };
 		B198BB9F2B5639D500EAA6C0 /* ModalAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalAlertView.swift; sourceTree = "<group>"; };
@@ -287,6 +289,7 @@
 			children = (
 				63B563FE2B44656600AEC5E7 /* Year.swift */,
 				635B09492B4500CB009E60A9 /* User.swift */,
+				B1749A662B5E41AA00BCC6BA /* Post.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -899,6 +902,7 @@
 				63824C522B558B6900D1D653 /* UseIDModalView.swift in Sources */,
 				B1A91D112B55928D00FE7F62 /* SettingNotificationView.swift in Sources */,
 				63C8BA562B56644600025422 /* CreateFeedCell.swift in Sources */,
+				B1749A672B5E41AA00BCC6BA /* Post.swift in Sources */,
 				B1A91D162B55928D00FE7F62 /* SettingInfoView.swift in Sources */,
 				418743202B5C32CF00D93CBE /* MyFeedHeaderView.swift in Sources */,
 				418743272B5C42A300D93CBE /* SignUpView.swift in Sources */,
