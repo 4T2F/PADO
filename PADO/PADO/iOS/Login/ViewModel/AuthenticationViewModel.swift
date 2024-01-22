@@ -41,6 +41,7 @@ class AuthenticationViewModel: ObservableObject {
             }
         }
     }
+    
     @Published var profileImageUrl: Image?
     private var uiImage: UIImage?
     
@@ -57,12 +58,12 @@ class AuthenticationViewModel: ObservableObject {
     // MARK: - 인증 관련
     func sendOtp() async {
         // OTP 발송
-        guard !isLoading else { return }
-        
         do {
             isLoading = true
             let result = try await PhoneAuthProvider.provider().verifyPhoneNumber("+82\(phoneNumber)", uiDelegate: nil) // 사용한 가능한 번호인지
+            print(result)
             verificationCode = result
+            print(verificationCode)
             isLoading = false
         } catch {
             handleError(error: error)
@@ -91,7 +92,6 @@ class AuthenticationViewModel: ObservableObject {
         return try await Auth.auth().signIn(with: credential)
     }
     
-    
     func signUpUser(user: Firebase.User?) async {
         guard let unwrappedUser = user else {
             print("Error: User is nil")
@@ -101,23 +101,21 @@ class AuthenticationViewModel: ObservableObject {
         userID = unwrappedUser.uid
         
         let initialUserData = [
+            "id": userID,
             "nameID": nameID,
             "date": year,
-            "id": userID,
-            "phoneNumber": "+82\(phoneNumber)"
+            "phoneNumber": "+82\(phoneNumber)",
+            "fcmToken": userToken,
+            "alertAccept": userAlertAccept
         ]
         
-        await saveUserData(userID, data: initialUserData)
+        await createUserData(userID, data: initialUserData)
     }
     
-    func updateUserData(userID: String, newData: [String: Any]) async {
-        await saveUserData(userID, data: newData)
-    }
-    
-    func saveUserData(_ userID: String, data: [String: Any]) async {
+    func createUserData(_ userID: String, data: [String: Any]) async {
         do {
             try await Firestore.firestore().collection("users").document(userID).setData(data)
-            currentUser = User(nameID: nameID, date: year, phoneNumber: phoneNumber)
+            currentUser = User(id: userID, nameID: nameID, date: year, phoneNumber: "+82\(phoneNumber)", fcmToken: userToken, alertAccept: userAlertAccept)
         } catch {
             print("Error saving user data: \(error.localizedDescription)")
         }
@@ -152,7 +150,7 @@ class AuthenticationViewModel: ObservableObject {
             return !querySnapshot.documents.isEmpty
         } catch {
             print("Error checking for duplicate ID: \(error)")
-            return true 
+            return true
         }
     }
     
@@ -269,7 +267,7 @@ class AuthenticationViewModel: ObservableObject {
             return nil
         }
     }
-
+    
     // 전달받은 imageUrl 의 값을 파이어 스토어 모델에 올리고 뷰모델에 넣어줌
     func updateUserProfileImage(withImageUrl imageUrl: String) async throws {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
@@ -278,4 +276,5 @@ class AuthenticationViewModel: ObservableObject {
         ])
         self.currentUser?.profileImageUrl = imageUrl
     }
+    
 }

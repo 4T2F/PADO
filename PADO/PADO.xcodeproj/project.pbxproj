@@ -96,6 +96,7 @@
 		B102FE802B56D34C0005C310 /* VerificationPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B102FE7F2B56D34C0005C310 /* VerificationPostView.swift */; };
 		B102FE822B56DB5B0005C310 /* PostButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B102FE812B56DB5B0005C310 /* PostButtonView.swift */; };
 		B102FE842B56DC030005C310 /* GrayButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B102FE832B56DC030005C310 /* GrayButtonView.swift */; };
+		B1749A652B5D755700BCC6BA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1749A642B5D755700BCC6BA /* AppDelegate.swift */; };
 		B1749A672B5E41AA00BCC6BA /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1749A662B5E41AA00BCC6BA /* Post.swift */; };
 		B198BBA02B5639D500EAA6C0 /* ModalAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B198BB9F2B5639D500EAA6C0 /* ModalAlertView.swift */; };
 		B1A91D0F2B55928D00FE7F62 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A91D062B55928D00FE7F62 /* SettingView.swift */; };
@@ -219,6 +220,7 @@
 		B102FE7F2B56D34C0005C310 /* VerificationPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationPostView.swift; sourceTree = "<group>"; };
 		B102FE812B56DB5B0005C310 /* PostButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostButtonView.swift; sourceTree = "<group>"; };
 		B102FE832B56DC030005C310 /* GrayButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrayButtonView.swift; sourceTree = "<group>"; };
+		B1749A642B5D755700BCC6BA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B1749A662B5E41AA00BCC6BA /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		B198BB9B2B56259600EAA6C0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B198BB9C2B56259600EAA6C0 /* ApiKeys.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ApiKeys.xcconfig; sourceTree = "<group>"; };
@@ -300,6 +302,39 @@
 				63AB411C2B468C25007B37DC /* NavigationViewStyleHelper.swift */,
 			);
 			path = Extenssions;
+			sourceTree = "<group>";
+		};
+		418B6C862B5E5C6600E8289D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				63824C402B558B2400D1D653 /* StartView.swift */,
+				418743282B5C42AB00D93CBE /* LoginView.swift */,
+				418743262B5C42A300D93CBE /* SignUpView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		418B6C872B5E5C6B00E8289D /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				417D18892B5CFEE400545A5E /* LoginPhoneNumberView.swift */,
+				417D188B2B5CFEF100545A5E /* LoginCodeView.swift */,
+				63C8BA4C2B56241200025422 /* TextAnimation.swift */,
+				63824C3F2B558B2400D1D653 /* PhoneNumberView.swift */,
+				63824C3E2B558B2400D1D653 /* CodeView.swift */,
+				63824C512B558B6900D1D653 /* UseIDModalView.swift */,
+				63824C412B558B2400D1D653 /* IdView.swift */,
+				63824C3D2B558B2400D1D653 /* BirthView.swift */,
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
+		418B6C882B5E5C9B00E8289D /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				635B09472B4500AA009E60A9 /* AuthenticationViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		419741E32B558F4A0055F2AB /* MyFeed */ = {
@@ -399,6 +434,7 @@
 				63C20BEE2B56F08800911F64 /* GoogleService-Info.plist */,
 				412B3AA32B44F67100C2C7CD /* PADO.entitlements */,
 				41FD99F52B43D5EC0028D38E /* PADOApp.swift */,
+				B1749A642B5D755700BCC6BA /* AppDelegate.swift */,
 				64D0E7472B55053500060A73 /* iOS */,
 				41FD99F92B43D5ED0028D38E /* Assets.xcassets */,
 				41FD99FB2B43D5ED0028D38E /* Preview Content */,
@@ -509,18 +545,9 @@
 		63824C2E2B55875C00D1D653 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				63824C402B558B2400D1D653 /* StartView.swift */,
-				418743282B5C42AB00D93CBE /* LoginView.swift */,
-				417D18892B5CFEE400545A5E /* LoginPhoneNumberView.swift */,
-				417D188B2B5CFEF100545A5E /* LoginCodeView.swift */,
-				418743262B5C42A300D93CBE /* SignUpView.swift */,
-				63C8BA4C2B56241200025422 /* TextAnimation.swift */,
-				63824C3F2B558B2400D1D653 /* PhoneNumberView.swift */,
-				63824C3E2B558B2400D1D653 /* CodeView.swift */,
-				63824C512B558B6900D1D653 /* UseIDModalView.swift */,
-				63824C412B558B2400D1D653 /* IdView.swift */,
-				63824C3D2B558B2400D1D653 /* BirthView.swift */,
-				635B09472B4500AA009E60A9 /* AuthenticationViewModel.swift */,
+				418B6C882B5E5C9B00E8289D /* ViewModel */,
+				418B6C872B5E5C6B00E8289D /* Component */,
+				418B6C862B5E5C6600E8289D /* View */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -928,6 +955,7 @@
 				632291472B5C1674007C51D1 /* HeartCommentCell.swift in Sources */,
 				B102FE822B56DB5B0005C310 /* PostButtonView.swift in Sources */,
 				63C8BA4B2B561FA900025422 /* EnjoyButton.swift in Sources */,
+				B1749A652B5D755700BCC6BA /* AppDelegate.swift in Sources */,
 				64F210D32B58B26F00E2064A /* MainSearchView.swift in Sources */,
 				63824C4D2B558B5500D1D653 /* ModalWhiteButton.swift in Sources */,
 				B1D7CDEC2B5669B80090544B /* SettingDivider.swift in Sources */,
@@ -1103,12 +1131,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PADO/PADO.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PADO/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = UAG934M4Q7;
+				DEVELOPMENT_TEAM = UAG934M4Q7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PADO/Info.plist;
@@ -1126,7 +1152,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.4T2F.PADO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "PADO Debug";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1140,12 +1165,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PADO/PADO.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PADO/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = UAG934M4Q7;
+				DEVELOPMENT_TEAM = UAG934M4Q7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PADO/Info.plist;
@@ -1163,7 +1186,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.4T2F.PADO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "PADO Debug";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
