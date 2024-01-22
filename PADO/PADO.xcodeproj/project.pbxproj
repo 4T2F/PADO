@@ -92,7 +92,6 @@
 		649372F42B5612E700BCDA71 /* FollowingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649372F32B5612E700BCDA71 /* FollowingView.swift */; };
 		649372F62B5612EE00BCDA71 /* FollowerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649372F52B5612EE00BCDA71 /* FollowerView.swift */; };
 		649372F82B561A6F00BCDA71 /* FollowingCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649372F72B561A6F00BCDA71 /* FollowingCellView.swift */; };
-		649372FA2B561C5000BCDA71 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649372F92B561C5000BCDA71 /* SearchView.swift */; };
 		649372FC2B565FB300BCDA71 /* FollowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649372FB2B565FB300BCDA71 /* FollowView.swift */; };
 		649372FE2B56665200BCDA71 /* FollowerUserCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649372FD2B56665100BCDA71 /* FollowerUserCellView.swift */; };
 		649E52422B57A97700F7D996 /* SurfingSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649E52412B57A97700F7D996 /* SurfingSearchView.swift */; };
@@ -223,7 +222,6 @@
 		649372F32B5612E700BCDA71 /* FollowingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingView.swift; sourceTree = "<group>"; };
 		649372F52B5612EE00BCDA71 /* FollowerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerView.swift; sourceTree = "<group>"; };
 		649372F72B561A6F00BCDA71 /* FollowingCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingCellView.swift; sourceTree = "<group>"; };
-		649372F92B561C5000BCDA71 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		649372FB2B565FB300BCDA71 /* FollowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowView.swift; sourceTree = "<group>"; };
 		649372FD2B56665100BCDA71 /* FollowerUserCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerUserCellView.swift; sourceTree = "<group>"; };
 		649E52412B57A97700F7D996 /* SurfingSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurfingSearchView.swift; sourceTree = "<group>"; };
@@ -403,7 +401,6 @@
 				4187431D2B5C32CF00D93CBE /* SocialNetWorkBarView.swift */,
 				649372F72B561A6F00BCDA71 /* FollowingCellView.swift */,
 				649372FD2B56665100BCDA71 /* FollowerUserCellView.swift */,
-				649372F92B561C5000BCDA71 /* SearchView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -965,7 +962,6 @@
 				63B563FF2B44656600AEC5E7 /* Year.swift in Sources */,
 				B1A91D0F2B55928D00FE7F62 /* SettingView.swift in Sources */,
 				63824C4C2B558B5500D1D653 /* ModalBlackButton.swift in Sources */,
-				649372FA2B561C5000BCDA71 /* SearchView.swift in Sources */,
 				4197420D2B55900D0055F2AB /* FeedView.swift in Sources */,
 				B1D7CDE02B564BF20090544B /* DummyView.swift in Sources */,
 				4197420E2B55900D0055F2AB /* FeedCell.swift in Sources */,
