@@ -206,6 +206,11 @@ class AuthenticationViewModel: ObservableObject {
         guard !userID.isEmpty else { return }
         
         do {
+            try await Firestore.firestore().collection("users").document(userID).updateData([
+                "fcmToken": userToken,
+                "alertAccept": userAlertAccept
+            ])
+            
             let snapshot = try await Firestore.firestore().collection("users").document(userID).getDocument()
             print("UserID: \(userID)")
             print("Snapshot: \(String(describing: snapshot.data()))")
@@ -214,6 +219,7 @@ class AuthenticationViewModel: ObservableObject {
                 print("Error: User data could not be decoded")
                 return
             }
+
             self.currentUser = user
             print("Current User: \(String(describing: currentUser))")
         } catch {
