@@ -53,12 +53,12 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 // MARK: - Firebase 메시징 토큰을 받았을 때 호출, 이 토큰은 Firebase를 통해 특정 디바이스로 푸시 알림을 보낼 때 사용
 extension AppDelegate : MessagingDelegate {
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        print("Firebase registration token: \(String(describing: fcmToken))")
         
         guard let token = fcmToken else { return }
         
         userToken = token
-        
+        print(userToken)
+     
         let dataDict: [String: String] = ["token": userToken]
         NotificationCenter.default.post(
             name: Notification.Name("FCMToken"),

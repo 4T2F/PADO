@@ -105,17 +105,14 @@ class AuthenticationViewModel: ObservableObject {
             "nameID": nameID,
             "date": year,
             "id": userID,
-            "phoneNumber": "+82\(phoneNumber)"
+            "phoneNumber": "+82\(phoneNumber)",
+            "fcmToken": userToken
         ]
         
-        await saveUserData(userID, data: initialUserData)
+        await createUserData(userID, data: initialUserData)
     }
     
-    func updateUserData(userID: String, newData: [String: Any]) async {
-        await saveUserData(userID, data: newData)
-    }
-    
-    func saveUserData(_ userID: String, data: [String: Any]) async {
+    func createUserData(_ userID: String, data: [String: Any]) async {
         do {
             try await Firestore.firestore().collection("users").document(userID).setData(data)
             currentUser = User(nameID: nameID, date: year, phoneNumber: phoneNumber, fcmToken: userToken)
