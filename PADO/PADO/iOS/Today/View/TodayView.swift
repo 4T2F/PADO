@@ -11,9 +11,11 @@ struct TodayView: View {
     @State private var isShowingReportView = false
     @State private var isShowingCommentView = false
     
+    // false이면 TodayCell 사라짐
     @State private var isCellVisible = true
     
     @State private var isCommentVisible = false
+    
     @StateObject private var commentVM = CommentViewModel()
     @StateObject private var mainCommentVM = MainCommentViewModel()
     
@@ -22,6 +24,7 @@ struct TodayView: View {
     
     var body: some View {
         NavigationStack {
+            // 스크롤 추가해야함 인스타 릴스처럼 전환되게
             ZStack {
                 Image("myunghyun")
                     .resizable()
@@ -32,12 +35,14 @@ struct TodayView: View {
                     Spacer()
                     if isCellVisible {
                         HStack {
+                            //MARK: - TodayCell
                             TodayCell()
                                 .padding(.top, 80)
                             
                             Spacer()
                             
                             //MARK: - HeartComment
+                            // 하트를 누른 상태에서 longpress제스쳐를 하고 난 후 하트가 off 돼있음 수정해야함
                             HeartCommentCell(isShowingReportView: $isShowingReportView, isShowingCommentView: $isShowingCommentView)
                                 .padding(.trailing, 12)
                                 .padding(.top, 5)
@@ -47,6 +52,7 @@ struct TodayView: View {
                 }
                 
             }
+            // isCellVisible이 false이면 화면에 댓글을 띄워줌
             .overlay {
                 if !isCellVisible {
                     VStack {
@@ -54,7 +60,9 @@ struct TodayView: View {
                             MainCommentCell(mainComment: comment)
                         }
                     }
+                    // 초기 textPosition 값
                     .position(textPosition)
+                    // 댓글 움직이게 하는 제스쳐 로직
                     .gesture(
                         DragGesture()
                             .onChanged { gesture in
@@ -71,6 +79,7 @@ struct TodayView: View {
                     )
                 }
             }
+            // 꾹 누르면 사라지고 다시 터치하면 나타나는 LongPressGesture 로직
             .gesture(
                 LongPressGesture(minimumDuration: 0.2)
                     .onChanged { _ in
