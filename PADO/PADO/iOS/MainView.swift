@@ -19,7 +19,9 @@ struct MainView: View {
                         Task {
                             try? await Task.sleep(nanoseconds: 2 * 1_000_000_000)
                             withAnimation {
-                                showLaunchScreen = false
+                                if !viewModel.isLoading {
+                                    showLaunchScreen = false
+                                }
                             }
                         }
                     }
