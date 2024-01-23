@@ -168,7 +168,15 @@ class AuthenticationViewModel: ObservableObject {
         do {
             try Auth.auth().signOut()
             userID = ""
+            nameID = ""
+            year = ""
+            phoneNumber = ""
+            otpText = ""
+            verificationCode = ""
+            showAlert = false
+            isExisted = false
             currentUser = nil
+            
             print(userID)
             print(String(describing: currentUser))
         } catch {

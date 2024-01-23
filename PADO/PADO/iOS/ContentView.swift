@@ -32,8 +32,6 @@ struct ContentView: View {
         NavigationStack {
             GeometryReader { geometry in
                 
-                let size = geometry.size
-                
                 TabView(selection: $selectedTab) {
                     ReMainView()
                         .tabItem {
