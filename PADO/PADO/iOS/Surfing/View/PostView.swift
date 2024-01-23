@@ -17,7 +17,7 @@ struct PostView: View {
     var body: some View {
         VStack {
             ZStack {
-                Text("PADO")
+                Text("서핑하기")
                     .font(.system(size: 22))
                     .fontWeight(.bold)
                 
@@ -43,14 +43,13 @@ struct PostView: View {
         VStack {
             passImage
                 .resizable()
-                .scaledToFill()
+                .scaledToFit()
                 .frame(width: UIScreen.main.bounds.width * 0.6, height: UIScreen.main.bounds.height * 0.5)
                 .padding(.vertical, 20)
             
             Spacer()
             
             HStack {
-                
                 Text("제목")
                     .font(.system(size: 20))
                     .fontWeight(.semibold)
@@ -79,11 +78,9 @@ struct PostView: View {
                 Button {
                     //
                 } label: {
-                    
                     Text("+")
                         .font(.system(size: 24, weight: .semibold))
                         .foregroundStyle(.white)
-                    
                 }
                 .padding(.trailing)
             } //: HSTACK
