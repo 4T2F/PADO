@@ -17,10 +17,10 @@ struct MainComment: Identifiable {
 
 final class MainCommentViewModel: ObservableObject {
     @Published var mainComments: [MainComment] = [
-        MainComment(nameID: "2222", comment: "하하하, 너무 재밌네요...", commentPositionsX: 200, commentPositionsY: 150),
+        MainComment(nameID: "2222", comment: "넌 손해 좀 보자", commentPositionsX: 200, commentPositionsY: 150),
         MainComment(nameID: "MinJi", comment: "그쵸! 제가 좀 재밌어요~", commentPositionsX: 200, commentPositionsY: 150),
         MainComment(nameID: "BestCha", comment: "잘 모르겠습니다..", commentPositionsX: 250, commentPositionsY: 200),
-        MainComment(nameID: "A-heung", comment: "이런흥아흥아흥!", commentPositionsX: 115, commentPositionsY: 100)
+        MainComment(nameID: "A-heung", comment: "이런흥아흥아흥!", commentPositionsX: 115, commentPositionsY: 100),
 
     ]
 }
