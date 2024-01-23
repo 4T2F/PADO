@@ -4,7 +4,7 @@
 //
 //  Created by 강치우 on 1/3/24.
 //
-
+import Foundation
 import Firebase
 import FirebaseFirestoreSwift
 
@@ -38,4 +38,6 @@ struct User: Codable, Identifiable, Hashable {
     var fcmToken: String
     var alertAccept: String // 필드 이름 수정
 }
+
+var currentUser: User?
 

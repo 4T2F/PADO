@@ -11,10 +11,6 @@ struct SettingView: View {
     @Environment (\.dismiss) var dismiss
     @StateObject var viewModel = AuthenticationViewModel()
     
-    private var currentUser: User? {
-        return viewModel.currentUser
-    }
-    
     
     var name: String = "PADO"
     var nickName: String = "pado"

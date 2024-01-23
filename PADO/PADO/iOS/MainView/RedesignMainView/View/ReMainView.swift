@@ -20,8 +20,10 @@ struct ReMainView: View {
     @StateObject private var commentVM = CommentViewModel()
     // 화면에 띄워질 commentVM
     @StateObject private var mainCommentVM = MainCommentViewModel()
+    @StateObject private var mainFaceMojiVM = MainFaceMojiViewModel()
     
-    @State private var textPosition = CGPoint(x: 300, y: 300)
+    @State private var textPosition = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
+    @State private var faceMojiPosition = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
     @State private var dragStart: CGPoint?
     
     var body: some View {
@@ -66,28 +68,56 @@ struct ReMainView: View {
                 // 아래 제스쳐 했을 때 화면에 댓글을 오버레이로 띄워줌
                 .overlay {
                     if !isHeaderVisible {
-                        VStack {
-                            ForEach(mainCommentVM.mainComments) { comment in
-                                        MainCommentCell(mainComment: comment)
+                        ZStack {
+                            ForEach(mainCommentVM.mainComments.reversed()) { comment in
+                                if currentUser?.nameID == comment.nameID {
+                                    MainCommentCell(mainComment: comment)
+                                        .position(textPosition)
+                                        .gesture(
+                                            DragGesture()
+                                                .onChanged { gesture in
+                                                    if dragStart == nil {
+                                                        dragStart = gesture.startLocation
+                                                    }
+                                                    let dragAmount = CGPoint(x: gesture.translation.width, y: gesture.translation.height)
+                                                    let initialPosition = dragStart ?? CGPoint.zero
+                                                    self.textPosition = CGPoint(x: initialPosition.x + dragAmount.x, y: initialPosition.y + dragAmount.y)
+                                                }
+                                                .onEnded { _ in
+                                                    dragStart = nil
+                                                }
+                                        )
+                                } else {
+                                    MainCommentCell(mainComment: comment)
+                                        .position(CGPoint(x: CGFloat(comment.commentPositionsX), y: CGFloat(comment.commentPositionsY)))
+                                }
                             }
+                            
+                            ForEach(mainFaceMojiVM.mainFaceMoji.reversed()) { faceMoji in
+                                if currentUser?.nameID == faceMoji.nameID {
+                                    MainFaceMojiCell(mainFaceMoji: faceMoji)
+                                        .position(faceMojiPosition)
+                                        .gesture(
+                                            DragGesture()
+                                                .onChanged { gesture in
+                                                    if dragStart == nil {
+                                                        dragStart = gesture.startLocation
+                                                    }
+                                                    let dragAmount = CGPoint(x: gesture.translation.width, y: gesture.translation.height)
+                                                    let initialPosition = dragStart ?? CGPoint.zero
+                                                    self.faceMojiPosition = CGPoint(x: initialPosition.x + dragAmount.x, y: initialPosition.y + dragAmount.y)
+                                                }
+                                                .onEnded { _ in
+                                                    dragStart = nil
+                                                }
+                                        )
+                                } else {
+                                    MainFaceMojiCell(mainFaceMoji: faceMoji)
+                                        .position(CGPoint(x: CGFloat(faceMoji.faceMojiPositionsX), y: CGFloat(faceMoji.faceMojiPositionsY)))
+                                }
+                            }
+                            
                         }
-                        // textPosition의 좌표값
-                        .position(textPosition)
-                        // 댓글 움직일 수 있게 하는 제스쳐 로직
-                        .gesture(
-                            DragGesture()
-                                .onChanged { gesture in
-                                    if dragStart == nil {
-                                        dragStart = gesture.startLocation
-                                    }
-                                    let dragAmount = CGPoint(x: gesture.translation.width, y: gesture.translation.height)
-                                    let initialPosition = dragStart ?? CGPoint.zero
-                                    self.textPosition = CGPoint(x: initialPosition.x + dragAmount.x, y: initialPosition.y + dragAmount.y)
-                                }
-                                .onEnded { _ in
-                                    dragStart = nil
-                                }
-                        )
                     }
                 }
             }
@@ -107,7 +137,7 @@ struct ReMainView: View {
     }
 }
 
-
-#Preview {
-    ReMainView()
-}
+//
+//#Preview {
+//    ReMainView()
+//}
