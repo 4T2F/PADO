@@ -19,7 +19,7 @@ struct MainView: View {
                         Task {
                             try? await Task.sleep(nanoseconds: 2 * 1_000_000_000)
                             withAnimation {
-                                if !viewModel.isLoading {
+                                if viewModel.userID == "" || !viewModel.isLoading {
                                     showLaunchScreen = false
                                 }
                             }
