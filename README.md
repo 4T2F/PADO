@@ -1,4 +1,4 @@
-[PADO](https://github.com/4T2F/PADO/assets/120264964/205ba15b-75d5-44d1-8b73-e283d57f34e0)
+![PADO](https://github.com/4T2F/PADO/assets/120264964/205ba15b-75d5-44d1-8b73-e283d57f34e0)
 
 ## 🪧 목차
 
