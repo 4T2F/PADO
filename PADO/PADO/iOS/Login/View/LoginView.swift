@@ -13,7 +13,7 @@ enum LoginStep {
 }
 
 struct LoginView: View {
-    @ObservedObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     @Environment(\.dismiss) var dismiss
     @State var currentStep: LoginStep = .phoneNumber
     
@@ -46,12 +46,10 @@ struct LoginView: View {
             
             switch currentStep {
             case .phoneNumber:
-                LoginPhoneNumberView(currentStep: $currentStep,
-                                viewModel: viewModel)
+                LoginPhoneNumberView(currentStep: $currentStep)
             case .code:
                 LoginCodeView(currentStep: $currentStep,
-                         dismissAction: { dismiss() },
-                         viewModel: viewModel)
+                         dismissAction: { dismiss() })
            
             }
         }
