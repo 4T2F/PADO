@@ -107,7 +107,7 @@ struct ReMainView: View {
     }
 }
 
-
-#Preview {
-    ReMainView()
-}
+//
+//#Preview {
+//    ReMainView()
+//}
