@@ -52,7 +52,7 @@ struct ContentView: View {
                         }
                         .onAppear { selectedTab = 1 }
                         .tag(1)
-                    PostView()
+                    SurfingView()
                         .tabItem {
                             Text("")
                             

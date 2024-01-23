@@ -15,6 +15,7 @@ struct SurfingView: View {
     @State private var pickerResult: [PHPickerResult] = []
     @State private var showPhotoPicker = false
     @State private var showingPermissionAlert = false
+    @State private var selectedUIImage: Image = Image(systemName: "photo")
     
     @State private var isShownCamera: Bool = false
     @State private var sourceType: UIImagePickerController.SourceType = .camera
@@ -22,69 +23,75 @@ struct SurfingView: View {
     
     // MARK: - BODY
     var body: some View {
-        VStack {
-            Spacer()
-            
-            // 이미 선택된 이미지를 표시하는 영역
-            if let selectedImage = selectedImage {
-                Image(uiImage: selectedImage)
-                    .resizable()
-                    .scaledToFit()
-            } else if cameraimage != Image(systemName: "photo") {
-                cameraimage
-                    .resizable()
-                    .scaledToFit()
-            } else {
-                Text("이미지를 선택하세요.")
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(Color.gray)
-            }
-            
-            Spacer()
-            
-            // 이미지 피커 버튼을 표시하는 영역
-            HStack {
-                Button {
-                    self.checkCameraPermission {
-                        self.isShownCamera.toggle()
-                        self.sourceType = .camera
-                    }
-                } label: {
-                    Image("Camera")
+        NavigationStack {
+            VStack {
+                Spacer()
+                
+                // 이미 선택된 이미지를 표시하는 영역
+                if selectedUIImage != Image(systemName: "photo") {
+                    selectedUIImage
                         .resizable()
-                        .frame(width: 30, height: 30)
+                        .scaledToFit()
+
+                } else if cameraimage != Image(systemName: "photo") {
+                    cameraimage
+                        .resizable()
+                        .scaledToFit()
+                } else {
+                    Text("이미지를 선택하세요.")
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(Color.gray)
                 }
                 
                 Spacer()
                 
-                Button {
+                // 이미지 피커 버튼을 표시하는 영역
+                HStack {
+                    Button {
+                        self.checkCameraPermission {
+                            self.isShownCamera.toggle()
+                            self.sourceType = .camera
+                            pickerResult = []
+                            selectedImage = nil
+                            selectedUIImage = Image(systemName: "photo")
+                        }
+                    } label: {
+                        Image("Camera")
+                            .resizable()
+                            .frame(width: 30, height: 30)
+                    }
                     
-                } label: {
-                    Text("다음")
+                    Spacer()
+                    
+                    if cameraimage != Image(systemName: "photo") {
+                        NavigationLink(destination: PostView(passImage: $cameraimage)) {
+                            Text("다음")
+                                .font(.system(size: 16, weight: .semibold))
+                        }
+                    } else if selectedUIImage != Image(systemName: "photo") {
+                        NavigationLink(destination: PostView(passImage: $selectedUIImage)) {
+                            Text("다음")
+                                .font(.system(size: 16, weight: .semibold))
+                        }
+                    }
                 }
-                .font(.system(size: 16, weight: .semibold))
+                .foregroundStyle(.white)
+                .padding(.horizontal, 20)
                 
+                PhotoPicker(pickerResult: $pickerResult, selectedImage: $selectedImage, selectedSwiftUIImage: $selectedUIImage)
+                    .frame(height: 300)
+                
+            } //: VSTACK
+            .onAppear {
+                checkPhotoLibraryPermission()
             }
-            .foregroundStyle(.white)
-            .padding(.horizontal, 20)
-            
-            PhotoPicker(pickerResult: $pickerResult, selectedImage: $selectedImage)
-                .frame(height: 300)
-            
-        }
-        .onAppear {
-            checkPhotoLibraryPermission()
-        }
-        .alert(isPresented: $showingPermissionAlert) {
-            Alert(title: Text("권한 필요"), message: Text("사진 라이브러리 접근 권한이 필요합니다."), dismissButton: .default(Text("확인")))
-        }
-        .sheet(isPresented: $isShownCamera) {
-            CameraAccessView(isShown: self.$isShownCamera, myimage: self.$cameraimage, mysourceType: self.$sourceType)
-                .onAppear() {
-                    pickerResult = []
-                    selectedImage = nil
-                }
-        }
+            .alert(isPresented: $showingPermissionAlert) {
+                Alert(title: Text("권한 필요"), message: Text("사진 라이브러리 접근 권한이 필요합니다."), dismissButton: .default(Text("확인")))
+            }
+            .sheet(isPresented: $isShownCamera) {
+                CameraAccessView(isShown: self.$isShownCamera, myimage: self.$cameraimage, mysourceType: self.$sourceType)
+            }
+        } //: NAVI
     }
     // MARK: - 권한 설정 및 확인
     // 카메라 접근 권한 요청 및 확인
@@ -141,6 +148,8 @@ struct SurfingView: View {
 struct PhotoPicker: UIViewControllerRepresentable {
     @Binding var pickerResult: [PHPickerResult]
     @Binding var selectedImage: UIImage?
+    // Image 타입으로 변환된 이미지를 위한 새로운 바인딩
+    @Binding var selectedSwiftUIImage: Image
     
     func makeUIViewController(context: Context) -> PHPickerViewController {
         var config = PHPickerConfiguration(photoLibrary: .shared())
@@ -148,7 +157,7 @@ struct PhotoPicker: UIViewControllerRepresentable {
         config.selectionLimit = 1 // 0으로 설정하면 무제한 선택 가능
         config.disabledCapabilities = .selectionActions
         
-        var picker = PHPickerViewController(configuration: config)
+        let picker = PHPickerViewController(configuration: config)
         picker.delegate = context.coordinator
         return picker
     }
@@ -181,6 +190,8 @@ struct PhotoPicker: UIViewControllerRepresentable {
                     DispatchQueue.main.async {
                         if let image = image as? UIImage {
                             self.parent.selectedImage = image
+                            // UIImage를 Image로 변환
+                            self.parent.selectedSwiftUIImage = Image(uiImage: image)
                         }
                     }
                 }
