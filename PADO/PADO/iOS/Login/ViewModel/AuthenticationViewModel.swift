@@ -117,6 +117,7 @@ class AuthenticationViewModel: ObservableObject {
         do {
             try await Firestore.firestore().collection("users").document(userID).setData(data)
             currentUser = User(id: userID, nameID: nameID, date: year, phoneNumber: "+82\(phoneNumber)", fcmToken: userToken, alertAccept: userAlertAccept)
+            startUser = currentUser
         } catch {
             print("Error saving user data: \(error.localizedDescription)")
         }
