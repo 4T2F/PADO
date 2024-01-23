@@ -31,6 +31,9 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             GeometryReader { geometry in
+                let safeArea = geometry.safeAreaInsets
+                let size = geometry.size
+                
                 TabView(selection: $selectedTab) {
                     ReMainView()
                         .tabItem {
@@ -49,7 +52,7 @@ struct ContentView: View {
                         }
                         .onAppear { selectedTab = 1 }
                         .tag(1)
-                    SurfingSearchView()
+                    PostView()
                         .tabItem {
                             Text("")
                             
@@ -57,7 +60,7 @@ struct ContentView: View {
                         }
                         .onAppear { selectedTab = 2 }
                         .tag(2)
-                    FeedView(isShowFollowButton: true, mainMenu: $menu)
+                    TodayView()
                         .tabItem {
                             Image(selectedTab == 3 ? "tab_todaypado" : "tab_todaypado_gray")
                             
@@ -65,7 +68,7 @@ struct ContentView: View {
                         }
                         .onAppear { selectedTab = 3 }
                         .tag(3)
-                    MyFeedView()
+                    ReMyFeedView()
                         .tabItem {
                             Image(selectedTab == 4 ? "tab_profile" : "tab_profile_gray")
                             

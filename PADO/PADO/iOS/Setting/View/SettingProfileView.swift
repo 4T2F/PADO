@@ -15,8 +15,6 @@ struct SettingProfileView: View {
     let user: User
     
     @State var username: String = ""
-    @State var age: String = ""
-    @State var bio: String = ""
     @State var instaAddress: String = ""
     @State var tiktokAddress: String = ""
     
@@ -88,7 +86,7 @@ struct SettingProfileView: View {
                             
                             HStack {
                                 HStack {
-                                    Text("이름")
+                                    Text("닉네임")
                                         .foregroundStyle(.white)
                                         .font(.system(size: 16))
                                     
@@ -97,7 +95,7 @@ struct SettingProfileView: View {
                                 .frame(width: width * 0.22)
                                 
                                 HStack {
-                                    TextField("이름", text: $username)
+                                    TextField("닉네임", text: $username)
                                         .font(.system(size: 16))
                                         .foregroundStyle(.white)
                                         .padding(.leading, width * 0.05)
@@ -110,75 +108,7 @@ struct SettingProfileView: View {
                             
                             SettingProfileDivider()
                             
-                            // MARK: - 프로필수정, 나이
-                            HStack {
-                                HStack {
-                                    Text("나이")
-                                        .foregroundStyle(.white)
-                                        .font(.system(size: 16))
-                                    
-                                    Spacer()
-                                }
-                                .frame(width: width * 0.22)
-                                
-                                HStack {
-                                    TextField("나이", text: $age)
-                                        .font(.system(size: 16))
-                                        .foregroundStyle(.white)
-                                        .padding(.leading, width * 0.05)
-                                    
-                                    Spacer()
-                                }
-                                .frame(width: width * 0.63)
-                            }
-                            .padding(.top, 4)
-                            
-                            SettingProfileDivider()
-                            
-                            // MARK: - 프로필수정, 소개
-                            HStack(alignment: .top) {
-                                HStack {
-                                    Text("소개")
-                                        .foregroundStyle(.white)
-                                        .font(.system(size: 16))
-                                    
-                                    Spacer()
-                                }
-                                .padding(.leading, -4)
-                                .padding(.top, 4)
-                                .frame(width: width * 0.2)
-                                
-                                TextEditor(text: $bio)
-                                    .foregroundStyle(.white)
-                                    .scrollContentBackground(.hidden) // iOS 16 버전 이상부터 지원함 15 버전 일시 if #available(iOS 16, *)
-                                    .frame(height: 100)
-                                    .padding(.leading, width * 0.05)
-                                    .overlay {
-                                        VStack {
-                                            HStack {
-                                                if bio == "" {
-                                                    Text("소개")
-                                                        .foregroundStyle(.gray)
-                                                        .font(.system(size: 16))
-                                                        .zIndex(1)
-                                                        .padding(.top, 8)
-                                                        .padding(.leading, 24)
-                                                }
-                                                
-                                                Spacer()
-                                            }
-                                            
-                                            Spacer()
-                                        }
-                                    }
-                                    .padding(.top, -4)
-                                    .frame(width: width * 0.63)
-                                
-                            }
-                            
-                            SettingProfileDivider()
-                            
-                            // MARK: - 프로필수정, 인스타그램 주소
+                            // MARK: - 프로필수정
                             HStack {
                                 HStack {
                                     Text("Instagram")

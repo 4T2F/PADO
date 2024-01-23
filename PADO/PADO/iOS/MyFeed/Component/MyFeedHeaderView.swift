@@ -27,18 +27,20 @@ struct MyFeedHeaderView: View {
             VStack {
                 HStack {
                     Text(userId)
-                        .font(.system(size: 22))
-                        .fontWeight(.bold)
+                        .font(.system(size: 18))
+                        .fontWeight(.semibold)
                         .foregroundStyle(.white)
                     
                     Spacer()
                     
                     NavigationLink(destination: SettingView()) {
-                        Image(systemName: "ellipsis")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 32, height: 27)
-                            .foregroundStyle(.white)
+                        VStack {
+                            Text("...")
+                                .font(.system(size: 32))
+                                .foregroundStyle(.white)
+                            
+                            Text("")
+                        }
                     }
                 } //: HSTACK
                 .padding()
@@ -89,50 +91,50 @@ struct MyFeedHeaderView: View {
                 HStack {
                     VStack {
                         Text("5")
-                            .font(.system(size: 18, weight: .semibold))
-                            .padding(4)
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundStyle(.white)
                         
-                        Text("wave time")
-                            .font(.system(size: 16, weight: .semibold))
+                        Text("게시물")
+                            .font(.system(size: 14, weight: .semibold))
                             .foregroundStyle(Color(.systemGray2))
-                            .padding(4)
                     } //: VSTACK
+                    .padding(4)
                     
                     Rectangle()
                         .foregroundStyle(Color(.systemGray2))
-                        .frame(width: 1, height: 30)
+                        .frame(width: 1, height: 25)
                         .padding()
                     
+                    
+                    VStack {
                         NavigationLink(destination: FollowView()) {
-                            VStack {
                             Text("1")
-                                .font(.system(size: 18, weight: .semibold))
-                                .padding(4)
-                            
-                            Text("follower")
-                                .font(.system(size: 16, weight: .semibold))
-                                .foregroundStyle(Color(.systemGray2))
-                                .padding(4)
-                            } //: VSTACK
-                        } //: NAVI
+                                .font(.system(size: 14, weight: .semibold))
+                                .foregroundStyle(.white)
+                        }
+                        
+                        Text("팔로워")
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundStyle(Color(.systemGray2))
+                    } //: VSTACK
+                    .padding(4)
                     
                     Rectangle()
                         .foregroundStyle(Color(.systemGray2))
-                        .frame(width: 1, height: 30)
+                        .frame(width: 1, height: 25)
                         .padding()
                     
+                    VStack {
                         NavigationLink(destination: FollowView()) {
-                            VStack {
                             Text("1")
-                                .font(.system(size: 18, weight: .semibold))
-                                .padding(4)
-                            
-                            Text("following")
-                                .font(.system(size: 16, weight: .semibold))
-                                .foregroundStyle(Color(.systemGray2))
-                                .padding(4)
-                            } //: VSTACK
-                        } //: NAVI
+                                .font(.system(size: 14, weight: .semibold))
+                        }
+                        
+                        Text("팔로잉")
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundStyle(Color(.systemGray2))
+                    } //: VSTACK
+                    .padding(4)
                     
                 } //: HSTACK
                 

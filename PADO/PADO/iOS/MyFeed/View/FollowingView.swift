@@ -11,48 +11,56 @@ struct FollowingView: View {
     // MARK: - PROPERTY
     @Environment (\.dismiss) var dismiss
     @State private var searchText: String = ""
+    @ObservedObject var viewModel = FollowViewModel()
     
     // MARK: - BODY
     var body: some View {
-            ZStack {
-                Color.black.ignoresSafeArea()
-                VStack {
-                    ZStack {
-                        Text("팔로잉")
-                            .font(.system(size: 22))
-                            .fontWeight(.bold)
-                        
-                        HStack {
-                            Button {
-                                dismiss()
-                            } label: {
-                                Image(systemName: "arrow.backward")
-                                    .foregroundStyle(.white)
-                                    .font(.system(size: 22))
-                            }
-                            
-                            Spacer()
+        let searchTextBinding = Binding {
+            return searchText
+        } set: {
+            searchText = $0
+            viewModel.updateSearchText(with: $0)
+        }
+        ZStack {
+            Color.black.ignoresSafeArea()
+            VStack {
+                ZStack {
+                    Text("팔로잉")
+                        .font(.system(size: 22))
+                        .fontWeight(.bold)
+                    
+                    HStack {
+                        Button {
+                            dismiss()
+                        } label: {
+                            Image(systemName: "arrow.backward")
+                                .foregroundStyle(.white)
+                                .font(.system(size: 22))
                         }
-                    }
-                    .padding(.horizontal)
-                    
-                    Spacer()
-                    
-                    VStack {
-                        SearchView(searchText: $searchText)
-                            .padding()
                         
-                        ScrollView {
-                            ForEach(1...10, id: \.self) { _ in
-                                FollowingCellView()
-                                    .padding(.vertical)
-                            }
-                        } //: SCROLL
-                    } //: VSTACK
+                        Spacer()
+                    }
+                }
+                .padding(.horizontal)
+                
+                Spacer()
+                
+                VStack {
+                    SearchBar(text: searchTextBinding,
+                              isLoading: $viewModel.isLoading)
+                    .padding()
                     
+                    ScrollView {
+                        ForEach(1...10, id: \.self) { _ in
+                            FollowingCellView()
+                                .padding(.vertical)
+                        }
+                    } //: SCROLL
                 } //: VSTACK
                 
-            } //: ZSTACK
+            } //: VSTACK
+            
+        } //: ZSTACK
     }
 }
 
