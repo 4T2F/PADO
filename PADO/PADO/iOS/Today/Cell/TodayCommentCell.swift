@@ -12,6 +12,7 @@ struct TodayCommentCell: View {
     
     var body: some View {
         HStack {
+            // 유저 프로필 받아와야함, 프로필 사진이 없으면 기본 프사로 설정
             Circle()
                 .fill(Color.gray)
                 .frame(width: 30, height: 30)
@@ -20,7 +21,7 @@ struct TodayCommentCell: View {
                         .fontWeight(.semibold)
                         .foregroundColor(.white)
                 )
-            
+            // 댓글 연동 시켜야함
             Text(mainComment.comment)
                 .font(.system(size: 14))
                 .foregroundStyle(.white)
