@@ -33,12 +33,12 @@ enum ProfileImageSize {
 
 struct CircularImageView: View {
     // MARK: - PROPERTY
-    var user: User?
     // ProfileImageSize 를 사용하기 위해 사용
     let size: ProfileImageSize
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     // MARK: - BODY
     var body: some View {
-        if let imageUrl = user?.profileImageUrl {
+        if let imageUrl = viewModel.currentUser?.profileImageUrl {
             KFImage(URL(string: imageUrl))
                 .resizable()
                 .scaledToFill()

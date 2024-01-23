@@ -11,9 +11,6 @@ import PhotosUI
 struct SettingProfileView: View {
     
     @State var width = UIScreen.main.bounds.width
-    
-    let user: User
-    
     @State var username: String = ""
     @State var instaAddress: String = ""
     @State var tiktokAddress: String = ""
@@ -78,7 +75,7 @@ struct SettingProfileView: View {
                                     .frame(width: 129, height: 129)
                                     .clipShape(Circle())
                             } else {
-                                CircularImageView(user: user, size: .xxLarge)
+                                CircularImageView(size: .xxLarge)
                             }
                         }
                         // MARK: - 프로필수정, 이름

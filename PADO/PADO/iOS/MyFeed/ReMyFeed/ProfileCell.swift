@@ -25,7 +25,7 @@ struct ProfileCell: View {
                 
                 Spacer()
                 
-                NavigationLink(destination: SettingProfileView(user: viewModel.currentUser!)) {
+                NavigationLink(destination: SettingProfileView()) {
                     ZStack {
                         RoundedRectangle(cornerRadius:4)
                             .stroke(Color.gray, lineWidth: 1)

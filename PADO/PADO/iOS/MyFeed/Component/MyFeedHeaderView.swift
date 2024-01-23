@@ -12,14 +12,10 @@ struct MyFeedHeaderView: View {
     let userId: String = "Hsungjin"
     let userNickName: String = "황성진"
     let userIntroduce: String = "저는 아흥 입니다!"
-    let user: User?
-    
-    init(user: User?) {
-        self.user = user
-    }
     
     @State var showingGlobeView: Bool = true
     @State var displayBar: Bool = false
+
     
     // MARK: - BODY
     var body: some View {
@@ -47,7 +43,7 @@ struct MyFeedHeaderView: View {
                 
                 
                 ZStack(alignment: .bottomTrailing) {
-                    CircularImageView(user: user, size: .xxLarge)
+                    CircularImageView(size: .xxLarge)
                     
                     // 버튼버전이랑 view버전(SocialGlobeView) 두개 만들어놨어요 쓰고싶은거 쓰세요
                     if showingGlobeView {

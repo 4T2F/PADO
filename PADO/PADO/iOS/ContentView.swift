@@ -31,7 +31,7 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             GeometryReader { geometry in
-                let safeArea = geometry.safeAreaInsets
+                
                 let size = geometry.size
                 
                 TabView(selection: $selectedTab) {

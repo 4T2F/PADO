@@ -54,7 +54,7 @@ struct SettingView: View {
                             .overlay {
                                 HStack {
                                     if let user = viewModel.currentUser {
-                                        CircularImageView(user: user, size: .medium)
+                                        CircularImageView(size: .medium)
                                     }
                                     
                                     VStack(alignment: .leading) {
@@ -72,7 +72,7 @@ struct SettingView: View {
                                     Spacer()
                                     
                                     if let user = viewModel.currentUser {
-                                        NavigationLink(destination: SettingProfileView(user: user)) {
+                                        NavigationLink(destination: SettingProfileView()) {
                                             Image(systemName: "arrow.forward")
                                                 .foregroundStyle(.gray)
                                         }
