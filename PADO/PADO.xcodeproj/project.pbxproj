@@ -10,8 +10,7 @@
 		040914F72B561A18001B549B /* ReportSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040914F62B561A18001B549B /* ReportSelectView.swift */; };
 		040914F92B561FA8001B549B /* ReportSelectCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040914F82B561FA8001B549B /* ReportSelectCellView.swift */; };
 		040914FB2B5624E7001B549B /* ReportResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040914FA2B5624E7001B549B /* ReportResultView.swift */; };
-		0474D73D2B5E5447009DF095 /* PhotoLibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0474D73C2B5E5447009DF095 /* PhotoLibraryView.swift */; };
-		04D143682B5F4B330076578A /* CustomModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D143672B5F4B330076578A /* CustomModalView.swift */; };
+		04D1438C2B5F971F0076578A /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D1438B2B5F971F0076578A /* PostView.swift */; };
 		412B3A942B44F65100C2C7CD /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 412B3A932B44F65100C2C7CD /* FirebaseAnalytics */; };
 		412B3A962B44F65100C2C7CD /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 412B3A952B44F65100C2C7CD /* FirebaseAuth */; };
 		412B3A982B44F65100C2C7CD /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 412B3A972B44F65100C2C7CD /* FirebaseFirestore */; };
@@ -139,8 +138,7 @@
 		040914F82B561FA8001B549B /* ReportSelectCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportSelectCellView.swift; sourceTree = "<group>"; };
 		040914FA2B5624E7001B549B /* ReportResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportResultView.swift; sourceTree = "<group>"; };
 		040914FE2B567231001B549B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		0474D73C2B5E5447009DF095 /* PhotoLibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibraryView.swift; sourceTree = "<group>"; };
-		04D143672B5F4B330076578A /* CustomModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomModalView.swift; sourceTree = "<group>"; };
+		04D1438B2B5F971F0076578A /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
 		412B3AA32B44F67100C2C7CD /* PADO.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PADO.entitlements; sourceTree = "<group>"; };
 		412B3AA42B44F6EC00C2C7CD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		4165C2392B58FD660002053E /* ApiKeys.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ApiKeys.xcconfig; sourceTree = "<group>"; };
@@ -626,8 +624,7 @@
 				B102FE7D2B56CC360005C310 /* SurfingMakeView.swift */,
 				649E52412B57A97700F7D996 /* SurfingSearchView.swift */,
 				635B09512B4510D1009E60A9 /* FriendCellView.swift */,
-				0474D73C2B5E5447009DF095 /* PhotoLibraryView.swift */,
-				04D143672B5F4B330076578A /* CustomModalView.swift */,
+				04D1438B2B5F971F0076578A /* PostView.swift */,
 			);
 			path = Surfing;
 			sourceTree = "<group>";
@@ -871,7 +868,6 @@
 				635B09482B4500AA009E60A9 /* AuthenticationViewModel.swift in Sources */,
 				41E5F69A2B565409001750C2 /* FaceMojiView.swift in Sources */,
 				B1A91D132B55928D00FE7F62 /* SettingToggleCell.swift in Sources */,
-				0474D73D2B5E5447009DF095 /* PhotoLibraryView.swift in Sources */,
 				B1A91D172B55928D00FE7F62 /* SettingProfileView.swift in Sources */,
 				41E5F6952B56534A001750C2 /* CommentView.swift in Sources */,
 				418743232B5C32CF00D93CBE /* MyFeedContentView.swift in Sources */,
@@ -888,7 +884,6 @@
 				632291432B5C017E007C51D1 /* StoryModel.swift in Sources */,
 				63B563FF2B44656600AEC5E7 /* Year.swift in Sources */,
 				B1A91D0F2B55928D00FE7F62 /* SettingView.swift in Sources */,
-				04D143682B5F4B330076578A /* CustomModalView.swift in Sources */,
 				63824C4C2B558B5500D1D653 /* ModalBlackButton.swift in Sources */,
 				649372FA2B561C5000BCDA71 /* SearchView.swift in Sources */,
 				4197420D2B55900D0055F2AB /* FeedView.swift in Sources */,
@@ -946,6 +941,7 @@
 				4187431F2B5C32CF00D93CBE /* SocialGlobeView.swift in Sources */,
 				4197420A2B55900D0055F2AB /* LoginAlert.swift in Sources */,
 				040914F92B561FA8001B549B /* ReportSelectCellView.swift in Sources */,
+				04D1438C2B5F971F0076578A /* PostView.swift in Sources */,
 				63C8BA582B56659800025422 /* SurferCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

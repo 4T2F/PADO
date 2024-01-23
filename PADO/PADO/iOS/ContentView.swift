@@ -49,7 +49,7 @@ struct ContentView: View {
                         }
                         .onAppear { selectedTab = 1 }
                         .tag(1)
-                    PhotoLibraryView()
+                    SurfingMakeView()
                         .tabItem {
                             Text("")
                             
