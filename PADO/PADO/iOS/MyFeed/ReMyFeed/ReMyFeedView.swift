@@ -11,8 +11,9 @@ struct ReMyFeedView: View {
     @StateObject var viewModel = AuthenticationViewModel()
     
     var body: some View {
-        ZStack {
-            Color.modalBlackButton.ignoresSafeArea()
+        NavigationStack {
+            ZStack {
+                Color.modalBlackButton.ignoresSafeArea()
                 VStack {
                     VStack {
                         HStack {
@@ -24,8 +25,12 @@ struct ReMyFeedView: View {
                             Spacer()
                             
                             VStack {
-                                Text("...")
-                                    .font(.system(size: 34))
+                                NavigationLink(destination: SettingView()) {
+                                    Text("...")
+                                        .font(.system(size: 34))
+                                        .foregroundStyle(.white)
+                                }
+                                
                                 
                                 Text("")
                             }
@@ -45,6 +50,7 @@ struct ReMyFeedView: View {
             }
         }
     }
+}
 
 #Preview {
     ReMyFeedView()

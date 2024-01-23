@@ -23,65 +23,34 @@ struct SettingView: View {
                     
                     // MARK: - 설정뷰, 탑셀
                     VStack {
-                        ZStack {
+                        HStack {
+                            Button {
+                                dismiss()
+                            } label: {
+                                Image("dismissArrow")
+                                    .foregroundStyle(.white)
+                                    .font(.system(size: 20))
+                            }
+                            
+                            Spacer()
+                            
                             Text("설정")
                                 .foregroundStyle(.white)
                                 .font(.system(size: 18))
                                 .fontWeight(.semibold)
-                            
-                            HStack {
-                                Button {
-                                    dismiss()
-                                } label: {
-                                    Image("dismissArrow")
-                                        .foregroundStyle(.white)
-                                        .font(.system(size: 20))
-                                }
+                                .padding(.trailing, 20)
                                 
-                                Spacer()
-                            }
+                            Spacer()
+                            
                         }
                         .padding(.horizontal)
+                        
                         
                         Spacer()
                     }
                     // MARK: - 설정뷰, 프로필설정
                     VStack {
-                        RoundedRectangle(cornerRadius: 16)
-                            .frame(width: width * 0.9, height: 90)
-                            .foregroundStyle(.white)
-                            .opacity(0.04)
-                            .overlay {
-                                HStack {
-                                    if let user = currentUser {
-                                        CircularImageView(user: user, size: .medium)
-                                    }
-                                    
-                                    VStack(alignment: .leading) {
-                                        Text("\(name)")
-                                            .foregroundStyle(.white)
-                                            .fontWeight(.semibold)
-                                            .font(.system(size: 18))
-                                        
-                                        Text("\(nickName)")
-                                            .foregroundStyle(.white)
-                                            .fontWeight(.semibold)
-                                            .font(.system(size: 14))
-                                    }
-                                    
-                                    Spacer()
-                                    
-                                    if let user = currentUser {
-                                        NavigationLink(destination: SettingProfileView(user: user)) {
-                                            Image(systemName: "arrow.forward")
-                                                .foregroundStyle(.gray)
-                                        }
-                                    }
-                                }
-                                .padding(.horizontal)
-                            }
-                            .padding(.vertical)
-                            
+                        
                         // MARK: - 설정뷰, 설정
                         VStack(spacing: 6) {
                             HStack {
@@ -90,6 +59,7 @@ struct SettingView: View {
                                 
                                 Spacer()
                             }
+                            .padding(.top, 20)
                             
                             ZStack {
                                 RoundedRectangle(cornerRadius: 14)
@@ -99,15 +69,15 @@ struct SettingView: View {
                                 
                                 VStack {
                                     HStack {
-                                        Image(systemName: "square.and.pencil")
-                                            .foregroundStyle(.white)
-                                        
-                                        Text("알림")
-                                            .settingFontModi()
-                                        
-                                        Spacer()
-                                        
                                         NavigationLink(destination: SettingNotificationView()) {
+                                            Image(systemName: "square.and.pencil")
+                                                .foregroundStyle(.white)
+                                            
+                                            Text("알림")
+                                                .settingFontModi()
+                                            
+                                            Spacer()
+                                            
                                             Image(systemName: "arrow.forward")
                                                 .foregroundStyle(.gray)
                                                 .font(.system(size: 14))
@@ -119,15 +89,14 @@ struct SettingView: View {
                                     SettingDivider()
                                     
                                     HStack {
-                                        Image(systemName: "gearshape.2")
-                                            .foregroundStyle(.white)
-                                        
-                                        Text("다른 설정들")
-                                            .settingFontModi()
-                                        
-                                        Spacer()
-                                        
                                         NavigationLink(destination: SettingOthersView()) {
+                                            Image(systemName: "gearshape.2")
+                                                .foregroundStyle(.white)
+                                            
+                                            Text("다른 설정들")
+                                                .settingFontModi()
+                                            Spacer()
+                                            
                                             Image(systemName: "arrow.forward")
                                                 .foregroundStyle(.gray)
                                                 .font(.system(size: 14))
@@ -174,15 +143,15 @@ struct SettingView: View {
                                     SettingDivider()
                                     
                                     HStack {
-                                        Image(systemName: "questionmark.circle")
-                                            .foregroundStyle(.white)
-                                        
-                                        Text("문의하기")
-                                            .settingFontModi()
-                                        
-                                        Spacer()
-                                        
                                         NavigationLink(destination: SettingAskView()) {
+                                            Image(systemName: "questionmark.circle")
+                                                .foregroundStyle(.white)
+                                            
+                                            Text("문의하기")
+                                                .settingFontModi()
+                                            
+                                            Spacer()
+                                            
                                             Image(systemName: "arrow.forward")
                                                 .foregroundStyle(.gray)
                                                 .font(.system(size: 14))
@@ -194,15 +163,17 @@ struct SettingView: View {
                                     SettingDivider()
                                     
                                     HStack {
-                                        Image(systemName: "info.circle")
-                                            .foregroundStyle(.white)
                                         
-                                        Text("정보")
-                                            .settingFontModi()
-                                        
-                                        Spacer()
                                         
                                         NavigationLink(destination: SettingInfoView()) {
+                                            
+                                            Image(systemName: "info.circle")
+                                                .foregroundStyle(.white)
+                                            
+                                            Text("정보")
+                                                .settingFontModi()
+                                            
+                                            Spacer()
                                             Image(systemName: "arrow.forward")
                                                 .foregroundStyle(.gray)
                                                 .font(.system(size: 14))

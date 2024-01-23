@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct SettingInfoView: View {
-    @Environment (\.dismiss) var dismiss
+    @State private var isPresentingAlert = false
     
     var body: some View {
         VStack {
@@ -23,7 +23,7 @@ struct SettingInfoView: View {
                         
                         HStack {
                             Button {
-                                dismiss()
+                                //
                             } label: {
                                 Image("dismissArrow")
                                     .font(.system(size: 20))
@@ -41,21 +41,25 @@ struct SettingInfoView: View {
                 VStack {
                     Button {
                         //TODO: - 이용약관 링크 걸기
+                        isPresentingAlert.toggle()
                     } label: {
                         VStack {
-                            SettingNormalCell(icon: "doc.text", text: "캐시 지우기")
+                            SettingNormalCell(icon: "doc.text", text: "이용약관")
                                 .foregroundStyle(Color.gray)
                         }
                     }
                     
+                    
                     Button {
                         //TODO: - 개인정보처리방침 링크 걸기
+                        isPresentingAlert.toggle()
                     } label: {
                         VStack {
                             SettingNormalCell(icon: "doc.text", text: "개인정보처리방침")
                                 .foregroundStyle(Color.gray)
                         }
                     }
+                    
                     
                     Button {
                         //TODO: - 개발자에게 플러팅하기 로직 구현 필요
