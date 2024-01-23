@@ -127,7 +127,7 @@ struct StartView: View {
     }
 }
 
-#Preview {
-    StartView(viewModel: MainView().viewModel)
-}
+//#Preview {
+//    StartView(viewModel: MainView().viewModel)
+//}
 

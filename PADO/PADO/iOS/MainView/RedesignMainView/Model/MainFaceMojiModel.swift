@@ -23,6 +23,6 @@ final class MainFaceMojiViewModel: ObservableObject {
         MainFaceMoji(nameID: "BestCha", emotionPhoto: "pp", emotion: .laughing, faceMojiPositionsX: "35", faceMojiPositionsY: "20"),
         MainFaceMoji(nameID: "A-heung", emotionPhoto: "pp", emotion: .overEat, faceMojiPositionsX: "45", faceMojiPositionsY: "20"),
         MainFaceMoji(nameID: "pinkso", emotionPhoto: "pp", emotion: .sad, faceMojiPositionsX: "55", faceMojiPositionsY: "20"),
-        MainFaceMoji(nameID: "dongho", emotionPhoto: "pp", emotion: .thumbsUp, faceMojiPositionsX: "65", faceMojiPositionsY: "20")
+        MainFaceMoji(nameID: "pado", emotionPhoto: "pp", emotion: .thumbsUp, faceMojiPositionsX: "65", faceMojiPositionsY: "20")
     ]
 }

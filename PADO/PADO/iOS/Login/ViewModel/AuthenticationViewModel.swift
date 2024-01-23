@@ -46,9 +46,10 @@ class AuthenticationViewModel: ObservableObject {
     private var uiImage: UIImage?
     
     @Published var authResult: AuthDataResult?
-    @Published var currentUser: User?
     
     @AppStorage("userID") var userID: String = ""
+    
+    @Published var startUser: User?
     
     // 초기화
     init() {
@@ -220,7 +221,8 @@ class AuthenticationViewModel: ObservableObject {
                 return
             }
 
-            self.currentUser = user
+            currentUser = user
+            self.startUser = currentUser
             print("Current User: \(String(describing: currentUser))")
         } catch {
             print("Error fetching user: \(error)")
@@ -280,7 +282,7 @@ class AuthenticationViewModel: ObservableObject {
         try await Firestore.firestore().collection("users").document(currentUid).updateData([
             "profileImageUrl": imageUrl
         ])
-        self.currentUser?.profileImageUrl = imageUrl
+        currentUser?.profileImageUrl = imageUrl
     }
     
 }

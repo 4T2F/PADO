@@ -13,7 +13,7 @@ struct MainView: View {
     
     var body: some View {
         Group {
-            if viewModel.currentUser == nil {
+            if viewModel.startUser == nil {
                 StartView(viewModel: viewModel)
             } else {
                 ContentView()
@@ -22,6 +22,6 @@ struct MainView: View {
     }
 }
 
-#Preview {
-    MainView()
-}
+//#Preview {
+//    MainView()
+//}

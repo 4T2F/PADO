@@ -68,26 +68,29 @@ struct ReMainView: View {
                     if !isHeaderVisible {
                         VStack {
                             ForEach(mainCommentVM.mainComments) { comment in
-                                        MainCommentCell(mainComment: comment)
+                                if currentUser?.nameID == comment.nameID {
+                                    MainCommentCell(mainComment: comment)
+                                        .position(textPosition)
+                                        .gesture(
+                                            DragGesture()
+                                                .onChanged { gesture in
+                                                    if dragStart == nil {
+                                                        dragStart = gesture.startLocation
+                                                    }
+                                                    let dragAmount = CGPoint(x: gesture.translation.width, y: gesture.translation.height)
+                                                    let initialPosition = dragStart ?? CGPoint.zero
+                                                    self.textPosition = CGPoint(x: initialPosition.x + dragAmount.x, y: initialPosition.y + dragAmount.y)
+                                                }
+                                                .onEnded { _ in
+                                                    dragStart = nil
+                                                }
+                                        )
+                                } else {
+                                    MainCommentCell(mainComment: comment)
+                                        .position(textPosition)
+                                }
                             }
                         }
-                        // textPosition의 좌표값
-                        .position(textPosition)
-                        // 댓글 움직일 수 있게 하는 제스쳐 로직
-                        .gesture(
-                            DragGesture()
-                                .onChanged { gesture in
-                                    if dragStart == nil {
-                                        dragStart = gesture.startLocation
-                                    }
-                                    let dragAmount = CGPoint(x: gesture.translation.width, y: gesture.translation.height)
-                                    let initialPosition = dragStart ?? CGPoint.zero
-                                    self.textPosition = CGPoint(x: initialPosition.x + dragAmount.x, y: initialPosition.y + dragAmount.y)
-                                }
-                                .onEnded { _ in
-                                    dragStart = nil
-                                }
-                        )
                     }
                 }
             }
