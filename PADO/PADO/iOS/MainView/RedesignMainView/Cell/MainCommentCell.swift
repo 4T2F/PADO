@@ -26,6 +26,7 @@ struct MainCommentCell: View {
                 .font(.system(size: 14))
                 .foregroundStyle(.white)
         }
+        
     }
 }
 

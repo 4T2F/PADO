@@ -87,7 +87,7 @@ struct ReMainView: View {
                                         )
                                 } else {
                                     MainCommentCell(mainComment: comment)
-                                        .position(textPosition)
+                                        .position(CGPoint(x: CGFloat(comment.commentPositionsX), y: CGFloat(comment.commentPositionsY)))
                                 }
                             }
                         }
