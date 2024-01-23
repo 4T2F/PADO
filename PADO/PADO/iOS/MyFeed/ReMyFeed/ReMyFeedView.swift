@@ -40,7 +40,6 @@ struct ReMyFeedView: View {
                             MyFeedContentView()
                         }
                     }
-                    .padding(.top, -15)
                     
                 }
             }

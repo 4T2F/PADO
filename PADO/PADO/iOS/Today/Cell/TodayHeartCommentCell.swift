@@ -25,7 +25,7 @@ struct TodayHeartCommentCell: View {
                         Image("Heart")
                     }
                 }
-                
+                // 하트 누를 때 +1 카운팅 되게 하는 로직 추가
                 Text("2032")
                     .font(.system(size: 12))
                     .fontWeight(.semibold)
@@ -42,7 +42,7 @@ struct TodayHeartCommentCell: View {
                         .presentationDetents([.fraction(0.99), .fraction(0.8)])
                         .presentationDragIndicator(.visible)
                 }
-                
+                // 댓글이 추가 될 때 +1 카운팅 되게 하는 로직 추가
                 Text("13")
                     .font(.system(size: 12))
                     .fontWeight(.semibold)

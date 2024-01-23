@@ -27,6 +27,7 @@ struct TodayCell: View {
                 
                 VStack(alignment: .leading, spacing: 4) {
                     HStack {
+                        // 유저 네임 받아와야함
                         Text("minyoung x dongho")
                             .font(.system(size: 14))
                             .fontWeight(.semibold)
@@ -47,6 +48,7 @@ struct TodayCell: View {
             
             VStack {
                 HStack {
+                    // 게시글 한마디 데이터 받아와야함
                     Text("숟가락에 눈가려지는 너란 남자..")
                         .font(.system(size: 14))
                 }
