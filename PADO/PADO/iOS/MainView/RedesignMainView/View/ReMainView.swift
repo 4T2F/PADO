@@ -16,6 +16,7 @@ struct ReMainView: View {
     let dragThreshold: CGFloat = 0
     
     @State private var isCommentVisible = false
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     // 댓글 commentVM
     @StateObject private var commentVM = CommentViewModel()
     // 화면에 띄워질 commentVM
@@ -70,7 +71,7 @@ struct ReMainView: View {
                     if !isHeaderVisible {
                         ZStack {
                             ForEach(mainCommentVM.mainComments.reversed()) { comment in
-                                if currentUser?.nameID == comment.nameID {
+                                if viewModel.currentUser?.nameID == comment.nameID {
                                     MainCommentCell(mainComment: comment)
                                         .position(textPosition)
                                         .gesture(
@@ -94,7 +95,7 @@ struct ReMainView: View {
                             }
                             
                             ForEach(mainFaceMojiVM.mainFaceMoji.reversed()) { faceMoji in
-                                if currentUser?.nameID == faceMoji.nameID {
+                                if viewModel.currentUser?.nameID == faceMoji.nameID {
                                     MainFaceMojiCell(mainFaceMoji: faceMoji)
                                         .position(faceMojiPosition)
                                         .gesture(

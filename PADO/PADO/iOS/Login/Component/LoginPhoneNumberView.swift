@@ -13,7 +13,7 @@ struct LoginPhoneNumberView: View {
     @State var buttonActive: Bool = false
     @Binding var currentStep: LoginStep
 
-    @ObservedObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     @Environment(\.dismiss) var dismiss
     
     var body: some View {

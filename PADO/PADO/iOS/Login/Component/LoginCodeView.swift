@@ -16,7 +16,7 @@ struct LoginCodeView: View {
     
     var dismissAction: () -> Void
     
-    @ObservedObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     
     var body: some View {
         ZStack {

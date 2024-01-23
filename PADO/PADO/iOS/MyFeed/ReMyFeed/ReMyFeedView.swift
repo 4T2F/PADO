@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ReMyFeedView: View {
-    @StateObject var viewModel = AuthenticationViewModel()
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     
     var body: some View {
         NavigationStack {
@@ -24,17 +24,16 @@ struct ReMyFeedView: View {
                             
                             Spacer()
                             
-                            VStack {
-                                NavigationLink(destination: SettingView()) {
+                            NavigationLink(destination: SettingView()) {
+                                VStack {
                                     Text("...")
                                         .font(.system(size: 34))
                                         .foregroundStyle(.white)
+                                    
+                                    Text("")
                                 }
-                                
-                                
-                                Text("")
                             }
-                        }
+                        }                        
                         .padding(.horizontal)
                     }
                     

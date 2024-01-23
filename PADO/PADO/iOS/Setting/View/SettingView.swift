@@ -9,7 +9,7 @@ import SwiftUI
 struct SettingView: View {
     @State var width = UIScreen.main.bounds.width
     @Environment (\.dismiss) var dismiss
-    @StateObject var viewModel = AuthenticationViewModel()
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     
     
     var name: String = "PADO"
@@ -50,7 +50,6 @@ struct SettingView: View {
                     }
                     // MARK: - 설정뷰, 프로필설정
                     VStack {
-                        
                         // MARK: - 설정뷰, 설정
                         VStack(spacing: 6) {
                             HStack {
@@ -198,7 +197,7 @@ struct SettingView: View {
                                 Spacer()
                                 
                                 Button {
-                                    
+                                    viewModel.signOut()
                                 } label: {
                                     Text("로그아웃")
                                         .foregroundStyle(.red)
@@ -213,7 +212,7 @@ struct SettingView: View {
                         }
                         .padding(.top, 12)
                         
-                        Text("2024, PADO all rights reserved. Powered by 4T2F, Version 1.0.0")
+                        Text("2024, PADO all rights reserved.Powered by 4T2F, Version 1.0.0")
                             .foregroundStyle(.gray)
                             .font(.system(size: 12))
                             .padding(.top)
