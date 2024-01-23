@@ -211,10 +211,16 @@
 세부기능 제작중
 
 ### 서버
-![image](https://user-images.githubusercontent.com/11778058/130351340-3cac484c-f7f1-4491-bf3a-1608c14fe160.png)
+![image](https://github.com/4T2F/PADO/assets/120264964/ee32c094-b2fd-4d15-b48d-9644e76f2ff1)
 
 ### 앱 설명
-![image](https://github.com/4T2F/PADO/assets/120264964/eeaef187-b52e-4364-98a0-a6b607a23a6c)![image](https://user-images.githubusercontent.com/11778058/130352387-7aaeda37-5624-4bfd-adb8-ee35e6942e05.png)![image](https://user-images.githubusercontent.com/11778058/130352587-552802d6-23de-4c5b-aa63-1c888e2ea157.png)![image](https://user-images.githubusercontent.com/11778058/130352785-43e62197-df10-4dd7-8a7a-b44338aa140b.png)![image](https://user-images.githubusercontent.com/11778058/130352977-fb90c205-b5b6-40fb-85cb-0f9377cb7988.png)![image](https://user-images.githubusercontent.com/11778058/130353090-05a8a63a-973d-4150-a574-316f0bbbda09.png)
+![image](https://github.com/4T2F/PADO/assets/120264964/eeaef187-b52e-4364-98a0-a6b607a23a6c)
+
+![image](https://github.com/4T2F/PADO/assets/120264964/f099258e-e5fc-4757-9902-c6e8e1eda961)
+
+![image](https://github.com/4T2F/PADO/assets/120264964/f75b6c80-e9aa-46c8-a85c-9d6dd80694d8)
+
+![image](https://github.com/4T2F/PADO/assets/120264964/9e8f5ed2-9acd-4e72-9d4e-ec45404bba0a)
 
 <!-- <img src="https://user-images.githubusercontent.com/11778058/130349283-4947b07b-0a9d-43fa-9cc3-47248d81c7e8.gif"  width="256" height="455"/> <img src="https://user-images.githubusercontent.com/11778058/130349329-6eeed2e6-ff33-4203-a37a-47ba791ba49f.gif"  width="256" height="455"/> <img src="https://user-images.githubusercontent.com/11778058/130349631-3386359b-050c-4383-8f78-29ac37575674.gif"  width="256" height="455"/> <img src="https://user-images.githubusercontent.com/11778058/130349739-2abcf14e-4633-4f80-9ec3-a1540fa3edcd.gif"  width="256" height="455"/> <img src="https://user-images.githubusercontent.com/11778058/130349978-b7fc43a3-da47-447f-ad0a-d205e1e289ea.gif"  width="256" height="455"/> <img src="https://user-images.githubusercontent.com/11778058/130350119-1552c530-3101-4861-a0be-1502dce3be3d.gif"  width="256" height="455"/>  -->
 
