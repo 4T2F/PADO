@@ -207,6 +207,7 @@ class AuthenticationViewModel: ObservableObject {
         guard !userID.isEmpty else { return }
         
         do {
+            isLoading = true
             try await Firestore.firestore().collection("users").document(userID).updateData([
                 "fcmToken": userToken,
                 "alertAccept": userAlertAccept
@@ -224,6 +225,7 @@ class AuthenticationViewModel: ObservableObject {
             currentUser = user
             self.startUser = currentUser
             print("Current User: \(String(describing: currentUser))")
+            isLoading = false
         } catch {
             print("Error fetching user: \(error)")
         }

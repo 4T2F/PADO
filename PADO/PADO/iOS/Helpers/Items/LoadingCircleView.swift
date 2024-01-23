@@ -13,7 +13,7 @@ struct LoadingCircleView: View {
 
     var body: some View {
         ZStack {
-            Color.black.edgesIgnoringSafeArea(.all)
+            Color.clear.edgesIgnoringSafeArea(.all)
             
             
             ForEach(0..<8) { index in
