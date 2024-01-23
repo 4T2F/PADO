@@ -100,6 +100,7 @@
 		63C8BA562B56644600025422 /* CreateFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA552B56644600025422 /* CreateFeedCell.swift */; };
 		63C8BA582B56659800025422 /* SurferCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA572B56659800025422 /* SurferCell.swift */; };
 		63D9DE492B5D86D5000668E0 /* CommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D9DE482B5D86D5000668E0 /* CommentViewModel.swift */; };
+		643417332B5F947500E47639 /* SurfingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 643417322B5F947500E47639 /* SurfingView.swift */; };
 		649372F42B5612E700BCDA71 /* FollowingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649372F32B5612E700BCDA71 /* FollowingView.swift */; };
 		649372F62B5612EE00BCDA71 /* FollowerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649372F52B5612EE00BCDA71 /* FollowerView.swift */; };
 		649372F82B561A6F00BCDA71 /* FollowingCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649372F72B561A6F00BCDA71 /* FollowingCellView.swift */; };
@@ -239,6 +240,7 @@
 		63C8BA552B56644600025422 /* CreateFeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateFeedCell.swift; sourceTree = "<group>"; };
 		63C8BA572B56659800025422 /* SurferCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurferCell.swift; sourceTree = "<group>"; };
 		63D9DE482B5D86D5000668E0 /* CommentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewModel.swift; sourceTree = "<group>"; };
+		643417322B5F947500E47639 /* SurfingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurfingView.swift; sourceTree = "<group>"; };
 		649372F32B5612E700BCDA71 /* FollowingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingView.swift; sourceTree = "<group>"; };
 		649372F52B5612EE00BCDA71 /* FollowerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerView.swift; sourceTree = "<group>"; };
 		649372F72B561A6F00BCDA71 /* FollowingCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingCellView.swift; sourceTree = "<group>"; };
@@ -384,6 +386,7 @@
 		418B6C912B5EC5F000E8289D /* View */ = {
 			isa = PBXGroup;
 			children = (
+				643417322B5F947500E47639 /* SurfingView.swift */,
 				04D1438B2B5F971F0076578A /* PostView.swift */,
 				04A785E22B5FB1C800BFCB9D /* FriendCellView.swift */,
 				04A785E42B5FB1ED00BFCB9D /* SurfingMakeView.swift */,
@@ -1092,6 +1095,7 @@
 				63BF11EC2B5E514E00E95087 /* ReMyFeedView.swift in Sources */,
 				4187431F2B5C32CF00D93CBE /* SocialGlobeView.swift in Sources */,
 				4197420A2B55900D0055F2AB /* LoginAlert.swift in Sources */,
+				643417332B5F947500E47639 /* SurfingView.swift in Sources */,
 				040914F92B561FA8001B549B /* ReportSelectCellView.swift in Sources */,
 				04D1438C2B5F971F0076578A /* PostView.swift in Sources */,
 				63C8BA582B56659800025422 /* SurferCell.swift in Sources */,
@@ -1268,6 +1272,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PADO/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "게시글을 올리기 위해서 사용자의 카메라에 접근합니다";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "게시글을 올리기 위해서 사용자의 앨범에 접근합니다";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1305,6 +1311,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PADO/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "게시글을 올리기 위해서 사용자의 카메라에 접근합니다";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "게시글을 올리기 위해서 사용자의 앨범에 접근합니다";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
