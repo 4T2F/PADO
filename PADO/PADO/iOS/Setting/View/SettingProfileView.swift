@@ -18,8 +18,9 @@ struct SettingProfileView: View {
     @State var instaAddress: String = ""
     @State var tiktokAddress: String = ""
     
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     @Environment (\.dismiss) var dismiss
-    @StateObject var viewModel = AuthenticationViewModel()
+
     
     var body: some View {
         VStack {

@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct ReMyFeedView: View {
-    @StateObject var viewModel = AuthenticationViewModel()
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     
     var body: some View {
-        ZStack {
-            Color.modalBlackButton.ignoresSafeArea()
+        NavigationStack {
+            ZStack {
+                Color.modalBlackButton.ignoresSafeArea()
                 VStack {
                     VStack {
                         HStack {
@@ -23,13 +24,16 @@ struct ReMyFeedView: View {
                             
                             Spacer()
                             
-                            VStack {
-                                Text("...")
-                                    .font(.system(size: 34))
-                                
-                                Text("")
+                            NavigationLink(destination: SettingView()) {
+                                VStack {
+                                    Text("...")
+                                        .font(.system(size: 34))
+                                        .foregroundStyle(.white)
+                                    
+                                    Text("")
+                                }
                             }
-                        }
+                        }                        
                         .padding(.horizontal)
                     }
                     
@@ -45,6 +49,7 @@ struct ReMyFeedView: View {
             }
         }
     }
+}
 
 #Preview {
     ReMyFeedView()

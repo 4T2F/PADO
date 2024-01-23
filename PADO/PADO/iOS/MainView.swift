@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MainView: View {
     @State private var showLaunchScreen = true
-    @StateObject var viewModel = AuthenticationViewModel()
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     
     var body: some View {
         Group {
@@ -25,15 +25,10 @@ struct MainView: View {
                             }
                         }
                     }
-            } else if viewModel.startUser == nil {
-                StartView(viewModel: viewModel)
+            } else if viewModel.currentUser == nil {
+                StartView()
             } else {
                 ContentView()
-            }
-        }
-        .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now()) {
-                
             }
         }
     }

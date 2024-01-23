@@ -9,7 +9,7 @@ import SwiftUI
 
 struct StartView: View {
     
-    @ObservedObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     @State private var currentIndex: Int = 0
     @State private var titleText: [TextAnimation] = []
     @State private var subTitleAnimation: Bool = false
@@ -56,7 +56,7 @@ struct StartView: View {
                     .padding(.bottom, 80)
 
                     HStack(spacing: 20) {
-                        NavigationLink(destination: SignUpView(viewModel: viewModel)) {
+                        NavigationLink(destination: SignUpView()) {
                             SignUpButton(text: "회원가입")
                         }
 

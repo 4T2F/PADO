@@ -9,7 +9,7 @@ import SwiftUI
 struct SettingView: View {
     @State var width = UIScreen.main.bounds.width
     @Environment (\.dismiss) var dismiss
-    @StateObject var viewModel = AuthenticationViewModel()
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     
     
     var name: String = "PADO"
@@ -53,7 +53,7 @@ struct SettingView: View {
                             .opacity(0.04)
                             .overlay {
                                 HStack {
-                                    if let user = currentUser {
+                                    if let user = viewModel.currentUser {
                                         CircularImageView(user: user, size: .medium)
                                     }
                                     
@@ -71,7 +71,7 @@ struct SettingView: View {
                                     
                                     Spacer()
                                     
-                                    if let user = currentUser {
+                                    if let user = viewModel.currentUser {
                                         NavigationLink(destination: SettingProfileView(user: user)) {
                                             Image(systemName: "arrow.forward")
                                                 .foregroundStyle(.gray)
@@ -227,7 +227,7 @@ struct SettingView: View {
                                 Spacer()
                                 
                                 Button {
-                                    
+                                    viewModel.signOut()
                                 } label: {
                                     Text("로그아웃")
                                         .foregroundStyle(.red)

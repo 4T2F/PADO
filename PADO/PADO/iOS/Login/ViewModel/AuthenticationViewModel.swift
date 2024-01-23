@@ -49,7 +49,7 @@ class AuthenticationViewModel: ObservableObject {
     
     @AppStorage("userID") var userID: String = ""
     
-    @Published var startUser: User?
+    @Published var currentUser: User?
     
     // 초기화
     init() {
@@ -117,7 +117,7 @@ class AuthenticationViewModel: ObservableObject {
         do {
             try await Firestore.firestore().collection("users").document(userID).setData(data)
             currentUser = User(id: userID, nameID: nameID, date: year, phoneNumber: "+82\(phoneNumber)", fcmToken: userToken, alertAccept: userAlertAccept)
-            startUser = currentUser
+
         } catch {
             print("Error saving user data: \(error.localizedDescription)")
         }
@@ -166,10 +166,13 @@ class AuthenticationViewModel: ObservableObject {
     
     func signOut() {
         do {
-            // 로그아웃 구현 필요
             try Auth.auth().signOut()
+            userID = ""
+            currentUser = nil
+            print(userID)
+            print(String(describing: currentUser))
         } catch {
-            print("Error signing out: \(error.localizedDescription)")
+            print("로그아웃 오류: \(error.localizedDescription)")
         }
     }
     
@@ -224,7 +227,7 @@ class AuthenticationViewModel: ObservableObject {
             }
 
             currentUser = user
-            self.startUser = currentUser
+
             print("Current User: \(String(describing: currentUser))")
             isLoading = false
         } catch {
