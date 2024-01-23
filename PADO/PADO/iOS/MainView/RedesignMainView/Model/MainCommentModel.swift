@@ -9,21 +9,19 @@ import SwiftUI
 
 struct MainComment: Identifiable {
     let id = UUID()
-    let username: String
+    let nameID: String
     let comment: String
+    var commentPositionsX: Int
+    var commentPositionsY: Int
 }
 
 final class MainCommentViewModel: ObservableObject {
     @Published var mainComments: [MainComment] = [
-        MainComment(username: "Yangbaechu", comment: "하하하, 너무 재밌네요..."),
-        MainComment(username: "MinJi", comment: "그쵸! 제가 좀 재밌어요~"),
-        MainComment(username: "BestCha", comment: "잘 모르겠습니다.."),
-        MainComment(username: "A-heung", comment: "이런흥아흥아흥!"),
-        MainComment(username: "pinkso", comment: "솔직히 저 예쁘지 않아요?"),
-        MainComment(username: "dongho", comment: "이런흥아흥아흥!"),
-        MainComment(username: "ciu", comment: "솔직히 저 예쁘지 않아요?"),
-        MainComment(username: "myunghyun", comment: "이런흥아흥아흥!"),
-        MainComment(username: "minchae", comment: "솔직히 저 예쁘지 않아요?")
+        MainComment(nameID: "2222", comment: "넌 손해 좀 보자", commentPositionsX: 200, commentPositionsY: 150),
+        MainComment(nameID: "MinJi", comment: "그쵸! 제가 좀 재밌어요~", commentPositionsX: 200, commentPositionsY: 150),
+        MainComment(nameID: "BestCha", comment: "잘 모르겠습니다..", commentPositionsX: 250, commentPositionsY: 200),
+        MainComment(nameID: "A-heung", comment: "이런흥아흥아흥!", commentPositionsX: 115, commentPositionsY: 100),
+
     ]
 }
 

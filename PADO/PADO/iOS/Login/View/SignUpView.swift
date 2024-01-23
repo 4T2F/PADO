@@ -87,6 +87,6 @@ struct SignUpView: View {
     }
 }
 
-#Preview {
-    SignUpView(viewModel: MainView().viewModel)
-}
+//#Preview {
+//    SignUpView(viewModel: MainView().viewModel)
+//}

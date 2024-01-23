@@ -17,7 +17,7 @@ struct TodayCommentCell: View {
                 .fill(Color.gray)
                 .frame(width: 30, height: 30)
                 .overlay(
-                    Text(mainComment.username.prefix(1))
+                    Text(mainComment.nameID.prefix(1))
                         .fontWeight(.semibold)
                         .foregroundColor(.white)
                 )
@@ -29,6 +29,6 @@ struct TodayCommentCell: View {
     }
 }
 
-#Preview {
-    TodayCommentCell(mainComment: MainComment(username: "dearkang", comment: "하하하 너무재밌네요"))
-}
+//#Preview {
+//    TodayCommentCell(mainComment: MainComment(nameID: "dearkang", comment: "하하하 너무재밌네요"))
+//}
