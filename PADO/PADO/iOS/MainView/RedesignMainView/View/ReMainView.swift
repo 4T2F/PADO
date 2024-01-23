@@ -21,7 +21,7 @@ struct ReMainView: View {
     // 화면에 띄워질 commentVM
     @StateObject private var mainCommentVM = MainCommentViewModel()
     
-    @State private var textPosition = CGPoint(x: 300, y: 300)
+    @State private var textPosition = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
     @State private var dragStart: CGPoint?
     
     var body: some View {
