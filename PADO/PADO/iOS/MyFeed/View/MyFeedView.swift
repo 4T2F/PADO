@@ -5,26 +5,30 @@
 //  Created by 황성진 on 1/15/24.
 //
 
-import SwiftUI
-
-struct MyFeedView: View {
-    // MARK: - PROPERTY
-    
-    // MARK: - BODY
-    var body: some View {
-        ZStack {
-            Color("mainBackgroundColor")
-                .ignoresSafeArea(.all)
-            
-            VStack {
-                MyFeedHeaderView()
-                
-                MyFeedContentView()
-            } //: VSTACK
-        } //: ZSTACK
-    }
-}
-
-#Preview {
-    MyFeedView()
-}
+//import SwiftUI
+//
+//struct MyFeedView: View {
+//    // MARK: - PROPERTY
+//    @StateObject var viewModel = AuthenticationViewModel()
+//    private var currentUser: User? {
+//        return viewModel.currentUser
+//    }
+//    
+//    // MARK: - BODY
+//    var body: some View {
+//        ZStack {
+//            Color.black.ignoresSafeArea(.all)
+//            ScrollView(showsIndicators: false) {
+//                VStack {
+//                    MyFeedHeaderView(user: currentUser)
+//                    
+//                    MyFeedContentView()
+//                } //: VSTACK
+//            }
+//        } //: ZSTACK
+//    }
+//}
+//
+//#Preview {
+//    MyFeedView()
+//}

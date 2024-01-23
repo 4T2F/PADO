@@ -20,7 +20,7 @@ struct SettingAskView: View {
     var body: some View {
         VStack {
             ZStack {
-                Color("mainBackgroundColor").ignoresSafeArea()
+                Color.black.ignoresSafeArea()
                 
                 // MARK: - 문의하기뷰, 탑셀
                 VStack {
@@ -34,7 +34,7 @@ struct SettingAskView: View {
                             Button {
                                 dismiss()
                             } label: {
-                                Image(systemName: "arrow.backward")
+                                Image("dismissArrow")
                                     .font(.system(size: 20))
                                     .foregroundStyle(.grayButton)
                             }

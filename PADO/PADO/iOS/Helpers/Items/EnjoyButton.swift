@@ -16,20 +16,19 @@ struct EnjoyButton: View {
         ZStack {
             RoundedRectangle(cornerRadius: 10)
                 .frame(width: UIScreen.main.bounds.width * 0.5, height: 47)
-                .foregroundStyle(.white)
+                .foregroundStyle(.black)
             
             HStack {
                 
                 Text(text)
-                    .foregroundStyle(.black)
+                    .foregroundStyle(.white)
                     .font(.system(size: 16))
-                    .fontWeight(.medium)
-                    .padding(.trailing, 90)
+                    .fontWeight(.regular)
+                    .padding(.trailing, 80)
                 
-                Image(systemName: "arrow.right")
-                    .foregroundStyle(.black)
+                Image("Arrow_right_light")
                     .font(.system(size: 16))
-                    .fontWeight(.medium)
+                    .fontWeight(.regular)
             }
             .frame(height: 30)
         }

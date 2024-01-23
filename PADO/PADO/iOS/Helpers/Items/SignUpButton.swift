@@ -23,13 +23,12 @@ struct SignUpButton: View {
                 Text(text)
                     .foregroundStyle(.black)
                     .font(.system(size: 16))
-                    .fontWeight(.medium)
-                    .padding(.trailing, 14)
+                    .fontWeight(.regular)
+                    .padding(.trailing, 6)
                 
-                Image("person")
-                    .foregroundStyle(.black)
-                    .font(.system(size: 16))
-                    .fontWeight(.semibold)
+                Image("User")
+                    .font(.system(size: 17))
+                    .fontWeight(.regular)
             }
             .frame(height: 30)
         }
@@ -37,5 +36,5 @@ struct SignUpButton: View {
 }
 
 #Preview {
-    SignUpButton(text: "Sign Up")
+    SignUpButton(text: "회원가입")
 }

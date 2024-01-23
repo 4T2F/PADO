@@ -14,7 +14,7 @@ struct NotificationView: View {
     var body: some View {
         VStack {
             ZStack {
-                Color.mainBackground.ignoresSafeArea()
+                Color.black.ignoresSafeArea()
                 
                 VStack {
                     ZStack {
@@ -36,6 +36,7 @@ struct NotificationView: View {
                             }
                             .padding(.top, 50)
                         }
+                        
                         VStack {
                             ZStack {
                                 Text("알림")
@@ -46,7 +47,7 @@ struct NotificationView: View {
                                     Button {
                                         dismiss()
                                     } label: {
-                                        Image(systemName: "arrow.backward")
+                                        Image("dismissArrow")
                                             .foregroundStyle(.white)
                                             .font(.system(size: 20))
                                     }
@@ -62,6 +63,7 @@ struct NotificationView: View {
                 }
             }
         }
+        .navigationBarBackButtonHidden()
     }
 }
 
