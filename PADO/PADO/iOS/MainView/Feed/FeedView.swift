@@ -13,7 +13,6 @@ struct FeedView: View {
     @Binding var mainMenu: String
     @EnvironmentObject var viewModel: AuthenticationViewModel
     
-
     var isAlertItem = false
     
     var body: some View {

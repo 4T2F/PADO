@@ -11,12 +11,18 @@ struct ReMainView: View {
     @State private var isShowingReportView = false
     @State private var isShowingCommentView = false
     
+    // false 이면 MainHeaderCell과 story 사라지면서 댓글이 나타남
     @State private var isHeaderVisible = true
-    let dragThreshold: CGFloat = 80
+    let dragThreshold: CGFloat = 0
     
     @State private var isCommentVisible = false
+    // 댓글 commentVM
     @StateObject private var commentVM = CommentViewModel()
+    // 화면에 띄워질 commentVM
     @StateObject private var mainCommentVM = MainCommentViewModel()
+    
+    @State private var textPosition = CGPoint(x: 300, y: 300)
+    @State private var dragStart: CGPoint?
     
     var body: some View {
         NavigationStack {
@@ -39,8 +45,8 @@ struct ReMainView: View {
                     //MARK: - HeartComment
                     HeartCommentCell(isShowingReportView: $isShowingReportView, isShowingCommentView: $isShowingCommentView)
                         .padding(.leading, UIScreen.main.bounds.width)
-                        .padding(.trailing, 55)
-                        .padding(.top)
+                        .padding(.trailing, 60)
+                        .padding(.bottom, 10)
                     
                     // MARK: - Story
                     if isHeaderVisible {
@@ -57,7 +63,7 @@ struct ReMainView: View {
                         .transition(.opacity)
                     }
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                // 아래 제스쳐 했을 때 화면에 댓글을 오버레이로 띄워줌
                 .overlay {
                     if !isHeaderVisible {
                         VStack {
@@ -65,9 +71,27 @@ struct ReMainView: View {
                                         MainCommentCell(mainComment: comment)
                             }
                         }
+                        // textPosition의 좌표값
+                        .position(textPosition)
+                        // 댓글 움직일 수 있게 하는 제스쳐 로직
+                        .gesture(
+                            DragGesture()
+                                .onChanged { gesture in
+                                    if dragStart == nil {
+                                        dragStart = gesture.startLocation
+                                    }
+                                    let dragAmount = CGPoint(x: gesture.translation.width, y: gesture.translation.height)
+                                    let initialPosition = dragStart ?? CGPoint.zero
+                                    self.textPosition = CGPoint(x: initialPosition.x + dragAmount.x, y: initialPosition.y + dragAmount.y)
+                                }
+                                .onEnded { _ in
+                                    dragStart = nil
+                                }
+                        )
                     }
                 }
             }
+            // 위아래 제스쳐 로직
             .gesture(DragGesture().onEnded { value in
                 withAnimation(.easeInOut(duration: 0.2)) {
                     if value.translation.height > dragThreshold {

@@ -36,6 +36,7 @@ struct NotificationView: View {
                             }
                             .padding(.top, 50)
                         }
+                        
                         VStack {
                             ZStack {
                                 Text("알림")

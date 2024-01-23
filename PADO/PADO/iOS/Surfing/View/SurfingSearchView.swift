@@ -10,8 +10,16 @@ import SwiftUI
 struct SurfingSearchView: View {
     
     @State var surfingSearch: String = ""
+    @ObservedObject var viewModel = SurfingViewModel()
     
     var body: some View {
+        
+        let searchTextBinding = Binding {
+            return surfingSearch
+        } set: {
+            surfingSearch = $0
+            viewModel.updateSearchText(with: $0)
+        }
         ZStack {
             Color.black.ignoresSafeArea()
             VStack(alignment: .leading) {
@@ -30,8 +38,9 @@ struct SurfingSearchView: View {
                 
                 Spacer()
                 
-                SearchView(searchText: $surfingSearch)
-                    .padding(.horizontal)
+                SearchBar(text: searchTextBinding,
+                          isLoading: $viewModel.isLoading)
+                .padding()
                 
                 Spacer()
                 

@@ -1,13 +1,13 @@
 //
-//  SelectCell.swift
+//  TodayHeartCommentCell.swift
 //  PADO
 //
-//  Created by 강치우 on 1/20/24.
+//  Created by 강치우 on 1/22/24.
 //
 
 import SwiftUI
 
-struct HeartCommentCell: View {
+struct TodayHeartCommentCell: View {
     @State var heartOnOff: Bool = false
     
     @Binding var isShowingReportView: Bool
@@ -25,7 +25,7 @@ struct HeartCommentCell: View {
                         Image("Heart")
                     }
                 }
-                // 하트 눌렀을 때 +1 카운팅 되게 하는 로직 추가
+                // 하트 누를 때 +1 카운팅 되게 하는 로직 추가
                 Text("2032")
                     .font(.system(size: 12))
                     .fontWeight(.semibold)
@@ -42,7 +42,7 @@ struct HeartCommentCell: View {
                         .presentationDetents([.fraction(0.99), .fraction(0.8)])
                         .presentationDragIndicator(.visible)
                 }
-                // 댓글이 달릴 때 마다 +1 카운팅 되게 하는 로직 추가
+                // 댓글이 추가 될 때 +1 카운팅 되게 하는 로직 추가
                 Text("13")
                     .font(.system(size: 12))
                     .fontWeight(.semibold)
@@ -73,5 +73,5 @@ struct HeartCommentCell: View {
 }
 
 #Preview {
-    HeartCommentCell(isShowingReportView: .constant(false), isShowingCommentView: .constant(false))
+    TodayHeartCommentCell(isShowingReportView: .constant(false), isShowingCommentView: .constant(false))
 }

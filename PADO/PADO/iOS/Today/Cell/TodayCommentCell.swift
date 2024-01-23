@@ -1,5 +1,5 @@
 //
-//  MainCommentCell.swift
+//  TodayCommentCell.swift
 //  PADO
 //
 //  Created by 강치우 on 1/22/24.
@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-struct MainCommentCell: View {
+struct TodayCommentCell: View {
     let mainComment: MainComment
     
     var body: some View {
         HStack {
-            // 유저의 프로필 사진 받아와야함 프로필 사진이 없으면 기본 프사로 적용되게 해야함
+            // 유저 프로필 받아와야함, 프로필 사진이 없으면 기본 프사로 설정
             Circle()
                 .fill(Color.gray)
                 .frame(width: 30, height: 30)
@@ -21,7 +21,7 @@ struct MainCommentCell: View {
                         .fontWeight(.semibold)
                         .foregroundColor(.white)
                 )
-            // 댓글 받아와야함
+            // 댓글 연동 시켜야함
             Text(mainComment.comment)
                 .font(.system(size: 14))
                 .foregroundStyle(.white)
@@ -30,5 +30,5 @@ struct MainCommentCell: View {
 }
 
 #Preview {
-    MainCommentCell(mainComment: MainComment(username: "dearkang", comment: "하하하 너무재밌네요"))
+    TodayCommentCell(mainComment: MainComment(username: "dearkang", comment: "하하하 너무재밌네요"))
 }
