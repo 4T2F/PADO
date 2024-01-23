@@ -14,7 +14,7 @@ struct PADOApp: App {
     
     var body: some Scene {
         WindowGroup {
-            MainView()
+            SurfingView()
         }
     }
 }
