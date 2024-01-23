@@ -43,7 +43,7 @@ struct SettingInfoView: View {
                         //TODO: - 이용약관 링크 걸기
                     } label: {
                         VStack {
-                            SettingNormalCell(icon: "doc.text", text: "캐시 지우기")
+                            SettingNormalCell(icon: "doc.text", text: "이용약관")
                                 .foregroundStyle(Color.gray)
                         }
                     }
