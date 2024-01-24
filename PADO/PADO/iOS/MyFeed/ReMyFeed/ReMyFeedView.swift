@@ -9,9 +9,13 @@ import SwiftUI
 
 struct ReMyFeedView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
+    @State private var isShowingSetting = false
     
     var body: some View {
-        NavigationStack {
+       
+        if isShowingSetting {
+            SettingView(isShowingSetting: $isShowingSetting)
+        } else {
             ZStack {
                 Color.modalBlackButton.ignoresSafeArea()
                 VStack {
@@ -24,7 +28,9 @@ struct ReMyFeedView: View {
                             
                             Spacer()
                             
-                            NavigationLink(destination: SettingView()) {
+                            Button {
+                                isShowingSetting.toggle()
+                            } label: {
                                 VStack {
                                     Text("...")
                                         .font(.system(size: 34))
@@ -33,7 +39,7 @@ struct ReMyFeedView: View {
                                     Text("")
                                 }
                             }
-                        }                        
+                        }
                         .padding(.horizontal)
                     }
                     
@@ -51,6 +57,6 @@ struct ReMyFeedView: View {
     }
 }
 
-#Preview {
-    ReMyFeedView()
-}
+//#Preview {
+//    ReMyFeedView()
+//}
