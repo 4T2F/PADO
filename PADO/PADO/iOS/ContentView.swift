@@ -33,7 +33,7 @@ struct ContentView: View {
             GeometryReader { geometry in
                 
                 TabView(selection: $selectedTab) {
-                    ReMainView()
+                    FeedView()
                         .tabItem {
                             Image(selectedTab == 0 ? "tab_home" : "tab_home_gray")
                                 

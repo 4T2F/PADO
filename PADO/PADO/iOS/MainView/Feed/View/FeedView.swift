@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ReMainView: View {
+struct FeedView: View {
     @State private var isShowingReportView = false
     @State private var isShowingCommentView = false
     
@@ -140,5 +140,5 @@ struct ReMainView: View {
 
 //
 //#Preview {
-//    ReMainView()
+//    FeedView()
 //}
