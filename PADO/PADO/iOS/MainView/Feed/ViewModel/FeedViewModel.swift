@@ -14,7 +14,12 @@ class FeedViewModel: ObservableObject {
     @Published var textPosition = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
     @Published var faceMojiPosition = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
     
-    @Published var selectedStoryImage: String = "Pic3" // 기본 배경 이미지
+    @Published var selectedStoryImage: String
+    
+    init() {
+        // 항상 storyData의 첫 번째 스토리 이미지를 선택함
+        self.selectedStoryImage = storyData.first?.image ?? ""
+    }
 
     var dragStart: CGPoint?
     let dragThreshold: CGFloat = 0
