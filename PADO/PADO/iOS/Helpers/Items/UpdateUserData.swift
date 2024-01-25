@@ -5,14 +5,13 @@
 //  Created by 황성진 on 1/25/24.
 //
 
-import SwiftUI
 import Firebase
-import FirebaseFirestore
 import FirebaseCore
+import FirebaseFirestore
+import SwiftUI
 
-
-class UserUpdateViewModel: ObservableObject {
-    static let shared = UserUpdateViewModel()
+class UpdateUserData {
+    static let shared = UpdateUserData()
     
     let db = Firestore.firestore()
     
@@ -29,6 +28,7 @@ class UserUpdateViewModel: ObservableObject {
         } catch {
             print("Error updating document: \(error)")
         }
-        
     }
+    
+    
 }
