@@ -9,15 +9,14 @@ import SwiftUI
 
 struct PostView: View {
     // MARK: - PROPERTY
-    @State private var postingTitle = ""
+    @ObservedObject var viewModel: SurfingViewModel
     @Environment (\.dismiss) var dismiss
-    @Binding var passImage: Image
     
     // MARK: - BODY
     var body: some View {
         VStack {
             ZStack {
-                Text("PADO")
+                Text("서핑하기")
                     .font(.system(size: 22))
                     .fontWeight(.bold)
                 
@@ -37,20 +36,19 @@ struct PostView: View {
             
         } //: VSTACK
         .onDisappear {
-            passImage = Image(systemName: "photo")
+            viewModel.postingImage = Image(systemName: "photo")
         }
         
         VStack {
-            passImage
+            viewModel.postingImage
                 .resizable()
-                .scaledToFill()
+                .scaledToFit()
                 .frame(width: UIScreen.main.bounds.width * 0.6, height: UIScreen.main.bounds.height * 0.5)
                 .padding(.vertical, 20)
             
             Spacer()
             
             HStack {
-                
                 Text("제목")
                     .font(.system(size: 20))
                     .fontWeight(.semibold)
@@ -61,7 +59,7 @@ struct PostView: View {
             
             .padding(.leading, 20)
             
-            TextField("제목을 입력해주세요", text: $postingTitle)
+            TextField("제목을 입력해주세요", text: $viewModel.postingTitle)
                 .padding(.leading, 20)
             
             RoundedRectangle(cornerRadius: 8)
@@ -79,11 +77,9 @@ struct PostView: View {
                 Button {
                     //
                 } label: {
-                    
                     Text("+")
                         .font(.system(size: 24, weight: .semibold))
                         .foregroundStyle(.white)
-                    
                 }
                 .padding(.trailing)
             } //: HSTACK

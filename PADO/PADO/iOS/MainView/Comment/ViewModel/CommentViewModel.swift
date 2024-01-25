@@ -7,12 +7,7 @@
 
 import SwiftUI
 
-struct Comment: Identifiable {
-    let id = UUID()
-    let nameID: String
-    let comment: String
-    let time: String
-}
+
 
 final class CommentViewModel: ObservableObject {
     @Published var comments: [Comment] = [

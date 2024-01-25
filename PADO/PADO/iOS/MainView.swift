@@ -18,11 +18,11 @@ struct MainView: View {
                     .onAppear {
                         Task {
                             try? await Task.sleep(nanoseconds: 2 * 1_000_000_000)
-                            withAnimation {
-                                if viewModel.userID.isEmpty || !viewModel.isLoading {
-                                    showLaunchScreen = false
-                                }
+                            if viewModel.userID.isEmpty {
+                                showLaunchScreen = false
                             }
+                            await viewModel.initializeUser()
+                            showLaunchScreen = false
                         }
                     }
             } else if viewModel.currentUser == nil {
