@@ -10,7 +10,6 @@ import FirebaseFirestoreSwift
 import PhotosUI
 import SwiftUI
 
-
 class SurfingViewModel: ObservableObject, Searchable  {
     
     @Published var selectedImage: UIImage?
@@ -81,5 +80,7 @@ class SurfingViewModel: ObservableObject, Searchable  {
     // MARK: - 게시글 요청
     func postRequest() {
         // 게시 요청 관련 로직 추가
+        
+        UpdateUserData.shared
     }
 }
