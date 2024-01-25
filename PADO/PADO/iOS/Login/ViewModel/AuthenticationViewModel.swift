@@ -26,6 +26,13 @@ class AuthenticationViewModel: ObservableObject {
     @Published var showAlert = false
     @Published var isExisted = false
     
+    // MARK: - SettingProfile
+    @Published var username = ""
+    @Published var instaAddress = ""
+    @Published var tiktokAddress = ""
+    @Published var imagePick: Bool = false
+    @Published var changedValue: Bool = false
+    
     @Published var birthDate = Date() {
         didSet {
             let dateFormatter = DateFormatter()
@@ -97,12 +104,15 @@ class AuthenticationViewModel: ObservableObject {
         userID = unwrappedUser.uid
         
         let initialUserData = [
+            "username": "",
             "id": userID,
             "nameID": nameID,
             "date": year,
             "phoneNumber": "+82\(phoneNumber)",
             "fcmToken": userToken,
-            "alertAccept": userAlertAccept
+            "alertAccept": userAlertAccept,
+            "instaAddress": "",
+            "tiktokAddress": ""
         ]
         
         await createUserData(userID, data: initialUserData)
@@ -111,8 +121,17 @@ class AuthenticationViewModel: ObservableObject {
     func createUserData(_ userID: String, data: [String: Any]) async {
         do {
             try await Firestore.firestore().collection("users").document(userID).setData(data)
-            currentUser = User(id: userID, nameID: nameID, date: year, phoneNumber: "+82\(phoneNumber)", fcmToken: userToken, alertAccept: userAlertAccept)
-
+            currentUser = User(
+                id: userID,
+                username: "",
+                nameID: nameID,
+                date: year,
+                phoneNumber: "+82\(phoneNumber)",
+                fcmToken: userToken,
+                alertAccept: userAlertAccept,
+                instaAddress: "",
+                tiktokAddress: ""
+            )
         } catch {
             print("Error saving user data: \(error.localizedDescription)")
         }
@@ -227,11 +246,9 @@ class AuthenticationViewModel: ObservableObject {
                 print("Error: User data could not be decoded")
                 return
             }
-
+            
             currentUser = user
-
             print("Current User: \(String(describing: currentUser))")
-
         } catch {
             print("Error fetching user: \(error)")
         }
@@ -291,6 +308,14 @@ class AuthenticationViewModel: ObservableObject {
             "profileImageUrl": imageUrl
         ])
         currentUser?.profileImageUrl = imageUrl
+    }
+    
+    func checkForChanges() {
+        // 현재 데이터와 원래 데이터 비교
+        let isUsernameChanged = currentUser?.username != username
+        let isInstaAddressChanged = currentUser?.instaAddress != instaAddress
+        let isTiktokAddressChanged = currentUser?.tiktokAddress != tiktokAddress
+        changedValue = isUsernameChanged || isInstaAddressChanged || isTiktokAddressChanged || imagePick
     }
     
 }

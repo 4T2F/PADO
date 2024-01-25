@@ -11,11 +11,7 @@ import SwiftUI
 struct SettingProfileView: View {
     
     @State var width = UIScreen.main.bounds.width
-    @State var username: String = ""
-    @State var instaAddress: String = ""
-    @State var tiktokAddress: String = ""
-    @State var imagePick: Bool = false
-    
+    @State private var isActive: Bool = false
     @EnvironmentObject var viewModel: AuthenticationViewModel
     @Environment (\.dismiss) var dismiss
     
@@ -31,6 +27,10 @@ struct SettingProfileView: View {
                         HStack {
                             Button {
                                 dismiss()
+                                viewModel.profileImageUrl = nil
+                                viewModel.username = viewModel.currentUser?.username ?? ""
+                                viewModel.instaAddress = viewModel.currentUser?.instaAddress ?? ""
+                                viewModel.tiktokAddress = viewModel.currentUser?.tiktokAddress ?? ""
                             } label: {
                                 Text("취소")
                                     .foregroundStyle(.white)
@@ -39,32 +39,31 @@ struct SettingProfileView: View {
                             
                             Spacer()
                             
-                            if !username.isEmpty || !instaAddress.isEmpty || !tiktokAddress.isEmpty || imagePick {
-                                Button {
+                            Button {
+                                if isActive {
                                     Task {
-                                        // 유저정보 업데이트 로직
-                                        try await UserUpdateViewModel.shared.updateUserData(initialUserData: ["username": username, "instaAddress": instaAddress, "tiktokAddress": tiktokAddress])
-                                        viewModel.currentUser?.username = username
-                                        viewModel.currentUser?.instaAddress = instaAddress
-                                        viewModel.currentUser?.tiktokAddress = tiktokAddress
+                                        // 버튼이 활성화된 경우 실행할 로직
+                                        try await UpdateUserData.shared.updateUserData(initialUserData: ["username": viewModel.username,
+                                                                                                         "instaAddress": viewModel.instaAddress,
+                                                                                                         "tiktokAddress": viewModel.tiktokAddress])
+                                        viewModel.currentUser?.username = viewModel.username
+                                        viewModel.currentUser?.instaAddress = viewModel.instaAddress
+                                        viewModel.currentUser?.tiktokAddress = viewModel.tiktokAddress
                                         
                                         try await viewModel.updateUserData()
                                         dismiss()
                                     }
-                                } label: {
-                                    Text("저장")
-                                        .foregroundStyle(.white)
-                                        .font(.system(size: 18))
                                 }
-                            } else {
-                                Button {
-                                } label: {
-                                    Text("저장")
-                                        .foregroundStyle(.gray)
-                                        .font(.system(size: 18))
-                                }
+                                // 비활성화 상태일 때는 아무 작업도 수행하지 않음
+                            } label: {
+                                Text("저장")
+                                    .foregroundStyle(isActive ? .white : .gray) // 활성화 상태에 따라 텍스트 색상 변경
+                                    .font(.system(size: 18))
                             }
-                            
+                            .disabled(!isActive) // 버튼 비활성화 여부 결정
+                            .onChange(of: viewModel.changedValue) { newValue, oldValue in
+                                isActive = !newValue // viewModel의 changedValue에 따라 isActive 상태 업데이트
+                            }
                         }
                         .padding(.horizontal, width * 0.05)
                         
@@ -88,11 +87,12 @@ struct SettingProfileView: View {
                             if let image = viewModel.profileImageUrl {
                                 image
                                     .resizable()
-                                    .scaledToFit()
+                                    .scaledToFill()
                                     .frame(width: 129, height: 129)
                                     .clipShape(Circle())
-                                    .onAppear() {
-                                        imagePick.toggle()
+                                    .onAppear {
+                                        viewModel.imagePick.toggle()
+                                        viewModel.checkForChanges()
                                     }
                             } else {
                                 CircularImageView(size: .xxLarge)
@@ -113,16 +113,31 @@ struct SettingProfileView: View {
                                 .frame(width: width * 0.22)
                                 
                                 HStack {
-                                    if let changeUsername = viewModel.currentUser?.username {
-                                        TextField(changeUsername, text: $username)
+                                    if let originUsername = viewModel.currentUser?.username {
+                                        originUsername.count > 0 ?
+                                        TextField(originUsername, text: $viewModel.username)
                                             .font(.system(size: 16))
                                             .foregroundStyle(.white)
                                             .padding(.leading, width * 0.05)
+                                            .onChange(of: viewModel.username) { _, _ in
+                                                viewModel.checkForChanges()
+                                            }
+                                        :
+                                        TextField("닉네임", text: $viewModel.username)
+                                            .font(.system(size: 16))
+                                            .foregroundStyle(.white)
+                                            .padding(.leading, width * 0.05)
+                                            .onChange(of: viewModel.username) { _, _  in
+                                                viewModel.checkForChanges()
+                                            }
                                     } else {
-                                        TextField("계정명", text: $username)
+                                        TextField("닉네임", text: $viewModel.username)
                                             .font(.system(size: 16))
                                             .foregroundStyle(.white)
                                             .padding(.leading, width * 0.05)
+                                            .onChange(of: viewModel.username) { _, _  in
+                                                viewModel.checkForChanges()
+                                            }
                                     }
                                     
                                     Spacer()
@@ -146,15 +161,30 @@ struct SettingProfileView: View {
                                 
                                 HStack {
                                     if let insta = viewModel.currentUser?.instaAddress {
-                                        TextField(insta, text: $instaAddress)
+                                        insta.count > 0 ?
+                                        TextField(insta, text: $viewModel.instaAddress)
                                             .font(.system(size: 16))
                                             .foregroundStyle(.white)
                                             .padding(.leading, width * 0.05)
+                                            .onChange(of: viewModel.instaAddress) { _, _  in
+                                                viewModel.checkForChanges()
+                                            }
+                                        :
+                                        TextField("계정명", text: $viewModel.instaAddress)
+                                            .font(.system(size: 16))
+                                            .foregroundStyle(.white)
+                                            .padding(.leading, width * 0.05)
+                                            .onChange(of: viewModel.instaAddress) { _, _  in
+                                                viewModel.checkForChanges()
+                                            }
                                     } else {
-                                        TextField("계정명", text: $instaAddress)
+                                        TextField("계정명", text: $viewModel.instaAddress)
                                             .font(.system(size: 16))
                                             .foregroundStyle(.white)
                                             .padding(.leading, width * 0.05)
+                                            .onChange(of: viewModel.instaAddress) { _, _  in
+                                                viewModel.checkForChanges()
+                                            }
                                     }
                                     
                                     Spacer()
@@ -178,15 +208,30 @@ struct SettingProfileView: View {
                                 
                                 HStack {
                                     if let tiktok = viewModel.currentUser?.tiktokAddress {
-                                        TextField(tiktok, text: $tiktokAddress)
+                                        tiktok.count > 0 ?
+                                        TextField(tiktok, text: $viewModel.tiktokAddress)
                                             .font(.system(size: 16))
                                             .foregroundStyle(.white)
                                             .padding(.leading, width * 0.05)
+                                            .onChange(of: viewModel.tiktokAddress) { _, _  in
+                                                viewModel.checkForChanges()
+                                            }
+                                        :
+                                        TextField("계정명", text: $viewModel.tiktokAddress)
+                                            .font(.system(size: 16))
+                                            .foregroundStyle(.white)
+                                            .padding(.leading, width * 0.05)
+                                            .onChange(of: viewModel.tiktokAddress) { _, _  in
+                                                viewModel.checkForChanges()
+                                            }
                                     } else {
-                                        TextField("계정명", text: $tiktokAddress)
+                                        TextField("계정명", text: $viewModel.tiktokAddress)
                                             .font(.system(size: 16))
                                             .foregroundStyle(.white)
                                             .padding(.leading, width * 0.05)
+                                            .onChange(of: viewModel.tiktokAddress) { _, _  in
+                                                viewModel.checkForChanges()
+                                            }
                                     }
                                     
                                     Spacer()
