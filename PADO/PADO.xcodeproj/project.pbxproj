@@ -103,6 +103,7 @@
 		649372F82B561A6F00BCDA71 /* FollowingCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649372F72B561A6F00BCDA71 /* FollowingCellView.swift */; };
 		649372FC2B565FB300BCDA71 /* FollowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649372FB2B565FB300BCDA71 /* FollowView.swift */; };
 		649372FE2B56665200BCDA71 /* FollowerUserCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649372FD2B56665100BCDA71 /* FollowerUserCellView.swift */; };
+		64B4C8EA2B62532100D405DE /* UserUpdateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B4C8E92B62532000D405DE /* UserUpdateViewModel.swift */; };
 		64F210D12B58B25900E2064A /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 64F210D02B58B25900E2064A /* Kingfisher */; };
 		64F210D32B58B26F00E2064A /* MainSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F210D22B58B26F00E2064A /* MainSearchView.swift */; };
 		B102FE802B56D34C0005C310 /* VerificationPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B102FE7F2B56D34C0005C310 /* VerificationPostView.swift */; };
@@ -240,6 +241,7 @@
 		649372F72B561A6F00BCDA71 /* FollowingCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingCellView.swift; sourceTree = "<group>"; };
 		649372FB2B565FB300BCDA71 /* FollowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowView.swift; sourceTree = "<group>"; };
 		649372FD2B56665100BCDA71 /* FollowerUserCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerUserCellView.swift; sourceTree = "<group>"; };
+		64B4C8E92B62532000D405DE /* UserUpdateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserUpdateViewModel.swift; sourceTree = "<group>"; };
 		64F210D22B58B26F00E2064A /* MainSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSearchView.swift; sourceTree = "<group>"; };
 		B102FE7F2B56D34C0005C310 /* VerificationPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationPostView.swift; sourceTree = "<group>"; };
 		B102FE812B56DB5B0005C310 /* PostButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostButtonView.swift; sourceTree = "<group>"; };
@@ -774,6 +776,7 @@
 				B1A91D082B55928D00FE7F62 /* SettingNotificationView.swift */,
 				B1A91D092B55928D00FE7F62 /* SettingOthersView.swift */,
 				B1A91D0E2B55928D00FE7F62 /* SettingProfileView.swift */,
+				64B4C8E92B62532000D405DE /* UserUpdateViewModel.swift */,
 				B1A91D062B55928D00FE7F62 /* SettingView.swift */,
 				B198BB9F2B5639D500EAA6C0 /* ModalAlertView.swift */,
 			);
@@ -986,6 +989,7 @@
 				635B094A2B4500CB009E60A9 /* User.swift in Sources */,
 				63C20BEB2B56CEDC00911F64 /* AdvancedSettingsView.swift in Sources */,
 				418B6C8F2B5EC16500E8289D /* FollowViewModel.swift in Sources */,
+				64B4C8EA2B62532100D405DE /* UserUpdateViewModel.swift in Sources */,
 				649372F82B561A6F00BCDA71 /* FollowingCellView.swift in Sources */,
 				B102FE802B56D34C0005C310 /* VerificationPostView.swift in Sources */,
 				417D188A2B5CFEE400545A5E /* LoginPhoneNumberView.swift in Sources */,

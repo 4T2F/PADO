@@ -16,11 +16,13 @@ struct ProfileCell: View {
             
             HStack {
                 VStack(alignment: .leading, spacing: 6) {
-                    Text("dearkang")
+                    Text("@\(viewModel.currentUser?.nameID ?? "몰루")")
                         .font(.system(size: 20))
                         .fontWeight(.semibold)
                     
-                    Text("@천랑성")
+                    if let nickname = viewModel.currentUser?.username {
+                        Text(nickname)
+                    }
                 }
                 
                 Spacer()
