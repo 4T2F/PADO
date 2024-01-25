@@ -40,7 +40,7 @@ struct SurfingView: View {
                 // 이미지 피커 버튼을 표시하는 영역
                 HStack {
                     Button {
-                        self.checkCameraPermission {
+                        viewModel.checkCameraPermission {
                             viewModel.isShownCamera.toggle()
                             viewModel.sourceType = .camera
                             viewModel.pickerResult = []
@@ -83,7 +83,7 @@ struct SurfingView: View {
                 
             } //: VSTACK
             .onAppear {
-                checkPhotoLibraryPermission()
+                viewModel.checkPhotoLibraryPermission()
             }
             .alert(isPresented: $viewModel.showingPermissionAlert) {
                 Alert(title: Text("권한 필요"), message: Text("사진 라이브러리 접근 권한이 필요합니다."), dismissButton: .default(Text("확인")))
@@ -96,55 +96,4 @@ struct SurfingView: View {
             PostView(viewModel: viewModel)
         }//: NAVI
     }
-    // MARK: - 권한 설정 및 확인
-    // 카메라 접근 권한 요청 및 확인
-    private func checkCameraPermission(completion: @escaping () -> Void) {
-        switch AVCaptureDevice.authorizationStatus(for: .video) {
-            // 이미 권한이 있을 경우
-        case .authorized:
-            completion()
-            // 권한 요청 필요
-        case .notDetermined:
-            AVCaptureDevice.requestAccess(for: .video) { granted in
-                if granted {
-                    DispatchQueue.main.async {
-                        completion()
-                    }
-                }
-            }
-            // 권한이 거부되거나 제한된 경우 처리
-        default:
-            break
-        }
-    }
-    
-    // 갤러리 접근 권한 요청 및 확인
-    private func checkPhotoLibraryPermission() {
-        let status = PHPhotoLibrary.authorizationStatus()
-        switch status {
-            // 이미 권한이 있을 경우
-        case .authorized:
-            viewModel.showPhotoPicker = true
-            // 권한 요청 필요
-        case .notDetermined:
-            PHPhotoLibrary.requestAuthorization { newStatus in
-                DispatchQueue.main.async {
-                    if newStatus == .authorized {
-                        viewModel.showPhotoPicker = true
-                    } else {
-                        viewModel.showingPermissionAlert = true
-                    }
-                }
-            }
-            // 권한이 거부되거나 제한된 경우 처리
-        case .restricted, .denied:
-            viewModel.showingPermissionAlert = true
-        case .limited:
-            break
-        @unknown default:
-            break
-        }
-    }
 }
-
-

@@ -33,14 +33,53 @@ class SurfingViewModel: ObservableObject, Searchable  {
     @Published var searchResult: [User] = []
     @Published var post: [Post]?
     @Published var viewState: ViewState = ViewState.empty
-
-    // 사진 선택 완료 처리 (Camera와 PhotoPicker에서 사용)
-    func handleImageSelected(_ uiImage: UIImage) {
-           self.selectedImage = uiImage
-           self.selectedUIImage = Image(uiImage: uiImage)
-       }
     
+    // MARK: - 권한 설정 및 확인
+    // 카메라 권한 확인 함수 추가
+    func checkCameraPermission(completion: @escaping () -> Void) {
+        switch AVCaptureDevice.authorizationStatus(for: .video) {
+        case .authorized:
+            completion()
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: .video) { granted in
+                DispatchQueue.main.async {
+                    if granted {
+                        completion()
+                    }
+                }
+            }
+        default:
+            break
+        }
+    }
+    
+    // 갤러리 권한 확인 함수 추가
+    func checkPhotoLibraryPermission() {
+        let status = PHPhotoLibrary.authorizationStatus()
+        switch status {
+        case .authorized:
+            showPhotoPicker = true
+        case .notDetermined:
+            PHPhotoLibrary.requestAuthorization { newStatus in
+                DispatchQueue.main.async {
+                    if newStatus == .authorized {
+                        self.showPhotoPicker = true
+                    } else {
+                        self.showingPermissionAlert = true
+                    }
+                }
+            }
+        case .restricted, .denied:
+            showingPermissionAlert = true
+        case .limited:
+            break
+        @unknown default:
+            break
+        }
+    }
+    
+    // MARK: - 게시글 요청
     func postRequest() {
-          // 게시 요청 관련 로직 추가
-      }
+        // 게시 요청 관련 로직 추가
+    }
 }
