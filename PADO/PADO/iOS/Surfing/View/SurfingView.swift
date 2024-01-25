@@ -11,15 +11,7 @@ import SwiftUI
 
 struct SurfingView: View {
     // MARK: - PROPERTY
-    @State private var selectedImage: UIImage? = nil
-    @State private var pickerResult: [PHPickerResult] = []
-    @State private var showPhotoPicker = false
-    @State private var showingPermissionAlert = false
-    @State private var selectedUIImage: Image = Image(systemName: "photo")
-    
-    @State private var isShownCamera: Bool = false
-    @State private var sourceType: UIImagePickerController.SourceType = .camera
-    @State private var cameraimage: Image = Image(systemName: "photo")
+    @ObservedObject var viewModel = SurfingViewModel()
     
     // MARK: - BODY
     var body: some View {
@@ -28,13 +20,13 @@ struct SurfingView: View {
                 Spacer()
                 
                 // 이미 선택된 이미지를 표시하는 영역
-                if selectedUIImage != Image(systemName: "photo") {
-                    selectedUIImage
+                if viewModel.selectedUIImage != Image(systemName: "photo") {
+                    viewModel.selectedUIImage
                         .resizable()
                         .scaledToFit()
 
-                } else if cameraimage != Image(systemName: "photo") {
-                    cameraimage
+                } else if viewModel.cameraImage != Image(systemName: "photo") {
+                    viewModel.cameraImage
                         .resizable()
                         .scaledToFit()
                 } else {
@@ -49,11 +41,11 @@ struct SurfingView: View {
                 HStack {
                     Button {
                         self.checkCameraPermission {
-                            self.isShownCamera.toggle()
-                            self.sourceType = .camera
-                            pickerResult = []
-                            selectedImage = nil
-                            selectedUIImage = Image(systemName: "photo")
+                            viewModel.isShownCamera.toggle()
+                            viewModel.sourceType = .camera
+                            viewModel.pickerResult = []
+                            viewModel.selectedImage = nil
+                            viewModel.selectedUIImage = Image(systemName: "photo")
                         }
                     } label: {
                         Image("Camera")
@@ -63,13 +55,19 @@ struct SurfingView: View {
                     
                     Spacer()
                     
-                    if cameraimage != Image(systemName: "photo") {
-                        NavigationLink(destination: PostView(passImage: $cameraimage)) {
+                    if viewModel.cameraImage != Image(systemName: "photo") {
+                        Button {
+                            viewModel.postingImage = viewModel.cameraImage
+                            viewModel.showPostView.toggle()
+                        } label: {
                             Text("다음")
                                 .font(.system(size: 16, weight: .semibold))
                         }
-                    } else if selectedUIImage != Image(systemName: "photo") {
-                        NavigationLink(destination: PostView(passImage: $selectedUIImage)) {
+                    } else if viewModel.selectedUIImage != Image(systemName: "photo") {
+                        Button {
+                            viewModel.postingImage = viewModel.selectedUIImage
+                            viewModel.showPostView.toggle()
+                        } label: {
                             Text("다음")
                                 .font(.system(size: 16, weight: .semibold))
                         }
@@ -78,20 +76,25 @@ struct SurfingView: View {
                 .foregroundStyle(.white)
                 .padding(.horizontal, 20)
                 
-                PhotoPicker(pickerResult: $pickerResult, selectedImage: $selectedImage, selectedSwiftUIImage: $selectedUIImage)
+                PhotoPicker(pickerResult: $viewModel.pickerResult,
+                            selectedImage: $viewModel.selectedImage,
+                            selectedSwiftUIImage: $viewModel.selectedUIImage)
                     .frame(height: 300)
                 
             } //: VSTACK
             .onAppear {
                 checkPhotoLibraryPermission()
             }
-            .alert(isPresented: $showingPermissionAlert) {
+            .alert(isPresented: $viewModel.showingPermissionAlert) {
                 Alert(title: Text("권한 필요"), message: Text("사진 라이브러리 접근 권한이 필요합니다."), dismissButton: .default(Text("확인")))
             }
-            .sheet(isPresented: $isShownCamera) {
-                CameraAccessView(isShown: self.$isShownCamera, myimage: self.$cameraimage, mysourceType: self.$sourceType)
+            .sheet(isPresented: $viewModel.isShownCamera) {
+                CameraAccessView(isShown: $viewModel.isShownCamera, myimage: $viewModel.cameraImage, mysourceType: $viewModel.sourceType)
             }
-        } //: NAVI
+        }
+        .navigationDestination(isPresented: $viewModel.showPostView) {
+            PostView(viewModel: viewModel)
+        }//: NAVI
     }
     // MARK: - 권한 설정 및 확인
     // 카메라 접근 권한 요청 및 확인
@@ -121,21 +124,21 @@ struct SurfingView: View {
         switch status {
             // 이미 권한이 있을 경우
         case .authorized:
-            self.showPhotoPicker = true
+            viewModel.showPhotoPicker = true
             // 권한 요청 필요
         case .notDetermined:
             PHPhotoLibrary.requestAuthorization { newStatus in
                 DispatchQueue.main.async {
                     if newStatus == .authorized {
-                        self.showPhotoPicker = true
+                        viewModel.showPhotoPicker = true
                     } else {
-                        self.showingPermissionAlert = true
+                        viewModel.showingPermissionAlert = true
                     }
                 }
             }
             // 권한이 거부되거나 제한된 경우 처리
         case .restricted, .denied:
-            self.showingPermissionAlert = true
+            viewModel.showingPermissionAlert = true
         case .limited:
             break
         @unknown default:
