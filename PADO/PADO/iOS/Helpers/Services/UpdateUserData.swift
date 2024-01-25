@@ -15,8 +15,6 @@ class UpdateUserData {
     
     let db = Firestore.firestore()
     
-    let initialUserData: [String: Any] = [:]
-    
     func updateUserData(initialUserData: [String: Any]) async throws {
         guard let uid = Auth.auth().currentUser?.uid else { return }
                 

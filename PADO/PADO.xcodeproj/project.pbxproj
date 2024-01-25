@@ -475,6 +475,14 @@
 			path = Coordinator;
 			sourceTree = "<group>";
 		};
+		41A1029C2B62C7510070AB8D /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				64B4C8E92B62532000D405DE /* UpdateUserData.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		41E5F6962B565352001750C2 /* Comment */ = {
 			isa = PBXGroup;
 			children = (
@@ -593,7 +601,6 @@
 		635B094D2B4510B1009E60A9 /* Items */ = {
 			isa = PBXGroup;
 			children = (
-				64B4C8E92B62532000D405DE /* UpdateUserData.swift */,
 				4187431C2B5C32CF00D93CBE /* CircularImageView.swift */,
 				419742032B55900D0055F2AB /* LoginAlert.swift */,
 				418B6C892B5EBC0100E8289D /* SearchBar.swift */,
@@ -621,6 +628,7 @@
 		635B09622B45110C009E60A9 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				41A1029C2B62C7510070AB8D /* Services */,
 				418B6C992B5EC9A900E8289D /* Interfaces */,
 				418B6C942B5EC66900E8289D /* Enums */,
 				4165C23C2B58FDF20002053E /* Extenssions */,

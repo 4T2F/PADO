@@ -36,7 +36,7 @@ class AuthenticationViewModel: ObservableObject {
     @Published var birthDate = Date() {
         didSet {
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy년 MM월 dd일"
+            dateFormatter.dateFormat = "YYYY년 MM월 DD일"
             year = dateFormatter.string(from: birthDate)
         }
     }
@@ -187,6 +187,8 @@ class AuthenticationViewModel: ObservableObject {
             phoneNumber = ""
             otpText = ""
             verificationCode = ""
+            instaAddress = ""
+            tiktokAddress = ""
             showAlert = false
             isExisted = false
             currentUser = nil
@@ -260,6 +262,29 @@ class AuthenticationViewModel: ObservableObject {
         errorMessage = error.localizedDescription
         showAlert.toggle()
         isLoading = false
+    }
+    
+    func profileSaveData() async {
+        Task {
+            // 버튼이 활성화된 경우 실행할 로직
+            try await UpdateUserData.shared.updateUserData(initialUserData: ["username": username,
+                                                                             "instaAddress": instaAddress,
+                                                                             "tiktokAddress": tiktokAddress])
+            currentUser?.username = username
+            currentUser?.instaAddress = instaAddress
+            currentUser?.tiktokAddress = tiktokAddress
+            
+            try await updateUserData()
+        }
+    }
+    
+    // MARK: - SettingProfileView
+    func fetchUserProfile() {
+        username = currentUser?.username ?? ""
+        instaAddress = currentUser?.instaAddress ?? ""
+        tiktokAddress = currentUser?.tiktokAddress ?? ""
+        imagePick = false
+        profileImageUrl = nil
     }
     
     // MARK: - 스토리지 관련
