@@ -50,7 +50,7 @@ struct FeedView: View {
                     
                     Spacer()
                     
-                    //MARK: - HeartComment
+                    // MARK: - HeartComment
                     HeartCommentCell(isShowingReportView: $isShowingReportView, isShowingCommentView: $isShowingCommentView)
                         .padding(.leading, UIScreen.main.bounds.width)
                         .padding(.trailing, 60)
@@ -91,8 +91,7 @@ struct FeedView: View {
                                                 }
                                                 .onEnded { _ in
                                                     dragStart = nil
-                                                }
-                                        )
+                                                })
                                 } else {
                                     MainCommentCell(mainComment: comment)
                                         .position(CGPoint(x: CGFloat(comment.commentPositionsX), y: CGFloat(comment.commentPositionsY)))
@@ -115,14 +114,12 @@ struct FeedView: View {
                                                 }
                                                 .onEnded { _ in
                                                     dragStart = nil
-                                                }
-                                        )
+                                                })
                                 } else {
                                     MainFaceMojiCell(mainFaceMoji: faceMoji)
                                         .position(CGPoint(x: CGFloat(faceMoji.faceMojiPositionsX), y: CGFloat(faceMoji.faceMojiPositionsY)))
                                 }
                             }
-                            
                         }
                     }
                 }
@@ -147,3 +144,7 @@ struct FeedView: View {
 #Preview {
     FeedView()
 }
+//
+// #Preview {
+//     FeedView()
+// }

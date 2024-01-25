@@ -28,7 +28,3 @@ struct GrayButtonView: View {
         }
     }
 }
-
-//#Preview {
-//    GrayButtonView()
-//}

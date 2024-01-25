@@ -155,7 +155,3 @@ struct SettingView: View {
         
     }
 }
-
-//#Preview {
-//    SettingView()
-//}

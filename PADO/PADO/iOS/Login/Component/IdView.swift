@@ -80,7 +80,3 @@ struct IdView: View {
         }
     }
 }
-//
-//#Preview {
-//    IdView()
-//}

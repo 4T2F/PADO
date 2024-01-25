@@ -59,7 +59,3 @@ struct LoginPhoneNumberView: View {
         }
     }
 }
-//
-//#Preview {
-//    LoginPhoneNumberView()
-//}

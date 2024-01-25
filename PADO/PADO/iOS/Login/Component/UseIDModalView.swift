@@ -56,7 +56,3 @@ struct UseIDModalView: View {
         }
     }
 }
-
-//#Preview {
-//    UseIDModalView(viewModel: MainView().viewModel)
-//}

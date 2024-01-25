@@ -22,7 +22,9 @@ struct ActivityIndicator: UIViewRepresentable{
     }
     
     func updateUIView(_ uiView: UIActivityIndicatorView, context: UIViewRepresentableContext<ActivityIndicator>) {
-        animate ? uiView.startAnimating() : uiView.startAnimating()
+        if animate {
+            uiView.startAnimating()
+        }
      }
     
     func configure(_ indicator: (UIActivityIndicatorView) -> Void) -> some View {

@@ -41,7 +41,7 @@ struct LoginAlert: View {
 
                 
                 Button {
-                    //로그인화면으로 이동
+                    // 로그인화면으로 이동
                 } label: {
                     ZStack {
                         RoundedRectangle(cornerRadius: 10)
