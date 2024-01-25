@@ -51,11 +51,6 @@ class AuthenticationViewModel: ObservableObject {
     
     @Published var currentUser: User?
     
-    // 초기화
-    init() {
-        Task{ await initializeUser() }
-    }
-    
     // MARK: - 인증 관련
     func sendOtp() async {
         // OTP 발송
@@ -219,7 +214,6 @@ class AuthenticationViewModel: ObservableObject {
         guard !userID.isEmpty else { return }
         
         do {
-            isLoading = true
             try await Firestore.firestore().collection("users").document(userID).updateData([
                 "fcmToken": userToken,
                 "alertAccept": userAlertAccept
@@ -237,7 +231,7 @@ class AuthenticationViewModel: ObservableObject {
             currentUser = user
 
             print("Current User: \(String(describing: currentUser))")
-            isLoading = false
+
         } catch {
             print("Error fetching user: \(error)")
         }

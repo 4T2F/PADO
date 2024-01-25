@@ -15,7 +15,7 @@ struct Post: Identifiable {
     var sufferUid: String?
     var imageUrl: String
     var title: String
-    var hearts: Int?
+    var hearts: Int
     var comments: [Comment]?
     var created_Time: Timestamp
     var modified_Time: Timestamp?
