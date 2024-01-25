@@ -29,19 +29,30 @@ struct TodayView: View {
                                 .frame(maxWidth: .infinity)
                                 .containerRelativeFrame(.vertical)
                             
-                            LinearGradient(colors: [.clear, .clear, .clear, .clear, .clear, .clear, .clear, .clear, .clear, .clear, .clear, .black.opacity(0.35), .black.opacity(0.4), .black.opacity(0.4), .black.opacity(0.5)], startPoint: .top, endPoint: .bottom)
+                            LinearGradient(colors: [.clear, .clear,
+                                                    .clear, .clear,
+                                                    .clear, .clear,
+                                                    .clear, .clear,
+                                                    .clear, .clear,
+                                                    .clear, .black.opacity(0.35),
+                                                    .black.opacity(0.4),
+                                                    .black.opacity(0.4),
+                                                    .black.opacity(0.5)],
+                                           startPoint: .top,
+                                           endPoint: .bottom
+                            )
                             
                             VStack {
                                 Spacer()
                                 if isCellVisible {
                                     HStack {
-                                        //MARK: - TodayCell
+                                        // MARK: - TodayCell
                                         TodayCell()
                                             .padding(.top, 80)
                                         
                                         Spacer()
                                         
-                                        //MARK: - HeartComment
+                                        // MARK: - HeartComment
                                         // 하트를 누른 상태에서 longpress제스쳐를 하고 난 후 하트가 off 돼있음 수정해야함
                                         HeartCommentCell(isShowingReportView: $isShowingReportView, isShowingCommentView: $isShowingCommentView)
                                             .padding(.trailing, 12)

@@ -28,6 +28,4 @@ struct CameraAccessView: UIViewControllerRepresentable {
     }
 }
 
-//#Preview {
-//    CameraAccessView()
-//}
+
