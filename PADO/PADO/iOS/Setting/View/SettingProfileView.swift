@@ -14,10 +14,11 @@ struct SettingProfileView: View {
     @State var username: String = ""
     @State var instaAddress: String = ""
     @State var tiktokAddress: String = ""
+    @State var imagePick: Bool = false
     
     @EnvironmentObject var viewModel: AuthenticationViewModel
     @Environment (\.dismiss) var dismiss
-
+    
     
     var body: some View {
         VStack {
@@ -38,16 +39,32 @@ struct SettingProfileView: View {
                             
                             Spacer()
                             
-                            Button {
-                                Task {
-                                    try await viewModel.updateUserData()
-                                    dismiss()
+                            if !username.isEmpty || !instaAddress.isEmpty || !tiktokAddress.isEmpty || imagePick {
+                                Button {
+                                    Task {
+                                        // 유저정보 업데이트 로직
+                                        try await UserUpdateViewModel.shared.updateUserData(initialUserData: ["username": username, "instaAddress": instaAddress, "tiktokAddress": tiktokAddress])
+                                        viewModel.currentUser?.username = username
+                                        viewModel.currentUser?.instaAddress = instaAddress
+                                        viewModel.currentUser?.tiktokAddress = tiktokAddress
+                                        
+                                        try await viewModel.updateUserData()
+                                        dismiss()
+                                    }
+                                } label: {
+                                    Text("저장")
+                                        .foregroundStyle(.white)
+                                        .font(.system(size: 18))
                                 }
-                            } label: {
-                                Text("저장")
-                                    .foregroundStyle(.gray)
-                                    .font(.system(size: 18))
+                            } else {
+                                Button {
+                                } label: {
+                                    Text("저장")
+                                        .foregroundStyle(.gray)
+                                        .font(.system(size: 18))
+                                }
                             }
+                            
                         }
                         .padding(.horizontal, width * 0.05)
                         
@@ -74,6 +91,9 @@ struct SettingProfileView: View {
                                     .scaledToFit()
                                     .frame(width: 129, height: 129)
                                     .clipShape(Circle())
+                                    .onAppear() {
+                                        imagePick.toggle()
+                                    }
                             } else {
                                 CircularImageView(size: .xxLarge)
                             }
@@ -93,10 +113,17 @@ struct SettingProfileView: View {
                                 .frame(width: width * 0.22)
                                 
                                 HStack {
-                                    TextField("닉네임", text: $username)
-                                        .font(.system(size: 16))
-                                        .foregroundStyle(.white)
-                                        .padding(.leading, width * 0.05)
+                                    if let changeUsername = viewModel.currentUser?.username {
+                                        TextField(changeUsername, text: $username)
+                                            .font(.system(size: 16))
+                                            .foregroundStyle(.white)
+                                            .padding(.leading, width * 0.05)
+                                    } else {
+                                        TextField("계정명", text: $username)
+                                            .font(.system(size: 16))
+                                            .foregroundStyle(.white)
+                                            .padding(.leading, width * 0.05)
+                                    }
                                     
                                     Spacer()
                                 }
@@ -118,10 +145,17 @@ struct SettingProfileView: View {
                                 .frame(width: width * 0.22)
                                 
                                 HStack {
-                                    TextField("계정명", text: $instaAddress)
-                                        .font(.system(size: 16))
-                                        .foregroundStyle(.white)
-                                        .padding(.leading, width * 0.05)
+                                    if let insta = viewModel.currentUser?.instaAddress {
+                                        TextField(insta, text: $instaAddress)
+                                            .font(.system(size: 16))
+                                            .foregroundStyle(.white)
+                                            .padding(.leading, width * 0.05)
+                                    } else {
+                                        TextField("계정명", text: $instaAddress)
+                                            .font(.system(size: 16))
+                                            .foregroundStyle(.white)
+                                            .padding(.leading, width * 0.05)
+                                    }
                                     
                                     Spacer()
                                 }
@@ -134,7 +168,7 @@ struct SettingProfileView: View {
                             // MARK: - 프로필수정, 틱톡주소
                             HStack {
                                 HStack {
-                                    Text("Tiktok")
+                                    Text("tiktok")
                                         .foregroundStyle(.white)
                                         .font(.system(size: 16))
                                     
@@ -143,19 +177,27 @@ struct SettingProfileView: View {
                                 .frame(width: width * 0.22)
                                 
                                 HStack {
-                                    TextField("계정명", text: $tiktokAddress)
-                                        .font(.system(size: 16))
-                                        .foregroundStyle(.white)
-                                        .padding(.leading, width * 0.05)
+                                    if let tiktok = viewModel.currentUser?.tiktokAddress {
+                                        TextField(tiktok, text: $tiktokAddress)
+                                            .font(.system(size: 16))
+                                            .foregroundStyle(.white)
+                                            .padding(.leading, width * 0.05)
+                                    } else {
+                                        TextField("계정명", text: $tiktokAddress)
+                                            .font(.system(size: 16))
+                                            .foregroundStyle(.white)
+                                            .padding(.leading, width * 0.05)
+                                    }
                                     
                                     Spacer()
                                 }
                                 .frame(width: width * 0.63)
+                                
                             }
                             
                             SettingProfileDivider()
-                            
                                 .padding(.top, 4)
+                            
                         }
                         .padding(.horizontal, width * 0.05)
                         .padding(.top, 24)
