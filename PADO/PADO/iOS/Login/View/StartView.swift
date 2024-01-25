@@ -81,7 +81,7 @@ struct StartView: View {
         }
     }
 
-    func getSpilitedText(text: String, completion: @escaping () -> ()) {
+    func getSpilitedText(text: String, completion: @escaping () -> Void) {
         for (index, character) in text.enumerated() {
             titleText.append(TextAnimation(text: String(character)))
 
@@ -126,8 +126,3 @@ struct StartView: View {
         }
     }
 }
-
-//#Preview {
-//    StartView(viewModel: MainView().viewModel)
-//}
-

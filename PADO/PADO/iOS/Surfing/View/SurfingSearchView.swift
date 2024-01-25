@@ -70,7 +70,6 @@ struct SurfingSearchView: View {
     }
 }
 
-
 #Preview {
     SurfingSearchView()
 }

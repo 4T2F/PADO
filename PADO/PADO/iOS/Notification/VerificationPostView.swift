@@ -83,7 +83,7 @@ struct VerificationPostView: View {
                         
                         HStack(spacing: 20) {
                             Button {
-                                //TODO:
+                                // TODO:
                             } label: {
                                 GrayButtonView(text: "거절하기", grayButtonX: 0.3)
                             }

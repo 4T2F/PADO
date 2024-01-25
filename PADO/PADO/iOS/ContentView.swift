@@ -16,10 +16,6 @@ struct ContentView: View {
     
     @State private var selectedTab = 0
     
-//    init() {
-//        UITabBar.appearance().backgroundColor = UIColor.black
-//    }
-    
     init() {
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()

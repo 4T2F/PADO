@@ -39,16 +39,15 @@ struct SearchBar: View {
                         isEditing = true
                     }
                     .animation(.default)
-                    .overlay{
-                        HStack{
+                    .overlay {
+                        HStack {
                             Spacer()
                             if !text.isEmpty {
                                 if isLoading {
                                     Button {
                                         text = ""
                                     } label: {
-                                        ActivityIndicator(style: .medium,
-                                                          animate: .constant(true))
+                                        ActivityIndicator(style: .medium, animate: .constant(true))
                                         .configure({
                                             $0.color = .white
                                         })
@@ -68,7 +67,6 @@ struct SearchBar: View {
                             }
                         }
                     }
-                
                 if isEditing {
                     Button {
                         text = ""

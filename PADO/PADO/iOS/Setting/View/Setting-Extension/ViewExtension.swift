@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-//MARK: - 세팅셀 모디파이어
+// MARK: - 세팅셀 모디파이어
 extension View {
     func settingMidCellModi() -> some View {
         self
@@ -18,7 +18,7 @@ extension View {
     }
 }
 
-//MARK: - 세팅셀 폰트 모디파이어
+// MARK: - 세팅셀 폰트 모디파이어
 extension View {
     func settingFontModi() -> some View {
         self
