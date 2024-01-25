@@ -19,7 +19,7 @@ struct MainView: View {
                         Task {
                             try? await Task.sleep(nanoseconds: 2 * 1_000_000_000)
                             withAnimation {
-                                if viewModel.userID == "" || !viewModel.isLoading {
+                                if viewModel.userID.isEmpty || !viewModel.isLoading {
                                     showLaunchScreen = false
                                 }
                             }
@@ -34,6 +34,6 @@ struct MainView: View {
     }
 }
 
-//#Preview {
+// #Preview {
 //    MainView()
-//}
+// }

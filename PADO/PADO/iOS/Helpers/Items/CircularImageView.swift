@@ -5,8 +5,8 @@
 //  Created by 황성진 on 1/15/24.
 //
 
-import SwiftUI
 import Kingfisher
+import SwiftUI
 
 // 이미지 사용을 위해 enum 형식으로 크기를 미리 정의
 enum ProfileImageSize {

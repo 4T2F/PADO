@@ -815,10 +815,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 41FD9A162B43D5EE0028D38E /* Build configuration list for PBXNativeTarget "PADO" */;
 			buildPhases = (
+				41FD9A1F2B43D8850028D38E /* SwiftLint */,
 				41FD99EE2B43D5EC0028D38E /* Sources */,
 				41FD99EF2B43D5EC0028D38E /* Frameworks */,
 				41FD99F02B43D5EC0028D38E /* Resources */,
-				41FD9A1F2B43D8850028D38E /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -953,8 +953,9 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		41FD9A1F2B43D8850028D38E /* ShellScript */ = {
+		41FD9A1F2B43D8850028D38E /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -962,13 +963,14 @@
 			);
 			inputPaths = (
 			);
+			name = SwiftLint;
 			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1153,7 +1155,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1217,7 +1219,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
