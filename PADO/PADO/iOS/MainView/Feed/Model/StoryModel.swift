@@ -19,5 +19,5 @@ var storyData: [Story] = [
     Story(name: "Hsungjin", image: "Pic1"),
     Story(name: "Kminchae", image: "Pic2"),
     Story(name: "Dongho", image: "pp2"),
-    Story(name: "k.cha_nam", image: "myunghyun")
+    Story(name: "k.cha_nam", image: "Pic4")
 ]
