@@ -14,7 +14,7 @@ struct UseIDModalView: View {
     
     var dismissSignUpView: () -> Void
     
-    @ObservedObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     
     var body: some View {
         ZStack {
@@ -56,7 +56,3 @@ struct UseIDModalView: View {
         }
     }
 }
-
-//#Preview {
-//    UseIDModalView(viewModel: MainView().viewModel)
-//}

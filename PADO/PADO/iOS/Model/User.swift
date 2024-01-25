@@ -4,9 +4,9 @@
 //
 //  Created by 강치우 on 1/3/24.
 //
-import Foundation
 import Firebase
 import FirebaseFirestoreSwift
+import Foundation
 
 var userToken: String {
     get {
@@ -39,5 +39,4 @@ struct User: Codable, Identifiable, Hashable {
     var alertAccept: String // 필드 이름 수정
 }
 
-var currentUser: User?
 

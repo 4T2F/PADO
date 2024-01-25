@@ -8,11 +8,16 @@
 import SwiftUI
 
 struct ReMyFeedView: View {
-    @StateObject var viewModel = AuthenticationViewModel()
+    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @State private var isShowingSetting = false
     
     var body: some View {
-        ZStack {
-            Color.modalBlackButton.ignoresSafeArea()
+       
+        if isShowingSetting {
+            SettingView(isShowingSetting: $isShowingSetting)
+        } else {
+            ZStack {
+                Color.modalBlackButton.ignoresSafeArea()
                 VStack {
                     VStack {
                         HStack {
@@ -23,11 +28,16 @@ struct ReMyFeedView: View {
                             
                             Spacer()
                             
-                            VStack {
-                                Text("...")
-                                    .font(.system(size: 34))
-                                
-                                Text("")
+                            Button {
+                                isShowingSetting.toggle()
+                            } label: {
+                                VStack {
+                                    Text("...")
+                                        .font(.system(size: 34))
+                                        .foregroundStyle(.white)
+                                    
+                                    Text("")
+                                }
                             }
                         }
                         .padding(.horizontal)
@@ -45,7 +55,8 @@ struct ReMyFeedView: View {
             }
         }
     }
-
-#Preview {
-    ReMyFeedView()
 }
+
+// #Preview {
+//     ReMyFeedView()
+// }

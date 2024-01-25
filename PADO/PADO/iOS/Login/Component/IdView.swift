@@ -12,7 +12,7 @@ struct IdView: View {
     @State var isDuplicateID: Bool = false
     @Binding var currentStep: SignUpStep
     
-    @ObservedObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     
     var body: some View {
         ZStack {
@@ -80,7 +80,3 @@ struct IdView: View {
         }
     }
 }
-//
-//#Preview {
-//    IdView()
-//}

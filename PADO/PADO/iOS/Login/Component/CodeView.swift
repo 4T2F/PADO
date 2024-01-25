@@ -17,7 +17,7 @@ struct CodeView: View {
     
     var dismissAction: () -> Void
     
-    @ObservedObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     
     var body: some View {
         ZStack {
@@ -75,8 +75,7 @@ struct CodeView: View {
             .padding(.top, 150)
             .sheet(isPresented: $showUseID, content: {
                 UseIDModalView(showUseID: $showUseID,
-                               dismissSignUpView: dismissAction,
-                               viewModel: viewModel)
+                               dismissSignUpView: dismissAction)
                     .presentationDetents([.height(250)])
                     .presentationCornerRadius(30)
             })
@@ -86,7 +85,3 @@ struct CodeView: View {
         
     }
 }
-
-//#Preview {
-//    CodeView()
-//}

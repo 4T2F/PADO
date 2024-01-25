@@ -16,10 +16,6 @@ struct ContentView: View {
     
     @State private var selectedTab = 0
     
-//    init() {
-//        UITabBar.appearance().backgroundColor = UIColor.black
-//    }
-    
     init() {
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
@@ -31,11 +27,9 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             GeometryReader { geometry in
-                let safeArea = geometry.safeAreaInsets
-                let size = geometry.size
                 
                 TabView(selection: $selectedTab) {
-                    ReMainView()
+                    FeedView()
                         .tabItem {
                             Image(selectedTab == 0 ? "tab_home" : "tab_home_gray")
                                 

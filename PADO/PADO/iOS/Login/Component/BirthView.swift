@@ -12,7 +12,7 @@ struct BirthView: View {
     @State var buttonActive: Bool = false
     @Binding var currentStep: SignUpStep
 
-    @ObservedObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     
     var body: some View {
         ZStack {     
@@ -79,7 +79,3 @@ struct BirthView: View {
         }
     }
 }
-
-//#Preview {
-//    BirthView(viewModel: MainView().viewModel)
-//}

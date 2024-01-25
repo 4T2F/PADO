@@ -36,7 +36,7 @@ struct PostView: View {
             .padding(.horizontal)
             
         } //: VSTACK
-        .onDisappear() {
+        .onDisappear {
             passImage = Image(systemName: "photo")
         }
         
@@ -107,9 +107,9 @@ struct PostView: View {
     }
 }
 
-//#Preview {
-//    PostView()
-//}
+// #Preview {
+//     PostView()
+// }
 
 
 

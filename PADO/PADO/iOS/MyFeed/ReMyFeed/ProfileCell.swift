@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ProfileCell: View {
+    @EnvironmentObject var viewModel: AuthenticationViewModel
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             CircularImageView(size: .xxLarge)
@@ -23,14 +25,16 @@ struct ProfileCell: View {
                 
                 Spacer()
                 
-                ZStack {
-                    RoundedRectangle(cornerRadius:4)
-                        .stroke(Color.gray, lineWidth: 1)
-                        .frame(width: 78, height: 28)
-                    Text("프로필 편집")
-                        .font(.system(size: 12))
-                        .fontWeight(.medium)
-                        .foregroundStyle(.gray)
+                NavigationLink(destination: SettingProfileView()) {
+                    ZStack {
+                        RoundedRectangle(cornerRadius:4)
+                            .stroke(Color.gray, lineWidth: 1)
+                            .frame(width: 78, height: 28)
+                        Text("프로필 편집")
+                            .font(.system(size: 12))
+                            .fontWeight(.medium)
+                            .foregroundStyle(.gray)
+                    }
                 }
             }
             

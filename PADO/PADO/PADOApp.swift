@@ -16,5 +16,6 @@ struct PADOApp: App {
         WindowGroup {
             MainView()
         }
+        .environmentObject(AuthenticationViewModel())
     }
 }

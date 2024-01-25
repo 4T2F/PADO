@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ReMainView: View {
+struct FeedView: View {
     @State private var isShowingReportView = false
     @State private var isShowingCommentView = false
     
@@ -16,6 +16,7 @@ struct ReMainView: View {
     let dragThreshold: CGFloat = 0
     
     @State private var isCommentVisible = false
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     // 댓글 commentVM
     @StateObject private var commentVM = CommentViewModel()
     // 화면에 띄워질 commentVM
@@ -44,7 +45,7 @@ struct ReMainView: View {
                     
                     Spacer()
                     
-                    //MARK: - HeartComment
+                    // MARK: - HeartComment
                     HeartCommentCell(isShowingReportView: $isShowingReportView, isShowingCommentView: $isShowingCommentView)
                         .padding(.leading, UIScreen.main.bounds.width)
                         .padding(.trailing, 60)
@@ -70,7 +71,7 @@ struct ReMainView: View {
                     if !isHeaderVisible {
                         ZStack {
                             ForEach(mainCommentVM.mainComments.reversed()) { comment in
-                                if currentUser?.nameID == comment.nameID {
+                                if viewModel.currentUser?.nameID == comment.nameID {
                                     MainCommentCell(mainComment: comment)
                                         .position(textPosition)
                                         .gesture(
@@ -85,8 +86,7 @@ struct ReMainView: View {
                                                 }
                                                 .onEnded { _ in
                                                     dragStart = nil
-                                                }
-                                        )
+                                                })
                                 } else {
                                     MainCommentCell(mainComment: comment)
                                         .position(CGPoint(x: CGFloat(comment.commentPositionsX), y: CGFloat(comment.commentPositionsY)))
@@ -94,7 +94,7 @@ struct ReMainView: View {
                             }
                             
                             ForEach(mainFaceMojiVM.mainFaceMoji.reversed()) { faceMoji in
-                                if currentUser?.nameID == faceMoji.nameID {
+                                if viewModel.currentUser?.nameID == faceMoji.nameID {
                                     MainFaceMojiCell(mainFaceMoji: faceMoji)
                                         .position(faceMojiPosition)
                                         .gesture(
@@ -109,14 +109,12 @@ struct ReMainView: View {
                                                 }
                                                 .onEnded { _ in
                                                     dragStart = nil
-                                                }
-                                        )
+                                                })
                                 } else {
                                     MainFaceMojiCell(mainFaceMoji: faceMoji)
                                         .position(CGPoint(x: CGFloat(faceMoji.faceMojiPositionsX), y: CGFloat(faceMoji.faceMojiPositionsY)))
                                 }
                             }
-                            
                         }
                     }
                 }
@@ -138,6 +136,6 @@ struct ReMainView: View {
 }
 
 //
-//#Preview {
-//    ReMainView()
-//}
+// #Preview {
+//     FeedView()
+// }

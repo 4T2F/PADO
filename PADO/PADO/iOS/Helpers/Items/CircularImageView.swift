@@ -5,8 +5,8 @@
 //  Created by 황성진 on 1/15/24.
 //
 
-import SwiftUI
 import Kingfisher
+import SwiftUI
 
 // 이미지 사용을 위해 enum 형식으로 크기를 미리 정의
 enum ProfileImageSize {
@@ -33,12 +33,12 @@ enum ProfileImageSize {
 
 struct CircularImageView: View {
     // MARK: - PROPERTY
-    var user: User?
     // ProfileImageSize 를 사용하기 위해 사용
     let size: ProfileImageSize
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     // MARK: - BODY
     var body: some View {
-        if let imageUrl = user?.profileImageUrl {
+        if let imageUrl = viewModel.currentUser?.profileImageUrl {
             KFImage(URL(string: imageUrl))
                 .resizable()
                 .scaledToFill()

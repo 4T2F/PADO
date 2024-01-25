@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct LunchSTA: View {
+struct LaunchSTA: View {
     
     @State var show = false
     let title = "PADO"
@@ -29,5 +29,5 @@ struct LunchSTA: View {
 }
 
 #Preview {
-    LunchSTA()
+    LaunchSTA()
 }

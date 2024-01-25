@@ -9,36 +9,31 @@ import SwiftUI
 
 struct MainView: View {
     @State private var showLaunchScreen = true
-    @StateObject var viewModel = AuthenticationViewModel()
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     
     var body: some View {
         Group {
             if showLaunchScreen {
-                LunchSTA()
+                LaunchSTA()
                     .onAppear {
                         Task {
                             try? await Task.sleep(nanoseconds: 2 * 1_000_000_000)
                             withAnimation {
-                                if !viewModel.isLoading {
+                                if viewModel.userID.isEmpty || !viewModel.isLoading {
                                     showLaunchScreen = false
                                 }
                             }
                         }
                     }
-            } else if viewModel.startUser == nil {
-                StartView(viewModel: viewModel)
+            } else if viewModel.currentUser == nil {
+                StartView()
             } else {
                 ContentView()
-            }
-        }
-        .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now()) {
-                
             }
         }
     }
 }
 
-//#Preview {
+// #Preview {
 //    MainView()
-//}
+// }

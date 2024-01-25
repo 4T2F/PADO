@@ -35,13 +35,13 @@ struct TodayView: View {
                     Spacer()
                     if isCellVisible {
                         HStack {
-                            //MARK: - TodayCell
+                            // MARK: - TodayCell
                             TodayCell()
                                 .padding(.top, 80)
                             
                             Spacer()
                             
-                            //MARK: - HeartComment
+                            // MARK: - HeartComment
                             // 하트를 누른 상태에서 longpress제스쳐를 하고 난 후 하트가 off 돼있음 수정해야함
                             HeartCommentCell(isShowingReportView: $isShowingReportView, isShowingCommentView: $isShowingCommentView)
                                 .padding(.trailing, 12)
@@ -75,8 +75,7 @@ struct TodayView: View {
                             }
                             .onEnded { _ in
                                 dragStart = nil
-                            }
-                    )
+                            })
                 }
             }
             // 꾹 누르면 사라지고 다시 터치하면 나타나는 LongPressGesture 로직
@@ -91,8 +90,7 @@ struct TodayView: View {
                         withAnimation(.easeInOut(duration: 0.2)) {
                             self.isCellVisible = false
                         }
-                    }
-            )
+                    })
         }
     }
 }

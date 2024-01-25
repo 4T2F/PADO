@@ -5,21 +5,19 @@
 //  Created by 황민채 on 1/15/24.
 //
 
-import SwiftUI
 import PhotosUI
+import SwiftUI
 
 struct SettingProfileView: View {
     
     @State var width = UIScreen.main.bounds.width
-    
-    let user: User
-    
     @State var username: String = ""
     @State var instaAddress: String = ""
     @State var tiktokAddress: String = ""
     
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     @Environment (\.dismiss) var dismiss
-    @StateObject var viewModel = AuthenticationViewModel()
+
     
     var body: some View {
         VStack {
@@ -77,7 +75,7 @@ struct SettingProfileView: View {
                                     .frame(width: 129, height: 129)
                                     .clipShape(Circle())
                             } else {
-                                CircularImageView(user: user, size: .xxLarge)
+                                CircularImageView(size: .xxLarge)
                             }
                         }
                         // MARK: - 프로필수정, 이름
@@ -172,6 +170,6 @@ struct SettingProfileView: View {
     }
 }
 
-//#Preview {
-//    SettingProfileView()
-//}
+// #Preview {
+//     SettingProfileView()
+// }
