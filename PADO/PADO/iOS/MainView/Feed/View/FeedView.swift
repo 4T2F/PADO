@@ -35,6 +35,11 @@ struct FeedView: View {
                     .scaledToFill()
                     .ignoresSafeArea()
                 
+                if isHeaderVisible {
+                    LinearGradient(colors: [.clear, .clear, .clear, .clear, .clear, .clear, .clear, .clear, .clear, .clear, .black.opacity(0.1), .black.opacity(0.2), .black.opacity(0.3), .black.opacity(0.4)], startPoint: .bottom, endPoint: .top)
+                        .ignoresSafeArea()
+                }
+                
                 VStack {
                     // MARK: - Header
                     if isHeaderVisible {
@@ -135,6 +140,10 @@ struct FeedView: View {
     }
 }
 
+
+#Preview {
+    FeedView()
+}
 //
 // #Preview {
 //     FeedView()
