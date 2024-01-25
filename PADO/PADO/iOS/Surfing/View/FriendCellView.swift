@@ -49,3 +49,4 @@ struct FriendCellView: View {
     }
 }
 
+

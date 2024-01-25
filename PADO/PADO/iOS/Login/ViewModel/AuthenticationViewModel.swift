@@ -58,11 +58,6 @@ class AuthenticationViewModel: ObservableObject {
     
     @Published var currentUser: User?
     
-    // 초기화
-    init() {
-        Task{ await initializeUser() }
-    }
-    
     // MARK: - 인증 관련
     func sendOtp() async {
         // OTP 발송
