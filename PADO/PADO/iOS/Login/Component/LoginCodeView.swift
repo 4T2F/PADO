@@ -78,7 +78,3 @@ struct LoginCodeView: View {
         
     }
 }
-
-//#Preview {
-//    LoginCodeView()
-//}

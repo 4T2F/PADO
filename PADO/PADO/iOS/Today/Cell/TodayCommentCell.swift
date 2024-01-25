@@ -29,6 +29,6 @@ struct TodayCommentCell: View {
     }
 }
 
-//#Preview {
+// #Preview {
 //    TodayCommentCell(mainComment: MainComment(nameID: "dearkang", comment: "하하하 너무재밌네요"))
-//}
+// }

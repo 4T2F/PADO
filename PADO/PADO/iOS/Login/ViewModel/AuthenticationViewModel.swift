@@ -5,10 +5,10 @@
 //  Created by 강치우 on 1/3/24.
 //
 
-import SwiftUI
 import Firebase
-import PhotosUI
 import FirebaseStorage
+import PhotosUI
+import SwiftUI
 
 @MainActor
 class AuthenticationViewModel: ObservableObject {
@@ -123,7 +123,7 @@ class AuthenticationViewModel: ObservableObject {
         }
     }
     
-    func checkPhoneNumberExists(phoneNumber: String) async  -> Bool {
+    func checkPhoneNumberExists(phoneNumber: String) async -> Bool {
         // 전화번호 중복 확인
         let userDB = Firestore.firestore().collection("users")
         let query = userDB.whereField("phoneNumber", isEqualTo: phoneNumber)
@@ -281,7 +281,7 @@ class AuthenticationViewModel: ObservableObject {
         let storageRef = Storage.storage().reference(withPath: "/profile_image/\(filename)")
         
         do {
-            let _ = try await storageRef.putDataAsync(imageData)
+            _ = try await storageRef.putDataAsync(imageData)
             let url = try await storageRef.downloadURL()
             return url.absoluteString
         } catch {

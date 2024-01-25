@@ -5,8 +5,8 @@
 //  Created by 황민채 on 1/15/24.
 //
 
-import SwiftUI
 import PhotosUI
+import SwiftUI
 
 struct SettingProfileView: View {
     
@@ -170,6 +170,6 @@ struct SettingProfileView: View {
     }
 }
 
-//#Preview {
-//    SettingProfileView()
-//}
+// #Preview {
+//     SettingProfileView()
+// }

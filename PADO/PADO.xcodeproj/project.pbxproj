@@ -25,9 +25,7 @@
 		417568642B47999E003AA8C0 /* PhoneumberTFFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417568632B47999E003AA8C0 /* PhoneumberTFFormat.swift */; };
 		417D188A2B5CFEE400545A5E /* LoginPhoneNumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417D18892B5CFEE400545A5E /* LoginPhoneNumberView.swift */; };
 		417D188C2B5CFEF100545A5E /* LoginCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417D188B2B5CFEF100545A5E /* LoginCodeView.swift */; };
-		418743202B5C32CF00D93CBE /* MyFeedHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4187431B2B5C32CF00D93CBE /* MyFeedHeaderView.swift */; };
 		418743212B5C32CF00D93CBE /* CircularImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4187431C2B5C32CF00D93CBE /* CircularImageView.swift */; };
-		418743222B5C32CF00D93CBE /* SocialNetWorkBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4187431D2B5C32CF00D93CBE /* SocialNetWorkBarView.swift */; };
 		418743232B5C32CF00D93CBE /* MyFeedContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4187431E2B5C32CF00D93CBE /* MyFeedContentView.swift */; };
 		418743272B5C42A300D93CBE /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418743262B5C42A300D93CBE /* SignUpView.swift */; };
 		418743292B5C42AB00D93CBE /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418743282B5C42AB00D93CBE /* LoginView.swift */; };
@@ -162,9 +160,7 @@
 		417568632B47999E003AA8C0 /* PhoneumberTFFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneumberTFFormat.swift; sourceTree = "<group>"; };
 		417D18892B5CFEE400545A5E /* LoginPhoneNumberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPhoneNumberView.swift; sourceTree = "<group>"; };
 		417D188B2B5CFEF100545A5E /* LoginCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCodeView.swift; sourceTree = "<group>"; };
-		4187431B2B5C32CF00D93CBE /* MyFeedHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyFeedHeaderView.swift; sourceTree = "<group>"; };
 		4187431C2B5C32CF00D93CBE /* CircularImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircularImageView.swift; sourceTree = "<group>"; };
-		4187431D2B5C32CF00D93CBE /* SocialNetWorkBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialNetWorkBarView.swift; sourceTree = "<group>"; };
 		4187431E2B5C32CF00D93CBE /* MyFeedContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyFeedContentView.swift; sourceTree = "<group>"; };
 		418743262B5C42A300D93CBE /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		418743282B5C42AB00D93CBE /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -423,9 +419,6 @@
 		419741E42B558F4A0055F2AB /* Component */ = {
 			isa = PBXGroup;
 			children = (
-				4187431E2B5C32CF00D93CBE /* MyFeedContentView.swift */,
-				4187431B2B5C32CF00D93CBE /* MyFeedHeaderView.swift */,
-				4187431D2B5C32CF00D93CBE /* SocialNetWorkBarView.swift */,
 				649372F72B561A6F00BCDA71 /* FollowingCellView.swift */,
 				649372FD2B56665100BCDA71 /* FollowerUserCellView.swift */,
 			);
@@ -633,6 +626,7 @@
 		63BF11EA2B5E510900E95087 /* ReMyFeed */ = {
 			isa = PBXGroup;
 			children = (
+				4187431E2B5C32CF00D93CBE /* MyFeedContentView.swift */,
 				63BF11EB2B5E514E00E95087 /* ReMyFeedView.swift */,
 				63BF11ED2B5E518000E95087 /* ProfileCell.swift */,
 			);
@@ -821,10 +815,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 41FD9A162B43D5EE0028D38E /* Build configuration list for PBXNativeTarget "PADO" */;
 			buildPhases = (
+				41FD9A1F2B43D8850028D38E /* SwiftLint */,
 				41FD99EE2B43D5EC0028D38E /* Sources */,
 				41FD99EF2B43D5EC0028D38E /* Frameworks */,
 				41FD99F02B43D5EC0028D38E /* Resources */,
-				41FD9A1F2B43D8850028D38E /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -959,8 +953,9 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		41FD9A1F2B43D8850028D38E /* ShellScript */ = {
+		41FD9A1F2B43D8850028D38E /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -968,13 +963,14 @@
 			);
 			inputPaths = (
 			);
+			name = SwiftLint;
 			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1044,7 +1040,6 @@
 				63C8BA562B56644600025422 /* CreateFeedCell.swift in Sources */,
 				B1749A672B5E41AA00BCC6BA /* Post.swift in Sources */,
 				B1A91D162B55928D00FE7F62 /* SettingInfoView.swift in Sources */,
-				418743202B5C32CF00D93CBE /* MyFeedHeaderView.swift in Sources */,
 				418743272B5C42A300D93CBE /* SignUpView.swift in Sources */,
 				63BF120F2B5EB94B00E95087 /* TodayHeartCommentCell.swift in Sources */,
 				63824C442B558B2400D1D653 /* PhoneNumberView.swift in Sources */,
@@ -1078,7 +1073,6 @@
 				63824C4D2B558B5500D1D653 /* ModalWhiteButton.swift in Sources */,
 				B1D7CDEC2B5669B80090544B /* SettingDivider.swift in Sources */,
 				B1A91D142B55928D00FE7F62 /* SettingAskView.swift in Sources */,
-				418743222B5C32CF00D93CBE /* SocialNetWorkBarView.swift in Sources */,
 				418743292B5C42AB00D93CBE /* LoginView.swift in Sources */,
 				41FD99F62B43D5EC0028D38E /* PADOApp.swift in Sources */,
 				63BF11EC2B5E514E00E95087 /* ReMyFeedView.swift in Sources */,
@@ -1161,7 +1155,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1225,7 +1219,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;

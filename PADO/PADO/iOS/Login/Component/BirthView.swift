@@ -79,7 +79,3 @@ struct BirthView: View {
         }
     }
 }
-
-//#Preview {
-//    BirthView(viewModel: MainView().viewModel)
-//}

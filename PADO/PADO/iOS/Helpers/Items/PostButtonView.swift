@@ -30,7 +30,3 @@ struct PostButtonView: View {
         }
     }
 }
-
-//#Preview {
-//    PostButtonView()
-//}

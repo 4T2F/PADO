@@ -4,9 +4,9 @@
 //
 //  Created by 강치우 on 1/3/24.
 //
-import Foundation
 import Firebase
 import FirebaseFirestoreSwift
+import Foundation
 
 var userToken: String {
     get {

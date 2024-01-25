@@ -5,9 +5,9 @@
 //  Created by 황성진 on 1/23/24.
 //
 
-import SwiftUI
-import PhotosUI
 import Photos
+import PhotosUI
+import SwiftUI
 
 struct SurfingView: View {
     // MARK: - PROPERTY
