@@ -32,7 +32,7 @@ struct TodayView: View {
                                 .frame(maxWidth: .infinity)
                                 .containerRelativeFrame(.vertical)
                             
-                            LinearGradient(colors: [.clear, .clear, .clear, .clear, .clear, .clear, .black.opacity(0.1), .black.opacity(0.2), .black.opacity(0.3), .black.opacity(0.4), .black.opacity(0.6)], startPoint: .top, endPoint: .bottom)
+                            LinearGradient(colors: [.clear, .clear, .clear, .clear, .clear, .clear, .clear, .clear, .clear, .clear, .clear, .black.opacity(0.35), .black.opacity(0.4), .black.opacity(0.4), .black.opacity(0.5)], startPoint: .top, endPoint: .bottom)
                             
                             VStack {
                                 Spacer()
