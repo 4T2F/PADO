@@ -9,13 +9,13 @@ import PhotosUI
 import SwiftUI
 
 struct SettingProfileView: View {
-    
+    // MARK: - PROPERTY
     @State var width = UIScreen.main.bounds.width
     @State private var isActive: Bool = false
     @EnvironmentObject var viewModel: AuthenticationViewModel
     @Environment (\.dismiss) var dismiss
     
-    
+    // MARK: - BODY
     var body: some View {
         VStack {
             ZStack {
@@ -73,7 +73,7 @@ struct SettingProfileView: View {
                 VStack {
                     VStack {
                         PhotosPicker(selection: $viewModel.selectedItem) {
-                            if let image = viewModel.profileImageUrl {
+                            if let image = viewModel.userSelectImage {
                                 image
                                     .resizable()
                                     .scaledToFill()
