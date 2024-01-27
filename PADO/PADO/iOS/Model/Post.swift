@@ -9,7 +9,7 @@ import Firebase
 import FirebaseFirestoreSwift
 import Foundation
 
-struct Post: Identifiable {
+struct Post: Identifiable, Codable {
     @DocumentID var id: String?
     var ownerUid: String
     var sufferUid: String?

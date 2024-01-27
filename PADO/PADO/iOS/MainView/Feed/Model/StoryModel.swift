@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct Story: Identifiable {
-    var id = UUID()
-    var name: String
-    var image: String
+    let id = UUID()
+    let name: String
+    let image: String
 }
 
 var storyData: [Story] = [
