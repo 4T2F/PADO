@@ -20,11 +20,15 @@ struct FeedView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                Image(feedVM.selectedStoryImage)
-                    .resizable()
+                if let imageUrl = URL(string: feedVM.selectedPostImageUrl) {
+                    AsyncImage(url: imageUrl) { image in
+                        image.resizable()
+                    } placeholder: {
+                        ProgressView()
+                    }
                     .scaledToFill()
                     .ignoresSafeArea()
-                    .id(feedVM.selectedStoryImage) // 뷰 갱신 강제화
+                }
                 
                 if feedVM.isHeaderVisible {
                     LinearGradient(colors: [.clear, .clear,
@@ -62,9 +66,9 @@ struct FeedView: View {
                     if feedVM.isHeaderVisible {
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 16) {
-                                ForEach(0..<storyData.count, id: \.self) { cell in
-                                    StoryCell(story: storyData[cell]) {
-                                        self.feedVM.selectStory(storyData[cell])
+                                ForEach(0..<storyData.count, id: \.self) { index in
+                                    StoryCell(story: storyData[index]) {
+                                        self.feedVM.selectStory(storyData[index])
                                     }
                                 }
                             }
@@ -102,6 +106,9 @@ struct FeedView: View {
                 }
             }
             .gesture(DragGesture().onEnded(feedVM.toggleHeaderVisibility))
+        }
+        .onAppear {
+            feedVM.fetchPosts()
         }
     }
 }
