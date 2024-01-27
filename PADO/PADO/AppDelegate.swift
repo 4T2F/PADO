@@ -102,4 +102,9 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) async -> UIBackgroundFetchResult {
         return .noData
     }
+    
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        // 앱이 활성화될 때 뱃지 숫자를 0으로 설정
+        UNUserNotificationCenter.current().setBadgeCount(0)
+    }
 }
