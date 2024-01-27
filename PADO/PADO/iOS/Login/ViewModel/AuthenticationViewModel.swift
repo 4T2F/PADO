@@ -41,16 +41,23 @@ class AuthenticationViewModel: ObservableObject {
         }
     }
     
+    
+    @Published var userSelectImage: Image?
+    @Published private var uiImage: UIImage?
+    
     @Published var selectedItem: PhotosPickerItem? {
         didSet {
             Task {
-                await loadImage()
+                do {
+                    let (loadedUIImage, loadedSwiftUIImage) = try await UpdateImageUrl.shared.loadImage(selectedItem: selectedItem)
+                    self.uiImage = loadedUIImage
+                    self.userSelectImage = loadedSwiftUIImage
+                } catch {
+                    print("이미지 로드 중 오류 발생: \(error)")
+                }
             }
         }
     }
-    
-    @Published var profileImageUrl: Image?
-    private var uiImage: UIImage?
     
     @Published var authResult: AuthDataResult?
     
@@ -274,7 +281,8 @@ class AuthenticationViewModel: ObservableObject {
             currentUser?.instaAddress = instaAddress
             currentUser?.tiktokAddress = tiktokAddress
             
-            try await updateUserData()
+            let returnString = try await UpdateImageUrl.shared.updateImageUserData(uiImage: uiImage)
+            currentUser?.profileImageUrl = returnString
         }
     }
     
@@ -284,55 +292,7 @@ class AuthenticationViewModel: ObservableObject {
         instaAddress = currentUser?.instaAddress ?? ""
         tiktokAddress = currentUser?.tiktokAddress ?? ""
         imagePick = false
-        profileImageUrl = nil
-    }
-    
-    // MARK: - 스토리지 관련
-    func updateUserData() async throws {
-        try await updateProfileImage()
-    }
-    
-    // PhotosUI를 통해 사용자 이미지에서 데이터를 받아옴
-    private func loadImage() async {
-        guard let item = selectedItem else { return }
-        
-        guard let data = try? await item.loadTransferable(type: Data.self) else { return }
-        guard let uiImage = UIImage(data: data) else { return }
-        self.uiImage = uiImage
-        self.profileImageUrl = Image(uiImage: uiImage)
-    }
-    
-    // ImageUploader를 통해 Storage에 이미지를 올리고 imageurl을 매게변수로 updateUserProfileImage 에 넣어줌
-    private func updateProfileImage() async throws {
-        guard let image = self.uiImage else { return }
-        guard let imageUrl = try? await uploadImage(image) else { return }
-        try await updateUserProfileImage(withImageUrl: imageUrl)
-    }
-    
-    // 파베스토리지에 이미지를 업로드하는 친구
-    private func uploadImage(_ image: UIImage) async throws -> String? {
-        guard let currentUid = Auth.auth().currentUser?.uid else { return nil }
-        guard let imageData = image.jpegData(compressionQuality: 0.25) else { return nil }
-        let filename = currentUid
-        let storageRef = Storage.storage().reference(withPath: "/profile_image/\(filename)")
-        
-        do {
-            _ = try await storageRef.putDataAsync(imageData)
-            let url = try await storageRef.downloadURL()
-            return url.absoluteString
-        } catch {
-            print("DEBUG: Faile to upload image with error: \(error.localizedDescription)")
-            return nil
-        }
-    }
-    
-    // 전달받은 imageUrl 의 값을 파이어 스토어 모델에 올리고 뷰모델에 넣어줌
-    func updateUserProfileImage(withImageUrl imageUrl: String) async throws {
-        guard let currentUid = Auth.auth().currentUser?.uid else { return }
-        try await Firestore.firestore().collection("users").document(currentUid).updateData([
-            "profileImageUrl": imageUrl
-        ])
-        currentUser?.profileImageUrl = imageUrl
+        userSelectImage = nil
     }
     
     func checkForChanges() {
