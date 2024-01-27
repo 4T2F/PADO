@@ -71,9 +71,7 @@ class AuthenticationViewModel: ObservableObject {
         do {
             isLoading = true
             let result = try await PhoneAuthProvider.provider().verifyPhoneNumber("+82\(phoneNumber)", uiDelegate: nil) // 사용한 가능한 번호인지
-            print(result)
             verificationCode = result
-            print(verificationCode)
             isLoading = false
         } catch {
             handleError(error: error)

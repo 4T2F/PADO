@@ -1,4 +1,3 @@
-
 //
 //  ReMainView.swift
 //  PADO
@@ -6,13 +5,16 @@
 //  Created by 강치우 on 1/20/24.
 //
 
+import Kingfisher
 import SwiftUI
 
 struct FeedView: View {
+    
+    @State private var isLoading = true
+    
     @EnvironmentObject var authenticationViewModel: AuthenticationViewModel
     
     @StateObject private var feedVM = FeedViewModel()
-    
     @StateObject private var commentVM = CommentViewModel()
     @StateObject private var mainCommentVM = MainCommentViewModel()
     @StateObject private var mainFaceMojiVM = MainFaceMojiViewModel()
@@ -21,13 +23,29 @@ struct FeedView: View {
         NavigationStack {
             ZStack {
                 if let imageUrl = URL(string: feedVM.selectedPostImageUrl) {
-                    AsyncImage(url: imageUrl) { image in
-                        image.resizable()
-                    } placeholder: {
-                        ProgressView()
+                    ZStack {
+                        KFImage.url(imageUrl)
+                            .resizable()
+                            .onSuccess { _ in
+                                // 이미지 로딩 성공 시
+                                isLoading = false
+                            }
+                            .onFailure { _ in
+                                // 이미지 로딩 실패 시
+                                isLoading = false
+                            }
+                            .onProgress { receivedSize, totalSize in
+                                // 로딩 중
+                                isLoading = true
+                            }
+                            .scaledToFill()
+                            .ignoresSafeArea()
+                        
+                        if isLoading { // feedVM에서 로딩 상태를 관리한다고 가정
+                            ProgressView()
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        }
                     }
-                    .scaledToFill()
-                    .ignoresSafeArea()
                 }
                 
                 if feedVM.isHeaderVisible {
@@ -84,17 +102,22 @@ struct FeedView: View {
                         ZStack {
                             ForEach(mainCommentVM.mainComments.reversed()) { comment in
                                 MainCommentCell(mainComment: comment)
-                                    .position(comment.nameID == authenticationViewModel.currentUser?.nameID ? feedVM.textPosition : CGPoint(x: CGFloat(comment.commentPositionsX), y: CGFloat(comment.commentPositionsY)))
+                                    .position(comment.nameID == authenticationViewModel.currentUser?.nameID ?
+                                              feedVM.textPosition :
+                                                CGPoint(x: CGFloat(comment.commentPositionsX),
+                                                        y: CGFloat(comment.commentPositionsY)))
                                     .gesture(
                                         DragGesture()
                                             .onChanged(feedVM.handleDragGestureChange)
                                             .onEnded { _ in feedVM.handleDragGestureEnd() }
                                     )
                             }
-                            
                             ForEach(mainFaceMojiVM.mainFaceMoji.reversed()) { faceMoji in
                                 MainFaceMojiCell(mainFaceMoji: faceMoji)
-                                    .position(faceMoji.nameID == authenticationViewModel.currentUser?.nameID ? feedVM.faceMojiPosition : CGPoint(x: CGFloat(faceMoji.faceMojiPositionsX), y: CGFloat(faceMoji.faceMojiPositionsY)))
+                                    .position(faceMoji.nameID == authenticationViewModel.currentUser?.nameID ?
+                                              feedVM.faceMojiPosition :
+                                                CGPoint(x: CGFloat(faceMoji.faceMojiPositionsX),
+                                                        y: CGFloat(faceMoji.faceMojiPositionsY)))
                                     .gesture(
                                         DragGesture()
                                             .onChanged(feedVM.handleFaceMojiDragChange)
@@ -113,7 +136,3 @@ struct FeedView: View {
     }
 }
 
-
-#Preview {
-    FeedView()
-}
