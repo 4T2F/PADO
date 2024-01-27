@@ -55,7 +55,8 @@ class UpdateImageUrl {
         let storageRef = Storage.storage().reference(withPath: "/profile_image/\(filename)")
         
         do {
-            let uploadTask = try await storageRef.putDataAsync(imageData)
+//            데이터 보낼 때 ProgressView에 사용될 Task
+//            let uploadTask = try await storageRef.putDataAsync(imageData)
             let url = try await storageRef.downloadURL()
             return url.absoluteString
         } catch {

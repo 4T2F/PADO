@@ -5,9 +5,9 @@
 //  Created by 강치우 on 1/23/24.
 //
 
-import SwiftUI
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import SwiftUI
 
 class FeedViewModel: ObservableObject {
     @Published var isShowingReportView = false
