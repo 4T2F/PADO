@@ -49,6 +49,4 @@ struct FriendCellView: View {
     }
 }
 
-#Preview {
-    FriendCellView(searchRightSymbol: .chevron)
-}
+

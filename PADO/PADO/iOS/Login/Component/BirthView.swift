@@ -12,7 +12,7 @@ struct BirthView: View {
     @State var buttonActive: Bool = false
     @Binding var currentStep: SignUpStep
 
-    @ObservedObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     
     var body: some View {
         ZStack {     
@@ -26,7 +26,7 @@ struct BirthView: View {
                 VStack(alignment: .leading, spacing: 20) {
                     HStack(alignment: .top, spacing: 8, content: {
                         VStack(alignment: .leading, spacing: 8, content: {
-                            TextField("YYYY / MM / DD", text: $viewModel.year)
+                            TextField("생년월일", text: $viewModel.year)
                                 .disabled(true)
                                 .tint(.white)
                                 .onChange(of: viewModel.year) { _, newValue in
@@ -55,6 +55,7 @@ struct BirthView: View {
                     DatePicker("", selection: $viewModel.birthDate,
                                displayedComponents: .date)
                     .datePickerStyle(.wheel)
+                    .environment(\.locale, Locale.init(identifier: "ko"))
                     .labelsHidden()
                     
                     Spacer()
@@ -79,7 +80,3 @@ struct BirthView: View {
         }
     }
 }
-
-//#Preview {
-//    BirthView(viewModel: MainView().viewModel)
-//}

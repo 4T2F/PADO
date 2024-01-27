@@ -100,7 +100,3 @@ struct SurfingMakeView: View {
         .navigationBarBackButtonHidden(true)
     }
 }
-
-#Preview {
-    SurfingMakeView()
-}

@@ -27,7 +27,7 @@ struct SettingProfileView: View {
                     ZStack {
                         HStack {
                             Button {
-                                //TODO: - 취소버튼 동작 구현필요
+                                // TODO: - 취소버튼 동작 구현필요
                             } label: {
                                 Text("취소")
                                     .foregroundStyle(.white)
@@ -37,7 +37,7 @@ struct SettingProfileView: View {
                             Spacer()
                             
                             Button {
-                                //TODO: - 저장버튼 동작 구현필요
+                                // TODO: - 저장버튼 동작 구현필요
                             } label: {
                                 Text("저장")
                                     .foregroundStyle(.gray)
@@ -88,7 +88,7 @@ struct SettingProfileView: View {
                                             .opacity(0.1)
                                     }
                                     Button {
-                                        //TODO: - 카메라/포토피커 동작 구현필요
+                                        // TODO: - 카메라/포토피커 동작 구현필요
                                     } label: {
                                         Image(systemName: "camera.fill")
                                             .foregroundStyle(.black)
@@ -182,7 +182,7 @@ struct SettingProfileView: View {
                                     .overlay {
                                         VStack {
                                             HStack {
-                                                if bio == "" {
+                                                if bio.isEmpty {
                                                     Text("소개")
                                                         .foregroundStyle(.gray)
                                                         .font(.system(size: 16))

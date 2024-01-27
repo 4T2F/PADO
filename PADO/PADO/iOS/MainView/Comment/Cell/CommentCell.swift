@@ -16,7 +16,7 @@ struct CommentCell: View {
                 .fill(Color.gray)
                 .frame(width: 35, height: 35)
                 .overlay(
-                    Text(comment.username.prefix(1))
+                    Text(comment.nameID.prefix(1))
                         .fontWeight(.semibold)
                         .foregroundColor(.white)
                 )
@@ -24,7 +24,7 @@ struct CommentCell: View {
             
             VStack(alignment: .leading, spacing: 4) {
                 HStack {
-                    Text(comment.username)
+                    Text(comment.nameID)
                         .fontWeight(.semibold)
                         .font(.system(size: 14))
                         .padding(.trailing, 4)
@@ -51,5 +51,5 @@ struct CommentCell: View {
 }
 
 #Preview {
-    CommentCell(comment: Comment(username: "dearkang", comment: "하하하 너무재밌네요", time: "1분 전"))
+    CommentCell(comment: Comment(nameID: "dearkang", comment: "하하하 너무재밌네요", time: "1분 전"))
 }

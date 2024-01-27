@@ -8,13 +8,25 @@
 import SwiftUI
 
 struct MainView: View {
-    
-    @StateObject var viewModel = AuthenticationViewModel()
+    @State private var showLaunchScreen = true
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     
     var body: some View {
         Group {
-            if viewModel.currentUser == nil {
-                StartView(viewModel: viewModel)
+            if showLaunchScreen {
+                LaunchSTA()
+                    .onAppear {
+                        Task {
+                            try? await Task.sleep(nanoseconds: 2 * 1_000_000_000)
+                            if viewModel.userID.isEmpty {
+                                showLaunchScreen = false
+                            }
+                            await viewModel.initializeUser()
+                            showLaunchScreen = false
+                        }
+                    }
+            } else if viewModel.currentUser == nil {
+                StartView()
             } else {
                 ContentView()
             }
@@ -22,6 +34,6 @@ struct MainView: View {
     }
 }
 
-#Preview {
-    MainView()
-}
+// #Preview {
+//    MainView()
+// }

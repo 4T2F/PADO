@@ -16,7 +16,7 @@ enum SignUpStep {
 
 struct SignUpView: View {
     
-    @ObservedObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     @Environment(\.dismiss) var dismiss
     @State var currentStep: SignUpStep = .phoneNumber
     
@@ -49,18 +49,14 @@ struct SignUpView: View {
             
             switch currentStep {
             case .phoneNumber:
-                PhoneNumberView(currentStep: $currentStep,
-                                viewModel: viewModel)
+                PhoneNumberView(currentStep: $currentStep)
             case .code:
                 CodeView(currentStep: $currentStep,
-                         dismissAction: { dismiss() },
-                         viewModel: viewModel)
+                         dismissAction: { dismiss() })
             case .id:
-                IdView(currentStep: $currentStep,
-                       viewModel: viewModel)
+                IdView(currentStep: $currentStep)
             case .birth:
-                BirthView(currentStep: $currentStep,
-                          viewModel: viewModel)
+                BirthView(currentStep: $currentStep)
             }
         }
         .navigationBarBackButtonHidden(true)
@@ -79,14 +75,12 @@ struct SignUpView: View {
             currentStep = .phoneNumber
             viewModel.phoneNumber = ""
             viewModel.otpText = ""
-            viewModel.userID = ""
+            viewModel.nameID = ""
         case .birth:
+            viewModel.nameID = ""
+            viewModel.year = ""
             currentStep = .id
             
         }
     }
-}
-
-#Preview {
-    SignUpView(viewModel: MainView().viewModel)
 }

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct StartView: View {
     
-    @ObservedObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     @State private var currentIndex: Int = 0
     @State private var titleText: [TextAnimation] = []
     @State private var subTitleAnimation: Bool = false
@@ -56,7 +56,7 @@ struct StartView: View {
                     .padding(.bottom, 80)
 
                     HStack(spacing: 20) {
-                        NavigationLink(destination: SignUpView(viewModel: viewModel)) {
+                        NavigationLink(destination: SignUpView()) {
                             SignUpButton(text: "회원가입")
                         }
 
@@ -81,7 +81,7 @@ struct StartView: View {
         }
     }
 
-    func getSpilitedText(text: String, completion: @escaping () -> ()) {
+    func getSpilitedText(text: String, completion: @escaping () -> Void) {
         for (index, character) in text.enumerated() {
             titleText.append(TextAnimation(text: String(character)))
 
@@ -126,8 +126,3 @@ struct StartView: View {
         }
     }
 }
-
-#Preview {
-    StartView(viewModel: MainView().viewModel)
-}
-

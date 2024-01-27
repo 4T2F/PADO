@@ -38,7 +38,7 @@ struct SettingOthersView: View {
                 
                 VStack {
                     Button {
-                        //TODO: - 캐시지우기 로직 구현
+                        // TODO: - 캐시지우기 로직 구현
                     } label: {
                         VStack {
                             SettingNormalCell(icon: "trash", text: "캐시 지우기")
@@ -47,7 +47,7 @@ struct SettingOthersView: View {
                     }
                     
                     Button {
-                        //TODO: - 계정삭제 로직 구현
+                        // TODO: - 계정삭제 로직 구현
                     } label: {
                         VStack {
                             SettingRedCell(icon: "multiply.square", text: "계정 삭제")

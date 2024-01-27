@@ -1,0 +1,49 @@
+# Add WIP labels for PRs that are set to be work-in-progress, no other label will be added.
+addWipLabel: true
+
+# Configuration for labels, set ignore to true to skip adding label
+labels:
+  wip:
+    name: "🚥 작업 진행중"
+    color: "#C5DEF5"
+    description: "아직 코드 수정중이어서 PR을 리뷰하거나 merge하지 말아주세요"
+    ignore: false
+  unreviewed: 
+    name: "👀 리뷰 요청"
+    color: "#E075E4"
+    description: "PR이 아직 리뷰되지 않고 있어요"
+    ignore: false
+  approved: 
+    name: "👍 Merge 진행"
+    color: "#A2D53F"
+    description: "PR 승인이 완료되어 merge할 수 있어요"
+    ignore: false
+  needsMoreApprovals: 
+    name: "🔍 추가 승인 필요"
+    color: "#334796"
+    description: "PR의 승인 개수가 아직 충족되지 않았어요"
+    ignore: false
+  changesRequested:
+    name: "📣 수정 요청"
+    color: "#FBCA04"
+    description: "PR 올려준 내용에 수정이 필요한 부분이 있어요"
+    ignore: false
+  merged: 
+    name: "👏 Merge 완료"
+    color: "#6F42C1"
+    description: "PR이 성공적으로 merge되었어요"
+    ignore: false
+
+
+# A list of reviewers whose names should be added as tags to PRs, 
+# as long as their review is requested.
+#
+# user: GitHub username
+#   name: Title of label
+#   color: Color of label
+
+# Example
+# reviewers:
+#   userA:
+#     name: "User A"
+#     color: "#000000"

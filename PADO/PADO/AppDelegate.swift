@@ -5,15 +5,15 @@
 //  Created by 황민채 on 1/22/24.
 //
 
-import Foundation
 import FirebaseCore
 import FirebaseMessaging
+import Foundation
 import SwiftUI
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     
     func application(_ application: UIApplication,
-                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         FirebaseApp.configure()
         
         // MARK: - 사용자에게 알림 권한을 요청하고, 알림 타입(알림, 배지, 소리)을 설정
@@ -28,8 +28,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
                 if granted {
                     userAlertAccept = "yes"
                 }
-            }
-        )
+            })
         
         DispatchQueue.main.async {
             application.registerForRemoteNotifications()
@@ -49,16 +48,15 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     }
 }
 
-
 // MARK: - Firebase 메시징 토큰을 받았을 때 호출, 이 토큰은 Firebase를 통해 특정 디바이스로 푸시 알림을 보낼 때 사용
-extension AppDelegate : MessagingDelegate {
+extension AppDelegate: MessagingDelegate {
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         
         guard let token = fcmToken else { return }
         
         userToken = token
         print(userToken)
-     
+        
         let dataDict: [String: String] = ["token": userToken]
         NotificationCenter.default.post(
             name: Notification.Name("FCMToken"),
@@ -83,10 +81,9 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         // Notification 분기처리
         if userInfo[AnyHashable("PADO")] as? String == "project" {
             print("It is PADO")
-        }else {
+        } else {
             print("NOTHING")
         }
-        
     }
     
     // MARK: - 사용자가 알림에 응답했을 때 호출, 예를 들어 사용자가 알림을 탭했을 때 이 메소드가 실행
@@ -99,7 +96,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
     }
     
     // MARK: - 원격 알림 수신 처리
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) async -> UIBackgroundFetchResult {
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) async -> UIBackgroundFetchResult {
         return .noData
     }
     

@@ -88,7 +88,3 @@ struct ModalAlertView: View {
         .background(ClearBackground())
     }
 }
-
-//#Preview {
-//    ModalAlertView()
-//}

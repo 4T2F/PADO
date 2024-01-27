@@ -14,7 +14,7 @@ struct PhoneNumberView: View {
     @State var buttonActive: Bool = false
     @Binding var currentStep: SignUpStep
 
-    @ObservedObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -60,7 +60,3 @@ struct PhoneNumberView: View {
         }
     }
 }
-
-//#Preview {
-//    PhoneNumberView()
-//}

@@ -38,7 +38,7 @@ struct SettingInfoView: View {
                 
                 VStack {
                     Button {
-                        //TODO: - 이용약관 링크 걸기
+                        // TODO: - 이용약관 링크 걸기
                     } label: {
                         VStack {
                             SettingNormalCell(icon: "doc.text", text: "캐시 지우기")
@@ -47,7 +47,7 @@ struct SettingInfoView: View {
                     }
                     
                     Button {
-                        //TODO: - 개인정보처리방침 링크 걸기
+                        // TODO: - 개인정보처리방침 링크 걸기
                     } label: {
                         VStack {
                             SettingNormalCell(icon: "doc.text", text: "개인정보처리방침")
@@ -56,7 +56,7 @@ struct SettingInfoView: View {
                     }
                     
                     Button {
-                        //TODO: - 개발자에게 플러팅하기 로직 구현 필요
+                        // TODO: - 개발자에게 플러팅하기 로직 구현 필요
                     } label: {
                         VStack {
                             SettingNormalCell(icon: "heart.fill", text: "개발자에게 플러팅하기")

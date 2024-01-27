@@ -5,10 +5,10 @@
 //  Created by 강치우 on 1/3/24.
 //
 
-import SwiftUI
 import Firebase
-import PhotosUI
 import FirebaseStorage
+import PhotosUI
+import SwiftUI
 
 @MainActor
 class AuthenticationViewModel: ObservableObject {
@@ -26,34 +26,44 @@ class AuthenticationViewModel: ObservableObject {
     @Published var showAlert = false
     @Published var isExisted = false
     
+    // MARK: - SettingProfile
+    @Published var username = ""
+    @Published var instaAddress = ""
+    @Published var tiktokAddress = ""
+    @Published var imagePick: Bool = false
+    @Published var changedValue: Bool = false
+    
     @Published var birthDate = Date() {
         didSet {
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy년 MM월 dd일"
+            dateFormatter.dateFormat = "YYYY년 MM월 DD일"
             year = dateFormatter.string(from: birthDate)
         }
     }
     
+    
+    @Published var userSelectImage: Image?
+    @Published private var uiImage: UIImage?
+    
     @Published var selectedItem: PhotosPickerItem? {
         didSet {
             Task {
-                await loadImage()
+                do {
+                    let (loadedUIImage, loadedSwiftUIImage) = try await UpdateImageUrl.shared.loadImage(selectedItem: selectedItem)
+                    self.uiImage = loadedUIImage
+                    self.userSelectImage = loadedSwiftUIImage
+                } catch {
+                    print("이미지 로드 중 오류 발생: \(error)")
+                }
             }
         }
     }
     
-    @Published var profileImageUrl: Image?
-    private var uiImage: UIImage?
-    
     @Published var authResult: AuthDataResult?
-    @Published var currentUser: User?
     
     @AppStorage("userID") var userID: String = ""
     
-    // 초기화
-    init() {
-        Task{ await initializeUser() }
-    }
+    @Published var currentUser: User?
     
     // MARK: - 인증 관련
     func sendOtp() async {
@@ -61,9 +71,7 @@ class AuthenticationViewModel: ObservableObject {
         do {
             isLoading = true
             let result = try await PhoneAuthProvider.provider().verifyPhoneNumber("+82\(phoneNumber)", uiDelegate: nil) // 사용한 가능한 번호인지
-            print(result)
             verificationCode = result
-            print(verificationCode)
             isLoading = false
         } catch {
             handleError(error: error)
@@ -101,12 +109,15 @@ class AuthenticationViewModel: ObservableObject {
         userID = unwrappedUser.uid
         
         let initialUserData = [
+            "username": "",
             "id": userID,
             "nameID": nameID,
             "date": year,
             "phoneNumber": "+82\(phoneNumber)",
             "fcmToken": userToken,
-            "alertAccept": userAlertAccept
+            "alertAccept": userAlertAccept,
+            "instaAddress": "",
+            "tiktokAddress": ""
         ]
         
         await createUserData(userID, data: initialUserData)
@@ -115,13 +126,23 @@ class AuthenticationViewModel: ObservableObject {
     func createUserData(_ userID: String, data: [String: Any]) async {
         do {
             try await Firestore.firestore().collection("users").document(userID).setData(data)
-            currentUser = User(id: userID, nameID: nameID, date: year, phoneNumber: "+82\(phoneNumber)", fcmToken: userToken, alertAccept: userAlertAccept)
+            currentUser = User(
+                id: userID,
+                username: "",
+                nameID: nameID,
+                date: year,
+                phoneNumber: "+82\(phoneNumber)",
+                fcmToken: userToken,
+                alertAccept: userAlertAccept,
+                instaAddress: "",
+                tiktokAddress: ""
+            )
         } catch {
             print("Error saving user data: \(error.localizedDescription)")
         }
     }
     
-    func checkPhoneNumberExists(phoneNumber: String) async  -> Bool {
+    func checkPhoneNumberExists(phoneNumber: String) async -> Bool {
         // 전화번호 중복 확인
         let userDB = Firestore.firestore().collection("users")
         let query = userDB.whereField("phoneNumber", isEqualTo: phoneNumber)
@@ -164,10 +185,23 @@ class AuthenticationViewModel: ObservableObject {
     
     func signOut() {
         do {
-            // 로그아웃 구현 필요
             try Auth.auth().signOut()
+            userID = ""
+            nameID = ""
+            year = ""
+            phoneNumber = ""
+            otpText = ""
+            verificationCode = ""
+            instaAddress = ""
+            tiktokAddress = ""
+            showAlert = false
+            isExisted = false
+            currentUser = nil
+            
+            print(userID)
+            print(String(describing: currentUser))
         } catch {
-            print("Error signing out: \(error.localizedDescription)")
+            print("로그아웃 오류: \(error.localizedDescription)")
         }
     }
     
@@ -219,8 +253,8 @@ class AuthenticationViewModel: ObservableObject {
                 print("Error: User data could not be decoded")
                 return
             }
-
-            self.currentUser = user
+            
+            currentUser = user
             print("Current User: \(String(describing: currentUser))")
         } catch {
             print("Error fetching user: \(error)")
@@ -235,52 +269,36 @@ class AuthenticationViewModel: ObservableObject {
         isLoading = false
     }
     
-    // MARK: - 스토리지 관련
-    func updateUserData() async throws {
-        try await updateProfileImage()
-    }
-    
-    // PhotosUI를 통해 사용자 이미지에서 데이터를 받아옴
-    private func loadImage() async {
-        guard let item = selectedItem else { return }
-        
-        guard let data = try? await item.loadTransferable(type: Data.self) else { return }
-        guard let uiImage = UIImage(data: data) else { return }
-        self.uiImage = uiImage
-        self.profileImageUrl = Image(uiImage: uiImage)
-    }
-    
-    // ImageUploader를 통해 Storage에 이미지를 올리고 imageurl을 매게변수로 updateUserProfileImage 에 넣어줌
-    private func updateProfileImage() async throws {
-        guard let image = self.uiImage else { return }
-        guard let imageUrl = try? await uploadImage(image) else { return }
-        try await updateUserProfileImage(withImageUrl: imageUrl)
-    }
-    
-    // 파베스토리지에 이미지를 업로드하는 친구
-    private func uploadImage(_ image: UIImage) async throws -> String? {
-        guard let currentUid = Auth.auth().currentUser?.uid else { return nil }
-        guard let imageData = image.jpegData(compressionQuality: 0.25) else { return nil }
-        let filename = currentUid
-        let storageRef = Storage.storage().reference(withPath: "/profile_image/\(filename)")
-        
-        do {
-            let _ = try await storageRef.putDataAsync(imageData)
-            let url = try await storageRef.downloadURL()
-            return url.absoluteString
-        } catch {
-            print("DEBUG: Faile to upload image with error: \(error.localizedDescription)")
-            return nil
+    func profileSaveData() async {
+        Task {
+            // 버튼이 활성화된 경우 실행할 로직
+            try await UpdateUserData.shared.updateUserData(initialUserData: ["username": username,
+                                                                             "instaAddress": instaAddress,
+                                                                             "tiktokAddress": tiktokAddress])
+            currentUser?.username = username
+            currentUser?.instaAddress = instaAddress
+            currentUser?.tiktokAddress = tiktokAddress
+            
+            let returnString = try await UpdateImageUrl.shared.updateImageUserData(uiImage: uiImage)
+            currentUser?.profileImageUrl = returnString
         }
     }
     
-    // 전달받은 imageUrl 의 값을 파이어 스토어 모델에 올리고 뷰모델에 넣어줌
-    func updateUserProfileImage(withImageUrl imageUrl: String) async throws {
-        guard let currentUid = Auth.auth().currentUser?.uid else { return }
-        try await Firestore.firestore().collection("users").document(currentUid).updateData([
-            "profileImageUrl": imageUrl
-        ])
-        self.currentUser?.profileImageUrl = imageUrl
+    // MARK: - SettingProfileView
+    func fetchUserProfile() {
+        username = currentUser?.username ?? ""
+        instaAddress = currentUser?.instaAddress ?? ""
+        tiktokAddress = currentUser?.tiktokAddress ?? ""
+        imagePick = false
+        userSelectImage = nil
+    }
+    
+    func checkForChanges() {
+        // 현재 데이터와 원래 데이터 비교
+        let isUsernameChanged = currentUser?.username != username
+        let isInstaAddressChanged = currentUser?.instaAddress != instaAddress
+        let isTiktokAddressChanged = currentUser?.tiktokAddress != tiktokAddress
+        changedValue = isUsernameChanged || isInstaAddressChanged || isTiktokAddressChanged || imagePick
     }
     
 }

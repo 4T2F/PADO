@@ -69,8 +69,3 @@ struct SurfingSearchView: View {
         } //: ZSTACK
     }
 }
-
-
-#Preview {
-    SurfingSearchView()
-}
