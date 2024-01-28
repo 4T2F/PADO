@@ -28,7 +28,3 @@ struct MainFaceMojiCell: View {
     }
 }
 
-// #Preview {
-//     MainFaceMojiCell(mainFaceMoji: MainFaceMoji(emotionPhoto: "pp", emotion: .heart))
-// }
-
