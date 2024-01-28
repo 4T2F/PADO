@@ -14,6 +14,9 @@ struct ContentView: View {
     
     @EnvironmentObject var viewModel: AuthenticationViewModel
     
+    @StateObject var surfingVM = SurfingViewModel()
+    @StateObject var feedVM = FeedViewModel()
+    
     @State private var selectedTab = 0
     
     init() {
@@ -28,7 +31,7 @@ struct ContentView: View {
         NavigationStack {
             GeometryReader { geometry in
                 TabView(selection: $selectedTab) {
-                    FeedView()
+                    FeedView(feedVM: feedVM)
                         .tabItem {
                             Image(selectedTab == 0 ? "home_light" : "home_gray")
                                 
@@ -45,7 +48,7 @@ struct ContentView: View {
                         }
                         .onAppear { selectedTab = 1 }
                         .tag(1)
-                    SurfingView()
+                    SurfingView(viewModel: surfingVM)
                         .tabItem {
                             Text("")
                             
@@ -97,7 +100,7 @@ struct ContentView: View {
 }
 
 
-#Preview {
-    ContentView()
-}
+//#Preview {
+//    ContentView()
+//}
 

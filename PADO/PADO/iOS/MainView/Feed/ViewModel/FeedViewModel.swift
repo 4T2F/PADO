@@ -33,28 +33,48 @@ class FeedViewModel: ObservableObject {
     }
     
     // Firestore의 `post` 컬렉션에 대한 실시간 리스너 설정
-        private func setupPostsListener() {
-            listener = db.collection("post").addSnapshotListener { [weak self] (querySnapshot, error) in
-                guard let self = self, let documents = querySnapshot?.documents else {
-                    print("Error listening to changes in 'post' collection: \(error?.localizedDescription ?? "Unknown error")")
-                    return
-                }
-
-                self.post = documents.compactMap { document in
-                    try? document.data(as: Post.self)
-                }
-
-                // 새로운 스토리 데이터 생성
-                self.updateStories()
+    private func setupPostsListener() {
+        listener = db.collection("post").addSnapshotListener { [weak self] (querySnapshot, error) in
+            guard let self = self, let documents = querySnapshot?.documents else {
+                print("Error listening to changes in 'post' collection: \(error?.localizedDescription ?? "Unknown error")")
+                return
             }
-        }
-
-        // Firestore의 데이터를 기반으로 스토리 데이터 업데이트
-        private func updateStories() {
-            self.stories = self.post.map { post in
-                Story(name: post.ownerUid, image: post.imageUrl)
+            
+            self.post = documents.compactMap { document in
+                try? document.data(as: Post.self)
             }
+            
+            // 새로운 스토리 데이터 생성
+            self.updateStories()
         }
+    }
+    
+    func setupProfileImageURL(id: String) async -> [String] {
+        do {
+            let querySnapshot = try await Firestore.firestore().collection("users").document(id).getDocument()
+            
+            guard let user = try? querySnapshot.data(as: User.self) else {
+                print("Error: User data could not be decoded")
+                return ["", ""]
+            }
+            
+            guard let profileImage = user.profileImageUrl else { return [user.nameID, ""] }
+            
+            return [user.nameID, profileImage]
+            
+        } catch {
+            print("Error fetching user: \(error)")
+        }
+        
+        return ["", ""]
+    }
+    
+    // Firestore의 데이터를 기반으로 스토리 데이터 업데이트
+    private func updateStories() {
+        self.stories = self.post.map { post in
+            Story(name: post.ownerUid, image: post.imageUrl)
+        }
+    }
     
     // 첫 번째 스토리를 선택하는 함수
     private func selectFirstStory() {
