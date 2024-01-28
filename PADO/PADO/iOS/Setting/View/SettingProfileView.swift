@@ -27,6 +27,8 @@ struct SettingProfileView: View {
                         HStack {
                             Button {
                                 dismiss()
+                                viewModel.imagePick = false
+                                viewModel.userSelectImage = nil
                             } label: {
                                 Text("취소")
                                     .foregroundStyle(.white)
@@ -40,6 +42,8 @@ struct SettingProfileView: View {
                                 if isActive {
                                     Task {
                                         await viewModel.profileSaveData()
+                                        viewModel.imagePick.toggle()
+                                        
                                         dismiss()
                                     }
                                 }
@@ -79,13 +83,12 @@ struct SettingProfileView: View {
                                     .scaledToFill()
                                     .frame(width: 129, height: 129)
                                     .clipShape(Circle())
-                                    .onAppear {
-                                        viewModel.imagePick.toggle()
-                                        viewModel.checkForChanges()
-                                    }
                             } else {
                                 CircularImageView(size: .xxLarge)
                             }
+                        }
+                        .onChange(of: viewModel.imagePick) { _, _  in
+                            viewModel.checkForChanges()
                         }
                         // MARK: - 프로필수정, 이름
                         VStack {
