@@ -22,10 +22,9 @@ struct TodayHeartCommentCell: View {
                 } label: {
                     if heartOnOff {
                         VStack {
-                            LottieView(animation: .named("Heart3"))
-                                .resizable()
-                                .playing()
-                                .frame(width: 34, height: 36)
+                            VStack {
+                                Image("heart_fill")
+                            }
                         }
                     } else {
                         Image("heart")
