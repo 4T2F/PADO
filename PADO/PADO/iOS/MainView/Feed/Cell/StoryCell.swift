@@ -5,6 +5,7 @@
 //  Created by 강치우 on 1/20/24.
 //
 
+import Kingfisher
 import SwiftUI
 
 struct StoryCell: View {
@@ -19,11 +20,11 @@ struct StoryCell: View {
     
     var body: some View {
         VStack {
-            Image(story.image)
+            KFImage.url(URL(string: imageProfileUrl))
                 .resizable()
                 .frame(width: 70, height: 70)
                 .cornerRadius(70)
-            Text(story.name)
+            Text(profileId)
                 .font(.system(size: 12))
                 .foregroundStyle(.white)
         }

@@ -14,7 +14,7 @@ struct FeedView: View {
     
     @EnvironmentObject var authenticationViewModel: AuthenticationViewModel
     
-    @StateObject private var feedVM = FeedViewModel()
+    @StateObject var feedVM: FeedViewModel
     @StateObject private var commentVM = CommentViewModel()
     @StateObject private var mainCommentVM = MainCommentViewModel()
     @StateObject private var mainFaceMojiVM = MainFaceMojiViewModel()
