@@ -73,6 +73,10 @@ class FeedViewModel: ObservableObject {
         if let matchingPost = post.first(where: { $0.ownerUid == story.name }) {
             selectedPostImageUrl = matchingPost.imageUrl
             print("Selected post image URL: \(selectedPostImageUrl)")
+            
+            // 햅틱 피드백 생성
+            let generator = UIImpactFeedbackGenerator(style: .light)
+            generator.impactOccurred()
         } else {
             print("No matching post found for story: \(story.name)")
         }

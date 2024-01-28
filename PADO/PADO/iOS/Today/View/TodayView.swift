@@ -60,7 +60,7 @@ struct TodayView: View {
                                     .frame(width: UIScreen.main.bounds.width)
                                 }
                             }
-                            .padding(.bottom, 82)
+                            .padding(.bottom, 80)
                         }
                         .overlay {
                             if isCellVisible {
