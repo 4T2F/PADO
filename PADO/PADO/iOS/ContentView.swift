@@ -13,7 +13,7 @@ struct ContentView: View {
     @State var menu = "feed"
     
     @EnvironmentObject var viewModel: AuthenticationViewModel
-    
+    @StateObject var surfingVM = SurfingViewModel()
     @State private var selectedTab = 0
     
     init() {
@@ -45,7 +45,7 @@ struct ContentView: View {
                         }
                         .onAppear { selectedTab = 1 }
                         .tag(1)
-                    SurfingView()
+                    SurfingView(viewModel: surfingVM)
                         .tabItem {
                             Text("")
                             
