@@ -100,8 +100,13 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         return .noData
     }
     
+    // MARK: - 앱 활성화시 기존 뱃지 카운트 0으로 변경
     func applicationDidBecomeActive(_ application: UIApplication) {
-        // 앱이 활성화될 때 뱃지 숫자를 0으로 설정
-        UNUserNotificationCenter.current().setBadgeCount(0)
+        UNUserNotificationCenter.current().setBadgeCount(0) { error in
+            if let error = error {
+                // 뱃지 카운트 설정 중 발생한 오류 처리
+                print("Error setting badge count: \(error.localizedDescription)")
+            }
+        }
     }
 }
