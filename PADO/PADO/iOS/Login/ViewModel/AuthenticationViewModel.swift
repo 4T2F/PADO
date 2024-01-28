@@ -36,7 +36,7 @@ class AuthenticationViewModel: ObservableObject {
     @Published var birthDate = Date() {
         didSet {
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "YYYY년 MM월 DD일"
+            dateFormatter.dateFormat = "yyyy년 MM월 dd일"
             year = dateFormatter.string(from: birthDate)
         }
     }
