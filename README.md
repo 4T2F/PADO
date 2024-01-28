@@ -29,7 +29,7 @@
 |:---:|:---:|:---:|:---:|:---:|:---:|
 |**사진**|<img src="https://avatars.githubusercontent.com/u/112779139?v=4" width="95" height="95"/>|<img src="https://github.com/4T2F/PADO/assets/120264964/e0053e8f-24a1-448b-a120-35ca472ec100" width="95" height="95"/>|<img src="https://avatars.githubusercontent.com/u/37105602?v=4" width="95" height="95"/>|<img src="https://github.com/4T2F/PADO/assets/120264964/ee166053-82ca-48cb-b423-04153564c396" width="95" height="95"/>|<img src="https://avatars.githubusercontent.com/u/120264964?v=4" width="95" height="95"/>|
 |**한줄 소개**|**그거 그렇게 하는거 맞아요?**|**숟가락 노년**|**무례하긴 순애야**|**판숙이**|**건실한 청년**|
-|**깃허브**|[Github](https://github.com/kangciu)|[Github](https://github.com/kmh5038)|[Github](https://github.com/hamfan524)|[Github](https://github.com/Hminchae)|[Github](https://github.com/Hsungjin)|
+|**깃허브**|[Github](https://github.com/ha-nabi)|[Github](https://github.com/kmh5038)|[Github](https://github.com/hamfan524)|[Github](https://github.com/Hminchae)|[Github](https://github.com/Hsungjin)|
 
 <br><br>
 
