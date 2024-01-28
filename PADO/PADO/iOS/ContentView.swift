@@ -27,7 +27,6 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             GeometryReader { geometry in
-                
                 TabView(selection: $selectedTab) {
                     FeedView()
                         .tabItem {
@@ -50,7 +49,7 @@ struct ContentView: View {
                         .tabItem {
                             Text("")
                             
-                            Image("tab_add")
+                            Image(selectedTab == 2 ? "tab_added" : "tab_add")
                         }
                         .onAppear { selectedTab = 2 }
                         .tag(2)
