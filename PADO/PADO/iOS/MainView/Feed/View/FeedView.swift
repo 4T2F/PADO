@@ -90,9 +90,9 @@ struct FeedView: View {
                     if feedVM.isHeaderVisible {
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 16) {
-                                ForEach(0..<storyData.count, id: \.self) { index in
-                                    StoryCell(story: storyData[index]) {
-                                        self.feedVM.selectStory(storyData[index])
+                                ForEach(feedVM.stories, id: \.self) { story in
+                                    StoryCell(story: story) {
+                                        self.feedVM.selectStory(story)
                                     }
                                 }
                             }

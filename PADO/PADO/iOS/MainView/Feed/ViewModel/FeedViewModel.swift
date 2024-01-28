@@ -19,24 +19,47 @@ class FeedViewModel: ObservableObject {
     @Published var selectedStoryImage: String? = nil
     @Published var selectedPostImageUrl: String = ""
     @Published var post: [Post] = []
+    @Published var stories: [Story] = []
     
     private var db = Firestore.firestore()
+    private var listener: ListenerRegistration?
     
     var dragStart: CGPoint?
     let dragThreshold: CGFloat = 0
     
     init() {
-        // Firestore에서 게시물을 불러오는 함수 호출
-        fetchPosts { [weak self] in
-            // 게시물 로딩이 완료되면 첫 번째 스토리를 선택
-            self?.selectFirstStory()
-        }
+        // Firestore의 `post` 컬렉션에 대한 실시간 리스너 설정
+        setupPostsListener()
     }
+    
+    // Firestore의 `post` 컬렉션에 대한 실시간 리스너 설정
+        private func setupPostsListener() {
+            listener = db.collection("post").addSnapshotListener { [weak self] (querySnapshot, error) in
+                guard let self = self, let documents = querySnapshot?.documents else {
+                    print("Error listening to changes in 'post' collection: \(error?.localizedDescription ?? "Unknown error")")
+                    return
+                }
+
+                self.post = documents.compactMap { document in
+                    try? document.data(as: Post.self)
+                }
+
+                // 새로운 스토리 데이터 생성
+                self.updateStories()
+            }
+        }
+
+        // Firestore의 데이터를 기반으로 스토리 데이터 업데이트
+        private func updateStories() {
+            self.stories = self.post.map { post in
+                Story(name: post.ownerUid, image: post.imageUrl)
+            }
+        }
     
     // 첫 번째 스토리를 선택하는 함수
     private func selectFirstStory() {
         // storyData 배열의 첫 번째 스토리를 가져옴
-        if let firstStory = storyData.first {
+        if let firstStory = self.stories.first {
             // 해당 스토리를 선택
             selectStory(firstStory)
         }
