@@ -52,6 +52,7 @@ class AuthenticationViewModel: ObservableObject {
                     let (loadedUIImage, loadedSwiftUIImage) = try await UpdateImageUrl.shared.loadImage(selectedItem: selectedItem)
                     self.uiImage = loadedUIImage
                     self.userSelectImage = loadedSwiftUIImage
+                    self.imagePick = true
                 } catch {
                     print("이미지 로드 중 오류 발생: \(error)")
                 }
@@ -268,7 +269,7 @@ class AuthenticationViewModel: ObservableObject {
         showAlert.toggle()
         isLoading = false
     }
-    
+    // MARK: - SettingProfileView
     func profileSaveData() async {
         Task {
             // 버튼이 활성화된 경우 실행할 로직
@@ -279,18 +280,17 @@ class AuthenticationViewModel: ObservableObject {
             currentUser?.instaAddress = instaAddress
             currentUser?.tiktokAddress = tiktokAddress
             
-            let returnString = try await UpdateImageUrl.shared.updateImageUserData(uiImage: uiImage)
+            let returnString = try await UpdateImageUrl.shared.updateImageUserData(uiImage: uiImage, storageTypeInput: .user)
             currentUser?.profileImageUrl = returnString
         }
     }
     
-    // MARK: - SettingProfileView
     func fetchUserProfile() {
         username = currentUser?.username ?? ""
         instaAddress = currentUser?.instaAddress ?? ""
         tiktokAddress = currentUser?.tiktokAddress ?? ""
-        imagePick = false
         userSelectImage = nil
+        imagePick = false
     }
     
     func checkForChanges() {

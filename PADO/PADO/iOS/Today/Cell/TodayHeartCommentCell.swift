@@ -5,6 +5,7 @@
 //  Created by 강치우 on 1/22/24.
 //
 
+import Lottie
 import SwiftUI
 
 struct TodayHeartCommentCell: View {
@@ -20,22 +21,27 @@ struct TodayHeartCommentCell: View {
                     heartOnOff.toggle()
                 } label: {
                     if heartOnOff {
-                        Image("Heart_fill")
+                        VStack {
+                            VStack {
+                                Image("heart_fill")
+                            }
+                        }
                     } else {
-                        Image("Heart")
+                        Image("heart")
                     }
                 }
                 // 하트 누를 때 +1 카운팅 되게 하는 로직 추가
                 Text("2032")
                     .font(.system(size: 12))
                     .fontWeight(.semibold)
+                    .shadow(radius: 1, y: 1)
             }
             
             VStack {
                 Button {
                     isShowingCommentView.toggle()
                 } label: {
-                    Image("Chat")
+                    Image("chat")
                 }
                 .sheet(isPresented: $isShowingCommentView) {
                     CommentView()
@@ -46,6 +52,7 @@ struct TodayHeartCommentCell: View {
                 Text("13")
                     .font(.system(size: 12))
                     .fontWeight(.semibold)
+                    .shadow(radius: 1, y: 1)
             }
             
             VStack {
