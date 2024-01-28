@@ -11,7 +11,7 @@ import SwiftUI
 
 struct SurfingView: View {
     // MARK: - PROPERTY
-    @ObservedObject var viewModel = SurfingViewModel()
+    @ObservedObject var viewModel: SurfingViewModel
     
     // MARK: - BODY
     var body: some View {
