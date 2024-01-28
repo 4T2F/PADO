@@ -49,7 +49,13 @@ struct FeedView: View {
                 }
                 
                 if feedVM.isHeaderVisible {
-                    LinearGradient(colors: [.clear, .clear,
+                    LinearGradient(colors: [.black.opacity(0.5),
+                                            .black.opacity(0.4),
+                                            .black.opacity(0.4),
+                                            .black.opacity(0.3),
+                                            .black.opacity(0.2),
+                                            .clear, .clear,
+                                            .clear, .clear,
                                             .clear, .clear,
                                             .clear, .clear,
                                             .clear, .clear,
@@ -136,3 +142,6 @@ struct FeedView: View {
     }
 }
 
+#Preview {
+    FeedView()
+}
