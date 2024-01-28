@@ -13,7 +13,6 @@
 		04A785E32B5FB1C800BFCB9D /* FriendCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A785E22B5FB1C800BFCB9D /* FriendCellView.swift */; };
 		04A785E62B5FB1ED00BFCB9D /* SurfingMakeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A785E42B5FB1ED00BFCB9D /* SurfingMakeView.swift */; };
 		04A785E72B5FB1ED00BFCB9D /* SurfingSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A785E52B5FB1ED00BFCB9D /* SurfingSearchView.swift */; };
-		04AD93172B6020EE0053A06A /* ApiKeys.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 04AD93162B6020EE0053A06A /* ApiKeys.xcconfig */; };
 		04D1438C2B5F971F0076578A /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D1438B2B5F971F0076578A /* PostView.swift */; };
 		412B3A942B44F65100C2C7CD /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 412B3A932B44F65100C2C7CD /* FirebaseAnalytics */; };
 		412B3A962B44F65100C2C7CD /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 412B3A952B44F65100C2C7CD /* FirebaseAuth */; };
@@ -25,7 +24,6 @@
 		417568642B47999E003AA8C0 /* PhoneumberTFFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417568632B47999E003AA8C0 /* PhoneumberTFFormat.swift */; };
 		417D188A2B5CFEE400545A5E /* LoginPhoneNumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417D18892B5CFEE400545A5E /* LoginPhoneNumberView.swift */; };
 		417D188C2B5CFEF100545A5E /* LoginCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417D188B2B5CFEF100545A5E /* LoginCodeView.swift */; };
-		417DBECE2B657E9400B2E6A1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 417DBECD2B657E9400B2E6A1 /* GoogleService-Info.plist */; };
 		418743212B5C32CF00D93CBE /* CircularImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4187431C2B5C32CF00D93CBE /* CircularImageView.swift */; };
 		418743232B5C32CF00D93CBE /* MyFeedContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4187431E2B5C32CF00D93CBE /* MyFeedContentView.swift */; };
 		418743272B5C42A300D93CBE /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418743262B5C42A300D93CBE /* SignUpView.swift */; };
@@ -104,6 +102,8 @@
 		63D9DE492B5D86D5000668E0 /* CommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D9DE482B5D86D5000668E0 /* CommentViewModel.swift */; };
 		643417332B5F947500E47639 /* SurfingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 643417322B5F947500E47639 /* SurfingView.swift */; };
 		647E7EFD2B63775100A5487E /* UpdateImageUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647E7EFC2B63775100A5487E /* UpdateImageUrl.swift */; };
+		647E7F002B66653600A5487E /* ApiKeys.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 647E7EFE2B66653600A5487E /* ApiKeys.xcconfig */; };
+		647E7F032B6667A700A5487E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 647E7F022B6667A700A5487E /* GoogleService-Info.plist */; };
 		649372F42B5612E700BCDA71 /* FollowingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649372F32B5612E700BCDA71 /* FollowingView.swift */; };
 		649372F62B5612EE00BCDA71 /* FollowerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649372F52B5612EE00BCDA71 /* FollowerView.swift */; };
 		649372F82B561A6F00BCDA71 /* FollowingCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649372F72B561A6F00BCDA71 /* FollowingCellView.swift */; };
@@ -160,14 +160,12 @@
 		04A785E22B5FB1C800BFCB9D /* FriendCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendCellView.swift; sourceTree = "<group>"; };
 		04A785E42B5FB1ED00BFCB9D /* SurfingMakeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SurfingMakeView.swift; sourceTree = "<group>"; };
 		04A785E52B5FB1ED00BFCB9D /* SurfingSearchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SurfingSearchView.swift; sourceTree = "<group>"; };
-		04AD93162B6020EE0053A06A /* ApiKeys.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ApiKeys.xcconfig; sourceTree = "<group>"; };
 		04D1438B2B5F971F0076578A /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
 		412B3AA32B44F67100C2C7CD /* PADO.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PADO.entitlements; sourceTree = "<group>"; };
 		412B3AA42B44F6EC00C2C7CD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		417568632B47999E003AA8C0 /* PhoneumberTFFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneumberTFFormat.swift; sourceTree = "<group>"; };
 		417D18892B5CFEE400545A5E /* LoginPhoneNumberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPhoneNumberView.swift; sourceTree = "<group>"; };
 		417D188B2B5CFEF100545A5E /* LoginCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCodeView.swift; sourceTree = "<group>"; };
-		417DBECD2B657E9400B2E6A1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4187431C2B5C32CF00D93CBE /* CircularImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircularImageView.swift; sourceTree = "<group>"; };
 		4187431E2B5C32CF00D93CBE /* MyFeedContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyFeedContentView.swift; sourceTree = "<group>"; };
 		418743262B5C42A300D93CBE /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
@@ -248,6 +246,8 @@
 		63D9DE482B5D86D5000668E0 /* CommentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewModel.swift; sourceTree = "<group>"; };
 		643417322B5F947500E47639 /* SurfingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurfingView.swift; sourceTree = "<group>"; };
 		647E7EFC2B63775100A5487E /* UpdateImageUrl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateImageUrl.swift; sourceTree = "<group>"; };
+		647E7EFE2B66653600A5487E /* ApiKeys.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ApiKeys.xcconfig; sourceTree = "<group>"; };
+		647E7F022B6667A700A5487E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		649372F32B5612E700BCDA71 /* FollowingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingView.swift; sourceTree = "<group>"; };
 		649372F52B5612EE00BCDA71 /* FollowerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerView.swift; sourceTree = "<group>"; };
 		649372F72B561A6F00BCDA71 /* FollowingCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingCellView.swift; sourceTree = "<group>"; };
@@ -523,8 +523,8 @@
 			isa = PBXGroup;
 			children = (
 				412B3AA42B44F6EC00C2C7CD /* Info.plist */,
-				417DBECD2B657E9400B2E6A1 /* GoogleService-Info.plist */,
-				04AD93162B6020EE0053A06A /* ApiKeys.xcconfig */,
+				647E7EFE2B66653600A5487E /* ApiKeys.xcconfig */,
+				647E7F022B6667A700A5487E /* GoogleService-Info.plist */,
 				412B3AA32B44F67100C2C7CD /* PADO.entitlements */,
 				41FD99F52B43D5EC0028D38E /* PADOApp.swift */,
 				B1749A642B5D755700BCC6BA /* AppDelegate.swift */,
@@ -981,9 +981,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04AD93172B6020EE0053A06A /* ApiKeys.xcconfig in Resources */,
 				41FD9A212B43D94A0028D38E /* .swiftlint.yml in Resources */,
-				417DBECE2B657E9400B2E6A1 /* GoogleService-Info.plist in Resources */,
+				647E7F002B66653600A5487E /* ApiKeys.xcconfig in Resources */,
+				647E7F032B6667A700A5487E /* GoogleService-Info.plist in Resources */,
 				41FD99FD2B43D5ED0028D38E /* Preview Assets.xcassets in Resources */,
 				41FD99FA2B43D5ED0028D38E /* Assets.xcassets in Resources */,
 			);
@@ -1179,7 +1179,7 @@
 /* Begin XCBuildConfiguration section */
 		41FD9A142B43D5EE0028D38E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 04AD93162B6020EE0053A06A /* ApiKeys.xcconfig */;
+			baseConfigurationReference = 647E7EFE2B66653600A5487E /* ApiKeys.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -1243,7 +1243,6 @@
 		};
 		41FD9A152B43D5EE0028D38E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 04AD93162B6020EE0053A06A /* ApiKeys.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -1300,16 +1299,18 @@
 		};
 		41FD9A172B43D5EE0028D38E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 04AD93162B6020EE0053A06A /* ApiKeys.xcconfig */;
+			baseConfigurationReference = 647E7EFE2B66653600A5487E /* ApiKeys.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PADO/PADO.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PADO/Preview Content\"";
-				DEVELOPMENT_TEAM = UAG934M4Q7;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = UAG934M4Q7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PADO/Info.plist;
@@ -1329,6 +1330,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.4T2F.PADO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "PADO Debug";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1337,16 +1339,17 @@
 		};
 		41FD9A182B43D5EE0028D38E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 04AD93162B6020EE0053A06A /* ApiKeys.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PADO/PADO.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PADO/Preview Content\"";
-				DEVELOPMENT_TEAM = UAG934M4Q7;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = UAG934M4Q7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PADO/Info.plist;
@@ -1366,6 +1369,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.4T2F.PADO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "PADO Debug";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1374,7 +1378,7 @@
 		};
 		41FD9A1A2B43D5EE0028D38E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 04AD93162B6020EE0053A06A /* ApiKeys.xcconfig */;
+			baseConfigurationReference = 647E7EFE2B66653600A5487E /* ApiKeys.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1415,7 +1419,7 @@
 		};
 		41FD9A1D2B43D5EE0028D38E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 04AD93162B6020EE0053A06A /* ApiKeys.xcconfig */;
+			baseConfigurationReference = 647E7EFE2B66653600A5487E /* ApiKeys.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
