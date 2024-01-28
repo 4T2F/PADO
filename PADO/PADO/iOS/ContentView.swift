@@ -13,7 +13,6 @@ struct ContentView: View {
     @State var menu = "feed"
     
     @EnvironmentObject var viewModel: AuthenticationViewModel
-    
     @StateObject var surfingVM = SurfingViewModel()
     @StateObject var feedVM = FeedViewModel()
     
@@ -98,9 +97,4 @@ struct ContentView: View {
         }
     }
 }
-
-
-//#Preview {
-//    ContentView()
-//}
 
