@@ -11,6 +11,7 @@ struct PostView: View {
     // MARK: - PROPERTY
     @ObservedObject var viewModel: SurfingViewModel
     @Environment (\.dismiss) var dismiss
+    let updateImageUrl = UpdateImageUrl.shared
     
     // MARK: - BODY
     var body: some View {
@@ -89,6 +90,16 @@ struct PostView: View {
             
             Button {
                 // 게시요청 로직
+                if let selectedImage = viewModel.selectedImage {
+                                    Task {
+                                        do {
+                                            // 이미지 업로드 시도
+                                           let uploadedImageUrl = try await updateImageUrl.updateImageUserData(uiImage: selectedImage, storageTypeInput: .post)
+                                        } catch {
+                                            print("파베 전송 오류 발생: (error.localizedDescription)")
+                                        }
+                                    }
+                                }
             } label: {
                 ZStack {
                     RoundedRectangle(cornerRadius: 8)

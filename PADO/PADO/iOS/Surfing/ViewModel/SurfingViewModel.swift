@@ -93,6 +93,7 @@ class SurfingViewModel: ObservableObject, Searchable  {
         // 게시 요청 관련 로직 추가
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
+        
         let initialPostData : [String: Any] = [
             "ownerUid": uid,
             "imageUrl": "imageUrl",
