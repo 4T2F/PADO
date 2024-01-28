@@ -5,14 +5,18 @@
 //  Created by 황민채 on 1/22/24.
 //
 
-import Foundation
 import Firebase
 import FirebaseFirestoreSwift
+import Foundation
 
-struct Post {
+struct Post: Identifiable, Codable {
+    @DocumentID var id: String?
     var ownerUid: String
-    var sufferUid: String
+    var sufferUid: String?
     var imageUrl: String
-    var postTitle: String
-    var timestamp: Timestamp
+    var title: String
+    var hearts: Int
+    var comments: [Comment]?
+    var created_Time: Timestamp
+    var modified_Time: Timestamp?
 }

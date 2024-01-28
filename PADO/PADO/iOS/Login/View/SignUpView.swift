@@ -75,8 +75,10 @@ struct SignUpView: View {
             currentStep = .phoneNumber
             viewModel.phoneNumber = ""
             viewModel.otpText = ""
-            viewModel.userID = ""
+            viewModel.nameID = ""
         case .birth:
+            viewModel.nameID = ""
+            viewModel.year = ""
             currentStep = .id
             
         }

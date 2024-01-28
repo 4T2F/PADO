@@ -28,7 +28,7 @@ var userAlertAccept: String {
 
 struct User: Codable, Identifiable, Hashable {
     @DocumentID var id: String?
-    var username: String?
+    var username: String // 유저 닉네임
     var nameID: String
     var profileImageUrl: String?
     var date: String // 날짜가 문자열로 저장된 경우
@@ -37,6 +37,8 @@ struct User: Codable, Identifiable, Hashable {
     var phoneNumber: String
     var fcmToken: String
     var alertAccept: String // 필드 이름 수정
+    var instaAddress: String
+    var tiktokAddress: String
 }
 
 

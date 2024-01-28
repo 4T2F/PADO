@@ -31,14 +31,14 @@ struct LoadingCircleView: View {
         Rectangle()
             .foregroundColor(colorForIndex(index))
             .cornerRadius(circleRotates[index] ? 50 : 90)
-            .frame(width: 15, height: 5)
+            .frame(width: 5, height: 3)
             .overlay(
-                circleRotates[index] ? RoundedRectangle(cornerRadius: 10).stroke(Color.white, lineWidth: 1) : RoundedRectangle(cornerRadius: 10).stroke(Color.white, lineWidth: 1)
+                circleRotates[index] ? RoundedRectangle(cornerRadius: 10).stroke(Color.white.opacity(0.5), lineWidth: 1) : RoundedRectangle(cornerRadius: 10).stroke(Color.white, lineWidth: 1)
             )
             .opacity(circleRotates[index] ? 0.5 : 1)
             .scaleEffect(circleRotates[index] ? 0.4 : 1)
             .rotationEffect(.degrees(circleRotates[index] ? 90 : -90))
-            .offset(x: 0, y: 10)
+            .offset(x: 0, y: 6)
             .rotationEffect(.degrees(Double(index) * 45))
             .animation(Animation.easeInOut(duration: 1).repeatForever(autoreverses: true), value: circleRotates[index])
             .onAppear {
@@ -48,7 +48,7 @@ struct LoadingCircleView: View {
 
     func colorForIndex(_ index: Int) -> Color {
         let opacity = 1.0 - Double(index) * 0.1
-        return index < 4 ? Color.white.opacity(opacity) : Color.white.opacity(opacity)
+        return index < 4 ? Color.blueButton.opacity(opacity) : Color.blueButton.opacity(opacity)
     }
 }
 

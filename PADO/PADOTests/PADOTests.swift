@@ -5,8 +5,8 @@
 //  Created by 최동호 on 1/2/24.
 //
 
-import XCTest
 @testable import PADO
+import XCTest
 
 final class PADOTests: XCTestCase {
 

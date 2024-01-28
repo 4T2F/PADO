@@ -5,9 +5,9 @@
 //  Created by 황민채 on 1/22/24.
 //
 
-import Foundation
 import FirebaseCore
 import FirebaseMessaging
+import Foundation
 import SwiftUI
 
 class AppDelegate: NSObject, UIApplicationDelegate {
