@@ -73,7 +73,7 @@ struct FeedView: View {
                 VStack {
                     // MARK: - Header
                     if feedVM.isHeaderVisible {
-                        MainHeaderCell()
+                        MainHeaderCell(vm: feedVM)
                             .frame(width: UIScreen.main.bounds.width)
                             .padding(.leading, 4)
                     }
@@ -90,9 +90,9 @@ struct FeedView: View {
                     if feedVM.isHeaderVisible {
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 16) {
-                                ForEach(0..<storyData.count, id: \.self) { index in
-                                    StoryCell(story: storyData[index]) {
-                                        self.feedVM.selectStory(storyData[index])
+                                ForEach(Array(feedVM.stories.enumerated()), id: \.element) { index, story in
+                                    StoryCell(story: story, storyIndex: index, vm: feedVM) {
+                                        self.feedVM.selectStory(story)
                                     }
                                 }
                             }
@@ -140,8 +140,4 @@ struct FeedView: View {
             feedVM.fetchPosts()
         }
     }
-}
-
-#Preview {
-    FeedView()
 }

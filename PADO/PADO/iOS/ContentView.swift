@@ -13,6 +13,7 @@ struct ContentView: View {
     @State var menu = "feed"
     
     @EnvironmentObject var viewModel: AuthenticationViewModel
+    
     @StateObject var surfingVM = SurfingViewModel()
     @State private var selectedTab = 0
     

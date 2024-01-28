@@ -5,8 +5,8 @@
 //  Created by 강치우 on 1/20/24.
 //
 
-import SwiftUI
 import Lottie
+import SwiftUI
 
 struct HeartCommentCell: View {
     @State var heartOnOff: Bool = false
