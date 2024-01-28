@@ -46,6 +46,15 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Messaging.messaging().apnsToken = deviceToken
     }
+    
+    // MARK: - 앱 활성화시 기존 뱃지 카운트 0으로 변경
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        if #available(iOS 17, *) {
+            UNUserNotificationCenter.current().setBadgeCount(0)
+        } else {
+            UIApplication.shared.applicationIconBadgeNumber = 0
+        }
+    }
 }
 
 // MARK: - Firebase 메시징 토큰을 받았을 때 호출, 이 토큰은 Firebase를 통해 특정 디바이스로 푸시 알림을 보낼 때 사용
@@ -98,15 +107,5 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
     // MARK: - 원격 알림 수신 처리
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) async -> UIBackgroundFetchResult {
         return .noData
-    }
-    
-    // MARK: - 앱 활성화시 기존 뱃지 카운트 0으로 변경
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        UNUserNotificationCenter.current().setBadgeCount(0) { error in
-            if let error = error {
-                // 뱃지 카운트 설정 중 발생한 오류 처리
-                print("Error setting badge count: \(error.localizedDescription)")
-            }
-        }
     }
 }
