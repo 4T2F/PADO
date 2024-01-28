@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Lottie
 
 struct HeartCommentCell: View {
     @State var heartOnOff: Bool = false
@@ -20,7 +21,12 @@ struct HeartCommentCell: View {
                     heartOnOff.toggle()
                 } label: {
                     if heartOnOff {
-                        Image("heart_fill")
+                        VStack {
+                                    LottieView(animation: .named("Heart3"))
+                                        .resizable()
+                                        .playing()
+                                        .frame(width: 40, height: 40)
+                        }
                     } else {
                         Image("heart")
                     }
