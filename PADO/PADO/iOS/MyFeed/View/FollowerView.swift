@@ -45,6 +45,7 @@ struct FollowerView: View {
                 .padding(.horizontal)
                 
                 Spacer()
+                
                 VStack {
                     SearchBar(text: searchTextBinding,
                               isLoading: $viewModel.isLoading)

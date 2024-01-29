@@ -53,24 +53,24 @@ class FeedViewModel: ObservableObject {
         }
     }
     
-    func setupProfileImageURL(id: String) async -> [String] {
+    func setupProfileImageURL(id: String) async -> String {
         do {
             let querySnapshot = try await Firestore.firestore().collection("users").document(id).getDocument()
             
             guard let user = try? querySnapshot.data(as: User.self) else {
                 print("Error: User data could not be decoded")
-                return ["", ""]
+                return ""
             }
             
-            guard let profileImage = user.profileImageUrl else { return [user.nameID, ""] }
-            
-            return [user.nameID, profileImage]
+            guard let profileImage = user.profileImageUrl else { return "" }
+    
+            return profileImage
             
         } catch {
             print("Error fetching user: \(error)")
         }
         
-        return ["", ""]
+        return ""
     }
     
     // Firestore의 데이터를 기반으로 스토리 데이터 업데이트
