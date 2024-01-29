@@ -114,6 +114,7 @@ struct SettingView: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
                 .font(.system(size: 11))
+                .padding(.bottom)
             }
                        
         }
