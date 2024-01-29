@@ -62,8 +62,6 @@ class AuthenticationViewModel: ObservableObject {
     
     @Published var authResult: AuthDataResult?
     
-    @AppStorage("userID") var userID: String = ""
-    
     @Published var currentUser: User?
     
     // MARK: - 인증 관련
@@ -101,17 +99,13 @@ class AuthenticationViewModel: ObservableObject {
         return try await Auth.auth().signIn(with: credential)
     }
     
-    func signUpUser(user: Firebase.User?) async {
-        guard let unwrappedUser = user else {
-            print("Error: User is nil")
-            return
-        }
+    func signUpUser() async {
         
-        userID = unwrappedUser.uid
+        guard let userId = Auth.auth().currentUser?.uid else { return }
         
         let initialUserData = [
             "username": "",
-            "id": userID,
+            "id": userId,
             "nameID": nameID,
             "date": year,
             "phoneNumber": "+82\(phoneNumber)",
@@ -120,15 +114,19 @@ class AuthenticationViewModel: ObservableObject {
             "instaAddress": "",
             "tiktokAddress": ""
         ]
-        
-        await createUserData(userID, data: initialUserData)
+        userNameID = nameID
+        await createUserData(nameID, data: initialUserData)
     }
     
-    func createUserData(_ userID: String, data: [String: Any]) async {
+    func createUserData(_ nameID: String, data: [String: Any]) async {
+        
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+        
         do {
-            try await Firestore.firestore().collection("users").document(userID).setData(data)
+            try await Firestore.firestore().collection("users").document(nameID).setData(data)
+
             currentUser = User(
-                id: userID,
+                id: userId,
                 username: "",
                 nameID: nameID,
                 date: year,
@@ -138,6 +136,7 @@ class AuthenticationViewModel: ObservableObject {
                 instaAddress: "",
                 tiktokAddress: ""
             )
+            userNameID = nameID
         } catch {
             print("Error saving user data: \(error.localizedDescription)")
         }
@@ -180,15 +179,16 @@ class AuthenticationViewModel: ObservableObject {
     // MARK: - 사용자 데이터 관리
     func initializeUser() async {
         // 사용자 초기화
-        guard !userID.isEmpty else { return }
+
+        guard Auth.auth().currentUser?.uid != nil else { return }
         await fetchUser()
     }
     
     func signOut() {
         do {
             try Auth.auth().signOut()
-            userID = ""
             nameID = ""
+            userNameID = ""
             year = ""
             phoneNumber = ""
             otpText = ""
@@ -199,7 +199,6 @@ class AuthenticationViewModel: ObservableObject {
             isExisted = false
             currentUser = nil
             
-            print(userID)
             print(String(describing: currentUser))
         } catch {
             print("로그아웃 오류: \(error.localizedDescription)")
@@ -211,7 +210,7 @@ class AuthenticationViewModel: ObservableObject {
         let db = Firestore.firestore()
         
         do {
-            try await db.collection("users").document(userID).delete()
+            try await db.collection("users").document(nameID).delete()
         } catch {
             print("Error removing document: \(error.localizedDescription)")
         }
@@ -219,7 +218,6 @@ class AuthenticationViewModel: ObservableObject {
     
     // MARK: - Firestore 쿼리 처리
     
-    // 이 함수 필요없는거같으니 확인바람
     func fetchUIDByPhoneNumber(phoneNumber: String) async {
         // 전화번호로 Firestore
         let usersCollection = Firestore.firestore().collection("users")
@@ -228,7 +226,7 @@ class AuthenticationViewModel: ObservableObject {
         do {
             let querySnapshot = try await query.getDocuments()
             for document in querySnapshot.documents {
-                self.userID = document.documentID
+                self.nameID = document.documentID
             }
             
         } catch {
@@ -238,16 +236,16 @@ class AuthenticationViewModel: ObservableObject {
     
     func fetchUser() async {
         // 사용자 데이터 불러오기
-        guard !userID.isEmpty else { return }
-        
+        guard Auth.auth().currentUser?.uid != nil else { return }
+
         do {
-            try await Firestore.firestore().collection("users").document(userID).updateData([
+            try await Firestore.firestore().collection("users").document(userNameID).updateData([
                 "fcmToken": userToken,
                 "alertAccept": userAlertAccept
             ])
             
-            let snapshot = try await Firestore.firestore().collection("users").document(userID).getDocument()
-            print("UserID: \(userID)")
+            let snapshot = try await Firestore.firestore().collection("users").document(userNameID).getDocument()
+            print("nameID: \(userNameID)")
             print("Snapshot: \(String(describing: snapshot.data()))")
             
             guard let user = try? snapshot.data(as: User.self) else {

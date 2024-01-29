@@ -9,6 +9,15 @@ import Firebase
 import FirebaseFirestoreSwift
 import Foundation
 
+var userNameID: String {
+    get {
+        UserDefaults.standard.string(forKey: "userNameID") ?? ""
+    }
+    set {
+        UserDefaults.standard.set(newValue, forKey: "userNameID")
+    }
+}
+
 var userToken: String {
     get {
         UserDefaults.standard.string(forKey: "userToken") ?? ""
@@ -41,5 +50,4 @@ struct User: Codable, Identifiable, Hashable {
     var instaAddress: String
     var tiktokAddress: String
 }
-
 

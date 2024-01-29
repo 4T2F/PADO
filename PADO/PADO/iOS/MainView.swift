@@ -5,6 +5,8 @@
 //  Created by 강치우 on 1/3/24.
 //
 
+import Firebase
+import FirebaseFirestore
 import SwiftUI
 
 struct MainView: View {
@@ -18,7 +20,7 @@ struct MainView: View {
                     .onAppear {
                         Task {
                             try? await Task.sleep(nanoseconds: 2 * 1_000_000_000)
-                            if viewModel.userID.isEmpty {
+                            if Auth.auth().currentUser?.uid == nil {
                                 showLaunchScreen = false
                             }
                             await viewModel.initializeUser()
