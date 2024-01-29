@@ -8,6 +8,7 @@ import SwiftUI
 
 struct SettingView: View {
     @State var width = UIScreen.main.bounds.width
+    @State private var showingSignOutModal: Bool = false
     @Environment (\.dismiss) var dismiss
     @EnvironmentObject var viewModel: AuthenticationViewModel
     @Binding var isShowingSetting: Bool
@@ -82,7 +83,7 @@ struct SettingView: View {
                 SettingDivider()
                     
                 Button {
-                    viewModel.signOut()
+                    showingSignOutModal.toggle()
                 } label: {
                     HStack {
                         Text("로그아웃")
@@ -96,9 +97,13 @@ struct SettingView: View {
                     .padding(.horizontal)
                     .padding(.vertical, -7)
                 }
-
+                .sheet(isPresented: $showingSignOutModal, content: {
+                    ModalAlertView(showingCircleImage: false, mainTitle: .signOut, subTitle: .signOut, removeMessage: .signOut)
+                        .background(Color.clear)
+                        .presentationDetents([.fraction(0.4)])
+                })
+                
                 SettingDivider()
-                    
                     
                 Spacer()
                 
@@ -110,7 +115,7 @@ struct SettingView: View {
                 .frame(maxWidth: .infinity, alignment: .center)
                 .font(.system(size: 11))
             }
-           
+                       
         }
         .navigationBarBackButtonHidden(true)
         
