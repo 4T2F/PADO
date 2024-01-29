@@ -11,18 +11,21 @@ enum ModalAlertTitle: String {
     case cash = "캐시 지우기"
     case account = "계정 삭제"
     case follower = ""
+    case signOut = "로그아웃"
 }
 
 enum ModalAlertSubTitle: String {
     case cash = "캐시를 지우면 몇몇의 문제가 해결될 수 있어요"
     case account = "한번 삭제된 계정은 복원되지 않습니다. 정말 삭제하시겠습니까?"
     case follower = "팔로워에서 삭제하시겠어요?"
+    case signOut = "현재 계정에서 로그아웃하겠습니까?"
 }
 
 enum ModalAlertRemove: String {
     case cash = "PADO 캐시 지우기"
     case account = "계정 삭제"
     case follower = "삭제"
+    case signOut = "로그아웃"
 }
 
 struct ModalAlertView: View {
@@ -79,6 +82,10 @@ struct ModalAlertView: View {
                         dismiss()
                     case .follower:
                         dismiss()
+                    case .signOut:
+                        viewModel.signOut()
+                        dismiss()
+                        
                     }
                 } label: {
                     Text(removeMessage.rawValue)

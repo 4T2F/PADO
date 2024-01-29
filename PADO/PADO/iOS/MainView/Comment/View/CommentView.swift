@@ -44,24 +44,49 @@ struct CommentSheetView: View {
                 
                 Divider()
                     .offset(y: -14)
-                HStack {
-                    CircularImageView(size: .medium)
-                    TextField("sirius(으)로 답글 달기...", text: $commentText)
-                        .frame(height: 12)
-                        .font(.system(size: 14))
-                        .padding()
-                        .background(
-                            RoundedRectangle(cornerRadius: 26)
-                                .strokeBorder(Color.gray, lineWidth: 0.5)
-                        )
+                ZStack {
+                    HStack {
+                        CircularImageView(size: .medium)
+                        ZStack {
+                            TextEditor(text: $commentText)
+                                .font(.system(size: 14))
+                                .padding()
+                                .background(
+                                    RoundedRectangle(cornerRadius: 26)
+                                        .strokeBorder(Color.gray, lineWidth: 0.5)
+                                )
+                                .frame(height: 50)
+                            
+                            
+                            HStack {
+                                Spacer()
+                                
+                                Button {
+                                    // 댓글 입력 로직
+                                } label: {
+                                    ZStack {
+                                        RoundedRectangle(cornerRadius: 26)
+                                            .frame(width: 50, height: 30)
+                                            .foregroundStyle(.blue)
+                                        Image(systemName: "arrow.up")
+                                            .resizable()
+                                            .frame(width: 15, height: 15)
+                                            .foregroundStyle(.white)
+                                            .bold()
+                                    }
+                                }
+                            }
+                            .padding(.horizontal, 10)
+                        }
+                    }
+                    .padding(.horizontal)
                 }
-                .padding(.horizontal)
             }
             .padding(.top, 30)
         }
     }
 }
-
+    
 struct CommentView: View {
     var body: some View {
         CommentSheetView()
