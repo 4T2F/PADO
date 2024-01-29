@@ -5,15 +5,20 @@
 //  Created by 황성진 on 1/16/24.
 //
 
+import Kingfisher
 import SwiftUI
 
 struct FollowerUserCellView: View {
     // MARK: - PROPERTY
+    @State var followerUsername: String = ""
+    @State var followerProfileUrl: String = ""
+    
+    let cellUserId: String
+    
     enum SufferSet: String {
         case removesuffer = "서퍼 해제"
         case setsuffer = "서퍼 등록"
     }
-    
     
     @State private var buttonActive: Bool = false
     @State var transitions: Bool = false
@@ -23,15 +28,20 @@ struct FollowerUserCellView: View {
     // MARK: - BODY
     var body: some View {
         HStack {
-            CircularImageView(size: .small)
+            KFImage.url(URL(string: followerProfileUrl))
+                .resizable()
+                .scaledToFill()
+                .frame(width: 50, height: 50)
+                .cornerRadius(70)
                 .padding(.horizontal)
             
             VStack(alignment: .leading) {
-                Text("user ID")
+                Text(cellUserId)
                     .font(.system(size: 18, weight: .semibold))
-                
-                Text("user nickname")
-                    .font(.system(size: 14, weight: .semibold))
+                if !followerUsername.isEmpty {
+                    Text(followerUsername)
+                        .font(.system(size: 14, weight: .semibold))
+                }
             } //: VSTACK
             
             Spacer()
@@ -64,6 +74,15 @@ struct FollowerUserCellView: View {
             }
             
         } //: HSTACK
+        .onAppear {
+            Task {
+                let updateUserData = UpdateUserData()
+                if let userProfile = await updateUserData.getOthersProfileDatas(id: cellUserId) {
+                    self.followerUsername = userProfile.username
+                    self.followerProfileUrl = userProfile.profileImageUrl ?? ""
+                }
+            }
+        }
         // contentShape 를 사용해서 H스택 전체적인 부분에 대해 패딩을 줌
         .contentShape(Rectangle())
         .gesture(
@@ -83,7 +102,3 @@ struct FollowerUserCellView: View {
         }
     }
 }
-
-//#Preview {
-//    FollowerUserCellView(sufferset: .removesuffer)
-//}

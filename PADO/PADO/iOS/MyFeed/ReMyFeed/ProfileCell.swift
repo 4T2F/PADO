@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ProfileCell: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
+    @ObservedObject var followVM: FollowViewModel
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -56,9 +57,9 @@ struct ProfileCell: View {
                     .frame(width: 1, height: 18)
                     .padding(.horizontal, 2)
                 
-                NavigationLink(destination: FollowView()) {
+                NavigationLink(destination: FollowView(followVM: followVM)) {
                     HStack(spacing: 5) {
-                        Text("1")
+                        Text("\(followVM.followerIDs.count + followVM.surferIDs.count)")
                             .font(.system(size: 14, weight: .semibold))
                             .foregroundStyle(.white)
                         
@@ -74,9 +75,9 @@ struct ProfileCell: View {
                     .frame(width: 1, height: 18)
                     .padding(.horizontal, 2)
                 
-                NavigationLink(destination: FollowView()) {
+                NavigationLink(destination: FollowView(followVM: followVM)) {
                     HStack(spacing: 5) {
-                        Text("1")
+                        Text("\(followVM.followingIDs.count)")
                             .font(.system(size: 14, weight: .semibold))
                             .foregroundStyle(.white)
                         
@@ -89,8 +90,4 @@ struct ProfileCell: View {
         }
         .padding(.horizontal)
     }
-}
-
-#Preview {
-    ProfileCell()
 }

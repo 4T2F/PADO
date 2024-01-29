@@ -89,7 +89,7 @@
 		63AB41192B45D38F007B37DC /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 63AB41182B45D38F007B37DC /* FirebaseStorageCombine-Community */; };
 		63AB411D2B468C25007B37DC /* NavigationViewStyleHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AB411C2B468C25007B37DC /* NavigationViewStyleHelper.swift */; };
 		63B563FF2B44656600AEC5E7 /* Year.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B563FE2B44656600AEC5E7 /* Year.swift */; };
-		63BF11EC2B5E514E00E95087 /* ReMyFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BF11EB2B5E514E00E95087 /* ReMyFeedView.swift */; };
+		63BF11EC2B5E514E00E95087 /* MyFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BF11EB2B5E514E00E95087 /* MyFeedView.swift */; };
 		63BF11EE2B5E518000E95087 /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BF11ED2B5E518000E95087 /* ProfileCell.swift */; };
 		63BF120F2B5EB94B00E95087 /* TodayHeartCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BF120E2B5EB94B00E95087 /* TodayHeartCommentCell.swift */; };
 		63BF12112B5EB95900E95087 /* TodayCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BF12102B5EB95900E95087 /* TodayCommentCell.swift */; };
@@ -236,7 +236,7 @@
 		63824C512B558B6900D1D653 /* UseIDModalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UseIDModalView.swift; sourceTree = "<group>"; };
 		63AB411C2B468C25007B37DC /* NavigationViewStyleHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewStyleHelper.swift; sourceTree = "<group>"; };
 		63B563FE2B44656600AEC5E7 /* Year.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Year.swift; sourceTree = "<group>"; };
-		63BF11EB2B5E514E00E95087 /* ReMyFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReMyFeedView.swift; sourceTree = "<group>"; };
+		63BF11EB2B5E514E00E95087 /* MyFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFeedView.swift; sourceTree = "<group>"; };
 		63BF11ED2B5E518000E95087 /* ProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
 		63BF120E2B5EB94B00E95087 /* TodayHeartCommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayHeartCommentCell.swift; sourceTree = "<group>"; };
 		63BF12102B5EB95900E95087 /* TodayCommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayCommentCell.swift; sourceTree = "<group>"; };
@@ -697,7 +697,7 @@
 			isa = PBXGroup;
 			children = (
 				4187431E2B5C32CF00D93CBE /* MyFeedContentView.swift */,
-				63BF11EB2B5E514E00E95087 /* ReMyFeedView.swift */,
+				63BF11EB2B5E514E00E95087 /* MyFeedView.swift */,
 				63BF11ED2B5E518000E95087 /* ProfileCell.swift */,
 			);
 			path = ReMyFeed;
@@ -1160,7 +1160,7 @@
 				418743292B5C42AB00D93CBE /* LoginView.swift in Sources */,
 				41FD99F62B43D5EC0028D38E /* PADOApp.swift in Sources */,
 				41A102982B6262B20070AB8D /* PhotoPicker.swift in Sources */,
-				63BF11EC2B5E514E00E95087 /* ReMyFeedView.swift in Sources */,
+				63BF11EC2B5E514E00E95087 /* MyFeedView.swift in Sources */,
 				418935C02B67A79400D20048 /* DateFormatter.swift in Sources */,
 				4197420A2B55900D0055F2AB /* LoginAlert.swift in Sources */,
 				643417332B5F947500E47639 /* SurfingView.swift in Sources */,
@@ -1331,12 +1331,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PADO/PADO.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PADO/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = UAG934M4Q7;
+				DEVELOPMENT_TEAM = UAG934M4Q7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PADO/Info.plist;
@@ -1356,7 +1354,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.4T2F.PADO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "PADO Debug";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1370,12 +1367,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PADO/PADO.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PADO/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = UAG934M4Q7;
+				DEVELOPMENT_TEAM = UAG934M4Q7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PADO/Info.plist;
@@ -1395,7 +1390,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.4T2F.PADO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "PADO Debug";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

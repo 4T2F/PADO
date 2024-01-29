@@ -12,6 +12,8 @@ struct FollowView: View {
     @State var width = UIScreen.main.bounds.width
     @State var menu = "follower"
     
+    @ObservedObject var followVM: FollowViewModel
+    
     // MARK: - BODY
     var body: some View {
         VStack {
@@ -19,9 +21,9 @@ struct FollowView: View {
                 Color.black.ignoresSafeArea()
                 
                 if menu == "follower" {
-                    FollowerView()
+                    FollowerView(followVM: followVM)
                 } else if menu == "following" {
-                    FollowingView()
+                    FollowingView(followVM: followVM)
                 }
                 
                 VStack {
@@ -73,8 +75,4 @@ struct FollowView: View {
         } //: VSTACK
         .navigationBarBackButtonHidden(true)
     }
-}
-
-#Preview {
-    FollowView()
 }

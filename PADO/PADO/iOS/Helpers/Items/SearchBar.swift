@@ -42,7 +42,7 @@ struct SearchBar: View {
                     .overlay {
                         HStack {
                             Spacer()
-                            if !text.isEmpty {
+                            if isEditing && !text.isEmpty {
                                 if isLoading {
                                     Button {
                                         text = ""

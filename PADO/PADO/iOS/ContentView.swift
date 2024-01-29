@@ -16,6 +16,7 @@ struct ContentView: View {
     
     @StateObject var surfingVM = SurfingViewModel()
     @StateObject var feedVM = FeedViewModel()
+    @StateObject var followVM = FollowViewModel()
     
     @State private var selectedTab = 0
     
@@ -64,7 +65,7 @@ struct ContentView: View {
                         }
                         .onAppear { selectedTab = 3 }
                         .tag(3)
-                    ReMyFeedView()
+                    MyFeedView(followVM: followVM)
                         .tabItem {
                             Image(selectedTab == 4 ? "profile_light" : "profile_gray")
                             

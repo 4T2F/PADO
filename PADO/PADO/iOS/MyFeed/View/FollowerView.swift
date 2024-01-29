@@ -11,7 +11,8 @@ struct FollowerView: View {
     // MARK: - PROPERTY
     @Environment (\.dismiss) var dismiss
     @State private var searchText: String = ""
-    @ObservedObject var viewModel = FollowViewModel()
+    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @ObservedObject var followVM: FollowViewModel
     
     // MARK: - BODY
     var body: some View {
@@ -19,7 +20,7 @@ struct FollowerView: View {
             return searchText
         } set: {
             searchText = $0
-            viewModel.updateSearchText(with: $0)
+            followVM.updateSearchText(with: $0)
         }
         
         ZStack {
@@ -48,7 +49,7 @@ struct FollowerView: View {
                 
                 VStack {
                     SearchBar(text: searchTextBinding,
-                              isLoading: $viewModel.isLoading)
+                              isLoading: $followVM.isLoading)
                         .padding()
                     
                     ScrollView(.vertical) {
@@ -59,8 +60,8 @@ struct FollowerView: View {
                             Spacer()
                         } //: HSTACK
                         
-                        ForEach(1...2, id: \.self) { _ in
-                            FollowerUserCellView(sufferset: .removesuffer)
+                        ForEach(followVM.surferIDs, id: \.self) { surferId in
+                            FollowerUserCellView(cellUserId: surferId, sufferset: .removesuffer)
                                 .padding(.vertical)
                         }
                         
@@ -71,8 +72,8 @@ struct FollowerView: View {
                         } //: HSTACK
                         .padding(.horizontal)
                         
-                        ForEach(1...10, id: \.self) { _ in
-                            FollowerUserCellView(sufferset: .setsuffer)
+                        ForEach(followVM.followerIDs, id: \.self) { followerId in
+                            FollowerUserCellView(cellUserId: followerId, sufferset: .setsuffer)
                                 .padding(.vertical)
                         }
                     } //: SCROLL
@@ -80,8 +81,4 @@ struct FollowerView: View {
             } //: VSTACK
         } //: ZSTACK
     }
-}
-
-#Preview {
-    FollowerView()
 }

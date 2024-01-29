@@ -11,7 +11,8 @@ struct FollowingView: View {
     // MARK: - PROPERTY
     @Environment (\.dismiss) var dismiss
     @State private var searchText: String = ""
-    @ObservedObject var viewModel = FollowViewModel()
+    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @ObservedObject var followVM: FollowViewModel
     
     // MARK: - BODY
     var body: some View {
@@ -19,7 +20,7 @@ struct FollowingView: View {
             return searchText
         } set: {
             searchText = $0
-            viewModel.updateSearchText(with: $0)
+            followVM.updateSearchText(with: $0)
         }
         ZStack {
             Color.black.ignoresSafeArea()
@@ -47,12 +48,12 @@ struct FollowingView: View {
                 
                 VStack {
                     SearchBar(text: searchTextBinding,
-                              isLoading: $viewModel.isLoading)
+                              isLoading: $followVM.isLoading)
                     .padding()
                     
                     ScrollView {
-                        ForEach(1...10, id: \.self) { _ in
-                            FollowingCellView()
+                        ForEach(followVM.followingIDs, id: \.self) { followingID in
+                            FollowingCellView(cellUserId: followingID)
                                 .padding(.vertical)
                         }
                     } //: SCROLL
@@ -62,8 +63,4 @@ struct FollowingView: View {
             
         } //: ZSTACK
     }
-}
-
-#Preview {
-    FollowingView()
 }
