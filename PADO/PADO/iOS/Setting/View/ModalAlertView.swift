@@ -18,7 +18,7 @@ enum ModalAlertSubTitle: String {
     case cash = "캐시를 지우면 몇몇의 문제가 해결될 수 있어요"
     case account = "한번 삭제된 계정은 복원되지 않습니다. 정말 삭제하시겠습니까?"
     case follower = "팔로워에서 삭제하시겠어요?"
-    case signOut = "현재 계정에서 로그아웃하겠습니다"
+    case signOut = "현재 계정에서 로그아웃하겠습니까?"
 }
 
 enum ModalAlertRemove: String {
