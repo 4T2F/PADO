@@ -10,6 +10,7 @@ import SwiftUI
 struct CameraAccessView: UIViewControllerRepresentable {
     @Binding var isShown: Bool
     @Binding var myimage: Image
+    @Binding var myUIImage: UIImage
     @Binding var mysourceType: UIImagePickerController.SourceType
     
     func updateUIViewController(_ uiViewController: UIImagePickerController, context: UIViewControllerRepresentableContext<CameraAccessView>) {
@@ -24,7 +25,7 @@ struct CameraAccessView: UIViewControllerRepresentable {
     }
     
     func makeCoordinator() -> CameraCoordinator {
-        return CameraCoordinator(isShown: $isShown, myimage: $myimage)
+        return CameraCoordinator(isShown: $isShown, myimage: $myimage, myUIImage: $myUIImage)
     }
 }
 
