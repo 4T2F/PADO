@@ -41,7 +41,6 @@ class AuthenticationViewModel: ObservableObject {
         }
     }
     
-    
     @Published var userSelectImage: Image?
     @Published private var uiImage: UIImage?
     
@@ -209,12 +208,42 @@ class AuthenticationViewModel: ObservableObject {
     func deleteAccount() async {
         // 계정 삭제
         let db = Firestore.firestore()
+        let storageRef = Storage.storage().reference()
         
+        // user 컬렉션 삭제
         do {
             try await db.collection("users").document(userID).delete()
         } catch {
             print("Error removing document: \(error.localizedDescription)")
         }
+        
+        // Firestore의 `post` 컬렉션에서 사용자의 게시물 삭제
+        let postQuery = db.collection("post").whereField("ownerUid", isEqualTo: userID)
+        
+        do {
+            let querySnapshot = try await postQuery.getDocuments()
+            for document in querySnapshot.documents {
+                try await document.reference.delete()
+            }
+        } catch {
+            print("Error removing posts: \(error.localizedDescription)")
+        }
+        
+        // Firebase Storage에서 사용자의 'post/' 경로에 있는 모든 이미지 삭제
+        let userPostsRef = storageRef.child("post/\(userID)")
+        do {
+            let listResult = try await userPostsRef.listAll()
+            for item in listResult.items {
+                // 각 항목 삭제
+                try await item.delete()
+            }
+        } catch {
+            print("Error removing posts from storage: \(error.localizedDescription)")
+        }
+        
+        showAlert = false
+        isExisted = false
+        currentUser = nil
     }
     
     // MARK: - Firestore 쿼리 처리
@@ -300,5 +329,4 @@ class AuthenticationViewModel: ObservableObject {
         let isTiktokAddressChanged = currentUser?.tiktokAddress != tiktokAddress
         changedValue = isUsernameChanged || isInstaAddressChanged || isTiktokAddressChanged || imagePick
     }
-    
 }

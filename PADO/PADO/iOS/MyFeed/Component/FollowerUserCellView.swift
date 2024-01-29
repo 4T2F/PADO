@@ -76,6 +76,6 @@ struct FollowerUserCellView: View {
     }
 }
 
-#Preview {
-    FollowerUserCellView(sufferset: .removesuffer)
-}
+//#Preview {
+//    FollowerUserCellView(sufferset: .removesuffer)
+//}

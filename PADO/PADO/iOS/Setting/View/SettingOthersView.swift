@@ -4,11 +4,14 @@
 //
 //  Created by 황민채 on 1/15/24.
 //
+
 import SwiftUI
 
 struct SettingOthersView: View {
     @State private var showingCashModal: Bool = false
     @State private var showingDeleteModal: Bool = false
+    
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     @Environment (\.dismiss) var dismiss
     
     var body: some View {
@@ -51,11 +54,13 @@ struct SettingOthersView: View {
                     }
                     
                     Button {
-                        showingDeleteModal.toggle()
+                        Task {
+                            showingDeleteModal.toggle()
+                            await viewModel.deleteAccount()
+                        }
                     } label: {
                         VStack {
-                            SettingRedCell(icon: "multiply.square", text: "계정 삭제")
-                                .foregroundStyle(Color.gray)
+                            SettingRedCell(icon: "multiply.square", text: "계정 탈퇴")
                         }
                     }
                     Spacer()
