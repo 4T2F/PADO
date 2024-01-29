@@ -13,7 +13,7 @@ struct SettingViewCell: View {
     var body: some View {
         HStack {
             Text("\(settingTittle)")
-                .font(.system(size: 18, weight: .semibold))
+                .font(.system(size: 16, weight: .semibold))
                 .foregroundStyle(.gray)
             Spacer()
             Image(systemName: "chevron.right")
@@ -22,5 +22,6 @@ struct SettingViewCell: View {
         }
         .padding(.horizontal)
         .padding(.vertical, -7)
+        
     }
 }

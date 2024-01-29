@@ -12,7 +12,6 @@ struct SettingView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
     @Binding var isShowingSetting: Bool
     
-    
     var name: String = "PADO"
     var nickName: String = "pado"
     
@@ -34,7 +33,7 @@ struct SettingView: View {
                     Spacer()
                     
                     Text("설정")
-                        .font(.system(size: 18, weight: .bold))
+                        .font(.system(size: 16, weight: .bold))
                         .padding(.trailing, 20)
                     
                     Spacer()
@@ -44,28 +43,25 @@ struct SettingView: View {
                 .padding(.bottom, 30)
                 
                 Text("설정")
-                    .font(.system(size:18, weight: .semibold))
+                    .font(.system(size: 16, weight: .semibold))
                     .padding(.leading)
                     .padding(.bottom, 30)
                 
                 NavigationLink(destination: SettingNotificationView()) {
                     SettingViewCell(settingTittle: "알림")
                 }
-                    
-                
+ 
                 SettingDivider()
                 
                 NavigationLink(destination: SettingOthersView()) {
                     SettingViewCell(settingTittle: "다른 설정들")
                 }
                 
-                
                 SettingDivider()
                     .padding(.bottom, 30)
                     
-                
                 Text("정보")
-                    .font(.system(size:18, weight: .semibold))
+                    .font(.system(size: 16, weight: .semibold))
                     .padding(.leading)
                     .padding(.bottom, 30)
                 
@@ -90,7 +86,7 @@ struct SettingView: View {
                 } label: {
                     HStack {
                         Text("로그아웃")
-                            .font(.system(size: 18, weight: .semibold))
+                            .font(.system(size: 16, weight: .semibold))
                             .foregroundStyle(.red)
                         Spacer()
                         Image(systemName: "chevron.right")
@@ -98,12 +94,21 @@ struct SettingView: View {
                             .bold()
                     }
                     .padding(.horizontal)
+                    .padding(.vertical, -7)
                 }
 
                 SettingDivider()
                     
                     
                 Spacer()
+                
+                VStack(spacing: 2) {
+                    Text("2024, PADO all rights reserved.")
+                    Text("Powered by 4T2F")
+                        
+                }
+                .frame(maxWidth: .infinity, alignment: .center)
+                .font(.system(size: 11))
             }
            
         }
