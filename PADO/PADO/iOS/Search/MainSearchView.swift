@@ -11,11 +11,19 @@ struct MainSearchView: View {
     // MARK: - PROPERTY
     
     @State var mainSearch: String = ""
+    @ObservedObject var viewModel = SurfingViewModel()
     
     // MARK: - BODY
     var body: some View {
+        let searchTextBinding = Binding {
+            return mainSearch
+        } set: {
+            mainSearch = $0
+            viewModel.updateSearchText(with: $0)
+        }
+        
         ZStack {
-            Color.mainBackground.ignoresSafeArea()
+            Color.black.ignoresSafeArea()
             VStack(alignment: .leading) {
                 ZStack {
                     
@@ -32,7 +40,8 @@ struct MainSearchView: View {
                 
                 Spacer()
                 
-                SearchView(searchText: $mainSearch)
+                SearchBar(text: searchTextBinding,
+                          isLoading: $viewModel.isLoading)
                     .padding(.horizontal)
                 
                 Spacer()

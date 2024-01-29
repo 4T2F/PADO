@@ -5,24 +5,21 @@
 //  Created by 황민채 on 1/15/24.
 //
 
+import PhotosUI
 import SwiftUI
 
 struct SettingProfileView: View {
-    
+    // MARK: - PROPERTY
     @State var width = UIScreen.main.bounds.width
-
-    @State var username: String = ""
-    @State var age: String = ""
-    @State var bio: String = ""
-    @State var instaAddress: String = ""
-    @State var tiktokAddress: String = ""
-    
+    @State private var isActive: Bool = false
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     @Environment (\.dismiss) var dismiss
     
+    // MARK: - BODY
     var body: some View {
         VStack {
             ZStack {
-                Color("mainBackgroundColor").ignoresSafeArea()
+                Color.black.ignoresSafeArea()
                 
                 // MARK: - 프로필수정, 탑셀
                 VStack {
@@ -30,6 +27,8 @@ struct SettingProfileView: View {
                         HStack {
                             Button {
                                 dismiss()
+                                viewModel.imagePick = false
+                                viewModel.userSelectImage = nil
                             } label: {
                                 Text("취소")
                                     .foregroundStyle(.white)
@@ -39,11 +38,24 @@ struct SettingProfileView: View {
                             Spacer()
                             
                             Button {
-                                //TODO: - 저장버튼 동작 구현필요
+                                // 버튼이 활성화된 경우 실행할 로직
+                                if isActive {
+                                    Task {
+                                        await viewModel.profileSaveData()
+                                        viewModel.imagePick.toggle()
+                                        
+                                        dismiss()
+                                    }
+                                }
+                                // 비활성화 상태일 때는 아무 작업도 수행하지 않음
                             } label: {
                                 Text("저장")
-                                    .foregroundStyle(.gray)
+                                    .foregroundStyle(isActive ? .white : .gray) // 활성화 상태에 따라 텍스트 색상 변경
                                     .font(.system(size: 18))
+                            }
+                            .disabled(!isActive) // 버튼 비활성화 여부 결정
+                            .onChange(of: viewModel.changedValue) { newValue, oldValue in
+                                isActive = !newValue // viewModel의 changedValue에 따라 isActive 상태 업데이트
                             }
                         }
                         .padding(.horizontal, width * 0.05)
@@ -64,41 +76,19 @@ struct SettingProfileView: View {
                 
                 VStack {
                     VStack {
-                        VStack {
-                            ZStack(alignment: .bottomTrailing) {
-                                Circle()
-                                    .frame(width: 120, height: 120)
-                                    .cornerRadius(60)
-                                    .foregroundStyle(Color(red: 152/255, green: 163/255, blue: 16/255))
-                                    .overlay {
-                                        Text("\(username)")
-                                            .foregroundStyle(.white)
-                                            .font(.system(size: 55))
-                                    }
-                                
-                                ZStack {
-                                    ZStack {
-                                        Circle()
-                                            .frame(width: 34, height: 34)
-                                            .foregroundStyle(.black)
-                                        Circle()
-                                            .frame(width: 30, height: 30)
-                                            .foregroundStyle(.white)
-                                        Circle()
-                                            .frame(width: 30, height: 30)
-                                            .foregroundStyle(.black)
-                                            .opacity(0.1)
-                                    }
-                                    Button {
-                                        //TODO: - 카메라/포토피커 동작 구현필요
-                                    } label: {
-                                        Image(systemName: "camera.fill")
-                                            .foregroundStyle(.black)
-                                            .font(.system(size: 16))
-                                            .shadow(color: .white, radius: 1, x: 1, y: 1)
-                                    }
-                                }
+                        PhotosPicker(selection: $viewModel.selectedItem) {
+                            if let image = viewModel.userSelectImage {
+                                image
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 129, height: 129)
+                                    .clipShape(Circle())
+                            } else {
+                                CircularImageView(size: .xxLarge)
                             }
+                        }
+                        .onChange(of: viewModel.imagePick) { _, _  in
+                            viewModel.checkForChanges()
                         }
                         // MARK: - 프로필수정, 이름
                         VStack {
@@ -106,7 +96,7 @@ struct SettingProfileView: View {
                             
                             HStack {
                                 HStack {
-                                    Text("이름")
+                                    Text("닉네임")
                                         .foregroundStyle(.white)
                                         .font(.system(size: 16))
                                     
@@ -115,98 +105,33 @@ struct SettingProfileView: View {
                                 .frame(width: width * 0.22)
                                 
                                 HStack {
-                                    TextField("", text: $username)
-                                        .font(.system(size: 16))
-                                        .placeholder(when: username.isEmpty) {
-                                            Text("이름")
-                                                .foregroundStyle(.gray)
-                                                .font(.system(size: 16))
-                                        }
-                                        .foregroundStyle(.white)
-                                        .padding(.leading, width * 0.05)
-                                    
-                                    Spacer()
-                                }
-                                .frame(width: width * 0.63)
-                            }
-                            .padding(.top, 4)
-                            
-                            SettingProfileDivider()
-                            
-                            // MARK: - 프로필수정, 나이
-                            HStack {
-                                HStack {
-                                    Text("나이")
-                                        .foregroundStyle(.white)
-                                        .font(.system(size: 16))
-                                    
-                                    Spacer()
-                                }
-                                .frame(width: width * 0.22)
-                                
-                                HStack {
-                                    TextField("", text: $age)
-                                        .font(.system(size: 16))
-                                        .placeholder(when: age.isEmpty) {
-                                            Text("나이")
-                                                .foregroundStyle(.gray)
-                                                .font(.system(size: 16))
-                                        }
-                                        .foregroundStyle(.white)
-                                        .padding(.leading, width * 0.05)
-                                    
-                                    Spacer()
-                                }
-                                .frame(width: width * 0.63)
-                            }
-                            .padding(.top, 4)
-                            
-                            SettingProfileDivider()
-                            
-                            // MARK: - 프로필수정, 소개
-                            HStack(alignment: .top) {
-                                HStack {
-                                    Text("소개")
-                                        .foregroundStyle(.white)
-                                        .font(.system(size: 16))
-                                    
-                                    Spacer()
-                                }
-                                .padding(.leading, -4)
-                                .padding(.top, 4)
-                                .frame(width: width * 0.2)
-                                
-                                TextEditor(text: $bio)
-                                    .foregroundStyle(.white)
-                                    .scrollContentBackground(.hidden) // iOS 16 버전 이상부터 지원함 15 버전 일시 if #available(iOS 16, *)
-                                    .frame(height: 100)
-                                    .padding(.leading, width * 0.05)
-                                    .overlay {
-                                        VStack {
-                                            HStack {
-                                                if bio == "" {
-                                                    Text("소개")
-                                                        .foregroundStyle(.gray)
-                                                        .font(.system(size: 16))
-                                                        .zIndex(1)
-                                                        .padding(.top, 8)
-                                                        .padding(.leading, 24)
-                                                }
-                                                
-                                                Spacer()
+                                    if let originUsername = viewModel.currentUser?.username, !originUsername.isEmpty {
+                                        TextField(originUsername, text: $viewModel.username)
+                                            .font(.system(size: 16))
+                                            .foregroundStyle(.white)
+                                            .padding(.leading, width * 0.05)
+                                            .onChange(of: viewModel.username) { _, _ in
+                                                viewModel.checkForChanges()
                                             }
-                                            
-                                            Spacer()
-                                        }
+                                    } else {
+                                        TextField("닉네임", text: $viewModel.username)
+                                            .font(.system(size: 16))
+                                            .foregroundStyle(.white)
+                                            .padding(.leading, width * 0.05)
+                                            .onChange(of: viewModel.username) { _, _  in
+                                                viewModel.checkForChanges()
+                                            }
                                     }
-                                    .padding(.top, -4)
-                                    .frame(width: width * 0.63)
-                                
+                                    
+                                    Spacer()
+                                }
+                                .frame(width: width * 0.63)
                             }
+                            .padding(.top, 4)
                             
                             SettingProfileDivider()
                             
-                            // MARK: - 프로필수정, 인스타그램 주소
+                            // MARK: - 프로필수정
                             HStack {
                                 HStack {
                                     Text("Instagram")
@@ -218,15 +143,24 @@ struct SettingProfileView: View {
                                 .frame(width: width * 0.22)
                                 
                                 HStack {
-                                    TextField("", text: $instaAddress)
-                                        .font(.system(size: 16))
-                                        .placeholder(when: instaAddress.isEmpty) {
-                                            Text("계정명")
-                                                .foregroundStyle(.gray)
-                                                .font(.system(size: 16))
-                                        }
-                                        .foregroundStyle(.white)
-                                        .padding(.leading, width * 0.05)
+                                    if let insta = viewModel.currentUser?.instaAddress, !insta.isEmpty {
+                                        TextField(insta, text: $viewModel.instaAddress)
+                                            .font(.system(size: 16))
+                                            .foregroundStyle(.white)
+                                            .padding(.leading, width * 0.05)
+                                            .onChange(of: viewModel.instaAddress) { _, _  in
+                                                viewModel.checkForChanges()
+                                            }
+
+                                    } else {
+                                        TextField("계정명", text: $viewModel.instaAddress)
+                                            .font(.system(size: 16))
+                                            .foregroundStyle(.white)
+                                            .padding(.leading, width * 0.05)
+                                            .onChange(of: viewModel.instaAddress) { _, _  in
+                                                viewModel.checkForChanges()
+                                            }
+                                    }
                                     
                                     Spacer()
                                 }
@@ -239,7 +173,7 @@ struct SettingProfileView: View {
                             // MARK: - 프로필수정, 틱톡주소
                             HStack {
                                 HStack {
-                                    Text("Tiktok")
+                                    Text("tiktok")
                                         .foregroundStyle(.white)
                                         .font(.system(size: 16))
                                     
@@ -248,24 +182,33 @@ struct SettingProfileView: View {
                                 .frame(width: width * 0.22)
                                 
                                 HStack {
-                                    TextField("", text: $tiktokAddress)
-                                        .font(.system(size: 16))
-                                        .placeholder(when: tiktokAddress.isEmpty) {
-                                            Text("계정명")
-                                                .foregroundStyle(.gray)
-                                                .font(.system(size: 16))
-                                        }
-                                        .foregroundStyle(.white)
-                                        .padding(.leading, width * 0.05)
-                                    
+                                    if let tiktok = viewModel.currentUser?.tiktokAddress, !tiktok.isEmpty {
+                                        TextField(tiktok, text: $viewModel.tiktokAddress)
+                                            .font(.system(size: 16))
+                                            .foregroundStyle(.white)
+                                            .padding(.leading, width * 0.05)
+                                            .onChange(of: viewModel.tiktokAddress) { _, _  in
+                                                viewModel.checkForChanges()
+                                            }
+                                    } else {
+                                        TextField("계정명", text: $viewModel.tiktokAddress)
+                                            .font(.system(size: 16))
+                                            .foregroundStyle(.white)
+                                            .padding(.leading, width * 0.05)
+                                            .onChange(of: viewModel.tiktokAddress) { _, _  in
+                                                viewModel.checkForChanges()
+                                            }
+                                    }
+                            
                                     Spacer()
                                 }
                                 .frame(width: width * 0.63)
+                                
                             }
                             
                             SettingProfileDivider()
-                            
                                 .padding(.top, 4)
+                            
                         }
                         .padding(.horizontal, width * 0.05)
                         .padding(.top, 24)
@@ -276,10 +219,9 @@ struct SettingProfileView: View {
                 }
             }
         }
+        .onAppear {
+            viewModel.fetchUserProfile()
+        }
         .navigationBarBackButtonHidden(true)
     }
-}
-
-#Preview {
-    SettingProfileView()
 }

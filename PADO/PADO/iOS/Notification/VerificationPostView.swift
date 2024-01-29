@@ -18,7 +18,7 @@ struct VerificationPostView: View {
         NavigationStack {
             VStack {
                 ZStack {
-                    Color("mainBackgroundColor").ignoresSafeArea()
+                    Color.black.ignoresSafeArea()
                     
                     // MARK: - 서핑뷰, 탑셀
                     VStack(alignment: .leading) {
@@ -28,7 +28,7 @@ struct VerificationPostView: View {
                                 Button {
                                     
                                 } label: {
-                                    Image(systemName: "arrow.backward")
+                                    Image("dismissArrow")
                                         .foregroundStyle(.white)
                                         .font(.system(size: 20))
                                 }
@@ -83,7 +83,7 @@ struct VerificationPostView: View {
                         
                         HStack(spacing: 20) {
                             Button {
-                                //TODO:
+                                // TODO:
                             } label: {
                                 GrayButtonView(text: "거절하기", grayButtonX: 0.3)
                             }

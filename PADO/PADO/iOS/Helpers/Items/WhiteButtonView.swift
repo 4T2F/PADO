@@ -27,9 +27,8 @@ struct WhiteButtonView: View {
                 
                 Spacer()
                 
-                Image(systemName: "arrow.right")
-                    .foregroundStyle(.black)
-                    .font(.system(size: 14))
+                Image("Arrow_right_dark")
+                    .font(.system(size: 16))
                     .fontWeight(.medium)
             }
             .padding(.horizontal, UIScreen.main.bounds.width * 0.1)

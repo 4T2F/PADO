@@ -22,8 +22,7 @@ struct PostButtonView: View {
                     .fontWeight(.medium)
                     .padding(.trailing, 90)
                 
-                Image(systemName: "arrow.right")
-                    .foregroundStyle(.white)
+                Image("Arrow_right_light")
                     .font(.system(size: 16))
                     .fontWeight(.medium)
             }
@@ -31,7 +30,3 @@ struct PostButtonView: View {
         }
     }
 }
-
-//#Preview {
-//    PostButtonView()
-//}

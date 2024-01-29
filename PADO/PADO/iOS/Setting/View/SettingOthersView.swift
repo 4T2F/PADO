@@ -14,7 +14,7 @@ struct SettingOthersView: View {
     var body: some View {
         VStack {
             ZStack {
-                Color("mainBackgroundColor").ignoresSafeArea()
+                Color.black.ignoresSafeArea()
                 
                 VStack {
                     ZStack {
@@ -27,7 +27,7 @@ struct SettingOthersView: View {
                             Button {
                                 dismiss()
                             } label: {
-                                Image(systemName: "arrow.backward")
+                                Image("dismissArrow")
                                     .font(.system(size: 20))
                             }
                             

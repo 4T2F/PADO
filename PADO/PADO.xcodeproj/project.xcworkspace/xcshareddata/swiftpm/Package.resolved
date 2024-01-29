@@ -19,15 +19,6 @@
       }
     },
     {
-      "identity" : "countrypicker",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/mobven/CountryPicker.git",
-      "state" : {
-        "revision" : "6225c2933fea6abdb8171718b22bbe289706a7aa",
-        "version" : "2.0.3"
-      }
-    },
-    {
       "identity" : "firebase-ios-sdk",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/firebase-ios-sdk",
@@ -106,6 +97,15 @@
       "state" : {
         "revision" : "9d108e9112aa1d65ce508facf804674546116d9c",
         "version" : "1.22.3"
+      }
+    },
+    {
+      "identity" : "lottie-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/airbnb/lottie-ios",
+      "state" : {
+        "revision" : "f522990668c2f9132323a2e68d924c7dcb9130b4",
+        "version" : "4.4.0"
       }
     },
     {

@@ -20,7 +20,7 @@ struct SettingAskView: View {
     var body: some View {
         VStack {
             ZStack {
-                Color("mainBackgroundColor").ignoresSafeArea()
+                Color.black.ignoresSafeArea()
                 
                 // MARK: - 문의하기뷰, 탑셀
                 VStack {
@@ -34,7 +34,7 @@ struct SettingAskView: View {
                             Button {
                                 dismiss()
                             } label: {
-                                Image(systemName: "arrow.backward")
+                                Image("dismissArrow")
                                     .font(.system(size: 20))
                                     .foregroundStyle(.grayButton)
                             }
@@ -76,7 +76,9 @@ struct SettingAskView: View {
                         Rectangle()
                             .frame(width: width * 0.9, height: 120)
                             .foregroundStyle(Color("mainBackgroundColor"))
-                            .modifier(RoundedEdge(width: 1.5, color: .gray, cornerRadius: 10))
+                            .modifier(RoundedEdge(width: 1.5,
+                                                  color: .gray,
+                                                  cornerRadius: 10))
                         VStack {
                             HStack {
                                 Text("파일첨부\(filenum)/3")
@@ -122,7 +124,7 @@ struct SettingAskView: View {
                                 RoundedRectangle(cornerRadius: 10)
                                     .frame(width: width * 0.9, height: 46)
                                     .foregroundStyle(Color("grayButtonColor"))
-                                    
+                                
                                 HStack {
                                     Text("보내기")
                                         .foregroundStyle(.white)
