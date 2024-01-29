@@ -241,6 +241,14 @@ class AuthenticationViewModel: ObservableObject {
             print("Error removing posts from storage: \(error.localizedDescription)")
         }
         
+        userID = ""
+        nameID = ""
+        year = ""
+        phoneNumber = ""
+        otpText = ""
+        verificationCode = ""
+        instaAddress = ""
+        tiktokAddress = ""
         showAlert = false
         isExisted = false
         currentUser = nil

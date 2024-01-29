@@ -54,10 +54,7 @@ struct SettingOthersView: View {
                     }
                     
                     Button {
-                        Task {
-                            showingDeleteModal.toggle()
-                            await viewModel.deleteAccount()
-                        }
+                        showingDeleteModal.toggle()
                     } label: {
                         VStack {
                             SettingRedCell(icon: "multiply.square", text: "계정 탈퇴")
