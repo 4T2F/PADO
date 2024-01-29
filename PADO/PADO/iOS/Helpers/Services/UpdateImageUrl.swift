@@ -107,19 +107,18 @@ class UpdateImageUrl {
     
     // 전달받은 imageUrl의 값을 파이어스토어 모델에 올리고 뷰모델에 넣어줌
     func updateImageToStore(withImageUrl imageUrl: String, storageTypeInput: StorageTypeInput) async throws -> String {
-        guard let currentUid = Auth.auth().currentUser?.uid else { throw ImageLoadError.dataLoadFailed }
         
         switch storageTypeInput {
             
         case .user:
-            try await Firestore.firestore().collection("users").document(currentUid).updateData([
+            try await Firestore.firestore().collection("users").document(userNameID).updateData([
                 "profileImageUrl": imageUrl
             ])
             return imageUrl
         case .post:
             return imageUrl
         case .facemoji:
-            try await Firestore.firestore().collection("facemoji").document(currentUid).updateData([
+            try await Firestore.firestore().collection("facemoji").document(userNameID).updateData([
                 "faceMojiImageUrl": imageUrl
             ])
             return imageUrl

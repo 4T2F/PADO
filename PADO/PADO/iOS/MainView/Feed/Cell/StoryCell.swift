@@ -12,7 +12,7 @@ struct StoryCell: View {
     
     var story: Story
     var storyIndex: Int
-    @State var profileId: String = ""
+
     @State var imageProfileUrl: String = ""
     @ObservedObject var vm: FeedViewModel
 
@@ -24,24 +24,23 @@ struct StoryCell: View {
                 .resizable()
                 .frame(width: 70, height: 70)
                 .cornerRadius(70)
-            Text(profileId)
+            Text(story.name)
                 .font(.system(size: 12))
                 .foregroundStyle(.white)
         }
         .onAppear {
             Task {
-                let userData = await vm.setupProfileImageURL(id: story.name)
-                profileId = userData[0]
-                imageProfileUrl = userData[1]
+                imageProfileUrl = await vm.setupProfileImageURL(id: story.name)
+                
                 if storyIndex == 0 {
-                    vm.feedProfileID = profileId
+                    vm.feedProfileID = story.name
                     vm.feedProfileImageUrl = imageProfileUrl
                 }
             }
         }
         .onTapGesture {
             onTap()  // 텍스트를 탭했을 때 클로저 호출
-            vm.feedProfileID = profileId
+            vm.feedProfileID = story.name
             vm.feedProfileImageUrl = imageProfileUrl
         }
     }

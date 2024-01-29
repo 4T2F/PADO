@@ -16,9 +16,8 @@ class UpdateUserData {
     let db = Firestore.firestore()
     
     func updateUserData(initialUserData: [String: Any]) async throws {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
                 
-        let updatedb = db.collection("users").document(uid)
+        let updatedb = db.collection("users").document(userNameID)
         
         do {
             try await updatedb.updateData(initialUserData)
