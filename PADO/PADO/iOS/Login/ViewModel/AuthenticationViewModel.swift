@@ -95,6 +95,7 @@ class AuthenticationViewModel: ObservableObject {
     
     private func signInWithCredential() async throws -> AuthDataResult {
         let credential = PhoneAuthProvider.provider().credential(withVerificationID: verificationCode, verificationCode: otpText)
+        print(credential)
         return try await Auth.auth().signIn(with: credential)
     }
     
@@ -178,7 +179,6 @@ class AuthenticationViewModel: ObservableObject {
     // MARK: - 사용자 데이터 관리
     func initializeUser() async {
         // 사용자 초기화
-
         guard Auth.auth().currentUser?.uid != nil else { return }
         await fetchUser()
     }
@@ -186,6 +186,7 @@ class AuthenticationViewModel: ObservableObject {
     func signOut() {
         do {
             try Auth.auth().signOut()
+         
             nameID = ""
             userNameID = ""
             year = ""
@@ -198,6 +199,9 @@ class AuthenticationViewModel: ObservableObject {
             isExisted = false
             currentUser = nil
             
+            print("dd")
+            print(String(describing: Auth.auth().currentUser?.uid))
+            print("dd")
             print(String(describing: currentUser))
         } catch {
             print("로그아웃 오류: \(error.localizedDescription)")
@@ -217,30 +221,30 @@ class AuthenticationViewModel: ObservableObject {
         }
         
         // Firestore의 `post` 컬렉션에서 사용자의 게시물 삭제
-//        let postQuery = db.collection("post").whereField("ownerUid", isEqualTo: userID)
-//        
-//        do {
-//            let querySnapshot = try await postQuery.getDocuments()
-//            for document in querySnapshot.documents {
-//                try await document.reference.delete()
-//            }
-//        } catch {
-//            print("Error removing posts: \(error.localizedDescription)")
-//        }
-//        
-//        // Firebase Storage에서 사용자의 'post/' 경로에 있는 모든 이미지 삭제
-//        let userPostsRef = storageRef.child("post/\(userID)")
-//        do {
-//            let listResult = try await userPostsRef.listAll()
-//            for item in listResult.items {
-//                // 각 항목 삭제
-//                try await item.delete()
-//            }
-//        } catch {
-//            print("Error removing posts from storage: \(error.localizedDescription)")
-//        }
-//        
-//        userID = ""
+        let postQuery = db.collection("post").whereField("ownerUid", isEqualTo: nameID)
+        
+        do {
+            let querySnapshot = try await postQuery.getDocuments()
+            for document in querySnapshot.documents {
+                try await document.reference.delete()
+            }
+        } catch {
+            print("Error removing posts: \(error.localizedDescription)")
+        }
+        
+        // Firebase Storage에서 사용자의 'post/' 경로에 있는 모든 이미지 삭제
+        let userPostsRef = storageRef.child("post/\(nameID)")
+        do {
+            let listResult = try await userPostsRef.listAll()
+            for item in listResult.items {
+                // 각 항목 삭제
+                try await item.delete()
+            }
+        } catch {
+            print("Error removing posts from storage: \(error.localizedDescription)")
+        }
+        
+        userNameID = ""
         nameID = ""
         year = ""
         phoneNumber = ""
@@ -264,6 +268,7 @@ class AuthenticationViewModel: ObservableObject {
             let querySnapshot = try await query.getDocuments()
             for document in querySnapshot.documents {
                 self.nameID = document.documentID
+                userNameID = self.nameID
             }
             
         } catch {
