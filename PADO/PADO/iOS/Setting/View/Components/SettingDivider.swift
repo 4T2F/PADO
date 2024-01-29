@@ -17,9 +17,9 @@ struct SettingProfileDivider: View {
 
 struct SettingDivider: View {
     var body: some View {
-        RoundedRectangle(cornerRadius: 5)
-            .frame(width: UIScreen.main.bounds.width * 0.93, height: 0.5)
-            .foregroundStyle(Color(UIColor.systemGray3))
+        Divider()
+            .frame(width: UIScreen.main.bounds.width * 0.93)
+            .background(Color(UIColor.systemGray3))
             .padding(.horizontal)
             .padding(.vertical)
     }
