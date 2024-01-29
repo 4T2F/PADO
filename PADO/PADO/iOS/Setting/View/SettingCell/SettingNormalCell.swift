@@ -14,8 +14,9 @@ struct SettingNormalCell: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 10)
+                .fill(Color.gray.opacity(0.1))
                 .frame(height: 45)
-                .opacity(0.04)
+                
             
             HStack {
                 Image(systemName: icon)
