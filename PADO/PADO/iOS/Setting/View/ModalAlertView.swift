@@ -56,7 +56,26 @@ struct ModalAlertView: View {
                 Divider()
                 
                 Button {
-                    
+                    switch removeMessage {
+                    case .cash:
+                        let fileManager = FileManager.default
+                        if let cacheDirectory = fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first {
+                            do {
+                                let files = try fileManager.contentsOfDirectory(at: cacheDirectory, includingPropertiesForKeys: nil)
+                                for file in files {
+                                    try fileManager.removeItem(at: file)
+                                }
+                                print("캐시가 성공적으로 지워졌습니다.")
+                            } catch {
+                                print("캐시를 지우는데 실패했습니다: \(error)")
+                            }
+                        }
+                        dismiss()
+                    case .account:
+                        dismiss()
+                    case .follower:
+                        dismiss()
+                    }
                 } label: {
                     Text(removeMessage.rawValue)
                         .font(.system(size: 14))
