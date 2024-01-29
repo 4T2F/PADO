@@ -49,32 +49,14 @@ struct SettingView: View {
                     .padding(.bottom, 30)
                 
                 NavigationLink(destination: SettingNotificationView()) {
-                    HStack {
-                        Text("알림")
-                            .font(.system(size: 18, weight: .semibold))
-                            .foregroundStyle(.gray)
-                        Spacer()
-                        Image(systemName: "chevron.right")
-                            .foregroundStyle(.white)
-                            .bold()
-                    }
-                    .padding(.horizontal)
+                    SettingViewCell(settingTittle: "알림")
                 }
                     
                 
                 SettingDivider()
                 
                 NavigationLink(destination: SettingOthersView()) {
-                    HStack {
-                        Text("다른 설정들")
-                            .font(.system(size: 18, weight: .semibold))
-                            .foregroundStyle(.gray)
-                        Spacer()
-                        Image(systemName: "chevron.right")
-                            .foregroundStyle(.white)
-                            .bold()
-                    }
-                    .padding(.horizontal)
+                    SettingViewCell(settingTittle: "다른 설정들")
                 }
                 
                 
@@ -87,44 +69,18 @@ struct SettingView: View {
                     .padding(.leading)
                     .padding(.bottom, 30)
                 
-                HStack {
-                    Text("PADO 평가하기")
-                        .font(.system(size: 18, weight: .semibold))
-                        .foregroundStyle(.gray)
-                    Spacer()
-                    Image(systemName: "chevron.right")
-                        .bold()
-                }
-                .padding(.horizontal)
+                SettingViewCell(settingTittle: "PADO 평가하기")
                 
                 SettingDivider()
                 
                 NavigationLink(destination: SettingAskView()) {
-                    HStack {
-                        Text("문의하기")
-                            .font(.system(size: 18, weight: .semibold))
-                            .foregroundStyle(.gray)
-                        Spacer()
-                        Image(systemName: "chevron.right")
-                            .foregroundStyle(.white)
-                            .bold()
-                    }
-                    .padding(.horizontal)
+                    SettingViewCell(settingTittle: "문의하기")
                 }
                 
                 SettingDivider()
                 
                 NavigationLink(destination: SettingInfoView()) {
-                    HStack {
-                        Text("정보")
-                            .font(.system(size: 18, weight: .semibold))
-                            .foregroundStyle(.gray)
-                        Spacer()
-                        Image(systemName: "chevron.right")
-                            .foregroundStyle(.white)
-                            .bold()
-                    }
-                    .padding(.horizontal)
+                    SettingViewCell(settingTittle: "정보")
                 }
                 
                 SettingDivider()
@@ -155,3 +111,6 @@ struct SettingView: View {
         
     }
 }
+
+
+
