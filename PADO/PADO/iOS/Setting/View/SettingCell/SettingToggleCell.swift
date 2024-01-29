@@ -17,8 +17,9 @@ struct SettingToggleCell: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 10)
-                .frame(height: 50)
-                .opacity(0.04)
+                .fill(Color.gray.opacity(0.1))
+                .frame(height: 45)
+                
             
             HStack {
                 Image(systemName: icon)

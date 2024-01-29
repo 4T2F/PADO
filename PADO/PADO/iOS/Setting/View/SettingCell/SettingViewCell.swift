@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct SettingViewCell: View {
-    @State var settingTittle: String
+    var settingTittle: String
     
     var body: some View {
         HStack {
             Text("\(settingTittle)")
-                .font(.system(size: 16, weight: .semibold))
+                .font(.system(size: 16, weight: .medium))
                 .foregroundStyle(.gray)
             Spacer()
             Image(systemName: "chevron.right")
