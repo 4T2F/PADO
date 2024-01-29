@@ -5,6 +5,8 @@
 //  Created by 강치우 on 1/20/24.
 //
 
+import Firebase
+import FirebaseFirestoreSwift
 import Kingfisher
 import SwiftUI
 
@@ -33,15 +35,21 @@ struct StoryCell: View {
                 imageProfileUrl = await vm.setupProfileImageURL(id: story.name)
                 
                 if storyIndex == 0 {
-                    vm.feedProfileID = story.name
-                    vm.feedProfileImageUrl = imageProfileUrl
+                    setFeedData()
                 }
             }
         }
         .onTapGesture {
             onTap()  // 텍스트를 탭했을 때 클로저 호출
-            vm.feedProfileID = story.name
-            vm.feedProfileImageUrl = imageProfileUrl
+            setFeedData()
         }
+    }
+    
+    func setFeedData() {
+        vm.feedProfileID = story.name
+        vm.feedProfileImageUrl = imageProfileUrl
+        vm.selectedFeedTitle = story.title
+        vm.selectedFeedTime = TimestampDateFormatter.formatDate(story.postTime)
+        vm.selectedFeedHearts = story.hearts
     }
 }

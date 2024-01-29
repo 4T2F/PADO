@@ -23,6 +23,9 @@ class FeedViewModel: ObservableObject {
     
     @Published var feedProfileImageUrl: String = ""
     @Published var feedProfileID: String = ""
+    @Published var selectedFeedTitle: String = ""
+    @Published var selectedFeedTime: String = ""
+    @Published var selectedFeedHearts: Int = 0
     
     private var db = Firestore.firestore()
     private var listener: ListenerRegistration?
@@ -76,7 +79,7 @@ class FeedViewModel: ObservableObject {
     // Firestore의 데이터를 기반으로 스토리 데이터 업데이트
     private func updateStories() {
         self.stories = self.post.map { post in
-            Story(name: post.ownerUid, image: post.imageUrl)
+            Story(name: post.ownerUid, image: post.imageUrl, title: post.title, postTime: post.created_Time, hearts: post.hearts)
         }
     }
     
@@ -171,4 +174,5 @@ class FeedViewModel: ObservableObject {
             }
         }
     }
+
 }

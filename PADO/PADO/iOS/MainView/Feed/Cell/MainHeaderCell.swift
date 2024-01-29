@@ -31,7 +31,7 @@ struct MainHeaderCell: View {
                     .font(.system(size: 14))
                     .fontWeight(.semibold)
                 
-                Text("2시간 전")
+                Text(vm.selectedFeedTime)
                     .font(.system(size: 12))
             }
             
@@ -48,7 +48,7 @@ struct MainHeaderCell: View {
         
         VStack(alignment: .leading) {
             HStack {
-                Text("오늘 니 쫌 잘나온날 ^^..")
+                Text(vm.selectedFeedTitle)
                     .font(.system(size: 16))
                     .fontWeight(.medium)
                 
