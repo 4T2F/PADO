@@ -12,16 +12,18 @@ import SwiftUI
 class CameraCoordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     @Binding var isShown: Bool
     @Binding var myimage: Image
+    @Binding var myUIImage: UIImage
     
-    init(isShown: Binding<Bool>, myimage: Binding<Image>) {
+    init(isShown: Binding<Bool>, myimage: Binding<Image>, myUIImage: Binding<UIImage>) {
         _isShown = isShown
         _myimage = myimage
+        _myUIImage = myUIImage
     }
     
     // 이미지 선택이 완료되었을때 호출
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            print(image)
+            myUIImage = image
             myimage = Image.init(uiImage: image)
         }
         isShown = false

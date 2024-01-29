@@ -58,6 +58,7 @@ struct SurfingView: View {
                     if viewModel.cameraImage != Image(systemName: "photo") {
                         Button {
                             viewModel.postingImage = viewModel.cameraImage
+                            viewModel.postingUIImage = viewModel.cameraUIImage
                             viewModel.showPostView.toggle()
                         } label: {
                             Text("다음")
@@ -66,6 +67,7 @@ struct SurfingView: View {
                     } else if viewModel.selectedUIImage != Image(systemName: "photo") {
                         Button {
                             viewModel.postingImage = viewModel.selectedUIImage
+                            viewModel.postingUIImage = viewModel.selectedImage!
                             viewModel.showPostView.toggle()
                         } label: {
                             Text("다음")
@@ -89,7 +91,7 @@ struct SurfingView: View {
                 Alert(title: Text("권한 필요"), message: Text("사진 라이브러리 접근 권한이 필요합니다."), dismissButton: .default(Text("확인")))
             }
             .sheet(isPresented: $viewModel.isShownCamera) {
-                CameraAccessView(isShown: $viewModel.isShownCamera, myimage: $viewModel.cameraImage, mysourceType: $viewModel.sourceType)
+                CameraAccessView(isShown: $viewModel.isShownCamera, myimage: $viewModel.cameraImage, myUIImage: $viewModel.cameraUIImage, mysourceType: $viewModel.sourceType)
             }
         }
         .navigationDestination(isPresented: $viewModel.showPostView) {
