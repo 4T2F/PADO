@@ -14,6 +14,8 @@ struct HeartCommentCell: View {
     @Binding var isShowingReportView: Bool
     @Binding var isShowingCommentView: Bool
     
+    @ObservedObject var vm: FeedViewModel
+    
     var body: some View {
         VStack(spacing: 16) {
             VStack {
@@ -29,7 +31,7 @@ struct HeartCommentCell: View {
                     }
                 }
                 // 하트 눌렀을 때 +1 카운팅 되게 하는 로직 추가
-                Text("2032")
+                Text("\(vm.selectedFeedHearts)")
                     .font(.system(size: 12))
                     .fontWeight(.semibold)
                     .shadow(radius: 1, y: 1)
@@ -77,6 +79,3 @@ struct HeartCommentCell: View {
     }
 }
 
-#Preview {
-    HeartCommentCell(isShowingReportView: .constant(false), isShowingCommentView: .constant(false))
-}
