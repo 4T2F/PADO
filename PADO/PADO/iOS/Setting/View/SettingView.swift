@@ -10,8 +10,11 @@ struct SettingView: View {
     @State var width = UIScreen.main.bounds.width
     @State private var showingSignOutModal: Bool = false
     @Environment (\.dismiss) var dismiss
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+//    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @StateObject var viewModel = SurfingViewModel()
+    
     @Binding var isShowingSetting: Bool
+    
     
     var name: String = "PADO"
     var nickName: String = "pado"
@@ -70,7 +73,7 @@ struct SettingView: View {
                 
                 SettingDivider()
                 
-                NavigationLink(destination: SettingAskView()) {
+                NavigationLink(destination: SettingAskView().environmentObject(viewModel))  {
                     SettingViewCell(settingTittle: "문의하기")
                 }
                 
@@ -119,7 +122,6 @@ struct SettingView: View {
                        
         }
         .navigationBarBackButtonHidden(true)
-        
     }
 }
 
