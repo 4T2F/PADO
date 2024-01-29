@@ -48,13 +48,22 @@ class UpdateImageUrl {
     // ImageUploader를 통해 Storage에 이미지를 올리고 imageurl을 매개변수로 updateUserProfileImage에 넣어줌
     func updateProfileImage(uiImage: UIImage?, storageTypeInput: StorageTypeInput) async throws -> String {
         guard let image = uiImage else { throw ImageLoadError.imageCreationFailed }
-        guard let imageUrl = try? await uploadImage(image: image, storageTypeInput: storageTypeInput) else { throw ImageLoadError.imageCreationFailed }
-        let returnString = try await updateUserProfileImage(withImageUrl: imageUrl, storageTypeInput: storageTypeInput)
-        return returnString
+        
+        switch storageTypeInput {
+            
+        case .user, .facemoji:
+            guard let imageUrl = try? await uploadImageToStorage(image: image, storageTypeInput: storageTypeInput) else { throw ImageLoadError.imageCreationFailed }
+            let returnString = try await updateImageToStore(withImageUrl: imageUrl, storageTypeInput: storageTypeInput)
+            return returnString
+            
+        case .post:
+            guard let imageUrl = try? await uploadImageToStorage(image: image, storageTypeInput: storageTypeInput) else { throw ImageLoadError.imageCreationFailed }
+            return imageUrl
+        }
     }
     
     // 파이어베이스 스토리지에 이미지를 업로드하는 메서드
-    func uploadImage(image: UIImage, storageTypeInput: StorageTypeInput) async throws -> String? {
+    func uploadImageToStorage(image: UIImage, storageTypeInput: StorageTypeInput) async throws -> String? {
         guard let currentUid = Auth.auth().currentUser?.uid else { return nil }
         guard let imageData = image.jpegData(compressionQuality: 0.25) else { return nil }
         let filename = currentUid
@@ -97,7 +106,7 @@ class UpdateImageUrl {
     }
     
     // 전달받은 imageUrl의 값을 파이어스토어 모델에 올리고 뷰모델에 넣어줌
-    func updateUserProfileImage(withImageUrl imageUrl: String, storageTypeInput: StorageTypeInput) async throws -> String {
+    func updateImageToStore(withImageUrl imageUrl: String, storageTypeInput: StorageTypeInput) async throws -> String {
         guard let currentUid = Auth.auth().currentUser?.uid else { throw ImageLoadError.dataLoadFailed }
         
         switch storageTypeInput {
@@ -108,9 +117,6 @@ class UpdateImageUrl {
             ])
             return imageUrl
         case .post:
-            try await Firestore.firestore().collection("post").document(currentUid).updateData([
-                "postImageUrl": imageUrl
-            ])
             return imageUrl
         case .facemoji:
             try await Firestore.firestore().collection("facemoji").document(currentUid).updateData([

@@ -21,8 +21,10 @@ class SurfingViewModel: ObservableObject, Searchable  {
     @Published var showPostView: Bool = false
     @Published var isShownCamera: Bool = false
     @Published var sourceType: UIImagePickerController.SourceType = .camera
+    @Published var cameraUIImage: UIImage = UIImage()
     @Published var cameraImage: Image = Image(systemName: "photo")
     
+    @Published var postingUIImage: UIImage = UIImage()
     @Published var postingImage: Image = Image(systemName: "photo")
     @Published var postingTitle: String = ""
     
@@ -89,18 +91,18 @@ class SurfingViewModel: ObservableObject, Searchable  {
     
     
     // MARK: - 게시글 요청
-    func postRequest() async {
+    func postRequest(imageURL: String) async {
         // 게시 요청 관련 로직 추가
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
         let initialPostData : [String: Any] = [
             "ownerUid": uid,
-            "imageUrl": "imageUrl",
+            "imageUrl": imageURL,
             "title": postingTitle,
             "hearts": 0,
-            "created_Time": Timestamp.self
+            "created_Time": Timestamp()
        ]
-        await createPostData(titleName: "imageUrl", data: initialPostData)
+        await createPostData(titleName: uid, data: initialPostData)
     }
     
     func createPostData(titleName: String, data: [String: Any]) async {
