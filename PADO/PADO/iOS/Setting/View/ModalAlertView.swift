@@ -34,6 +34,7 @@ struct ModalAlertView: View {
     let subTitle: ModalAlertSubTitle
     let removeMessage: ModalAlertRemove
     
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -72,6 +73,9 @@ struct ModalAlertView: View {
                         }
                         dismiss()
                     case .account:
+                        Task {
+                            await viewModel.deleteAccount()
+                        }
                         dismiss()
                     case .follower:
                         dismiss()
