@@ -38,9 +38,13 @@ struct FollowingCellView: View {
             
             Spacer()
             
-            BlueButtonView(cellUserId: cellUserId, buttonActive: $buttonActive, activeText: "팔로우", unActiveText: "팔로잉", widthValue: 80, heightValue: 30)
+            BlueButtonView(cellUserId: cellUserId,
+                           activeText: "팔로우",
+                           unActiveText: "팔로잉",
+                           widthValue: 80, 
+                           heightValue: 30)
                 .padding(.horizontal)
-            
+
         } //: HSTACK
         .onAppear {
             Task {

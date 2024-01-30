@@ -10,7 +10,7 @@ import SwiftUI
 struct BlueButtonView: View {
     
     let cellUserId: String
-    @Binding var buttonActive: Bool
+    @State var buttonActive: Bool = false
     let activeText: String
     let unActiveText: String
     let widthValue: CGFloat
@@ -50,6 +50,11 @@ struct BlueButtonView: View {
                     
                 }
                 .padding(.horizontal)
+            }
+        }
+        .onAppear {
+            Task {
+                self.buttonActive = await updateFollowData.checkFollowStatus(id: cellUserId)
             }
         }
   

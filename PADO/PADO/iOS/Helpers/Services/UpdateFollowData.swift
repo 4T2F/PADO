@@ -49,4 +49,18 @@ class UpdateFollowData {
             print("Error removing document: \(error.localizedDescription)")
         }
     }
+    
+    func checkFollowStatus(id: String) async -> Bool {
+        // ID 중복 확인
+        let db = Firestore.firestore()
+        let query = db.collection("users").document(userNameID).collection("following").whereField("followingID", isEqualTo: id)
+        
+        do {
+            let querySnapshot = try await query.getDocuments()
+            return querySnapshot.documents.isEmpty
+        } catch {
+            print("Error checking for duplicate ID: \(error)")
+            return true
+        }
+    }
 }
