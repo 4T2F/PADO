@@ -10,7 +10,7 @@ import SwiftUI
 struct FollowView: View {
     // MARK: - PROPERTY
     @State var width = UIScreen.main.bounds.width
-    @State var menu = "follower"
+    @State var menu: String
     
     @ObservedObject var followVM: FollowViewModel
     
