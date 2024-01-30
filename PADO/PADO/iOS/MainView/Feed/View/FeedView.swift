@@ -140,8 +140,6 @@ struct FeedView: View {
             }
             .gesture(DragGesture().onEnded(feedVM.toggleHeaderVisibility))
         }
-        .onAppear {
-            feedVM.fetchPosts()
-        }
+
     }
 }

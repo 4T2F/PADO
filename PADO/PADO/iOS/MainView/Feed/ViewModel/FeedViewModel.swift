@@ -18,16 +18,15 @@ class FeedViewModel: ObservableObject {
     
     @Published var selectedStoryImage: String? = nil
     @Published var selectedPostImageUrl: String = ""
-    @Published var post: [Post] = []
+    @Published var followingPosts: [Post] = []
     @Published var stories: [Story] = []
+    @Published var followingUsers: [String] = []
     
     @Published var feedProfileImageUrl: String = ""
     @Published var feedProfileID: String = ""
     @Published var selectedFeedTitle: String = ""
     @Published var selectedFeedTime: String = ""
     @Published var selectedFeedHearts: Int = 0
-    
-    @Published var documentID: String = ""
     
     private var db = Firestore.firestore()
     private var listener: ListenerRegistration?
@@ -37,27 +36,64 @@ class FeedViewModel: ObservableObject {
     
     init() {
         // Firestore의 `post` 컬렉션에 대한 실시간 리스너 설정
-        setupPostsListener()
+        findFollowingUsers()
     }
     
-    // Firestore의 `post` 컬렉션에 대한 실시간 리스너 설정
-    private func setupPostsListener() {
-        listener = db.collection("post").addSnapshotListener { [weak self] (querySnapshot, error) in
+    private func findFollowingUsers() {
+        listener = db.collection("users").document(userNameID).collection("following").addSnapshotListener { [weak self] (querySnapshot, error) in
             guard let self = self, let documents = querySnapshot?.documents else {
-                print("Error listening to changes in 'post' collection: \(error?.localizedDescription ?? "Unknown error")")
+                print("Error fetching following users: \(error?.localizedDescription ?? "Unknown error")")
                 return
             }
             
-            self.post = documents.compactMap { document in
-                try? document.data(as: Post.self)
-            }
+            self.followingUsers = documents.compactMap { $0.data()["followingID"] as? String }
             
-            // 새로운 스토리 데이터 생성
-            self.updateStories()
-            self.selectFirstStory()
+            Task {
+                await self.fetchFollowingPosts()
+            }
         }
     }
     
+    // Asynchronous wrapper for Firestore getDocuments
+    @MainActor
+    func getDocumentsAsync(collection: CollectionReference, query: Query) async throws -> [QueryDocumentSnapshot] {
+        try await withCheckedThrowingContinuation { continuation in
+            query.getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    continuation.resume(throwing: error)
+                } else if let querySnapshot = querySnapshot {
+                    continuation.resume(returning: querySnapshot.documents)
+                } else {
+                    continuation.resume(throwing: NSError(domain: "DataError", code: 0, userInfo: nil))
+                }
+            }
+        }
+    }
+
+    // Get posts from following users asynchronously
+    @MainActor
+    private func fetchFollowingPosts() async {
+        followingPosts.removeAll()
+
+        for userID in followingUsers {
+            let query = db.collection("post").whereField("ownerUid", isEqualTo: userID)
+            do {
+                let documents = try await getDocumentsAsync(collection: db.collection("post"), query: query)
+                let posts = documents.compactMap { document in
+                    try? document.data(as: Post.self)
+                }
+                self.followingPosts.append(contentsOf: posts)
+            } catch {
+                print("Error fetching posts: \(error.localizedDescription)")
+            }
+        }
+        
+        // Create new story data
+        self.updateStories()
+        await self.selectFirstStory()
+    }
+
+    @MainActor
     func setupProfileImageURL(id: String) async -> String {
         do {
             let querySnapshot = try await Firestore.firestore().collection("users").document(id).getDocument()
@@ -68,7 +104,7 @@ class FeedViewModel: ObservableObject {
             }
             
             guard let profileImage = user.profileImageUrl else { return "" }
-    
+            
             return profileImage
             
         } catch {
@@ -80,39 +116,30 @@ class FeedViewModel: ObservableObject {
     
     // Firestore의 데이터를 기반으로 스토리 데이터 업데이트
     private func updateStories() {
-        self.stories = self.post.map { post in
+        self.stories = self.followingPosts.map { post in
             Story(postID: post.id ?? "error", name: post.ownerUid, image: post.imageUrl, title: post.title, postTime: post.created_Time, hearts: post.hearts)
         }
     }
     
     // 첫 번째 스토리를 선택하는 함수
-    private func selectFirstStory() {
+    @MainActor
+    private func selectFirstStory() async {
         // storyData 배열의 첫 번째 스토리를 가져옴
         if let firstStory = self.stories.first {
             // 해당 스토리를 선택
+            feedProfileID = firstStory.name
+            
+            selectedFeedTitle = firstStory.title
+            selectedFeedTime = TimestampDateFormatter.formatDate(firstStory.postTime)
+            selectedFeedHearts = firstStory.hearts
             selectStory(firstStory)
+ 
+            let profileUrl = await setupProfileImageURL(id: firstStory.name)
+     
+            feedProfileImageUrl = profileUrl
         }
     }
     
-    // Firestore에서 게시물을 불러오는 함수, 완료 시 콜백
-    func fetchPosts(completion: @escaping () -> Void = {}) {
-        db.collection("post").getDocuments { [weak self] (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-                completion()
-                return
-            }
-            
-            // 불러온 게시물을 post 배열에 할당
-            self?.post = querySnapshot!.documents.compactMap { document in
-                try? document.data(as: Post.self)
-            }
-            
-            print("Fetched posts: \(self?.post ?? [])")
-            // 콜백 함수 호출
-            completion()
-        }
-    }
     
     // 스토리 셀이 탭되었을 때 이를 업데이트하는 함수
     func selectPost(_ post: Post) {
@@ -122,7 +149,7 @@ class FeedViewModel: ObservableObject {
     // 스토리 선택 핸들러
     func selectStory(_ story: Story) {
         // 스토리의 이름과 게시물의 소유자 UID가 같은 경우 해당 게시물의 이미지 URL을 선택
-        if let matchingPost = post.first(where: { $0.ownerUid == story.name }) {
+        if let matchingPost = followingPosts.first(where: { $0.ownerUid == story.name }) {
             selectedPostImageUrl = matchingPost.imageUrl
             print("Selected post image URL: \(selectedPostImageUrl)")
             
@@ -176,5 +203,5 @@ class FeedViewModel: ObservableObject {
             }
         }
     }
-
+    
 }

@@ -34,10 +34,7 @@ struct StoryCell: View {
         .onAppear {
             Task {
                 imageProfileUrl = await feedVM.setupProfileImageURL(id: story.name)
-                
-                if storyIndex == 0 {
-                    setFeedData()
-                }
+
             }
         }
         .onTapGesture {
