@@ -86,7 +86,4 @@ class FollowViewModel: ObservableObject, Searchable {
             }
         }
     }
-    
-   
-    
 }

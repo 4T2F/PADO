@@ -14,6 +14,8 @@ struct FollowingView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
     @ObservedObject var followVM: FollowViewModel
     
+    let updateFollowData = UpdateFollowData()
+    
     // MARK: - BODY
     var body: some View {
         let searchTextBinding = Binding {
@@ -53,7 +55,8 @@ struct FollowingView: View {
                     
                     ScrollView {
                         ForEach(followVM.followingIDs, id: \.self) { followingID in
-                            FollowingCellView(cellUserId: followingID)
+                            FollowingCellView(cellUserId: followingID,
+                                              updateFollowData: updateFollowData)
                                 .padding(.vertical)
                         }
                     } //: SCROLL
@@ -62,5 +65,8 @@ struct FollowingView: View {
             } //: VSTACK
             
         } //: ZSTACK
+        .onDisappear {
+           updateFollowData.fetchFollowStatusData()
+        }
     }
 }

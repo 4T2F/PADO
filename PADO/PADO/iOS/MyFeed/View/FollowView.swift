@@ -74,5 +74,12 @@ struct FollowView: View {
             }
         } //: VSTACK
         .navigationBarBackButtonHidden(true)
+//        .onAppear {
+//            let updateFollowData = UpdateFollowData()
+//            Task {
+//                await updateFollowData.followUser(id: "legendboy")
+//                await updateFollowData.followUser(id: "king")
+//            }
+//        }
     }
 }

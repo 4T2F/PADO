@@ -16,6 +16,8 @@ struct FollowingCellView: View {
     @State private var buttonActive: Bool = false
     
     let cellUserId: String
+
+    let updateFollowData: UpdateFollowData
     
     // MARK: - BODY
     var body: some View {
@@ -42,7 +44,8 @@ struct FollowingCellView: View {
                            activeText: "팔로우",
                            unActiveText: "팔로잉",
                            widthValue: 80, 
-                           heightValue: 30)
+                           heightValue: 30,
+                           updateFollowData: updateFollowData)
                 .padding(.horizontal)
 
         } //: HSTACK

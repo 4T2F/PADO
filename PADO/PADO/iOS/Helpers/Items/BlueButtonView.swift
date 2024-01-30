@@ -10,17 +10,17 @@ import SwiftUI
 struct BlueButtonView: View {
     
     let cellUserId: String
-    @State var buttonActive: Bool = false
+    @State var buttonActive: Bool = true
     let activeText: String
     let unActiveText: String
     let widthValue: CGFloat
     let heightValue: CGFloat
     
-    let updateFollowData = UpdateFollowData()
+    let updateFollowData: UpdateFollowData
     
     var body: some View {
         Button(action: {
-            if !buttonActive {
+            if buttonActive {
                 Task {
                     await updateFollowData.unfollowUser(id: cellUserId)
                 }
@@ -34,20 +34,19 @@ struct BlueButtonView: View {
             ZStack {
                 RoundedRectangle(cornerRadius: 10)
                     .frame(width: widthValue, height: heightValue)
-                    .foregroundStyle(buttonActive ?  .blueButton : .grayButton )
+                    .foregroundStyle(buttonActive ? .grayButton : .blueButton)
                 
                 HStack {
                     buttonActive ?
-                    Text(activeText)
-                        .foregroundStyle(.white)
-                        .font(.system(size: 14))
-                        .fontWeight(.medium)
-                    :
                     Text(unActiveText)
                         .foregroundStyle(.white)
                         .font(.system(size: 14))
                         .fontWeight(.medium)
-                    
+                    :
+                    Text(activeText)
+                        .foregroundStyle(.white)
+                        .font(.system(size: 14))
+                        .fontWeight(.medium)
                 }
                 .padding(.horizontal)
             }
@@ -57,7 +56,6 @@ struct BlueButtonView: View {
                 self.buttonActive = await updateFollowData.checkFollowStatus(id: cellUserId)
             }
         }
-  
     }
 }
 
