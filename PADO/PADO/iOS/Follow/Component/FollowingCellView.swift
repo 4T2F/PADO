@@ -22,21 +22,24 @@ struct FollowingCellView: View {
     // MARK: - BODY
     var body: some View {
         HStack {
-            KFImage.url(URL(string: followingProfileUrl))
-                .resizable()
-                .scaledToFill()
-                .frame(width: 50, height: 50)
-                .cornerRadius(70)
-                .padding(.horizontal)
-            
-            VStack(alignment: .leading) {
-                Text(cellUserId)
-                    .font(.system(size: 18, weight: .semibold))
-                if !followingUsername.isEmpty {
-                    Text(followingUsername)
+            HStack(spacing: 0) {
+                KFImage.url(URL(string: followingProfileUrl))
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 50, height: 50)
+                    .cornerRadius(50)
+                    .padding(.horizontal)
+                
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(cellUserId)
                         .font(.system(size: 14, weight: .semibold))
-                }
-            } //: VSTACK
+                    if !followingUsername.isEmpty {
+                        Text(followingUsername)
+                            .font(.system(size: 12, weight: .regular))
+                            .foregroundStyle(Color(.systemGray))
+                    }
+                } //: VSTACK
+            }
             
             Spacer()
             

@@ -28,21 +28,24 @@ struct FollowerUserCellView: View {
     // MARK: - BODY
     var body: some View {
         HStack {
-            KFImage.url(URL(string: followerProfileUrl))
-                .resizable()
-                .scaledToFill()
-                .frame(width: 50, height: 50)
-                .cornerRadius(70)
-                .padding(.horizontal)
-            
-            VStack(alignment: .leading) {
-                Text(cellUserId)
-                    .font(.system(size: 18, weight: .semibold))
-                if !followerUsername.isEmpty {
-                    Text(followerUsername)
+            HStack(spacing: 0) {
+                KFImage.url(URL(string: followerProfileUrl))
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 50, height: 50)
+                    .cornerRadius(70)
+                    .padding(.horizontal)
+                
+                VStack(alignment: .leading) {
+                    Text(cellUserId)
                         .font(.system(size: 14, weight: .semibold))
-                }
-            } //: VSTACK
+                    if !followerUsername.isEmpty {
+                        Text(followerUsername)
+                            .font(.system(size: 12, weight: .regular))
+                            .foregroundStyle(Color(.systemGray))
+                    }
+                } //: VSTACK
+            }
             
             Spacer()
             

@@ -21,7 +21,7 @@ struct SettingNotificationView: View {
                     ZStack {
                         Text("알림")
                             .foregroundStyle(.white)
-                            .font(.system(size: 18))
+                            .font(.system(size: 14))
                             .fontWeight(.semibold)
                         
                         HStack {
@@ -29,7 +29,6 @@ struct SettingNotificationView: View {
                                 dismiss()
                             } label: {
                                 Image("dismissArrow")
-                                    .font(.system(size: 20))
                             }
                             
                             Spacer()
@@ -52,6 +51,7 @@ struct SettingNotificationView: View {
                 .padding(.top, 50)
             }
         }
+        .padding(.top, 10)
         .navigationBarBackButtonHidden(true)
     }
 }

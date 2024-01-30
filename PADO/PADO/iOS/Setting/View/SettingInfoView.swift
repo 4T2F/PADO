@@ -18,7 +18,7 @@ struct SettingInfoView: View {
                     ZStack {
                         Text("정보")
                             .foregroundStyle(.white)
-                            .font(.system(size: 18))
+                            .font(.system(size: 14))
                             .fontWeight(.semibold)
                         
                         HStack {
@@ -26,7 +26,6 @@ struct SettingInfoView: View {
                                 dismiss()
                             } label: {
                                 Image("dismissArrow")
-                                    .font(.system(size: 20))
                             }
                             
                             Spacer()
@@ -44,7 +43,6 @@ struct SettingInfoView: View {
                     } label: {
                         VStack {
                             SettingNormalCell(icon: "doc.text", text: "이용약관")
-                                .foregroundStyle(Color.gray)
                         }
                     }
                     
@@ -53,7 +51,6 @@ struct SettingInfoView: View {
                     } label: {
                         VStack {
                             SettingNormalCell(icon: "doc.text", text: "개인정보처리방침")
-                                .foregroundStyle(Color.gray)
                         }
                     }
                     
@@ -62,7 +59,6 @@ struct SettingInfoView: View {
                     } label: {
                         VStack {
                             SettingNormalCell(icon: "heart.fill", text: "개발자에게 플러팅하기")
-                                .foregroundStyle(Color.gray)
                         }
                     }
                     Spacer()
@@ -72,6 +68,7 @@ struct SettingInfoView: View {
                 .padding(.top, 50)
             }
         }
+        .padding(.top, 10)
         .navigationBarBackButtonHidden(true)
     }
 }

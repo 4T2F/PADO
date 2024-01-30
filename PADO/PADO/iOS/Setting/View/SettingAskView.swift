@@ -36,7 +36,7 @@ struct SettingAskView: View {
                     ZStack {
                         Text("문의하기")
                             .foregroundStyle(.white)
-                            .font(.system(size: 18))
+                            .font(.system(size: 14))
                             .fontWeight(.semibold)
                         
                         HStack {
@@ -44,7 +44,6 @@ struct SettingAskView: View {
                                 dismiss()
                             } label: {
                                 Image("dismissArrow")
-                                    .font(.system(size: 20))
                                     .foregroundStyle(.grayButton)
                             }
                             
@@ -64,7 +63,7 @@ struct SettingAskView: View {
                             .opacity(0.3)
                             .frame(width: width * 0.9, height: 150)
                             .scrollContentBackground(.hidden)
-                            .background(Color("mainBackgroundColor"))
+                            .background(.mainBackground)
                             .modifier(RoundedEdge(width: 1,
                                                   color: Color(UIColor.systemGray3),
                                                   cornerRadius: 10)
@@ -192,6 +191,7 @@ struct SettingAskView: View {
                 .padding(.top, 50)
             }
         }
+        .padding(.top, 10)
         .navigationBarBackButtonHidden(true)
     }
 }

@@ -57,13 +57,18 @@ struct ProfileView: View {
             let size = proxy.size
             let height = (size.height + minY)
             
-            Image("pp2")
+            Image("pp")
                 .resizable()
                 .scaledToFill()
                 .frame(width: size.width, height: height > 0 ? height : 0, alignment: .top)
                 .overlay {
                     ZStack(alignment: .bottom) {
-                        LinearGradient(colors: [.clear, .black.opacity(0.8)], startPoint: .top, endPoint: .bottom)
+                        LinearGradient(colors: [.clear,
+                                                .black.opacity(0.1),
+                                                .black.opacity(0.3),
+                                                .black.opacity(0.5),
+                                                .black.opacity(0.8),
+                                                .black.opacity(1)], startPoint: .top, endPoint: .bottom)
                         
                         VStack(alignment: .leading, spacing: 12) {
                          
@@ -214,8 +219,8 @@ struct ProfileView: View {
                                 .fill(.clear)
                         }
                     }
-                    .padding(.horizontal, 8)
-                    .frame(height: 4)
+//                    .padding(.horizontal, 8)
+                    .frame(height: 2)
                 }
                 .contentShape(Rectangle())
                 .onTapGesture {
@@ -226,8 +231,7 @@ struct ProfileView: View {
             }
         }
         .padding(.horizontal)
-        .padding(.top, 25)
-        .padding(.bottom, 15)
+        .padding(.top, 20)
     }
     
     @ViewBuilder
@@ -262,7 +266,7 @@ struct ProfileView: View {
                 }
             }
         }
-        .padding(.bottom, 150)
+        .padding(.bottom, 300)
         .padding(.top, 5)
     }
     
@@ -284,7 +288,8 @@ struct ProfileView: View {
                 }
             }
         }
-        .padding(.bottom, 150)
+        .padding(.bottom, 300)
+        .padding(.top, 5)
     }
     
     @ViewBuilder
@@ -305,7 +310,7 @@ struct ProfileView: View {
                 }
             }
         }
-        .padding(.bottom, 150)
+        .padding(.bottom, 300)
+        .padding(.top, 5)
     }
 }
-
