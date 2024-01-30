@@ -11,6 +11,7 @@ struct CommentSheetView: View {
     @State private var commentText: String = ""
     @ObservedObject var commentVM: CommentViewModel
     @ObservedObject var feedVM: FeedViewModel
+    @State var width = UIScreen.main.bounds.width
     
     var body: some View {
         ZStack {
@@ -47,19 +48,13 @@ struct CommentSheetView: View {
                 ZStack {
                     HStack {
                         CircularImageView(size: .medium)
+                        
                         ZStack {
-                            TextEditor(text: $commentText)
-                                .font(.system(size: 14))
-                                .padding()
-                                .background(
-                                    RoundedRectangle(cornerRadius: 26)
-                                        .strokeBorder(Color.gray, lineWidth: 0.5)
-                                )
-                                .frame(height: 50)
-                            
-                            
-                            HStack {
-                                Spacer()
+                            VStack {
+                                HStack {
+                                    TextField("여기에 입력하세요",
+                                              text: $commentText,
+                                              axis: .vertical) // 세로 축으로 동적 높이 조절 활성화
                                 
                                 Button {
                                     Task {
@@ -79,8 +74,13 @@ struct CommentSheetView: View {
                                             .bold()
                                     }
                                 }
+                                .padding(.vertical, -5)
                             }
-                            .padding(.horizontal, 10)
+                            .padding()
+                            .background(
+                                RoundedRectangle(cornerRadius: 36) // HStack의 크기에 맞게 동적으로 크기가 변하는 RoundedRectangle
+                                    .stroke(Color.gray, lineWidth: 1)
+                            )
                         }
                     }
                     .padding(.horizontal)
