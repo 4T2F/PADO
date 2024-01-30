@@ -172,13 +172,6 @@ struct ProfileView: View {
             
             VStack {
                 HStack {
-                    Button {
-                        // dismiss
-                    } label: {
-                        Image(systemName: "arrow.left")
-                            .font(.system(size: 22))
-                    }
-                    
                     Spacer()
                     
                     Button {
