@@ -25,7 +25,7 @@ enum ProfileImageSize {
         case .small: return 36
         case .medium: return 40
         case .large: return 48
-        case .xLarge: return 60
+        case .xLarge: return 70
         case .xxLarge: return 80
         }
     }

@@ -5,6 +5,7 @@
 //  Created by 강치우 on 1/30/24.
 //
 
+import Kingfisher
 import SwiftUI
 
 struct ProfileView: View {
@@ -13,19 +14,23 @@ struct ProfileView: View {
     
     @State var headerOffsets: (CGFloat, CGFloat) = (0, 0)
     @State var buttonOnOff: Bool = false
+  
+    @EnvironmentObject var viewModel: AuthenticationViewModel
+
+    @StateObject var followVM: FollowViewModel
     
     let columns = [GridItem(.flexible(), spacing: 1), GridItem(.flexible(), spacing: 1), GridItem(.flexible())]
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack(spacing: 0) {
-                HeaderView()
+                headerView()
                 
                 LazyVStack(pinnedViews: [.sectionHeaders]) {
                     Section {
-                        PostList()
+                        postList()
                     } header: {
-                        PinnedHeaderView()
+                        pinnedHeaderView()
                             .background(Color.black)
                             .offset(y: headerOffsets.1 > 0 ? 0 : -headerOffsets.1 / 8)
                             .modifier(OffsetModifier(offset: $headerOffsets.0, returnFromStart: false))
@@ -46,7 +51,7 @@ struct ProfileView: View {
     }
     
     @ViewBuilder
-    func HeaderView() -> some View {
+    func headerView() -> some View {
         GeometryReader { proxy in
             let minY = proxy.frame(in: .named("SCROLL")).minY
             let size = proxy.size
@@ -61,22 +66,16 @@ struct ProfileView: View {
                         LinearGradient(colors: [.clear, .black.opacity(0.8)], startPoint: .top, endPoint: .bottom)
                         
                         VStack(alignment: .leading, spacing: 12) {
-                            Circle()
-                                .frame(height: 70)
-                                .overlay {
-                                    Image("pp1")
-                                        .resizable()
-                                        .scaledToFill()
-                                        .cornerRadius(70)
-                                }
+                         
+                            CircularImageView(size: .xLarge)
                             
                             HStack(alignment: .bottom, spacing: 10) {
                                 VStack(alignment: .leading, spacing: 4) {
-                                    Text("강치우")
+                                    Text("\(viewModel.currentUser?.username ?? "")")
                                         .font(.system(size: 14))
                                         .fontWeight(.semibold)
                                     
-                                    Text("@hanabi")
+                                    Text("@\(userNameID)")
                                         .font(.title.bold())
                                 }
                                 
@@ -91,41 +90,43 @@ struct ProfileView: View {
                                 
                                 Spacer()
                                 
-//                                ZStack {
-//                                    RoundedRectangle(cornerRadius:4)
-//                                        .stroke(Color.white, lineWidth: 1)
-//                                        .frame(width: 80, height: 28)
-//                                    Text("프로필 편집")
-//                                        .font(.system(size: 12))
-//                                        .fontWeight(.medium)
-//                                        .foregroundStyle(.white)
-//                                }
-                                
-                                Button {
-                                    buttonOnOff.toggle()
-                                } label: {
-                                    if buttonOnOff {
-                                        ZStack {
-                                            RoundedRectangle(cornerRadius:6)
-                                                .stroke(Color.white, lineWidth: 1)
-                                                .frame(width: 70, height: 28)
-                                            Text("팔로잉")
-                                                .font(.system(size: 14))
-                                                .fontWeight(.medium)
-                                                .foregroundStyle(.white)
-                                        }
-                                    } else {
-                                        ZStack {
-                                            RoundedRectangle(cornerRadius:6)
-                                                .stroke(Color.blue, lineWidth: 1)
-                                                .frame(width: 70, height: 28)
-                                            Text("팔로우")
-                                                .font(.system(size: 14))
-                                                .fontWeight(.medium)
-                                                .foregroundStyle(.white)
-                                        }
+                                NavigationLink(destination: SettingProfileView()) {
+                                    ZStack {
+                                        RoundedRectangle(cornerRadius:4)
+                                            .stroke(Color.white, lineWidth: 1)
+                                            .frame(width: 80, height: 28)
+                                        Text("프로필 편집")
+                                            .font(.system(size: 12))
+                                            .fontWeight(.medium)
+                                            .foregroundStyle(.white)
                                     }
                                 }
+                                
+//                                Button {
+//                                    buttonOnOff.toggle()
+//                                } label: {
+//                                    if buttonOnOff {
+//                                        ZStack {
+//                                            RoundedRectangle(cornerRadius:6)
+//                                                .stroke(Color.white, lineWidth: 1)
+//                                                .frame(width: 70, height: 28)
+//                                            Text("팔로잉")
+//                                                .font(.system(size: 14))
+//                                                .fontWeight(.medium)
+//                                                .foregroundStyle(.white)
+//                                        }
+//                                    } else {
+//                                        ZStack {
+//                                            RoundedRectangle(cornerRadius:6)
+//                                                .stroke(Color.blue, lineWidth: 1)
+//                                                .frame(width: 70, height: 28)
+//                                            Text("팔로우")
+//                                                .font(.system(size: 14))
+//                                                .fontWeight(.medium)
+//                                                .foregroundStyle(.white)
+//                                        }
+//                                    }
+//                                }
                             }
                                                        
                             HStack {
@@ -139,25 +140,29 @@ struct ProfileView: View {
                                 }
                                 .font(.caption)
                                 
-                                Label {
-                                    Text("팔로워")
-                                        .fontWeight(.semibold)
-                                        .foregroundStyle(.white.opacity(0.7))
-                                } icon: {
-                                    Text("0")
-                                        .fontWeight(.semibold)
+                                NavigationLink(destination: FollowView(followVM: followVM)) {
+                                    Label {
+                                        Text("팔로워")
+                                            .fontWeight(.semibold)
+                                            .foregroundStyle(.white.opacity(0.7))
+                                    } icon: {
+                                        Text("\(followVM.followerIDs.count + followVM.surferIDs.count)")
+                                            .fontWeight(.semibold)
+                                    }
+                                    .font(.caption)
                                 }
-                                .font(.caption)
                                 
-                                Label {
-                                    Text("팔로잉")
-                                        .fontWeight(.semibold)
-                                        .foregroundStyle(.white.opacity(0.7))
-                                } icon: {
-                                    Text("0")
-                                        .fontWeight(.semibold)
+                                NavigationLink(destination: FollowView(followVM: followVM)) {
+                                    Label {
+                                        Text("팔로잉")
+                                            .fontWeight(.semibold)
+                                            .foregroundStyle(.white.opacity(0.7))
+                                    } icon: {
+                                        Text("\(followVM.followingIDs.count)")
+                                            .fontWeight(.semibold)
+                                    }
+                                    .font(.caption)
                                 }
-                                .font(.caption)
                             }
                             .padding(.leading, 2)
                             
@@ -174,9 +179,7 @@ struct ProfileView: View {
                 HStack {
                     Spacer()
                     
-                    Button {
-                        // setting
-                    } label: {
+                    NavigationLink(destination: SettingView()) {
                         Image(systemName: "ellipsis")
                             .font(.system(size: 22))
                     }
@@ -192,7 +195,7 @@ struct ProfileView: View {
     }
     
     @ViewBuilder
-    func PinnedHeaderView() -> some View {
+    func pinnedHeaderView() -> some View {
         let types: [String] = ["파도", "보낸 파도", "하이라이트"]
         HStack(spacing: 25) {
             ForEach(types, id: \.self) { type in
@@ -228,21 +231,21 @@ struct ProfileView: View {
     }
     
     @ViewBuilder
-    func PostList() -> some View {
+    func postList() -> some View {
         switch currentType {
         case "파도":
-            PostView()
+            postView()
         case "보낸 파도":
-            WrittenPostsView()
+            writtenPostsView()
         case "하이라이트":
-            HighlightsView()
+            highlightsView()
         default:
             EmptyView()
         }
     }
     
     @ViewBuilder
-    func PostView() -> some View {
+    func postView() -> some View {
         VStack(spacing: 25) {
             LazyVGrid(columns: columns, spacing: 2) {
                 ForEach(1...10, id: \.self) { _ in
@@ -264,7 +267,7 @@ struct ProfileView: View {
     }
     
     @ViewBuilder
-    func WrittenPostsView() -> some View {
+    func writtenPostsView() -> some View {
         VStack(spacing: 25) {
             LazyVGrid(columns: columns, spacing: 2) {
                 ForEach(1...1, id: \.self) { _ in
@@ -285,7 +288,7 @@ struct ProfileView: View {
     }
     
     @ViewBuilder
-    func HighlightsView() -> some View {
+    func highlightsView() -> some View {
         VStack(spacing: 25) {
             LazyVGrid(columns: columns, spacing: 2) {
                 ForEach(1...5, id: \.self) { _ in
@@ -306,6 +309,3 @@ struct ProfileView: View {
     }
 }
 
-#Preview {
-    ProfileView()
-}
