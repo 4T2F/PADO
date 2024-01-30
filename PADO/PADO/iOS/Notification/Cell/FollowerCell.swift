@@ -27,7 +27,7 @@ struct FollowerCell: View {
             
             Spacer()
             
-            BlueButtonView(buttonActive: $buttonActive, activeText: "팔로우", unActiveText: "팔로잉", widthValue: 83, heightValue: 32)
+            BlueButtonView(cellUserId: "", buttonActive: $buttonActive, activeText: "팔로우", unActiveText: "팔로잉", widthValue: 83, heightValue: 32)
         }
         .padding(.horizontal)
     }

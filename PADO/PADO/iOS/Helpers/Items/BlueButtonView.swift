@@ -9,15 +9,26 @@ import SwiftUI
 
 struct BlueButtonView: View {
     
+    let cellUserId: String
     @Binding var buttonActive: Bool
     let activeText: String
     let unActiveText: String
     let widthValue: CGFloat
     let heightValue: CGFloat
     
+    let updateFollowData = UpdateFollowData()
+    
     var body: some View {
         Button(action: {
-            // 버튼을 터치했을 때 buttonActive 상태를 토글
+            if !buttonActive {
+                Task {
+                    await updateFollowData.unfollowUser(id: cellUserId)
+                }
+            } else {
+                Task {
+                    await updateFollowData.followUser(id: cellUserId)
+                }
+            }
             buttonActive.toggle()
         }) {
             ZStack {
@@ -41,6 +52,7 @@ struct BlueButtonView: View {
                 .padding(.horizontal)
             }
         }
+  
     }
 }
 
