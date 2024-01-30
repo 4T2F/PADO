@@ -62,7 +62,11 @@ struct CommentSheetView: View {
                                 Spacer()
                                 
                                 Button {
-                                    // 댓글 입력 로직
+                                    Task {
+                                        await commentVM.writeComment(inputcomment: commentText)
+                                        commentText = ""
+                                        await commentVM.getCommentsDocument()
+                                    }
                                 } label: {
                                     ZStack {
                                         RoundedRectangle(cornerRadius: 26)

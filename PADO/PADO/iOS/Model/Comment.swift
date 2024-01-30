@@ -14,5 +14,5 @@ struct Comment: Identifiable, Codable {
 
     let userID: String
     let content: String
-    let time: Timestamp?
+    let time: Timestamp
 }
