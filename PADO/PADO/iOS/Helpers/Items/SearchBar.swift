@@ -86,13 +86,3 @@ struct SearchBar: View {
         }
     }
 }
-
-#Preview {
-    ZStack{
-        Color.white
-            .edgesIgnoringSafeArea(.all)
-        SearchBar(text: .constant(""), isLoading: .constant(false))
-            .padding()
-    }
-}
-
