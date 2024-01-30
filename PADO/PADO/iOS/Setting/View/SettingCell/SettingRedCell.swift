@@ -15,8 +15,9 @@ struct SettingRedCell: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 10)
+                .fill(.mainBackground)
                 .frame(height: 45)
-                .opacity(0.04)
+               
             
             HStack {
                 Image(systemName: icon)
@@ -24,8 +25,8 @@ struct SettingRedCell: View {
                 
                 Text(text)
                     .foregroundStyle(.red)
-                    .fontWeight(.semibold)
-                    .font(.system(size: 16))
+                    .font(.system(size: 14))
+                    .fontWeight(.medium)
                 
                 Spacer()
             }

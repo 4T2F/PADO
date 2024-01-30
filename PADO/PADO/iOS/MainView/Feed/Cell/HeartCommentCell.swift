@@ -5,6 +5,7 @@
 //  Created by 강치우 on 1/20/24.
 //
 
+import Lottie
 import SwiftUI
 
 struct HeartCommentCell: View {
@@ -13,6 +14,9 @@ struct HeartCommentCell: View {
     @Binding var isShowingReportView: Bool
     @Binding var isShowingCommentView: Bool
     
+    @ObservedObject var feedVM: FeedViewModel
+    @ObservedObject var commentVM: CommentViewModel
+    
     var body: some View {
         VStack(spacing: 16) {
             VStack {
@@ -20,32 +24,36 @@ struct HeartCommentCell: View {
                     heartOnOff.toggle()
                 } label: {
                     if heartOnOff {
-                        Image("Heart_fill")
+                        VStack {
+                            Image("heart_fill")
+                        }
                     } else {
-                        Image("Heart")
+                        Image("heart")
                     }
                 }
                 // 하트 눌렀을 때 +1 카운팅 되게 하는 로직 추가
-                Text("2032")
+                Text("\(feedVM.selectedFeedHearts)")
                     .font(.system(size: 12))
                     .fontWeight(.semibold)
+                    .shadow(radius: 1, y: 1)
             }
             
             VStack {
                 Button {
                     isShowingCommentView.toggle()
                 } label: {
-                    Image("Chat")
+                    Image("chat")
                 }
                 .sheet(isPresented: $isShowingCommentView) {
-                    CommentView()
+                    CommentView(commentVM: commentVM, feedVM: feedVM)
                         .presentationDetents([.fraction(0.99), .fraction(0.8)])
                         .presentationDragIndicator(.visible)
                 }
                 // 댓글이 달릴 때 마다 +1 카운팅 되게 하는 로직 추가
-                Text("13")
+                Text(String(commentVM.comments.count))
                     .font(.system(size: 12))
                     .fontWeight(.semibold)
+                    .shadow(radius: 1, y: 1)
             }
             
             VStack {
@@ -55,7 +63,7 @@ struct HeartCommentCell: View {
                     VStack {
                         Text("...")
                             .font(.system(size: 32))
-                            .fontWeight(.light)
+                            .fontWeight(.medium)
                             .foregroundStyle(.white)
                         
                         Text("")
@@ -72,6 +80,3 @@ struct HeartCommentCell: View {
     }
 }
 
-#Preview {
-    HeartCommentCell(isShowingReportView: .constant(false), isShowingCommentView: .constant(false))
-}

@@ -9,36 +9,51 @@ import SwiftUI
 
 struct BlueButtonView: View {
     
-    @Binding var buttonActive: Bool
+    let cellUserId: String
+    @State var buttonActive: Bool = true
     let activeText: String
     let unActiveText: String
     let widthValue: CGFloat
     let heightValue: CGFloat
     
+    let updateFollowData: UpdateFollowData
+    
     var body: some View {
         Button(action: {
-            // 버튼을 터치했을 때 buttonActive 상태를 토글
+            if buttonActive {
+                Task {
+                    await updateFollowData.unfollowUser(id: cellUserId)
+                }
+            } else {
+                Task {
+                    await updateFollowData.followUser(id: cellUserId)
+                }
+            }
             buttonActive.toggle()
         }) {
             ZStack {
                 RoundedRectangle(cornerRadius: 10)
                     .frame(width: widthValue, height: heightValue)
-                    .foregroundStyle(buttonActive ?  .blueButton : .grayButton )
+                    .foregroundStyle(buttonActive ? .grayButton : .blueButton)
                 
                 HStack {
                     buttonActive ?
-                    Text(activeText)
-                        .foregroundStyle(.white)
-                        .font(.system(size: 14))
-                        .fontWeight(.medium)
-                    :
                     Text(unActiveText)
                         .foregroundStyle(.white)
                         .font(.system(size: 14))
                         .fontWeight(.medium)
-                    
+                    :
+                    Text(activeText)
+                        .foregroundStyle(.white)
+                        .font(.system(size: 14))
+                        .fontWeight(.medium)
                 }
                 .padding(.horizontal)
+            }
+        }
+        .onAppear {
+            Task {
+                self.buttonActive = await updateFollowData.checkFollowStatus(id: cellUserId)
             }
         }
     }

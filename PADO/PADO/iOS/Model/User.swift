@@ -4,9 +4,19 @@
 //
 //  Created by 강치우 on 1/3/24.
 //
+
 import Firebase
 import FirebaseFirestoreSwift
 import Foundation
+
+var userNameID: String {
+    get {
+        UserDefaults.standard.string(forKey: "userNameID") ?? ""
+    }
+    set {
+        UserDefaults.standard.set(newValue, forKey: "userNameID")
+    }
+}
 
 var userToken: String {
     get {
@@ -40,5 +50,4 @@ struct User: Codable, Identifiable, Hashable {
     var instaAddress: String
     var tiktokAddress: String
 }
-
 

@@ -14,6 +14,11 @@ struct ContentView: View {
     
     @EnvironmentObject var viewModel: AuthenticationViewModel
     
+    @StateObject var surfingVM = SurfingViewModel()
+    @StateObject var feedVM = FeedViewModel()
+    @StateObject var commentVM = CommentViewModel()
+    @StateObject var followVM = FollowViewModel()
+    
     @State private var selectedTab = 0
     
     init() {
@@ -27,11 +32,10 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             GeometryReader { geometry in
-                
                 TabView(selection: $selectedTab) {
-                    FeedView()
+                    FeedView(feedVM: feedVM, commentVM: commentVM)
                         .tabItem {
-                            Image(selectedTab == 0 ? "tab_home" : "tab_home_gray")
+                            Image(selectedTab == 0 ? "home_light" : "home_gray")
                                 
                             Text("홈")
                         }
@@ -40,38 +44,36 @@ struct ContentView: View {
                     
                     MainSearchView()
                         .tabItem {
-                            Image(selectedTab == 1 ? "tab_search" : "tab_search_gray")
+                            Image(selectedTab == 1 ? "search_light" : "search_gray")
                             
                             Text("검색")
                         }
                         .onAppear { selectedTab = 1 }
                         .tag(1)
-                    SurfingView()
+                    SurfingView(viewModel: surfingVM)
                         .tabItem {
                             Text("")
                             
-                            Image("tab_add")
+                            Image(selectedTab == 2 ? "tab_added" : "tab_add")
                         }
                         .onAppear { selectedTab = 2 }
                         .tag(2)
                     TodayView()
                         .tabItem {
-                            Image(selectedTab == 3 ? "tab_todaypado" : "tab_todaypado_gray")
+                            Image(selectedTab == 3 ? "today_light" : "today_gray")
                             
                             Text("오늘 파도")
                         }
                         .onAppear { selectedTab = 3 }
                         .tag(3)
-                    ReMyFeedView()
+                    ProfileView(followVM: followVM)
                         .tabItem {
-                            Image(selectedTab == 4 ? "tab_profile" : "tab_profile_gray")
+                            Image(selectedTab == 4 ? "profile_light" : "profile_gray")
                             
                             Text("프로필")
                         }
                         .onAppear { selectedTab = 4 }
                         .tag(4)
-                        .badge(10)
-                    
                 }
                 .tint(.white)
                 .frame(width: geometry.size.width, height: geometry.size.height)
@@ -95,10 +97,5 @@ struct ContentView: View {
             generator.impactOccurred()
         }
     }
-}
-
-
-#Preview {
-    ContentView()
 }
 

@@ -8,9 +8,10 @@ import SwiftUI
 
 struct SettingView: View {
     @State var width = UIScreen.main.bounds.width
+    @State private var showingSignOutModal: Bool = false
     @Environment (\.dismiss) var dismiss
-    @EnvironmentObject var viewModel: AuthenticationViewModel
-    @Binding var isShowingSetting: Bool
+//    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @StateObject var viewModel = SurfingViewModel()
     
     
     var name: String = "PADO"
@@ -20,21 +21,17 @@ struct SettingView: View {
         
         NavigationStack {
             VStack(alignment: .leading) {
-                
                 HStack {
                     Button {
                         dismiss()
-                        isShowingSetting = false
                     } label: {
                         Image("dismissArrow")
-                            .foregroundStyle(.white)
-                            .font(.system(size: 20))
                     }
                     
                     Spacer()
                     
-                    Text("설정")
-                        .font(.system(size: 18, weight: .bold))
+                    Text("설정 및 개인정보")
+                        .font(.system(size: 14, weight: .bold))
                         .padding(.trailing, 20)
                     
                     Spacer()
@@ -44,97 +41,52 @@ struct SettingView: View {
                 .padding(.bottom, 30)
                 
                 Text("설정")
-                    .font(.system(size:18, weight: .semibold))
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundStyle(.gray)
                     .padding(.leading)
-                    .padding(.bottom, 30)
+                    .padding(.bottom, 20)
                 
                 NavigationLink(destination: SettingNotificationView()) {
-                    HStack {
-                        Text("알림")
-                            .font(.system(size: 18, weight: .semibold))
-                            .foregroundStyle(.gray)
-                        Spacer()
-                        Image(systemName: "chevron.right")
-                            .foregroundStyle(.white)
-                            .bold()
-                    }
-                    .padding(.horizontal)
+                    SettingViewCell(settingTittle: "알림")
                 }
-                    
-                
+ 
                 SettingDivider()
                 
                 NavigationLink(destination: SettingOthersView()) {
-                    HStack {
-                        Text("다른 설정들")
-                            .font(.system(size: 18, weight: .semibold))
-                            .foregroundStyle(.gray)
-                        Spacer()
-                        Image(systemName: "chevron.right")
-                            .foregroundStyle(.white)
-                            .bold()
-                    }
-                    .padding(.horizontal)
+                    SettingViewCell(settingTittle: "다른 설정들")
                 }
-                
                 
                 SettingDivider()
                     .padding(.bottom, 30)
                     
-                
                 Text("정보")
-                    .font(.system(size:18, weight: .semibold))
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundStyle(.gray)
                     .padding(.leading)
-                    .padding(.bottom, 30)
+                    .padding(.bottom, 20)
                 
-                HStack {
-                    Text("PADO 평가하기")
-                        .font(.system(size: 18, weight: .semibold))
-                        .foregroundStyle(.gray)
-                    Spacer()
-                    Image(systemName: "chevron.right")
-                        .bold()
-                }
-                .padding(.horizontal)
+                SettingViewCell(settingTittle: "PADO 평가하기")
                 
                 SettingDivider()
                 
-                NavigationLink(destination: SettingAskView()) {
-                    HStack {
-                        Text("문의하기")
-                            .font(.system(size: 18, weight: .semibold))
-                            .foregroundStyle(.gray)
-                        Spacer()
-                        Image(systemName: "chevron.right")
-                            .foregroundStyle(.white)
-                            .bold()
-                    }
-                    .padding(.horizontal)
+                NavigationLink(destination: SettingAskView().environmentObject(viewModel))  {
+                    SettingViewCell(settingTittle: "문의하기")
                 }
                 
                 SettingDivider()
                 
                 NavigationLink(destination: SettingInfoView()) {
-                    HStack {
-                        Text("정보")
-                            .font(.system(size: 18, weight: .semibold))
-                            .foregroundStyle(.gray)
-                        Spacer()
-                        Image(systemName: "chevron.right")
-                            .foregroundStyle(.white)
-                            .bold()
-                    }
-                    .padding(.horizontal)
+                    SettingViewCell(settingTittle: "정보")
                 }
                 
                 SettingDivider()
                     
                 Button {
-                    viewModel.signOut()
+                    showingSignOutModal.toggle()
                 } label: {
                     HStack {
                         Text("로그아웃")
-                            .font(.system(size: 18, weight: .semibold))
+                            .font(.system(size: 14, weight: .semibold))
                             .foregroundStyle(.red)
                         Spacer()
                         Image(systemName: "chevron.right")
@@ -142,16 +94,32 @@ struct SettingView: View {
                             .bold()
                     }
                     .padding(.horizontal)
+                    .padding(.vertical, -7)
                 }
-
+                .sheet(isPresented: $showingSignOutModal, content: {
+                    ModalAlertView(showingCircleImage: false, mainTitle: .signOut, subTitle: .signOut, removeMessage: .signOut)
+                        .background(Color.clear)
+                        .presentationDetents([.fraction(0.4)])
+                })
+                
                 SettingDivider()
                     
-                    
                 Spacer()
+                
+                VStack(spacing: 2) {
+                    Text("2024, PADO all rights reserved.")
+                    Text("Powered by 4T2F")
+                        
+                }
+                .frame(maxWidth: .infinity, alignment: .center)
+                .font(.system(size: 10))
+                .padding(.bottom)
             }
-           
+            .padding(.top, 10)
         }
         .navigationBarBackButtonHidden(true)
-        
     }
 }
+
+
+

@@ -7,24 +7,23 @@
 import SwiftUI
 
 struct SettingNormalCell: View {
-    
     var icon: String
     var text: String
     
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 10)
+                .fill(.mainBackground)
                 .frame(height: 45)
-                .opacity(0.04)
-            
+                
             HStack {
                 Image(systemName: icon)
                     .foregroundStyle(.white)
                 
                 Text(text)
                     .foregroundStyle(.white)
-                    .fontWeight(.semibold)
-                    .font(.system(size: 16))
+                    .font(.system(size: 14))
+                    .fontWeight(.medium)
                 
                 Spacer()
             }

@@ -25,7 +25,7 @@ enum ProfileImageSize {
         case .small: return 36
         case .medium: return 40
         case .large: return 48
-        case .xLarge: return 60
+        case .xLarge: return 70
         case .xxLarge: return 80
         }
     }
@@ -40,6 +40,10 @@ struct CircularImageView: View {
     var body: some View {
         if let imageUrl = viewModel.currentUser?.profileImageUrl {
             KFImage(URL(string: imageUrl))
+                .fade(duration: 0.5)
+                .placeholder{
+                    ProgressView()
+                }
                 .resizable()
                 .scaledToFill()
                 .frame(width: size.dimension, height: size.dimension)

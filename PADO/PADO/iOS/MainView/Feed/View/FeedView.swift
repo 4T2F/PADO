@@ -14,8 +14,8 @@ struct FeedView: View {
     
     @EnvironmentObject var authenticationViewModel: AuthenticationViewModel
     
-    @StateObject private var feedVM = FeedViewModel()
-    @StateObject private var commentVM = CommentViewModel()
+    @StateObject var feedVM: FeedViewModel
+    @ObservedObject var commentVM: CommentViewModel
     @StateObject private var mainCommentVM = MainCommentViewModel()
     @StateObject private var mainFaceMojiVM = MainFaceMojiViewModel()
     
@@ -40,6 +40,7 @@ struct FeedView: View {
                             }
                             .scaledToFill()
                             .ignoresSafeArea()
+                            .frame(height: UIScreen.main.bounds.height * 0.85)
                         
                         if isLoading { // feedVM에서 로딩 상태를 관리한다고 가정
                             ProgressView()
@@ -49,12 +50,20 @@ struct FeedView: View {
                 }
                 
                 if feedVM.isHeaderVisible {
-                    LinearGradient(colors: [.clear, .clear,
+                    LinearGradient(colors: [.black.opacity(0.5),
+                                            .black.opacity(0.4),
+                                            .black.opacity(0.4),
+                                            .black.opacity(0.3),
+                                            .black.opacity(0.2),
                                             .clear, .clear,
                                             .clear, .clear,
                                             .clear, .clear,
                                             .clear, .clear,
-                                            .black.opacity(0.1),
+                                            .clear, .clear,
+                                            .clear, .clear,
+                                            .black.opacity(0.2),
+                                            .black.opacity(0.2),
+                                            .black.opacity(0.2),
                                             .black.opacity(0.2),
                                             .black.opacity(0.3),
                                             .black.opacity(0.4)],
@@ -67,15 +76,16 @@ struct FeedView: View {
                 VStack {
                     // MARK: - Header
                     if feedVM.isHeaderVisible {
-                        MainHeaderCell()
+                        MainHeaderCell(vm: feedVM)
                             .frame(width: UIScreen.main.bounds.width)
                             .padding(.leading, 4)
+                            .padding(.top, 5)
                     }
                     
                     Spacer()
                     
                     // MARK: - HeartComment
-                    HeartCommentCell(isShowingReportView: $feedVM.isShowingReportView, isShowingCommentView: $feedVM.isShowingCommentView)
+                    HeartCommentCell(isShowingReportView: $feedVM.isShowingReportView, isShowingCommentView: $feedVM.isShowingCommentView, feedVM: feedVM, commentVM: commentVM)
                         .padding(.leading, UIScreen.main.bounds.width)
                         .padding(.trailing, 60)
                         .padding(.bottom, 10)
@@ -84,9 +94,9 @@ struct FeedView: View {
                     if feedVM.isHeaderVisible {
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 16) {
-                                ForEach(0..<storyData.count, id: \.self) { index in
-                                    StoryCell(story: storyData[index]) {
-                                        self.feedVM.selectStory(storyData[index])
+                                ForEach(Array(feedVM.stories.enumerated()), id: \.element) { index, story in
+                                    StoryCell(story: story, storyIndex: index, feedVM: feedVM, commentVM: commentVM) {
+                                        self.feedVM.selectStory(story)
                                     }
                                 }
                             }
@@ -135,4 +145,3 @@ struct FeedView: View {
         }
     }
 }
-
