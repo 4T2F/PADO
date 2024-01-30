@@ -31,7 +31,6 @@ final class CommentViewModel: ObservableObject {
     }
     // MARK: - 댓글 작성
     func writeComment(inputcomment: String) async {
-        // 게시 요청 관련 로직 추가
         let initialPostData : [String: Any] = [
             "userID": userNameID,
             "content": inputcomment,
@@ -41,8 +40,14 @@ final class CommentViewModel: ObservableObject {
     }
     
     func createCommentData(documentName: String, data: [String: Any]) async {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd-HH:mm:ss.sssZ"
+        
+        let formattedDate = dateFormatter.string(from: Date())
+        let formattedCommentTitle = userNameID+formattedDate
+        
         do {
-            try await db.collection("post").document(documentName).collection("comment").document(userNameID).setData(data)
+            try await db.collection("post").document(documentName).collection("comment").document(formattedCommentTitle).setData(data)
         } catch {
             print("Error saving post data: \(error.localizedDescription)")
         }
