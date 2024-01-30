@@ -40,6 +40,7 @@ struct FeedView: View {
                             }
                             .scaledToFill()
                             .ignoresSafeArea()
+                            .frame(height: UIScreen.main.bounds.height * 0.85)
                         
                         if isLoading { // feedVM에서 로딩 상태를 관리한다고 가정
                             ProgressView()
