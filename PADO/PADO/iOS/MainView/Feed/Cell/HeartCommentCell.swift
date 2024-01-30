@@ -14,7 +14,8 @@ struct HeartCommentCell: View {
     @Binding var isShowingReportView: Bool
     @Binding var isShowingCommentView: Bool
     
-    @ObservedObject var vm: FeedViewModel
+    @ObservedObject var feedVM: FeedViewModel
+    @ObservedObject var commentVM: CommentViewModel
     
     var body: some View {
         VStack(spacing: 16) {
@@ -31,7 +32,7 @@ struct HeartCommentCell: View {
                     }
                 }
                 // 하트 눌렀을 때 +1 카운팅 되게 하는 로직 추가
-                Text("\(vm.selectedFeedHearts)")
+                Text("\(feedVM.selectedFeedHearts)")
                     .font(.system(size: 12))
                     .fontWeight(.semibold)
                     .shadow(radius: 1, y: 1)
@@ -44,12 +45,12 @@ struct HeartCommentCell: View {
                     Image("chat")
                 }
                 .sheet(isPresented: $isShowingCommentView) {
-                    CommentView()
+                    CommentView(commentVM: commentVM, feedVM: feedVM)
                         .presentationDetents([.fraction(0.99), .fraction(0.8)])
                         .presentationDragIndicator(.visible)
                 }
                 // 댓글이 달릴 때 마다 +1 카운팅 되게 하는 로직 추가
-                Text("13")
+                Text(String(commentVM.comments.count))
                     .font(.system(size: 12))
                     .fontWeight(.semibold)
                     .shadow(radius: 1, y: 1)

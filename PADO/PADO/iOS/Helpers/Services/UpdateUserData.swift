@@ -26,6 +26,4 @@ class UpdateUserData {
             print("Error updating document: \(error)")
         }
     }
-    
-    
 }

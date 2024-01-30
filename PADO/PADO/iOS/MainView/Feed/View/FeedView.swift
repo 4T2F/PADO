@@ -15,7 +15,7 @@ struct FeedView: View {
     @EnvironmentObject var authenticationViewModel: AuthenticationViewModel
     
     @StateObject var feedVM: FeedViewModel
-    @StateObject private var commentVM = CommentViewModel()
+    @ObservedObject var commentVM: CommentViewModel
     @StateObject private var mainCommentVM = MainCommentViewModel()
     @StateObject private var mainFaceMojiVM = MainFaceMojiViewModel()
     
@@ -81,7 +81,7 @@ struct FeedView: View {
                     Spacer()
                     
                     // MARK: - HeartComment
-                    HeartCommentCell(isShowingReportView: $feedVM.isShowingReportView, isShowingCommentView: $feedVM.isShowingCommentView, vm: feedVM)
+                    HeartCommentCell(isShowingReportView: $feedVM.isShowingReportView, isShowingCommentView: $feedVM.isShowingCommentView, feedVM: feedVM, commentVM: commentVM)
                         .padding(.leading, UIScreen.main.bounds.width)
                         .padding(.trailing, 60)
                         .padding(.bottom, 10)
@@ -91,7 +91,7 @@ struct FeedView: View {
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 16) {
                                 ForEach(Array(feedVM.stories.enumerated()), id: \.element) { index, story in
-                                    StoryCell(story: story, storyIndex: index, vm: feedVM) {
+                                    StoryCell(story: story, storyIndex: index, feedVM: feedVM, commentVM: commentVM) {
                                         self.feedVM.selectStory(story)
                                     }
                                 }

@@ -16,7 +16,8 @@ struct StoryCell: View {
     var storyIndex: Int
 
     @State var imageProfileUrl: String = ""
-    @ObservedObject var vm: FeedViewModel
+    @ObservedObject var feedVM: FeedViewModel
+    @ObservedObject var commentVM: CommentViewModel
 
     var onTap: () -> Void  // 탭 동작을 위한 클로저
     
@@ -32,7 +33,7 @@ struct StoryCell: View {
         }
         .onAppear {
             Task {
-                imageProfileUrl = await vm.setupProfileImageURL(id: story.name)
+                imageProfileUrl = await feedVM.setupProfileImageURL(id: story.name)
                 
                 if storyIndex == 0 {
                     setFeedData()
@@ -46,10 +47,14 @@ struct StoryCell: View {
     }
     
     func setFeedData() {
-        vm.feedProfileID = story.name
-        vm.feedProfileImageUrl = imageProfileUrl
-        vm.selectedFeedTitle = story.title
-        vm.selectedFeedTime = TimestampDateFormatter.formatDate(story.postTime)
-        vm.selectedFeedHearts = story.hearts
+        feedVM.feedProfileID = story.name
+        feedVM.feedProfileImageUrl = imageProfileUrl
+        feedVM.selectedFeedTitle = story.title
+        feedVM.selectedFeedTime = TimestampDateFormatter.formatDate(story.postTime)
+        feedVM.selectedFeedHearts = story.hearts
+        commentVM.documentID = story.postID
+        Task {
+            await commentVM.getCommentsDocument()
+        }
     }
 }

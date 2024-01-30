@@ -6,19 +6,26 @@
 //
 
 import SwiftUI
+import Firebase
+import FirebaseFirestore
 
-
-
+@MainActor
 final class CommentViewModel: ObservableObject {
-    @Published var comments: [Comment] = [
-        Comment(nameID: "2222", comment: "하하하, 너무 재밌네요...", time: "1분 전"),
-        Comment(nameID: "MinJi", comment: "그쵸! 제가 좀 재밌어요~", time: "3분 전"),
-        Comment(nameID: "BestCha", comment: "잘 모르겠습니다..", time: "4분 전"),
-        Comment(nameID: "A-heung", comment: "이런흥아흥아흥!", time: "5분 전"),
-        Comment(nameID: "pinkso", comment: "솔직히 저 예쁘지 않아요?", time: "8분 전"),
-        Comment(nameID: "pado", comment: "넌 손해 좀 보자", time: "13분 전"),
-        Comment(nameID: "ciu", comment: "솔직히 저 예쁘지 않아요?", time: "15분 전"),
-        Comment(nameID: "myunghyun", comment: "이런흥아흥아흥!", time: "17분 전"),
-        Comment(nameID: "minchae", comment: "솔직히 저 예쁘지 않아요?", time: "24분 전")
-    ]
+    
+    @Published var comments: [Comment] = []
+    @Published var documentID: String = ""
+    
+    let db = Firestore.firestore()
+    
+    // 포스트 - 포스팅제목 - 서브컬렉션 포스트에 접근해서 문서 댓글정보를 가져와 comments 배열에 할당
+    func getCommentsDocument() async {
+        do {
+            let querySnapshot = try await db.collection("post").document(documentID).collection("comment").getDocuments()
+            self.comments = querySnapshot.documents.compactMap { document in
+                try? document.data(as: Comment.self)
+            }
+        } catch {
+            print("Error fetching comments: \(error)")
+        }
+    }
 }

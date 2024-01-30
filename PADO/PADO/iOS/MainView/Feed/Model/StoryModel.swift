@@ -11,6 +11,8 @@ import SwiftUI
 
 struct Story: Identifiable, Hashable {
     let id = UUID()
+    
+    let postID: String
     let name: String
     let image: String
     let title: String

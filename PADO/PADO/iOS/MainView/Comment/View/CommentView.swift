@@ -9,8 +9,8 @@ import SwiftUI
 
 struct CommentSheetView: View {
     @State private var commentText: String = ""
-    
-    @StateObject private var commentVM = CommentViewModel()
+    @ObservedObject var commentVM: CommentViewModel
+    @ObservedObject var feedVM: FeedViewModel
     
     var body: some View {
         ZStack {
@@ -86,14 +86,12 @@ struct CommentSheetView: View {
         }
     }
 }
-    
+
 struct CommentView: View {
+    @ObservedObject var commentVM: CommentViewModel
+    @ObservedObject var feedVM: FeedViewModel
+    
     var body: some View {
-        CommentSheetView()
+        CommentSheetView(commentVM: commentVM, feedVM: feedVM)
     }
 }
-
-#Preview {
-    CommentSheetView()
-}
-
