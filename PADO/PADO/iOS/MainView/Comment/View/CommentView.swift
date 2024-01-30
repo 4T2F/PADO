@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CommentSheetView: View {
     @State private var commentText: String = ""
+    @State var width = UIScreen.main.bounds.width
     
     @StateObject private var commentVM = CommentViewModel()
     
@@ -47,36 +48,36 @@ struct CommentSheetView: View {
                 ZStack {
                     HStack {
                         CircularImageView(size: .medium)
+                        
                         ZStack {
-                            TextEditor(text: $commentText)
-                                .font(.system(size: 14))
-                                .padding()
-                                .background(
-                                    RoundedRectangle(cornerRadius: 26)
-                                        .strokeBorder(Color.gray, lineWidth: 0.5)
-                                )
-                                .frame(height: 50)
-                            
-                            
-                            HStack {
-                                Spacer()
+                            VStack {
+                                HStack {
+                                    TextField("여기에 입력하세요",
+                                              text: $commentText,
+                                              axis: .vertical) // 세로 축으로 동적 높이 조절 활성화
                                 
-                                Button {
-                                    // 댓글 입력 로직
-                                } label: {
-                                    ZStack {
-                                        RoundedRectangle(cornerRadius: 26)
-                                            .frame(width: 50, height: 30)
-                                            .foregroundStyle(.blue)
-                                        Image(systemName: "arrow.up")
-                                            .resizable()
-                                            .frame(width: 15, height: 15)
-                                            .foregroundStyle(.white)
-                                            .bold()
+                                    Button {
+                                        // 댓글 입력 로직
+                                    } label: {
+                                        ZStack {
+                                            RoundedRectangle(cornerRadius: 26)
+                                                .frame(width: 50, height: 30)
+                                                .foregroundStyle(.blue)
+                                            Image(systemName: "arrow.up")
+                                                .resizable()
+                                                .frame(width: 15, height: 15)
+                                                .foregroundStyle(.white)
+                                                .bold()
+                                        }
                                     }
                                 }
+                                .padding(.vertical, -5)
                             }
-                            .padding(.horizontal, 10)
+                            .padding()
+                            .background(
+                                RoundedRectangle(cornerRadius: 36) // HStack의 크기에 맞게 동적으로 크기가 변하는 RoundedRectangle
+                                    .stroke(Color.gray, lineWidth: 1)
+                            )
                         }
                     }
                     .padding(.horizontal)
@@ -86,7 +87,7 @@ struct CommentSheetView: View {
         }
     }
 }
-    
+
 struct CommentView: View {
     var body: some View {
         CommentSheetView()
