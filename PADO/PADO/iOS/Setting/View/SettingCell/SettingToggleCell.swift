@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct SettingToggleCell: View {
-    
     var icon: String
     var text: String
     
@@ -17,18 +16,17 @@ struct SettingToggleCell: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 10)
-                .fill(Color.gray.opacity(0.1))
+                .fill(.mainBackground)
                 .frame(height: 45)
                 
-            
             HStack {
                 Image(systemName: icon)
                     .foregroundStyle(.white)
                 
                 Text(text)
                     .foregroundStyle(.white)
-                    .fontWeight(.semibold)
-                    .font(.system(size: 16))
+                    .font(.system(size: 14))
+                    .fontWeight(.medium)
                 
                 Spacer()
                 

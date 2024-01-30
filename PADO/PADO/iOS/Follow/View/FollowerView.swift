@@ -28,16 +28,14 @@ struct FollowerView: View {
             VStack {
                 ZStack {
                     Text("팔로워")
-                        .font(.system(size: 22))
+                        .font(.system(size: 16))
                         .fontWeight(.bold)
                     
                     HStack {
                         Button {
                             dismiss()
                         } label: {
-                            Image(systemName: "arrow.backward")
-                                .foregroundStyle(.white)
-                                .font(.system(size: 22))
+                            Image("dismissArrow")
                         }
                         
                         Spacer()

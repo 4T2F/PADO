@@ -17,8 +17,8 @@ struct SearchBar: View {
     var body: some View {
         ZStack(alignment: .leading) {
             Color.grayButton
-                .frame(width: 270, height: 36)
-                .cornerRadius(8)
+                .frame(width: 270, height: 35)
+                .cornerRadius(7)
         
             HStack {
                 Image(systemName: "magnifyingglass")
@@ -27,7 +27,7 @@ struct SearchBar: View {
                 
                 TextField("", text: $text,
                           prompt: Text("검색")
-                    .font(.custom("Giants-Bold", size: 16))
+                    .font(.system(size: 16))
                     .foregroundStyle(Color.gray))
                     .padding(7)
                     .padding(.leading, -7)
@@ -36,9 +36,10 @@ struct SearchBar: View {
                     .accentColor(Color.gray)
                     .cornerRadius(8)
                     .onTapGesture {
-                        isEditing = true
+                        withAnimation {
+                            isEditing = true
+                        }
                     }
-                    .animation(.default)
                     .overlay {
                         HStack {
                             Spacer()

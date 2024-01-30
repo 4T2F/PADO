@@ -24,51 +24,39 @@ struct MainSearchView: View {
         
         ZStack {
             Color.black.ignoresSafeArea()
+            
             VStack(alignment: .leading) {
-                ZStack {
-                    
-                    HStack {
-                        Text("PADO")
-                            .font(.system(size: 22))
-                            .fontWeight(.bold)
-                        
-                        Spacer()
-                    }
-                }
-                .padding(.horizontal)
-                .padding(.bottom)
-                
-                Spacer()
-                
                 SearchBar(text: searchTextBinding,
                           isLoading: $viewModel.isLoading)
                     .padding(.horizontal)
                 
                 Spacer()
                 
-                Text("최근검색")
-                    .font(.system(size: 14, weight: .semibold))
-                    .padding()
+                HStack {
+                    Text("최근검색")
+                        .font(.system(size: 14, weight: .semibold))
+                    
+                    Spacer()
+                    
+                    Button {
+                        
+                    } label: {
+                        Text("기록 삭제")
+                            .foregroundStyle(Color(.systemGray))
+                            .font(.system(size: 14))
+                    }
+                }
+                .padding()
                 
-                ScrollView {
+                ScrollView(showsIndicators: false) {
                     ForEach(1...10, id: \.self) {_ in
                         FriendCellView(searchRightSymbol: .xmark)
+                            .padding(.vertical, 3)
                     }
-                    HStack {
-                        Spacer()
-                        
-                        Button {
-                            
-                        } label: {
-                            Text("모두 삭제")
-                                .foregroundStyle(.grayButton)
-                                .font(.system(size: 14))
-                        }
-                    }
-                    .padding()
                 }
-            } //: VSTACK
-        } //: ZSTACK
+            }
+            .padding(.top, 15)
+        }
     }
 }
 

@@ -74,8 +74,6 @@ struct ContentView: View {
                         }
                         .onAppear { selectedTab = 4 }
                         .tag(4)
-                        .badge(10)
-                    
                 }
                 .tint(.white)
                 .frame(width: geometry.size.width, height: geometry.size.height)

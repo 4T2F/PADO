@@ -32,7 +32,7 @@ struct FollowView: View {
                         VStack {
                             ZStack {
                                 Rectangle()
-                                    .frame(width: 185, height: 44)
+                                    .frame(width: 180, height: 44)
                                     .cornerRadius(25)
                                     .foregroundStyle(Color(.systemGray6))
                                 
