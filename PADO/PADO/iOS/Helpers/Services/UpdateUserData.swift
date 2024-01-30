@@ -28,4 +28,23 @@ class UpdateUserData {
     }
     
     
+    func getOthersProfileDatas(id: String) async -> User? {
+        do {
+            let querySnapshot = try await Firestore.firestore().collection("users").document(id).getDocument()
+            
+            guard let user = try? querySnapshot.data(as: User.self) else {
+                print("Error: User data could not be decoded")
+                return nil
+            }
+            
+            return user
+            
+        } catch {
+            print("Error fetching user: \(error)")
+        }
+        
+        return nil
+    }
+    
+    
 }

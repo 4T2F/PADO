@@ -7,9 +7,10 @@
 
 import SwiftUI
 
-struct ReMyFeedView: View {
+struct MyFeedView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
     @State private var isShowingSetting = false
+    @StateObject var followVM: FollowViewModel
     
     var body: some View {
        
@@ -45,7 +46,7 @@ struct ReMyFeedView: View {
                     
                     ScrollView(showsIndicators: false) {
                         VStack(spacing: 16) {
-                            ProfileCell()
+                            ProfileCell(followVM: followVM)
                             
                             MyFeedContentView()
                         }

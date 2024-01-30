@@ -12,6 +12,8 @@ struct FollowerCell: View {
     @State private var buttonActive: Bool = false
     @State var name = ""
     
+    let updateFollowData = UpdateFollowData()
+    
     var body: some View {
         HStack {
             Image("pp2")
@@ -27,7 +29,7 @@ struct FollowerCell: View {
             
             Spacer()
             
-            BlueButtonView(buttonActive: $buttonActive, activeText: "팔로우", unActiveText: "팔로잉", widthValue: 83, heightValue: 32)
+            BlueButtonView(cellUserId: "", activeText: "팔로우", unActiveText: "팔로잉", widthValue: 83, heightValue: 32, updateFollowData: updateFollowData)
         }
         .padding(.horizontal)
     }
