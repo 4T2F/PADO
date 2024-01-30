@@ -96,9 +96,14 @@ struct PostView: View {
                 // 게시요청 로직
                 Task {
                     do {
-                        // 이미지 업로드 시도
+                        // 이미지 업로드 시 이전 입력 데이터 초기화
                         let uploadedImageUrl = try await updateImageUrl.updateImageUserData(uiImage: viewModel.postingUIImage, storageTypeInput: .post)
                         await viewModel.postRequest(imageURL: uploadedImageUrl)
+                        viewModel.postingTitle = ""
+                        viewModel.postingImage = Image(systemName: "photo")
+                        viewModel.postingUIImage = UIImage()
+                        viewModel.cameraImage = Image(systemName: "photo")
+                        viewModel.selectedUIImage = Image(systemName: "photo")
                         dismiss()
                     } catch {
                         print("파베 전송 오류 발생: (error.localizedDescription)")

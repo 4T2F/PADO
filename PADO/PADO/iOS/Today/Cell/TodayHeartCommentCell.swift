@@ -14,6 +14,9 @@ struct TodayHeartCommentCell: View {
     @Binding var isShowingReportView: Bool
     @Binding var isShowingCommentView: Bool
     
+    @StateObject var commentVM = CommentViewModel()
+    @ObservedObject var feedVM: FeedViewModel
+    
     var body: some View {
         VStack(spacing: 16) {
             VStack {
@@ -44,11 +47,11 @@ struct TodayHeartCommentCell: View {
                     Image("chat")
                 }
                 .sheet(isPresented: $isShowingCommentView) {
-                    CommentView()
+                    CommentView(commentVM: commentVM, feedVM: feedVM)
                         .presentationDetents([.fraction(0.99), .fraction(0.8)])
                         .presentationDragIndicator(.visible)
                 }
-                // 댓글이 추가 될 때 +1 카운팅 되게 하는 로직 추가
+                // 댓글이 추가 될 때 +1 카운팅 되게 하는 로직
                 Text("13")
                     .font(.system(size: 12))
                     .fontWeight(.semibold)
@@ -77,8 +80,4 @@ struct TodayHeartCommentCell: View {
             .padding(.top, -15)
         }
     }
-}
-
-#Preview {
-    TodayHeartCommentCell(isShowingReportView: .constant(false), isShowingCommentView: .constant(false))
 }

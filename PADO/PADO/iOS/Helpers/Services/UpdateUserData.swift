@@ -27,7 +27,6 @@ class UpdateUserData {
         }
     }
     
-    
     func getOthersProfileDatas(id: String) async -> User? {
         do {
             let querySnapshot = try await Firestore.firestore().collection("users").document(id).getDocument()
@@ -45,6 +44,5 @@ class UpdateUserData {
         
         return nil
     }
-    
     
 }

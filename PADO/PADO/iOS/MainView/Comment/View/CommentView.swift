@@ -9,9 +9,9 @@ import SwiftUI
 
 struct CommentSheetView: View {
     @State private var commentText: String = ""
+    @ObservedObject var commentVM: CommentViewModel
+    @ObservedObject var feedVM: FeedViewModel
     @State var width = UIScreen.main.bounds.width
-    
-    @StateObject private var commentVM = CommentViewModel()
     
     var body: some View {
         ZStack {
@@ -55,9 +55,13 @@ struct CommentSheetView: View {
                                     TextField("여기에 입력하세요",
                                               text: $commentText,
                                               axis: .vertical) // 세로 축으로 동적 높이 조절 활성화
-                                
+                                    
                                     Button {
-                                        // 댓글 입력 로직
+                                        Task {
+                                            await commentVM.writeComment(inputcomment: commentText)
+                                            commentText = ""
+                                            await commentVM.getCommentsDocument()
+                                        }
                                     } label: {
                                         ZStack {
                                             RoundedRectangle(cornerRadius: 26)
@@ -89,12 +93,10 @@ struct CommentSheetView: View {
 }
 
 struct CommentView: View {
+    @ObservedObject var commentVM: CommentViewModel
+    @ObservedObject var feedVM: FeedViewModel
+    
     var body: some View {
-        CommentSheetView()
+        CommentSheetView(commentVM: commentVM, feedVM: feedVM)
     }
 }
-
-#Preview {
-    CommentSheetView()
-}
-

@@ -67,7 +67,7 @@ struct SurfingView: View {
                     } else if viewModel.selectedUIImage != Image(systemName: "photo") {
                         Button {
                             viewModel.postingImage = viewModel.selectedUIImage
-                            viewModel.postingUIImage = viewModel.selectedImage!
+                            viewModel.postingUIImage = viewModel.selectedImage ?? UIImage()
                             viewModel.showPostView.toggle()
                         } label: {
                             Text("다음")

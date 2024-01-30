@@ -6,10 +6,13 @@
 //
 
 import Foundation
+import Firebase
+import FirebaseFirestore
 
 struct Comment: Identifiable, Codable {
-    var id = UUID()
-    let nameID: String
-    let comment: String
-    let time: String
+    @DocumentID var id: String?
+
+    let userID: String
+    let content: String
+    let time: Timestamp
 }

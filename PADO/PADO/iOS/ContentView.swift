@@ -16,6 +16,7 @@ struct ContentView: View {
     
     @StateObject var surfingVM = SurfingViewModel()
     @StateObject var feedVM = FeedViewModel()
+    @StateObject var commentVM = CommentViewModel()
     @StateObject var followVM = FollowViewModel()
     
     @State private var selectedTab = 0
@@ -32,7 +33,7 @@ struct ContentView: View {
         NavigationStack {
             GeometryReader { geometry in
                 TabView(selection: $selectedTab) {
-                    FeedView(feedVM: feedVM)
+                    FeedView(feedVM: feedVM, commentVM: commentVM)
                         .tabItem {
                             Image(selectedTab == 0 ? "home_light" : "home_gray")
                                 
