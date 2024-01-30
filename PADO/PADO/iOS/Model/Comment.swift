@@ -5,9 +5,9 @@
 //  Created by 최동호 on 1/25/24.
 //
 
-import Foundation
 import Firebase
 import FirebaseFirestore
+import Foundation
 
 struct Comment: Identifiable, Codable {
     @DocumentID var id: String?
