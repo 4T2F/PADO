@@ -9,6 +9,8 @@ import Firebase
 import FirebaseFirestoreSwift
 import Foundation
 
+var formattedPostingTitle = ""
+
 struct Post: Identifiable, Codable {
     @DocumentID var id: String?
     var ownerUid: String

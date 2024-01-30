@@ -79,30 +79,17 @@ class SurfingViewModel: ObservableObject, Searchable  {
         }
     }
     
-//    @DocumentID var id: String?
-//    var ownerUid: String
-//    var sufferUid: String?
-//    var imageUrl: String
-//    var title: String
-//    var hearts: Int
-//    var comments: [Comment]?
-//    var created_Time: Timestamp
-//    var modified_Time: Timestamp?
-    
-    
     // MARK: - 게시글 요청
     func postRequest(imageURL: String) async {
         // 게시 요청 관련 로직 추가
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        
         let initialPostData : [String: Any] = [
-            "ownerUid": uid,
+            "ownerUid": userNameID,
             "imageUrl": imageURL,
             "title": postingTitle,
             "hearts": 0,
             "created_Time": Timestamp()
        ]
-        await createPostData(titleName: uid, data: initialPostData)
+        await createPostData(titleName: formattedPostingTitle, data: initialPostData)
     }
     
     func createPostData(titleName: String, data: [String: Any]) async {
