@@ -66,11 +66,8 @@ struct ProfileView: View {
                         LinearGradient(colors: [.clear, .black.opacity(0.8)], startPoint: .top, endPoint: .bottom)
                         
                         VStack(alignment: .leading, spacing: 12) {
-                            Circle()
-                                .frame(height: 70)
-                                .overlay {
-                                    CircularImageView(size: .xxLarge)
-                                }
+                         
+                            CircularImageView(size: .xLarge)
                             
                             HStack(alignment: .bottom, spacing: 10) {
                                 VStack(alignment: .leading, spacing: 4) {
