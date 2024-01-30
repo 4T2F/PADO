@@ -13,8 +13,6 @@ struct SettingView: View {
 //    @EnvironmentObject var viewModel: AuthenticationViewModel
     @StateObject var viewModel = SurfingViewModel()
     
-    @Binding var isShowingSetting: Bool
-    
     
     var name: String = "PADO"
     var nickName: String = "pado"
@@ -27,7 +25,6 @@ struct SettingView: View {
                 HStack {
                     Button {
                         dismiss()
-                        isShowingSetting = false
                     } label: {
                         Image("dismissArrow")
                             .foregroundStyle(.white)
