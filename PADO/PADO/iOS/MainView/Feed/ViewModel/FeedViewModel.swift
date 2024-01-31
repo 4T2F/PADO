@@ -55,6 +55,7 @@ class FeedViewModel: ObservableObject {
             }
             
             self.followingUsers = documents.compactMap { $0.data()["followingID"] as? String }
+            self.followingUsers.append(userNameID)
             
             Task {
                 await self.fetchFollowingPosts()
