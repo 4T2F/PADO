@@ -95,6 +95,7 @@ struct ProfileView: View {
                                                 .fraction(viewModel.areBothSocialAccountsRegistered ? 0.3 : 0.2)
                                             ])
                                             .presentationCornerRadius(20)
+                                            .presentationDragIndicator(.visible)
                                     })
                                 }
                                 
