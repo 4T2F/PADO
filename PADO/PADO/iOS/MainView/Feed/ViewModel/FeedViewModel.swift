@@ -85,7 +85,7 @@ class FeedViewModel: ObservableObject {
         followingPosts.removeAll()
 
         for userID in followingUsers {
-            let query = db.collection("post").whereField("ownerUid", isEqualTo: userID)
+            let query = db.collection("post").whereField("ownerUid", isEqualTo: userID).order(by: "created_Time", descending: false)
             do {
                 let documents = try await getDocumentsAsync(collection: db.collection("post"), query: query)
                 let posts = documents.compactMap { document in
@@ -222,7 +222,7 @@ extension FeedViewModel {
     @MainActor
     func getCommentsDocument() async {
         do {
-            let querySnapshot = try await db.collection("post").document(documentID).collection("comment").getDocuments()
+            let querySnapshot = try await db.collection("post").document(documentID).collection("comment").order(by: "time", descending: false).getDocuments()
             self.comments = querySnapshot.documents.compactMap { document in
                 try? document.data(as: Comment.self)
             }
