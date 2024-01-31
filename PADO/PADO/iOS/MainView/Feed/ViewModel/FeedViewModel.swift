@@ -217,7 +217,8 @@ class FeedViewModel: ObservableObject {
 // MARK: - Comment관련
 extension FeedViewModel {
     
-    //  포스트 - 포스팅제목 - 서브컬렉션 포스트에 접근해서 문서 댓글정보를 가져와 comments 배열에 할당
+    //  포스트 - 포스팅제목 - 서브컬렉션 포스트에 접근해서 문서 댓글정보를 가져와 comments 배열에 할당\
+    @MainActor
     func getCommentsDocument() async {
         do {
             let querySnapshot = try await db.collection("post").document(documentID).collection("comment").getDocuments()
