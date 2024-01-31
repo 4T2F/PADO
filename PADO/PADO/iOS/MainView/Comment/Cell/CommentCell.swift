@@ -13,6 +13,7 @@ struct CommentCell: View {
     
     var body: some View {
         HStack(alignment: .top) {
+
             if let imageUrl = comment.profileImageUrl {
                 KFImage(URL(string: imageUrl))
                     .fade(duration: 0.5)
@@ -24,16 +25,13 @@ struct CommentCell: View {
                     .frame(width: 35, height: 35)
                     .clipShape(Circle())
             } else {
-                Circle()
-                    .fill(Color.gray)
-                    .frame(width: 35, height: 35)
-                    .overlay(
-                        Text(comment.userID.prefix(1))
-                            .fontWeight(.semibold)
-                            .foregroundColor(.white)
-                    )
-                    .padding(.trailing, 6)
+                Image("defaultProfile")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 35, height: 35)
+                .padding(.trailing, 6)
             }
+
             
             VStack(alignment: .leading, spacing: 4) {
                 HStack {

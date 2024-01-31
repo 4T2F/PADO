@@ -49,7 +49,7 @@ struct CircularImageView: View {
                 .frame(width: size.dimension, height: size.dimension)
                 .clipShape(Circle())
         } else {
-            Image(systemName: "person.circle.fill")
+            Image("defaultProfile")
                 .resizable()
                 .scaledToFill()
                 .frame(width: size.dimension, height: size.dimension)
@@ -57,8 +57,4 @@ struct CircularImageView: View {
                 .foregroundStyle(Color(.systemGray4))
         }
     }
-}
-
-#Preview {
-    CircularImageView(size: .large)
 }

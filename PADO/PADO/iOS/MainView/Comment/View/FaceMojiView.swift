@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FaceMojiView: View {
-    @ObservedObject var viewModel: SurfingViewModel
+    @ObservedObject var surfingVM: SurfingViewModel
     
     let emotions: [Emotion] = Emotion.allCases
     let users: [String] = ["DogStar", "Hsunjin", "pinkSo"]
@@ -22,12 +22,12 @@ struct FaceMojiView: View {
                 }
                 Button {
                     // 페이스모지 열기
-                    viewModel.checkCameraPermission {
-                        viewModel.isShownCamera.toggle()
-                        viewModel.sourceType = .camera
-                        viewModel.pickerResult = []
-                        viewModel.selectedImage = nil
-                        viewModel.selectedUIImage = Image(systemName: "photo")
+                    surfingVM.checkCameraPermission {
+                        surfingVM.isShownCamera.toggle()
+                        surfingVM.sourceType = .camera
+                        surfingVM.pickerResult = []
+                        surfingVM.selectedImage = nil
+                        surfingVM.selectedUIImage = Image(systemName: "photo")
                     }
                 } label: {
                     VStack {
@@ -41,8 +41,8 @@ struct FaceMojiView: View {
                     }
                 }
                 .padding(.horizontal)
-                .sheet(isPresented: $viewModel.isShownCamera) {
-                    CameraAccessView(isShown: $viewModel.isShownCamera, myimage: $viewModel.cameraImage, myUIImage: $viewModel.cameraUIImage, mysourceType: $viewModel.sourceType)
+                .sheet(isPresented: $surfingVM.isShownCamera) {
+                    CameraAccessView(isShown: $surfingVM.isShownCamera, myimage: $surfingVM.cameraImage, myUIImage: $surfingVM.cameraUIImage, mysourceType: $surfingVM.sourceType)
                 }
 
             }

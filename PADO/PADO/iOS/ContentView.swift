@@ -32,7 +32,8 @@ struct ContentView: View {
         NavigationStack {
             GeometryReader { geometry in
                 TabView(selection: $selectedTab) {
-                    FeedView(feedVM: feedVM)
+                    FeedView(feedVM: feedVM,
+                             surfingVM: surfingVM)
                         .tabItem {
                             Image(selectedTab == 0 ? "home_light" : "home_gray")
                                 

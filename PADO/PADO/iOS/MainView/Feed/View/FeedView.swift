@@ -15,6 +15,7 @@ struct FeedView: View {
     @EnvironmentObject var authenticationViewModel: AuthenticationViewModel
     
     @StateObject var feedVM: FeedViewModel
+    @StateObject var surfingVM: SurfingViewModel
     @StateObject private var mainCommentVM = MainCommentViewModel()
     @StateObject private var mainFaceMojiVM = MainFaceMojiViewModel()
     
@@ -84,7 +85,7 @@ struct FeedView: View {
                     Spacer()
                     
                     // MARK: - HeartComment
-                    HeartCommentCell(isShowingReportView: $feedVM.isShowingReportView, isShowingCommentView: $feedVM.isShowingCommentView, feedVM: feedVM)
+                    HeartCommentCell(isShowingReportView: $feedVM.isShowingReportView, isShowingCommentView: $feedVM.isShowingCommentView, feedVM: feedVM, surfingVM: surfingVM)
                         .padding(.leading, UIScreen.main.bounds.width)
                         .padding(.trailing, 60)
                         .padding(.bottom, 10)
@@ -101,6 +102,15 @@ struct FeedView: View {
                                             await self.feedVM.selectStory(story)
                                         }
                                     }
+                                }
+                                Button(action: {
+                                    Task {
+                                        feedVM.findFollowingUsers()
+                                    }
+                                }) {
+                                    Image(systemName: "arrow.clockwise")
+                                        .padding()
+                                        .background(Circle().fill(Color.gray))
                                 }
                             }
                             .padding(.horizontal)
@@ -143,6 +153,6 @@ struct FeedView: View {
             }
             .gesture(DragGesture().onEnded(feedVM.toggleHeaderVisibility))
         }
-
+        
     }
 }

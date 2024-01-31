@@ -28,7 +28,7 @@ struct CropView: View {
     
     var body: some View {
         NavigationStack {
-            ImageView()
+            imageView()
                 .navigationTitle("편집")
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationBarBackButtonHidden()
@@ -44,7 +44,7 @@ struct CropView: View {
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {
                             // Converting View to Image (Native iOS 16+)
-                            let renderer = ImageRenderer(content: ImageView(true))
+                            let renderer = ImageRenderer(content: imageView(true))
                             renderer.proposedSize = .init(crop.size())
                             if let image = renderer.uiImage {
                                 onCrop(image, true)
@@ -80,7 +80,7 @@ struct CropView: View {
     // 이미지 뷰를 구성하는 함수
     // 이미지 뷰는 이전 화면에서 선택한 이미지
     @ViewBuilder
-    func ImageView(_ hideGrids: Bool = false) -> some View {
+    func imageView(_ hideGrids: Bool = false) -> some View {
         let cropSize = crop.size()
         GeometryReader {
             let size = $0.size
@@ -130,7 +130,7 @@ struct CropView: View {
         .overlay(content: {
             if !hideGrids {
                 if showinGrid {
-                    Grids()
+                    grids()
                 }
             }
         })
@@ -173,7 +173,7 @@ struct CropView: View {
     }
     // 격자 뷰를 구성하는 함수
     @ViewBuilder
-    func Grids() -> some View {
+    func grids() -> some View {
         ZStack {
             HStack {
                 ForEach(1...2, id: \.self) { _ in
