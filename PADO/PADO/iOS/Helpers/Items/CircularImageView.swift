@@ -58,7 +58,3 @@ struct CircularImageView: View {
         }
     }
 }
-
-#Preview {
-    CircularImageView(size: .large)
-}

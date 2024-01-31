@@ -10,6 +10,7 @@ import SwiftUI
 struct CommentView: View {
     @State private var commentText: String = ""
     @ObservedObject var feedVM: FeedViewModel
+    @ObservedObject var surfingVM: SurfingViewModel
     @State var width = UIScreen.main.bounds.width
     
     var body: some View {
@@ -23,7 +24,7 @@ struct CommentView: View {
                     
                     Divider()
                     
-//                    FaceMojiView(viewModel: feedVM)
+                    FaceMojiView(surfingVM: surfingVM)
                         .padding(2)
                     
                     Divider()

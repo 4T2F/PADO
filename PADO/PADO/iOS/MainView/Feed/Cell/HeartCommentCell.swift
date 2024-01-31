@@ -15,6 +15,7 @@ struct HeartCommentCell: View {
     @Binding var isShowingCommentView: Bool
     
     @ObservedObject var feedVM: FeedViewModel
+    @ObservedObject var surfingVM: SurfingViewModel
     
     var body: some View {
         VStack(spacing: 16) {
@@ -44,7 +45,8 @@ struct HeartCommentCell: View {
                     Image("chat")
                 }
                 .sheet(isPresented: $isShowingCommentView) {
-                    CommentView(feedVM: feedVM)
+                    CommentView(feedVM: feedVM,
+                                surfingVM: surfingVM)
                         .presentationDetents([.fraction(0.99), .fraction(0.8)])
                         .presentationDragIndicator(.visible)
                 }
