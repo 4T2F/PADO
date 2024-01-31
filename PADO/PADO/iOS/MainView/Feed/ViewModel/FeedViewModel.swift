@@ -10,6 +10,8 @@ import FirebaseFirestoreSwift
 import SwiftUI
 
 class FeedViewModel: ObservableObject {
+    
+    // MARK: - feed관련
     @Published var isShowingReportView = false
     @Published var isShowingCommentView = false
     @Published var isHeaderVisible = true
@@ -27,6 +29,12 @@ class FeedViewModel: ObservableObject {
     @Published var selectedFeedTitle: String = ""
     @Published var selectedFeedTime: String = ""
     @Published var selectedFeedHearts: Int = 0
+    
+    
+    // MARK: - comment관련
+    @Published var comments: [Comment] = []
+    @Published var documentID: String = ""
+    @Published var inputcomment: String = ""
     
     private var db = Firestore.firestore()
     private var listener: ListenerRegistration?
@@ -54,7 +62,7 @@ class FeedViewModel: ObservableObject {
         }
     }
     
-    // Asynchronous wrapper for Firestore getDocuments
+    // Firestore의 getDocuments에 대한 비동기 래퍼 함수
     @MainActor
     func getDocumentsAsync(collection: CollectionReference, query: Query) async throws -> [QueryDocumentSnapshot] {
         try await withCheckedThrowingContinuation { continuation in
@@ -70,7 +78,7 @@ class FeedViewModel: ObservableObject {
         }
     }
 
-    // Get posts from following users asynchronously
+    // 팔로잉 중인 사용자들로부터 포스트 가져오기 (비동기적으로)
     @MainActor
     private func fetchFollowingPosts() async {
         followingPosts.removeAll()
@@ -84,11 +92,11 @@ class FeedViewModel: ObservableObject {
                 }
                 self.followingPosts.append(contentsOf: posts)
             } catch {
-                print("Error fetching posts: \(error.localizedDescription)")
+                print("포스트 가져오기 오류: \(error.localizedDescription)")
             }
         }
         
-        // Create new story data
+        // 새로운 스토리 데이터 생성
         self.updateStories()
         await self.selectFirstStory()
     }
@@ -128,14 +136,16 @@ class FeedViewModel: ObservableObject {
         if let firstStory = self.stories.first {
             // 해당 스토리를 선택
             feedProfileID = firstStory.name
-            
+            selectedPostImageUrl = firstStory.image
             selectedFeedTitle = firstStory.title
             selectedFeedTime = TimestampDateFormatter.formatDate(firstStory.postTime)
             selectedFeedHearts = firstStory.hearts
+            documentID = firstStory.postID
             selectStory(firstStory)
  
             let profileUrl = await setupProfileImageURL(id: firstStory.name)
-     
+            await getCommentsDocument()
+            
             feedProfileImageUrl = profileUrl
         }
     }
@@ -149,16 +159,14 @@ class FeedViewModel: ObservableObject {
     // 스토리 선택 핸들러
     func selectStory(_ story: Story) {
         // 스토리의 이름과 게시물의 소유자 UID가 같은 경우 해당 게시물의 이미지 URL을 선택
-        if let matchingPost = followingPosts.first(where: { $0.ownerUid == story.name }) {
-            selectedPostImageUrl = matchingPost.imageUrl
-            print("Selected post image URL: \(selectedPostImageUrl)")
-            
-            // 햅틱 피드백 생성
-            let generator = UIImpactFeedbackGenerator(style: .light)
-            generator.impactOccurred()
-        } else {
-            print("No matching post found for story: \(story.name)")
-        }
+        
+        selectedPostImageUrl = story.image
+        print("Selected post image URL: \(selectedPostImageUrl)")
+        
+        // 햅틱 피드백 생성
+        let generator = UIImpactFeedbackGenerator(style: .light)
+        generator.impactOccurred()
+        
     }
     
     // 댓글 움직이는 로직
@@ -204,4 +212,43 @@ class FeedViewModel: ObservableObject {
         }
     }
     
+}
+
+// MARK: - Comment관련
+extension FeedViewModel {
+    
+    //  포스트 - 포스팅제목 - 서브컬렉션 포스트에 접근해서 문서 댓글정보를 가져와 comments 배열에 할당
+    func getCommentsDocument() async {
+        do {
+            let querySnapshot = try await db.collection("post").document(documentID).collection("comment").getDocuments()
+            self.comments = querySnapshot.documents.compactMap { document in
+                try? document.data(as: Comment.self)
+            }
+        } catch {
+            print("Error fetching comments: \(error)")
+        }
+    }
+    //  댓글 작성
+    func writeComment(inputcomment: String) async {
+        let initialPostData : [String: Any] = [
+            "userID": userNameID,
+            "content": inputcomment,
+            "time": Timestamp()
+       ]
+        await createCommentData(documentName: documentID, data: initialPostData)
+    }
+    
+    func createCommentData(documentName: String, data: [String: Any]) async {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd-HH:mm:ss.sssZ"
+        
+        let formattedDate = dateFormatter.string(from: Date())
+        let formattedCommentTitle = userNameID+formattedDate
+        
+        do {
+            try await db.collection("post").document(documentName).collection("comment").document(formattedCommentTitle).setData(data)
+        } catch {
+            print("Error saving post data: \(error.localizedDescription)")
+        }
+    }
 }

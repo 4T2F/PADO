@@ -14,7 +14,6 @@ struct TodayHeartCommentCell: View {
     @Binding var isShowingReportView: Bool
     @Binding var isShowingCommentView: Bool
     
-    @StateObject var commentVM = CommentViewModel()
     @ObservedObject var feedVM: FeedViewModel
     
     var body: some View {
@@ -47,7 +46,7 @@ struct TodayHeartCommentCell: View {
                     Image("chat")
                 }
                 .sheet(isPresented: $isShowingCommentView) {
-                    CommentView(commentVM: commentVM, feedVM: feedVM)
+                    CommentView(feedVM: feedVM)
                         .presentationDetents([.fraction(0.99), .fraction(0.8)])
                         .presentationDragIndicator(.visible)
                 }

@@ -14,7 +14,6 @@ struct TodayView: View {
     @State private var isCellVisible = true
     @State private var isCommentVisible = false
     
-    @StateObject private var commentVM = CommentViewModel()
     @StateObject private var mainCommentVM = MainCommentViewModel()
     
     var body: some View {

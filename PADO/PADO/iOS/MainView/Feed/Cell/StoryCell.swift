@@ -17,7 +17,6 @@ struct StoryCell: View {
 
     @State var imageProfileUrl: String = ""
     @ObservedObject var feedVM: FeedViewModel
-    @ObservedObject var commentVM: CommentViewModel
 
     var onTap: () -> Void  // 탭 동작을 위한 클로저
     
@@ -49,9 +48,9 @@ struct StoryCell: View {
         feedVM.selectedFeedTitle = story.title
         feedVM.selectedFeedTime = TimestampDateFormatter.formatDate(story.postTime)
         feedVM.selectedFeedHearts = story.hearts
-        commentVM.documentID = story.postID
+        feedVM.documentID = story.postID
         Task {
-            await commentVM.getCommentsDocument()
+            await feedVM.getCommentsDocument()
         }
     }
 }

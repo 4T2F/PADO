@@ -9,7 +9,6 @@ import SwiftUI
 
 struct CommentView: View {
     @State private var commentText: String = ""
-    @ObservedObject var commentVM: CommentViewModel
     @ObservedObject var feedVM: FeedViewModel
     @State var width = UIScreen.main.bounds.width
     
@@ -33,7 +32,7 @@ struct CommentView: View {
                 
                 ScrollView(showsIndicators: false) {
                     VStack(alignment: .leading) {
-                        ForEach(commentVM.comments) { comment in
+                        ForEach(feedVM.comments) { comment in
                             CommentCell(comment: comment)
                                 .padding(.horizontal, 10)
                                 .padding(.bottom, 20)
@@ -58,9 +57,9 @@ struct CommentView: View {
                                     if !commentText.isEmpty {
                                         Button {
                                             Task {
-                                                await commentVM.writeComment(inputcomment: commentText)
+                                                await feedVM.writeComment(inputcomment: commentText)
                                                 commentText = ""
-                                                await commentVM.getCommentsDocument()
+                                                await feedVM.getCommentsDocument()
                                             }
                                         } label: {
                                             ZStack {
