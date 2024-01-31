@@ -72,6 +72,7 @@ struct FollowHomeView: View {
         }
     }
 }
+    
 
 
 
