@@ -32,7 +32,10 @@ struct FollowingCellView: View {
                 
                 VStack(alignment: .leading, spacing: 3) {
                     Text(cellUserId)
-                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundStyle(.white)
+                        .font(.system(size: 14))
+                        .fontWeight(.semibold)
+                    
                     if !followingUsername.isEmpty {
                         Text(followingUsername)
                             .font(.system(size: 12, weight: .regular))
@@ -51,7 +54,8 @@ struct FollowingCellView: View {
                            updateFollowData: updateFollowData)
                 .padding(.horizontal)
 
-        } //: HSTACK
+        } // :HSTACK
+        .padding(.vertical, -12)
         .onAppear {
             Task {
                 let updateUserData = UpdateUserData()

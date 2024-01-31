@@ -26,25 +26,6 @@ struct FollowerView: View {
         ZStack {
             Color.black.ignoresSafeArea()
             VStack {
-                ZStack {
-                    Text("팔로워")
-                        .font(.system(size: 16))
-                        .fontWeight(.bold)
-                    
-                    HStack {
-                        Button {
-                            dismiss()
-                        } label: {
-                            Image("dismissArrow")
-                        }
-                        
-                        Spacer()
-                    }
-                }
-                .padding(.horizontal)
-                
-                Spacer()
-                
                 VStack {
                     SearchBar(text: searchTextBinding,
                               isLoading: $followVM.isLoading)
@@ -58,6 +39,8 @@ struct FollowerView: View {
                                     .padding()
                                 Spacer()
                             } //: HSTACK
+                            .padding(.leading)
+                            .padding(.bottom)
                             
                             ForEach(followVM.surferIDs, id: \.self) { surferId in
                                 FollowerUserCellView(cellUserId: surferId, sufferset: .removesuffer)
@@ -70,6 +53,7 @@ struct FollowerView: View {
                             Spacer()
                         } //: HSTACK
                         .padding(.horizontal)
+                        .padding(.bottom)
                         
                         ForEach(followVM.followerIDs, id: \.self) { followerId in
                             FollowerUserCellView(cellUserId: followerId, sufferset: .setsuffer)
