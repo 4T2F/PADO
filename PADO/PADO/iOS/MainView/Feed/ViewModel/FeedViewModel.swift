@@ -23,6 +23,7 @@ class FeedViewModel: ObservableObject {
     @Published var followingPosts: [Post] = []
     @Published var stories: [Story] = []
     @Published var followingUsers: [String] = []
+    @Published var watchedPostIDs: Set<String> = []
     
     @Published var feedProfileImageUrl: String = ""
     @Published var feedProfileID: String = ""
@@ -58,6 +59,7 @@ class FeedViewModel: ObservableObject {
             self.followingUsers.append(userNameID)
             
             Task {
+                await self.cacheWatchedData()
                 await self.fetchFollowingPosts()
             }
         }
@@ -78,12 +80,12 @@ class FeedViewModel: ObservableObject {
             }
         }
     }
-
+    
     // 팔로잉 중인 사용자들로부터 포스트 가져오기 (비동기적으로)
     @MainActor
     private func fetchFollowingPosts() async {
         followingPosts.removeAll()
-
+        
         for userID in followingUsers {
             let query = db.collection("post").whereField("ownerUid", isEqualTo: userID)
             do {
@@ -96,15 +98,29 @@ class FeedViewModel: ObservableObject {
                 print("포스트 가져오기 오류: \(error.localizedDescription)")
             }
         }
-
+        
         // created_Time을 Date로 변환 후 내림차순 정렬
         self.followingPosts.sort { $0.created_Time.dateValue() > $1.created_Time.dateValue() }
+        
+        self.followingPosts.sort {
+            !self.watchedPostIDs.contains($0.id ?? "") && self.watchedPostIDs.contains($1.id ?? "")
+        }
         
         // 새로운 스토리 데이터 생성
         self.updateStories()
         await self.selectFirstStory()
     }
-
+    
+    @MainActor
+    private func cacheWatchedData() async {
+        do {
+            let documents = try await db.collection("users").document(userNameID).collection("watched").getDocuments()
+            self.watchedPostIDs = Set(documents.documents.compactMap { $0.documentID })
+        } catch {
+            print("Error fetching watched data: \(error.localizedDescription)")
+        }
+    }
+    
     @MainActor
     func setupProfileImageURL(id: String) async -> String {
         do {
@@ -130,6 +146,7 @@ class FeedViewModel: ObservableObject {
     private func updateStories() {
         self.stories = self.followingPosts.map { post in
             Story(postID: post.id ?? "error", name: post.ownerUid, image: post.imageUrl, title: post.title, postTime: post.created_Time, hearts: post.hearts)
+
         }
     }
     
@@ -145,32 +162,41 @@ class FeedViewModel: ObservableObject {
             selectedFeedTime = TimestampDateFormatter.formatDate(firstStory.postTime)
             selectedFeedHearts = firstStory.hearts
             documentID = firstStory.postID
-            selectStory(firstStory)
- 
+            
+            await selectStory(firstStory)
             let profileUrl = await setupProfileImageURL(id: firstStory.name)
             await getCommentsDocument()
             
             feedProfileImageUrl = profileUrl
         }
     }
-    
-    
-    // 스토리 셀이 탭되었을 때 이를 업데이트하는 함수
-    func selectPost(_ post: Post) {
-        selectedPostImageUrl = post.imageUrl
-    }
-    
+
     // 스토리 선택 핸들러
-    func selectStory(_ story: Story) {
+    @MainActor
+    func selectStory(_ story: Story) async {
         // 스토리의 이름과 게시물의 소유자 UID가 같은 경우 해당 게시물의 이미지 URL을 선택
         
         selectedPostImageUrl = story.image
         print("Selected post image URL: \(selectedPostImageUrl)")
         
+        await watchedPost(story)
         // 햅틱 피드백 생성
         let generator = UIImpactFeedbackGenerator(style: .light)
         generator.impactOccurred()
         
+    }
+    
+    @MainActor
+    func watchedPost(_ story: Story) async {
+        do {
+            try await db.collection("users").document(userNameID).collection("watched")
+                .document(story.postID).setData(["created_Time": story.postTime,
+                                                 "watchedPost": story.postID])
+            self.watchedPostIDs.insert(story.postID)
+            
+        } catch {
+            print("Error : \(error)")
+        }
     }
     
     // 댓글 움직이는 로직
@@ -239,7 +265,7 @@ extension FeedViewModel {
             "userID": userNameID,
             "content": inputcomment,
             "time": Timestamp()
-       ]
+        ]
         await createCommentData(documentName: documentID, data: initialPostData)
     }
     

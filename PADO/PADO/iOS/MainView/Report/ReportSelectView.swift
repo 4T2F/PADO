@@ -54,6 +54,3 @@ struct ReportSelectView: View {
     }
 }
 
-#Preview {
-    ReportSelectView(isShowingReportView: .constant(false))
-}

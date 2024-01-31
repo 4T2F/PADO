@@ -94,8 +94,12 @@ struct FeedView: View {
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 16) {
                                 ForEach(Array(feedVM.stories.enumerated()), id: \.element) { index, story in
-                                    StoryCell(story: story, storyIndex: index, feedVM: feedVM) {
-                                        self.feedVM.selectStory(story)
+                                    StoryCell(story: story,
+                                              storyIndex: index,
+                                              feedVM: feedVM) {
+                                        Task {
+                                            await self.feedVM.selectStory(story)
+                                        }
                                     }
                                 }
                             }
