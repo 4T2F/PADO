@@ -5,6 +5,7 @@
 //  Created by 최동호 on 1/16/24.
 //
 
+import Kingfisher
 import SwiftUI
 
 struct CommentCell: View {
@@ -12,15 +13,27 @@ struct CommentCell: View {
     
     var body: some View {
         HStack(alignment: .top) {
-            Circle()
-                .fill(Color.gray)
-                .frame(width: 35, height: 35)
-                .overlay(
-                    Text(comment.userID.prefix(1))
-                        .fontWeight(.semibold)
-                        .foregroundColor(.white)
-                )
-                .padding(.trailing, 6)
+            if let imageUrl = comment.profileImageUrl {
+                KFImage(URL(string: imageUrl))
+                    .fade(duration: 0.5)
+                    .placeholder{
+                        ProgressView()
+                    }
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 35, height: 35)
+                    .clipShape(Circle())
+            } else {
+                Circle()
+                    .fill(Color.gray)
+                    .frame(width: 35, height: 35)
+                    .overlay(
+                        Text(comment.userID.prefix(1))
+                            .fontWeight(.semibold)
+                            .foregroundColor(.white)
+                    )
+                    .padding(.trailing, 6)
+            }
             
             VStack(alignment: .leading, spacing: 4) {
                 HStack {
