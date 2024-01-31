@@ -41,6 +41,7 @@ struct NotificationView: View {
                             ZStack {
                                 Text("알림")
                                     .foregroundStyle(.white)
+                                    .font(.system(size: 16))
                                     .fontWeight(.semibold)
                                 
                                 HStack {
@@ -48,8 +49,6 @@ struct NotificationView: View {
                                         dismiss()
                                     } label: {
                                         Image("dismissArrow")
-                                            .foregroundStyle(.white)
-                                            .font(.system(size: 20))
                                     }
                                     
                                     Spacer()
@@ -63,10 +62,8 @@ struct NotificationView: View {
                 }
             }
         }
+        .padding(.top, 10)
         .navigationBarBackButtonHidden()
     }
 }
 
-#Preview {
-    NotificationView()
-}

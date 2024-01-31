@@ -21,9 +21,9 @@ struct SettingOthersView: View {
                 
                 VStack {
                     ZStack {
-                        Text("다른설정들")
+                        Text("다른 설정들")
                             .foregroundStyle(.white)
-                            .font(.system(size: 18))
+                            .font(.system(size: 14))
                             .fontWeight(.semibold)
                         
                         HStack {
@@ -31,7 +31,6 @@ struct SettingOthersView: View {
                                 dismiss()
                             } label: {
                                 Image("dismissArrow")
-                                    .font(.system(size: 20))
                             }
                             
                             Spacer()
@@ -49,7 +48,6 @@ struct SettingOthersView: View {
                     } label: {
                         VStack {
                             SettingNormalCell(icon: "trash", text: "캐시 지우기")
-                                .foregroundStyle(Color.gray)
                         }
                     }
                     
@@ -66,7 +64,9 @@ struct SettingOthersView: View {
                 .padding(.horizontal)
                 .padding(.top, 50)
             }
-        }.sheet(isPresented: $showingCashModal, content: {
+        }
+        .padding(.top, 10)
+        .sheet(isPresented: $showingCashModal, content: {
             ModalAlertView(showingCircleImage: false, mainTitle: .cash, subTitle: .cash, removeMessage: .cash)
                 .background(Color.clear)
                 .presentationDetents([.fraction(0.4)])

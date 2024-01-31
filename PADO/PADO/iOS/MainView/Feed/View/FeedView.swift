@@ -40,6 +40,7 @@ struct FeedView: View {
                             }
                             .scaledToFill()
                             .ignoresSafeArea()
+                            .frame(height: UIScreen.main.bounds.height * 0.85)
                         
                         if isLoading { // feedVM에서 로딩 상태를 관리한다고 가정
                             ProgressView()
@@ -60,7 +61,9 @@ struct FeedView: View {
                                             .clear, .clear,
                                             .clear, .clear,
                                             .clear, .clear,
-                                            .black.opacity(0.1),
+                                            .black.opacity(0.2),
+                                            .black.opacity(0.2),
+                                            .black.opacity(0.2),
                                             .black.opacity(0.2),
                                             .black.opacity(0.3),
                                             .black.opacity(0.4)],
@@ -76,6 +79,7 @@ struct FeedView: View {
                         MainHeaderCell(vm: feedVM)
                             .frame(width: UIScreen.main.bounds.width)
                             .padding(.leading, 4)
+                            .padding(.top, 5)
                     }
                     
                     Spacer()

@@ -10,7 +10,7 @@ import SwiftUI
 struct FollowView: View {
     // MARK: - PROPERTY
     @State var width = UIScreen.main.bounds.width
-    @State var menu = "follower"
+    @State var menu: String
     
     @ObservedObject var followVM: FollowViewModel
     
@@ -32,7 +32,7 @@ struct FollowView: View {
                         VStack {
                             ZStack {
                                 Rectangle()
-                                    .frame(width: 185, height: 44)
+                                    .frame(width: 180, height: 44)
                                     .cornerRadius(25)
                                     .foregroundStyle(Color(.systemGray6))
                                 

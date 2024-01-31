@@ -12,7 +12,7 @@ struct FriendCellView: View {
     // MARK: - PROPERTY
     enum SearchRightSymbol: String {
         case chevron = "chevron.right"
-        case xmark = "xmark.circle"
+        case xmark = "xmark"
     }
     
     let searchRightSymbol: SearchRightSymbol
@@ -21,28 +21,33 @@ struct FriendCellView: View {
     var body: some View {
         NavigationStack {
             HStack {
-                Image("pp2")
-                    .resizable()
-                    .frame(width: 65, height: 65)
-                    .cornerRadius(65/2)
-                
-                VStack(alignment: .leading) {
-                    Text("동호")
-                        .foregroundStyle(.white)
-                        .fontWeight(.semibold)
+                HStack(spacing: 0) {
+                    Image("pp2")
+                        .resizable()
+                        .frame(width: 50, height: 50)
+                        .cornerRadius(50)
+                        .padding(.trailing)
                     
-                    Text("donghochoi")
-                        .foregroundStyle(.gray)
-                }
-                
-                Spacer()
-                
-                NavigationLink(destination: SurfingMakeView()) {
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text("동호")
+                            .foregroundStyle(.white)
+                            .font(.system(size: 14))
+                            .fontWeight(.semibold)
+                        
+                        Text("donghochoi")
+                            .font(.system(size: 12))
+                            .fontWeight(.regular)
+                            .foregroundStyle(Color(.systemGray))
+                    }
+                    
+                    Spacer()
+                    
                     Image(systemName: searchRightSymbol.rawValue)
-                        .foregroundStyle(.white)
-                        .font(.system(size: 16))
-                        .padding(.leading, 6)
+                        .foregroundStyle(Color(.systemGray))
+                        .font(.system(size: 14))
                 }
+                
+                
             } //: HSTACK
             .padding(.horizontal)
         } //: NAVI

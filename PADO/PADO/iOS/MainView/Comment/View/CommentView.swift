@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CommentSheetView: View {
+struct CommentView: View {
     @State private var commentText: String = ""
     @ObservedObject var commentVM: CommentViewModel
     @ObservedObject var feedVM: FeedViewModel
@@ -55,23 +55,24 @@ struct CommentSheetView: View {
                                     TextField("여기에 입력하세요",
                                               text: $commentText,
                                               axis: .vertical) // 세로 축으로 동적 높이 조절 활성화
-                                    
-                                    Button {
-                                        Task {
-                                            await commentVM.writeComment(inputcomment: commentText)
-                                            commentText = ""
-                                            await commentVM.getCommentsDocument()
-                                        }
-                                    } label: {
-                                        ZStack {
-                                            RoundedRectangle(cornerRadius: 26)
-                                                .frame(width: 50, height: 30)
-                                                .foregroundStyle(.blue)
-                                            Image(systemName: "arrow.up")
-                                                .resizable()
-                                                .frame(width: 15, height: 15)
-                                                .foregroundStyle(.white)
-                                                .bold()
+                                    if !commentText.isEmpty {
+                                        Button {
+                                            Task {
+                                                await commentVM.writeComment(inputcomment: commentText)
+                                                commentText = ""
+                                                await commentVM.getCommentsDocument()
+                                            }
+                                        } label: {
+                                            ZStack {
+                                                RoundedRectangle(cornerRadius: 26)
+                                                    .frame(width: 50, height: 30)
+                                                    .foregroundStyle(.blue)
+                                                Image(systemName: "arrow.up")
+                                                    .resizable()
+                                                    .frame(width: 15, height: 15)
+                                                    .foregroundStyle(.white)
+                                                    .bold()
+                                            }
                                         }
                                     }
                                 }
@@ -89,14 +90,5 @@ struct CommentSheetView: View {
             }
             .padding(.top, 30)
         }
-    }
-}
-
-struct CommentView: View {
-    @ObservedObject var commentVM: CommentViewModel
-    @ObservedObject var feedVM: FeedViewModel
-    
-    var body: some View {
-        CommentSheetView(commentVM: commentVM, feedVM: feedVM)
     }
 }

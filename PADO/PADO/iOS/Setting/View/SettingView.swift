@@ -21,20 +21,17 @@ struct SettingView: View {
         
         NavigationStack {
             VStack(alignment: .leading) {
-                
                 HStack {
                     Button {
                         dismiss()
                     } label: {
                         Image("dismissArrow")
-                            .foregroundStyle(.white)
-                            .font(.system(size: 20))
                     }
                     
                     Spacer()
                     
-                    Text("설정")
-                        .font(.system(size: 16, weight: .bold))
+                    Text("설정 및 개인정보")
+                        .font(.system(size: 14, weight: .bold))
                         .padding(.trailing, 20)
                     
                     Spacer()
@@ -44,9 +41,10 @@ struct SettingView: View {
                 .padding(.bottom, 30)
                 
                 Text("설정")
-                    .font(.system(size: 16, weight: .semibold))
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundStyle(.gray)
                     .padding(.leading)
-                    .padding(.bottom, 30)
+                    .padding(.bottom, 20)
                 
                 NavigationLink(destination: SettingNotificationView()) {
                     SettingViewCell(settingTittle: "알림")
@@ -62,9 +60,10 @@ struct SettingView: View {
                     .padding(.bottom, 30)
                     
                 Text("정보")
-                    .font(.system(size: 16, weight: .semibold))
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundStyle(.gray)
                     .padding(.leading)
-                    .padding(.bottom, 30)
+                    .padding(.bottom, 20)
                 
                 SettingViewCell(settingTittle: "PADO 평가하기")
                 
@@ -87,7 +86,7 @@ struct SettingView: View {
                 } label: {
                     HStack {
                         Text("로그아웃")
-                            .font(.system(size: 16, weight: .semibold))
+                            .font(.system(size: 14, weight: .semibold))
                             .foregroundStyle(.red)
                         Spacer()
                         Image(systemName: "chevron.right")
@@ -113,10 +112,10 @@ struct SettingView: View {
                         
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
-                .font(.system(size: 11))
+                .font(.system(size: 10))
                 .padding(.bottom)
             }
-                       
+            .padding(.top, 10)
         }
         .navigationBarBackButtonHidden(true)
     }

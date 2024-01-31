@@ -286,11 +286,29 @@ class AuthenticationViewModel: ObservableObject {
         }
     }
     
+    func fetchNameID() async {
+        guard let id = Auth.auth().currentUser?.uid else { return }
+        
+        let query = Firestore.firestore().collection("users").whereField("id", isEqualTo: id)
+        
+        do {
+            let querySnapshot = try await query.getDocuments()
+            for document in querySnapshot.documents {
+                if let temp = document.data()["nameID"] {
+                    userNameID = temp as? String ?? ""
+                }
+            }
+        } catch {
+            print("Error getting documents: \(error)")
+        }
+    }
+    
     func fetchUser() async {
         // 사용자 데이터 불러오기
-        guard Auth.auth().currentUser?.uid != nil else { return }
+        guard let id = Auth.auth().currentUser?.uid else { return }
 
         do {
+           
             try await Firestore.firestore().collection("users").document(userNameID).updateData([
                 "fcmToken": userToken,
                 "alertAccept": userAlertAccept
@@ -304,7 +322,6 @@ class AuthenticationViewModel: ObservableObject {
                 print("Error: User data could not be decoded")
                 return
             }
-            
             currentUser = user
             print("Current User: \(String(describing: currentUser))")
         } catch {
