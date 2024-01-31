@@ -28,9 +28,10 @@ struct CommentCell: View {
                         .fontWeight(.semibold)
                         .font(.system(size: 14))
                         .padding(.trailing, 4)
-                    Text(comment.userID)
+                    Text(TimestampDateFormatter.formatDate(comment.time))
                         .font(.caption)
                         .foregroundColor(.secondary)
+                    
                     
                     Spacer()
                     
