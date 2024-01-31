@@ -24,9 +24,12 @@ class SurfingViewModel: ObservableObject, Searchable  {
     @Published var cameraUIImage: UIImage = UIImage()
     @Published var cameraImage: Image = Image(systemName: "photo")
     
-    @Published var postingUIImage: UIImage = UIImage()
+    @Published var postingUIImage: UIImage?
     @Published var postingImage: Image = Image(systemName: "photo")
     @Published var postingTitle: String = ""
+    
+    @Published var showCropView: Bool = false
+    @Published var cropResult: Bool = false
     
     @Published var isLoading: Bool = false
     @State var progress: Double = 0
@@ -99,5 +102,26 @@ class SurfingViewModel: ObservableObject, Searchable  {
         } catch {
             print("Error saving post data: \(error.localizedDescription)")
         }
+    }
+    
+    // MARK: - 이미지 관련 초기화
+    func resetImage() {
+        selectedImage = nil
+        pickerResult = []
+        showPhotoPicker = false
+        showingPermissionAlert = false
+        selectedUIImage = Image(systemName: "photo")
+        
+        showPostView = false
+        isShownCamera = false
+        cameraUIImage = UIImage()
+        cameraImage = Image(systemName: "photo")
+        
+        postingUIImage = nil
+        postingImage = Image(systemName: "photo")
+        postingTitle = ""
+        
+        showCropView = false
+        cropResult = false
     }
 }

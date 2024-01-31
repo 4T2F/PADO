@@ -23,7 +23,7 @@ struct CommentView: View {
                     
                     Divider()
                     
-                    FaceMojiView()
+//                    FaceMojiView(viewModel: feedVM)
                         .padding(2)
                     
                     Divider()
