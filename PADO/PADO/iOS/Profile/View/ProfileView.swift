@@ -9,15 +9,12 @@ import Kingfisher
 import SwiftUI
 
 struct ProfileView: View {
-    @State var currentType: String = "파도"
-    @Namespace var animation
-    
-    @State var headerOffsets: (CGFloat, CGFloat) = (0, 0)
-    @State var buttonOnOff: Bool = false
-  
     @EnvironmentObject var viewModel: AuthenticationViewModel
-
+    @StateObject var profileVM = ProfileViewModel()
     @StateObject var followVM: FollowViewModel
+    
+    @Namespace var animation
+    @State private var buttonActive: Bool = false
     
     let columns = [GridItem(.flexible(), spacing: 1), GridItem(.flexible(), spacing: 1), GridItem(.flexible())]
     
@@ -32,9 +29,9 @@ struct ProfileView: View {
                     } header: {
                         pinnedHeaderView()
                             .background(Color.black)
-                            .offset(y: headerOffsets.1 > 0 ? 0 : -headerOffsets.1 / 8)
-                            .modifier(OffsetModifier(offset: $headerOffsets.0, returnFromStart: false))
-                            .modifier(OffsetModifier(offset: $headerOffsets.1))
+                            .offset(y: profileVM.headerOffsets.1 > 0 ? 0 : -profileVM.headerOffsets.1 / 8)
+                            .modifier(OffsetModifier(offset: $profileVM.headerOffsets.0, returnFromStart: false))
+                            .modifier(OffsetModifier(offset: $profileVM.headerOffsets.1))
                     }
                 }
             }
@@ -44,7 +41,7 @@ struct ProfileView: View {
                 .fill(.black)
                 .frame(height: 50)
                 .frame(maxHeight: .infinity, alignment: .top)
-                .opacity(headerOffsets.0 < 5 ? 1 : 0)
+                .opacity(profileVM.headerOffsets.0 < 5 ? 1 : 0)
         }
         .coordinateSpace(name: "SCROLL")
         .ignoresSafeArea(.container, edges: .vertical)
@@ -79,14 +76,27 @@ struct ProfileView: View {
                                         .font(.title.bold())
                                 }
                                 
-                                Image(systemName: "checkmark.seal.fill")
-                                    .foregroundStyle(.blue)
-                                    .background {
-                                        Circle()
-                                            .fill(.white)
-                                            .padding(3)
+                                if viewModel.isAnySocialAccountRegistered {
+                                    Button {
+                                        buttonActive.toggle()
+                                    } label: {
+                                        Image(systemName: "checkmark.seal.fill")
+                                            .foregroundStyle(.blue)
+                                            .background {
+                                                Circle()
+                                                    .fill(.white)
+                                                    .padding(3)
+                                            }
+                                            .offset(y: -5)
                                     }
-                                    .offset(y: -5)
+                                    .sheet(isPresented: $buttonActive, content: {
+                                        ProfileBadgeModalView()
+                                            .presentationDetents([
+                                                .fraction(viewModel.areBothSocialAccountsRegistered ? 0.3 : 0.2)
+                                            ])
+                                            .presentationCornerRadius(20)
+                                    })
+                                }
                                 
                                 Spacer()
                                 
@@ -202,10 +212,10 @@ struct ProfileView: View {
                 VStack(spacing: 12) {
                     Text(type)
                         .fontWeight(.semibold)
-                        .foregroundStyle(currentType == type ? .white : .gray)
+                        .foregroundStyle(profileVM.currentType == type ? .white : .gray)
                     
                     ZStack {
-                        if currentType == type {
+                        if profileVM.currentType == type {
                             RoundedRectangle(cornerRadius: 4, style: .continuous)
                                 .fill(.white)
                                 .matchedGeometryEffect(id: "TAB", in: animation)
@@ -220,7 +230,7 @@ struct ProfileView: View {
                 .contentShape(Rectangle())
                 .onTapGesture {
                     withAnimation(.easeInOut) {
-                        currentType = type
+                        profileVM.currentType = type
                     }
                 }
             }
@@ -232,7 +242,7 @@ struct ProfileView: View {
     
     @ViewBuilder
     func postList() -> some View {
-        switch currentType {
+        switch profileVM.currentType {
         case "파도":
             postView()
         case "보낸 파도":
