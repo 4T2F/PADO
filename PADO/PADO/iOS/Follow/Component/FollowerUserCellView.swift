@@ -33,7 +33,7 @@ struct FollowerUserCellView: View {
                     .resizable()
                     .scaledToFill()
                     .frame(width: 50, height: 50)
-                    .cornerRadius(70)
+                    .cornerRadius(50)
                     .padding(.horizontal)
                 
                 VStack(alignment: .leading) {
@@ -76,7 +76,8 @@ struct FollowerUserCellView: View {
                 }
             }
             
-        } //: HSTACK
+        } // :HSTACK
+        .padding(.vertical, -12)
         .onAppear {
             Task {
                 let updateUserData = UpdateUserData()
