@@ -27,31 +27,21 @@ struct FollowingView: View {
         ZStack {
             Color.black.ignoresSafeArea()
             VStack {
-                ZStack {
-                    Text("팔로잉")
-                        .font(.system(size: 16))
-                        .fontWeight(.bold)
-                    
-                    HStack {
-                        Button {
-                            dismiss()
-                        } label: {
-                            Image("dismissArrow")
-                        }
-                        
-                        Spacer()
-                    }
-                }
-                .padding(.horizontal)
-                
-                Spacer()
-                
                 VStack {
                     SearchBar(text: searchTextBinding,
                               isLoading: $followVM.isLoading)
                     .padding()
                     
                     ScrollView {
+                        HStack{
+                            Text("팔로잉")
+                                .font(.system(size: 14, weight: .semibold))
+                
+                            Spacer()
+                        } //: HSTACK
+                        .padding(.leading)
+                        .padding(.bottom)
+                        
                         ForEach(followVM.followingIDs, id: \.self) { followingID in
                             FollowingCellView(cellUserId: followingID,
                                               updateFollowData: updateFollowData)
@@ -59,9 +49,7 @@ struct FollowingView: View {
                         }
                     } //: SCROLL
                 } //: VSTACK
-                
             } //: VSTACK
-            
         } //: ZSTACK
         .onDisappear {
            updateFollowData.fetchFollowStatusData()

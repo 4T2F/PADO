@@ -13,6 +13,7 @@ struct ProfileView: View {
     @StateObject var profileVM = ProfileViewModel()
     @StateObject var followVM: FollowViewModel
     
+    
     @Namespace var animation
     @State private var buttonActive: Bool = false
     
@@ -156,7 +157,7 @@ struct ProfileView: View {
                                 }
                                 .font(.caption)
                                 
-                                NavigationLink(destination: FollowView(menu: "follower", followVM: followVM)) {
+                                NavigationLink(destination: FollowHomeView(currentSelection: 0, followVM: followVM)) {
                                     Label {
                                         Text("팔로워")
                                             .fontWeight(.semibold)
@@ -168,7 +169,7 @@ struct ProfileView: View {
                                     .font(.caption)
                                 }
                                 
-                                NavigationLink(destination: FollowView(menu: "following", followVM: followVM)) {
+                                NavigationLink(destination: FollowHomeView(currentSelection: 0, followVM: followVM)) {
                                     Label {
                                         Text("팔로잉")
                                             .fontWeight(.semibold)
