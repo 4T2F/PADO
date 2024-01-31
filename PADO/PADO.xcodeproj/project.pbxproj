@@ -90,6 +90,9 @@
 		63AA03542B68F14E00431332 /* ApiKeys.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 63AA03522B68F14E00431332 /* ApiKeys.xcconfig */; };
 		63AA03592B68F1BE00431332 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AA03572B68F1BE00431332 /* ProfileView.swift */; };
 		63AA035A2B68F1BE00431332 /* OffsetModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AA03582B68F1BE00431332 /* OffsetModifier.swift */; };
+		63AA035C2B6A026100431332 /* ProfileBadgeModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AA035B2B6A026100431332 /* ProfileBadgeModalView.swift */; };
+		63AA035E2B6A044300431332 /* SNSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AA035D2B6A044300431332 /* SNSButton.swift */; };
+		63AA03612B6A173F00431332 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AA03602B6A173F00431332 /* ProfileViewModel.swift */; };
 		63AB41192B45D38F007B37DC /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 63AB41182B45D38F007B37DC /* FirebaseStorageCombine-Community */; };
 		63AB411D2B468C25007B37DC /* NavigationViewStyleHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AB411C2B468C25007B37DC /* NavigationViewStyleHelper.swift */; };
 		63B563FF2B44656600AEC5E7 /* Year.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B563FE2B44656600AEC5E7 /* Year.swift */; };
@@ -239,6 +242,9 @@
 		63AA03522B68F14E00431332 /* ApiKeys.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ApiKeys.xcconfig; sourceTree = "<group>"; };
 		63AA03572B68F1BE00431332 /* ProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		63AA03582B68F1BE00431332 /* OffsetModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OffsetModifier.swift; sourceTree = "<group>"; };
+		63AA035B2B6A026100431332 /* ProfileBadgeModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileBadgeModalView.swift; sourceTree = "<group>"; };
+		63AA035D2B6A044300431332 /* SNSButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SNSButton.swift; sourceTree = "<group>"; };
+		63AA03602B6A173F00431332 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		63AB411C2B468C25007B37DC /* NavigationViewStyleHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewStyleHelper.swift; sourceTree = "<group>"; };
 		63B563FE2B44656600AEC5E7 /* Year.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Year.swift; sourceTree = "<group>"; };
 		63BF120E2B5EB94B00E95087 /* TodayHeartCommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayHeartCommentCell.swift; sourceTree = "<group>"; };
@@ -643,6 +649,7 @@
 				419D086B2B5FB31C00E61A6F /* AnimatedTitleView.swift */,
 				419D086C2B5FB31C00E61A6F /* LaunchSTA.swift */,
 				418935BF2B67A79400D20048 /* TimestampDateFormatter.swift */,
+				63AA035D2B6A044300431332 /* SNSButton.swift */,
 			);
 			path = Items;
 			sourceTree = "<group>";
@@ -689,6 +696,7 @@
 		63AA03552B68F17E00431332 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				63AA035F2B6A173000431332 /* ViewModel */,
 				63AA03562B68F19A00431332 /* View */,
 			);
 			path = Profile;
@@ -697,10 +705,19 @@
 		63AA03562B68F19A00431332 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				63AA03572B68F1BE00431332 /* ProfileView.swift */,
 				63AA03582B68F1BE00431332 /* OffsetModifier.swift */,
+				63AA035B2B6A026100431332 /* ProfileBadgeModalView.swift */,
+				63AA03572B68F1BE00431332 /* ProfileView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		63AA035F2B6A173000431332 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				63AA03602B6A173F00431332 /* ProfileViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		63AB41172B45D38F007B37DC /* Frameworks */ = {
@@ -1068,6 +1085,7 @@
 				64B4C8EA2B62532100D405DE /* UpdateUserData.swift in Sources */,
 				649372F82B561A6F00BCDA71 /* FollowingCellView.swift in Sources */,
 				B102FE802B56D34C0005C310 /* VerificationPostView.swift in Sources */,
+				63AA035C2B6A026100431332 /* ProfileBadgeModalView.swift in Sources */,
 				049598902B68014E0075EEF9 /* SettingAskButton.swift in Sources */,
 				417D188A2B5CFEE400545A5E /* LoginPhoneNumberView.swift in Sources */,
 				63824C452B558B2400D1D653 /* StartView.swift in Sources */,
@@ -1122,6 +1140,7 @@
 				6378916A2B62446600B40AF6 /* TodayView.swift in Sources */,
 				63824C522B558B6900D1D653 /* UseIDModalView.swift in Sources */,
 				63BF12112B5EB95900E95087 /* TodayCommentCell.swift in Sources */,
+				63AA035E2B6A044300431332 /* SNSButton.swift in Sources */,
 				B1A91D112B55928D00FE7F62 /* SettingNotificationView.swift in Sources */,
 				63C8BA562B56644600025422 /* CreateFeedCell.swift in Sources */,
 				B1749A672B5E41AA00BCC6BA /* Post.swift in Sources */,
@@ -1139,6 +1158,7 @@
 				419D086D2B5FB31C00E61A6F /* AnimatedTitleView.swift in Sources */,
 				63824C4E2B558B5500D1D653 /* CustomTF.swift in Sources */,
 				63C8BA522B5661A500025422 /* NotificationView.swift in Sources */,
+				63AA03612B6A173F00431332 /* ProfileViewModel.swift in Sources */,
 				63C8BA4D2B56241200025422 /* TextAnimation.swift in Sources */,
 				649372FE2B56665200BCDA71 /* FollowerUserCellView.swift in Sources */,
 				63C20BED2B56CFAF00911F64 /* AdvancedSettingsCell.swift in Sources */,
@@ -1333,10 +1353,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PADO/PADO.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PADO/Preview Content\"";
-				DEVELOPMENT_TEAM = UAG934M4Q7;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = UAG934M4Q7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PADO/Info.plist;
@@ -1356,6 +1378,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.4T2F.PADO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "PADO Debug";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1369,10 +1392,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PADO/PADO.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PADO/Preview Content\"";
-				DEVELOPMENT_TEAM = UAG934M4Q7;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = UAG934M4Q7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PADO/Info.plist;
@@ -1392,6 +1417,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.4T2F.PADO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "PADO Debug";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
