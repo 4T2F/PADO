@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct FaceMojiView: View {
-    @ObservedObject var viewModel: SurfingViewModel
-    
     let emotions: [Emotion] = Emotion.allCases
     let users: [String] = ["DogStar", "Hsunjin", "pinkSo"]
     
@@ -22,16 +20,9 @@ struct FaceMojiView: View {
                 }
                 Button {
                     // 페이스모지 열기
-                    viewModel.checkCameraPermission {
-                        viewModel.isShownCamera.toggle()
-                        viewModel.sourceType = .camera
-                        viewModel.pickerResult = []
-                        viewModel.selectedImage = nil
-                        viewModel.selectedUIImage = Image(systemName: "photo")
-                    }
                 } label: {
                     VStack {
-                        Image("face.dashed")
+                        Image("plusFaceMoji")
                             .resizable()
                             .foregroundStyle(.white)
                             .frame(width: 40, height: 40)
@@ -41,11 +32,12 @@ struct FaceMojiView: View {
                     }
                 }
                 .padding(.horizontal)
-                .sheet(isPresented: $viewModel.isShownCamera) {
-                    CameraAccessView(isShown: $viewModel.isShownCamera, myimage: $viewModel.cameraImage, myUIImage: $viewModel.cameraUIImage, mysourceType: $viewModel.sourceType)
-                }
 
             }
         }
     }
+}
+
+#Preview {
+    FaceMojiView()
 }
