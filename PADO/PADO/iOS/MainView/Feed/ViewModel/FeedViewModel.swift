@@ -85,7 +85,7 @@ class FeedViewModel: ObservableObject {
         followingPosts.removeAll()
 
         for userID in followingUsers {
-            let query = db.collection("post").whereField("ownerUid", isEqualTo: userID).order(by: "created_Time", descending: false)
+            let query = db.collection("post").whereField("ownerUid", isEqualTo: userID)
             do {
                 let documents = try await getDocumentsAsync(collection: db.collection("post"), query: query)
                 let posts = documents.compactMap { document in
@@ -96,6 +96,9 @@ class FeedViewModel: ObservableObject {
                 print("포스트 가져오기 오류: \(error.localizedDescription)")
             }
         }
+
+        // created_Time을 Date로 변환 후 내림차순 정렬
+        self.followingPosts.sort { $0.created_Time.dateValue() > $1.created_Time.dateValue() }
         
         // 새로운 스토리 데이터 생성
         self.updateStories()

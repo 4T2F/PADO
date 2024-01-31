@@ -37,7 +37,3 @@ struct FaceMojiView: View {
         }
     }
 }
-
-#Preview {
-    FaceMojiView()
-}
