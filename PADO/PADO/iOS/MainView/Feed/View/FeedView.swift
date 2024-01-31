@@ -102,6 +102,15 @@ struct FeedView: View {
                                         }
                                     }
                                 }
+                                Button(action: {
+                                    Task {
+                                        feedVM.findFollowingUsers()
+                                    }
+                                }) {
+                                    Image(systemName: "arrow.clockwise")
+                                        .padding()
+                                        .background(Circle().fill(Color.gray))
+                                }
                             }
                             .padding(.horizontal)
                         }
@@ -143,6 +152,6 @@ struct FeedView: View {
             }
             .gesture(DragGesture().onEnded(feedVM.toggleHeaderVisibility))
         }
-
+        
     }
 }

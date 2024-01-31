@@ -12,14 +12,10 @@ struct CommentCell: View {
     
     var body: some View {
         HStack(alignment: .top) {
-            Circle()
-                .fill(Color.gray)
+            Image("defaultProfile")
+                .resizable()
+                .scaledToFit()
                 .frame(width: 35, height: 35)
-                .overlay(
-                    Text(comment.userID.prefix(1))
-                        .fontWeight(.semibold)
-                        .foregroundColor(.white)
-                )
                 .padding(.trailing, 6)
             
             VStack(alignment: .leading, spacing: 4) {

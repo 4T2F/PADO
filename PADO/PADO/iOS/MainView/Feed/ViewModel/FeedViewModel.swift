@@ -48,7 +48,8 @@ class FeedViewModel: ObservableObject {
         findFollowingUsers()
     }
     
-    private func findFollowingUsers() {
+    func findFollowingUsers() {
+        followingUsers.removeAll()
         listener = db.collection("users").document(userNameID).collection("following").addSnapshotListener { [weak self] (querySnapshot, error) in
             guard let self = self, let documents = querySnapshot?.documents else {
                 print("Error fetching following users: \(error?.localizedDescription ?? "Unknown error")")
