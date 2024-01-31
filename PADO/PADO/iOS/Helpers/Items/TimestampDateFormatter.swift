@@ -23,9 +23,10 @@ class TimestampDateFormatter {
         case 24...:
             // 1일보다 오래된 경우
             let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd HH:mm" // 원하는 날짜 형식 지정
+            formatter.dateFormat = "yyyy.MM.dd. a h:mm" // AM/PM을 포함하는 날짜 형식 지정
+            formatter.amSymbol = "오전"
+            formatter.pmSymbol = "오후"
             return formatter.string(from: date)
-
         case 1...:
             // 1시간 이상, 1일 미만
             return "\(hoursAgo)시간 전"

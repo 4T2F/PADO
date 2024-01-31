@@ -63,6 +63,16 @@ class AuthenticationViewModel: ObservableObject {
     
     @Published var currentUser: User?
     
+    // MARK: - Profile SNS
+    // SNS 주소의 등록 여부를 확인
+    var isAnySocialAccountRegistered: Bool {
+        !(currentUser?.instaAddress ?? "").isEmpty || !(currentUser?.tiktokAddress ?? "").isEmpty
+    }
+    
+    var areBothSocialAccountsRegistered: Bool {
+        !(currentUser?.instaAddress ?? "").isEmpty && !(currentUser?.tiktokAddress ?? "").isEmpty
+    }
+
     // MARK: - 인증 관련
     func sendOtp() async {
         // OTP 발송

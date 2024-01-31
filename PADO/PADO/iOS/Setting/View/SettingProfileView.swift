@@ -169,9 +169,9 @@ struct SettingProfileView: View {
                                     
                                     Spacer()
                                 }
+                                .padding(.vertical, 4)
                                 .frame(width: width * 0.63)
                             }
-                            .padding(.vertical, 4)
                             
                             SettingProfileDivider()
                             
@@ -207,9 +207,9 @@ struct SettingProfileView: View {
                             
                                     Spacer()
                                 }
+                                .padding(.vertical, 4)
                                 .frame(width: width * 0.63)
                             }
-                            .padding(.vertical, 4)
                             
                             SettingProfileDivider()
                                 

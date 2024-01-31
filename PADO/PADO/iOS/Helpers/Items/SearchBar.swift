@@ -16,22 +16,18 @@ struct SearchBar: View {
     
     var body: some View {
         ZStack(alignment: .leading) {
-            Color.grayButton
-                .frame(width: 270, height: 35)
-                .cornerRadius(7)
-        
             HStack {
-                Image(systemName: "magnifyingglass")
-                    .foregroundStyle(Color.gray)
-                    .padding(.leading, 10)
-                
-                TextField("", text: $text,
-                          prompt: Text("검색")
-                    .font(.system(size: 16))
-                    .foregroundStyle(Color.gray))
+                HStack {
+                    Image(systemName: "magnifyingglass")
+                        .foregroundStyle(Color.gray)
+                        .padding(.leading, 10)
+                    
+                    TextField("", text: $text,
+                              prompt: Text("검색")
+                        .font(.system(size: 16))
+                        .foregroundStyle(Color.gray))
                     .padding(7)
                     .padding(.leading, -7)
-                    .background(Color.grayButton)
                     .foregroundStyle(Color.white)
                     .accentColor(Color.gray)
                     .cornerRadius(8)
@@ -40,59 +36,53 @@ struct SearchBar: View {
                             isEditing = true
                         }
                     }
-                    .overlay {
-                        HStack {
-                            Spacer()
-                            if isEditing && !text.isEmpty {
-                                if isLoading {
-                                    Button {
-                                        text = ""
-                                    } label: {
-                                        ActivityIndicator(style: .medium, animate: .constant(true))
+                }.background(
+                    RoundedRectangle(cornerRadius: 10) // HStack의 크기에 맞게 동적으로 크기가 변하는 RoundedRectangle
+                        .fill(Color.gray.opacity(0.3))
+                )
+                .overlay {
+                    HStack {
+                        Spacer()
+                        if isEditing && !text.isEmpty {
+                            if isLoading {
+                                Button {
+                                    text = ""
+                                } label: {
+                                    ActivityIndicator(style: .medium, animate: .constant(true))
                                         .configure({
                                             $0.color = .white
                                         })
-                                    }
-                                    .padding(.trailing, 15)
-                                    .frame(width: 35, height: 35)
-                                } else {
-                                    Button(action: {
-                                        text = ""
-                                    }) {
-                                        Image(systemName: "xmark.circle.fill")
-                                            .foregroundStyle(Color.gray)
-                                            .frame(width: 35, height: 35)
-                                    }
-                                    .padding(.trailing, 5)
                                 }
+                                .padding(.trailing, 15)
+                                .frame(width: 35, height: 35)
+                            } else {
+                                Button(action: {
+                                    text = ""
+                                }) {
+                                    Image(systemName: "xmark.circle.fill")
+                                        .foregroundStyle(Color.gray)
+                                        .frame(width: 35, height: 35)
+                                }
+                                .padding(.trailing, 5)
                             }
                         }
                     }
+                }
                 if isEditing {
                     Button {
-                        text = ""
-                        isEditing = false
-                        hideKeyboard()
+                        withAnimation(.easeInOut(duration: 0.3)) {
+                            text = ""
+                            isEditing = false
+                            hideKeyboard()
+                        }
                     } label: {
                         Text("취소")
                             .font(.custom("Giants-Bold", size: 15))
-                            .foregroundStyle(Color.gray)
+                            .foregroundStyle(Color.white)
                     }
-                    .padding(.trailing, 10)
-                    .transition(.move(edge: .trailing))
-                    .animation(.default)
+                    .padding(3)
                 }
             }
         }
     }
 }
-
-#Preview {
-    ZStack{
-        Color.white
-            .edgesIgnoringSafeArea(.all)
-        SearchBar(text: .constant(""), isLoading: .constant(false))
-            .padding()
-    }
-}
-

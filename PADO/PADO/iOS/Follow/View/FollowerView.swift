@@ -51,18 +51,19 @@ struct FollowerView: View {
                         .padding()
                     
                     ScrollView(.vertical) {
-                        HStack{
-                            Text("내 서퍼")
-                                .font(.system(size: 14, weight: .semibold))
-                                .padding()
-                            Spacer()
-                        } //: HSTACK
-                        
-                        ForEach(followVM.surferIDs, id: \.self) { surferId in
-                            FollowerUserCellView(cellUserId: surferId, sufferset: .removesuffer)
-                                .padding(.vertical)
+                        if !followVM.surferIDs.isEmpty {
+                            HStack{
+                                Text("내 서퍼")
+                                    .font(.system(size: 14, weight: .semibold))
+                                    .padding()
+                                Spacer()
+                            } //: HSTACK
+                            
+                            ForEach(followVM.surferIDs, id: \.self) { surferId in
+                                FollowerUserCellView(cellUserId: surferId, sufferset: .removesuffer)
+                                    .padding(.vertical)
+                            }
                         }
-                        
                         HStack{
                             Text("팔로워")
                                 .font(.system(size: 14, weight: .semibold))
