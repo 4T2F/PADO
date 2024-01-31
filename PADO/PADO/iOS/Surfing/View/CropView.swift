@@ -114,7 +114,6 @@ struct CropView: View {
                                             offset.height = (rect.minY - offset.height)
                                             haptics(.medium)
                                         }
-                                        
                                     }
                                     if !newValue {
                                         lastStoredOffset = offset
@@ -123,13 +122,10 @@ struct CropView: View {
                         }
                     })
                     .frame(size)
-                
             }
-            
         }
         .scaleEffect(scale)
         .offset(offset)
-        
         // 그리드를 보여주는 곳
         .overlay(content: {
             if !hideGrids {
@@ -139,7 +135,6 @@ struct CropView: View {
             }
         })
         .coordinateSpace(name: "CROPVIEW")
-        
         // 드래그 제스쳐를 통해서 그리드를 보여주고 안보여줌
         .gesture(
             DragGesture()
@@ -176,7 +171,6 @@ struct CropView: View {
         .frame(cropSize)
         .clipShape(RoundedRectangle(cornerRadius: crop == .circle ? cropSize.height / 2 : 0))
     }
-    
     // 격자 뷰를 구성하는 함수
     @ViewBuilder
     func Grids() -> some View {
