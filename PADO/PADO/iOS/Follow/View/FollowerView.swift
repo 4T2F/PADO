@@ -31,20 +31,22 @@ struct FollowerView: View {
                               isLoading: $followVM.isLoading)
                         .padding()
                     
-                    ScrollView {
-                        HStack{
-                            Text("내 서퍼")
-                                .font(.system(size: 14, weight: .semibold))
-                
-                            Spacer()
-                        } //: HSTACK
-                        .padding(.leading)
-                        .padding(.bottom)
-                        
-                        ForEach(followVM.surferIDs, id: \.self) { surferId in
-                            FollowerUserCellView(cellUserId: surferId, sufferset: .removesuffer)
+                    ScrollView(.vertical) {
+                        if !followVM.surferIDs.isEmpty {
+                            HStack{
+                                Text("내 서퍼")
+                                    .font(.system(size: 14, weight: .semibold))
+                                    .padding()
+                                Spacer()
+                            } //: HSTACK
+                            .padding(.leading)
+                            .padding(.bottom)
+                            
+                            ForEach(followVM.surferIDs, id: \.self) { surferId in
+                                FollowerUserCellView(cellUserId: surferId, sufferset: .removesuffer)
+                                    .padding(.vertical)
+                            }
                         }
-                        
                         HStack{
                             Text("팔로워")
                                 .font(.system(size: 14, weight: .semibold))

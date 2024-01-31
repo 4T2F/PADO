@@ -14,19 +14,47 @@ struct StoryCell: View {
     
     var story: Story
     var storyIndex: Int
-
+    var isWatched: Bool {
+        feedVM.watchedPostIDs.contains(story.postID)
+    }
+    
     @State var imageProfileUrl: String = ""
     @ObservedObject var feedVM: FeedViewModel
-    @ObservedObject var commentVM: CommentViewModel
 
     var onTap: () -> Void  // 탭 동작을 위한 클로저
     
     var body: some View {
         VStack {
-            KFImage.url(URL(string: imageProfileUrl))
-                .resizable()
-                .frame(width: 70, height: 70)
-                .cornerRadius(70)
+            if isWatched {
+                ZStack {
+                    Circle()
+                        .stroke(.gray, lineWidth: 1.4)
+                        .foregroundColor(.black)
+                        .background(.clear)
+                        .frame(width: 72, height: 72)
+                    
+                    KFImage.url(URL(string: imageProfileUrl))
+                        .resizable()
+                        .frame(width: 66, height: 66)
+                        .cornerRadius(70)
+                }
+                .padding(.top, 5)
+            } else {
+                ZStack {
+                    Circle()
+                        .stroke(LinearGradient(colors: [.num1, .num2, .num3, .num3, .num2, .num1], startPoint: .bottomLeading, endPoint: .topTrailing), lineWidth: 2.3)
+                        .foregroundColor(.black)
+                        .background(.clear)
+                        .frame(width: 72, height: 72)
+                    
+                    KFImage.url(URL(string: imageProfileUrl))
+                        .resizable()
+                        .frame(width: 66, height: 66)
+                        .cornerRadius(70)
+                }
+                .padding(.top, 5)
+            }
+
             Text(story.name)
                 .font(.system(size: 12))
                 .foregroundStyle(.white)
@@ -34,10 +62,7 @@ struct StoryCell: View {
         .onAppear {
             Task {
                 imageProfileUrl = await feedVM.setupProfileImageURL(id: story.name)
-                
-                if storyIndex == 0 {
-                    setFeedData()
-                }
+
             }
         }
         .onTapGesture {
@@ -52,9 +77,9 @@ struct StoryCell: View {
         feedVM.selectedFeedTitle = story.title
         feedVM.selectedFeedTime = TimestampDateFormatter.formatDate(story.postTime)
         feedVM.selectedFeedHearts = story.hearts
-        commentVM.documentID = story.postID
+        feedVM.documentID = story.postID
         Task {
-            await commentVM.getCommentsDocument()
+            await feedVM.getCommentsDocument()
         }
     }
 }

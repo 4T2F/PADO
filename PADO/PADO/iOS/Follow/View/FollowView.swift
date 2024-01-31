@@ -79,8 +79,12 @@ struct FollowView: View {
 //        .onAppear {
 //            let updateFollowData = UpdateFollowData()
 //            Task {
+//                await updateFollowData.followUser(id: "hanabi")
+//                await updateFollowData.followUser(id: "pado")
 //                await updateFollowData.followUser(id: "legendboy")
 //                await updateFollowData.followUser(id: "king")
+//                await updateFollowData.followUser(id: "goat")
+//                await updateFollowData.followUser(id: "test")
 //            }
 //        }
     }

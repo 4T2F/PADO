@@ -12,6 +12,7 @@ import Foundation
 var formattedPostingTitle = ""
 
 struct Post: Identifiable, Codable {
+ 
     @DocumentID var id: String?
     var ownerUid: String
     var sufferUid: String?
