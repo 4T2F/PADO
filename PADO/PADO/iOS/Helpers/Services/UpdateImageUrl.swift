@@ -66,7 +66,7 @@ class UpdateImageUrl {
             let formattedDate = dateFormatter.string(from: Date())
             formattedPostingTitle = filename+formattedDate
             
-            guard let imageData = image.jpegData(compressionQuality: 1.0) else { return nil }
+            guard let imageData = image.jpegData(compressionQuality: 0.35) else { return nil }
             
             switch storageTypeInput {
                 
