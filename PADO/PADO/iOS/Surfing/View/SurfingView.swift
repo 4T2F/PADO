@@ -11,7 +11,7 @@ import SwiftUI
 
 struct SurfingView: View {
     // MARK: - PROPERTY
-    @ObservedObject var viewModel: SurfingViewModel
+    @ObservedObject var surfingVM: SurfingViewModel
     
     // MARK: - BODY
     var body: some View {
@@ -20,13 +20,13 @@ struct SurfingView: View {
                 Spacer()
                 
                 // 이미 선택된 이미지를 표시하는 영역
-                if viewModel.selectedUIImage != Image(systemName: "photo") {
-                    viewModel.selectedUIImage
+                if surfingVM.selectedUIImage != Image(systemName: "photo") {
+                    surfingVM.selectedUIImage
                         .resizable()
                         .scaledToFit()
 
-                } else if viewModel.cameraImage != Image(systemName: "photo") {
-                    viewModel.cameraImage
+                } else if surfingVM.cameraImage != Image(systemName: "photo") {
+                    surfingVM.cameraImage
                         .resizable()
                         .scaledToFit()
                 } else {
@@ -40,12 +40,12 @@ struct SurfingView: View {
                 // 이미지 피커 버튼을 표시하는 영역
                 HStack {
                     Button {
-                        viewModel.checkCameraPermission {
-                            viewModel.isShownCamera.toggle()
-                            viewModel.sourceType = .camera
-                            viewModel.pickerResult = []
-                            viewModel.selectedImage = nil
-                            viewModel.selectedUIImage = Image(systemName: "photo")
+                        surfingVM.checkCameraPermission {
+                            surfingVM.isShownCamera.toggle()
+                            surfingVM.sourceType = .camera
+                            surfingVM.pickerResult = []
+                            surfingVM.selectedImage = nil
+                            surfingVM.selectedUIImage = Image(systemName: "photo")
                         }
                     } label: {
                         Image("Camera")
@@ -55,20 +55,20 @@ struct SurfingView: View {
                     
                     Spacer()
                     
-                    if viewModel.cameraImage != Image(systemName: "photo") {
+                    if surfingVM.cameraImage != Image(systemName: "photo") {
                         Button {
-                            viewModel.postingImage = viewModel.cameraImage
-                            viewModel.postingUIImage = viewModel.cameraUIImage
-                            viewModel.showPostView.toggle()
+                            surfingVM.postingImage = surfingVM.cameraImage
+                            surfingVM.postingUIImage = surfingVM.cameraUIImage
+                            surfingVM.showCropView.toggle()
                         } label: {
                             Text("다음")
                                 .font(.system(size: 16, weight: .semibold))
                         }
-                    } else if viewModel.selectedUIImage != Image(systemName: "photo") {
+                    } else if surfingVM.selectedUIImage != Image(systemName: "photo") {
                         Button {
-                            viewModel.postingImage = viewModel.selectedUIImage
-                            viewModel.postingUIImage = viewModel.selectedImage ?? UIImage()
-                            viewModel.showPostView.toggle()
+                            surfingVM.postingImage = surfingVM.selectedUIImage
+                            surfingVM.postingUIImage = surfingVM.selectedImage ?? UIImage()
+                            surfingVM.showCropView.toggle()
                         } label: {
                             Text("다음")
                                 .font(.system(size: 16, weight: .semibold))
@@ -78,24 +78,28 @@ struct SurfingView: View {
                 .foregroundStyle(.white)
                 .padding(.horizontal, 20)
                 
-                PhotoPicker(pickerResult: $viewModel.pickerResult,
-                            selectedImage: $viewModel.selectedImage,
-                            selectedSwiftUIImage: $viewModel.selectedUIImage)
+                PhotoPicker(pickerResult: $surfingVM.pickerResult,
+                            selectedImage: $surfingVM.selectedImage,
+                            selectedSwiftUIImage: $surfingVM.selectedUIImage)
                     .frame(height: 300)
                 
             } //: VSTACK
             .onAppear {
-                viewModel.checkPhotoLibraryPermission()
+                surfingVM.checkPhotoLibraryPermission()
             }
-            .alert(isPresented: $viewModel.showingPermissionAlert) {
+            .alert(isPresented: $surfingVM.showingPermissionAlert) {
                 Alert(title: Text("권한 필요"), message: Text("사진 라이브러리 접근 권한이 필요합니다."), dismissButton: .default(Text("확인")))
             }
-            .sheet(isPresented: $viewModel.isShownCamera) {
-                CameraAccessView(isShown: $viewModel.isShownCamera, myimage: $viewModel.cameraImage, myUIImage: $viewModel.cameraUIImage, mysourceType: $viewModel.sourceType)
+            .sheet(isPresented: $surfingVM.isShownCamera) {
+                CameraAccessView(isShown: $surfingVM.isShownCamera, myimage: $surfingVM.cameraImage, myUIImage: $surfingVM.cameraUIImage, mysourceType: $surfingVM.sourceType)
             }
         }
-        .navigationDestination(isPresented: $viewModel.showPostView) {
-            PostView(viewModel: viewModel)
+        .navigationDestination(isPresented: $surfingVM.showCropView) {
+            CropView(surfingVM: surfingVM) { croppedImage, status in
+                if let croppedImage {
+                    surfingVM.postingUIImage = croppedImage
+                }
+            }
         }//: NAVI
     }
 }
