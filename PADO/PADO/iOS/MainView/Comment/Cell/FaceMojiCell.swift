@@ -4,7 +4,7 @@
 //
 //  Created by 최동호 on 1/16/24.
 //
-
+import Kingfisher
 import SwiftUI
 
 enum Emotion: String, CaseIterable {
@@ -40,34 +40,37 @@ enum Emotion: String, CaseIterable {
     }
 }
 
+
+
+import Kingfisher
+import SwiftUI
+
 struct FaceMojiCell: View {
-    let emotion: Emotion
-    let faceMojiUser: String
+    
+    var facemoji: Facemoji
+    
     var body: some View {
         VStack {
             ZStack {
                 Circle()
                     .frame(width: 56, height: 56)
-                    .foregroundStyle(emotion.color)
+                    .foregroundStyle(.white)
                 
-                Image("pp")
+                KFImage(URL(string: facemoji.faceMojiImageUrl))
+                    .fade(duration: 0.5)
+                    .placeholder{
+                        ProgressView()
+                    }
                     .resizable()
                     .scaledToFill()
                     .frame(width: 54, height: 54)
                     .clipShape(Circle())
-                
-                Text(emotion.emoji)
-                    .offset(x: 22, y: 20)
             }
             
-            Text(faceMojiUser)
+            Text(facemoji.userID)
                 .foregroundStyle(.white)
                 .font(.system(size: 10))
                 .fontWeight(.medium)
         }
     }
-}
-
-#Preview {
-    FaceMojiCell(emotion: .heart, faceMojiUser: "DogStar")
 }

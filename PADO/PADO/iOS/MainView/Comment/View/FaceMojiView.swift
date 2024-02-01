@@ -11,14 +11,11 @@ struct FaceMojiView: View {
     @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var surfingVM: SurfingViewModel
     
-    let emotions: [Emotion] = Emotion.allCases
-    let users: [String] = ["DogStar", "Hsunjin", "pinkSo"]
-    
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
-                ForEach(Array(zip(emotions, users)), id: \.0.self) { (emotion, user) in
-                    FaceMojiCell(emotion: emotion, faceMojiUser: user)
+                ForEach(feedVM.facemojies, id: \.self) { facemoji in
+                    FaceMojiCell(facemoji: facemoji)
                         .padding(.horizontal, 6)
                 }
                 Button {
@@ -49,15 +46,11 @@ struct FaceMojiView: View {
                     .onDisappear() {
                         feedVM.faceMojiImage = surfingVM.faceMojiImage
                         feedVM.faceMojiUIImage = surfingVM.faceMojiUIImage
+                        Task {
+                            try await feedVM.updateFaceMoji()
+                            try await feedVM.getFaceMoji()
+                        }
                     }
-                }
-                
-                Button {
-                    Task {
-                        try await feedVM.updateFaceMoji()
-                    }
-                } label: {
-                    Text("test")
                 }
             }
         }

@@ -88,5 +88,10 @@ struct CommentView: View {
             }
             .padding(.top, 30)
         }
+        .onAppear {
+            Task {
+                try await feedVM.getFaceMoji()
+            }
+        }
     }
 }

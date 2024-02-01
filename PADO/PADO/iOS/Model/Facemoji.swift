@@ -9,9 +9,11 @@ import Firebase
 import FirebaseFirestore
 import Foundation
 
-struct Facemoji {
+struct Facemoji : Identifiable, Codable, Hashable {
     @DocumentID var id: String?
     
     let userID: String
-    let faceMojiImageUrl: String?
+    let faceMojiImageUrl: String
+    let storagename: String
+    let time: Timestamp
 }

@@ -99,7 +99,7 @@ class UpdateImageUrl {
                 }
                 
             case .facemoji:
-                let storageRef = Storage.storage().reference(withPath: "/facemoji/\(filename)")
+                let storageRef = Storage.storage().reference(withPath: "/facemoji/\(filename)-\(documentid)")
                 do {
                     _ = try await storageRef.putDataAsync(imageData)
                     let url = try await storageRef.downloadURL()

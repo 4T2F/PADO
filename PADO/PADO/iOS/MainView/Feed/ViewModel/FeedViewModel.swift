@@ -432,7 +432,22 @@ extension FeedViewModel {
         )
         
         try await db.collection("post").document(documentID).collection("facemoji").document(userNameID).updateData([
-            "userID" : userNameID
+            "userID" : userNameID,
+            "storagename" : "\(userNameID)-\(documentID)",
+            "time" : Timestamp()
         ])
+    }
+    
+    @MainActor
+    func getFaceMoji() async throws {
+        do {
+            let querySnapshot = try await db.collection("post").document(documentID).collection("facemoji").order(by: "time", descending: false).getDocuments()
+            self.facemojies = querySnapshot.documents.compactMap { document in
+                try? document.data(as: Facemoji.self)
+            }
+        } catch {
+            print("Error fetching comments: \(error)")
+        }
+        print(facemojies)
     }
 }
