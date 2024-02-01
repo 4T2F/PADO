@@ -12,10 +12,13 @@ struct FollowerModalAlert: View {
     @State var width = UIScreen.main.bounds.width
     @State var height = UIScreen.main.bounds.height
     
-    @State var followerUsername: String = ""
-    @State var followerProfileUrl: String = ""
-    @State var buttonText1: String = ""
-    @State var buttonText2: String = ""
+    @State var followerUsername: String
+    @State var followerProfileUrl: String
+    @State var buttonText1: String
+    @State var buttonText2: String?
+    
+    var onButton1: (() async -> Void)?
+    var onButton2: (() async -> Void)?
     
     @Environment(\.dismiss) var dismiss
     
@@ -36,7 +39,12 @@ struct FollowerModalAlert: View {
                     Divider()
                     
                     Button {
-                        //
+                        if let onButton1 = onButton1 {
+                            Task {
+                                await onButton1()
+                            }
+                        }
+                        
                     } label: {
                         Text(buttonText1)
                             .font(.system(size: 14))
@@ -45,12 +53,17 @@ struct FollowerModalAlert: View {
                     
                     Divider()
                     
-                    Button {
-                        //
-                    } label: {
-                        Text(buttonText2)
-                            .font(.system(size: 14))
-                            .fontWeight(.regular)
+                    if let buttonText = buttonText2,
+                       let onButton2 = onButton2 {
+                        Button {
+                            Task {
+                                await onButton2()
+                            }
+                        } label: {
+                            Text(buttonText)
+                                .font(.system(size: 14))
+                                .fontWeight(.regular)
+                        }
                     }
                 }
                 .foregroundStyle(Color.white)

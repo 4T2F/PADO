@@ -16,6 +16,7 @@ struct FollowerUserCellView: View {
     @State private var showingModal: Bool = false
     
     let cellUserId: String
+    let followerType: FollowerModalType
     
     enum SufferSet: String {
         case removesuffer = "서퍼 해제"
@@ -68,7 +69,26 @@ struct FollowerUserCellView: View {
                     .foregroundStyle(.white)
                     .padding(.trailing)
             }
-            
+            .sheet(isPresented: $showingModal) {
+                let updateFollowData = UpdateFollowData()
+                switch followerType {
+                case .surfer:
+                    FollowerModalAlert(followerUsername: cellUserId,
+                                       followerProfileUrl: followerProfileUrl,
+                                       buttonText1: "서퍼 해제",
+                                       onButton1: { await updateFollowData.removeSurfer(id: cellUserId)})
+                    .presentationDetents([.fraction(0.4)])
+                case .follower:
+                    FollowerModalAlert(followerUsername: cellUserId,
+                                       followerProfileUrl: followerProfileUrl,
+                                       buttonText1: "서퍼 등록",
+                                       buttonText2: "팔로워 삭제",
+                                       onButton1: { await updateFollowData.registerSurfer(id: cellUserId)},
+                                       onButton2: { await updateFollowData.removeFollower(id: cellUserId)})
+                    .presentationDetents([.fraction(0.4)])
+                }
+            }
+           
         } // :HSTACK
         .padding(.vertical, -12)
         .onAppear {
