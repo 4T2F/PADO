@@ -18,10 +18,10 @@ struct OtherUserProfileView: View {
     
     @Environment(\.dismiss) var dismiss
   
-    let user: User
-    
     @State private var buttonOnOff = false
     @State private var buttonActive: Bool = false
+    
+    let user: User
     
     let columns = [GridItem(.flexible(), spacing: 1), GridItem(.flexible(), spacing: 1), GridItem(.flexible())]
     
@@ -36,7 +36,6 @@ struct OtherUserProfileView: View {
                     } header: {
                         pinnedHeaderView()
                             .background(Color.black)
-//                            .offset(y: profileVM.headerOffsets.1 > 0 ? -profileVM.headerOffsets.1 : -profileVM.headerOffsets.1 / 8)
                             .modifier(OffsetModifier(offset: $profileVM.headerOffsets.0, returnFromStart: false))
                             .modifier(OffsetModifier(offset: $profileVM.headerOffsets.1))
                     }
@@ -94,7 +93,7 @@ struct OtherUserProfileView: View {
                                         .font(.title.bold())
                                 }
                                 
-                                if viewModel.isAnySocialAccountRegistered {
+                                if !user.instaAddress.isEmpty || !user.tiktokAddress.isEmpty {
                                     Button {
                                         buttonActive.toggle()
                                     } label: {
@@ -108,12 +107,13 @@ struct OtherUserProfileView: View {
                                             .offset(y: -5)
                                     }
                                     .sheet(isPresented: $buttonActive, content: {
-                                        ProfileBadgeModalView()
+                                        ProfileBadgeModalView(user: user)
                                             .presentationDetents([
-                                                .fraction(viewModel.areBothSocialAccountsRegistered ? 0.3 : 0.2)
+                                                .fraction(!user.instaAddress.isEmpty && !user.tiktokAddress.isEmpty ? 0.3 : 0.2)
                                             ])
                                             .presentationCornerRadius(20)
                                             .presentationDragIndicator(.visible)
+                                        
                                     })
                                 }
                                 

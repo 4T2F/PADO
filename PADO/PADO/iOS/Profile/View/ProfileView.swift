@@ -102,12 +102,14 @@ struct ProfileView: View {
                                             .offset(y: -5)
                                     }
                                     .sheet(isPresented: $buttonActive, content: {
-                                        ProfileBadgeModalView()
-                                            .presentationDetents([
-                                                .fraction(viewModel.areBothSocialAccountsRegistered ? 0.3 : 0.2)
-                                            ])
-                                            .presentationCornerRadius(20)
-                                            .presentationDragIndicator(.visible)
+                                        if let user = viewModel.currentUser {
+                                            ProfileBadgeModalView(user: user)
+                                                .presentationDetents([
+                                                    .fraction(viewModel.areBothSocialAccountsRegistered ? 0.3 : 0.2)
+                                                ])
+                                                .presentationCornerRadius(20)
+                                                .presentationDragIndicator(.visible)
+                                        }
                                     })
                                 }
                                 

@@ -50,4 +50,3 @@ struct User: Codable, Identifiable, Hashable {
     var instaAddress: String
     var tiktokAddress: String
 }
-
