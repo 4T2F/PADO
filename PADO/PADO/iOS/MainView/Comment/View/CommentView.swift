@@ -25,7 +25,7 @@ struct CommentView: View {
                     
                     Divider()
                     
-                    FaceMojiView(surfingVM: surfingVM)
+                    FaceMojiView(feedVM: feedVM, surfingVM: surfingVM)
                         .padding(2)
                     
                     Divider()
@@ -89,6 +89,11 @@ struct CommentView: View {
                 }
             }
             .padding(.top, 30)
+        }
+        .onAppear {
+            Task {
+                try await feedVM.getFaceMoji()
+            }
         }
     }
 }

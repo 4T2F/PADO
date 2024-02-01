@@ -44,6 +44,11 @@ class FeedViewModel: ObservableObject {
     var dragStart: CGPoint?
     let dragThreshold: CGFloat = 0
     
+    // MARK: - FaceMoji 관련
+    @Published var faceMojiImage: Image = Image(systemName: "photo")
+    @Published var faceMojiUIImage: UIImage = UIImage()
+    @Published var facemojies: [Facemoji] = []
+    
     init() {
         // Firestore의 `post` 컬렉션에 대한 실시간 리스너 설정
         findFollowingUsers()
@@ -148,7 +153,7 @@ class FeedViewModel: ObservableObject {
     private func updateStories() {
         self.stories = self.followingPosts.map { post in
             Story(postID: post.id ?? "error", name: post.ownerUid, image: post.imageUrl, title: post.title, postTime: post.created_Time)
-
+            
         }
     }
     
@@ -162,7 +167,7 @@ class FeedViewModel: ObservableObject {
             selectedPostImageUrl = firstStory.image
             selectedFeedTitle = firstStory.title
             selectedFeedTime = TimestampDateFormatter.formatDate(firstStory.postTime)
-//            selectedFeedHearts = firstStory.heartsCount
+            //            selectedFeedHearts = firstStory.heartsCount
             documentID = firstStory.postID
             
             await selectStory(firstStory)
@@ -172,7 +177,7 @@ class FeedViewModel: ObservableObject {
             feedProfileImageUrl = profileUrl
         }
     }
-
+    
     // 스토리 선택 핸들러
     @MainActor
     func selectStory(_ story: Story) async {
@@ -296,7 +301,7 @@ extension FeedViewModel {
                 transaction.updateData(["heartsCount": oldCount + 1], forDocument: postRef)
                 return nil
             })
-           
+            
         }
         catch {
             print("error: \(error.localizedDescription)")
@@ -340,7 +345,7 @@ extension FeedViewModel {
     @MainActor
     func checkHeartExists() async -> Bool {
         let heartDocRef = db.collection("post").document(documentID).collection("heart").document(userNameID)
-
+        
         do {
             let documentSnapshot = try await heartDocRef.getDocument()
             // 문서가 존재하지 않으면 false, 존재하면 true 반환
@@ -416,5 +421,37 @@ extension FeedViewModel {
         } catch {
             print("Error saving post data: \(error.localizedDescription)")
         }
+    }
+}
+
+// MARK: - FaceMoji 관련
+extension FeedViewModel {
+    // 페이스 모지를 스토리지, 스토어에 업로드
+    func updateFaceMoji() async throws {
+        let faceMojiImageUrl = try await UpdateImageUrl.shared.updateImageUserData(
+            uiImage: faceMojiUIImage,
+            storageTypeInput: .facemoji,
+            documentid: documentID,
+            imageQuality: .lowforFaceMoji
+        )
+        
+        try await db.collection("post").document(documentID).collection("facemoji").document(userNameID).updateData([
+            "userID" : userNameID,
+            "storagename" : "\(userNameID)-\(documentID)",
+            "time" : Timestamp()
+        ])
+    }
+    
+    @MainActor
+    func getFaceMoji() async throws {
+        do {
+            let querySnapshot = try await db.collection("post").document(documentID).collection("facemoji").order(by: "time", descending: false).getDocuments()
+            self.facemojies = querySnapshot.documents.compactMap { document in
+                try? document.data(as: Facemoji.self)
+            }
+        } catch {
+            print("Error fetching comments: \(error)")
+        }
+        print(facemojies)
     }
 }

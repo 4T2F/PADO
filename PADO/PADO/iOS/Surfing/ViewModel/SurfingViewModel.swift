@@ -21,6 +21,7 @@ class SurfingViewModel: ObservableObject, Searchable  {
     @Published var showPostView: Bool = false
     @Published var isShownCamera: Bool = false
     @Published var sourceType: UIImagePickerController.SourceType = .camera
+    @Published var cameraDevice: UIImagePickerController.CameraDevice = .rear
     @Published var cameraUIImage: UIImage = UIImage()
     @Published var cameraImage: Image = Image(systemName: "photo")
     
@@ -30,6 +31,10 @@ class SurfingViewModel: ObservableObject, Searchable  {
     
     @Published var showCropView: Bool = false
     @Published var cropResult: Bool = false
+    
+    // 페이스 모지 관련 변수
+    @Published var faceMojiUIImage: UIImage = UIImage()
+    @Published var faceMojiImage: Image = Image(systemName: "photo")
     
     @Published var isLoading: Bool = false
     @State var progress: Double = 0
