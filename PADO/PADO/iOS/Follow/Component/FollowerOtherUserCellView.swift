@@ -55,13 +55,15 @@ struct FollowerOtherUserCellView: View {
             
             Spacer()
             
-            BlueButtonView(cellUserId: cellUserId,
-                           activeText: "팔로우",
-                           unActiveText: "팔로잉",
-                           widthValue: 85,
-                           heightValue: 30,
-                           updateFollowData: updateFollowData)
+            if cellUserId != userNameID {
+                BlueButtonView(cellUserId: cellUserId,
+                               activeText: "팔로우",
+                               unActiveText: "팔로잉",
+                               widthValue: 85,
+                               heightValue: 30,
+                               updateFollowData: updateFollowData)
                 .padding(.horizontal)
+            }
             
         } // :HSTACK
         .padding(.vertical, -12)

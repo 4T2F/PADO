@@ -190,7 +190,7 @@ struct OtherUserProfileView: View {
                                 }
                                 .font(.caption)
                                 
-                                NavigationLink(destination: FollowMainView(followVM: followVM)) {
+                                NavigationLink(destination: FollowMainView(followVM: followVM, updateFollowData: updateFollowData, user: user)) {
                                     Label {
                                         Text("팔로워")
                                             .fontWeight(.semibold)
@@ -203,7 +203,7 @@ struct OtherUserProfileView: View {
                                     .font(.caption)
                                 }
                                 
-                                NavigationLink(destination: FollowMainView(followVM: followVM)) {
+                                NavigationLink(destination: FollowMainView(followVM: followVM, updateFollowData: updateFollowData, user: user)) {
                                     Label {
                                         Text("팔로잉")
                                             .fontWeight(.semibold)

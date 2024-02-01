@@ -14,10 +14,14 @@ struct FollowMainView: View {
     
     @ObservedObject var followVM: FollowViewModel
     
+    let updateFollowData: UpdateFollowData
+    
+    let user: User
+    
     var body: some View {
         VStack {
             ZStack {
-                Text("\(userNameID)")
+                Text("\(user.nameID)")
                     .font(.system(size: 16))
                     .fontWeight(.bold)
                 
@@ -87,7 +91,7 @@ struct FollowMainView: View {
     func postList() -> some View {
         switch currentType {
         case "팔로워":
-            FollowerView(followVM: followVM)
+            FollowerView(followVM: followVM, updateFollowData: updateFollowData, user: user)
         case "팔로잉":
             FollowingView(followVM: followVM)
         default:
