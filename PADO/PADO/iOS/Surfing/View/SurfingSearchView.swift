@@ -48,23 +48,23 @@ struct SurfingSearchView: View {
                     .font(.system(size: 14, weight: .semibold))
                     .padding()
                 
-                ScrollView {
-                    ForEach(1...10, id: \.self) {_ in
-                        FriendCellView(searchRightSymbol: .chevron)
-                    }
-                    HStack {
-                        Spacer()
-                        
-                        Button {
-                            
-                        } label: {
-                            Text("모두 삭제")
-                                .foregroundStyle(.grayButton)
-                                .font(.system(size: 14))
-                        }
-                    }
-                    .padding()
-                }
+//                ScrollView {
+//                    ForEach(1...10, id: \.self) {_ in
+//                        SearchCellView(searchRightSymbol: .chevron)
+//                    }
+//                    HStack {
+//                        Spacer()
+//                        
+//                        Button {
+//                            
+//                        } label: {
+//                            Text("모두 삭제")
+//                                .foregroundStyle(.grayButton)
+//                                .font(.system(size: 14))
+//                        }
+//                    }
+//                    .padding()
+//                }
             } //: VSTACK
         } //: ZSTACK
     }

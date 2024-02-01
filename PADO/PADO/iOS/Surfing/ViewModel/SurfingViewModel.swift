@@ -34,7 +34,7 @@ class SurfingViewModel: ObservableObject, Searchable  {
     @Published var isLoading: Bool = false
     @State var progress: Double = 0
     
-    @Published var searchResult: [User] = []
+    @Published var searchResults: [User] = []
     @Published var post: [Post]?
     @Published var viewState: ViewState = ViewState.empty
     

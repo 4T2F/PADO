@@ -17,6 +17,8 @@ struct ContentView: View {
     @StateObject var surfingVM = SurfingViewModel()
     @StateObject var feedVM = FeedViewModel()
     @StateObject var followVM = FollowViewModel()
+    @StateObject var searchVM = SearchViewModel()
+    @StateObject var profileVM = ProfileViewModel()
     
     init() {
         let appearance = UITabBarAppearance()
@@ -40,7 +42,9 @@ struct ContentView: View {
                         .onAppear { viewModel.showTab = 0 }
                         .tag(0)
                     
-                    MainSearchView()
+                    MainSearchView(searchVM: searchVM,
+                                   profileVM: profileVM,
+                                   followVM: followVM)
                         .tabItem {
                             Image(viewModel.showTab == 1 ? "search_light" : "search_gray")
                             
@@ -64,7 +68,7 @@ struct ContentView: View {
                         }
                         .onAppear { viewModel.showTab = 3 }
                         .tag(3)
-                    ProfileView(followVM: followVM)
+                    ProfileView(profileVM: profileVM, followVM: followVM)
                         .tabItem {
                             Image(viewModel.showTab == 4 ? "profile_light" : "profile_gray")
                             
@@ -75,6 +79,11 @@ struct ContentView: View {
                 }
                 .tint(.white)
                 .frame(width: geometry.size.width, height: geometry.size.height)
+            }
+        }
+        .onAppear {
+            Task {
+                await profileVM.fetchPostID(id: userNameID)
             }
         }
     }

@@ -270,6 +270,8 @@ extension FeedViewModel {
     @MainActor
     func addHeart() async {
         do {
+            try await db.collection("users").document(userNameID).collection("highlight").document(documentID).setData(["documentID": documentID])
+            
             try await db.collection("post").document(documentID).collection("heart").document(userNameID).setData(["nameID": userNameID])
             // 그 다음, 'post' 문서의 'heartsCount'를 업데이트하는 트랜잭션을 시작합니다.
             _ = try await db.runTransaction({ (transaction, errorPointer) -> Any? in
@@ -304,6 +306,8 @@ extension FeedViewModel {
     @MainActor
     func deleteHeart() async {
         do {
+            try await db.collection("users").document(userNameID).collection("highlight").document(documentID).delete()
+            
             try await db.collection("post").document(documentID).collection("heart").document(userNameID).delete()
             // 그 다음, 'post' 문서의 'heartsCount'를 업데이트하는 트랜잭션을 시작합니다.
             _ = try await db.runTransaction({ (transaction, errorPointer) in

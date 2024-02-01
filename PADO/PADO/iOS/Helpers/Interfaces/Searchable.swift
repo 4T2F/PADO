@@ -11,7 +11,7 @@ import SwiftUI
 protocol Searchable: AnyObject {
     var isLoading: Bool { get set }
     var progress: Double { get set }
-    var searchResult: [User] { get set }
+    var searchResults: [User] { get set }
     var viewState: ViewState { get set }
     
     func updateSearchText(with text: String)
@@ -30,7 +30,7 @@ extension Searchable {
     
     func getSearchResults(forText text: String) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            if self.searchResult.count == 0 {
+            if self.searchResults.count == 0 {
                 self.setViewState(to: .empty)
             } else {
                 self.setViewState(to: .ready)

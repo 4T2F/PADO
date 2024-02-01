@@ -73,8 +73,26 @@ struct SettingProfileView: View {
                             .padding(.horizontal, width * 0.05)
                         }
                         
-                        HStack {
-                            SettingProfileDivider()
+                        SettingProfileDivider()
+                    }
+                    
+                    Spacer()
+                }
+                
+                VStack {
+                    VStack {
+                        PhotosPicker(selection: $viewModel.selectedItem) {
+                            if let image = viewModel.userSelectImage {
+                                image
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 129, height: 129)
+                                    .clipShape(Circle())
+                            } else {
+                                if let user = viewModel.currentUser {
+                                    CircularImageView(size: .xxLarge, user: user)
+                                }
+                            }
                         }
                         
                         Spacer()

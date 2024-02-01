@@ -9,7 +9,7 @@ import Firebase
 import FirebaseFirestore
 import Foundation
 
-struct Heart: Identifiable, Codable {
+struct Heart: Identifiable, Hashable, Codable {
     @DocumentID var id: String?
 
     let userID: String
