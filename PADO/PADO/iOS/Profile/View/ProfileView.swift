@@ -157,7 +157,7 @@ struct ProfileView: View {
                                 }
                                 .font(.caption)
                                 
-                                NavigationLink(destination: FollowHomeView(currentSelection: 0, followVM: followVM)) {
+                                NavigationLink(destination: FollowMainView(followVM: followVM)) {
                                     Label {
                                         Text("팔로워")
                                             .fontWeight(.semibold)
@@ -169,7 +169,7 @@ struct ProfileView: View {
                                     .font(.caption)
                                 }
                                 
-                                NavigationLink(destination: FollowHomeView(currentSelection: 0, followVM: followVM)) {
+                                NavigationLink(destination: FollowMainView(followVM: followVM)) {
                                     Label {
                                         Text("팔로잉")
                                             .fontWeight(.semibold)
@@ -232,7 +232,7 @@ struct ProfileView: View {
                         }
                     }
 //                    .padding(.horizontal, 8)
-                    .frame(height: 2)
+                    .frame(height: 1)
                 }
                 .contentShape(Rectangle())
                 .onTapGesture {

@@ -28,10 +28,10 @@ struct StoryCell: View {
             if isWatched {
                 ZStack {
                     Circle()
+                        .fill(.black)
                         .stroke(.gray, lineWidth: 1.4)
                         .foregroundColor(.black)
-                        .background(.clear)
-                        .frame(width: 72, height: 72)
+                        .frame(width: 70, height: 70)
                     
                     KFImage.url(URL(string: imageProfileUrl))
                         .resizable()
@@ -45,7 +45,7 @@ struct StoryCell: View {
                         .stroke(LinearGradient(colors: [.num1, .num2, .num3, .num3, .num2, .num1], startPoint: .bottomLeading, endPoint: .topTrailing), lineWidth: 2.3)
                         .foregroundColor(.black)
                         .background(.clear)
-                        .frame(width: 72, height: 72)
+                        .frame(width: 70, height: 70)
                     
                     KFImage.url(URL(string: imageProfileUrl))
                         .resizable()

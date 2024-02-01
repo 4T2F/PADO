@@ -22,22 +22,22 @@ struct CommentCell: View {
                     }
                     .resizable()
                     .scaledToFill()
-                    .frame(width: 35, height: 35)
+                    .frame(width: 34, height: 34)
                     .clipShape(Circle())
             } else {
                 Image("defaultProfile")
                 .resizable()
                 .scaledToFit()
-                .frame(width: 35, height: 35)
+                .frame(width: 34, height: 34)
                 .padding(.trailing, 6)
             }
 
             
-            VStack(alignment: .leading, spacing: 4) {
-                HStack {
+            VStack(alignment: .leading, spacing: 2) {
+                HStack(spacing: 2) {
                     Text(comment.userID)
                         .fontWeight(.semibold)
-                        .font(.system(size: 14))
+                        .font(.caption)
                         .padding(.trailing, 4)
                     Text(TimestampDateFormatter.formatDate(comment.time))
                         .font(.caption)
@@ -55,7 +55,7 @@ struct CommentCell: View {
                 }
                 
                 Text(comment.content)
-                    .font(.system(size: 14))
+                    .font(.system(size: 12))
                     .foregroundStyle(.white)
             }
         }

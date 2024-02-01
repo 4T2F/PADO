@@ -49,7 +49,7 @@ struct FollowingCellView: View {
             BlueButtonView(cellUserId: cellUserId,
                            activeText: "팔로우",
                            unActiveText: "팔로잉",
-                           widthValue: 80, 
+                           widthValue: 85,
                            heightValue: 30,
                            updateFollowData: updateFollowData)
                 .padding(.horizontal)

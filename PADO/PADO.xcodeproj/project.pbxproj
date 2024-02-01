@@ -87,6 +87,8 @@
 		63824C4F2B558B5500D1D653 /* VerificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63824C4A2B558B5500D1D653 /* VerificationView.swift */; };
 		63824C502B558B5500D1D653 /* WhiteButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63824C4B2B558B5500D1D653 /* WhiteButtonView.swift */; };
 		63824C522B558B6900D1D653 /* UseIDModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63824C512B558B6900D1D653 /* UseIDModalView.swift */; };
+		63A7799E2B6B8FBA0068BE98 /* FollowMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A7799D2B6B8FBA0068BE98 /* FollowMainView.swift */; };
+		63A779A22B6BD45A0068BE98 /* FollowerModalAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A779A12B6BD45A0068BE98 /* FollowerModalAlert.swift */; };
 		63AA03532B68F14E00431332 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 63AA03512B68F14E00431332 /* GoogleService-Info.plist */; };
 		63AA03542B68F14E00431332 /* ApiKeys.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 63AA03522B68F14E00431332 /* ApiKeys.xcconfig */; };
 		63AA03592B68F1BE00431332 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AA03572B68F1BE00431332 /* ProfileView.swift */; };
@@ -128,9 +130,6 @@
 		B1749A692B5F485300BCC6BA /* MainFaceMojiCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1749A682B5F485300BCC6BA /* MainFaceMojiCell.swift */; };
 		B1749A6B2B5F4C8700BCC6BA /* MainFaceMojiModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1749A6A2B5F4C8700BCC6BA /* MainFaceMojiModel.swift */; };
 		B198BBA02B5639D500EAA6C0 /* ModalAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B198BB9F2B5639D500EAA6C0 /* ModalAlertView.swift */; };
-		B1999EB22B6A638D005B37BA /* OffsetTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1999EB12B6A638D005B37BA /* OffsetTabView.swift */; };
-		B1999EB42B6A63D2005B37BA /* PagerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1999EB32B6A63D2005B37BA /* PagerHelper.swift */; };
-		B1999EB62B6A6478005B37BA /* FollowHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1999EB52B6A6478005B37BA /* FollowHomeView.swift */; };
 		B1A91D0F2B55928D00FE7F62 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A91D062B55928D00FE7F62 /* SettingView.swift */; };
 		B1A91D102B55928D00FE7F62 /* SettingNormalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A91D072B55928D00FE7F62 /* SettingNormalCell.swift */; };
 		B1A91D112B55928D00FE7F62 /* SettingNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A91D082B55928D00FE7F62 /* SettingNotificationView.swift */; };
@@ -244,6 +243,8 @@
 		63824C4A2B558B5500D1D653 /* VerificationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerificationView.swift; sourceTree = "<group>"; };
 		63824C4B2B558B5500D1D653 /* WhiteButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhiteButtonView.swift; sourceTree = "<group>"; };
 		63824C512B558B6900D1D653 /* UseIDModalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UseIDModalView.swift; sourceTree = "<group>"; };
+		63A7799D2B6B8FBA0068BE98 /* FollowMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowMainView.swift; sourceTree = "<group>"; };
+		63A779A12B6BD45A0068BE98 /* FollowerModalAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerModalAlert.swift; sourceTree = "<group>"; };
 		63AA03512B68F14E00431332 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		63AA03522B68F14E00431332 /* ApiKeys.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ApiKeys.xcconfig; sourceTree = "<group>"; };
 		63AA03572B68F1BE00431332 /* ProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
@@ -287,9 +288,6 @@
 		B198BB9B2B56259600EAA6C0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B198BB9C2B56259600EAA6C0 /* ApiKeys.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ApiKeys.xcconfig; sourceTree = "<group>"; };
 		B198BB9F2B5639D500EAA6C0 /* ModalAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalAlertView.swift; sourceTree = "<group>"; };
-		B1999EB12B6A638D005B37BA /* OffsetTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffsetTabView.swift; sourceTree = "<group>"; };
-		B1999EB32B6A63D2005B37BA /* PagerHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagerHelper.swift; sourceTree = "<group>"; };
-		B1999EB52B6A6478005B37BA /* FollowHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowHomeView.swift; sourceTree = "<group>"; };
 		B1A91D062B55928D00FE7F62 /* SettingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		B1A91D072B55928D00FE7F62 /* SettingNormalCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingNormalCell.swift; sourceTree = "<group>"; };
 		B1A91D082B55928D00FE7F62 /* SettingNotificationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingNotificationView.swift; sourceTree = "<group>"; };
@@ -465,6 +463,7 @@
 			children = (
 				649372F72B561A6F00BCDA71 /* FollowingCellView.swift */,
 				649372FD2B56665100BCDA71 /* FollowerUserCellView.swift */,
+				63A779A12B6BD45A0068BE98 /* FollowerModalAlert.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -472,11 +471,9 @@
 		419741EA2B558F4A0055F2AB /* View */ = {
 			isa = PBXGroup;
 			children = (
-				B1999EB52B6A6478005B37BA /* FollowHomeView.swift */,
+				63A7799D2B6B8FBA0068BE98 /* FollowMainView.swift */,
 				649372F52B5612EE00BCDA71 /* FollowerView.swift */,
 				649372F32B5612E700BCDA71 /* FollowingView.swift */,
-				B1999EB12B6A638D005B37BA /* OffsetTabView.swift */,
-				B1999EB32B6A63D2005B37BA /* PagerHelper.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1094,7 +1091,6 @@
 				41E5F6982B56536D001750C2 /* CommentCell.swift in Sources */,
 				63C8BA542B56623500025422 /* FollowerCell.swift in Sources */,
 				418B6C932B5EC61600E8289D /* SurfingViewModel.swift in Sources */,
-				B1999EB62B6A6478005B37BA /* FollowHomeView.swift in Sources */,
 				635B094A2B4500CB009E60A9 /* User.swift in Sources */,
 				63C20BEB2B56CEDC00911F64 /* AdvancedSettingsView.swift in Sources */,
 				418B6C8F2B5EC16500E8289D /* FollowViewModel.swift in Sources */,
@@ -1118,6 +1114,7 @@
 				418B6C982B5EC75F00E8289D /* SearchViewModel.swift in Sources */,
 				B1A91D132B55928D00FE7F62 /* SettingToggleCell.swift in Sources */,
 				41A102962B62628E0070AB8D /* CameraAccessView.swift in Sources */,
+				63A7799E2B6B8FBA0068BE98 /* FollowMainView.swift in Sources */,
 				B1A91D172B55928D00FE7F62 /* SettingProfileView.swift in Sources */,
 				41E5F6952B56534A001750C2 /* CommentView.swift in Sources */,
 				04A785E72B5FB1ED00BFCB9D /* SurfingSearchView.swift in Sources */,
@@ -1151,7 +1148,6 @@
 				419741E12B558F3A0055F2AB /* BlueButtonView.swift in Sources */,
 				B1749A692B5F485300BCC6BA /* MainFaceMojiCell.swift in Sources */,
 				63824C422B558B2400D1D653 /* BirthView.swift in Sources */,
-				B1999EB22B6A638D005B37BA /* OffsetTabView.swift in Sources */,
 				419741E22B558F3A0055F2AB /* FeedSurfers.swift in Sources */,
 				648963DB2B6A9E960080050D /* CropView.swift in Sources */,
 				B102FE842B56DC030005C310 /* GrayButtonView.swift in Sources */,
@@ -1196,10 +1192,10 @@
 				418B6C9B2B5EC9BB00E8289D /* Searchable.swift in Sources */,
 				41A1029B2B62631A0070AB8D /* CamerCoordinator.swift in Sources */,
 				63824C4D2B558B5500D1D653 /* ModalWhiteButton.swift in Sources */,
-				B1999EB42B6A63D2005B37BA /* PagerHelper.swift in Sources */,
 				B1D7CDEC2B5669B80090544B /* SettingDivider.swift in Sources */,
 				B1A91D142B55928D00FE7F62 /* SettingAskView.swift in Sources */,
 				418743292B5C42AB00D93CBE /* LoginView.swift in Sources */,
+				63A779A22B6BD45A0068BE98 /* FollowerModalAlert.swift in Sources */,
 				41FD99F62B43D5EC0028D38E /* PADOApp.swift in Sources */,
 				41A102982B6262B20070AB8D /* PhotoPicker.swift in Sources */,
 				418935C02B67A79400D20048 /* TimestampDateFormatter.swift in Sources */,
