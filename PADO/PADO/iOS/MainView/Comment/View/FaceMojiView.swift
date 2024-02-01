@@ -25,6 +25,7 @@ struct FaceMojiView: View {
                     surfingVM.checkCameraPermission {
                         surfingVM.isShownCamera.toggle()
                         surfingVM.sourceType = .camera
+                        surfingVM.cameraDevice = .front
                         surfingVM.pickerResult = []
                         surfingVM.selectedImage = nil
                         surfingVM.selectedUIImage = Image(systemName: "photo")
@@ -42,7 +43,11 @@ struct FaceMojiView: View {
                 }
                 .padding(.horizontal)
                 .sheet(isPresented: $surfingVM.isShownCamera) {
-                    CameraAccessView(isShown: $surfingVM.isShownCamera, myimage: $surfingVM.cameraImage, myUIImage: $surfingVM.cameraUIImage, mysourceType: $surfingVM.sourceType)
+                    CameraAccessView(isShown: $surfingVM.isShownCamera,
+                                     myimage: $surfingVM.faceMojiImage,
+                                     myUIImage: $surfingVM.faceMojiUIImage,
+                                     mysourceType: $surfingVM.sourceType,
+                                     mycameraDevice: $surfingVM.cameraDevice)
                 }
 
             }

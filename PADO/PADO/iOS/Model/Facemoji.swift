@@ -1,0 +1,17 @@
+//
+//  Facemoji.swift
+//  PADO
+//
+//  Created by 황성진 on 2/2/24.
+//
+
+import Firebase
+import FirebaseFirestore
+import Foundation
+
+struct Facemoji {
+    @DocumentID var id: String?
+    
+    let userID: String
+    let profileImageUrl: String?
+}
