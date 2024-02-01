@@ -21,6 +21,8 @@ struct OtherUserProfileView: View {
     @State private var buttonOnOff = false
     @State private var buttonActive: Bool = false
     
+    let updateFollowData = UpdateFollowData()
+    
     let user: User
     
     let columns = [GridItem(.flexible(), spacing: 1), GridItem(.flexible(), spacing: 1), GridItem(.flexible())]
@@ -55,6 +57,8 @@ struct OtherUserProfileView: View {
         .onAppear {
             Task {
                 await profileVM.fetchPostID(id: user.nameID)
+                self.buttonOnOff = await updateFollowData.checkFollowStatus(id: user.nameID)
+
             }
         }
     }
@@ -133,10 +137,13 @@ struct OtherUserProfileView: View {
                                     }
                                 } else {
                                     
-                                    Button {
-                                        buttonOnOff.toggle()
-                                    } label: {
-                                        if buttonOnOff {
+                                    if buttonOnOff {
+                                        Button {
+                                            Task {
+                                                await updateFollowData.directUnfollowUser(id: user.nameID)
+                                                buttonOnOff.toggle()
+                                            }
+                                        } label: {
                                             ZStack {
                                                 RoundedRectangle(cornerRadius:6)
                                                     .stroke(Color.white, lineWidth: 1)
@@ -146,7 +153,14 @@ struct OtherUserProfileView: View {
                                                     .fontWeight(.medium)
                                                     .foregroundStyle(.white)
                                             }
-                                        } else {
+                                        }
+                                    } else {
+                                        Button {
+                                            Task {
+                                                await updateFollowData.followUser(id: user.nameID)
+                                                buttonOnOff.toggle()
+                                            }
+                                        } label: {
                                             ZStack {
                                                 RoundedRectangle(cornerRadius:6)
                                                     .stroke(Color.blue, lineWidth: 1)
@@ -156,6 +170,7 @@ struct OtherUserProfileView: View {
                                                     .fontWeight(.medium)
                                                     .foregroundStyle(.white)
                                             }
+                                            
                                         }
                                     }
                                 }
