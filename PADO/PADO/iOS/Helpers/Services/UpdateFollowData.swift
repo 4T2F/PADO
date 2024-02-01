@@ -30,6 +30,15 @@ class UpdateFollowData {
         }
     }
     
+    func directUnfollowUser(id: String) async {
+        do {
+            try await db.collection("users").document(userNameID).collection("following").document(id).delete()
+            try await db.collection("users").document(id).collection("follower").document(userNameID).delete()
+        } catch {
+            print("Error removing document: \(error.localizedDescription)")
+        }
+    }
+    
     func registerSurfer(id: String) async {
         do {
             try await db.collection("users").document(userNameID).collection("follower").document(id).delete()

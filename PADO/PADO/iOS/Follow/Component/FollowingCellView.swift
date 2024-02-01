@@ -23,12 +23,21 @@ struct FollowingCellView: View {
     var body: some View {
         HStack {
             HStack(spacing: 0) {
-                KFImage.url(URL(string: followingProfileUrl))
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 50, height: 50)
-                    .cornerRadius(50)
-                    .padding(.horizontal)
+                if let imageUrl = URL(string: followingProfileUrl) {
+                    KFImage.url(imageUrl)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 50, height: 50)
+                        .cornerRadius(50)
+                        .padding(.horizontal)
+                } else {
+                    Image("defaultProfile")
+                         .resizable()
+                         .scaledToFill()
+                         .frame(width: 50, height: 50)
+                         .cornerRadius(50)
+                         .padding(.horizontal)
+                }
                 
                 VStack(alignment: .leading, spacing: 3) {
                     Text(cellUserId)
@@ -46,13 +55,15 @@ struct FollowingCellView: View {
             
             Spacer()
             
-            BlueButtonView(cellUserId: cellUserId,
-                           activeText: "팔로우",
-                           unActiveText: "팔로잉",
-                           widthValue: 85,
-                           heightValue: 30,
-                           updateFollowData: updateFollowData)
+            if cellUserId != userNameID {
+                BlueButtonView(cellUserId: cellUserId,
+                               activeText: "팔로우",
+                               unActiveText: "팔로잉",
+                               widthValue: 85,
+                               heightValue: 30,
+                               updateFollowData: updateFollowData)
                 .padding(.horizontal)
+            }
 
         } // :HSTACK
         .padding(.vertical, -12)

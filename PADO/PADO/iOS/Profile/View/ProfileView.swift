@@ -13,6 +13,8 @@ struct ProfileView: View {
     @StateObject var profileVM: ProfileViewModel
     @StateObject var followVM: FollowViewModel
     
+    let updateFollowData = UpdateFollowData()
+    
     @Namespace var animation
     @State private var buttonActive: Bool = false
     
@@ -102,12 +104,14 @@ struct ProfileView: View {
                                             .offset(y: -5)
                                     }
                                     .sheet(isPresented: $buttonActive, content: {
-                                        ProfileBadgeModalView()
-                                            .presentationDetents([
-                                                .fraction(viewModel.areBothSocialAccountsRegistered ? 0.3 : 0.2)
-                                            ])
-                                            .presentationCornerRadius(20)
-                                            .presentationDragIndicator(.visible)
+                                        if let user = viewModel.currentUser {
+                                            ProfileBadgeModalView(user: user)
+                                                .presentationDetents([
+                                                    .fraction(viewModel.areBothSocialAccountsRegistered ? 0.3 : 0.2)
+                                                ])
+                                                .presentationCornerRadius(20)
+                                                .presentationDragIndicator(.visible)
+                                        }
                                     })
                                 }
                                 
@@ -150,31 +154,38 @@ struct ProfileView: View {
                                         .foregroundStyle(.white.opacity(0.7))
                                 }
                                 .font(.caption)
-                                
-                                NavigationLink(destination: FollowMainView(followVM: followVM)) {
-                                    Label {
-                                        Text("팔로워")
-                                            .fontWeight(.semibold)
-                                            .foregroundStyle(.white.opacity(0.7))
-                                    } icon: {
-                                        Text("\(followVM.followerIDs.count + followVM.surferIDs.count)")
-                                            .fontWeight(.semibold)
-                                            .foregroundStyle(.white.opacity(0.7))
+                                if let user = viewModel.currentUser {
+                                    NavigationLink(destination: FollowMainView(currentType: "팔로워",
+                                                                               followVM: followVM,
+                                                                               updateFollowData: updateFollowData,
+                                                                               user: user)) {
+                                        Label {
+                                            Text("팔로워")
+                                                .fontWeight(.semibold)
+                                                .foregroundStyle(.white.opacity(0.7))
+                                        } icon: {
+                                            Text("\(followVM.followerIDs.count + followVM.surferIDs.count)")
+                                                .fontWeight(.semibold)
+                                                .foregroundStyle(.white.opacity(0.7))
+                                        }
+                                        .font(.caption)
                                     }
-                                    .font(.caption)
-                                }
-                                
-                                NavigationLink(destination: FollowMainView(followVM: followVM)) {
-                                    Label {
-                                        Text("팔로잉")
-                                            .fontWeight(.semibold)
-                                            .foregroundStyle(.white.opacity(0.7))
-                                    } icon: {
-                                        Text("\(followVM.followingIDs.count)")
-                                            .fontWeight(.semibold)
-                                            .foregroundStyle(.white.opacity(0.7))
+                                    
+                                    NavigationLink(destination: FollowMainView(currentType: "팔로잉",
+                                                                               followVM: followVM,
+                                                                               updateFollowData: updateFollowData,
+                                                                               user: user)) {
+                                        Label {
+                                            Text("팔로잉")
+                                                .fontWeight(.semibold)
+                                                .foregroundStyle(.white.opacity(0.7))
+                                        } icon: {
+                                            Text("\(followVM.followingIDs.count)")
+                                                .fontWeight(.semibold)
+                                                .foregroundStyle(.white.opacity(0.7))
+                                        }
+                                        .font(.caption)
                                     }
-                                    .font(.caption)
                                 }
                             }
                             .padding(.leading, 2)

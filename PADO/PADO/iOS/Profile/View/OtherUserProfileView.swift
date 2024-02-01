@@ -18,10 +18,12 @@ struct OtherUserProfileView: View {
     
     @Environment(\.dismiss) var dismiss
   
-    let user: User
-    
     @State private var buttonOnOff = false
     @State private var buttonActive: Bool = false
+    
+    let updateFollowData = UpdateFollowData()
+    
+    let user: User
     
     let columns = [GridItem(.flexible(), spacing: 1), GridItem(.flexible(), spacing: 1), GridItem(.flexible())]
     
@@ -36,7 +38,6 @@ struct OtherUserProfileView: View {
                     } header: {
                         pinnedHeaderView()
                             .background(Color.black)
-//                            .offset(y: profileVM.headerOffsets.1 > 0 ? -profileVM.headerOffsets.1 : -profileVM.headerOffsets.1 / 8)
                             .modifier(OffsetModifier(offset: $profileVM.headerOffsets.0, returnFromStart: false))
                             .modifier(OffsetModifier(offset: $profileVM.headerOffsets.1))
                     }
@@ -55,7 +56,11 @@ struct OtherUserProfileView: View {
         .navigationBarBackButtonHidden()
         .onAppear {
             Task {
+                followVM.profileFollowId = user.nameID
+                followVM.initializeFollowFetch()
                 await profileVM.fetchPostID(id: user.nameID)
+                self.buttonOnOff = await updateFollowData.checkFollowStatus(id: user.nameID)
+
             }
         }
     }
@@ -94,7 +99,7 @@ struct OtherUserProfileView: View {
                                         .font(.title.bold())
                                 }
                                 
-                                if viewModel.isAnySocialAccountRegistered {
+                                if !user.instaAddress.isEmpty || !user.tiktokAddress.isEmpty {
                                     Button {
                                         buttonActive.toggle()
                                     } label: {
@@ -108,12 +113,13 @@ struct OtherUserProfileView: View {
                                             .offset(y: -5)
                                     }
                                     .sheet(isPresented: $buttonActive, content: {
-                                        ProfileBadgeModalView()
+                                        ProfileBadgeModalView(user: user)
                                             .presentationDetents([
-                                                .fraction(viewModel.areBothSocialAccountsRegistered ? 0.3 : 0.2)
+                                                .fraction(!user.instaAddress.isEmpty && !user.tiktokAddress.isEmpty ? 0.3 : 0.2)
                                             ])
                                             .presentationCornerRadius(20)
                                             .presentationDragIndicator(.visible)
+                                        
                                     })
                                 }
                                 
@@ -133,10 +139,13 @@ struct OtherUserProfileView: View {
                                     }
                                 } else {
                                     
-                                    Button {
-                                        buttonOnOff.toggle()
-                                    } label: {
-                                        if buttonOnOff {
+                                    if buttonOnOff {
+                                        Button {
+                                            Task {
+                                                await updateFollowData.directUnfollowUser(id: user.nameID)
+                                                buttonOnOff.toggle()
+                                            }
+                                        } label: {
                                             ZStack {
                                                 RoundedRectangle(cornerRadius:6)
                                                     .stroke(Color.white, lineWidth: 1)
@@ -146,7 +155,14 @@ struct OtherUserProfileView: View {
                                                     .fontWeight(.medium)
                                                     .foregroundStyle(.white)
                                             }
-                                        } else {
+                                        }
+                                    } else {
+                                        Button {
+                                            Task {
+                                                await updateFollowData.followUser(id: user.nameID)
+                                                buttonOnOff.toggle()
+                                            }
+                                        } label: {
                                             ZStack {
                                                 RoundedRectangle(cornerRadius:6)
                                                     .stroke(Color.blue, lineWidth: 1)
@@ -156,6 +172,7 @@ struct OtherUserProfileView: View {
                                                     .fontWeight(.medium)
                                                     .foregroundStyle(.white)
                                             }
+                                            
                                         }
                                     }
                                 }
@@ -173,7 +190,7 @@ struct OtherUserProfileView: View {
                                 }
                                 .font(.caption)
                                 
-                                NavigationLink(destination: FollowMainView(followVM: followVM)) {
+                                NavigationLink(destination: FollowMainView(currentType: "팔로워", followVM: followVM, updateFollowData: updateFollowData, user: user)) {
                                     Label {
                                         Text("팔로워")
                                             .fontWeight(.semibold)
@@ -186,7 +203,7 @@ struct OtherUserProfileView: View {
                                     .font(.caption)
                                 }
                                 
-                                NavigationLink(destination: FollowMainView(followVM: followVM)) {
+                                NavigationLink(destination: FollowMainView(currentType: "팔로잉", followVM: followVM, updateFollowData: updateFollowData, user: user)) {
                                     Label {
                                         Text("팔로잉")
                                             .fontWeight(.semibold)

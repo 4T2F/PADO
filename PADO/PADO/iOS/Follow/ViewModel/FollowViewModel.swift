@@ -36,28 +36,25 @@ class FollowViewModel: ObservableObject, Searchable {
     @Published var surfingIDs: [String] = []
     
     @Published var isLoading: Bool = false
+    @Published var profileFollowId = ""
     @State var progress: Double = 0
     
     @Published var searchResults: [User] = []
     @Published var viewState: ViewState = ViewState.empty
     
-    
-    init() {
-        initializeFollowFetch()
-    }
-    
-    private func initializeFollowFetch() {
-        fetchIDs(collectionType: CollectionType.follower)
-        fetchIDs(collectionType: CollectionType.following)
-        fetchIDs(collectionType: CollectionType.surfer)
-        fetchIDs(collectionType: CollectionType.surfing)
+
+    func initializeFollowFetch() {
+        fetchIDs(id: profileFollowId, collectionType: CollectionType.follower)
+        fetchIDs(id: profileFollowId, collectionType: CollectionType.following)
+        fetchIDs(id: profileFollowId, collectionType: CollectionType.surfer)
+        fetchIDs(id: profileFollowId,collectionType: CollectionType.surfing)
     }
     
     //  파라미터로 넣은 id값을 가진 문서 내용들 불러오는 스냅샷
-    func fetchIDs(collectionType: CollectionType) {
+    func fetchIDs(id: String, collectionType: CollectionType) {
         self.isLoading = true
         let db = Firestore.firestore()
-        db.collection("users").document(userNameID).collection(collectionType.collectionName).addSnapshotListener { documentSnapshot, error in
+        db.collection("users").document(id).collection(collectionType.collectionName).addSnapshotListener { documentSnapshot, error in
             guard let documents = documentSnapshot?.documents else {
                 print("Error fetching document: \(error!)")
                 self.isLoading = false

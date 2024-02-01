@@ -14,6 +14,10 @@ struct FollowerView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
     @ObservedObject var followVM: FollowViewModel
     
+    let updateFollowData: UpdateFollowData
+    
+    let user: User
+    
     // MARK: - BODY
     var body: some View {
         let searchTextBinding = Binding {
@@ -36,7 +40,7 @@ struct FollowerView: View {
                         if !followVM.surferIDs.isEmpty {
                             VStack {
                                 HStack {
-                                    Text("내 서퍼")
+                                    Text("서퍼")
                                         .font(.system(size: 14, weight: .medium))
                                     
                                     Spacer()
@@ -45,8 +49,13 @@ struct FollowerView: View {
                                 
                                 LazyVStack(spacing: 8) {
                                     ForEach(followVM.surferIDs, id: \.self) { surferId in
-                                        FollowerUserCellView(followVM: followVM, cellUserId: surferId, sufferset: .removesuffer)
-                                            .padding(.vertical)
+                                        if user.nameID == userNameID {
+                                            FollowerUserCellView(followVM: followVM, cellUserId: surferId, sufferset: .removesuffer)
+                                                .padding(.vertical)
+                                        } else {
+                                            FollowerOtherUserCellView(followVM: followVM, cellUserId: surferId, updateFollowData: updateFollowData)
+                                                .padding(.vertical)
+                                        }
                                     }
                                 }
                                 
@@ -68,8 +77,13 @@ struct FollowerView: View {
                             
                             LazyVStack(spacing: 8) {
                                 ForEach(followVM.followerIDs, id: \.self) { followerId in
+                                    if user.nameID == userNameID {
                                     FollowerUserCellView(followVM: followVM, cellUserId: followerId, sufferset: .setsuffer)
                                         .padding(.vertical)
+                                    } else {
+                                        FollowerOtherUserCellView(followVM: followVM, cellUserId: followerId, updateFollowData: updateFollowData)
+                                            .padding(.vertical)
+                                    }
                                 }
                             }
                         } //: SCROLL

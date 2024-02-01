@@ -422,6 +422,25 @@ extension FeedViewModel {
             print("Error saving post data: \(error.localizedDescription)")
         }
     }
+    
+    @MainActor
+    func fetchUserData(id: String) async -> User? {
+        do {
+            let querySnapshot = try await db.collection("users").document(id).getDocument()
+            
+            guard let user = try? querySnapshot.data(as: User.self) else {
+                print("Error: User data could not be decoded")
+                return nil
+            }
+
+            return user
+            
+        } catch {
+            print("Error fetch data: \(error.localizedDescription)")
+        }
+        
+        return nil
+    }
 }
 
 // MARK: - FaceMoji 관련

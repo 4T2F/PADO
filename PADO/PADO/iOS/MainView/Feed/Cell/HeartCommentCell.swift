@@ -58,7 +58,6 @@ struct HeartCommentCell: View {
                     .sheet(isPresented: $isShowingCommentView) {
                         CommentView(feedVM: feedVM,
                                     surfingVM: surfingVM)
-                        .presentationDetents([.fraction(0.99), .fraction(0.8)])
                         .presentationDragIndicator(.visible)
                     }
                     // 댓글이 달릴 때 마다 +1 카운팅 되게 하는 로직 추가
