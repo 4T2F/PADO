@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct FaceMojiView: View {
+    @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var surfingVM: SurfingViewModel
     
     let emotions: [Emotion] = Emotion.allCases
@@ -17,8 +18,8 @@ struct FaceMojiView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
                 ForEach(Array(zip(emotions, users)), id: \.0.self) { (emotion, user) in
-                        FaceMojiCell(emotion: emotion, faceMojiUser: user)
-                            .padding(.horizontal, 6)
+                    FaceMojiCell(emotion: emotion, faceMojiUser: user)
+                        .padding(.horizontal, 6)
                 }
                 Button {
                     // 페이스모지 열기
@@ -26,9 +27,6 @@ struct FaceMojiView: View {
                         surfingVM.isShownCamera.toggle()
                         surfingVM.sourceType = .camera
                         surfingVM.cameraDevice = .front
-                        surfingVM.pickerResult = []
-                        surfingVM.selectedImage = nil
-                        surfingVM.selectedUIImage = Image(systemName: "photo")
                     }
                 } label: {
                     VStack {
@@ -36,9 +34,9 @@ struct FaceMojiView: View {
                             .resizable()
                             .foregroundStyle(.white)
                             .frame(width: 40, height: 40)
-                     
+                        
                         Text("")
-                            
+                        
                     }
                 }
                 .padding(.horizontal)
@@ -48,8 +46,19 @@ struct FaceMojiView: View {
                                      myUIImage: $surfingVM.faceMojiUIImage,
                                      mysourceType: $surfingVM.sourceType,
                                      mycameraDevice: $surfingVM.cameraDevice)
+                    .onDisappear() {
+                        feedVM.faceMojiImage = surfingVM.faceMojiImage
+                        feedVM.faceMojiUIImage = surfingVM.faceMojiUIImage
+                    }
                 }
-
+                
+                Button {
+                    Task {
+                        try await feedVM.updateFaceMoji()
+                    }
+                } label: {
+                    Text("test")
+                }
             }
         }
     }

@@ -13,5 +13,5 @@ struct Facemoji {
     @DocumentID var id: String?
     
     let userID: String
-    let profileImageUrl: String?
+    let faceMojiImageUrl: String?
 }

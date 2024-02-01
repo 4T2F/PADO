@@ -24,7 +24,7 @@ struct CommentView: View {
                     
                     Divider()
                     
-                    FaceMojiView(surfingVM: surfingVM)
+                    FaceMojiView(feedVM: feedVM, surfingVM: surfingVM)
                         .padding(2)
                     
                     Divider()

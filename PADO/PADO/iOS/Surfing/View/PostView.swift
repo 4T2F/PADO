@@ -99,7 +99,7 @@ struct PostView: View {
                 Task {
                     do {
                         // 이미지 업로드 시 이전 입력 데이터 초기화
-                        let uploadedImageUrl = try await updateImageUrl.updateImageUserData(uiImage: surfingVM.postingUIImage, storageTypeInput: .post)
+                        let uploadedImageUrl = try await updateImageUrl.updateImageUserData(uiImage: surfingVM.postingUIImage, storageTypeInput: .post, documentid: feedVM.documentID, imageQuality: .highforPost)
                         await surfingVM.postRequest(imageURL: uploadedImageUrl)
                         surfingVM.resetImage()
                         feedVM.findFollowingUsers()
