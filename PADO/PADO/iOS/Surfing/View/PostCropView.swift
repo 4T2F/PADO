@@ -8,7 +8,7 @@
 import PhotosUI
 import SwiftUI
 
-struct CropView: View {
+struct PostCropView: View {
     // MARK: - PROPERTY
     @Environment(\.dismiss) var dismiss
     
@@ -19,9 +19,9 @@ struct CropView: View {
     @State private var lastStoredOffset: CGSize = .zero
     @State private var showinGrid: Bool = false
     @GestureState private var isInteractig: Bool = false
-    @GestureState private var forGridpress: Bool = false
     
     @ObservedObject var surfingVM: SurfingViewModel
+    @ObservedObject var feedVM: FeedViewModel
     
     var crop: Crop = .rectangle
     var onCrop: (UIImage?, Bool) -> Void
@@ -49,8 +49,8 @@ struct CropView: View {
                             if let image = renderer.uiImage {
                                 onCrop(image, true)
                                 surfingVM.postingUIImage = image
-                                if let uiimage = surfingVM.postingUIImage {
-                                    surfingVM.postingImage = Image(uiImage: uiimage)
+                                if let uiImage = surfingVM.postingUIImage {
+                                    surfingVM.postingImage = Image(uiImage: uiImage)
                                 }
                                 surfingVM.showPostView.toggle()
                             } else {
@@ -73,7 +73,7 @@ struct CropView: View {
                 }
         }
         .navigationDestination(isPresented: $surfingVM.showPostView) {
-            PostView(surfingVM: surfingVM)
+            PostView(surfingVM: surfingVM, feedVM: feedVM)
         }
     }
     

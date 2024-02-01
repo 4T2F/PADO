@@ -53,7 +53,7 @@ struct TodayView: View {
                                         
                                         // MARK: - HeartComment
                                         // 하트를 누른 상태에서 longpress제스쳐를 하고 난 후 하트가 off 돼있음 수정해야함
-//                                        HeartCommentCell(isShowingReportView: $isShowingReportView, isShowingCommentView: $isShowingCommentView, vm: <#FeedViewModel#>)
+//                                        HeartCommentCell(isShowingReportView: $isShowingReportView, isShowingCommentView: $isShowingCommentView, vm: FeedViewModel)
 //                                            .padding(.trailing, 12)
                                     }
                                     .frame(width: UIScreen.main.bounds.width)

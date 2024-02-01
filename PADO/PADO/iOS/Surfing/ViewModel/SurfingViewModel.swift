@@ -38,6 +38,8 @@ class SurfingViewModel: ObservableObject, Searchable  {
     @Published var post: [Post]?
     @Published var viewState: ViewState = ViewState.empty
     
+    @Published var moveTab: Int = 0
+    
     // MARK: - 권한 설정 및 확인
     // 카메라 권한 확인 함수 추가
     func checkCameraPermission(completion: @escaping () -> Void) {

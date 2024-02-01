@@ -30,24 +30,29 @@ struct FollowingView: View {
                 VStack {
                     SearchBar(text: searchTextBinding,
                               isLoading: $followVM.isLoading)
-                    .padding()
+                    .padding(.bottom, 10)
+                    .padding(.horizontal)
                     
-                    ScrollView {
-                        HStack{
-                            Text("팔로잉")
-                                .font(.system(size: 14, weight: .semibold))
-                
-                            Spacer()
-                        } //: HSTACK
-                        .padding(.leading)
-                        .padding(.bottom)
-                        
-                        ForEach(followVM.followingIDs, id: \.self) { followingID in
-                            FollowingCellView(cellUserId: followingID,
-                                              updateFollowData: updateFollowData)
-                                .padding(.vertical)
+                    ScrollView(.vertical) {
+                        VStack {
+                            HStack {
+                                Text("팔로잉")
+                                    .font(.system(size: 14, weight: .medium))
+                                
+                                Spacer()
+                            } //: HSTACK
+                            .padding(.leading)
+                            
+                            LazyVStack(spacing: 8) {
+                                ForEach(followVM.followingIDs, id: \.self) { followingID in
+                                    FollowingCellView(cellUserId: followingID,
+                                                      updateFollowData: updateFollowData)
+                                    .padding(.vertical)
+                                }
+                            } //: SCROLL
                         }
-                    } //: SCROLL
+                        .padding(.bottom)
+                    }
                 } //: VSTACK
             } //: VSTACK
         } //: ZSTACK

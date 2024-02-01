@@ -18,7 +18,7 @@ struct CommentView: View {
         ZStack {
             VStack {
                 Text("댓글")
-                    .font(.system(size: 16))
+                    .font(.system(size: 14))
                     .fontWeight(.semibold)
                 
                 VStack(spacing: 14) {
@@ -57,7 +57,9 @@ struct CommentView: View {
                                     TextField("\(userNameID)(으)로 댓글 달기...",
                                               text: $commentText,
                                               axis: .vertical) // 세로 축으로 동적 높이 조절 활성화
-                                    .font(.system(size: 14))
+                                    .font(.system(size: 12))
+                                    .tint(Color(.systemBlue))
+                                    
                                     if !commentText.isEmpty {
                                         Button {
                                             Task {
@@ -71,7 +73,6 @@ struct CommentView: View {
                                                 .frame(width: 18, height: 18)
                                                 .foregroundStyle(Color(.systemBlue))
                                                 .bold()
-                                                
                                         }
                                         .padding(.vertical, -5)
                                     }
@@ -80,7 +81,7 @@ struct CommentView: View {
                             .padding()
                             .background(
                                 RoundedRectangle(cornerRadius: 30) // HStack의 크기에 맞게 동적으로 크기가 변하는 RoundedRectangle
-                                    .stroke(Color.gray, lineWidth: 1)
+                                    .stroke(Color(.systemGray5), lineWidth: 1)
                             )
                         }
                     }

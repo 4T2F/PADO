@@ -89,6 +89,8 @@
 		63824C4F2B558B5500D1D653 /* VerificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63824C4A2B558B5500D1D653 /* VerificationView.swift */; };
 		63824C502B558B5500D1D653 /* WhiteButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63824C4B2B558B5500D1D653 /* WhiteButtonView.swift */; };
 		63824C522B558B6900D1D653 /* UseIDModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63824C512B558B6900D1D653 /* UseIDModalView.swift */; };
+		63A7799E2B6B8FBA0068BE98 /* FollowMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A7799D2B6B8FBA0068BE98 /* FollowMainView.swift */; };
+		63A779A22B6BD45A0068BE98 /* FollowerModalAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A779A12B6BD45A0068BE98 /* FollowerModalAlert.swift */; };
 		63AA03532B68F14E00431332 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 63AA03512B68F14E00431332 /* GoogleService-Info.plist */; };
 		63AA03542B68F14E00431332 /* ApiKeys.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 63AA03522B68F14E00431332 /* ApiKeys.xcconfig */; };
 		63AA03592B68F1BE00431332 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AA03572B68F1BE00431332 /* ProfileView.swift */; };
@@ -113,8 +115,9 @@
 		63C8BA582B56659800025422 /* SurferCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA572B56659800025422 /* SurferCell.swift */; };
 		643417332B5F947500E47639 /* SurfingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 643417322B5F947500E47639 /* SurfingView.swift */; };
 		647E7EFD2B63775100A5487E /* UpdateImageUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647E7EFC2B63775100A5487E /* UpdateImageUrl.swift */; };
-		648963DB2B6A9E960080050D /* CropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648963DA2B6A9E960080050D /* CropView.swift */; };
+		648963DB2B6A9E960080050D /* PostCropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648963DA2B6A9E960080050D /* PostCropView.swift */; };
 		648963DD2B6AA2310080050D /* Corp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648963DC2B6AA2310080050D /* Corp.swift */; };
+		648963DF2B6B6BE50080050D /* SettingProfileEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648963DE2B6B6BE50080050D /* SettingProfileEditView.swift */; };
 		649372F42B5612E700BCDA71 /* FollowingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649372F32B5612E700BCDA71 /* FollowingView.swift */; };
 		649372F62B5612EE00BCDA71 /* FollowerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649372F52B5612EE00BCDA71 /* FollowerView.swift */; };
 		649372F82B561A6F00BCDA71 /* FollowingCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649372F72B561A6F00BCDA71 /* FollowingCellView.swift */; };
@@ -130,9 +133,6 @@
 		B1749A692B5F485300BCC6BA /* MainFaceMojiCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1749A682B5F485300BCC6BA /* MainFaceMojiCell.swift */; };
 		B1749A6B2B5F4C8700BCC6BA /* MainFaceMojiModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1749A6A2B5F4C8700BCC6BA /* MainFaceMojiModel.swift */; };
 		B198BBA02B5639D500EAA6C0 /* ModalAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B198BB9F2B5639D500EAA6C0 /* ModalAlertView.swift */; };
-		B1999EB22B6A638D005B37BA /* OffsetTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1999EB12B6A638D005B37BA /* OffsetTabView.swift */; };
-		B1999EB42B6A63D2005B37BA /* PagerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1999EB32B6A63D2005B37BA /* PagerHelper.swift */; };
-		B1999EB62B6A6478005B37BA /* FollowHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1999EB52B6A6478005B37BA /* FollowHomeView.swift */; };
 		B1A91D0F2B55928D00FE7F62 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A91D062B55928D00FE7F62 /* SettingView.swift */; };
 		B1A91D102B55928D00FE7F62 /* SettingNormalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A91D072B55928D00FE7F62 /* SettingNormalCell.swift */; };
 		B1A91D112B55928D00FE7F62 /* SettingNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A91D082B55928D00FE7F62 /* SettingNotificationView.swift */; };
@@ -248,6 +248,8 @@
 		63824C4A2B558B5500D1D653 /* VerificationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerificationView.swift; sourceTree = "<group>"; };
 		63824C4B2B558B5500D1D653 /* WhiteButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhiteButtonView.swift; sourceTree = "<group>"; };
 		63824C512B558B6900D1D653 /* UseIDModalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UseIDModalView.swift; sourceTree = "<group>"; };
+		63A7799D2B6B8FBA0068BE98 /* FollowMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowMainView.swift; sourceTree = "<group>"; };
+		63A779A12B6BD45A0068BE98 /* FollowerModalAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerModalAlert.swift; sourceTree = "<group>"; };
 		63AA03512B68F14E00431332 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		63AA03522B68F14E00431332 /* ApiKeys.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ApiKeys.xcconfig; sourceTree = "<group>"; };
 		63AA03572B68F1BE00431332 /* ProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
@@ -273,8 +275,9 @@
 		647E7EFC2B63775100A5487E /* UpdateImageUrl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateImageUrl.swift; sourceTree = "<group>"; };
 		647E7EFE2B66653600A5487E /* ApiKeys.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ApiKeys.xcconfig; sourceTree = "<group>"; };
 		647E7F042B6692C800A5487E /* ApiKeys.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = ApiKeys.xcconfig; path = ../../../../../Desktop/PADO/ApiKeys.xcconfig; sourceTree = "<group>"; };
-		648963DA2B6A9E960080050D /* CropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropView.swift; sourceTree = "<group>"; };
+		648963DA2B6A9E960080050D /* PostCropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCropView.swift; sourceTree = "<group>"; };
 		648963DC2B6AA2310080050D /* Corp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Corp.swift; sourceTree = "<group>"; };
+		648963DE2B6B6BE50080050D /* SettingProfileEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingProfileEditView.swift; sourceTree = "<group>"; };
 		649372F32B5612E700BCDA71 /* FollowingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingView.swift; sourceTree = "<group>"; };
 		649372F52B5612EE00BCDA71 /* FollowerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerView.swift; sourceTree = "<group>"; };
 		649372F72B561A6F00BCDA71 /* FollowingCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingCellView.swift; sourceTree = "<group>"; };
@@ -291,9 +294,6 @@
 		B198BB9B2B56259600EAA6C0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B198BB9C2B56259600EAA6C0 /* ApiKeys.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ApiKeys.xcconfig; sourceTree = "<group>"; };
 		B198BB9F2B5639D500EAA6C0 /* ModalAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalAlertView.swift; sourceTree = "<group>"; };
-		B1999EB12B6A638D005B37BA /* OffsetTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffsetTabView.swift; sourceTree = "<group>"; };
-		B1999EB32B6A63D2005B37BA /* PagerHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagerHelper.swift; sourceTree = "<group>"; };
-		B1999EB52B6A6478005B37BA /* FollowHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowHomeView.swift; sourceTree = "<group>"; };
 		B1A91D062B55928D00FE7F62 /* SettingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		B1A91D072B55928D00FE7F62 /* SettingNormalCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingNormalCell.swift; sourceTree = "<group>"; };
 		B1A91D082B55928D00FE7F62 /* SettingNotificationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingNotificationView.swift; sourceTree = "<group>"; };
@@ -454,7 +454,7 @@
 			isa = PBXGroup;
 			children = (
 				643417322B5F947500E47639 /* SurfingView.swift */,
-				648963DA2B6A9E960080050D /* CropView.swift */,
+				648963DA2B6A9E960080050D /* PostCropView.swift */,
 				04D1438B2B5F971F0076578A /* PostView.swift */,
 				04A785E42B5FB1ED00BFCB9D /* SurfingMakeView.swift */,
 				04A785E52B5FB1ED00BFCB9D /* SurfingSearchView.swift */,
@@ -493,6 +493,7 @@
 			children = (
 				649372F72B561A6F00BCDA71 /* FollowingCellView.swift */,
 				649372FD2B56665100BCDA71 /* FollowerUserCellView.swift */,
+				63A779A12B6BD45A0068BE98 /* FollowerModalAlert.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -500,11 +501,9 @@
 		419741EA2B558F4A0055F2AB /* View */ = {
 			isa = PBXGroup;
 			children = (
-				B1999EB52B6A6478005B37BA /* FollowHomeView.swift */,
+				63A7799D2B6B8FBA0068BE98 /* FollowMainView.swift */,
 				649372F52B5612EE00BCDA71 /* FollowerView.swift */,
 				649372F32B5612E700BCDA71 /* FollowingView.swift */,
-				B1999EB12B6A638D005B37BA /* OffsetTabView.swift */,
-				B1999EB32B6A63D2005B37BA /* PagerHelper.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -909,8 +908,9 @@
 				B1A91D0B2B55928D00FE7F62 /* SettingAskView.swift */,
 				B1A91D0D2B55928D00FE7F62 /* SettingInfoView.swift */,
 				B1A91D082B55928D00FE7F62 /* SettingNotificationView.swift */,
-				B1A91D092B55928D00FE7F62 /* SettingOthersView.swift */,
 				B1A91D0E2B55928D00FE7F62 /* SettingProfileView.swift */,
+				648963DE2B6B6BE50080050D /* SettingProfileEditView.swift */,
+				B1A91D092B55928D00FE7F62 /* SettingOthersView.swift */,
 				B1A91D062B55928D00FE7F62 /* SettingView.swift */,
 				B198BB9F2B5639D500EAA6C0 /* ModalAlertView.swift */,
 				0495988F2B68014E0075EEF9 /* SettingAskButton.swift */,
@@ -1124,7 +1124,6 @@
 				41E5F6982B56536D001750C2 /* CommentCell.swift in Sources */,
 				63C8BA542B56623500025422 /* FollowerCell.swift in Sources */,
 				418B6C932B5EC61600E8289D /* SurfingViewModel.swift in Sources */,
-				B1999EB62B6A6478005B37BA /* FollowHomeView.swift in Sources */,
 				635B094A2B4500CB009E60A9 /* User.swift in Sources */,
 				63C20BEB2B56CEDC00911F64 /* AdvancedSettingsView.swift in Sources */,
 				418B6C8F2B5EC16500E8289D /* FollowViewModel.swift in Sources */,
@@ -1149,6 +1148,7 @@
 				418B6C982B5EC75F00E8289D /* SearchViewModel.swift in Sources */,
 				B1A91D132B55928D00FE7F62 /* SettingToggleCell.swift in Sources */,
 				41A102962B62628E0070AB8D /* CameraAccessView.swift in Sources */,
+				63A7799E2B6B8FBA0068BE98 /* FollowMainView.swift in Sources */,
 				B1A91D172B55928D00FE7F62 /* SettingProfileView.swift in Sources */,
 				41E5F6952B56534A001750C2 /* CommentView.swift in Sources */,
 				04A785E72B5FB1ED00BFCB9D /* SurfingSearchView.swift in Sources */,
@@ -1182,9 +1182,10 @@
 				419741E12B558F3A0055F2AB /* BlueButtonView.swift in Sources */,
 				B1749A692B5F485300BCC6BA /* MainFaceMojiCell.swift in Sources */,
 				63824C422B558B2400D1D653 /* BirthView.swift in Sources */,
+				648963DF2B6B6BE50080050D /* SettingProfileEditView.swift in Sources */,
 				B1999EB22B6A638D005B37BA /* OffsetTabView.swift in Sources */,
 				419741E22B558F3A0055F2AB /* FeedSurfers.swift in Sources */,
-				648963DB2B6A9E960080050D /* CropView.swift in Sources */,
+				648963DB2B6A9E960080050D /* PostCropView.swift in Sources */,
 				B102FE842B56DC030005C310 /* GrayButtonView.swift in Sources */,
 				6378916A2B62446600B40AF6 /* TodayView.swift in Sources */,
 				63824C522B558B6900D1D653 /* UseIDModalView.swift in Sources */,
@@ -1228,10 +1229,10 @@
 				41101B342B6B8B7D002E8C64 /* SearchGuide.swift in Sources */,
 				41A1029B2B62631A0070AB8D /* CamerCoordinator.swift in Sources */,
 				63824C4D2B558B5500D1D653 /* ModalWhiteButton.swift in Sources */,
-				B1999EB42B6A63D2005B37BA /* PagerHelper.swift in Sources */,
 				B1D7CDEC2B5669B80090544B /* SettingDivider.swift in Sources */,
 				B1A91D142B55928D00FE7F62 /* SettingAskView.swift in Sources */,
 				418743292B5C42AB00D93CBE /* LoginView.swift in Sources */,
+				63A779A22B6BD45A0068BE98 /* FollowerModalAlert.swift in Sources */,
 				41FD99F62B43D5EC0028D38E /* PADOApp.swift in Sources */,
 				41A102982B6262B20070AB8D /* PhotoPicker.swift in Sources */,
 				418935C02B67A79400D20048 /* TimestampDateFormatter.swift in Sources */,

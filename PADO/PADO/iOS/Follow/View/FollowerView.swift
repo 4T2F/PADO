@@ -29,37 +29,52 @@ struct FollowerView: View {
                 VStack {
                     SearchBar(text: searchTextBinding,
                               isLoading: $followVM.isLoading)
-                        .padding()
+                    .padding(.bottom, 10)
+                    .padding(.horizontal)
                     
                     ScrollView(.vertical) {
                         if !followVM.surferIDs.isEmpty {
-                            HStack{
-                                Text("내 서퍼")
-                                    .font(.system(size: 14, weight: .semibold))
-                                    .padding()
+                            VStack {
+                                HStack {
+                                    Text("내 서퍼")
+                                        .font(.system(size: 14, weight: .medium))
+                                    
+                                    Spacer()
+                                } //: HSTACK
+                                .padding(.leading)
+                                
+                                LazyVStack(spacing: 8) {
+                                    ForEach(followVM.surferIDs, id: \.self) { surferId in
+                                        FollowerUserCellView(followVM: followVM, cellUserId: surferId, sufferset: .removesuffer)
+                                            .padding(.vertical)
+                                    }
+                                }
+                                
+                                Divider()
+                                    .padding(.horizontal)
+                                    .padding(.top, 5)
+                            }
+                            .padding(.bottom)
+                        }
+                        
+                        VStack {
+                            HStack {
+                                Text("팔로워")
+                                    .font(.system(size: 14, weight: .medium))
+                                
                                 Spacer()
                             } //: HSTACK
                             .padding(.leading)
-                            .padding(.bottom)
                             
-                            ForEach(followVM.surferIDs, id: \.self) { surferId in
-                                FollowerUserCellView(cellUserId: surferId, sufferset: .removesuffer)
-                                    .padding(.vertical)
+                            LazyVStack(spacing: 8) {
+                                ForEach(followVM.followerIDs, id: \.self) { followerId in
+                                    FollowerUserCellView(followVM: followVM, cellUserId: followerId, sufferset: .setsuffer)
+                                        .padding(.vertical)
+                                }
                             }
-                        }
-                        HStack{
-                            Text("팔로워")
-                                .font(.system(size: 14, weight: .semibold))
-                            Spacer()
-                        } //: HSTACK
-                        .padding(.horizontal)
-                        .padding(.bottom)
-                        
-                        ForEach(followVM.followerIDs, id: \.self) { followerId in
-                            FollowerUserCellView(cellUserId: followerId, sufferset: .setsuffer)
-                                .padding(.vertical)
-                        }
-                    } //: SCROLL
+                        } //: SCROLL
+                    }
+                    .padding(.bottom)
                 } //: VSTACK
             } //: VSTACK
         } //: ZSTACK

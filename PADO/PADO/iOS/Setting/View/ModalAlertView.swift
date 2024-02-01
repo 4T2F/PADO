@@ -10,21 +10,18 @@ import SwiftUI
 enum ModalAlertTitle: String {
     case cash = "캐시 지우기"
     case account = "계정 삭제"
-    case follower = ""
     case signOut = "로그아웃"
 }
 
 enum ModalAlertSubTitle: String {
     case cash = "캐시를 지우면 몇몇의 문제가 해결될 수 있어요"
     case account = "한번 삭제된 계정은 복원되지 않습니다. 정말 삭제하시겠습니까?"
-    case follower = "팔로워에서 삭제하시겠어요?"
     case signOut = "현재 계정에서 로그아웃하겠습니까?"
 }
 
 enum ModalAlertRemove: String {
     case cash = "PADO 캐시 지우기"
     case account = "계정 삭제"
-    case follower = "삭제"
     case signOut = "로그아웃"
 }
 
@@ -50,13 +47,15 @@ struct ModalAlertView: View {
                         }
                     } else {
                         Text(mainTitle.rawValue)
+                            .font(.system(size: 16))
+                            .fontWeight(.semibold)
                     }
                     Text(subTitle.rawValue)
                         .multilineTextAlignment(.center)
                 }
-                .foregroundStyle(Color.black)
+                .foregroundStyle(Color.white)
                 .font(.system(size: 14))
-                .fontWeight(.semibold)
+                .fontWeight(.medium)
                 .padding(30)
                 
                 Divider()
@@ -77,21 +76,20 @@ struct ModalAlertView: View {
                             }
                         }
                         dismiss()
+                        
                     case .account:
                         Task {
                             await viewModel.deleteAccount()
                         }
                         dismiss()
-                    case .follower:
-                        dismiss()
+                        
                     case .signOut:
                         viewModel.signOut()
                         dismiss()
-                        
                     }
                 } label: {
                     Text(removeMessage.rawValue)
-                        .font(.system(size: 14))
+                        .font(.system(size: 16))
                         .foregroundStyle(Color.red)
                         .fontWeight(.semibold)
                         .frame(width: width * 0.9, height: 40)
@@ -99,23 +97,23 @@ struct ModalAlertView: View {
                 .padding(.bottom, 5)
             }
             .frame(width: width * 0.9)
-            .background(Color.white)
-            .clipShape(.rect(cornerRadius: 25))
+            .background(Color.modal)
+            .clipShape(.rect(cornerRadius: 22))
             
             VStack {
                 Button {
                     dismiss()
                 } label: {
                     Text("취소")
-                        .font(.system(size: 14))
-                        .foregroundStyle(Color.black)
+                        .font(.system(size: 16))
+                        .foregroundStyle(Color.white)
                         .fontWeight(.semibold)
                         .frame(width: width * 0.9, height: 40)
                 }
             }
             .frame(width: width * 0.9, height: 50)
-            .background(Color.white)
-            .clipShape(.rect(cornerRadius: 15))
+            .background(Color.modal)
+            .clipShape(.rect(cornerRadius: 12))
         }
         .background(ClearBackground())
     }
