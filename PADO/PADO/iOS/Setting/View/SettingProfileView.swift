@@ -12,7 +12,7 @@ struct SettingProfileView: View {
     // MARK: - PROPERTY
     @State var width = UIScreen.main.bounds.width
     @State private var isActive: Bool = false
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var authVM: AuthenticationViewModel
     @Environment (\.dismiss) var dismiss
     
     // MARK: - BODY
@@ -28,8 +28,8 @@ struct SettingProfileView: View {
                             HStack {
                                 Button {
                                     dismiss()
-                                    viewModel.imagePick = false
-                                    viewModel.userSelectImage = nil
+                                    authVM.imagePick = false
+                                    authVM.userSelectImage = nil
                                 } label: {
                                     Text("취소")
                                         .foregroundStyle(.white)
@@ -50,9 +50,9 @@ struct SettingProfileView: View {
                                     // 버튼이 활성화된 경우 실행할 로직
                                     if isActive {
                                         Task {
-                                            await viewModel.profileSaveData()
-                                            viewModel.imagePick.toggle()
-                                            viewModel.userSelectImage = nil
+                                            await authVM.profileSaveData()
+                                            authVM.imagePick.toggle()
+                                            authVM.userSelectImage = nil
                                             
                                             dismiss()
                                         }
@@ -65,10 +65,8 @@ struct SettingProfileView: View {
                                         .fontWeight(.semibold)
                                 }
                                 .disabled(!isActive) // 버튼 비활성화 여부 결정
-                                .onChange(of: viewModel.changedValue) { newValue, oldValue in
+                                .onChange(of: authVM.changedValue) { newValue, oldValue in
                                     isActive = !newValue // viewModel의 changedValue에 따라 isActive 상태 업데이트
-                                    print("===========================")
-                                    print(isActive)
                                 }
                             }
                             .padding(.top, 5)
@@ -84,25 +82,25 @@ struct SettingProfileView: View {
                     
                     VStack {
                         VStack {
-                            PhotosPicker(selection: $viewModel.selectedItem) {
-                                if let image = viewModel.userSelectImage {
+                            PhotosPicker(selection: $authVM.selectedItem) {
+                                if let image = authVM.userSelectImage {
                                     image
                                         .resizable()
                                         .scaledToFill()
                                         .frame(width: 129, height: 129)
                                         .clipShape(Circle())
                                         .onAppear() {
-                                            viewModel.imagePick.toggle()
+                                            authVM.imagePick.toggle()
                                         }
                                 } else {
                                     CircularImageView(size: .xxxLarge)
                                 }
                             }
-                            .onChange(of: viewModel.selectedItem) { _, _  in
-                                viewModel.showingEditProfile.toggle()
+                            .onChange(of: authVM.selectedItem) { _, _  in
+                                authVM.showingEditProfile.toggle()
                             }
-                            .onChange(of: viewModel.imagePick) { _, _  in
-                                viewModel.checkForChanges()
+                            .onChange(of: authVM.imagePick) { _, _  in
+                                authVM.checkForChanges()
                             }
                             // MARK: - 프로필수정, 이름
                             VStack {
@@ -119,21 +117,21 @@ struct SettingProfileView: View {
                                     .frame(width: width * 0.22)
                                     
                                     HStack {
-                                        if let originUsername = viewModel.currentUser?.username, !originUsername.isEmpty {
-                                            TextField(originUsername, text: $viewModel.username)
+                                        if let originUsername = authVM.currentUser?.username, !originUsername.isEmpty {
+                                            TextField(originUsername, text: $authVM.username)
                                                 .font(.system(size: 16))
                                                 .foregroundStyle(.white)
                                                 .padding(.leading, width * 0.05)
-                                                .onChange(of: viewModel.username) { _, _ in
-                                                    viewModel.checkForChanges()
+                                                .onChange(of: authVM.username) { _, _ in
+                                                    authVM.checkForChanges()
                                                 }
                                         } else {
-                                            TextField("닉네임", text: $viewModel.username)
+                                            TextField("닉네임", text: $authVM.username)
                                                 .font(.system(size: 14))
                                                 .foregroundStyle(.white)
                                                 .padding(.leading, width * 0.05)
-                                                .onChange(of: viewModel.username) { _, _  in
-                                                    viewModel.checkForChanges()
+                                                .onChange(of: authVM.username) { _, _  in
+                                                    authVM.checkForChanges()
                                                 }
                                         }
                                         
@@ -157,22 +155,22 @@ struct SettingProfileView: View {
                                     .frame(width: width * 0.22)
                                     
                                     HStack {
-                                        if let insta = viewModel.currentUser?.instaAddress, !insta.isEmpty {
-                                            TextField(insta, text: $viewModel.instaAddress)
+                                        if let insta = authVM.currentUser?.instaAddress, !insta.isEmpty {
+                                            TextField(insta, text: $authVM.instaAddress)
                                                 .font(.system(size: 14))
                                                 .foregroundStyle(.white)
                                                 .padding(.leading, width * 0.05)
-                                                .onChange(of: viewModel.instaAddress) { _, _  in
-                                                    viewModel.checkForChanges()
+                                                .onChange(of: authVM.instaAddress) { _, _  in
+                                                    authVM.checkForChanges()
                                                 }
                                             
                                         } else {
-                                            TextField("계정명", text: $viewModel.instaAddress)
+                                            TextField("계정명", text: $authVM.instaAddress)
                                                 .font(.system(size: 14))
                                                 .foregroundStyle(.white)
                                                 .padding(.leading, width * 0.05)
-                                                .onChange(of: viewModel.instaAddress) { _, _  in
-                                                    viewModel.checkForChanges()
+                                                .onChange(of: authVM.instaAddress) { _, _  in
+                                                    authVM.checkForChanges()
                                                 }
                                         }
                                         
@@ -196,21 +194,21 @@ struct SettingProfileView: View {
                                     .frame(width: width * 0.22)
                                     
                                     HStack {
-                                        if let tiktok = viewModel.currentUser?.tiktokAddress, !tiktok.isEmpty {
-                                            TextField(tiktok, text: $viewModel.tiktokAddress)
+                                        if let tiktok = authVM.currentUser?.tiktokAddress, !tiktok.isEmpty {
+                                            TextField(tiktok, text: $authVM.tiktokAddress)
                                                 .font(.system(size: 16))
                                                 .foregroundStyle(.white)
                                                 .padding(.leading, width * 0.05)
-                                                .onChange(of: viewModel.tiktokAddress) { _, _  in
-                                                    viewModel.checkForChanges()
+                                                .onChange(of: authVM.tiktokAddress) { _, _  in
+                                                    authVM.checkForChanges()
                                                 }
                                         } else {
-                                            TextField("계정명", text: $viewModel.tiktokAddress)
+                                            TextField("계정명", text: $authVM.tiktokAddress)
                                                 .font(.system(size: 14))
                                                 .foregroundStyle(.white)
                                                 .padding(.leading, width * 0.05)
-                                                .onChange(of: viewModel.tiktokAddress) { _, _  in
-                                                    viewModel.checkForChanges()
+                                                .onChange(of: authVM.tiktokAddress) { _, _  in
+                                                    authVM.checkForChanges()
                                                 }
                                         }
                                         
@@ -234,13 +232,13 @@ struct SettingProfileView: View {
             }
             .padding(.top, 10)
             .onAppear {
-                viewModel.fetchUserProfile()
+                authVM.fetchUserProfile()
             }
             .navigationBarBackButtonHidden(true)
-            .navigationDestination(isPresented: $viewModel.showingEditProfile) {
+            .navigationDestination(isPresented: $authVM.showingEditProfile) {
                 SettingProfileEditView { croppedImage, status in
                     if let croppedImage {
-                        viewModel.uiImage = croppedImage
+                        authVM.uiImage = croppedImage
                     }
                 }
             }

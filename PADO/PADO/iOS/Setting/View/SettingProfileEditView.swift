@@ -27,7 +27,7 @@ struct SettingProfileEditView: View {
     @State private var showinGrid: Bool = false
     @GestureState private var isInteractig: Bool = false
     
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var authVM: AuthenticationViewModel
     
     var crop: Crop = .circle
     var onCrop: (UIImage?, Bool) -> Void
@@ -42,8 +42,8 @@ struct SettingProfileEditView: View {
             .toolbarColorScheme(.dark, for: .navigationBar)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .onDisappear() {
-                viewModel.changedValue = false
-                viewModel.imagePick = false
+                authVM.changedValue = false
+                authVM.imagePick = false
             }
             .background {
                 Color.black
@@ -57,14 +57,14 @@ struct SettingProfileEditView: View {
                         renderer.proposedSize = .init(crop.size())
                         if let image = renderer.uiImage {
                             onCrop(image, true)
-                            viewModel.uiImage = image
-                            if let uiImage = viewModel.uiImage {
-                                viewModel.userSelectImage = Image(uiImage: uiImage)
+                            authVM.uiImage = image
+                            if let uiImage = authVM.uiImage {
+                                authVM.userSelectImage = Image(uiImage: uiImage)
                             }
                         } else {
                             onCrop(nil, false)
                         }
-                        viewModel.showingSettingProfileView.toggle()
+                        authVM.showingSettingProfileView.toggle()
                     } label: {
                         Text("완료")
                             .font(.system(size: 16, weight: .semibold))
@@ -73,7 +73,7 @@ struct SettingProfileEditView: View {
                 
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
-                        viewModel.showingSettingProfileView.toggle()
+                        authVM.showingSettingProfileView.toggle()
                     } label: {
                         Image("dismissArrow")
                     }
@@ -89,7 +89,7 @@ struct SettingProfileEditView: View {
         GeometryReader {
             let size = $0.size
             
-            if let image = viewModel.uiImage {
+            if let image = authVM.uiImage {
                 Image(uiImage: image)
                     .resizable()
                     .aspectRatio(contentMode: .fill)

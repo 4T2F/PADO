@@ -10,8 +10,7 @@ struct SettingView: View {
     @State var width = UIScreen.main.bounds.width
     @State private var showingSignOutModal: Bool = false
     @Environment (\.dismiss) var dismiss
-//    @EnvironmentObject var viewModel: AuthenticationViewModel
-    @StateObject var viewModel = SurfingViewModel()
+    @StateObject var surfingVM = SurfingViewModel()
     
     
     var name: String = "PADO"
@@ -68,7 +67,7 @@ struct SettingView: View {
                 
                 SettingDivider()
                 
-                NavigationLink(destination: SettingAskView().environmentObject(viewModel))  {
+                NavigationLink(destination: SettingAskView().environmentObject(surfingVM))  {
                     SettingViewCell(settingTittle: "문의하기")
                 }
                 
