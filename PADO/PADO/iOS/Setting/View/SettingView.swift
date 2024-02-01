@@ -18,7 +18,6 @@ struct SettingView: View {
     var nickName: String = "pado"
     
     var body: some View {
-        
         NavigationStack {
             VStack(alignment: .leading) {
                 HStack {

@@ -96,7 +96,7 @@ struct SurfingView: View {
             }
         }
         .navigationDestination(isPresented: $surfingVM.showCropView) {
-            CropView(surfingVM: surfingVM, feedVM: feedVM) { croppedImage, status in
+            PostCropView(surfingVM: surfingVM, feedVM: feedVM) { croppedImage, status in
                 if let croppedImage {
                     surfingVM.postingUIImage = croppedImage
                 }

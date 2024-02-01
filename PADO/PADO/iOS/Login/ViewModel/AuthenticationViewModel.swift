@@ -29,6 +29,10 @@ class AuthenticationViewModel: ObservableObject {
     // 탭바 이동관련 변수
     @Published var showTab: Int = 0
     
+    // 세팅 관련 뷰 이동 변수
+    @Published var showingEditProfile: Bool = false
+    @Published var showingSettingProfileView: Bool = false
+    
     // MARK: - SettingProfile
     @Published var username = ""
     @Published var instaAddress = ""
@@ -45,7 +49,7 @@ class AuthenticationViewModel: ObservableObject {
     }
     
     @Published var userSelectImage: Image?
-    @Published private var uiImage: UIImage?
+    @Published var uiImage: UIImage?
     
     @Published var selectedItem: PhotosPickerItem? {
         didSet {
@@ -54,10 +58,10 @@ class AuthenticationViewModel: ObservableObject {
                     let (loadedUIImage, loadedSwiftUIImage) = try await UpdateImageUrl.shared.loadImage(selectedItem: selectedItem)
                     self.uiImage = loadedUIImage
                     self.userSelectImage = loadedSwiftUIImage
-                    self.imagePick = true
                 } catch {
                     print("이미지 로드 중 오류 발생: \(error)")
                 }
+                print("selectedItem 변경됨: \(String(describing: selectedItem))")
             }
         }
     }
@@ -359,7 +363,6 @@ class AuthenticationViewModel: ObservableObject {
         username = currentUser?.username ?? ""
         instaAddress = currentUser?.instaAddress ?? ""
         tiktokAddress = currentUser?.tiktokAddress ?? ""
-        userSelectImage = nil
         imagePick = false
     }
     
@@ -368,6 +371,9 @@ class AuthenticationViewModel: ObservableObject {
         let isUsernameChanged = currentUser?.username != username
         let isInstaAddressChanged = currentUser?.instaAddress != instaAddress
         let isTiktokAddressChanged = currentUser?.tiktokAddress != tiktokAddress
+        
         changedValue = isUsernameChanged || isInstaAddressChanged || isTiktokAddressChanged || imagePick
+        
+        print("checkForChanges 호출됨: \(changedValue)")
     }
 }

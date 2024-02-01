@@ -20,32 +20,37 @@ struct ProfileView: View {
     let columns = [GridItem(.flexible(), spacing: 1), GridItem(.flexible(), spacing: 1), GridItem(.flexible())]
     
     var body: some View {
-        ScrollView(.vertical, showsIndicators: false) {
-            VStack(spacing: 0) {
-                headerView()
-                
-                LazyVStack(pinnedViews: [.sectionHeaders]) {
-                    Section {
-                        postList()
-                    } header: {
-                        pinnedHeaderView()
-                            .background(Color.black)
-                            .offset(y: profileVM.headerOffsets.1 > 0 ? 0 : -profileVM.headerOffsets.1 / 8)
-                            .modifier(OffsetModifier(offset: $profileVM.headerOffsets.0, returnFromStart: false))
-                            .modifier(OffsetModifier(offset: $profileVM.headerOffsets.1))
+        NavigationStack {
+            ScrollView(.vertical, showsIndicators: false) {
+                VStack(spacing: 0) {
+                    headerView()
+                    
+                    LazyVStack(pinnedViews: [.sectionHeaders]) {
+                        Section {
+                            postList()
+                        } header: {
+                            pinnedHeaderView()
+                                .background(Color.black)
+                                .offset(y: profileVM.headerOffsets.1 > 0 ? 0 : -profileVM.headerOffsets.1 / 8)
+                                .modifier(OffsetModifier(offset: $profileVM.headerOffsets.0, returnFromStart: false))
+                                .modifier(OffsetModifier(offset: $profileVM.headerOffsets.1))
+                        }
                     }
                 }
             }
+            .overlay {
+                Rectangle()
+                    .fill(.black)
+                    .frame(height: 50)
+                    .frame(maxHeight: .infinity, alignment: .top)
+                    .opacity(profileVM.headerOffsets.0 < 5 ? 1 : 0)
+            }
+            .coordinateSpace(name: "SCROLL")
+            .ignoresSafeArea(.container, edges: .vertical)
         }
-        .overlay {
-            Rectangle()
-                .fill(.black)
-                .frame(height: 50)
-                .frame(maxHeight: .infinity, alignment: .top)
-                .opacity(profileVM.headerOffsets.0 < 5 ? 1 : 0)
+        .navigationDestination(isPresented: $viewModel.showingSettingProfileView) {
+            SettingProfileView()
         }
-        .coordinateSpace(name: "SCROLL")
-        .ignoresSafeArea(.container, edges: .vertical)
     }
     
     @ViewBuilder
@@ -107,7 +112,20 @@ struct ProfileView: View {
                                 
                                 Spacer()
                                 
-                                NavigationLink(destination: SettingProfileView()) {
+//                                NavigationLink(destination: SettingProfileView()) {
+//                                    ZStack {
+//                                        RoundedRectangle(cornerRadius:4)
+//                                            .stroke(Color.white, lineWidth: 1)
+//                                            .frame(width: 80, height: 28)
+//                                        Text("프로필 편집")
+//                                            .font(.system(size: 12))
+//                                            .fontWeight(.medium)
+//                                            .foregroundStyle(.white)
+//                                    }
+//                                }
+                                Button {
+                                    viewModel.showingSettingProfileView.toggle()
+                                } label: {
                                     ZStack {
                                         RoundedRectangle(cornerRadius:4)
                                             .stroke(Color.white, lineWidth: 1)
@@ -118,7 +136,6 @@ struct ProfileView: View {
                                             .foregroundStyle(.white)
                                     }
                                 }
-                                
 //                                Button {
 //                                    buttonOnOff.toggle()
 //                                } label: {

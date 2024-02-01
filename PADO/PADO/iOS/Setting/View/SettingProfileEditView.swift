@@ -1,4 +1,11 @@
 //
+//  SettingProfileEditView.swift
+//  PADO
+//
+//  Created by 황성진 on 2/1/24.
+//
+
+//
 //  CorpView.swift
 //  PADO
 //
@@ -8,7 +15,7 @@
 import PhotosUI
 import SwiftUI
 
-struct CropView: View {
+struct SettingProfileEditView: View {
     // MARK: - PROPERTY
     @Environment(\.dismiss) var dismiss
     
@@ -19,63 +26,55 @@ struct CropView: View {
     @State private var lastStoredOffset: CGSize = .zero
     @State private var showinGrid: Bool = false
     @GestureState private var isInteractig: Bool = false
-    @GestureState private var forGridpress: Bool = false
     
-    @ObservedObject var surfingVM: SurfingViewModel
-    @ObservedObject var feedVM: FeedViewModel
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     
-    var crop: Crop = .rectangle
+    var crop: Crop = .circle
     var onCrop: (UIImage?, Bool) -> Void
     
     var body: some View {
-        NavigationStack {
-            imageView()
-                .navigationTitle("편집")
-                .navigationBarTitleDisplayMode(.inline)
-                .navigationBarBackButtonHidden()
-                .toolbarBackground(.visible, for: .navigationBar)
-                .toolbarBackground(Color.black, for: .navigationBar)
-                .toolbarColorScheme(.dark, for: .navigationBar)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background {
-                    Color.black
-                        .ignoresSafeArea()
-                }
-                .toolbar {
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Button {
-                            let renderer = ImageRenderer(content: imageView(true))
-                            renderer.scale = 3
-                            renderer.proposedSize = .init(crop.size())
-                            if let image = renderer.uiImage {
-                                onCrop(image, true)
-                                surfingVM.postingUIImage = image
-                                if let uiimage = surfingVM.postingUIImage {
-                                    surfingVM.postingImage = Image(uiImage: uiimage)
-                                }
-                                surfingVM.showPostView.toggle()
-                            } else {
-                                onCrop(nil, false)
+        imageView()
+            .navigationTitle("편집")
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarBackButtonHidden()
+            .toolbarBackground(.visible, for: .navigationBar)
+            .toolbarBackground(Color.black, for: .navigationBar)
+            .toolbarColorScheme(.dark, for: .navigationBar)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background {
+                Color.black
+                    .ignoresSafeArea()
+            }
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        let renderer = ImageRenderer(content: imageView(true))
+                        renderer.scale = 3
+                        renderer.proposedSize = .init(crop.size())
+                        if let image = renderer.uiImage {
+                            onCrop(image, true)
+                            viewModel.uiImage = image
+                            if let uiImage = viewModel.uiImage {
+                                viewModel.userSelectImage = Image(uiImage: uiImage)
                             }
-                        } label: {
-                            Text("다음")
-                                .font(.system(size: 16, weight: .semibold))
+                        } else {
+                            onCrop(nil, false)
                         }
-                    }
-                    
-                    ToolbarItem(placement: .topBarLeading) {
-                        Button {
-                            surfingVM.resetImage()
-                            dismiss()
-                        } label: {
-                            Image("dismissArrow")
-                        }
+                        viewModel.showingSettingProfileView.toggle()
+                    } label: {
+                        Text("완료")
+                            .font(.system(size: 16, weight: .semibold))
                     }
                 }
-        }
-        .navigationDestination(isPresented: $surfingVM.showPostView) {
-            PostView(surfingVM: surfingVM, feedVM: feedVM)
-        }
+                
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        viewModel.showingSettingProfileView.toggle()
+                    } label: {
+                        Image("dismissArrow")
+                    }
+                }
+            }
     }
     
     // 이미지 뷰를 구성하는 함수
@@ -86,7 +85,7 @@ struct CropView: View {
         GeometryReader {
             let size = $0.size
             
-            if let image = surfingVM.postingUIImage {
+            if let image = viewModel.uiImage {
                 Image(uiImage: image)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
@@ -194,24 +193,5 @@ struct CropView: View {
                 }
             }
         }
-    }
-}
-
-extension View {
-    @ViewBuilder
-    func frame(_ size: CGSize) -> some View {
-        self // 자를때 프레임
-            .frame(width: size.width, height: size.height)
-    }
-    
-    func haptics(_ style: UIImpactFeedbackGenerator.FeedbackStyle) {
-        UIImpactFeedbackGenerator(style: style).impactOccurred()
-    }
-}
-
-extension UIImage {
-    func cropped(to rect: CGRect) -> UIImage? {
-        guard let cgImage = self.cgImage?.cropping(to: rect) else { return nil }
-        return UIImage(cgImage: cgImage)
     }
 }

@@ -18,8 +18,6 @@ struct ContentView: View {
     @StateObject var feedVM = FeedViewModel()
     @StateObject var followVM = FollowViewModel()
     
-    @State private var selectedTab = 0
-    
     init() {
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
@@ -60,7 +58,7 @@ struct ContentView: View {
                         .tag(2)
                     TodayView()
                         .tabItem {
-                            Image(selectedTab == 3 ? "today_light" : "today_gray")
+                            Image(viewModel.showTab == 3 ? "today_light" : "today_gray")
                             
                             Text("오늘 파도")
                         }
