@@ -47,6 +47,7 @@ class FeedViewModel: ObservableObject {
     // MARK: - FaceMoji 관련
     @Published var faceMojiImage: Image = Image(systemName: "photo")
     @Published var faceMojiUIImage: UIImage = UIImage()
+    @Published var facemojies: [Facemoji] = []
     
     init() {
         // Firestore의 `post` 컬렉션에 대한 실시간 리스너 설정
@@ -423,6 +424,15 @@ extension FeedViewModel {
 extension FeedViewModel {
     // 페이스 모지를 스토리지, 스토어에 업로드
     func updateFaceMoji() async throws {
-        let faceMojiImageUrl = try await UpdateImageUrl.shared.updateImageUserData(uiImage: faceMojiUIImage, storageTypeInput: .facemoji, documentid: documentID, imageQuality: .lowforFaceMoji)
+        let faceMojiImageUrl = try await UpdateImageUrl.shared.updateImageUserData(
+            uiImage: faceMojiUIImage,
+            storageTypeInput: .facemoji,
+            documentid: documentID,
+            imageQuality: .lowforFaceMoji
+        )
+        
+        try await db.collection("post").document(documentID).collection("facemoji").document(userNameID).updateData([
+            "userID" : userNameID
+        ])
     }
 }
