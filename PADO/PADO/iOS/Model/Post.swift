@@ -18,7 +18,9 @@ struct Post: Identifiable, Codable {
     var sufferUid: String?
     var imageUrl: String
     var title: String
-    var hearts: Int
+    var heartsCount: Int
+    var commentCount: Int
+    var hearts: [Heart]?
     var comments: [Comment]?
     var created_Time: Timestamp
     var modified_Time: Timestamp?
