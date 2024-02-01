@@ -9,7 +9,7 @@ import Lottie
 import SwiftUI
 
 struct HeartCommentCell: View {
-    @State var heartOnOff: Bool = false
+
     
     @Binding var isShowingReportView: Bool
     @Binding var isShowingCommentView: Bool
@@ -20,17 +20,27 @@ struct HeartCommentCell: View {
     var body: some View {
         VStack(spacing: 16) {
             VStack(spacing: 10) {
-                Button {
-                    heartOnOff.toggle()
-                } label: {
-                    if heartOnOff {
-                        VStack {
-                            Image("heart_fill")
+            VStack {
+                if feedVM.selectedFeedCheckHeart {
+                    Button {
+                        Task {
+                            await feedVM.deleteHeart()
+                            feedVM.selectedFeedCheckHeart = await feedVM.checkHeartExists()
                         }
-                    } else {
+                    } label: {
+                        Image("heart_fill")
+                    }
+                } else {
+                    Button {
+                        Task {
+                            await feedVM.addHeart()
+                            feedVM.selectedFeedCheckHeart = await feedVM.checkHeartExists()
+                        }
+                    } label: {
                         Image("heart")
                     }
                 }
+                
                 // 하트 눌렀을 때 +1 카운팅 되게 하는 로직 추가
                 Text("\(feedVM.selectedFeedHearts)")
                     .font(.system(size: 10))
@@ -51,8 +61,8 @@ struct HeartCommentCell: View {
                     .presentationDragIndicator(.visible)
                 }
                 // 댓글이 달릴 때 마다 +1 카운팅 되게 하는 로직 추가
-                Text(String(feedVM.comments.count))
-                    .font(.system(size: 10))
+                Text(String(feedVM.selectedCommentCounts))
+                    .font(.system(size: 12))
                     .fontWeight(.semibold)
                     .shadow(radius: 1, y: 1)
             }

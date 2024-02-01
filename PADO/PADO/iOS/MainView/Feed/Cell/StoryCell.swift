@@ -76,7 +76,7 @@ struct StoryCell: View {
         feedVM.feedProfileImageUrl = imageProfileUrl
         feedVM.selectedFeedTitle = story.title
         feedVM.selectedFeedTime = TimestampDateFormatter.formatDate(story.postTime)
-        feedVM.selectedFeedHearts = story.hearts
+//        feedVM.selectedFeedHearts = story.heartsCount
         feedVM.documentID = story.postID
         Task {
             await feedVM.getCommentsDocument()
