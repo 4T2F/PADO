@@ -19,7 +19,7 @@ struct HeartCommentCell: View {
     
     var body: some View {
         VStack(spacing: 16) {
-            VStack {
+            VStack(spacing: 10) {
                 Button {
                     heartOnOff.toggle()
                 } label: {
@@ -33,12 +33,12 @@ struct HeartCommentCell: View {
                 }
                 // 하트 눌렀을 때 +1 카운팅 되게 하는 로직 추가
                 Text("\(feedVM.selectedFeedHearts)")
-                    .font(.system(size: 12))
+                    .font(.system(size: 10))
                     .fontWeight(.semibold)
                     .shadow(radius: 1, y: 1)
             }
             
-            VStack {
+            VStack(spacing: 10) {
                 Button {
                     isShowingCommentView.toggle()
                 } label: {
@@ -47,12 +47,12 @@ struct HeartCommentCell: View {
                 .sheet(isPresented: $isShowingCommentView) {
                     CommentView(feedVM: feedVM,
                                 surfingVM: surfingVM)
-                        .presentationDetents([.fraction(0.99), .fraction(0.8)])
-                        .presentationDragIndicator(.visible)
+                    .presentationDetents([.fraction(0.99), .fraction(0.8)])
+                    .presentationDragIndicator(.visible)
                 }
                 // 댓글이 달릴 때 마다 +1 카운팅 되게 하는 로직 추가
                 Text(String(feedVM.comments.count))
-                    .font(.system(size: 12))
+                    .font(.system(size: 10))
                     .fontWeight(.semibold)
                     .shadow(radius: 1, y: 1)
             }
@@ -64,7 +64,7 @@ struct HeartCommentCell: View {
                     VStack {
                         Text("...")
                             .font(.system(size: 32))
-                            .fontWeight(.medium)
+                            .fontWeight(.regular)
                             .foregroundStyle(.white)
                         
                         Text("")
