@@ -1,14 +1,14 @@
 //
-//  FollowerUserCellView.swift
+//  FollowerOtherUserCellView.swift
 //  PADO
 //
-//  Created by 황성진 on 1/16/24.
+//  Created by 최동호 on 2/2/24.
 //
 
 import Kingfisher
 import SwiftUI
 
-struct FollowerUserCellView: View {
+struct FollowerOtherUserCellView: View {
     @ObservedObject var followVM: FollowViewModel
     
     @State private var followerUsername: String = ""
@@ -17,15 +17,10 @@ struct FollowerUserCellView: View {
     
     let cellUserId: String
     
-    enum SufferSet: String {
-        case removesuffer = "서퍼 해제"
-        case setsuffer = "서퍼 등록"
-    }
-    
     @State private var buttonActive: Bool = false
     @State var transitions: Bool = false
     
-    let sufferset: SufferSet
+    let updateFollowData: UpdateFollowData
     
     // MARK: - BODY
     var body: some View {
@@ -39,7 +34,7 @@ struct FollowerUserCellView: View {
                         .cornerRadius(50)
                         .padding(.horizontal)
                 } else {
-                   Image("defaultProfile")
+                    Image("defaultProfile")
                         .resizable()
                         .scaledToFill()
                         .frame(width: 50, height: 50)
@@ -60,14 +55,13 @@ struct FollowerUserCellView: View {
             
             Spacer()
             
-            Button {
-                showingModal.toggle()
-            } label: {
-                Image(systemName: "ellipsis")
-                    .font(.system(size: 16))
-                    .foregroundStyle(.white)
-                    .padding(.trailing)
-            }
+            BlueButtonView(cellUserId: cellUserId,
+                           activeText: "팔로우",
+                           unActiveText: "팔로잉",
+                           widthValue: 85,
+                           heightValue: 30,
+                           updateFollowData: updateFollowData)
+                .padding(.horizontal)
             
         } // :HSTACK
         .padding(.vertical, -12)

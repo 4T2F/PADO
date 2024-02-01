@@ -36,7 +36,7 @@ struct FollowerView: View {
                         if !followVM.surferIDs.isEmpty {
                             VStack {
                                 HStack {
-                                    Text("내 서퍼")
+                                    Text("서퍼")
                                         .font(.system(size: 14, weight: .medium))
                                     
                                     Spacer()

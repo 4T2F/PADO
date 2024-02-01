@@ -23,12 +23,21 @@ struct FollowingCellView: View {
     var body: some View {
         HStack {
             HStack(spacing: 0) {
-                KFImage.url(URL(string: followingProfileUrl))
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 50, height: 50)
-                    .cornerRadius(50)
-                    .padding(.horizontal)
+                if let imageUrl = URL(string: followingProfileUrl) {
+                    KFImage.url(imageUrl)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 50, height: 50)
+                        .cornerRadius(50)
+                        .padding(.horizontal)
+                } else {
+                    Image("defaultProfile")
+                         .resizable()
+                         .scaledToFill()
+                         .frame(width: 50, height: 50)
+                         .cornerRadius(50)
+                         .padding(.horizontal)
+                }
                 
                 VStack(alignment: .leading, spacing: 3) {
                     Text(cellUserId)

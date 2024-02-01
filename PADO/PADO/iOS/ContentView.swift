@@ -86,6 +86,8 @@ struct ContentView: View {
         }
         .onAppear {
             Task {
+                followVM.profileFollowId = userNameID
+                followVM.initializeFollowFetch()
                 await profileVM.fetchPostID(id: userNameID)
             }
         }
