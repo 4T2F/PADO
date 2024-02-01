@@ -108,9 +108,7 @@ struct FeedView: View {
                                         feedVM.findFollowingUsers()
                                     }
                                 }) {
-                                    Image(systemName: "arrow.clockwise")
-                                        .padding()
-                                        .background(Circle().fill(Color.gray))
+                                    Image("refresh")
                                 }
                             }
                             .padding(.horizontal)
