@@ -40,11 +40,6 @@ enum Emotion: String, CaseIterable {
     }
 }
 
-
-
-import Kingfisher
-import SwiftUI
-
 struct FaceMojiCell: View {
     
     var facemoji: Facemoji

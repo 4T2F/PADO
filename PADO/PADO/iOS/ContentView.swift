@@ -33,7 +33,8 @@ struct ContentView: View {
             GeometryReader { geometry in
                 TabView(selection: $viewModel.showTab) {
                     FeedView(feedVM: feedVM,
-                             surfingVM: surfingVM)
+                             surfingVM: surfingVM,
+                             profileVM: profileVM)
                         .tabItem {
                             Image(viewModel.showTab == 0 ? "home_light" : "home_gray")
                                 
@@ -52,7 +53,9 @@ struct ContentView: View {
                         }
                         .onAppear { viewModel.showTab = 1 }
                         .tag(1)
-                    SurfingView(surfingVM: surfingVM, feedVM: feedVM)
+                    SurfingView(surfingVM: surfingVM,
+                                feedVM: feedVM,
+                                profileVM: profileVM)
                         .tabItem {
                             Text("")
                             

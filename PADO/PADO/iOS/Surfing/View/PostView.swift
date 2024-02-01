@@ -11,6 +11,7 @@ struct PostView: View {
     // MARK: - PROPERTY
     @ObservedObject var surfingVM: SurfingViewModel
     @ObservedObject var feedVM: FeedViewModel
+    @ObservedObject var profileVM: ProfileViewModel
     
     @EnvironmentObject var viewModel: AuthenticationViewModel
     
@@ -99,8 +100,12 @@ struct PostView: View {
                 Task {
                     do {
                         // 이미지 업로드 시 이전 입력 데이터 초기화
-                        let uploadedImageUrl = try await updateImageUrl.updateImageUserData(uiImage: surfingVM.postingUIImage, storageTypeInput: .post, documentid: feedVM.documentID, imageQuality: .highforPost)
+                        let uploadedImageUrl = try await updateImageUrl.updateImageUserData(uiImage: surfingVM.postingUIImage,
+                                                                                            storageTypeInput: .post,
+                                                                                            documentid: feedVM.documentID,
+                                                                                            imageQuality: .highforPost)
                         await surfingVM.postRequest(imageURL: uploadedImageUrl)
+                        await profileVM.fetchPadoPosts(id: userNameID)
                         surfingVM.resetImage()
                         feedVM.findFollowingUsers()
                         viewModel.showTab = 0

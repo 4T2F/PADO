@@ -13,6 +13,7 @@ struct SurfingView: View {
     // MARK: - PROPERTY
     @ObservedObject var surfingVM: SurfingViewModel
     @ObservedObject var feedVM: FeedViewModel
+    @ObservedObject var profileVM: ProfileViewModel
     
     // MARK: - BODY
     var body: some View {
@@ -92,11 +93,17 @@ struct SurfingView: View {
                 Alert(title: Text("권한 필요"), message: Text("사진 라이브러리 접근 권한이 필요합니다."), dismissButton: .default(Text("확인")))
             }
             .sheet(isPresented: $surfingVM.isShownCamera) {
-                CameraAccessView(isShown: $surfingVM.isShownCamera, myimage: $surfingVM.cameraImage, myUIImage: $surfingVM.cameraUIImage, mysourceType: $surfingVM.sourceType, mycameraDevice: $surfingVM.cameraDevice)
+                CameraAccessView(isShown: $surfingVM.isShownCamera,
+                                 myimage: $surfingVM.cameraImage,
+                                 myUIImage: $surfingVM.cameraUIImage,
+                                 mysourceType: $surfingVM.sourceType,
+                                 mycameraDevice: $surfingVM.cameraDevice)
             }
         }
         .navigationDestination(isPresented: $surfingVM.showCropView) {
-            PostCropView(surfingVM: surfingVM, feedVM: feedVM) { croppedImage, status in
+            PostCropView(surfingVM: surfingVM,
+                         feedVM: feedVM,
+                         profileVM: profileVM) { croppedImage, status in
                 if let croppedImage {
                     surfingVM.postingUIImage = croppedImage
                 }

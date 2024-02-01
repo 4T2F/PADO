@@ -34,28 +34,45 @@ class ProfileViewModel: ObservableObject {
     
     @MainActor
     func fetchPostID(id: String) async {
+        await fetchPadoPosts(id: id)
+        await fetchSendPadoPosts(id: id)
+        await fetchHighlihts(id: id)
+    }
+    
+    @MainActor
+    func fetchPadoPosts(id: String) async {
         padoPosts.removeAll()
-        sendPadoPosts.removeAll()
-        highlights.removeAll()
         do {
             let padoQuerySnapshot = try await db.collection("users").document(id).collection("mypost").getDocuments()
-            
-            let sendPadoQuerySnapshot = try await db.collection("users").document(id).collection("sendpost").getDocuments()
-            
-            let highlightsQuerySnapshot = try await db.collection("users").document(id).collection("highlight").getDocuments()
-            
             for document in padoQuerySnapshot.documents {
                 await fetchPostData(documentID: document.documentID, inputType: InputPostType.pado)
             }
-            
-            for document in sendPadoQuerySnapshot.documents {
+        } catch {
+            print("Error fetching user: \(error.localizedDescription)")
+        }
+    }
+    
+    @MainActor
+    func fetchSendPadoPosts(id: String) async {
+        sendPadoPosts.removeAll()
+        do {
+            let padoQuerySnapshot = try await db.collection("users").document(id).collection("sendpost").getDocuments()
+            for document in padoQuerySnapshot.documents {
                 await fetchPostData(documentID: document.documentID, inputType: InputPostType.sendPado)
             }
-           
-            for document in highlightsQuerySnapshot.documents {
+        } catch {
+            print("Error fetching user: \(error.localizedDescription)")
+        }
+    }
+    
+    @MainActor
+    func fetchHighlihts(id: String) async {
+        highlights.removeAll()
+        do {
+            let padoQuerySnapshot = try await db.collection("users").document(id).collection("highlight").getDocuments()
+            for document in padoQuerySnapshot.documents {
                 await fetchPostData(documentID: document.documentID, inputType: InputPostType.highlight)
             }
-
         } catch {
             print("Error fetching user: \(error.localizedDescription)")
         }

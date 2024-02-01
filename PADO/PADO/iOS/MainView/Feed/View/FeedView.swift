@@ -16,6 +16,8 @@ struct FeedView: View {
     
     @StateObject var feedVM: FeedViewModel
     @StateObject var surfingVM: SurfingViewModel
+    @StateObject var profileVM: ProfileViewModel
+    
     @StateObject private var mainCommentVM = MainCommentViewModel()
     @StateObject private var mainFaceMojiVM = MainFaceMojiViewModel()
     
@@ -85,7 +87,7 @@ struct FeedView: View {
                     Spacer()
                     
                     // MARK: - HeartComment
-                    HeartCommentCell(isShowingReportView: $feedVM.isShowingReportView, isShowingCommentView: $feedVM.isShowingCommentView, feedVM: feedVM, surfingVM: surfingVM)
+                    HeartCommentCell(isShowingReportView: $feedVM.isShowingReportView, isShowingCommentView: $feedVM.isShowingCommentView, feedVM: feedVM, surfingVM: surfingVM, profileVM: profileVM)
                         .padding(.leading, UIScreen.main.bounds.width)
                         .padding(.trailing, 60)
                         .padding(.bottom, 10)

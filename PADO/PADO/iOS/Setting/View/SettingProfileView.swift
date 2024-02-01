@@ -89,7 +89,7 @@ struct SettingProfileView: View {
                                         .scaledToFill()
                                         .frame(width: 129, height: 129)
                                         .clipShape(Circle())
-                                        .onAppear() {
+                                        .onAppear {
                                             viewModel.imagePick.toggle()
                                         }
                                 } else {

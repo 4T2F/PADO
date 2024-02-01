@@ -33,12 +33,12 @@ struct FollowMainView: View {
             }
             .padding(.horizontal)
             
-            PinnedHeaderView()
+            pinnedHeaderView()
             
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 0) {
                     LazyVStack(pinnedViews: [.sectionHeaders]) {
-                            PostList()
+                            postList()
                     }
                 }
             }
@@ -47,7 +47,7 @@ struct FollowMainView: View {
     }
     
     @ViewBuilder
-    func PinnedHeaderView() -> some View {
+    func pinnedHeaderView() -> some View {
         let types: [String] = ["팔로워", "팔로잉"]
         
         HStack(spacing: 25) {
@@ -84,7 +84,7 @@ struct FollowMainView: View {
     }
     
     @ViewBuilder
-    func PostList() -> some View {
+    func postList() -> some View {
         switch currentType {
         case "팔로워":
             FollowerView(followVM: followVM)

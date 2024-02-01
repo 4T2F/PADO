@@ -22,6 +22,7 @@ struct PostCropView: View {
     
     @ObservedObject var surfingVM: SurfingViewModel
     @ObservedObject var feedVM: FeedViewModel
+    @ObservedObject var profileVM: ProfileViewModel
     
     var crop: Crop = .rectangle
     var onCrop: (UIImage?, Bool) -> Void
@@ -73,7 +74,7 @@ struct PostCropView: View {
                 }
         }
         .navigationDestination(isPresented: $surfingVM.showPostView) {
-            PostView(surfingVM: surfingVM, feedVM: feedVM)
+            PostView(surfingVM: surfingVM, feedVM: feedVM, profileVM: profileVM)
         }
     }
     

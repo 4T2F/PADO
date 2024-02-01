@@ -428,7 +428,7 @@ extension FeedViewModel {
 extension FeedViewModel {
     // 페이스 모지를 스토리지, 스토어에 업로드
     func updateFaceMoji() async throws {
-        let faceMojiImageUrl = try await UpdateImageUrl.shared.updateImageUserData(
+        let _ = try await UpdateImageUrl.shared.updateImageUserData(
             uiImage: faceMojiUIImage,
             storageTypeInput: .facemoji,
             documentid: documentID,

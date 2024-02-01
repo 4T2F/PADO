@@ -14,6 +14,7 @@ struct HeartCommentCell: View {
     
     @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var surfingVM: SurfingViewModel
+    @ObservedObject var profileVM: ProfileViewModel
     
     var body: some View {
         VStack(spacing: 16) {
@@ -24,6 +25,7 @@ struct HeartCommentCell: View {
                             Task {
                                 await feedVM.deleteHeart()
                                 feedVM.selectedFeedCheckHeart = await feedVM.checkHeartExists()
+                                await profileVM.fetchHighlihts(id: userNameID)
                             }
                         } label: {
                             Image("heart_fill")
@@ -33,6 +35,7 @@ struct HeartCommentCell: View {
                             Task {
                                 await feedVM.addHeart()
                                 feedVM.selectedFeedCheckHeart = await feedVM.checkHeartExists()
+                                await profileVM.fetchHighlihts(id: userNameID)
                             }
                         } label: {
                             Image("heart")

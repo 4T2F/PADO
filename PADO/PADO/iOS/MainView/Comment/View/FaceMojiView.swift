@@ -43,7 +43,7 @@ struct FaceMojiView: View {
                                      myUIImage: $surfingVM.faceMojiUIImage,
                                      mysourceType: $surfingVM.sourceType,
                                      mycameraDevice: $surfingVM.cameraDevice)
-                    .onDisappear() {
+                    .onDisappear {
                         feedVM.faceMojiImage = surfingVM.faceMojiImage
                         feedVM.faceMojiUIImage = surfingVM.faceMojiUIImage
                         Task {

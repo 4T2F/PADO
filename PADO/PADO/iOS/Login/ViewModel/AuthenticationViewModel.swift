@@ -311,7 +311,6 @@ class AuthenticationViewModel: ObservableObject {
     
     func fetchUser() async {
         // 사용자 데이터 불러오기
-        guard let id = Auth.auth().currentUser?.uid else { return }
 
         do {
            
