@@ -11,8 +11,10 @@ struct MainSearchView: View {
     // MARK: - PROPERTY
     
     @State var mainSearch: String = ""
-    @ObservedObject var searchVM: SearchViewModel
     
+    @ObservedObject var searchVM: SearchViewModel
+    @ObservedObject var profileVM: ProfileViewModel
+    @ObservedObject var followVM: FollowViewModel
     // MARK: - BODY
     var body: some View {
         let searchTextBinding = Binding {
@@ -43,7 +45,9 @@ struct MainSearchView: View {
                 }  else if searchVM.viewState == .ready {
                     ScrollView(showsIndicators: false) {
                         ForEach(searchVM.searchResults) { result in
-                            SearchCellView(user: result)
+                            SearchCellView(profileVM: profileVM,
+                                           followVM: followVM,
+                                           user: result)
                                 .padding(.vertical, 3)
                         }
                     }

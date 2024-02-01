@@ -15,6 +15,8 @@ struct OtherUserProfileView: View {
     @StateObject var followVM = FollowViewModel()
     
     @Namespace var animation
+    
+    @Environment(\.dismiss) var dismiss
   
     let user: User
     
@@ -34,7 +36,7 @@ struct OtherUserProfileView: View {
                     } header: {
                         pinnedHeaderView()
                             .background(Color.black)
-                            .offset(y: profileVM.headerOffsets.1 > 0 ? 0 : -profileVM.headerOffsets.1 / 8)
+//                            .offset(y: profileVM.headerOffsets.1 > 0 ? -profileVM.headerOffsets.1 : -profileVM.headerOffsets.1 / 8)
                             .modifier(OffsetModifier(offset: $profileVM.headerOffsets.0, returnFromStart: false))
                             .modifier(OffsetModifier(offset: $profileVM.headerOffsets.1))
                     }
@@ -50,6 +52,7 @@ struct OtherUserProfileView: View {
         }
         .coordinateSpace(name: "SCROLL")
         .ignoresSafeArea(.container, edges: .vertical)
+        .navigationBarBackButtonHidden()
         .onAppear {
             Task {
                 await profileVM.fetchPostID(id: user.nameID)
@@ -116,28 +119,43 @@ struct OtherUserProfileView: View {
                                 
                                 Spacer()
                                 
-                                Button {
-                                    buttonOnOff.toggle()
-                                } label: {
-                                    if buttonOnOff {
+                                if user.nameID == userNameID {
+                                    NavigationLink(destination: SettingProfileView()) {
                                         ZStack {
-                                            RoundedRectangle(cornerRadius:6)
+                                            RoundedRectangle(cornerRadius:4)
                                                 .stroke(Color.white, lineWidth: 1)
-                                                .frame(width: 70, height: 28)
-                                            Text("팔로잉")
-                                                .font(.system(size: 14))
+                                                .frame(width: 80, height: 28)
+                                            Text("프로필 편집")
+                                                .font(.system(size: 12))
                                                 .fontWeight(.medium)
                                                 .foregroundStyle(.white)
                                         }
-                                    } else {
-                                        ZStack {
-                                            RoundedRectangle(cornerRadius:6)
-                                                .stroke(Color.blue, lineWidth: 1)
-                                                .frame(width: 70, height: 28)
-                                            Text("팔로우")
-                                                .font(.system(size: 14))
-                                                .fontWeight(.medium)
-                                                .foregroundStyle(.white)
+                                    }
+                                } else {
+                                    
+                                    Button {
+                                        buttonOnOff.toggle()
+                                    } label: {
+                                        if buttonOnOff {
+                                            ZStack {
+                                                RoundedRectangle(cornerRadius:6)
+                                                    .stroke(Color.white, lineWidth: 1)
+                                                    .frame(width: 70, height: 28)
+                                                Text("팔로잉")
+                                                    .font(.system(size: 14))
+                                                    .fontWeight(.medium)
+                                                    .foregroundStyle(.white)
+                                            }
+                                        } else {
+                                            ZStack {
+                                                RoundedRectangle(cornerRadius:6)
+                                                    .stroke(Color.blue, lineWidth: 1)
+                                                    .frame(width: 70, height: 28)
+                                                Text("팔로우")
+                                                    .font(.system(size: 14))
+                                                    .fontWeight(.medium)
+                                                    .foregroundStyle(.white)
+                                            }
                                         }
                                     }
                                 }
@@ -149,8 +167,9 @@ struct OtherUserProfileView: View {
                                         .fontWeight(.semibold)
                                         .foregroundStyle(.white.opacity(0.7))
                                 } icon: {
-                                    Text("0")
+                                    Text("\(profileVM.padoPosts.count + profileVM.sendPadoPosts.count)")
                                         .fontWeight(.semibold)
+                                        .foregroundStyle(.white.opacity(0.7))
                                 }
                                 .font(.caption)
                                 
@@ -162,6 +181,7 @@ struct OtherUserProfileView: View {
                                     } icon: {
                                         Text("\(followVM.followerIDs.count + followVM.surferIDs.count)")
                                             .fontWeight(.semibold)
+                                            .foregroundStyle(.white.opacity(0.7))
                                     }
                                     .font(.caption)
                                 }
@@ -174,6 +194,7 @@ struct OtherUserProfileView: View {
                                     } icon: {
                                         Text("\(followVM.followingIDs.count)")
                                             .fontWeight(.semibold)
+                                            .foregroundStyle(.white.opacity(0.7))
                                     }
                                     .font(.caption)
                                 }
@@ -191,6 +212,13 @@ struct OtherUserProfileView: View {
             
             VStack {
                 HStack {
+                    
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image("dismissArrow")
+                    }
+                    
                     Spacer()
 //                    NavigationLink(destination: SettingView()) {
                         Image(systemName: "ellipsis")

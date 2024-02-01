@@ -45,6 +45,7 @@ struct ProfileView: View {
         }
         .coordinateSpace(name: "SCROLL")
         .ignoresSafeArea(.container, edges: .vertical)
+        .navigationBarBackButtonHidden()
        
     }
     
@@ -120,32 +121,6 @@ struct ProfileView: View {
                                             .foregroundStyle(.white)
                                     }
                                 }
-                                
-//                                Button {
-//                                    buttonOnOff.toggle()
-//                                } label: {
-//                                    if buttonOnOff {
-//                                        ZStack {
-//                                            RoundedRectangle(cornerRadius:6)
-//                                                .stroke(Color.white, lineWidth: 1)
-//                                                .frame(width: 70, height: 28)
-//                                            Text("팔로잉")
-//                                                .font(.system(size: 14))
-//                                                .fontWeight(.medium)
-//                                                .foregroundStyle(.white)
-//                                        }
-//                                    } else {
-//                                        ZStack {
-//                                            RoundedRectangle(cornerRadius:6)
-//                                                .stroke(Color.blue, lineWidth: 1)
-//                                                .frame(width: 70, height: 28)
-//                                            Text("팔로우")
-//                                                .font(.system(size: 14))
-//                                                .fontWeight(.medium)
-//                                                .foregroundStyle(.white)
-//                                        }
-//                                    }
-//                                }
                             }
                                                        
                             HStack {
@@ -154,8 +129,9 @@ struct ProfileView: View {
                                         .fontWeight(.semibold)
                                         .foregroundStyle(.white.opacity(0.7))
                                 } icon: {
-                                    Text("0")
+                                    Text("\(profileVM.padoPosts.count + profileVM.sendPadoPosts.count)")
                                         .fontWeight(.semibold)
+                                        .foregroundStyle(.white.opacity(0.7))
                                 }
                                 .font(.caption)
                                 
@@ -167,6 +143,7 @@ struct ProfileView: View {
                                     } icon: {
                                         Text("\(followVM.followerIDs.count + followVM.surferIDs.count)")
                                             .fontWeight(.semibold)
+                                            .foregroundStyle(.white.opacity(0.7))
                                     }
                                     .font(.caption)
                                 }
@@ -179,6 +156,7 @@ struct ProfileView: View {
                                     } icon: {
                                         Text("\(followVM.followingIDs.count)")
                                             .fontWeight(.semibold)
+                                            .foregroundStyle(.white.opacity(0.7))
                                     }
                                     .font(.caption)
                                 }

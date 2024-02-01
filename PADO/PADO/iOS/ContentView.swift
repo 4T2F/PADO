@@ -44,7 +44,9 @@ struct ContentView: View {
                         .onAppear { selectedTab = 0 }
                         .tag(0)
                     
-                    MainSearchView(searchVM: searchVM)
+                    MainSearchView(searchVM: searchVM,
+                                   profileVM: profileVM,
+                                   followVM: followVM)
                         .tabItem {
                             Image(selectedTab == 1 ? "search_light" : "search_gray")
                             
