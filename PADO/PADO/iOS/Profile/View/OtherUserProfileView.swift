@@ -15,8 +15,10 @@ struct OtherUserProfileView: View {
     @StateObject var followVM = FollowViewModel()
     
     @Namespace var animation
-
-    @State var profileID: String
+  
+    let user: User
+    
+    @State private var buttonOnOff = false
     @State private var buttonActive: Bool = false
     
     let columns = [GridItem(.flexible(), spacing: 1), GridItem(.flexible(), spacing: 1), GridItem(.flexible())]
@@ -50,7 +52,7 @@ struct OtherUserProfileView: View {
         .ignoresSafeArea(.container, edges: .vertical)
         .onAppear {
             Task {
-                await profileVM.fetchPostID(id: profileID)
+                await profileVM.fetchPostID(id: user.nameID)
             }
         }
     }
@@ -77,15 +79,15 @@ struct OtherUserProfileView: View {
                         
                         VStack(alignment: .leading, spacing: 12) {
                          
-                            CircularImageView(size: .xLarge)
+                            CircularImageView(size: .xLarge, user: user)
                             
                             HStack(alignment: .bottom, spacing: 10) {
                                 VStack(alignment: .leading, spacing: 4) {
-                                    Text("\(viewModel.currentUser?.username ?? "")")
+                                    Text("\(user.username)")
                                         .font(.system(size: 14))
                                         .fontWeight(.semibold)
                                     
-                                    Text("@\(userNameID)")
+                                    Text("@\(user.nameID)")
                                         .font(.title.bold())
                                 }
                                 
@@ -114,43 +116,31 @@ struct OtherUserProfileView: View {
                                 
                                 Spacer()
                                 
-                                NavigationLink(destination: SettingProfileView()) {
-                                    ZStack {
-                                        RoundedRectangle(cornerRadius:4)
-                                            .stroke(Color.white, lineWidth: 1)
-                                            .frame(width: 80, height: 28)
-                                        Text("프로필 편집")
-                                            .font(.system(size: 12))
-                                            .fontWeight(.medium)
-                                            .foregroundStyle(.white)
+                                Button {
+                                    buttonOnOff.toggle()
+                                } label: {
+                                    if buttonOnOff {
+                                        ZStack {
+                                            RoundedRectangle(cornerRadius:6)
+                                                .stroke(Color.white, lineWidth: 1)
+                                                .frame(width: 70, height: 28)
+                                            Text("팔로잉")
+                                                .font(.system(size: 14))
+                                                .fontWeight(.medium)
+                                                .foregroundStyle(.white)
+                                        }
+                                    } else {
+                                        ZStack {
+                                            RoundedRectangle(cornerRadius:6)
+                                                .stroke(Color.blue, lineWidth: 1)
+                                                .frame(width: 70, height: 28)
+                                            Text("팔로우")
+                                                .font(.system(size: 14))
+                                                .fontWeight(.medium)
+                                                .foregroundStyle(.white)
+                                        }
                                     }
                                 }
-                                
-//                                Button {
-//                                    buttonOnOff.toggle()
-//                                } label: {
-//                                    if buttonOnOff {
-//                                        ZStack {
-//                                            RoundedRectangle(cornerRadius:6)
-//                                                .stroke(Color.white, lineWidth: 1)
-//                                                .frame(width: 70, height: 28)
-//                                            Text("팔로잉")
-//                                                .font(.system(size: 14))
-//                                                .fontWeight(.medium)
-//                                                .foregroundStyle(.white)
-//                                        }
-//                                    } else {
-//                                        ZStack {
-//                                            RoundedRectangle(cornerRadius:6)
-//                                                .stroke(Color.blue, lineWidth: 1)
-//                                                .frame(width: 70, height: 28)
-//                                            Text("팔로우")
-//                                                .font(.system(size: 14))
-//                                                .fontWeight(.medium)
-//                                                .foregroundStyle(.white)
-//                                        }
-//                                    }
-//                                }
                             }
                                                        
                             HStack {
@@ -202,11 +192,10 @@ struct OtherUserProfileView: View {
             VStack {
                 HStack {
                     Spacer()
-                    
-                    NavigationLink(destination: SettingView()) {
+//                    NavigationLink(destination: SettingView()) {
                         Image(systemName: "ellipsis")
                             .font(.system(size: 22))
-                    }
+//                    }
                 }
                 .foregroundStyle(.white)
                 

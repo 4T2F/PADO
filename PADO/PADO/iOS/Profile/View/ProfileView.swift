@@ -70,8 +70,10 @@ struct ProfileView: View {
                         
                         VStack(alignment: .leading, spacing: 12) {
                          
-                            CircularImageView(size: .xLarge)
-                            
+                            if let user = viewModel.currentUser {
+                                CircularImageView(size: .xLarge, user: user)
+                            }
+
                             HStack(alignment: .bottom, spacing: 10) {
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text("\(viewModel.currentUser?.username ?? "")")

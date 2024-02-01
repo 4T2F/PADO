@@ -45,7 +45,9 @@ struct ModalAlertView: View {
             VStack(alignment: .center) {
                 VStack(spacing: 10) {
                     if showingCircleImage {
-                        CircularImageView(size: .medium)
+                        if let user = viewModel.currentUser {
+                            CircularImageView(size: .medium, user: user)
+                        }
                     } else {
                         Text(mainTitle.rawValue)
                     }

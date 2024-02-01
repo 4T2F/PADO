@@ -89,7 +89,9 @@ struct SettingProfileView: View {
                                     .frame(width: 129, height: 129)
                                     .clipShape(Circle())
                             } else {
-                                CircularImageView(size: .xxLarge)
+                                if let user = viewModel.currentUser {
+                                    CircularImageView(size: .xxLarge, user: user)
+                                }
                             }
                         }
                         .onChange(of: viewModel.imagePick) { _, _  in
