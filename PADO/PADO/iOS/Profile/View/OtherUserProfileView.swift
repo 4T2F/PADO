@@ -1,19 +1,22 @@
 //
-//  Spotify.swift
-//  Components
+//  OtherUserProfileView.swift
+//  PADO
 //
-//  Created by 강치우 on 1/30/24.
+//  Created by 최동호 on 2/2/24.
 //
+
 
 import Kingfisher
 import SwiftUI
 
-struct ProfileView: View {
+struct OtherUserProfileView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
-    @StateObject var profileVM: ProfileViewModel
-    @StateObject var followVM: FollowViewModel
+    @StateObject var profileVM = ProfileViewModel()
+    @StateObject var followVM = FollowViewModel()
     
     @Namespace var animation
+
+    @State var profileID: String
     @State private var buttonActive: Bool = false
     
     let columns = [GridItem(.flexible(), spacing: 1), GridItem(.flexible(), spacing: 1), GridItem(.flexible())]
@@ -45,7 +48,11 @@ struct ProfileView: View {
         }
         .coordinateSpace(name: "SCROLL")
         .ignoresSafeArea(.container, edges: .vertical)
-       
+        .onAppear {
+            Task {
+                await profileVM.fetchPostID(id: profileID)
+            }
+        }
     }
     
     @ViewBuilder

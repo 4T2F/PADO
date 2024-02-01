@@ -18,6 +18,7 @@ struct ContentView: View {
     @StateObject var feedVM = FeedViewModel()
     @StateObject var followVM = FollowViewModel()
     @StateObject var searchVM = SearchViewModel()
+    @StateObject var profileVM = ProfileViewModel()
     
     @State private var selectedTab = 0
     
@@ -67,7 +68,7 @@ struct ContentView: View {
                         }
                         .onAppear { selectedTab = 3 }
                         .tag(3)
-                    ProfileView(followVM: followVM)
+                    ProfileView(profileVM: profileVM, followVM: followVM)
                         .tabItem {
                             Image(selectedTab == 4 ? "profile_light" : "profile_gray")
                             
@@ -78,6 +79,11 @@ struct ContentView: View {
                 }
                 .tint(.white)
                 .frame(width: geometry.size.width, height: geometry.size.height)
+            }
+        }
+        .onAppear {
+            Task {
+                await profileVM.fetchPostID(id: userNameID)
             }
         }
     }

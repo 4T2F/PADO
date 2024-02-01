@@ -34,6 +34,9 @@ class ProfileViewModel: ObservableObject {
     
     @MainActor
     func fetchPostID(id: String) async {
+        padoPosts.removeAll()
+        sendPadoPosts.removeAll()
+        highlights.removeAll()
         do {
             let padoQuerySnapshot = try await db.collection("users").document(id).collection("mypost").getDocuments()
             
