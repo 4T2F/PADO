@@ -32,20 +32,20 @@ struct BlueButtonView: View {
             buttonActive.toggle()
         }) {
             ZStack {
-                RoundedRectangle(cornerRadius: 10)
+                RoundedRectangle(cornerRadius: 8)
                     .frame(width: widthValue, height: heightValue)
-                    .foregroundStyle(buttonActive ? .grayButton : .blueButton)
+                    .foregroundStyle(buttonActive ? .modalBlackButton : Color(.systemBlue))
                 
                 HStack {
                     buttonActive ?
                     Text(unActiveText)
                         .foregroundStyle(.white)
-                        .font(.system(size: 14))
+                        .font(.system(size: 12))
                         .fontWeight(.medium)
                     :
                     Text(activeText)
                         .foregroundStyle(.white)
-                        .font(.system(size: 14))
+                        .font(.system(size: 12))
                         .fontWeight(.medium)
                 }
                 .padding(.horizontal)
