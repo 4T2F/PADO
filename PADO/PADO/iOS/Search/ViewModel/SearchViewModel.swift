@@ -9,7 +9,7 @@ import Firebase
 import FirebaseFirestoreSwift
 import SwiftUI
 
-//
+
 //var searchDatas: [String] {
 //    get {
 //        UserDefaults.standard.array(forKey: "searchData") as? [String] ?? [""]
@@ -18,7 +18,6 @@ import SwiftUI
 //        UserDefaults.standard.set(newValue, forKey: "searchData")
 //    }
 //}
-//
 
 class SearchViewModel: ObservableObject, Searchable {
     @Published var isLoading: Bool = false

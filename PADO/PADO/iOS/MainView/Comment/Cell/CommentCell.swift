@@ -20,7 +20,7 @@ struct CommentCell: View {
             Button {
                 Task {
                     // 비동기 함수를 사용하여 사용자 데이터를 가져옵니다.
-                    let fetchedUser = await feedVM.fetchUserData(id: comment.userID)
+                    let fetchedUser = await UpdateUserData.shared.getOthersProfileDatas(id: comment.userID)
                     self.user = fetchedUser
                     self.isUserLoaded = true // 사용자가 로드되었음을 나타냅니다.
                 }
@@ -49,7 +49,7 @@ struct CommentCell: View {
                     Button {
                         Task {
                             // 비동기 함수를 사용하여 사용자 데이터를 가져옵니다.
-                            let fetchedUser = await feedVM.fetchUserData(id: comment.userID)
+                            let fetchedUser = await UpdateUserData.shared.getOthersProfileDatas(id: comment.userID)
                             self.user = fetchedUser
                             self.isUserLoaded = true // 사용자가 로드되었음을 나타냅니다.
                         }

@@ -14,6 +14,7 @@ struct FollowerUserCellView: View {
     @State private var followerUsername: String = ""
     @State private var followerProfileUrl: String = ""
     @State private var showingModal: Bool = false
+    @State var profileUser: User?
     
     let cellUserId: String
     let followerType: FollowerModalType
@@ -32,31 +33,38 @@ struct FollowerUserCellView: View {
     var body: some View {
         HStack {
             HStack(spacing: 0) {
-                if let imageUrl = URL(string: followerProfileUrl) {
-                    KFImage.url(imageUrl)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 50, height: 50)
-                        .cornerRadius(50)
-                        .padding(.horizontal)
-                } else {
-                   Image("defaultProfile")
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 50, height: 50)
-                        .cornerRadius(50)
-                        .padding(.horizontal)
-                }
-                
-                VStack(alignment: .leading, spacing: 3) {
-                    Text(cellUserId)
-                        .font(.system(size: 14, weight: .semibold))
-                    if !followerUsername.isEmpty {
-                        Text(followerUsername)
-                            .font(.system(size: 12, weight: .regular))
-                            .foregroundStyle(Color(.systemGray))
+                NavigationLink {
+                    if let user = profileUser {
+                        OtherUserProfileView(user: user)
                     }
-                } //: VSTACK
+                } label: {
+                    if let imageUrl = URL(string: followerProfileUrl) {
+                        KFImage.url(imageUrl)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 50, height: 50)
+                            .cornerRadius(50)
+                            .padding(.horizontal)
+                    } else {
+                        Image("defaultProfile")
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 50, height: 50)
+                            .cornerRadius(50)
+                            .padding(.horizontal)
+                    }
+                    
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text(cellUserId)
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundStyle(.white)
+                        if !followerUsername.isEmpty {
+                            Text(followerUsername)
+                                .font(.system(size: 12, weight: .regular))
+                                .foregroundStyle(Color(.systemGray))
+                        }
+                    } //: VSTACK
+                }
             }
             
             Spacer()
@@ -97,6 +105,8 @@ struct FollowerUserCellView: View {
                 if let userProfile = await updateUserData.getOthersProfileDatas(id: cellUserId) {
                     self.followerUsername = userProfile.username
                     self.followerProfileUrl = userProfile.profileImageUrl ?? ""
+                    self.profileUser = userProfile
+                    print("유저: \(String(describing: profileUser))")
                 }
             }
         }

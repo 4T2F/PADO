@@ -229,7 +229,6 @@ struct OtherUserProfileView: View {
             
             VStack {
                 HStack {
-                    
                     Button {
                         dismiss()
                     } label: {
@@ -317,6 +316,9 @@ struct OtherUserProfileView: View {
                             if let image = URL(string: post.imageUrl) {
                                 KFImage(image)
                                     .resizable()
+                                    .scaledToFill()
+                                    .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
+                                    .clipped()
                             }
                             Text(post.title)
                                 .foregroundStyle(.white)
@@ -348,6 +350,9 @@ struct OtherUserProfileView: View {
                             if let image = URL(string: post.imageUrl) {
                                 KFImage(image)
                                     .resizable()
+                                    .scaledToFill()
+                                    .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
+                                    .clipped()
                             }
                             Text(post.title)
                                 .foregroundStyle(.white)
@@ -379,6 +384,9 @@ struct OtherUserProfileView: View {
                             if let image = URL(string: post.imageUrl) {
                                 KFImage(image)
                                     .resizable()
+                                    .scaledToFill()
+                                    .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
+                                    .clipped()
                             }
                             Text(post.title)
                                 .foregroundStyle(.white)

@@ -75,11 +75,11 @@ struct ProfileView: View {
                                                 .black.opacity(1)], startPoint: .top, endPoint: .bottom)
                         
                         VStack(alignment: .leading, spacing: 12) {
-                         
+                            
                             if let user = viewModel.currentUser {
                                 CircularImageView(size: .xLarge, user: user)
                             }
-
+                            
                             HStack(alignment: .bottom, spacing: 10) {
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text("\(viewModel.currentUser?.username ?? "")")
@@ -117,17 +117,17 @@ struct ProfileView: View {
                                 
                                 Spacer()
                                 
-//                                NavigationLink(destination: SettingProfileView()) {
-//                                    ZStack {
-//                                        RoundedRectangle(cornerRadius:4)
-//                                            .stroke(Color.white, lineWidth: 1)
-//                                            .frame(width: 80, height: 28)
-//                                        Text("프로필 편집")
-//                                            .font(.system(size: 12))
-//                                            .fontWeight(.medium)
-//                                            .foregroundStyle(.white)
-//                                    }
-//                                }
+                                //                                NavigationLink(destination: SettingProfileView()) {
+                                //                                    ZStack {
+                                //                                        RoundedRectangle(cornerRadius:4)
+                                //                                            .stroke(Color.white, lineWidth: 1)
+                                //                                            .frame(width: 80, height: 28)
+                                //                                        Text("프로필 편집")
+                                //                                            .font(.system(size: 12))
+                                //                                            .fontWeight(.medium)
+                                //                                            .foregroundStyle(.white)
+                                //                                    }
+                                //                                }
                                 Button {
                                     viewModel.showingSettingProfileView.toggle()
                                 } label: {
@@ -142,7 +142,7 @@ struct ProfileView: View {
                                     }
                                 }
                             }
-                                                       
+                            
                             HStack {
                                 Label {
                                     Text("파도")
@@ -238,7 +238,7 @@ struct ProfileView: View {
                                 .fill(.clear)
                         }
                     }
-//                    .padding(.horizontal, 8)
+                    //                    .padding(.horizontal, 8)
                     .frame(height: 1)
                 }
                 .contentShape(Rectangle())
@@ -283,6 +283,9 @@ struct ProfileView: View {
                             if let image = URL(string: post.imageUrl) {
                                 KFImage(image)
                                     .resizable()
+                                    .scaledToFill()
+                                    .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
+                                    .clipped()
                             }
                             Text(post.title)
                                 .foregroundStyle(.white)
@@ -314,6 +317,9 @@ struct ProfileView: View {
                             if let image = URL(string: post.imageUrl) {
                                 KFImage(image)
                                     .resizable()
+                                    .scaledToFill()
+                                    .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
+                                    .clipped()
                             }
                             Text(post.title)
                                 .foregroundStyle(.white)
@@ -345,6 +351,10 @@ struct ProfileView: View {
                             if let image = URL(string: post.imageUrl) {
                                 KFImage(image)
                                     .resizable()
+                                    .scaledToFill()
+                                    .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
+                                    .clipped()
+                                
                             }
                             Text(post.title)
                                 .foregroundStyle(.white)
