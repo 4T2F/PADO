@@ -9,13 +9,12 @@ import Firebase
 import FirebaseFirestoreSwift
 import SwiftUI
 
-struct Story: Identifiable, Hashable {
-    let id = UUID()
+struct Story: Identifiable, Hashable, Codable {
+    var id = UUID()
     
     let postID: String
     let name: String
     let image: String
     let title: String
     let postTime: Timestamp
-    let hearts: Int
 }

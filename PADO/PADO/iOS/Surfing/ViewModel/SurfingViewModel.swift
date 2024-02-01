@@ -91,7 +91,8 @@ class SurfingViewModel: ObservableObject, Searchable  {
             "ownerUid": userNameID,
             "imageUrl": imageURL,
             "title": postingTitle,
-            "hearts": 0,
+            "heartsCount": 0,
+            "commentCount": 0,
             "created_Time": Timestamp()
        ]
         await createPostData(titleName: formattedPostingTitle, data: initialPostData)

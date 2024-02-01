@@ -29,9 +29,10 @@ class FeedViewModel: ObservableObject {
     @Published var feedProfileID: String = ""
     @Published var selectedFeedTitle: String = ""
     @Published var selectedFeedTime: String = ""
+    @Published var selectedFeedCheckHeart: Bool = false
+    
     @Published var selectedFeedHearts: Int = 0
-    
-    
+    @Published var selectedCommentCounts: Int = 0
     // MARK: - comment관련
     @Published var comments: [Comment] = []
     @Published var documentID: String = ""
@@ -146,7 +147,7 @@ class FeedViewModel: ObservableObject {
     // Firestore의 데이터를 기반으로 스토리 데이터 업데이트
     private func updateStories() {
         self.stories = self.followingPosts.map { post in
-            Story(postID: post.id ?? "error", name: post.ownerUid, image: post.imageUrl, title: post.title, postTime: post.created_Time, hearts: post.hearts)
+            Story(postID: post.id ?? "error", name: post.ownerUid, image: post.imageUrl, title: post.title, postTime: post.created_Time)
 
         }
     }
@@ -161,7 +162,7 @@ class FeedViewModel: ObservableObject {
             selectedPostImageUrl = firstStory.image
             selectedFeedTitle = firstStory.title
             selectedFeedTime = TimestampDateFormatter.formatDate(firstStory.postTime)
-            selectedFeedHearts = firstStory.hearts
+//            selectedFeedHearts = firstStory.heartsCount
             documentID = firstStory.postID
             
             await selectStory(firstStory)
@@ -180,11 +181,31 @@ class FeedViewModel: ObservableObject {
         selectedPostImageUrl = story.image
         print("Selected post image URL: \(selectedPostImageUrl)")
         
+        selectedFeedCheckHeart = await checkHeartExists()
+        await fetchHeartCommentCounts()
         await watchedPost(story)
         // 햅틱 피드백 생성
         let generator = UIImpactFeedbackGenerator(style: .light)
         generator.impactOccurred()
         
+    }
+    
+    @MainActor
+    func fetchHeartCommentCounts() async {
+        let db = Firestore.firestore()
+        db.collection("post").document(documentID).addSnapshotListener { documentSnapshot, error in
+            guard let document = documentSnapshot else {
+                print("Error fetching document: \(error!)")
+                return
+            }
+            guard let data = document.data() else {
+                print("Document data was empty.")
+                return
+            }
+            print("Current data: \(data)")
+            self.selectedFeedHearts = data["heartsCount"] as? Int ?? 0
+            self.selectedCommentCounts = data["commentCount"] as? Int ?? 0
+        }
     }
     
     @MainActor
@@ -242,6 +263,89 @@ class FeedViewModel: ObservableObject {
             }
         }
     }
+}
+
+// MARK: - Heart관련
+extension FeedViewModel {
+    @MainActor
+    func addHeart() async {
+        do {
+            try await db.collection("post").document(documentID).collection("heart").document(userNameID).setData(["nameID": userNameID])
+            // 그 다음, 'post' 문서의 'heartsCount'를 업데이트하는 트랜잭션을 시작합니다.
+            _ = try await db.runTransaction({ (transaction, errorPointer) -> Any? in
+                let postRef = self.db.collection("post").document(self.documentID)
+                let postDocument: DocumentSnapshot
+                
+                do {
+                    try postDocument = transaction.getDocument(postRef)
+                } catch let fetchError as NSError {
+                    errorPointer?.pointee = fetchError
+                    return nil
+                }
+                
+                guard let oldCount = postDocument.data()?["heartsCount"] as? Int else {
+                    let error = NSError(domain: "AppErrorDomain", code: -1, userInfo: [
+                        NSLocalizedDescriptionKey: "Unable to retrieve hearts count from snapshot \(postDocument)"
+                    ])
+                    errorPointer?.pointee = error
+                    return nil
+                }
+                
+                transaction.updateData(["heartsCount": oldCount + 1], forDocument: postRef)
+                return nil
+            })
+           
+        }
+        catch {
+            print("error: \(error.localizedDescription)")
+        }
+    }
+    
+    @MainActor
+    func deleteHeart() async {
+        do {
+            try await db.collection("post").document(documentID).collection("heart").document(userNameID).delete()
+            // 그 다음, 'post' 문서의 'heartsCount'를 업데이트하는 트랜잭션을 시작합니다.
+            _ = try await db.runTransaction({ (transaction, errorPointer) in
+                let postRef = self.db.collection("post").document(self.documentID)
+                let postDocument: DocumentSnapshot
+                
+                do {
+                    try postDocument = transaction.getDocument(postRef)
+                } catch let fetchError as NSError {
+                    errorPointer?.pointee = fetchError
+                    return nil
+                }
+                
+                guard let oldCount = postDocument.data()?["heartsCount"] as? Int else {
+                    let error = NSError(domain: "AppErrorDomain", code: -1, userInfo: [
+                        NSLocalizedDescriptionKey: "Unable to retrieve hearts count from snapshot \(postDocument)"
+                    ])
+                    errorPointer?.pointee = error
+                    return nil
+                }
+                
+                transaction.updateData(["heartsCount": oldCount - 1], forDocument: postRef)
+                return nil
+            })
+        } catch {
+            print("error: \(error.localizedDescription)")
+        }
+    }
+    
+    @MainActor
+    func checkHeartExists() async -> Bool {
+        let heartDocRef = db.collection("post").document(documentID).collection("heart").document(userNameID)
+
+        do {
+            let documentSnapshot = try await heartDocRef.getDocument()
+            // 문서가 존재하지 않으면 false, 존재하면 true 반환
+            return documentSnapshot.exists
+        } catch {
+            print("Error checking heart document: \(error)")
+            return false
+        }
+    }
     
 }
 
@@ -273,6 +377,7 @@ extension FeedViewModel {
         await createCommentData(documentName: documentID, data: initialPostData)
     }
     
+    @MainActor
     func createCommentData(documentName: String, data: [String: Any]) async {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd-HH:mm:ss.sssZ"
@@ -282,6 +387,28 @@ extension FeedViewModel {
         
         do {
             try await db.collection("post").document(documentName).collection("comment").document(formattedCommentTitle).setData(data)
+            _ = try await db.runTransaction({ (transaction, errorPointer) in
+                let postRef = self.db.collection("post").document(self.documentID)
+                let postDocument: DocumentSnapshot
+                
+                do {
+                    try postDocument = transaction.getDocument(postRef)
+                } catch let fetchError as NSError {
+                    errorPointer?.pointee = fetchError
+                    return nil
+                }
+                
+                guard let oldCount = postDocument.data()?["commentCount"] as? Int else {
+                    let error = NSError(domain: "AppErrorDomain", code: -1, userInfo: [
+                        NSLocalizedDescriptionKey: "Unable to retrieve hearts count from snapshot \(postDocument)"
+                    ])
+                    errorPointer?.pointee = error
+                    return nil
+                }
+                
+                transaction.updateData(["commentCount": oldCount + 1], forDocument: postRef)
+                return nil
+            })
         } catch {
             print("Error saving post data: \(error.localizedDescription)")
         }

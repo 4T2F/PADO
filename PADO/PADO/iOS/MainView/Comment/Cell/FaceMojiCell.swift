@@ -44,24 +44,26 @@ struct FaceMojiCell: View {
     let emotion: Emotion
     let faceMojiUser: String
     var body: some View {
-        VStack{
+        VStack {
             ZStack {
                 Circle()
-                    .frame(width: 64, height: 64)
+                    .frame(width: 56, height: 56)
                     .foregroundStyle(emotion.color)
                 
                 Image("pp")
                     .resizable()
                     .scaledToFill()
-                    .frame(width: 60, height: 60)
+                    .frame(width: 54, height: 54)
                     .clipShape(Circle())
                 
                 Text(emotion.emoji)
                     .offset(x: 22, y: 20)
             }
+            
             Text(faceMojiUser)
                 .foregroundStyle(.white)
-                .font(.system(size: 14))
+                .font(.system(size: 10))
+                .fontWeight(.medium)
         }
     }
 }
