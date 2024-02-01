@@ -155,8 +155,10 @@ struct ProfileView: View {
                                 }
                                 .font(.caption)
                                 if let user = viewModel.currentUser {
-                                    NavigationLink(destination: FollowMainView(followVM: followVM,
-                                                                               updateFollowData: updateFollowData, user: user)) {
+                                    NavigationLink(destination: FollowMainView(currentType: "팔로워",
+                                                                               followVM: followVM,
+                                                                               updateFollowData: updateFollowData,
+                                                                               user: user)) {
                                         Label {
                                             Text("팔로워")
                                                 .fontWeight(.semibold)
@@ -169,8 +171,10 @@ struct ProfileView: View {
                                         .font(.caption)
                                     }
                                     
-                                    NavigationLink(destination: FollowMainView(followVM: followVM,
-                                                                               updateFollowData: updateFollowData, user: user)) {
+                                    NavigationLink(destination: FollowMainView(currentType: "팔로잉",
+                                                                               followVM: followVM,
+                                                                               updateFollowData: updateFollowData,
+                                                                               user: user)) {
                                         Label {
                                             Text("팔로잉")
                                                 .fontWeight(.semibold)

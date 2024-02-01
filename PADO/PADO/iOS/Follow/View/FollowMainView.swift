@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FollowMainView: View {
-    @State var currentType: String = "팔로워"
+    @State var currentType: String
     @Namespace var animation
     @Environment (\.dismiss) var dismiss
     
