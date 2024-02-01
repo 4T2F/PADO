@@ -48,10 +48,7 @@ struct SearchBar: View {
                                 Button {
                                     text = ""
                                 } label: {
-                                    ActivityIndicator(style: .medium, animate: .constant(true))
-                                        .configure({
-                                            $0.color = .white
-                                        })
+                                    ProgressView()
                                 }
                                 .padding(.trailing, 15)
                                 .frame(width: 35, height: 35)

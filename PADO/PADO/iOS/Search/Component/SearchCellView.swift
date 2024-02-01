@@ -2,52 +2,56 @@
 //  FriendCellView.swift
 //  BeReal
 //
-//  Created by 강치우 on 1/2/24.
+//  Created by 최동호 on 1/2/24.
 //
 // ITEM
 
+import Kingfisher
 import SwiftUI
 
-struct FriendCellView: View {
+struct SearchCellView: View {
     // MARK: - PROPERTY
+    let user: User
+    
     enum SearchRightSymbol: String {
         case chevron = "chevron.right"
         case xmark = "xmark"
     }
-    
-    let searchRightSymbol: SearchRightSymbol
-    
+
     // MARK: - BODY
     var body: some View {
         NavigationStack {
             HStack {
                 HStack(spacing: 0) {
-                    Image("pp2")
-                        .resizable()
-                        .frame(width: 50, height: 50)
-                        .cornerRadius(50)
-                        .padding(.trailing)
+                    if let image = user.profileImageUrl {
+                        KFImage(URL(string: image))
+                            .resizable()
+                            .frame(width: 50, height: 50)
+                            .cornerRadius(50)
+                            .padding(.trailing)
+                    } else {
+                        Image("defaultProfile")
+                            .resizable()
+                            .frame(width: 50, height: 50)
+                            .cornerRadius(50)
+                            .padding(.trailing)
+                    }
                     
                     VStack(alignment: .leading, spacing: 3) {
-                        Text("동호")
+                        Text(user.nameID)
                             .foregroundStyle(.white)
                             .font(.system(size: 14))
                             .fontWeight(.semibold)
                         
-                        Text("donghochoi")
+                        Text(user.username)
                             .font(.system(size: 12))
                             .fontWeight(.regular)
                             .foregroundStyle(Color(.systemGray))
                     }
                     
                     Spacer()
-                    
-                    Image(systemName: searchRightSymbol.rawValue)
-                        .foregroundStyle(Color(.systemGray))
-                        .font(.system(size: 14))
                 }
-                
-                
+
             } //: HSTACK
             .padding(.horizontal)
         } //: NAVI
