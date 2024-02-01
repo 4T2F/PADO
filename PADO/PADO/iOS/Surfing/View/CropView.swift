@@ -22,6 +22,7 @@ struct CropView: View {
     @GestureState private var forGridpress: Bool = false
     
     @ObservedObject var surfingVM: SurfingViewModel
+    @ObservedObject var feedVM: FeedViewModel
     
     var crop: Crop = .rectangle
     var onCrop: (UIImage?, Bool) -> Void
@@ -73,7 +74,7 @@ struct CropView: View {
                 }
         }
         .navigationDestination(isPresented: $surfingVM.showPostView) {
-            PostView(surfingVM: surfingVM)
+            PostView(surfingVM: surfingVM, feedVM: feedVM)
         }
     }
     

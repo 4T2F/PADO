@@ -12,6 +12,7 @@ import SwiftUI
 struct SurfingView: View {
     // MARK: - PROPERTY
     @ObservedObject var surfingVM: SurfingViewModel
+    @ObservedObject var feedVM: FeedViewModel
     
     // MARK: - BODY
     var body: some View {
@@ -95,7 +96,7 @@ struct SurfingView: View {
             }
         }
         .navigationDestination(isPresented: $surfingVM.showCropView) {
-            CropView(surfingVM: surfingVM) { croppedImage, status in
+            CropView(surfingVM: surfingVM, feedVM: feedVM) { croppedImage, status in
                 if let croppedImage {
                     surfingVM.postingUIImage = croppedImage
                 }

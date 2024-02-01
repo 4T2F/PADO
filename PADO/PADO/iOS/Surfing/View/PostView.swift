@@ -10,6 +10,10 @@ import SwiftUI
 struct PostView: View {
     // MARK: - PROPERTY
     @ObservedObject var surfingVM: SurfingViewModel
+    @ObservedObject var feedVM: FeedViewModel
+    
+    @EnvironmentObject var viewModel: AuthenticationViewModel
+    
     @Environment (\.dismiss) var dismiss
     let updateImageUrl = UpdateImageUrl.shared
     
@@ -98,6 +102,8 @@ struct PostView: View {
                         let uploadedImageUrl = try await updateImageUrl.updateImageUserData(uiImage: surfingVM.postingUIImage, storageTypeInput: .post)
                         await surfingVM.postRequest(imageURL: uploadedImageUrl)
                         surfingVM.resetImage()
+                        feedVM.findFollowingUsers()
+                        viewModel.showTab = 0
                     } catch {
                         print("파베 전송 오류 발생: (error.localizedDescription)")
                     }

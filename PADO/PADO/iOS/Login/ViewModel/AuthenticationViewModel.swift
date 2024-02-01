@@ -26,6 +26,9 @@ class AuthenticationViewModel: ObservableObject {
     @Published var showAlert = false
     @Published var isExisted = false
     
+    // 탭바 이동관련 변수
+    @Published var showTab: Int = 0
+    
     // MARK: - SettingProfile
     @Published var username = ""
     @Published var instaAddress = ""

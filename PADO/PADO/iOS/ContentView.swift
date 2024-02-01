@@ -31,32 +31,32 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             GeometryReader { geometry in
-                TabView(selection: $selectedTab) {
+                TabView(selection: $viewModel.showTab) {
                     FeedView(feedVM: feedVM,
                              surfingVM: surfingVM)
                         .tabItem {
-                            Image(selectedTab == 0 ? "home_light" : "home_gray")
+                            Image(viewModel.showTab == 0 ? "home_light" : "home_gray")
                                 
                             Text("홈")
                         }
-                        .onAppear { selectedTab = 0 }
+                        .onAppear { viewModel.showTab = 0 }
                         .tag(0)
                     
                     MainSearchView()
                         .tabItem {
-                            Image(selectedTab == 1 ? "search_light" : "search_gray")
+                            Image(viewModel.showTab == 1 ? "search_light" : "search_gray")
                             
                             Text("검색")
                         }
-                        .onAppear { selectedTab = 1 }
+                        .onAppear { viewModel.showTab = 1 }
                         .tag(1)
-                    SurfingView(surfingVM: surfingVM)
+                    SurfingView(surfingVM: surfingVM, feedVM: feedVM)
                         .tabItem {
                             Text("")
                             
-                            Image(selectedTab == 2 ? "tab_added" : "tab_add")
+                            Image(viewModel.showTab == 2 ? "tab_added" : "tab_add")
                         }
-                        .onAppear { selectedTab = 2 }
+                        .onAppear { viewModel.showTab = 2 }
                         .tag(2)
                     TodayView()
                         .tabItem {
@@ -64,15 +64,15 @@ struct ContentView: View {
                             
                             Text("오늘 파도")
                         }
-                        .onAppear { selectedTab = 3 }
+                        .onAppear { viewModel.showTab = 3 }
                         .tag(3)
                     ProfileView(followVM: followVM)
                         .tabItem {
-                            Image(selectedTab == 4 ? "profile_light" : "profile_gray")
+                            Image(viewModel.showTab == 4 ? "profile_light" : "profile_gray")
                             
                             Text("프로필")
                         }
-                        .onAppear { selectedTab = 4 }
+                        .onAppear { viewModel.showTab = 4 }
                         .tag(4)
                 }
                 .tint(.white)
