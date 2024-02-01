@@ -17,6 +17,7 @@ struct ContentView: View {
     @StateObject var surfingVM = SurfingViewModel()
     @StateObject var feedVM = FeedViewModel()
     @StateObject var followVM = FollowViewModel()
+    @StateObject var searchVM = SearchViewModel()
     
     @State private var selectedTab = 0
     
@@ -42,7 +43,7 @@ struct ContentView: View {
                         .onAppear { selectedTab = 0 }
                         .tag(0)
                     
-                    MainSearchView()
+                    MainSearchView(searchVM: searchVM)
                         .tabItem {
                             Image(selectedTab == 1 ? "search_light" : "search_gray")
                             

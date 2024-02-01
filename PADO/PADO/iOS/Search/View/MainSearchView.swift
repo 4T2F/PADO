@@ -11,7 +11,7 @@ struct MainSearchView: View {
     // MARK: - PROPERTY
     
     @State var mainSearch: String = ""
-    @ObservedObject var viewModel = SearchViewModel()
+    @ObservedObject var searchVM: SearchViewModel
     
     // MARK: - BODY
     var body: some View {
@@ -19,7 +19,7 @@ struct MainSearchView: View {
             return mainSearch
         } set: {
             mainSearch = $0
-            viewModel.updateSearchText(with: $0)
+            searchVM.updateSearchText(with: $0)
         }
         
         ZStack {
@@ -27,22 +27,22 @@ struct MainSearchView: View {
             
             VStack {
                 SearchBar(text: searchTextBinding,
-                          isLoading: $viewModel.isLoading)
+                          isLoading: $searchVM.isLoading)
                 .padding(.horizontal)
                 if mainSearch.isEmpty {
                     SearchGuide()
                         .padding(.top, 150)
                     
-                } else if viewModel.viewState == .empty {
+                } else if searchVM.viewState == .empty {
                     Text("검색 결과가 없어요")
                         .foregroundColor(.gray)
                         .font(.system(size: 16))
                         .bold()
                         .padding(.top, 150)
                     
-                }  else if viewModel.viewState == .ready {
+                }  else if searchVM.viewState == .ready {
                     ScrollView(showsIndicators: false) {
-                        ForEach(viewModel.searchResults) { result in
+                        ForEach(searchVM.searchResults) { result in
                             SearchCellView(user: result)
                                 .padding(.vertical, 3)
                         }
