@@ -13,7 +13,6 @@ struct ProfileView: View {
     @StateObject var profileVM = ProfileViewModel()
     @StateObject var followVM: FollowViewModel
     
-    
     @Namespace var animation
     @State private var buttonActive: Bool = false
     
@@ -46,6 +45,11 @@ struct ProfileView: View {
         }
         .coordinateSpace(name: "SCROLL")
         .ignoresSafeArea(.container, edges: .vertical)
+        .onAppear {
+            Task {
+                await profileVM.fetchPostID(id: userNameID)
+            }
+        }
     }
     
     @ViewBuilder
@@ -263,18 +267,27 @@ struct ProfileView: View {
     @ViewBuilder
     func postView() -> some View {
         VStack(spacing: 25) {
-            LazyVGrid(columns: columns, spacing: 2) {
-                ForEach(1...10, id: \.self) { _ in
-                    ZStack(alignment: .bottomLeading) {
-                        Image("B12")
-                            .resizable()
-                        
-                        Text("친구가 내 파도에 쓴 글")
-                            .foregroundStyle(.white)
-                            .font(.system(size: 14))
-                            .padding([.leading, .bottom], 5)
+            if profileVM.padoPosts.isEmpty {
+                Text("아직 받은 게시물이 없어요")
+                    .foregroundColor(.gray)
+                    .font(.system(size: 16,
+                                  weight: .semibold))
+                    .padding(.top, 150)
+            } else {
+                LazyVGrid(columns: columns, spacing: 2) {
+                    ForEach(profileVM.padoPosts, id: \.self) { post in
+                        ZStack(alignment: .bottomLeading) {
+                            if let image = URL(string: post.imageUrl) {
+                                KFImage(image)
+                                    .resizable()
+                            }
+                            Text(post.title)
+                                .foregroundStyle(.white)
+                                .font(.system(size: 14))
+                                .padding([.leading, .bottom], 5)
+                        }
+                        .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
                     }
-                    .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
                 }
             }
         }
@@ -285,18 +298,27 @@ struct ProfileView: View {
     @ViewBuilder
     func writtenPostsView() -> some View {
         VStack(spacing: 25) {
-            LazyVGrid(columns: columns, spacing: 2) {
-                ForEach(1...1, id: \.self) { _ in
-                    ZStack(alignment: .bottomLeading) {
-                        Image("B11")
-                            .resizable()
-                        
-                        Text("내가 친구 파도에 쓴 글")
-                            .foregroundStyle(.white)
-                            .font(.system(size: 14))
-                            .padding([.leading, .bottom], 5)
+            if profileVM.sendPadoPosts.isEmpty {
+                Text("아직 보낸 게시물이 없어요")
+                    .foregroundColor(.gray)
+                    .font(.system(size: 16,
+                                  weight: .semibold))
+                    .padding(.top, 150)
+            } else {
+                LazyVGrid(columns: columns, spacing: 2) {
+                    ForEach(profileVM.sendPadoPosts, id: \.self) { post in
+                        ZStack(alignment: .bottomLeading) {
+                            if let image = URL(string: post.imageUrl) {
+                                KFImage(image)
+                                    .resizable()
+                            }
+                            Text(post.title)
+                                .foregroundStyle(.white)
+                                .font(.system(size: 14))
+                                .padding([.leading, .bottom], 5)
+                        }
+                        .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
                     }
-                    .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
                 }
             }
         }
@@ -307,18 +329,27 @@ struct ProfileView: View {
     @ViewBuilder
     func highlightsView() -> some View {
         VStack(spacing: 25) {
-            LazyVGrid(columns: columns, spacing: 2) {
-                ForEach(1...5, id: \.self) { _ in
-                    ZStack(alignment: .bottomLeading) {
-                        Image("B14")
-                            .resizable()
-                        
-                        Text("내가 좋아요 한 파도")
-                            .foregroundStyle(.white)
-                            .font(.system(size: 14))
-                            .padding([.leading, .bottom], 5)
+            if profileVM.highlights.isEmpty {
+                Text("아직 좋아요를 표시한 게시물이 없어요")
+                    .foregroundColor(.gray)
+                    .font(.system(size: 16,
+                                  weight: .semibold))
+                    .padding(.top, 150)
+            } else {
+                LazyVGrid(columns: columns, spacing: 2) {
+                    ForEach(profileVM.highlights, id: \.self) { post in
+                        ZStack(alignment: .bottomLeading) {
+                            if let image = URL(string: post.imageUrl) {
+                                KFImage(image)
+                                    .resizable()
+                            }
+                            Text(post.title)
+                                .foregroundStyle(.white)
+                                .font(.system(size: 14))
+                                .padding([.leading, .bottom], 5)
+                        }
+                        .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
                     }
-                    .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
                 }
             }
         }

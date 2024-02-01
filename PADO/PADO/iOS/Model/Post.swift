@@ -11,7 +11,7 @@ import Foundation
 
 var formattedPostingTitle = ""
 
-struct Post: Identifiable, Codable {
+struct Post: Identifiable, Hashable, Codable {
  
     @DocumentID var id: String?
     var ownerUid: String

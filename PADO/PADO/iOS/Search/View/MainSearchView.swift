@@ -36,8 +36,8 @@ struct MainSearchView: View {
                 } else if searchVM.viewState == .empty {
                     Text("검색 결과가 없어요")
                         .foregroundColor(.gray)
-                        .font(.system(size: 16))
-                        .bold()
+                        .font(.system(size: 16,
+                                      weight: .semibold))
                         .padding(.top, 150)
                     
                 }  else if searchVM.viewState == .ready {
