@@ -61,7 +61,6 @@ class AuthenticationViewModel: ObservableObject {
                 } catch {
                     print("이미지 로드 중 오류 발생: \(error)")
                 }
-                print("selectedItem 변경됨: \(String(describing: selectedItem))")
             }
         }
     }
@@ -363,7 +362,6 @@ class AuthenticationViewModel: ObservableObject {
         username = currentUser?.username ?? ""
         instaAddress = currentUser?.instaAddress ?? ""
         tiktokAddress = currentUser?.tiktokAddress ?? ""
-        imagePick = false
     }
     
     func checkForChanges() {
@@ -374,6 +372,5 @@ class AuthenticationViewModel: ObservableObject {
         
         changedValue = isUsernameChanged || isInstaAddressChanged || isTiktokAddressChanged || imagePick
         
-        print("checkForChanges 호출됨: \(changedValue)")
     }
 }

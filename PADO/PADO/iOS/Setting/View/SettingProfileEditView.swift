@@ -41,6 +41,10 @@ struct SettingProfileEditView: View {
             .toolbarBackground(Color.black, for: .navigationBar)
             .toolbarColorScheme(.dark, for: .navigationBar)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .onDisappear() {
+                viewModel.changedValue = false
+                viewModel.imagePick = false
+            }
             .background {
                 Color.black
                     .ignoresSafeArea()

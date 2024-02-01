@@ -67,6 +67,8 @@ struct SettingProfileView: View {
                                 .disabled(!isActive) // 버튼 비활성화 여부 결정
                                 .onChange(of: viewModel.changedValue) { newValue, oldValue in
                                     isActive = !newValue // viewModel의 changedValue에 따라 isActive 상태 업데이트
+                                    print("===========================")
+                                    print(isActive)
                                 }
                             }
                             .padding(.top, 5)
@@ -91,7 +93,6 @@ struct SettingProfileView: View {
                                         .clipShape(Circle())
                                         .onAppear() {
                                             viewModel.imagePick.toggle()
-                                            viewModel.checkForChanges()
                                         }
                                 } else {
                                     CircularImageView(size: .xxxLarge)
@@ -99,6 +100,9 @@ struct SettingProfileView: View {
                             }
                             .onChange(of: viewModel.selectedItem) { _, _  in
                                 viewModel.showingEditProfile.toggle()
+                            }
+                            .onChange(of: viewModel.imagePick) { _, _  in
+                                viewModel.checkForChanges()
                             }
                             // MARK: - 프로필수정, 이름
                             VStack {
