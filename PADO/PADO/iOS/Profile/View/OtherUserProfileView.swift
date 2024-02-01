@@ -1,54 +1,62 @@
 //
-//  Spotify.swift
-//  Components
+//  OtherUserProfileView.swift
+//  PADO
 //
-//  Created by 강치우 on 1/30/24.
+//  Created by 최동호 on 2/2/24.
 //
+
 
 import Kingfisher
 import SwiftUI
 
-struct ProfileView: View {
+struct OtherUserProfileView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
-    @StateObject var profileVM: ProfileViewModel
-    @StateObject var followVM: FollowViewModel
+    @StateObject var profileVM = ProfileViewModel()
+    @StateObject var followVM = FollowViewModel()
     
     @Namespace var animation
+    
+    @Environment(\.dismiss) var dismiss
+  
+    let user: User
+    
+    @State private var buttonOnOff = false
     @State private var buttonActive: Bool = false
     
     let columns = [GridItem(.flexible(), spacing: 1), GridItem(.flexible(), spacing: 1), GridItem(.flexible())]
     
     var body: some View {
-        NavigationStack {
-            ScrollView(.vertical, showsIndicators: false) {
-                VStack(spacing: 0) {
-                    headerView()
-                    
-                    LazyVStack(pinnedViews: [.sectionHeaders]) {
-                        Section {
-                            postList()
-                        } header: {
-                            pinnedHeaderView()
-                                .background(Color.black)
-                                .offset(y: profileVM.headerOffsets.1 > 0 ? 0 : -profileVM.headerOffsets.1 / 8)
-                                .modifier(OffsetModifier(offset: $profileVM.headerOffsets.0, returnFromStart: false))
-                                .modifier(OffsetModifier(offset: $profileVM.headerOffsets.1))
-                        }
+        ScrollView(.vertical, showsIndicators: false) {
+            VStack(spacing: 0) {
+                headerView()
+                
+                LazyVStack(pinnedViews: [.sectionHeaders]) {
+                    Section {
+                        postList()
+                    } header: {
+                        pinnedHeaderView()
+                            .background(Color.black)
+//                            .offset(y: profileVM.headerOffsets.1 > 0 ? -profileVM.headerOffsets.1 : -profileVM.headerOffsets.1 / 8)
+                            .modifier(OffsetModifier(offset: $profileVM.headerOffsets.0, returnFromStart: false))
+                            .modifier(OffsetModifier(offset: $profileVM.headerOffsets.1))
                     }
                 }
             }
-            .overlay {
-                Rectangle()
-                    .fill(.black)
-                    .frame(height: 50)
-                    .frame(maxHeight: .infinity, alignment: .top)
-                    .opacity(profileVM.headerOffsets.0 < 5 ? 1 : 0)
-            }
-            .coordinateSpace(name: "SCROLL")
-            .ignoresSafeArea(.container, edges: .vertical)
         }
-        .navigationDestination(isPresented: $viewModel.showingSettingProfileView) {
-            SettingProfileView()
+        .overlay {
+            Rectangle()
+                .fill(.black)
+                .frame(height: 50)
+                .frame(maxHeight: .infinity, alignment: .top)
+                .opacity(profileVM.headerOffsets.0 < 5 ? 1 : 0)
+        }
+        .coordinateSpace(name: "SCROLL")
+        .ignoresSafeArea(.container, edges: .vertical)
+        .navigationBarBackButtonHidden()
+        .onAppear {
+            Task {
+                await profileVM.fetchPostID(id: user.nameID)
+            }
         }
     }
     
@@ -74,17 +82,15 @@ struct ProfileView: View {
                         
                         VStack(alignment: .leading, spacing: 12) {
                          
-                            if let user = viewModel.currentUser {
-                                CircularImageView(size: .xLarge, user: user)
-                            }
-
+                            CircularImageView(size: .xLarge, user: user)
+                            
                             HStack(alignment: .bottom, spacing: 10) {
                                 VStack(alignment: .leading, spacing: 4) {
-                                    Text("\(viewModel.currentUser?.username ?? "")")
+                                    Text("\(user.username)")
                                         .font(.system(size: 14))
                                         .fontWeight(.semibold)
                                     
-                                    Text("@\(userNameID)")
+                                    Text("@\(user.nameID)")
                                         .font(.title.bold())
                                 }
                                 
@@ -113,28 +119,44 @@ struct ProfileView: View {
                                 
                                 Spacer()
                                 
-//                                NavigationLink(destination: SettingProfileView()) {
-//                                    ZStack {
-//                                        RoundedRectangle(cornerRadius:4)
-//                                            .stroke(Color.white, lineWidth: 1)
-//                                            .frame(width: 80, height: 28)
-//                                        Text("프로필 편집")
-//                                            .font(.system(size: 12))
-//                                            .fontWeight(.medium)
-//                                            .foregroundStyle(.white)
-//                                    }
-//                                }
-                                Button {
-                                    viewModel.showingSettingProfileView.toggle()
-                                } label: {
-                                    ZStack {
-                                        RoundedRectangle(cornerRadius:4)
-                                            .stroke(Color.white, lineWidth: 1)
-                                            .frame(width: 80, height: 28)
-                                        Text("프로필 편집")
-                                            .font(.system(size: 12))
-                                            .fontWeight(.medium)
-                                            .foregroundStyle(.white)
+                                if user.nameID == userNameID {
+                                    NavigationLink(destination: SettingProfileView()) {
+                                        ZStack {
+                                            RoundedRectangle(cornerRadius:4)
+                                                .stroke(Color.white, lineWidth: 1)
+                                                .frame(width: 80, height: 28)
+                                            Text("프로필 편집")
+                                                .font(.system(size: 12))
+                                                .fontWeight(.medium)
+                                                .foregroundStyle(.white)
+                                        }
+                                    }
+                                } else {
+                                    
+                                    Button {
+                                        buttonOnOff.toggle()
+                                    } label: {
+                                        if buttonOnOff {
+                                            ZStack {
+                                                RoundedRectangle(cornerRadius:6)
+                                                    .stroke(Color.white, lineWidth: 1)
+                                                    .frame(width: 70, height: 28)
+                                                Text("팔로잉")
+                                                    .font(.system(size: 14))
+                                                    .fontWeight(.medium)
+                                                    .foregroundStyle(.white)
+                                            }
+                                        } else {
+                                            ZStack {
+                                                RoundedRectangle(cornerRadius:6)
+                                                    .stroke(Color.blue, lineWidth: 1)
+                                                    .frame(width: 70, height: 28)
+                                                Text("팔로우")
+                                                    .font(.system(size: 14))
+                                                    .fontWeight(.medium)
+                                                    .foregroundStyle(.white)
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -151,7 +173,7 @@ struct ProfileView: View {
                                 }
                                 .font(.caption)
                                 
-                                NavigationLink(destination: FollowMainView(followVM: followVM)) {
+                                NavigationLink(destination: FollowHomeView(currentSelection: 0, followVM: followVM)) {
                                     Label {
                                         Text("팔로워")
                                             .fontWeight(.semibold)
@@ -164,7 +186,7 @@ struct ProfileView: View {
                                     .font(.caption)
                                 }
                                 
-                                NavigationLink(destination: FollowMainView(followVM: followVM)) {
+                                NavigationLink(destination: FollowHomeView(currentSelection: 0, followVM: followVM)) {
                                     Label {
                                         Text("팔로잉")
                                             .fontWeight(.semibold)
@@ -190,12 +212,18 @@ struct ProfileView: View {
             
             VStack {
                 HStack {
-                    Spacer()
                     
-                    NavigationLink(destination: SettingView()) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image("dismissArrow")
+                    }
+                    
+                    Spacer()
+//                    NavigationLink(destination: SettingView()) {
                         Image(systemName: "ellipsis")
                             .font(.system(size: 22))
-                    }
+//                    }
                 }
                 .foregroundStyle(.white)
                 
@@ -228,7 +256,7 @@ struct ProfileView: View {
                         }
                     }
 //                    .padding(.horizontal, 8)
-                    .frame(height: 1)
+                    .frame(height: 2)
                 }
                 .contentShape(Rectangle())
                 .onTapGesture {

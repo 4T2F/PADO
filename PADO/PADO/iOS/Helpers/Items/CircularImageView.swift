@@ -37,10 +37,10 @@ struct CircularImageView: View {
     // MARK: - PROPERTY
     // ProfileImageSize 를 사용하기 위해 사용
     let size: ProfileImageSize
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    let user: User
     // MARK: - BODY
     var body: some View {
-        if let imageUrl = viewModel.currentUser?.profileImageUrl {
+        if let imageUrl = user.profileImageUrl {
             KFImage(URL(string: imageUrl))
                 .fade(duration: 0.5)
                 .placeholder{

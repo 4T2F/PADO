@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CommentView: View {
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     @State private var commentText: String = ""
     @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var surfingVM: SurfingViewModel
@@ -47,8 +48,9 @@ struct CommentView: View {
                     .offset(y: -14)
                 ZStack {
                     HStack {
-                        CircularImageView(size: .medium)
-                        
+                        if let user = viewModel.currentUser {
+                            CircularImageView(size: .medium, user: user)
+                        }
                         ZStack {
                             VStack {
                                 HStack {
