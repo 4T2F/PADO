@@ -11,6 +11,7 @@ import SwiftUI
 struct FeedView: View {
     
     @State private var isLoading = true
+    @State private var postFetchLoading: Bool = false
     
     @EnvironmentObject var authenticationViewModel: AuthenticationViewModel
     
@@ -106,8 +107,12 @@ struct FeedView: View {
                                     }
                                 }
                                 Button(action: {
-                                    Task {
-                                        feedVM.findFollowingUsers()
+                                    if !postFetchLoading {
+                                        Task {
+                                         
+                                            feedVM.findFollowingUsers()
+                                            
+                                        }
                                     }
                                 }) {
                                     Image("refresh")

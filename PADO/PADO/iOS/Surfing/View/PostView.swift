@@ -15,6 +15,7 @@ struct PostView: View {
     @ObservedObject var profileVM: ProfileViewModel
     @ObservedObject var followVM: FollowViewModel
     @EnvironmentObject var viewModel: AuthenticationViewModel
+    @State private var postLoading = false
     
     @Environment (\.dismiss) var dismiss
     let updateImageUrl = UpdateImageUrl.shared
@@ -124,20 +125,24 @@ struct PostView: View {
             
             Button {
                 // 게시요청 로직
-                Task {
-                    do {
-                        // 이미지 업로드 시 이전 입력 데이터 초기화
-                        let uploadedImageUrl = try await updateImageUrl.updateImageUserData(uiImage: surfingVM.postingUIImage,
-                                                                                            storageTypeInput: .post,
-                                                                                            documentid: feedVM.documentID,
-                                                                                            imageQuality: .highforPost)
-                        await surfingVM.postRequest(imageURL: uploadedImageUrl)
-                        await profileVM.fetchPadoPosts(id: userNameID)
-                        surfingVM.resetImage()
-                        feedVM.findFollowingUsers()
-                        viewModel.showTab = 0
-                    } catch {
-                        print("파베 전송 오류 발생: (error.localizedDescription)")
+                if !postLoading {
+                    Task {
+                        do {
+                            // 이미지 업로드 시 이전 입력 데이터 초기화
+                            postLoading = true
+                            let uploadedImageUrl = try await updateImageUrl.updateImageUserData(uiImage: surfingVM.postingUIImage,
+                                                                                                storageTypeInput: .post,
+                                                                                                documentid: feedVM.documentID,
+                                                                                                imageQuality: .highforPost)
+                            await surfingVM.postRequest(imageURL: uploadedImageUrl)
+                            await profileVM.fetchPadoPosts(id: userNameID)
+                            surfingVM.resetImage()
+                            feedVM.findFollowingUsers()
+                            viewModel.showTab = 0
+                            postLoading = false
+                        } catch {
+                            print("파베 전송 오류 발생: (error.localizedDescription)")
+                        }
                     }
                 }
             } label: {

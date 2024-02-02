@@ -36,7 +36,6 @@ class FeedViewModel: ObservableObject {
     @Published var comments: [Comment] = []
     @Published var documentID: String = ""
     @Published var inputcomment: String = ""
-    @Published var postFetchLoading: Bool = false
     
     private var db = Firestore.firestore()
     private var listener: ListenerRegistration?
@@ -55,7 +54,6 @@ class FeedViewModel: ObservableObject {
     }
     
     func findFollowingUsers() {
-        
         followingUsers.removeAll()
         listener = db.collection("users").document(userNameID).collection("following").addSnapshotListener { [weak self] (querySnapshot, error) in
             guard let self = self, let documents = querySnapshot?.documents else {
