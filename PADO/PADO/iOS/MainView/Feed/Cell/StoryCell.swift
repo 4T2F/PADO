@@ -12,10 +12,10 @@ import SwiftUI
 
 struct StoryCell: View {
     
-    var story: Story
+    var story: Post
     var storyIndex: Int
     var isWatched: Bool {
-        feedVM.watchedPostIDs.contains(story.postID)
+        feedVM.watchedPostIDs.contains(story.id ?? "")
     }
     
     @State var imageProfileUrl: String = ""
@@ -55,13 +55,13 @@ struct StoryCell: View {
                 .padding(.top, 5)
             }
 
-            Text(story.name)
+            Text(story.ownerUid)
                 .font(.system(size: 12))
                 .foregroundStyle(.white)
         }
         .onAppear {
             Task {
-                imageProfileUrl = await feedVM.setupProfileImageURL(id: story.name)
+                imageProfileUrl = await feedVM.setupProfileImageURL(id: story.ownerUid)
 
             }
         }
@@ -72,12 +72,14 @@ struct StoryCell: View {
     }
     
     func setFeedData() {
-        feedVM.feedProfileID = story.name
+        feedVM.feedProfileID = story.ownerUid
         feedVM.feedProfileImageUrl = imageProfileUrl
         feedVM.selectedFeedTitle = story.title
-        feedVM.selectedFeedTime = TimestampDateFormatter.formatDate(story.postTime)
+        feedVM.selectedFeedTime = TimestampDateFormatter.formatDate(story.created_Time)
 //        feedVM.selectedFeedHearts = story.heartsCount
-        feedVM.documentID = story.postID
+        if let postID = story.id {
+            feedVM.documentID = postID
+        }
         Task {
             await feedVM.getCommentsDocument()
         }

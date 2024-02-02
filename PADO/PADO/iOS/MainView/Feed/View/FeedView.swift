@@ -96,7 +96,7 @@ struct FeedView: View {
                     if feedVM.isHeaderVisible {
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 16) {
-                                ForEach(Array(feedVM.stories.enumerated()), id: \.element) { index, story in
+                                ForEach(Array(feedVM.followingPosts.enumerated()), id: \.element) { index, story in
                                     StoryCell(story: story,
                                               storyIndex: index,
                                               feedVM: feedVM) {

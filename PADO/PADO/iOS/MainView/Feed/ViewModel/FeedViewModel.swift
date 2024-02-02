@@ -21,7 +21,6 @@ class FeedViewModel: ObservableObject {
     @Published var selectedStoryImage: String? = nil
     @Published var selectedPostImageUrl: String = ""
     @Published var followingPosts: [Post] = []
-    @Published var stories: [Story] = []
     @Published var followingUsers: [String] = []
     @Published var watchedPostIDs: Set<String> = []
     
@@ -37,6 +36,7 @@ class FeedViewModel: ObservableObject {
     @Published var comments: [Comment] = []
     @Published var documentID: String = ""
     @Published var inputcomment: String = ""
+    @Published var postFetchLoading: Bool = false
     
     private var db = Firestore.firestore()
     private var listener: ListenerRegistration?
@@ -55,6 +55,7 @@ class FeedViewModel: ObservableObject {
     }
     
     func findFollowingUsers() {
+        
         followingUsers.removeAll()
         listener = db.collection("users").document(userNameID).collection("following").addSnapshotListener { [weak self] (querySnapshot, error) in
             guard let self = self, let documents = querySnapshot?.documents else {
@@ -113,8 +114,6 @@ class FeedViewModel: ObservableObject {
             !self.watchedPostIDs.contains($0.id ?? "") && self.watchedPostIDs.contains($1.id ?? "")
         }
         
-        // 새로운 스토리 데이터 생성
-        self.updateStories()
         await self.selectFirstStory()
     }
     
@@ -149,27 +148,20 @@ class FeedViewModel: ObservableObject {
         return ""
     }
     
-    // Firestore의 데이터를 기반으로 스토리 데이터 업데이트
-    private func updateStories() {
-        self.stories = self.followingPosts.map { post in
-            Story(postID: post.id ?? "error", name: post.ownerUid, image: post.imageUrl, title: post.title, postTime: post.created_Time)
-            
-        }
-    }
-    
     // 첫 번째 스토리를 선택하는 함수
     @MainActor
     private func selectFirstStory() async {
         // storyData 배열의 첫 번째 스토리를 가져옴
-        if let firstStory = self.stories.first {
+        if let firstStory = self.followingPosts.first,
+           let postId = firstStory.id {
             // 해당 스토리를 선택
-            feedProfileID = firstStory.name
-            selectedPostImageUrl = firstStory.image
+            feedProfileID = firstStory.ownerUid
+            selectedPostImageUrl = firstStory.imageUrl
             selectedFeedTitle = firstStory.title
-            selectedFeedTime = TimestampDateFormatter.formatDate(firstStory.postTime)
-            documentID = firstStory.postID
+            selectedFeedTime = TimestampDateFormatter.formatDate(firstStory.created_Time)
+            documentID = postId
             await selectStory(firstStory)
-            let profileUrl = await setupProfileImageURL(id: firstStory.name)
+            let profileUrl = await setupProfileImageURL(id: firstStory.ownerUid)
             await getCommentsDocument()
             
             feedProfileImageUrl = profileUrl
@@ -178,10 +170,10 @@ class FeedViewModel: ObservableObject {
     
     // 스토리 선택 핸들러
     @MainActor
-    func selectStory(_ story: Story) async {
+    func selectStory(_ story: Post) async {
         // 스토리의 이름과 게시물의 소유자 UID가 같은 경우 해당 게시물의 이미지 URL을 선택
         
-        selectedPostImageUrl = story.image
+        selectedPostImageUrl = story.imageUrl
         print("Selected post image URL: \(selectedPostImageUrl)")
         
         selectedFeedCheckHeart = await checkHeartExists()
@@ -192,33 +184,16 @@ class FeedViewModel: ObservableObject {
         generator.impactOccurred()
         
     }
-    
+ 
     @MainActor
-    func fetchHeartCommentCounts() async {
-        let db = Firestore.firestore()
-        db.collection("post").document(documentID).addSnapshotListener { documentSnapshot, error in
-            guard let document = documentSnapshot else {
-                print("Error fetching document: \(error!)")
-                return
-            }
-            guard let data = document.data() else {
-                print("Document data was empty.")
-                return
-            }
-            print("Current data: \(data)")
-            self.selectedFeedHearts = data["heartsCount"] as? Int ?? 0
-            self.selectedCommentCounts = data["commentCount"] as? Int ?? 0
-        }
-    }
-    
-    @MainActor
-    func watchedPost(_ story: Story) async {
+    func watchedPost(_ story: Post) async {
         do {
-            try await db.collection("users").document(userNameID).collection("watched")
-                .document(story.postID).setData(["created_Time": story.postTime,
-                                                 "watchedPost": story.postID])
-            self.watchedPostIDs.insert(story.postID)
-            
+            if let postID = story.id {
+                try await db.collection("users").document(userNameID).collection("watched")
+                    .document(postID).setData(["created_Time": story.created_Time,
+                                                       "watchedPost": postID])
+                self.watchedPostIDs.insert(postID)
+            }
         } catch {
             print("Error : \(error)")
         }
@@ -351,6 +326,24 @@ extension FeedViewModel {
         } catch {
             print("Error checking heart document: \(error)")
             return false
+        }
+    }
+    
+    @MainActor
+    func fetchHeartCommentCounts() async {
+        let db = Firestore.firestore()
+        db.collection("post").document(documentID).addSnapshotListener { documentSnapshot, error in
+            guard let document = documentSnapshot else {
+                print("Error fetching document: \(error!)")
+                return
+            }
+            guard let data = document.data() else {
+                print("Document data was empty.")
+                return
+            }
+            print("Current data: \(data)")
+            self.selectedFeedHearts = data["heartsCount"] as? Int ?? 0
+            self.selectedCommentCounts = data["commentCount"] as? Int ?? 0
         }
     }
     
