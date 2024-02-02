@@ -13,6 +13,7 @@ struct SearchCellView: View {
     // MARK: - PROPERTY
     @ObservedObject var profileVM: ProfileViewModel
     @ObservedObject var followVM: FollowViewModel
+    @ObservedObject var searchVM: SearchViewModel
     let user: User
 
     // MARK: - BODY
@@ -53,10 +54,12 @@ struct SearchCellView: View {
                         Spacer()
                     }
                 }
+                .onAppear {
+                    // 네비게이션 링크를 클릭했을 때 실행될 코드
+                    searchVM.addSearchData(user.nameID)
+                }
             } //: HSTACK
             .padding(.horizontal)
         } //: NAVI
     }
 }
-
-

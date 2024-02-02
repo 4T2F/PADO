@@ -60,7 +60,6 @@ struct OtherUserProfileView: View {
                 followVM.initializeFollowFetch()
                 await profileVM.fetchPostID(id: user.nameID)
                 self.buttonOnOff = await updateFollowData.checkFollowStatus(id: user.nameID)
-
             }
         }
     }

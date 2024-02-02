@@ -24,9 +24,9 @@ struct FollowingCellView: View {
         HStack {
             HStack(spacing: 0) {
                 NavigationLink {
-//                    if let user = profileUser {
-//                        OtherUserProfileView(user: user)
-//                    }
+                    if let user = profileUser {
+                        OtherUserProfileView(user: user)
+                    }
                 } label: {
                     if let imageUrl = URL(string: followingProfileUrl) {
                         KFImage.url(imageUrl)

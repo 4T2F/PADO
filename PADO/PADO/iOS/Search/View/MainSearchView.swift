@@ -9,7 +9,6 @@ import SwiftUI
 
 struct MainSearchView: View {
     // MARK: - PROPERTY
-    
     @State var mainSearch: String = ""
     
     @ObservedObject var searchVM: SearchViewModel
@@ -32,9 +31,36 @@ struct MainSearchView: View {
                           isLoading: $searchVM.isLoading)
                 .padding(.horizontal)
                 if mainSearch.isEmpty {
-                    SearchGuide()
-                        .padding(.top, 150)
-                    
+                    if !searchVM.searchDatas.isEmpty {
+                        HStack {
+                            Text("최근검색")
+                                .font(.system(size: 14, weight: .semibold))
+                            
+                            Spacer()
+                            
+                            Button {
+                                searchVM.clearSearchData()
+                            } label: {
+                                Text("기록 삭제")
+                                    .foregroundStyle(Color(.systemGray))
+                                    .font(.system(size: 14))
+                            }
+                        }
+                        .padding()
+                        
+                        ScrollView(showsIndicators: false) {
+                            ForEach(searchVM.searchDatas.reversed(), id: \.self) { searchData in
+                                RecordSearchCellView(profileVM: profileVM,
+                                                     followVM: followVM,
+                                                     searchVM: searchVM,
+                                                     searchCellID: searchData)
+                                .padding(.vertical, 3)
+                            }
+                        }
+                    } else {
+                        SearchGuide()
+                            .padding(.top, 150)
+                    }
                 } else if searchVM.viewState == .empty {
                     Text("검색 결과가 없어요")
                         .foregroundColor(.gray)
@@ -47,6 +73,7 @@ struct MainSearchView: View {
                         ForEach(searchVM.searchResults) { result in
                             SearchCellView(profileVM: profileVM,
                                            followVM: followVM,
+                                           searchVM: searchVM,
                                            user: result)
                                 .padding(.vertical, 3)
                         }
@@ -54,29 +81,7 @@ struct MainSearchView: View {
                     .padding(.top, 16)
                 }
                 Spacer()
-                //
-                //                HStack {
-                //                    Text("최근검색")
-                //                        .font(.system(size: 14, weight: .semibold))
-                //
-                //                    Spacer()
-                //
-                //                    Button {
-                //
-                //                    } label: {
-                //                        Text("기록 삭제")
-                //                            .foregroundStyle(Color(.systemGray))
-                //                            .font(.system(size: 14))
-                //                    }
-                //                }
-                //                .padding()
-                //
-                //                ScrollView(showsIndicators: false) {
-                //                    ForEach(1...10, id: \.self) {_ in
-                //                        FriendCellView(searchRightSymbol: .xmark)
-                //                            .padding(.vertical, 3)
-                //                    }
-                //                }
+                
             }
             .padding(.top, 15)
         }

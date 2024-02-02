@@ -9,24 +9,26 @@ import Firebase
 import FirebaseFirestoreSwift
 import SwiftUI
 
-
-//var searchDatas: [String] {
-//    get {
-//        UserDefaults.standard.array(forKey: "searchData") as? [String] ?? [""]
-//    }
-//    set {
-//        UserDefaults.standard.set(newValue, forKey: "searchData")
-//    }
-//}
-
 class SearchViewModel: ObservableObject, Searchable {
+    
+    @Published var searchDatas: [String] = []
+    
     @Published var isLoading: Bool = false
     @State var progress: Double = 0
     
     @Published var searchResults: [User] = []
     @Published var viewState: ViewState = ViewState.empty
+    
         
     let db = Firestore.firestore()
+    
+    init() {
+        loadSearchData()
+    }
+    
+    private func loadSearchData() {
+        searchDatas = UserDefaults.standard.array(forKey: "searchData") as? [String] ?? []
+    }
     
     public func updateSearchText(with text: String) {
         setViewState(to: .loading)
@@ -77,27 +79,24 @@ class SearchViewModel: ObservableObject, Searchable {
         isLoading = false
     }
     
-//    @MainActor
-//    func searchUserData(str: String) async {
-//        isLoading = true
-//        viewState = .loading
-//        
-//        let strNext = str + "\u{f8ff}"
-//        let query = db.collection("users")
-//            .whereField("nameID", isGreaterThanOrEqualTo: str)
-//            .whereField("nameID", isLessThan: strNext)
-//        
-//        do {
-//            let querySnapshot = try await query.getDocuments()
-//            self.searchResults = querySnapshot.documents.compactMap { document in
-//                try? document.data(as: User.self)
-//            }
-//            viewState = searchResults.isEmpty ? .empty : .ready
-//        } catch {
-//            print("Error getting documents: \(error)")
-//            viewState = .error
-//        }
-//        
-//        isLoading = false
-//    }
+    func addSearchData(_ id: String) {
+        if let index = searchDatas.firstIndex(of: id) {
+            searchDatas.remove(at: index)
+        }
+        searchDatas.append(id)
+        UserDefaults.standard.set(searchDatas, forKey: "searchData")
+        
+    }
+    
+    func removeSearchData(_ id: String) {
+        if let index = searchDatas.firstIndex(of: id) {
+            searchDatas.remove(at: index)
+            UserDefaults.standard.set(searchDatas, forKey: "searchData")
+        }
+    }
+    
+    func clearSearchData() {
+        searchDatas = []
+        UserDefaults.standard.set([], forKey: "searchData")
+    }
 }
