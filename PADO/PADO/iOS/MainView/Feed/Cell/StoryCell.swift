@@ -18,7 +18,8 @@ struct StoryCell: View {
         feedVM.watchedPostIDs.contains(story.id ?? "")
     }
     
-    @State var imageProfileUrl: String = ""
+    @State var ownerProfileUrl: String = ""
+    @State var surferProfileUrl: String = ""
     @ObservedObject var feedVM: FeedViewModel
 
     var onTap: () -> Void  // 탭 동작을 위한 클로저
@@ -33,7 +34,7 @@ struct StoryCell: View {
                         .foregroundColor(.black)
                         .frame(width: 70, height: 70)
                     
-                    KFImage.url(URL(string: imageProfileUrl))
+                    KFImage.url(URL(string: ownerProfileUrl))
                         .resizable()
                         .frame(width: 66, height: 66)
                         .cornerRadius(70)
@@ -47,7 +48,7 @@ struct StoryCell: View {
                         .background(.clear)
                         .frame(width: 70, height: 70)
                     
-                    KFImage.url(URL(string: imageProfileUrl))
+                    KFImage.url(URL(string: ownerProfileUrl))
                         .resizable()
                         .frame(width: 66, height: 66)
                         .cornerRadius(70)
@@ -61,7 +62,8 @@ struct StoryCell: View {
         }
         .onAppear {
             Task {
-                imageProfileUrl = await feedVM.setupProfileImageURL(id: story.ownerUid)
+                ownerProfileUrl = await feedVM.setupProfileImageURL(id: story.ownerUid)
+                surferProfileUrl = await feedVM.setupProfileImageURL(id: story.surferUid)
 
             }
         }
@@ -72,8 +74,10 @@ struct StoryCell: View {
     }
     
     func setFeedData() {
-        feedVM.feedProfileID = story.ownerUid
-        feedVM.feedProfileImageUrl = imageProfileUrl
+        feedVM.feedOwnerProfileID = story.ownerUid
+        feedVM.feedOwnerProfileImageUrl = ownerProfileUrl
+        feedVM.feedSurferProfileID = story.surferUid
+        feedVM.feedSurferProfileImageUrl = surferProfileUrl
         feedVM.selectedFeedTitle = story.title
         feedVM.selectedFeedTime = TimestampDateFormatter.formatDate(story.created_Time)
 //        feedVM.selectedFeedHearts = story.heartsCount

@@ -8,7 +8,7 @@
 import Kingfisher
 import SwiftUI
 
-struct SuferSelectView: View {
+struct SurfingSelectView: View {
     // MARK: - PROPERTY
     @ObservedObject var followVM: FollowViewModel
     
@@ -23,8 +23,8 @@ struct SuferSelectView: View {
                     .padding(.top, 20)
                 
                 VStack {
-                    ForEach(followVM.surferIDs, id: \.self) { surferId in
-                        SuferSelectCell(followVM: followVM, cellUserId: surferId)
+                    ForEach(followVM.surfingIDs, id: \.self) { surfingId in
+                        SurfingSelectCell(followVM: followVM, cellUserId: surfingId)
                     }
                 }
                 .padding()

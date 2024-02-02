@@ -60,3 +60,27 @@ struct CircularImageView: View {
         }
     }
 }
+
+
+
+struct UrlProfileImageView: View {
+    
+    var imageUrl: String
+    let size: ProfileImageSize
+    var defaultImageName: String
+
+    var body: some View {
+        Group {
+            if !imageUrl.isEmpty {
+                KFImage(URL(string: imageUrl))
+                    .resizable()
+            } else {
+                Image(defaultImageName)
+                    .resizable()
+            }
+        }
+        .scaledToFit()
+        .frame(width: size.dimension, height: size.dimension)
+        .cornerRadius(35)
+    }
+}

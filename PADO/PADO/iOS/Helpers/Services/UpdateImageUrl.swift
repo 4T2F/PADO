@@ -46,19 +46,44 @@ class UpdateImageUrl {
         return (uiImage, profileImageUrl)
     }
     
-    func updateImageUserData(uiImage: UIImage?, storageTypeInput: StorageTypeInput, documentid: String, imageQuality: ImageQuality) async throws -> String {
-        let returnString = try await updateProfileImage(uiImage: uiImage, storageTypeInput: storageTypeInput, documentid: documentid, imageQuality: imageQuality)
+    func updateImageUserData(uiImage: UIImage?, storageTypeInput: StorageTypeInput, documentid: String, imageQuality: ImageQuality, surfingID: String) async throws -> String {
+        let returnString = try await updateProfileImage(uiImage: uiImage,
+                                                        storageTypeInput: storageTypeInput,
+                                                        documentid: documentid,
+                                                        imageQuality: imageQuality,
+                                                        surfingID: surfingID)
         return returnString
     }
     
     // ImageUploader를 통해 Storage에 이미지를 올리고 imageurl을 매개변수로 updateUserProfileImage에 넣어줌
-    func updateProfileImage(uiImage: UIImage?, storageTypeInput: StorageTypeInput, documentid: String, imageQuality: ImageQuality) async throws -> String {
+    func updateProfileImage(uiImage: UIImage?, storageTypeInput: StorageTypeInput, documentid: String, imageQuality: ImageQuality, surfingID: String) async throws -> String {
         guard let image = uiImage else { throw ImageLoadError.imageCreationFailed }
         
         switch storageTypeInput {
-        case .user, .facemoji, .post:
-            guard let imageUrl = try? await uploadImageToStorage(image: image, storageTypeInput: storageTypeInput, imageQuality: imageQuality) else { throw ImageLoadError.imageCreationFailed }
-            let returnString = try await updateImageToStore(withImageUrl: imageUrl, storageTypeInput: storageTypeInput, documentid: documentid)
+        case .user, .facemoji:
+            guard let imageUrl = try? await uploadImageToStorage(image: image,
+                                                                 storageTypeInput: storageTypeInput,
+                                                                 imageQuality: imageQuality) 
+            else {
+                throw ImageLoadError.imageCreationFailed
+            }
+            let returnString = try await updateImageToStore(withImageUrl: imageUrl,
+                                                            storageTypeInput: storageTypeInput,
+                                                            documentid: documentid,
+                                                            surfingID: "")
+            return returnString
+            
+        case .post:
+            guard let imageUrl = try? await uploadImageToStorage(image: image,
+                                                                 storageTypeInput: storageTypeInput,
+                                                                 imageQuality: imageQuality)
+            else {
+                throw ImageLoadError.imageCreationFailed
+            }
+            let returnString = try await updateImageToStore(withImageUrl: imageUrl,
+                                                            storageTypeInput: storageTypeInput,
+                                                            documentid: documentid, 
+                                                            surfingID: surfingID)
             return returnString
         }
         
@@ -112,7 +137,7 @@ class UpdateImageUrl {
         }
         
         // 전달받은 imageUrl의 값을 파이어스토어 모델에 올리고 뷰모델에 넣어줌
-        func updateImageToStore(withImageUrl imageUrl: String, storageTypeInput: StorageTypeInput, documentid: String) async throws -> String {
+        func updateImageToStore(withImageUrl imageUrl: String, storageTypeInput: StorageTypeInput, documentid: String, surfingID: String) async throws -> String {
             switch storageTypeInput {
                 
             case .user:
@@ -121,9 +146,16 @@ class UpdateImageUrl {
                 ])
                 return imageUrl
             case .post:
-                try await Firestore.firestore().collection("users").document(userNameID).collection("mypost").document(formattedPostingTitle).setData([
+                try await Firestore.firestore().collection("users").document(userNameID).collection("sendpost").document(formattedPostingTitle).setData([
+                    "surfingID": surfingID,
                     "userID": userNameID
                 ])
+                
+                try await Firestore.firestore().collection("users").document(surfingID).collection("mypost").document(formattedPostingTitle).setData([
+                    "surferID": userNameID,
+                    "userID": surfingID
+                ])
+                
                 return imageUrl
             case .facemoji:
                 try await Firestore.firestore().collection("post").document(documentid).collection("facemoji").document(userNameID).setData([
@@ -132,5 +164,6 @@ class UpdateImageUrl {
                 return imageUrl
             }
         }
+    
     }
 }

@@ -25,8 +25,10 @@ class FeedViewModel: ObservableObject {
     @Published var followingUsers: [String] = []
     @Published var watchedPostIDs: Set<String> = []
     
-    @Published var feedProfileImageUrl: String = ""
-    @Published var feedProfileID: String = ""
+    @Published var feedOwnerProfileImageUrl: String = ""
+    @Published var feedOwnerProfileID: String = ""
+    @Published var feedSurferProfileImageUrl: String = ""
+    @Published var feedSurferProfileID: String = ""
     @Published var selectedFeedTitle: String = ""
     @Published var selectedFeedTime: String = ""
     @Published var selectedFeedCheckHeart: Bool = false
@@ -152,16 +154,19 @@ class FeedViewModel: ObservableObject {
         if let firstStory = self.followingPosts.first,
            let postId = firstStory.id {
             // 해당 스토리를 선택
-            feedProfileID = firstStory.ownerUid
+            feedOwnerProfileID = firstStory.ownerUid
+            feedSurferProfileID = firstStory.surferUid
             selectedPostImageUrl = firstStory.imageUrl
             selectedFeedTitle = firstStory.title
             selectedFeedTime = TimestampDateFormatter.formatDate(firstStory.created_Time)
             documentID = postId
             await selectStory(firstStory)
-            let profileUrl = await setupProfileImageURL(id: firstStory.ownerUid)
+            let ownerProfileUrl = await setupProfileImageURL(id: firstStory.ownerUid)
+            let surferProfileUrl = await setupProfileImageURL(id: firstStory.surferUid)
             await getCommentsDocument()
             
-            feedProfileImageUrl = profileUrl
+            feedOwnerProfileImageUrl = ownerProfileUrl
+            feedSurferProfileImageUrl = surferProfileUrl
         }
     }
     
@@ -414,7 +419,8 @@ extension FeedViewModel {
             uiImage: faceMojiUIImage,
             storageTypeInput: .facemoji,
             documentid: documentID,
-            imageQuality: .lowforFaceMoji
+            imageQuality: .lowforFaceMoji, 
+            surfingID: ""
         )
         
         try await db.collection("post").document(documentID).collection("facemoji").document(userNameID).updateData([

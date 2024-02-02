@@ -17,6 +17,7 @@ struct FeedView: View {
     @StateObject var feedVM: FeedViewModel
     @StateObject var surfingVM: SurfingViewModel
     @StateObject var profileVM: ProfileViewModel
+    @StateObject var followVM: FollowViewModel
     
     @StateObject private var mainCommentVM = MainCommentViewModel()
     @StateObject private var mainFaceMojiVM = MainFaceMojiViewModel()
@@ -49,6 +50,12 @@ struct FeedView: View {
                                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                         }
                     }
+                } else {
+                    Image("firstPhoto")
+                        .resizable()
+                        .scaledToFill()
+                        .ignoresSafeArea()
+                        .frame(height: UIScreen.main.bounds.height * 0.85)
                 }
                 
                 if feedVM.isHeaderVisible {
@@ -78,10 +85,22 @@ struct FeedView: View {
                 VStack {
                     // MARK: - Header
                     if feedVM.isHeaderVisible {
-                        MainHeaderCell(vm: feedVM)
-                            .frame(width: UIScreen.main.bounds.width)
-                            .padding(.leading, 4)
-                            .padding(.top, 5)
+                        if !feedVM.followingPosts.isEmpty {
+                            MainHeaderCell(vm: feedVM)
+                                .frame(width: UIScreen.main.bounds.width)
+                                .padding(.leading, 4)
+                                .padding(.top, 5)
+                        } else {
+                            HStack {
+                                Text("PADO")
+                                    .foregroundStyle(.black)
+                                    .font(.system(size: 24, weight: .semibold))
+                                    .padding(.leading, 60)
+                                    .padding(.top, 10)
+
+                                Spacer()
+                            }
+                        }
                     }
                     
                     Spacer()
@@ -107,9 +126,8 @@ struct FeedView: View {
                                 }
                                 Button(action: {
                                     if !feedVM.postFetchLoading {
-                        
                                         feedVM.findFollowingUsers()
-                                   
+                                        followVM.initializeFollowFetch()
                                     }
                                 }) {
                                     Image("refresh")
