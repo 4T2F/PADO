@@ -54,8 +54,9 @@ struct ContentView: View {
                         .onAppear { viewModel.showTab = 1 }
                         .tag(1)
                     SurfingView(surfingVM: surfingVM,
-                                feedVM: feedVM,
-                                profileVM: profileVM)
+                                feedVM: feedVM, profileVM:
+                                    profileVM, followVM:
+                                    followVM)
                         .tabItem {
                             Text("")
                             

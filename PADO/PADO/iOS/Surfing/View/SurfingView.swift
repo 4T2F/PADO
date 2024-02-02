@@ -14,6 +14,7 @@ struct SurfingView: View {
     @ObservedObject var surfingVM: SurfingViewModel
     @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var profileVM: ProfileViewModel
+    @ObservedObject var followVM: FollowViewModel
     
     // MARK: - BODY
     var body: some View {
@@ -103,7 +104,8 @@ struct SurfingView: View {
         .navigationDestination(isPresented: $surfingVM.showCropView) {
             PostCropView(surfingVM: surfingVM,
                          feedVM: feedVM,
-                         profileVM: profileVM) { croppedImage, status in
+                         profileVM: profileVM,
+                         followVM: followVM) { croppedImage, status in
                 if let croppedImage {
                     surfingVM.postingUIImage = croppedImage
                 }
