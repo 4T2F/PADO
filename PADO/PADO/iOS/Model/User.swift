@@ -39,6 +39,7 @@ var userAlertAccept: String {
 struct User: Codable, Identifiable, Hashable {
     @DocumentID var id: String?
     var username: String // 유저 닉네임
+    var lowercasedName: String
     var nameID: String
     var profileImageUrl: String?
     var date: String // 날짜가 문자열로 저장된 경우

@@ -44,14 +44,17 @@ class SearchViewModel: ObservableObject, Searchable {
         isLoading = true
         viewState = .loading
         
-        let strNext = str + "\u{f8ff}"
+        let lowercasedName = str.lowercased()
+        
+        let strNext = lowercasedName + "\u{f8ff}"
+        
         let nameIDQuery = db.collection("users")
-            .whereField("nameID", isGreaterThanOrEqualTo: str)
+            .whereField("nameID", isGreaterThanOrEqualTo: lowercasedName)
             .whereField("nameID", isLessThan: strNext)
 
         let usernameQuery = db.collection("users")
-            .whereField("username", isGreaterThanOrEqualTo: str)
-            .whereField("username", isLessThan: strNext)
+            .whereField("lowercasedName", isGreaterThanOrEqualTo: lowercasedName)
+            .whereField("lowercasedName", isLessThan: strNext)
         
         do {
             let nameIDResults = try await nameIDQuery.getDocuments()
