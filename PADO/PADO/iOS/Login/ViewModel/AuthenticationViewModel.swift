@@ -121,6 +121,7 @@ class AuthenticationViewModel: ObservableObject {
         
         let initialUserData = [
             "username": "",
+            "lowercasedName": "",
             "id": userId,
             "nameID": nameID,
             "date": year,
@@ -144,6 +145,7 @@ class AuthenticationViewModel: ObservableObject {
             currentUser = User(
                 id: userId,
                 username: "",
+                lowercasedName: "",
                 nameID: nameID,
                 date: year,
                 phoneNumber: "+82\(phoneNumber)",
@@ -346,9 +348,11 @@ class AuthenticationViewModel: ObservableObject {
         Task {
             // 버튼이 활성화된 경우 실행할 로직
             try await UpdateUserData.shared.updateUserData(initialUserData: ["username": username,
+                                                                             "lowercasedName": username.lowercased(),
                                                                              "instaAddress": instaAddress,
                                                                              "tiktokAddress": tiktokAddress])
             currentUser?.username = username
+            currentUser?.lowercasedName = username.lowercased()
             currentUser?.instaAddress = instaAddress
             currentUser?.tiktokAddress = tiktokAddress
             

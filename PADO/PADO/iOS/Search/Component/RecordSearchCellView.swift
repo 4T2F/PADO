@@ -26,6 +26,10 @@ struct RecordSearchCellView: View {
                 NavigationLink {
                     if let user = searchUser {
                         OtherUserProfileView(user: user)
+                            .onAppear {
+                                // 네비게이션 링크를 클릭했을 때 실행될 코드
+                                searchVM.addSearchData(searchCellID)
+                            }
                     }
                 } label: {
                     HStack(spacing: 0) {
@@ -60,10 +64,6 @@ struct RecordSearchCellView: View {
                         Spacer()
                     }
                 }
-                .onAppear {
-                    // 네비게이션 링크를 클릭했을 때 실행될 코드
-                    searchVM.addSearchData(searchCellID)
-                }
                 
                 Spacer()
                 
@@ -76,7 +76,6 @@ struct RecordSearchCellView: View {
                                       weight: .medium))
                         .foregroundStyle(.gray)
                         .padding()
-                        
                 }
             } //: HSTACK
             .padding(.horizontal)

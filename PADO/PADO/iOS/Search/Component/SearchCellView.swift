@@ -22,6 +22,9 @@ struct SearchCellView: View {
             HStack {
                 NavigationLink {
                     OtherUserProfileView(user: user)
+                        .onAppear {
+                            searchVM.addSearchData(user.nameID)
+                        }
                 } label: {
                     HStack(spacing: 0) {
                         if let image = user.profileImageUrl {
@@ -50,14 +53,10 @@ struct SearchCellView: View {
                                     .foregroundStyle(Color(.systemGray))
                             }
                         }
-                        
                         Spacer()
                     }
                 }
-                .onAppear {
-                    // 네비게이션 링크를 클릭했을 때 실행될 코드
-                    searchVM.addSearchData(user.nameID)
-                }
+                
             } //: HSTACK
             .padding(.horizontal)
         } //: NAVI
