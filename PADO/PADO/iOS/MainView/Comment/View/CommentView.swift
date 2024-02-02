@@ -35,17 +35,33 @@ struct CommentView: View {
                     }
                     .padding(.top, 5)
                     
+                    Spacer()
+                    
                     ScrollView(showsIndicators: false) {
                         VStack(alignment: .leading) {
-                            ForEach(feedVM.comments) { comment in
-                                CommentCell(comment: comment, feedVM: feedVM)
-                                    .padding(.horizontal, 10)
-                                    .padding(.bottom, 20)
+                            if feedVM.comments.isEmpty {
+                                VStack {
+                                    Text("아직 댓글이 없습니다.")
+                                        .font(.system(size: 16, weight: .semibold))
+                                        .padding(.bottom, 10)
+                                        .padding(.top, 120)
+                                    Text("댓글을 남겨보세요.")
+                                        .font(.system(size: 12))
+                                        .foregroundStyle(.gray)
+                                }
+                            } else {
+                                ForEach(feedVM.comments) { comment in
+                                    CommentCell(comment: comment, feedVM: feedVM)
+                                        .padding(.horizontal, 10)
+                                        .padding(.bottom, 20)
+                                }
                             }
                         }
                         .padding(.top)
                     }
                     .offset(y: -7)
+                    
+                    Spacer()
                     
                     Divider()
                         .offset(y: -14)
@@ -86,9 +102,11 @@ struct CommentView: View {
                                     RoundedRectangle(cornerRadius: 30) // HStack의 크기에 맞게 동적으로 크기가 변하는 RoundedRectangle
                                         .stroke(Color(.systemGray5), lineWidth: 1)
                                 )
+                                
                             }
                         }
                         .padding(.horizontal)
+                        .padding(.bottom, 10)
                     }
                 }
                 .padding(.top, 30)
@@ -101,3 +119,4 @@ struct CommentView: View {
         }
     }
 }
+

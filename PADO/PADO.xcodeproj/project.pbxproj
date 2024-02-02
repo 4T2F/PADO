@@ -15,6 +15,7 @@
 		04A785E32B5FB1C800BFCB9D /* SearchCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A785E22B5FB1C800BFCB9D /* SearchCellView.swift */; };
 		04A785E62B5FB1ED00BFCB9D /* SurfingMakeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A785E42B5FB1ED00BFCB9D /* SurfingMakeView.swift */; };
 		04A785E72B5FB1ED00BFCB9D /* SurfingSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A785E52B5FB1ED00BFCB9D /* SurfingSearchView.swift */; };
+		04AD70EC2B6CB80F00437134 /* KeyboardHide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AD70EB2B6CB80F00437134 /* KeyboardHide.swift */; };
 		04D1438C2B5F971F0076578A /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D1438B2B5F971F0076578A /* PostView.swift */; };
 		41101B322B6B67A1002E8C64 /* Heart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41101B312B6B67A1002E8C64 /* Heart.swift */; };
 		41101B342B6B8B7D002E8C64 /* SearchGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41101B332B6B8B7D002E8C64 /* SearchGuide.swift */; };
@@ -178,6 +179,7 @@
 		04A785E22B5FB1C800BFCB9D /* SearchCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchCellView.swift; sourceTree = "<group>"; };
 		04A785E42B5FB1ED00BFCB9D /* SurfingMakeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SurfingMakeView.swift; sourceTree = "<group>"; };
 		04A785E52B5FB1ED00BFCB9D /* SurfingSearchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SurfingSearchView.swift; sourceTree = "<group>"; };
+		04AD70EB2B6CB80F00437134 /* KeyboardHide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHide.swift; sourceTree = "<group>"; };
 		04D1438B2B5F971F0076578A /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
 		41101B312B6B67A1002E8C64 /* Heart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Heart.swift; sourceTree = "<group>"; };
 		41101B332B6B8B7D002E8C64 /* SearchGuide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGuide.swift; sourceTree = "<group>"; };
@@ -405,6 +407,7 @@
 			isa = PBXGroup;
 			children = (
 				63AB411C2B468C25007B37DC /* NavigationViewStyleHelper.swift */,
+				04AD70EB2B6CB80F00437134 /* KeyboardHide.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1222,6 +1225,7 @@
 				63AA03612B6A173F00431332 /* ProfileViewModel.swift in Sources */,
 				63C8BA4D2B56241200025422 /* TextAnimation.swift in Sources */,
 				649372FE2B56665200BCDA71 /* FollowerUserCellView.swift in Sources */,
+				04AD70EC2B6CB80F00437134 /* KeyboardHide.swift in Sources */,
 				63C20BED2B56CFAF00911F64 /* AdvancedSettingsCell.swift in Sources */,
 				417D188C2B5CFEF100545A5E /* LoginCodeView.swift in Sources */,
 				4197420F2B55900D0055F2AB /* MainView.swift in Sources */,
@@ -1417,10 +1421,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PADO/PADO.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PADO/Preview Content\"";
-				DEVELOPMENT_TEAM = UAG934M4Q7;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = UAG934M4Q7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PADO/Info.plist;
@@ -1440,6 +1446,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.4T2F.PADO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "PADO Debug";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1453,10 +1460,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PADO/PADO.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PADO/Preview Content\"";
-				DEVELOPMENT_TEAM = UAG934M4Q7;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = UAG934M4Q7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PADO/Info.plist;
@@ -1476,6 +1485,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.4T2F.PADO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "PADO Debug";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
