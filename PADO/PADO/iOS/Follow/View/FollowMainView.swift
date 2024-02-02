@@ -93,7 +93,7 @@ struct FollowMainView: View {
         case "팔로워":
             FollowerView(followVM: followVM, updateFollowData: updateFollowData, user: user)
         case "팔로잉":
-            FollowingView(followVM: followVM)
+            FollowingView(followVM: followVM, updateFollowData: updateFollowData)
         default:
             EmptyView()
         }

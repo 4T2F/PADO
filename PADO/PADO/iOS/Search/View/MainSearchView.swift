@@ -68,7 +68,7 @@ struct MainSearchView: View {
                                       weight: .semibold))
                         .padding(.top, 150)
                     
-                }  else if searchVM.viewState == .ready {
+                } else if searchVM.viewState == .ready {
                     ScrollView(showsIndicators: false) {
                         ForEach(searchVM.searchResults) { result in
                             SearchCellView(profileVM: profileVM,

@@ -14,7 +14,7 @@ struct FollowingView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
     @ObservedObject var followVM: FollowViewModel
     
-    let updateFollowData = UpdateFollowData()
+    let updateFollowData: UpdateFollowData
     
     // MARK: - BODY
     var body: some View {
@@ -22,7 +22,7 @@ struct FollowingView: View {
             return searchText
         } set: {
             searchText = $0
-            followVM.updateSearchText(with: $0)
+            followVM.searchFollowers(with: $0, type: SearchFollowType.following)
         }
         ZStack {
             Color.black.ignoresSafeArea()
@@ -33,25 +33,54 @@ struct FollowingView: View {
                     .padding(.bottom, 10)
                     .padding(.horizontal)
                     
-                    ScrollView(.vertical) {
-                        VStack {
-                            HStack {
-                                Text("팔로잉")
-                                    .font(.system(size: 14, weight: .medium))
+                    if searchText.isEmpty {
+                        ScrollView(.vertical) {
+                            VStack {
+                                HStack {
+                                    Text("팔로잉")
+                                        .font(.system(size: 14, weight: .medium))
+                                    
+                                    Spacer()
+                                } //: HSTACK
+                                .padding(.leading)
                                 
-                                Spacer()
-                            } //: HSTACK
-                            .padding(.leading)
-                            
-                            LazyVStack(spacing: 8) {
-                                ForEach(followVM.followingIDs, id: \.self) { followingID in
-                                    FollowingCellView(cellUserId: followingID,
-                                                      updateFollowData: updateFollowData)
-                                    .padding(.vertical)
-                                }
-                            } //: SCROLL
+                                LazyVStack(spacing: 8) {
+                                    ForEach(followVM.followingIDs, id: \.self) { followingID in
+                                        FollowingCellView(cellUserId: followingID,
+                                                          updateFollowData: updateFollowData)
+                                        .padding(.vertical)
+                                    }
+                                } //: SCROLL
+                            }
+                            .padding(.bottom)
                         }
-                        .padding(.bottom)
+                    } else if followVM.viewState == .empty {
+                        Text("검색 결과가 없어요")
+                            .foregroundColor(.gray)
+                            .font(.system(size: 16,
+                                          weight: .semibold))
+                            .padding(.top, 150)
+                    } else {
+                        ScrollView(.vertical) {
+                            VStack {
+                                HStack {
+                                    Text("팔로잉")
+                                        .font(.system(size: 14, weight: .medium))
+                                    
+                                    Spacer()
+                                } //: HSTACK
+                                .padding(.leading)
+                                
+                                LazyVStack(spacing: 8) {
+                                    ForEach(followVM.searchedFollowing, id: \.self) { followingID in
+                                        FollowingCellView(cellUserId: followingID,
+                                                          updateFollowData: updateFollowData)
+                                        .padding(.vertical)
+                                    }
+                                } //: SCROLL
+                            }
+                            .padding(.bottom)
+                        }
                     }
                 } //: VSTACK
             } //: VSTACK

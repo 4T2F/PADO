@@ -28,12 +28,21 @@ enum CollectionType {
     }
 }
 
+enum SearchFollowType {
+    case follower
+    case following
+}
+
 class FollowViewModel: ObservableObject, Searchable {
     
     @Published var followerIDs: [String] = []
     @Published var followingIDs: [String] = []
     @Published var surferIDs: [String] = []
     @Published var surfingIDs: [String] = []
+    
+    @Published var searchedFollower: [String] = []
+    @Published var searchedSurfer: [String] = []
+    @Published var searchedFollowing: [String] = []
     
     @Published var isLoading: Bool = false
     @Published var profileFollowId = ""
@@ -81,6 +90,22 @@ class FollowViewModel: ObservableObject, Searchable {
                 }
                 self.isLoading = false
             }
+        }
+    }
+    
+    func searchFollowers(with str: String, type: SearchFollowType) {
+        setViewState(to: .loading)
+        self.isLoading = true
+        if str.count > 0 {
+            switch type {
+            case .follower:
+                searchedFollower = followerIDs.filter { $0.hasPrefix(str) }
+                searchedSurfer = surferIDs.filter { $0.hasPrefix(str) }
+            case .following:
+                searchedFollowing = followingIDs.filter { $0.hasPrefix(str) }
+            }
+            self.isLoading = false
+            setViewState(to: .ready)
         }
     }
 }

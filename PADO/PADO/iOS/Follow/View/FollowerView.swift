@@ -29,9 +29,8 @@ struct FollowerView: View {
             return searchText
         } set: {
             searchText = $0
-            followVM.updateSearchText(with: $0)
+            followVM.searchFollowers(with: $0, type: SearchFollowType.follower)
         }
-        
         ZStack {
             Color.black.ignoresSafeArea()
             VStack {
@@ -40,12 +39,40 @@ struct FollowerView: View {
                               isLoading: $followVM.isLoading)
                     .padding(.bottom, 10)
                     .padding(.horizontal)
-                    
-                    ScrollView(.vertical) {
-                        if !followVM.surferIDs.isEmpty {
+                    if searchText.isEmpty {
+                        ScrollView(.vertical) {
+                            if !followVM.surferIDs.isEmpty {
+                                VStack {
+                                    HStack {
+                                        Text("서퍼")
+                                            .font(.system(size: 14, weight: .medium))
+                                        
+                                        Spacer()
+                                    } //: HSTACK
+                                    .padding(.leading)
+                                    
+                                    LazyVStack(spacing: 8) {
+                                        ForEach(followVM.surferIDs, id: \.self) { surferId in
+                                            if user.nameID == userNameID {
+                                                FollowerUserCellView(followVM: followVM, cellUserId: surferId, followerType: FollowerModalType.surfer, sufferset: .removesuffer)
+                                                    .padding(.vertical)
+                                            } else {
+                                                FollowerOtherUserCellView(followVM: followVM, cellUserId: surferId, updateFollowData: updateFollowData)
+                                                    .padding(.vertical)
+                                            }
+                                        }
+                                    }
+                                    
+                                    Divider()
+                                        .padding(.horizontal)
+                                        .padding(.top, 5)
+                                }
+                                .padding(.bottom)
+                            }
+                            
                             VStack {
                                 HStack {
-                                    Text("서퍼")
+                                    Text("팔로워")
                                         .font(.system(size: 14, weight: .medium))
                                     
                                     Spacer()
@@ -53,47 +80,80 @@ struct FollowerView: View {
                                 .padding(.leading)
                                 
                                 LazyVStack(spacing: 8) {
-                                    ForEach(followVM.surferIDs, id: \.self) { surferId in
+                                    ForEach(followVM.followerIDs, id: \.self) { followerId in
                                         if user.nameID == userNameID {
-                                            FollowerUserCellView(followVM: followVM, cellUserId: surferId, followerType: FollowerModalType.surfer, sufferset: .removesuffer)
+                                            FollowerUserCellView(followVM: followVM, cellUserId: followerId, followerType: FollowerModalType.follower, sufferset: .setsuffer)
                                                 .padding(.vertical)
                                         } else {
-                                            FollowerOtherUserCellView(followVM: followVM, cellUserId: surferId, updateFollowData: updateFollowData)
+                                            FollowerOtherUserCellView(followVM: followVM, cellUserId: followerId, updateFollowData: updateFollowData)
                                                 .padding(.vertical)
                                         }
                                     }
                                 }
-                                
-                                Divider()
-                                    .padding(.horizontal)
-                                    .padding(.top, 5)
-                            }
-                            .padding(.bottom)
+                            } //: SCROLL
                         }
-                        
-                        VStack {
-                            HStack {
-                                Text("팔로워")
-                                    .font(.system(size: 14, weight: .medium))
-                                
-                                Spacer()
-                            } //: HSTACK
-                            .padding(.leading)
+                        .padding(.bottom)
+                    } else if followVM.viewState == .empty {
+                        Text("검색 결과가 없어요")
+                            .foregroundColor(.gray)
+                            .font(.system(size: 16,
+                                          weight: .semibold))
+                            .padding(.top, 150)
+                    } else if followVM.viewState == .ready {
+                        ScrollView(.vertical) {
+                            if !followVM.surferIDs.isEmpty {
+                                VStack {
+                                    HStack {
+                                        Text("서퍼")
+                                            .font(.system(size: 14, weight: .medium))
+                                        
+                                        Spacer()
+                                    } //: HSTACK
+                                    .padding(.leading)
+                                    
+                                    LazyVStack(spacing: 8) {
+                                        ForEach(followVM.searchedSurfer, id: \.self) { surferId in
+                                            if user.nameID == userNameID {
+                                                FollowerUserCellView(followVM: followVM, cellUserId: surferId, followerType: FollowerModalType.surfer, sufferset: .removesuffer)
+                                                    .padding(.vertical)
+                                            } else {
+                                                FollowerOtherUserCellView(followVM: followVM, cellUserId: surferId, updateFollowData: updateFollowData)
+                                                    .padding(.vertical)
+                                            }
+                                        }
+                                    }
+                                    
+                                    Divider()
+                                        .padding(.horizontal)
+                                        .padding(.top, 5)
+                                }
+                                .padding(.bottom)
+                            }
                             
-                            LazyVStack(spacing: 8) {
-                                ForEach(followVM.followerIDs, id: \.self) { followerId in
-                                    if user.nameID == userNameID {
-                                        FollowerUserCellView(followVM: followVM, cellUserId: followerId, followerType: FollowerModalType.follower, sufferset: .setsuffer)
-                                        .padding(.vertical)
-                                    } else {
-                                        FollowerOtherUserCellView(followVM: followVM, cellUserId: followerId, updateFollowData: updateFollowData)
-                                            .padding(.vertical)
+                            VStack {
+                                HStack {
+                                    Text("팔로워")
+                                        .font(.system(size: 14, weight: .medium))
+                                    
+                                    Spacer()
+                                } //: HSTACK
+                                .padding(.leading)
+                                
+                                LazyVStack(spacing: 8) {
+                                    ForEach(followVM.searchedFollower, id: \.self) { followerId in
+                                        if user.nameID == userNameID {
+                                            FollowerUserCellView(followVM: followVM, cellUserId: followerId, followerType: FollowerModalType.follower, sufferset: .setsuffer)
+                                                .padding(.vertical)
+                                        } else {
+                                            FollowerOtherUserCellView(followVM: followVM, cellUserId: followerId, updateFollowData: updateFollowData)
+                                                .padding(.vertical)
+                                        }
                                     }
                                 }
-                            }
-                        } //: SCROLL
+                            } //: SCROLL
+                        }
+                        .padding(.bottom)
                     }
-                    .padding(.bottom)
                 } //: VSTACK
             } //: VSTACK
         } //: ZSTACK
