@@ -9,6 +9,7 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 import SwiftUI
 
+@MainActor
 class FeedViewModel: ObservableObject {
     
     // MARK: - feed관련
@@ -29,6 +30,7 @@ class FeedViewModel: ObservableObject {
     @Published var selectedFeedTitle: String = ""
     @Published var selectedFeedTime: String = ""
     @Published var selectedFeedCheckHeart: Bool = false
+    @Published var postFetchLoading: Bool = false
     
     @Published var selectedFeedHearts: Int = 0
     @Published var selectedCommentCounts: Int = 0
@@ -65,14 +67,15 @@ class FeedViewModel: ObservableObject {
             self.followingUsers.append(userNameID)
             
             Task {
+                self.postFetchLoading = true
                 await self.cacheWatchedData()
                 await self.fetchFollowingPosts()
+                self.postFetchLoading = false
             }
         }
     }
     
     // Firestore의 getDocuments에 대한 비동기 래퍼 함수
-    @MainActor
     func getDocumentsAsync(collection: CollectionReference, query: Query) async throws -> [QueryDocumentSnapshot] {
         try await withCheckedThrowingContinuation { continuation in
             query.getDocuments { (querySnapshot, error) in
@@ -88,7 +91,6 @@ class FeedViewModel: ObservableObject {
     }
     
     // 팔로잉 중인 사용자들로부터 포스트 가져오기 (비동기적으로)
-    @MainActor
     private func fetchFollowingPosts() async {
         followingPosts.removeAll()
         
@@ -115,7 +117,6 @@ class FeedViewModel: ObservableObject {
         await self.selectFirstStory()
     }
     
-    @MainActor
     private func cacheWatchedData() async {
         do {
             let documents = try await db.collection("users").document(userNameID).collection("watched").getDocuments()
@@ -125,7 +126,6 @@ class FeedViewModel: ObservableObject {
         }
     }
     
-    @MainActor
     func setupProfileImageURL(id: String) async -> String {
         do {
             let querySnapshot = try await Firestore.firestore().collection("users").document(id).getDocument()
@@ -147,7 +147,6 @@ class FeedViewModel: ObservableObject {
     }
     
     // 첫 번째 스토리를 선택하는 함수
-    @MainActor
     private func selectFirstStory() async {
         // storyData 배열의 첫 번째 스토리를 가져옴
         if let firstStory = self.followingPosts.first,
@@ -167,7 +166,6 @@ class FeedViewModel: ObservableObject {
     }
     
     // 스토리 선택 핸들러
-    @MainActor
     func selectStory(_ story: Post) async {
         // 스토리의 이름과 게시물의 소유자 UID가 같은 경우 해당 게시물의 이미지 URL을 선택
         
@@ -183,7 +181,6 @@ class FeedViewModel: ObservableObject {
         
     }
  
-    @MainActor
     func watchedPost(_ story: Post) async {
         do {
             if let postID = story.id {
@@ -243,7 +240,6 @@ class FeedViewModel: ObservableObject {
 
 // MARK: - Heart관련
 extension FeedViewModel {
-    @MainActor
     func addHeart() async {
         do {
             try await db.collection("users").document(userNameID).collection("highlight").document(documentID).setData(["documentID": documentID])
@@ -279,7 +275,6 @@ extension FeedViewModel {
         }
     }
     
-    @MainActor
     func deleteHeart() async {
         do {
             try await db.collection("users").document(userNameID).collection("highlight").document(documentID).delete()
@@ -313,7 +308,6 @@ extension FeedViewModel {
         }
     }
     
-    @MainActor
     func checkHeartExists() async -> Bool {
         let heartDocRef = db.collection("post").document(documentID).collection("heart").document(userNameID)
         
@@ -327,7 +321,6 @@ extension FeedViewModel {
         }
     }
     
-    @MainActor
     func fetchHeartCommentCounts() async {
         let db = Firestore.firestore()
         db.collection("post").document(documentID).addSnapshotListener { documentSnapshot, error in
@@ -350,7 +343,6 @@ extension FeedViewModel {
 // MARK: - Comment관련
 extension FeedViewModel {
     // 포스트 - 포스팅제목 - 서브컬렉션 포스트에 접근해서 문서 댓글정보를 가져와 comments 배열에 할당
-    @MainActor
     func getCommentsDocument() async {
         do {
             let querySnapshot = try await db.collection("post").document(documentID).collection("comment").order(by: "time", descending: false).getDocuments()
@@ -376,7 +368,6 @@ extension FeedViewModel {
         await createCommentData(documentName: documentID, data: initialPostData)
     }
     
-    @MainActor
     func createCommentData(documentName: String, data: [String: Any]) async {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd-HH:mm:ss.sssZ"
@@ -433,7 +424,6 @@ extension FeedViewModel {
         ])
     }
     
-    @MainActor
     func getFaceMoji() async throws {
         do {
             let querySnapshot = try await db.collection("post").document(documentID).collection("facemoji").order(by: "time", descending: false).getDocuments()
