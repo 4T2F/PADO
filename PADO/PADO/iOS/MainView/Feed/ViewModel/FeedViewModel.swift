@@ -167,9 +167,7 @@ class FeedViewModel: ObservableObject {
             selectedPostImageUrl = firstStory.image
             selectedFeedTitle = firstStory.title
             selectedFeedTime = TimestampDateFormatter.formatDate(firstStory.postTime)
-            //            selectedFeedHearts = firstStory.heartsCount
             documentID = firstStory.postID
-            
             await selectStory(firstStory)
             let profileUrl = await setupProfileImageURL(id: firstStory.name)
             await getCommentsDocument()
@@ -373,6 +371,8 @@ extension FeedViewModel {
         }
         print(comments)
     }
+    
+    
     //  댓글 작성 및 프로필 이미지 URL 반환
     func writeComment(inputcomment: String) async {
         let profileImageUrl = await setupProfileImageURL(id: userNameID)
@@ -381,7 +381,6 @@ extension FeedViewModel {
             "userID": userNameID,
             "content": inputcomment,
             "time": Timestamp(),
-            "profileImageUrl": profileImageUrl
         ]
         await createCommentData(documentName: documentID, data: initialPostData)
     }
