@@ -5,6 +5,7 @@
 //  Created by 김명현 on 1/23/24.
 //
 
+import Kingfisher
 import SwiftUI
 
 struct PostView: View {
@@ -12,7 +13,7 @@ struct PostView: View {
     @ObservedObject var surfingVM: SurfingViewModel
     @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var profileVM: ProfileViewModel
-    
+    @ObservedObject var followVM: FollowViewModel
     @EnvironmentObject var viewModel: AuthenticationViewModel
     
     @Environment (\.dismiss) var dismiss
@@ -75,15 +76,41 @@ struct PostView: View {
                 .frame(width: UIScreen.main.bounds.width * 0.9, height: 0.5)
             
             HStack {
-                Text("서핑리스트")
-                    .font(.system(size: 16))
-                    .fontWeight(.semibold)
+                if followVM.selectSufferID == "" {
+                    Text("서핑리스트")
+                        .font(.system(size: 16))
+                        .fontWeight(.semibold)
+                        .padding(.leading, 5)
+                } else {
+                    KFImage(URL(string: followVM.selectSufferProfileUrl))
+                        .resizable()
+                        .placeholder {
+                            // 로딩 중이거나 URL이 nil일 때 표시될 이미지
+                            Image("defaultProfile")
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 50, height: 50)
+                                .clipShape(Circle())
+                        }
+                        .scaledToFill()
+                        .frame(width: 50, height: 50)
+                        .clipShape(Circle())
+                        .padding(.leading, 5)
+                    
+                    VStack(alignment: .leading) {
+                        Text(followVM.selectSufferID)
+                            .font(.system(size: 16, weight: .semibold))
+                        
+                        Text(followVM.selectSufferNickName)
+                            .font(.system(size: 12))
+                    }
                     .padding(.leading, 5)
+                }
                 
                 Spacer()
                 
                 Button {
-                    // 서핑 리스트 추가 로직 구현
+                    followVM.showsufferList.toggle()
                 } label: {
                     Text("+")
                         .font(.system(size: 24, weight: .semibold))
@@ -127,5 +154,9 @@ struct PostView: View {
             }
         } //: VSTACK
         .navigationBarBackButtonHidden()
+        .sheet(isPresented: $followVM.showsufferList) {
+            SuferSelectView(followVM: followVM)
+                .presentationDetents([.medium, .large])
+        }
     }
 }
