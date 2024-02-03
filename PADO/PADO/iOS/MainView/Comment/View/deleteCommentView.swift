@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct deleteCommentView: View {
+struct DeleteCommentView: View {
     // MARK: - PROPERTY
     let comment: Comment
     
