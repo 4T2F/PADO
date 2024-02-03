@@ -19,47 +19,48 @@ struct deleteCommentView: View {
             Text("댓글 삭제")
                 .font(.system(size: 16))
                 .fontWeight(.semibold)
-                .padding(.vertical, 20)
+                .padding(.top, 20)
             
-            Spacer()
-            
-            Text("\(comment.content) 를")
-                .font(.system(size: 16))
-                .lineLimit(2)
-            
-            Text("삭제 하시겠습니까?")
-                .font(.system(size: 16))
-                .padding()
-            
-            Button() {
-                feedVM.showdeleteModal = false
-                Task {
-                    await feedVM.deleteComment(commentID: userNameID+TimestampDateFormatter.convertTimestampToString(timestamp: comment.time))
-                    await feedVM.getCommentsDocument()
+            VStack {
+                Text("\(comment.content) 를")
+                    .font(.system(size: 16))
+                    .lineLimit(2)
+                    .padding()
+                
+                Text("삭제 하시겠습니까?")
+                    .font(.system(size: 16))
+                    .padding()
+                
+                Button() {
+                    feedVM.showdeleteModal = false
+                    Task {
+                        await feedVM.deleteComment(commentID: userNameID+TimestampDateFormatter.convertTimestampToString(timestamp: comment.time))
+                        await feedVM.getCommentsDocument()
+                    }
+                } label: {
+                    Text("삭제")
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundStyle(.white)
+                        .background(
+                            RoundedRectangle(cornerRadius: 10)
+                                .foregroundStyle(.red)
+                                .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
+                        )
                 }
-            } label: {
-                Text("삭제")
-                    .font(.system(size: 16, weight: .semibold))
-                    .foregroundStyle(.white)
-                    .background(
-                        RoundedRectangle(cornerRadius: 8)
-                            .foregroundStyle(.red)
-                            .frame(width: UIScreen.main.bounds.width * 0.8, height: 35)
-                    )
+                .padding()
+                
+                Button() {
+                    feedVM.showdeleteModal = false
+                } label: {
+                    Text("취소")
+                        .background(
+                            RoundedRectangle(cornerRadius: 10)
+                                .foregroundStyle(.grayButton)
+                                .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
+                        )
+                }
+                .padding()
             }
-            .padding()
-            
-            Button() {
-                feedVM.showdeleteModal = false
-            } label: {
-                Text("취소")
-                    .background(
-                        RoundedRectangle(cornerRadius: 8)
-                            .foregroundStyle(.grayButton)
-                            .frame(width: UIScreen.main.bounds.width * 0.8, height: 35)
-                    )
-            }
-            .padding()
         }
         .padding()
     }
