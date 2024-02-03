@@ -19,6 +19,9 @@ struct HeartCommentCell: View {
     @ObservedObject var surfingVM: SurfingViewModel
     @ObservedObject var profileVM: ProfileViewModel
     
+    @State private var postOwner: User? = nil
+    let updatePushNotiData = UpdatePushNotiData()
+    
     var body: some View {
         VStack(spacing: 16) {
             VStack(spacing: 10) {
@@ -69,6 +72,8 @@ struct HeartCommentCell: View {
                                     feedVM.selectedFeedCheckHeart = await feedVM.checkHeartExists()
                                     heartLoading = false
                                     await profileVM.fetchHighlihts(id: userNameID)
+                                    self.postOwner = await UpdateUserData.shared.getOthersProfileDatas(id: feedVM.feedOwnerProfileID)
+                                    await updatePushNotiData.pushNoti(receiveUser: postOwner!, type: .heart)
                                 }
                             }
                         } label: {

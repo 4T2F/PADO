@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct reportCommentView: View {
+struct ReportCommentView: View {
     // MARK: - PROPERTY
     @State var reportArray:[String] = ["부적절한 댓글", "사칭", "스팸", "기타"]
     @Binding var isShowingReportView: Bool

@@ -91,8 +91,13 @@ struct FollowerUserCellView: View {
                                        followerProfileUrl: followerProfileUrl,
                                        buttonText1: "서퍼 등록",
                                        buttonText2: "팔로워 삭제",
-                                       onButton1: { await updateFollowData.registerSurfer(id: cellUserId)},
-                                       onButton2: { await updateFollowData.removeFollower(id: cellUserId)})
+                                       onButton1: {
+                        await updateFollowData.registerSurfer(id: cellUserId)
+                        await UpdatePushNotiData().pushNoti(receiveUser: profileUser!, type: .surfer)
+                    },
+                                       onButton2: { 
+                        await updateFollowData.removeFollower(id: cellUserId)
+                    })
                     .presentationDetents([.fraction(0.4)])
                 }
             }

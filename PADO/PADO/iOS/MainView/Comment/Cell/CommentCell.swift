@@ -95,11 +95,11 @@ struct CommentCell: View {
             }
         }
         .sheet(isPresented: $feedVM.showdeleteModal) {
-            deleteCommentView(comment: feedVM.selectedComment ?? comment, feedVM: feedVM)
+            DeleteCommentView(comment: feedVM.selectedComment ?? comment, feedVM: feedVM)
                 .presentationDetents([.fraction(0.4)])
         }
         .sheet(isPresented: $feedVM.showreportModal) {
-            reportCommentView(isShowingReportView: $feedVM.showreportModal)
+            ReportCommentView(isShowingReportView: $feedVM.showreportModal)
                 .presentationDetents([.fraction(0.4), .fraction(0.6)])
         }
     }

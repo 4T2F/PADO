@@ -12,6 +12,7 @@ struct PostView: View {
     // MARK: - PROPERTY
     @State private var postLoading = false
     @State private var showAlert = false
+    @State private var postOwner: User? = nil
     
     @ObservedObject var surfingVM: SurfingViewModel
     @ObservedObject var feedVM: FeedViewModel
@@ -148,6 +149,8 @@ struct PostView: View {
                                                             surfingID: followVM.selectSurfingID)
                                 await profileVM.fetchPadoPosts(id: userNameID)
                                 await profileVM.fetchSendPadoPosts(id: userNameID)
+                                postOwner = await UpdateUserData.shared.getOthersProfileDatas(id: followVM.selectSurfingID)
+                                await UpdatePushNotiData().pushNoti(receiveUser: postOwner!, type: .requestSurfing)
                                 surfingVM.resetImage()
                                 feedVM.findFollowingUsers()
                                 followVM.selectSurfingID = ""
