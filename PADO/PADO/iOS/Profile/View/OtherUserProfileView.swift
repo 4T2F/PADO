@@ -161,7 +161,7 @@ struct OtherUserProfileView: View {
                                         Button {
                                             Task {
                                                 await updateFollowData.followUser(id: user.nameID)
-                                                await updatePushNotiData.pushNoti(receiveUser: user)
+                                                await updatePushNotiData.pushNoti(receiveUser: user, type: .follow)
                                                 buttonOnOff.toggle()
                                             }
                                         } label: {

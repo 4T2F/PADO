@@ -9,23 +9,39 @@ import Foundation
 import Firebase
 import FirebaseFirestoreSwift
 
+enum NotiType {
+    case comment
+    case facemoji
+    case heart
+    case follow
+    case surfer
+    case requestSurfing
+}
+
 class UpdatePushNotiData {
     
     let db = Firestore.firestore()
     
-    func pushNoti(receiveUser: User) async {
-        let noti = Noti(
-//            sendUserID: sendUser.nameID,
-//                        sendUserFcmToken: sendUser.fcmToken ,
-                        receiveUserId: receiveUser.nameID,
-                        receiveUserFcmToken: receiveUser.fcmToken ,
-                        createAt: Timestamp()
-        )
+    func pushNoti(receiveUser: User, type: NotiType) async {
         
-        await createFollowNoti(id: receiveUser.nameID)
+        //await createFollowNoti(id: receiveUser.nameID)
         
-        PushNotificationManager.shared.sendPushNotification(toFCMToken: receiveUser.fcmToken , title: "PADO", body: "안녕~~ 방금 너 팔로우 했어")
+        switch type {
+        case .comment:
+            PushNotificationManager.shared.sendPushNotification(toFCMToken: receiveUser.fcmToken , title: "PADO", body: "\(userNameID)님이 회원님의 파도에 댓글을 남겼습니다.")
+        case .facemoji:
+            PushNotificationManager.shared.sendPushNotification(toFCMToken: receiveUser.fcmToken , title: "PADO", body: "\(userNameID)님이 회원님의 파도에 페이스모지를 남겼습니다.")
+        case .heart:
+            PushNotificationManager.shared.sendPushNotification(toFCMToken: receiveUser.fcmToken , title: "PADO", body: "\(userNameID)님이 회원님의 파도를 좋아합니다.")
+        case .follow:
+            PushNotificationManager.shared.sendPushNotification(toFCMToken: receiveUser.fcmToken , title: "PADO", body: "\(userNameID)님이 회원님을 팔로우 하기 시작했습니다.")
+        case .surfer:
+            PushNotificationManager.shared.sendPushNotification(toFCMToken: receiveUser.fcmToken , title: "PADO", body: "\(userNameID)님이 회원님을 서퍼로  지정했습니다.")
+        case .requestSurfing:
+            PushNotificationManager.shared.sendPushNotification(toFCMToken: receiveUser.fcmToken , title: "PADO", body: "\(userNameID)님이 회원님에게 파도를 보내고싶어합니다. 확인해주세요.")
+}
     }
+    
     // 노티컬렉션에 상대방ID 넣어줌
     func createFollowNoti(id: String) async {
         do {
