@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSCameraUsageDescription</key>
-	<string>이 앱은 포스팅을 위해 사용자의 카메라에 접근합니다.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>이 앱은 포스팅을 위해 사용자의 앨범에 접근합니다.</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -17,6 +13,8 @@
 			</array>
 		</dict>
 	</array>
+    <key>firebase_Push_Api_Key</key>
+    <string>$(FIREBASE_PUSH_API_KEY)</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
