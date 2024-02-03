@@ -65,15 +65,15 @@ struct CommentCell: View {
                     
                     if commentUser?.nameID == userNameID {
                         Button {
-                            Task {
-                                await feedVM.deleteComment(commentID: userNameID+TimestampDateFormatter.convertTimestampToString(timestamp: comment.time))
-                            }
+                            feedVM.selectedComment = comment
+                            feedVM.showdeleteModal = true
                         } label: {
                             Image(systemName: "ellipsis")
                                 .foregroundStyle(.white)
                         }
                     } else {
                         Button {
+                            feedVM.showreportModal = false
                             Task {
                             }
                         } label: {
@@ -93,8 +93,10 @@ struct CommentCell: View {
             Task {
                 self.commentUser = await UpdateUserData.shared.getOthersProfileDatas(id: comment.userID)
             }
-            
         }
-
+        .sheet(isPresented: $feedVM.showdeleteModal) {
+            deleteCommentView(comment: feedVM.selectedComment ?? comment, feedVM: feedVM)
+                .presentationDetents([.fraction(0.4)])
+        }
     }
 }

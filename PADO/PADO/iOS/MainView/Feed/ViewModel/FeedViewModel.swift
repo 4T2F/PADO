@@ -40,7 +40,9 @@ class FeedViewModel:Identifiable ,ObservableObject {
     @Published var comments: [Comment] = []
     @Published var documentID: String = ""
     @Published var inputcomment: String = ""
-    @Published var deleteComment: Bool = false
+    @Published var showdeleteModal: Bool = false
+    @Published var showreportModal: Bool = false
+    @Published var selectedComment: Comment?
     
     private var db = Firestore.firestore()
     private var listener: ListenerRegistration?
@@ -357,7 +359,6 @@ extension FeedViewModel {
         } catch {
             print("Error fetching comments: \(error)")
         }
-        print(comments)
     }
     
     
