@@ -117,17 +117,6 @@ struct ProfileView: View {
                                 
                                 Spacer()
                                 
-                                //                                NavigationLink(destination: SettingProfileView()) {
-                                //                                    ZStack {
-                                //                                        RoundedRectangle(cornerRadius:4)
-                                //                                            .stroke(Color.white, lineWidth: 1)
-                                //                                            .frame(width: 80, height: 28)
-                                //                                        Text("프로필 편집")
-                                //                                            .font(.system(size: 12))
-                                //                                            .fontWeight(.medium)
-                                //                                            .foregroundStyle(.white)
-                                //                                    }
-                                //                                }
                                 Button {
                                     viewModel.showingSettingProfileView.toggle()
                                 } label: {
@@ -220,7 +209,7 @@ struct ProfileView: View {
     
     @ViewBuilder
     func pinnedHeaderView() -> some View {
-        let types: [String] = ["파도", "보낸 파도", "하이라이트"]
+        let types: [String] = ["받은 파도", "보낸 파도", "하이라이트"]
         HStack(spacing: 25) {
             ForEach(types, id: \.self) { type in
                 VStack(spacing: 12) {
@@ -256,7 +245,7 @@ struct ProfileView: View {
     @ViewBuilder
     func postList() -> some View {
         switch profileVM.currentType {
-        case "파도":
+        case "받은 파도":
             postView()
         case "보낸 파도":
             writtenPostsView()
