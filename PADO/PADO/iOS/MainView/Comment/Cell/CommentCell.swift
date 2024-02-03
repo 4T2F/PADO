@@ -63,11 +63,23 @@ struct CommentCell: View {
                     
                     Spacer()
                     
-                    Button {
-                        // 버튼 액션
-                    } label: {
-                        Image(systemName: "ellipsis")
-                            .foregroundStyle(.white)
+                    if commentUser?.nameID == userNameID {
+                        Button {
+                            feedVM.selectedComment = comment
+                            feedVM.showdeleteModal = true
+                        } label: {
+                            Image(systemName: "ellipsis")
+                                .foregroundStyle(.white)
+                        }
+                    } else {
+                        Button {
+                            feedVM.showreportModal = true
+                            Task {
+                            }
+                        } label: {
+                            Image(systemName: "ellipsis")
+                                .foregroundStyle(.white)
+                        }
                     }
                 }
                 
@@ -81,8 +93,14 @@ struct CommentCell: View {
             Task {
                 self.commentUser = await UpdateUserData.shared.getOthersProfileDatas(id: comment.userID)
             }
-            
         }
-
+        .sheet(isPresented: $feedVM.showdeleteModal) {
+            deleteCommentView(comment: feedVM.selectedComment ?? comment, feedVM: feedVM)
+                .presentationDetents([.fraction(0.4)])
+        }
+        .sheet(isPresented: $feedVM.showreportModal) {
+            reportCommentView(isShowingReportView: $feedVM.showreportModal)
+                .presentationDetents([.fraction(0.4), .fraction(0.6)])
+        }
     }
 }
