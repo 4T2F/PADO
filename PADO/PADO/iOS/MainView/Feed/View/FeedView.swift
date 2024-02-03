@@ -62,8 +62,12 @@ struct FeedView: View {
                     LinearGradient(colors: [.black.opacity(0.5),
                                             .black.opacity(0.5),
                                             .black.opacity(0.5),
-                                            .black.opacity(0.5),
-                                            .black.opacity(0.5),
+                                            .black.opacity(0.4),
+                                            .black.opacity(0.4),
+                                            .clear, .clear,
+                                            .clear, .clear,
+                                            .clear, .clear,
+                                            .clear, .clear,
                                             .clear, .clear,
                                             .clear, .clear,
                                             .clear, .clear,
@@ -111,8 +115,8 @@ struct FeedView: View {
                         .padding(.trailing, 60)
                         .padding(.bottom, 10)
                     
-                    // MARK: - Story
                     if feedVM.isHeaderVisible {
+                        // MARK: - Story
                         Divider()
                             .frame(width: UIScreen.main.bounds.width * 0.92)
                             .background(.white)
@@ -180,7 +184,6 @@ struct FeedView: View {
                     }
                 }
             }
-            .gesture(DragGesture().onEnded(feedVM.toggleHeaderVisibility))
         }
         
     }
