@@ -12,14 +12,15 @@
 				<string>${CLIENT_ID}</string>
 			</array>
 		</dict>
+		<dict/>
 	</array>
-    <key>firebase_Push_Api_Key</key>
-    <string>$(FIREBASE_PUSH_API_KEY)</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
 		<string>processing</string>
 		<string>remote-notification</string>
 	</array>
+	<key>firebase_Push_Api_Key</key>
+	<string>$(FIREBASE_PUSH_API_KEY)</string>
 </dict>
 </plist>

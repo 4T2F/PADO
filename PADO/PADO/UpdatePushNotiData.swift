@@ -24,7 +24,7 @@ class UpdatePushNotiData {
     
     func pushNoti(receiveUser: User, type: NotiType) async {
         
-        //await createFollowNoti(id: receiveUser.nameID)
+        // await createFollowNoti(id: receiveUser.nameID)
         
         switch type {
         case .comment:
