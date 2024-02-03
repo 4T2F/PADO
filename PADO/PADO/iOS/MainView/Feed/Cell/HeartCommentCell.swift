@@ -26,6 +26,29 @@ struct HeartCommentCell: View {
         VStack(spacing: 16) {
             VStack(spacing: 10) {
                 VStack(spacing: 10) {
+                    Button {
+                        withAnimation {
+                            // 햅틱 피드백 생성
+                            let generator = UIImpactFeedbackGenerator(style: .light)
+                            generator.impactOccurred()
+                            feedVM.isHeaderVisible.toggle()
+                        }
+                    } label: {
+                        Circle()
+                            .frame(width: 50)
+                            .foregroundStyle(.clear)
+                            .overlay {
+                                LottieView(animation: .named("button"))
+                                    .looping()
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 200, height: 200)
+                            }
+                    }
+                }
+                .padding(.bottom, 5)
+                
+                VStack(spacing: 10) {
                     if feedVM.selectedFeedCheckHeart {
                         Button {
                             if !heartLoading {
