@@ -34,7 +34,8 @@ struct ContentView: View {
                 TabView(selection: $viewModel.showTab) {
                     FeedView(feedVM: feedVM,
                              surfingVM: surfingVM,
-                             profileVM: profileVM)
+                             profileVM: profileVM, 
+                             followVM: followVM)
                         .tabItem {
                             Image(viewModel.showTab == 0 ? "home_light" : "home_gray")
                                 
@@ -54,8 +55,9 @@ struct ContentView: View {
                         .onAppear { viewModel.showTab = 1 }
                         .tag(1)
                     SurfingView(surfingVM: surfingVM,
-                                feedVM: feedVM,
-                                profileVM: profileVM)
+                                feedVM: feedVM, profileVM:
+                                    profileVM, followVM:
+                                    followVM)
                         .tabItem {
                             Text("")
                             

@@ -15,7 +15,7 @@ struct Post: Identifiable, Hashable, Codable {
  
     @DocumentID var id: String?
     var ownerUid: String
-    var sufferUid: String?
+    var surferUid: String
     var imageUrl: String
     var title: String
     var heartsCount: Int

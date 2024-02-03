@@ -14,28 +14,18 @@ struct MainHeaderCell: View {
     var body: some View {
         HStack {
             // 프로필 사진 들어가야함 근데 프로필 사진 없으면 기본 이미지 들어가게 해야함.
-            if !vm.feedProfileImageUrl.isEmpty {
-                KFImage(URL(string: vm.feedProfileImageUrl))
-                    .resizable()
-                    .frame(width: 35, height: 35)
-                    .cornerRadius(35)
-                    .overlay {
-                        Image("pp")
-                            .resizable()
-                            .frame(width: 35, height: 35)
-                            .cornerRadius(35)
-                            .offset(x: -20)
-                    }
-            } else {
-                Image("defaultProfile")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 35, height: 35)
-                .padding(.trailing, 6)
+            UrlProfileImageView(imageUrl: vm.feedSurferProfileImageUrl,
+                                size: .small,
+                                defaultImageName: "defaultProfile")
+            .overlay {
+                UrlProfileImageView(imageUrl: vm.feedOwnerProfileImageUrl,
+                                    size: .small,
+                                    defaultImageName: "defaultProfile")
+                .offset(x: -24)
             }
-            
+
             VStack(alignment: .leading) {
-                Text("hSungjin x \(vm.feedProfileID)")
+                Text("\(vm.feedOwnerProfileID) x \(vm.feedSurferProfileID)")
                     .font(.system(size: 14))
                     .fontWeight(.semibold)
                 

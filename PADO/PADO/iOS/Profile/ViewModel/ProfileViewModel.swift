@@ -43,7 +43,7 @@ class ProfileViewModel: ObservableObject {
     func fetchPadoPosts(id: String) async {
         padoPosts.removeAll()
         do {
-            let padoQuerySnapshot = try await db.collection("users").document(id).collection("mypost").getDocuments()
+            let padoQuerySnapshot = try await db.collection("users").document(id).collection("mypost").order(by: "created_Time", descending: true).getDocuments()
             for document in padoQuerySnapshot.documents {
                 await fetchPostData(documentID: document.documentID, inputType: InputPostType.pado)
             }
@@ -56,7 +56,7 @@ class ProfileViewModel: ObservableObject {
     func fetchSendPadoPosts(id: String) async {
         sendPadoPosts.removeAll()
         do {
-            let padoQuerySnapshot = try await db.collection("users").document(id).collection("sendpost").getDocuments()
+            let padoQuerySnapshot = try await db.collection("users").document(id).collection("sendpost").order(by: "created_Time", descending: true).getDocuments()
             for document in padoQuerySnapshot.documents {
                 await fetchPostData(documentID: document.documentID, inputType: InputPostType.sendPado)
             }
@@ -69,7 +69,7 @@ class ProfileViewModel: ObservableObject {
     func fetchHighlihts(id: String) async {
         highlights.removeAll()
         do {
-            let padoQuerySnapshot = try await db.collection("users").document(id).collection("highlight").getDocuments()
+            let padoQuerySnapshot = try await db.collection("users").document(id).collection("highlight").order(by: "sendHeartTime", descending: true).getDocuments()
             for document in padoQuerySnapshot.documents {
                 await fetchPostData(documentID: document.documentID, inputType: InputPostType.highlight)
             }
@@ -84,7 +84,7 @@ class ProfileViewModel: ObservableObject {
             let querySnapshot = try await db.collection("post").document(documentID).getDocument()
 
             guard let post = try? querySnapshot.data(as: Post.self) else {
-                print("Error: User data could not be decoded")
+                print("\(documentID)는 삭제된 게시글입니다")
                 return
             }
             

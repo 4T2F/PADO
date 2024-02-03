@@ -48,6 +48,12 @@ class FollowViewModel: ObservableObject, Searchable {
     @Published var profileFollowId = ""
     @State var progress: Double = 0
     
+    // 서퍼지정 관련 변수들
+    @Published var showSurfingList: Bool = false
+    @Published var selectSurfingID: String = ""
+    @Published var selectSurfingUsername: String = ""
+    @Published var selectSurfingProfileUrl: String = ""
+    
     @Published var searchResults: [User] = []
     @Published var viewState: ViewState = ViewState.empty
     
@@ -56,7 +62,7 @@ class FollowViewModel: ObservableObject, Searchable {
         fetchIDs(id: profileFollowId, collectionType: CollectionType.follower)
         fetchIDs(id: profileFollowId, collectionType: CollectionType.following)
         fetchIDs(id: profileFollowId, collectionType: CollectionType.surfer)
-        fetchIDs(id: profileFollowId,collectionType: CollectionType.surfing)
+        fetchIDs(id: profileFollowId, collectionType: CollectionType.surfing)
     }
     
     //  파라미터로 넣은 id값을 가진 문서 내용들 불러오는 스냅샷
