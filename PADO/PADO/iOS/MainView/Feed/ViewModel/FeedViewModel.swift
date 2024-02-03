@@ -247,7 +247,8 @@ class FeedViewModel:Identifiable ,ObservableObject {
 extension FeedViewModel {
     func addHeart() async {
         do {
-            try await db.collection("users").document(userNameID).collection("highlight").document(documentID).setData(["documentID": documentID])
+            try await db.collection("users").document(userNameID).collection("highlight").document(documentID).setData(["documentID": documentID,
+                                                                                                                        "sendHeartTime": Timestamp()])
             
             try await db.collection("post").document(documentID).collection("heart").document(userNameID).setData(["nameID": userNameID])
             // 그 다음, 'post' 문서의 'heartsCount'를 업데이트하는 트랜잭션을 시작합니다.
