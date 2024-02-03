@@ -24,8 +24,8 @@ struct FeedView: View {
     
     var body: some View {
         NavigationStack {
-            ZStack {
-                if let imageUrl = URL(string: feedVM.selectedPostImageUrl) {
+            ScrollView(showsIndicators: false) {
+                ScrollViewReader { value in
                     ZStack {
                         KFImage.url(imageUrl)
                             .resizable()
@@ -136,56 +136,126 @@ struct FeedView: View {
                                             await self.feedVM.selectStory(story)
                                         }
                                     }
-                                }
                                 
-                                Button(action: {
-                                    if !feedVM.postFetchLoading {
-                                        Task {
-                                            feedVM.findFollowingUsers()
-                                            followVM.initializeFollowFetch()
-                                            await profileVM.fetchPadoPosts(id: userNameID)
+                                if isLoading { // feedVM에서 로딩 상태를 관리한다고 가정
+                                    ProgressView()
+                                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                }
+                            }
+                        } else {
+                            Image("firstPhoto")
+                                .resizable()
+                                .scaledToFill()
+                                .ignoresSafeArea()
+                                .frame(height: UIScreen.main.bounds.height * 0.85)
+                        }
+                        
+                        VStack {
+                            // MARK: - Header
+                            if feedVM.isHeaderVisible {
+                                if !feedVM.followingPosts.isEmpty {
+                                    MainHeaderCell(vm: feedVM)
+                                        .frame(width: UIScreen.main.bounds.width)
+                                        .padding(.leading, 4)
+                                        .padding(.top, 5)
+                                } else {
+                                    HStack {
+                                        Text("PADO")
+                                            .foregroundStyle(.black)
+                                            .font(.system(size: 24, weight: .semibold))
+                                            .padding(.leading, 60)
+                                            .padding(.top, 10)
+                                        
+                                        Spacer()
+                                    }
+                                }
+                            }
+                            
+                            Spacer()
+                            
+                            // MARK: - HeartComment
+                            HeartCommentCell(isShowingReportView: $feedVM.isShowingReportView, isShowingCommentView: $feedVM.isShowingCommentView, feedVM: feedVM, surfingVM: surfingVM, profileVM: profileVM)
+                                .padding(.leading, UIScreen.main.bounds.width)
+                                .padding(.trailing, 60)
+                                .padding(.bottom, 10)
+                            
+                            if feedVM.isHeaderVisible {
+                                // MARK: - Story
+                                Divider()
+                                    .frame(width: UIScreen.main.bounds.width * 0.92)
+                                    .background(.white)
+                                    .offset(y: 10)
+                                
+                                ScrollView(.horizontal, showsIndicators: false) {
+                                    HStack(spacing: 16) {
+                                        ForEach(Array(feedVM.followingPosts.enumerated()), id: \.element) { index, story in
+                                            StoryCell(story: story,
+                                                      storyIndex: index,
+                                                      feedVM: feedVM) {
+                                                Task {
+                                                    await self.feedVM.selectStory(story)
+                                                }
+                                            }
+                                        }
+                                        
+                                        Button(action: {
+                                            if !feedVM.postFetchLoading {
+                                                Task {
+                                                    feedVM.findFollowingUsers()
+                                                    followVM.initializeFollowFetch()
+                                                    await profileVM.fetchPadoPosts(id: userNameID)
+                                                }
+                                            }
+                                        }) {
+                                            Image("refresh")
                                         }
                                     }
-                                }) {
-                                    Image("refresh")
+                                    .padding(.horizontal)
+                                }
+                                .frame(width: UIScreen.main.bounds.width)
+                                .padding()
+                                .transition(.opacity)
+                            }
+                        }
+                        .overlay {
+                            if !feedVM.isHeaderVisible {
+                                ZStack {
+                                    ForEach(mainCommentVM.mainComments.reversed()) { comment in
+                                        MainCommentCell(mainComment: comment)
+                                            .position(comment.nameID == authenticationViewModel.currentUser?.nameID ?
+                                                      feedVM.textPosition :
+                                                        CGPoint(x: CGFloat(comment.commentPositionsX),
+                                                                y: CGFloat(comment.commentPositionsY)))
+                                            .gesture(
+                                                DragGesture()
+                                                    .onChanged(feedVM.handleDragGestureChange)
+                                                    .onEnded { _ in feedVM.handleDragGestureEnd() }
+                                            )
+                                    }
+                                    ForEach(mainFaceMojiVM.mainFaceMoji.reversed()) { faceMoji in
+                                        MainFaceMojiCell(mainFaceMoji: faceMoji)
+                                            .position(faceMoji.nameID == authenticationViewModel.currentUser?.nameID ?
+                                                      feedVM.faceMojiPosition :
+                                                        CGPoint(x: CGFloat(faceMoji.faceMojiPositionsX),
+                                                                y: CGFloat(faceMoji.faceMojiPositionsY)))
+                                        //                                    .gesture(
+                                        //                                        DragGesture()
+                                        //                                            .onChanged(feedVM.handleFaceMojiDragChange)
+                                        //                                            .onEnded { _ in feedVM.handleFaceMojiDragEnd() }
+                                        //                                    )
+                                    }
                                 }
                             }
-                            .padding(.horizontal)
                         }
-                        .frame(width: UIScreen.main.bounds.width)
-                        .padding()
-                        .transition(.opacity)
                     }
                 }
-                .overlay {
-                    if !feedVM.isHeaderVisible {
-                        ZStack {
-                            ForEach(mainCommentVM.mainComments.reversed()) { comment in
-                                MainCommentCell(mainComment: comment)
-                                    .position(comment.nameID == authenticationViewModel.currentUser?.nameID ?
-                                              feedVM.textPosition :
-                                                CGPoint(x: CGFloat(comment.commentPositionsX),
-                                                        y: CGFloat(comment.commentPositionsY)))
-                                    .gesture(
-                                        DragGesture()
-                                            .onChanged(feedVM.handleDragGestureChange)
-                                            .onEnded { _ in feedVM.handleDragGestureEnd() }
-                                    )
-                            }
-                            ForEach(mainFaceMojiVM.mainFaceMoji.reversed()) { faceMoji in
-                                MainFaceMojiCell(mainFaceMoji: faceMoji)
-                                    .position(faceMoji.nameID == authenticationViewModel.currentUser?.nameID ?
-                                              feedVM.faceMojiPosition :
-                                                CGPoint(x: CGFloat(faceMoji.faceMojiPositionsX),
-                                                        y: CGFloat(faceMoji.faceMojiPositionsY)))
-                                    .gesture(
-                                        DragGesture()
-                                            .onChanged(feedVM.handleFaceMojiDragChange)
-                                            .onEnded { _ in feedVM.handleFaceMojiDragEnd() }
-                                    )
-                            }
-                        }
-                    }
+            }
+            .frame(height: UIScreen.main.bounds.height * 0.85)
+            .refreshable {
+                Task {
+                    feedVM.findFollowingUsers()
+                    followVM.initializeFollowFetch()
+                    await profileVM.fetchPadoPosts(id: userNameID)
                 }
             }
         }
