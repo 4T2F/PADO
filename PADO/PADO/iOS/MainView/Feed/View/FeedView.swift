@@ -106,7 +106,11 @@ struct FeedView: View {
                     Spacer()
                     
                     // MARK: - HeartComment
-                    HeartCommentCell(isShowingReportView: $feedVM.isShowingReportView, isShowingCommentView: $feedVM.isShowingCommentView, feedVM: feedVM, surfingVM: surfingVM, profileVM: profileVM)
+                    HeartCommentCell(isShowingReportView: $feedVM.isShowingReportView, 
+                                     isShowingCommentView: $feedVM.isShowingCommentView,
+                                     feedVM: feedVM,
+                                     surfingVM: surfingVM,
+                                     profileVM: profileVM)
                         .padding(.leading, UIScreen.main.bounds.width)
                         .padding(.trailing, 60)
                         .padding(.bottom, 10)
@@ -182,6 +186,5 @@ struct FeedView: View {
             }
             .gesture(DragGesture().onEnded(feedVM.toggleHeaderVisibility))
         }
-        
     }
 }
