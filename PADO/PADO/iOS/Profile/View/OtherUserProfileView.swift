@@ -147,12 +147,12 @@ struct OtherUserProfileView: View {
                                         } label: {
                                             ZStack {
                                                 RoundedRectangle(cornerRadius:6)
-                                                    .stroke(Color.white, lineWidth: 1)
+                                                    .stroke(Color(.systemGray), lineWidth: 1)
                                                     .frame(width: 70, height: 28)
                                                 Text("팔로잉")
                                                     .font(.system(size: 14))
                                                     .fontWeight(.medium)
-                                                    .foregroundStyle(.white)
+                                                    .foregroundStyle(Color(.systemGray))
                                             }
                                         }
                                     } else {

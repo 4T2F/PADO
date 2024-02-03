@@ -16,7 +16,6 @@ struct CommentCell: View {
     @ObservedObject var feedVM: FeedViewModel
     var body: some View {
         HStack(alignment: .top) {
-            
             NavigationLink {
                 if let user = commentUser {
                     OtherUserProfileView(user: user)
@@ -31,14 +30,14 @@ struct CommentCell: View {
                             }
                             .resizable()
                             .scaledToFill()
-                            .frame(width: 34, height: 34)
+                            .frame(width: 38, height: 38)
                             .clipShape(Circle())
                     }
                 } else {
                     Image("defaultProfile")
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 34, height: 34)
+                        .frame(width: 38, height: 38)
                         .padding(.trailing, 6)
                 }
                     
@@ -53,8 +52,9 @@ struct CommentCell: View {
                     } label: {
                         Text(comment.userID)
                             .fontWeight(.semibold)
-                            .font(.caption)
+                            .font(.system(size: 12))
                             .padding(.trailing, 4)
+                            .foregroundStyle(.white)
                     }
                     
                     Text(TimestampDateFormatter.formatDate(comment.time))
@@ -75,6 +75,7 @@ struct CommentCell: View {
                     .font(.system(size: 12))
                     .foregroundStyle(.white)
             }
+            .padding(.top, 2)
         }
         .onAppear {
             Task {
