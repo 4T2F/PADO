@@ -16,6 +16,9 @@ struct CommentView: View {
     
     @FocusState private var isTextFieldFocused: Bool
     @State private var commentText: String = ""
+    @State private var postOwner: User? = nil
+    
+    let updatePushNotiData = UpdatePushNotiData()
     
     var body: some View {
         NavigationStack {
@@ -98,6 +101,7 @@ struct CommentView: View {
                                 await feedVM.writeComment(inputcomment: commentText)
                                 commentText = ""
                                 await feedVM.getCommentsDocument()
+                                await updatePushNotiData.pushNoti(receiveUser: postOwner!, type: .comment)
                             }
                         } label: {
                             ZStack {
@@ -133,6 +137,7 @@ struct CommentView: View {
         .onAppear {
             Task {
                 try await feedVM.getFaceMoji()
+                self.postOwner = await UpdateUserData.shared.getOthersProfileDatas(id: feedVM.feedOwnerProfileID)
             }
         }
     }
