@@ -416,6 +416,30 @@ extension FeedViewModel {
         do {
             // 포스트의 'comment' 컬렉션에서 특정 댓글 삭제
             try await db.collection("post").document(documentID).collection("comment").document(commentID).delete()
+            
+            // 그 다음, 'post' 문서의 'commentCount'를 업데이트하는 트랜잭션을 시작합니다.
+            _ = try await db.runTransaction({ (transaction, errorPointer) in
+                let postRef = self.db.collection("post").document(self.documentID)
+                let postDocument: DocumentSnapshot
+                
+                do {
+                    try postDocument = transaction.getDocument(postRef)
+                } catch let fetchError as NSError {
+                    errorPointer?.pointee = fetchError
+                    return nil
+                }
+                
+                guard let oldCount = postDocument.data()?["commentCount"] as? Int else {
+                    let error = NSError(domain: "AppErrorDomain", code: -1, userInfo: [
+                        NSLocalizedDescriptionKey: "Unable to retrieve hearts count from snapshot \(postDocument)"
+                    ])
+                    errorPointer?.pointee = error
+                    return nil
+                }
+                
+                transaction.updateData(["commentCount": oldCount - 1], forDocument: postRef)
+                return nil
+            })
 
             // 성공적으로 삭제됐다는 메시지 출력
             print(commentID)
