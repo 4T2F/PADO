@@ -19,11 +19,14 @@ struct FollowerUserCellView: View {
     let cellUserId: String
     let followerType: FollowerModalType
     
+    let updateFollowData: UpdateFollowData
+    
     enum SufferSet: String {
         case removesuffer = "서퍼 해제"
         case setsuffer = "서퍼 등록"
     }
     
+    @State var buttonOnOff: Bool = false
     @State private var buttonActive: Bool = false
     @State var transitions: Bool = false
     
@@ -35,7 +38,9 @@ struct FollowerUserCellView: View {
             HStack(spacing: 0) {
                 NavigationLink {
                     if let user = profileUser {
-                        OtherUserProfileView(user: user)
+                        OtherUserProfileView(buttonOnOff: $buttonOnOff,
+                                             updateFollowData: updateFollowData,
+                                             user: user)
                     }
                 } label: {
                     if let imageUrl = URL(string: followerProfileUrl) {
@@ -78,7 +83,6 @@ struct FollowerUserCellView: View {
                     .padding(.trailing)
             }
             .sheet(isPresented: $showingModal) {
-                let updateFollowData = UpdateFollowData()
                 switch followerType {
                 case .surfer:
                     FollowerModalAlert(followerUsername: cellUserId,
@@ -113,6 +117,7 @@ struct FollowerUserCellView: View {
                     self.profileUser = userProfile
                     print("유저: \(String(describing: profileUser))")
                 }
+                self.buttonOnOff = await updateFollowData.checkFollowStatus(id: cellUserId)
             }
         }
         // contentShape 를 사용해서 H스택 전체적인 부분에 대해 패딩을 줌

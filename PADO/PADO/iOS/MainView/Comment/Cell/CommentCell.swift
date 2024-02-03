@@ -14,11 +14,17 @@ struct CommentCell: View {
     @State private var isUserLoaded = false
     
     @ObservedObject var feedVM: FeedViewModel
+    
+    @State var buttonOnOff: Bool = false
+    
+    let updateFollowData = UpdateFollowData()
     var body: some View {
         HStack(alignment: .top) {
             NavigationLink {
                 if let user = commentUser {
-                    OtherUserProfileView(user: user)
+                    OtherUserProfileView(buttonOnOff: $buttonOnOff, 
+                                         updateFollowData: updateFollowData,
+                                         user: user)
                 }
             } label: {
                 if let user = commentUser {
@@ -47,7 +53,8 @@ struct CommentCell: View {
                 HStack(spacing: 2) {
                     NavigationLink {
                         if let user = commentUser {
-                            OtherUserProfileView(user: user)
+                            OtherUserProfileView(buttonOnOff: $buttonOnOff, updateFollowData: updateFollowData,
+                                                 user: user)
                         }
                     } label: {
                         Text(comment.userID)
@@ -92,6 +99,7 @@ struct CommentCell: View {
         .onAppear {
             Task {
                 self.commentUser = await UpdateUserData.shared.getOthersProfileDatas(id: comment.userID)
+                self.buttonOnOff = await updateFollowData.checkFollowStatus(id: comment.userID)
             }
         }
         .sheet(isPresented: $feedVM.showdeleteModal) {

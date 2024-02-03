@@ -12,12 +12,14 @@ struct RecordSearchCellView: View {
     // MARK: - PROPERTY
     @State var searchUser: User?
     @State var searchProfileUrl: String = ""
+    @State var buttonOnOff: Bool = false
     
     @ObservedObject var profileVM: ProfileViewModel
     @ObservedObject var followVM: FollowViewModel
     @ObservedObject var searchVM: SearchViewModel
 
     let searchCellID: String
+    let updateFollowData: UpdateFollowData
 
     // MARK: - BODY
     var body: some View {
@@ -25,7 +27,9 @@ struct RecordSearchCellView: View {
             HStack {
                 NavigationLink {
                     if let user = searchUser {
-                        OtherUserProfileView(user: user)
+                        OtherUserProfileView(buttonOnOff: $buttonOnOff,
+                                             updateFollowData: updateFollowData,
+                                             user: user)
                             .onAppear {
                                 // 네비게이션 링크를 클릭했을 때 실행될 코드
                                 searchVM.addSearchData(searchCellID)
@@ -87,6 +91,7 @@ struct RecordSearchCellView: View {
                     self.searchProfileUrl = userProfile.profileImageUrl ?? ""
                     self.searchUser = userProfile
                 }
+                self.buttonOnOff = await updateFollowData.checkFollowStatus(id: searchCellID)
             }
         }
     }

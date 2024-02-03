@@ -196,9 +196,11 @@ struct FeedView: View {
             .frame(height: UIScreen.main.bounds.height * 0.85)
             .refreshable {
                 Task {
-                    feedVM.findFollowingUsers()
-                    followVM.initializeFollowFetch()
-                    await profileVM.fetchPadoPosts(id: userNameID)
+                    if !feedVM.postFetchLoading {
+                        feedVM.findFollowingUsers()
+                        followVM.initializeFollowFetch()
+                        await profileVM.fetchPadoPosts(id: userNameID)
+                    }
                 }
             }
         }

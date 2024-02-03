@@ -9,7 +9,7 @@ import SwiftUI
 
 struct FollowerCell: View {
     
-    @State private var buttonActive: Bool = false
+    @State var buttonActive: Bool = false
     @State var name = ""
     
     let updateFollowData = UpdateFollowData()
@@ -29,7 +29,13 @@ struct FollowerCell: View {
             
             Spacer()
             
-            BlueButtonView(cellUserId: "", activeText: "팔로우", unActiveText: "팔로잉", widthValue: 83, heightValue: 32, updateFollowData: updateFollowData)
+            BlueButtonView(cellUserId: "",
+                           buttonActive: $buttonActive,
+                           activeText: "팔로우",
+                           unActiveText: "팔로잉",
+                           widthValue: 83,
+                           heightValue: 32,
+                           updateFollowData: updateFollowData)
         }
         .padding(.horizontal)
     }

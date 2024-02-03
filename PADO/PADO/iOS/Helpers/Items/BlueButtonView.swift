@@ -10,7 +10,7 @@ import SwiftUI
 struct BlueButtonView: View {
     
     let cellUserId: String
-    @State var buttonActive: Bool = true
+    @Binding var buttonActive: Bool
     let activeText: String
     let unActiveText: String
     let widthValue: CGFloat

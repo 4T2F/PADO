@@ -19,10 +19,10 @@ struct OtherUserProfileView: View {
     
     @Environment(\.dismiss) var dismiss
   
-    @State private var buttonOnOff = false
+    @Binding var buttonOnOff: Bool
     @State private var buttonActive: Bool = false
     
-    let updateFollowData = UpdateFollowData()
+    let updateFollowData: UpdateFollowData
     let updatePushNotiData = UpdatePushNotiData()
     
     let user: User
@@ -61,7 +61,6 @@ struct OtherUserProfileView: View {
                 followVM.profileFollowId = user.nameID
                 followVM.initializeFollowFetch()
                 await profileVM.fetchPostID(id: user.nameID)
-                self.buttonOnOff = await updateFollowData.checkFollowStatus(id: user.nameID)
             }
         }
     }

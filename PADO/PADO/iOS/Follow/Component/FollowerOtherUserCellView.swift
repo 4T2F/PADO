@@ -18,6 +18,7 @@ struct FollowerOtherUserCellView: View {
     
     let cellUserId: String
     
+    @State var buttonOnOff: Bool = false
     @State private var buttonActive: Bool = false
     @State var transitions: Bool = false
     
@@ -29,7 +30,8 @@ struct FollowerOtherUserCellView: View {
             HStack(spacing: 0) {
                 NavigationLink {
                     if let user = profileUser {
-                        OtherUserProfileView(user: user)
+                        OtherUserProfileView(buttonOnOff: $buttonOnOff, updateFollowData: updateFollowData,
+                                             user: user)
                     }
                 } label: {
                     if let imageUrl = URL(string: followerProfileUrl) {
@@ -65,6 +67,7 @@ struct FollowerOtherUserCellView: View {
             
             if cellUserId != userNameID {
                 BlueButtonView(cellUserId: cellUserId,
+                               buttonActive: $buttonOnOff,
                                activeText: "팔로우",
                                unActiveText: "팔로잉",
                                widthValue: 85,
@@ -83,6 +86,7 @@ struct FollowerOtherUserCellView: View {
                     self.followerProfileUrl = userProfile.profileImageUrl ?? ""
                     self.profileUser = userProfile
                 }
+                self.buttonOnOff = await updateFollowData.checkFollowStatus(id: cellUserId)
             }
         }
         // contentShape 를 사용해서 H스택 전체적인 부분에 대해 패딩을 줌
