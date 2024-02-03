@@ -14,7 +14,9 @@ class UpdateFollowData {
     
     func followUser(id: String) async {
         do {
-            try await db.collection("users").document(userNameID).collection("following").document(id).setData(["followingID": id, "status": true])
+            try await db.collection("users").document(userNameID).collection("following").document(id).setData(["followingID": id, 
+                                                                                                                "status": true,
+                                                                                                                "followTime": Timestamp()])
             try await db.collection("users").document(id).collection("follower").document(userNameID).setData(["followerID": userNameID])
         } catch {
             print("Error removing document: \(error.localizedDescription)")
@@ -23,8 +25,9 @@ class UpdateFollowData {
     
     func unfollowUser(id: String) async {
         do {
-            try await db.collection("users").document(userNameID).collection("following").document(id).setData(["followingID": id, "status": false])
+            try await db.collection("users").document(userNameID).collection("following").document(id).updateData(["status": false])
             try await db.collection("users").document(id).collection("follower").document(userNameID).delete()
+            try await db.collection("users").document(id).collection("surfer").document(userNameID).delete()
         } catch {
             print("Error removing document: \(error.localizedDescription)")
         }

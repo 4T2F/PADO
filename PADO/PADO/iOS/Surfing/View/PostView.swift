@@ -83,7 +83,7 @@ struct PostView: View {
                 .frame(width: UIScreen.main.bounds.width * 0.9, height: 0.5)
             
             HStack {
-                if followVM.selectSurfingID == "" {
+                if followVM.selectSurfingID.isEmpty {
                     Text("서핑리스트")
                         .font(.system(size: 16))
                         .fontWeight(.semibold)

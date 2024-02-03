@@ -364,7 +364,9 @@ extension FeedViewModel {
     
     //  댓글 작성 및 프로필 이미지 URL 반환
     func writeComment(inputcomment: String) async {
-        let _ = await setupProfileImageURL(id: userNameID)
+        let imageUrl = await setupProfileImageURL(id: userNameID)
+        
+        print(imageUrl)
         
         let initialPostData : [String: Any] = [
             "userID": userNameID,
@@ -454,13 +456,15 @@ extension FeedViewModel {
 extension FeedViewModel {
     // 페이스 모지를 스토리지, 스토어에 업로드
     func updateFaceMoji() async throws {
-        let _ = try await UpdateImageUrl.shared.updateImageUserData(
+        let imageData = try await UpdateImageUrl.shared.updateImageUserData(
             uiImage: faceMojiUIImage,
             storageTypeInput: .facemoji,
             documentid: documentID,
             imageQuality: .lowforFaceMoji,
             surfingID: ""
         )
+        
+        print(imageData)
         
         try await db.collection("post").document(documentID).collection("facemoji").document(userNameID).updateData([
             "userID" : userNameID,

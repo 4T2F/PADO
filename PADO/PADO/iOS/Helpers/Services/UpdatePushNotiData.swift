@@ -5,9 +5,9 @@
 //  Created by 김명현, 황민채 on 2/3/24.
 //
 
-import Foundation
 import Firebase
 import FirebaseFirestoreSwift
+import Foundation
 
 enum NotiType {
     case comment

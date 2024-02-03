@@ -31,7 +31,7 @@ struct DeleteCommentView: View {
                     .font(.system(size: 16))
                     .padding()
                 
-                Button() {
+                Button {
                     feedVM.showdeleteModal = false
                     Task {
                         await feedVM.deleteComment(commentID: userNameID+TimestampDateFormatter.convertTimestampToString(timestamp: comment.time))
@@ -49,7 +49,7 @@ struct DeleteCommentView: View {
                 }
                 .padding()
                 
-                Button() {
+                Button {
                     feedVM.showdeleteModal = false
                 } label: {
                     Text("취소")
