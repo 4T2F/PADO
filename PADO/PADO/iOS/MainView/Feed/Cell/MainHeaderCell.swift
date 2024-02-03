@@ -25,9 +25,9 @@ struct MainHeaderCell: View {
             }
 
             VStack(alignment: .leading) {
-                Text("\(vm.feedOwnerProfileID) x \(vm.feedSurferProfileID)")
-                    .font(.system(size: 14))
-                    .fontWeight(.semibold)
+                Text("\(vm.feedSurferProfileID)님이 \(vm.feedOwnerProfileID)님의 파도에 보낸 게시물")
+                    .font(.system(size: 12))
+                    .fontWeight(.medium)
                 
                 Text(vm.selectedFeedTime)
                     .font(.system(size: 12))

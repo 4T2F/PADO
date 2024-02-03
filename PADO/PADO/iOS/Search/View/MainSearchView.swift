@@ -29,6 +29,7 @@ struct MainSearchView: View {
             VStack {
                 SearchBar(text: searchTextBinding,
                           isLoading: $searchVM.isLoading)
+                
                 .padding(.horizontal)
                 if mainSearch.isEmpty {
                     if !searchVM.searchDatas.isEmpty {
@@ -62,7 +63,7 @@ struct MainSearchView: View {
                             .padding(.top, 150)
                     }
                 } else if searchVM.viewState == .empty {
-                    Text("검색 결과가 없어요")
+                    Text("검색 결과가 없습니다")
                         .foregroundColor(.gray)
                         .font(.system(size: 16,
                                       weight: .semibold))

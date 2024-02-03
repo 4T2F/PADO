@@ -10,7 +10,7 @@ import FirebaseFirestoreSwift
 import SwiftUI
 
 @MainActor
-class FeedViewModel: ObservableObject {
+class FeedViewModel:Identifiable ,ObservableObject {
     
     // MARK: - feed관련
     @Published var isShowingReportView = false
