@@ -63,12 +63,12 @@ struct FeedView: View {
                                                                         .clear, .clear,
                                                                         .clear, .clear,
                                                                         .clear, .clear,
-                                                                        .black.opacity(0.2),
-                                                                        .black.opacity(0.2),
-                                                                        .black.opacity(0.2),
+                                                                        .clear, .clear,
+                                                                        .black.opacity(0.1),
                                                                         .black.opacity(0.2),
                                                                         .black.opacity(0.3),
-                                                                        .black.opacity(0.4)],
+                                                                        .black.opacity(0.4),
+                                                                        .black.opacity(0.5)],
                                                                startPoint: .bottom,
                                                                endPoint: .top
                                                 )
