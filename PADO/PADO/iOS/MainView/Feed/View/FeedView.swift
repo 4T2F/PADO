@@ -113,6 +113,11 @@ struct FeedView: View {
                     
                     // MARK: - Story
                     if feedVM.isHeaderVisible {
+                        Divider()
+                            .frame(width: UIScreen.main.bounds.width * 0.92)
+                            .background(.white)
+                            .offset(y: 10)
+                        
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 16) {
                                 ForEach(Array(feedVM.followingPosts.enumerated()), id: \.element) { index, story in
@@ -124,6 +129,7 @@ struct FeedView: View {
                                         }
                                     }
                                 }
+                                
                                 Button(action: {
                                     if !feedVM.postFetchLoading {
                                         Task {

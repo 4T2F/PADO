@@ -62,15 +62,16 @@ struct HeartCommentCell: View {
                 
                 VStack(spacing: 10) {
                     Button {
-                        isShowingCommentView.toggle()
+                        isShowingCommentView = true
                     } label: {
                         Image("chat")
                     }
                     .sheet(isPresented: $isShowingCommentView) {
                         CommentView(feedVM: feedVM,
-                                    surfingVM: surfingVM)
-                        .presentationDragIndicator(.visible)
+                                      surfingVM: surfingVM, isShowingCommentView: $isShowingCommentView)
                     }
+                    .presentationDetents([.large])
+                    
                     // 댓글이 달릴 때 마다 +1 카운팅 되게 하는 로직 추가
                     Text(String(feedVM.selectedCommentCounts))
                         .font(.system(size: 10))

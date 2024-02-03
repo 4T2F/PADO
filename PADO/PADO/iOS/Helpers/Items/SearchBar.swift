@@ -9,10 +9,9 @@ import SwiftUI
 
 struct SearchBar: View {
     @Binding var text: String
+    @Binding var isLoading: Bool
     
     @State private var isEditing = false
-    
-    @Binding var isLoading: Bool
     
     var body: some View {
         ZStack(alignment: .leading) {
@@ -26,6 +25,7 @@ struct SearchBar: View {
                               prompt: Text("검색")
                         .font(.system(size: 16))
                         .foregroundStyle(Color.gray))
+                    .tint(.gray)
                     .padding(7)
                     .padding(.leading, -7)
                     .foregroundStyle(Color.white)
@@ -36,7 +36,8 @@ struct SearchBar: View {
                             isEditing = true
                         }
                     }
-                }.background(
+                }
+                .background(
                     RoundedRectangle(cornerRadius: 10) // HStack의 크기에 맞게 동적으로 크기가 변하는 RoundedRectangle
                         .fill(Color.gray.opacity(0.3))
                 )

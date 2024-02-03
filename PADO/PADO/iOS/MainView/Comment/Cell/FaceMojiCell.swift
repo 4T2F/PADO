@@ -64,8 +64,7 @@ struct FaceMojiCell: View {
             
             Text(facemoji.userID)
                 .foregroundStyle(.white)
-                .font(.system(size: 10))
-                .fontWeight(.medium)
+                .font(.system(size: 12))
         }
     }
 }

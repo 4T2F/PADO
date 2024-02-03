@@ -27,4 +27,3 @@ extension UIApplication: UIGestureRecognizerDelegate {
         return true // set to `false` if you don't want to detect tap during other gestures
     }
 }
-
