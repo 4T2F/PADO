@@ -11,6 +11,7 @@ import SwiftUI
 
 struct OtherUserProfileView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
+    
     @StateObject var profileVM = ProfileViewModel()
     @StateObject var followVM = FollowViewModel()
     
@@ -22,6 +23,7 @@ struct OtherUserProfileView: View {
     @State private var buttonActive: Bool = false
     
     let updateFollowData = UpdateFollowData()
+    let updatePushNotiData = UpdatePushNotiData()
     
     let user: User
     
@@ -159,6 +161,7 @@ struct OtherUserProfileView: View {
                                         Button {
                                             Task {
                                                 await updateFollowData.followUser(id: user.nameID)
+                                                await updatePushNotiData.pushNoti(receiveUser: user, type: .follow)
                                                 buttonOnOff.toggle()
                                             }
                                         } label: {

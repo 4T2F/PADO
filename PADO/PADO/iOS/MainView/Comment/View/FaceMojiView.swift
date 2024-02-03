@@ -11,6 +11,10 @@ struct FaceMojiView: View {
     @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var surfingVM: SurfingViewModel
     
+    @State private var postOwner: User? = nil
+    
+    let updatePushNotiData = UpdatePushNotiData()
+    
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
@@ -43,12 +47,18 @@ struct FaceMojiView: View {
                                      myUIImage: $surfingVM.faceMojiUIImage,
                                      mysourceType: $surfingVM.sourceType,
                                      mycameraDevice: $surfingVM.cameraDevice)
+                    .onAppear {
+                        Task {
+                            self.postOwner = await UpdateUserData.shared.getOthersProfileDatas(id: feedVM.feedOwnerProfileID)
+                        }
+                    }
                     .onDisappear {
                         feedVM.faceMojiImage = surfingVM.faceMojiImage
                         feedVM.faceMojiUIImage = surfingVM.faceMojiUIImage
                         Task {
                             try await feedVM.updateFaceMoji()
                             try await feedVM.getFaceMoji()
+                            await updatePushNotiData.pushNoti(receiveUser: postOwner!, type: .facemoji)
                         }
                     }
                 }
