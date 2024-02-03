@@ -63,11 +63,23 @@ struct CommentCell: View {
                     
                     Spacer()
                     
-                    Button {
-                        // 버튼 액션
-                    } label: {
-                        Image(systemName: "ellipsis")
-                            .foregroundStyle(.white)
+                    if commentUser?.nameID == userNameID {
+                        Button {
+                            Task {
+                                await feedVM.deleteComment(commentID: userNameID+TimestampDateFormatter.convertTimestampToString(timestamp: comment.time))
+                            }
+                        } label: {
+                            Image(systemName: "ellipsis")
+                                .foregroundStyle(.white)
+                        }
+                    } else {
+                        Button {
+                            Task {
+                            }
+                        } label: {
+                            Image(systemName: "ellipsis")
+                                .foregroundStyle(.white)
+                        }
                     }
                 }
                 
