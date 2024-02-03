@@ -49,10 +49,10 @@ class FollowViewModel: ObservableObject, Searchable {
     @State var progress: Double = 0
     
     // 서퍼지정 관련 변수들
-    @Published var showsufferList: Bool = false
-    @Published var selectSufferID: String = ""
-    @Published var selectSufferNickName: String = ""
-    @Published var selectSufferProfileUrl: String = ""
+    @Published var showSurfingList: Bool = false
+    @Published var selectSurfingID: String = ""
+    @Published var selectSurfingUsername: String = ""
+    @Published var selectSurfingProfileUrl: String = ""
     
     @Published var searchResults: [User] = []
     @Published var viewState: ViewState = ViewState.empty

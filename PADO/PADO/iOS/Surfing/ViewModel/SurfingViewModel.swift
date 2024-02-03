@@ -90,10 +90,11 @@ class SurfingViewModel: ObservableObject, Searchable  {
     }
     
     // MARK: - 게시글 요청
-    func postRequest(imageURL: String) async {
+    func postRequest(imageURL: String, surfingID: String) async {
         // 게시 요청 관련 로직 추가
         let initialPostData : [String: Any] = [
-            "ownerUid": userNameID,
+            "ownerUid": surfingID,
+            "surferUid": userNameID,
             "imageUrl": imageURL,
             "title": postingTitle,
             "heartsCount": 0,

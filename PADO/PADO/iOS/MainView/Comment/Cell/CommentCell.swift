@@ -10,31 +10,30 @@ import SwiftUI
 
 struct CommentCell: View {
     let comment: Comment
-    @State private var user: User? = nil
+    @State private var commentUser: User? = nil
     @State private var isUserLoaded = false
     
     @ObservedObject var feedVM: FeedViewModel
     var body: some View {
         HStack(alignment: .top) {
             
-            Button {
-                Task {
-                    // 비동기 함수를 사용하여 사용자 데이터를 가져옵니다.
-                    let fetchedUser = await UpdateUserData.shared.getOthersProfileDatas(id: comment.userID)
-                    self.user = fetchedUser
-                    self.isUserLoaded = true // 사용자가 로드되었음을 나타냅니다.
+            NavigationLink {
+                if let user = commentUser {
+                    OtherUserProfileView(user: user)
                 }
             } label: {
-                if let imageUrl = comment.profileImageUrl {
-                    KFImage(URL(string: imageUrl))
-                        .fade(duration: 0.5)
-                        .placeholder{
-                            ProgressView()
-                        }
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 34, height: 34)
-                        .clipShape(Circle())
+                if let user = commentUser {
+                    if let imageUrl = user.profileImageUrl {
+                        KFImage(URL(string: imageUrl))
+                            .fade(duration: 0.5)
+                            .placeholder{
+                                ProgressView()
+                            }
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 34, height: 34)
+                            .clipShape(Circle())
+                    }
                 } else {
                     Image("defaultProfile")
                         .resizable()
@@ -42,16 +41,14 @@ struct CommentCell: View {
                         .frame(width: 34, height: 34)
                         .padding(.trailing, 6)
                 }
+                    
             }
             
             VStack(alignment: .leading, spacing: 2) {
                 HStack(spacing: 2) {
-                    Button {
-                        Task {
-                            // 비동기 함수를 사용하여 사용자 데이터를 가져옵니다.
-                            let fetchedUser = await UpdateUserData.shared.getOthersProfileDatas(id: comment.userID)
-                            self.user = fetchedUser
-                            self.isUserLoaded = true // 사용자가 로드되었음을 나타냅니다.
+                    NavigationLink {
+                        if let user = commentUser {
+                            OtherUserProfileView(user: user)
                         }
                     } label: {
                         Text(comment.userID)
@@ -79,11 +76,12 @@ struct CommentCell: View {
                     .foregroundStyle(.white)
             }
         }
-        .navigationDestination(isPresented: $isUserLoaded) {
-            // 'user'가 nil이 아닌 경우에만 OtherUserProfileView를 렌더링합니다.
-            if let user = user {
-                OtherUserProfileView(user: user)
+        .onAppear {
+            Task {
+                self.commentUser = await UpdateUserData.shared.getOthersProfileDatas(id: comment.userID)
             }
+            
         }
+
     }
 }

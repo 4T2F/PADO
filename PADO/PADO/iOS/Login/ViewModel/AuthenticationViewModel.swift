@@ -356,7 +356,11 @@ class AuthenticationViewModel: ObservableObject {
             currentUser?.instaAddress = instaAddress
             currentUser?.tiktokAddress = tiktokAddress
             
-            let returnString = try await UpdateImageUrl.shared.updateImageUserData(uiImage: uiImage, storageTypeInput: .user, documentid: "", imageQuality: .middleforProfile)
+            let returnString = try await UpdateImageUrl.shared.updateImageUserData(uiImage: uiImage,
+                                                                                   storageTypeInput: .user,
+                                                                                   documentid: "",
+                                                                                   imageQuality: .middleforProfile,
+                                                                                   surfingID: "")
             currentUser?.profileImageUrl = returnString
         }
     }

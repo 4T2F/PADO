@@ -84,7 +84,7 @@ class ProfileViewModel: ObservableObject {
             let querySnapshot = try await db.collection("post").document(documentID).getDocument()
 
             guard let post = try? querySnapshot.data(as: Post.self) else {
-                print("Error: User data could not be decoded")
+                print("\(documentID)는 삭제된 게시글입니다")
                 return
             }
             
