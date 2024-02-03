@@ -180,10 +180,6 @@ class FeedViewModel:Identifiable ,ObservableObject {
         selectedFeedCheckHeart = await checkHeartExists()
         await fetchHeartCommentCounts()
         await watchedPost(story)
-        // 햅틱 피드백 생성
-        let generator = UIImpactFeedbackGenerator(style: .light)
-        generator.impactOccurred()
-        
     }
  
     func watchedPost(_ story: Post) async {
@@ -246,10 +242,13 @@ class FeedViewModel:Identifiable ,ObservableObject {
 // MARK: - Heart관련
 extension FeedViewModel {
     func addHeart() async {
+        // 햅틱 피드백 생성
+        let generator = UIImpactFeedbackGenerator(style: .light)
+        generator.impactOccurred()
+        
         do {
             try await db.collection("users").document(userNameID).collection("highlight").document(documentID).setData(["documentID": documentID,
                                                                                                                         "sendHeartTime": Timestamp()])
-            
             try await db.collection("post").document(documentID).collection("heart").document(userNameID).setData(["nameID": userNameID])
             // 그 다음, 'post' 문서의 'heartsCount'를 업데이트하는 트랜잭션을 시작합니다.
             _ = try await db.runTransaction({ (transaction, errorPointer) -> Any? in
@@ -274,7 +273,6 @@ extension FeedViewModel {
                 transaction.updateData(["heartsCount": oldCount + 1], forDocument: postRef)
                 return nil
             })
-            
         }
         catch {
             print("error: \(error.localizedDescription)")

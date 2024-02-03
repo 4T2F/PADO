@@ -14,6 +14,8 @@ struct MainSearchView: View {
     @ObservedObject var searchVM: SearchViewModel
     @ObservedObject var profileVM: ProfileViewModel
     @ObservedObject var followVM: FollowViewModel
+    
+    @FocusState private var isTextFieldFocused: Bool
     // MARK: - BODY
     var body: some View {
         let searchTextBinding = Binding {
@@ -29,7 +31,10 @@ struct MainSearchView: View {
             VStack {
                 SearchBar(text: searchTextBinding,
                           isLoading: $searchVM.isLoading)
-                
+                .focused($isTextFieldFocused)
+                .onAppear {
+                    isTextFieldFocused = true
+                }
                 .padding(.horizontal)
                 if mainSearch.isEmpty {
                     if !searchVM.searchDatas.isEmpty {

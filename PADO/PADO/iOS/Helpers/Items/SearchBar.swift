@@ -12,7 +12,6 @@ struct SearchBar: View {
     @Binding var isLoading: Bool
     
     @State private var isEditing = false
-    @FocusState private var isTextFieldFocused: Bool
     
     var body: some View {
         ZStack(alignment: .leading) {
@@ -36,10 +35,6 @@ struct SearchBar: View {
                         withAnimation {
                             isEditing = true
                         }
-                    }
-                    .focused($isTextFieldFocused)
-                    .onAppear {
-                        isTextFieldFocused = true
                     }
                 }
                 .background(

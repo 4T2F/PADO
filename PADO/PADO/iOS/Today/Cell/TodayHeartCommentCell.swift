@@ -48,7 +48,7 @@ struct TodayHeartCommentCell: View {
                 }
                 .sheet(isPresented: $isShowingCommentView) {
                     CommentView(feedVM: feedVM,
-                                surfingVM: surfingVM)
+                                surfingVM: surfingVM, isShowingCommentView: $isShowingCommentView)
                         .presentationDetents([.fraction(0.99), .fraction(0.8)])
                         .presentationDragIndicator(.visible)
                 }

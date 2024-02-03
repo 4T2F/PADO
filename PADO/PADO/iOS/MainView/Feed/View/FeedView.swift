@@ -119,7 +119,6 @@ struct FeedView: View {
                             .offset(y: 10)
                         
                         ScrollView(.horizontal, showsIndicators: false) {
-                            
                             HStack(spacing: 16) {
                                 ForEach(Array(feedVM.followingPosts.enumerated()), id: \.element) { index, story in
                                     StoryCell(story: story,
@@ -130,6 +129,7 @@ struct FeedView: View {
                                         }
                                     }
                                 }
+                                
                                 Button(action: {
                                     if !feedVM.postFetchLoading {
                                         Task {

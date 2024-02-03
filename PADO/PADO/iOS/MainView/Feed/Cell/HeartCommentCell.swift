@@ -67,7 +67,7 @@ struct HeartCommentCell: View {
                         Image("chat")
                     }
                     .sheet(isPresented: $isShowingCommentView) {
-                        ReCommentView(feedVM: feedVM,
+                        CommentView(feedVM: feedVM,
                                       surfingVM: surfingVM, isShowingCommentView: $isShowingCommentView)
                     }
                     .presentationDetents([.large])
