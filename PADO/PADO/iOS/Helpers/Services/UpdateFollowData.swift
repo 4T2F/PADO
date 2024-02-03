@@ -46,6 +46,7 @@ class UpdateFollowData {
         do {
             try await db.collection("users").document(userNameID).collection("following").document(id).delete()
             try await db.collection("users").document(id).collection("follower").document(userNameID).delete()
+            try await db.collection("users").document(id).collection("surfer").document(userNameID).delete()
         } catch {
             print("Error removing document: \(error.localizedDescription)")
         }
