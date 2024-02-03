@@ -56,9 +56,8 @@ struct HeartCommentCell: View {
                         Image("chat")
                     }
                     .sheet(isPresented: $isShowingCommentView) {
-                        CommentView(feedVM: feedVM,
+                        ReCommentView(feedVM: feedVM,
                                     surfingVM: surfingVM)
-                        .presentationDragIndicator(.visible)
                     }
                     // 댓글이 달릴 때 마다 +1 카운팅 되게 하는 로직 추가
                     Text(String(feedVM.selectedCommentCounts))
