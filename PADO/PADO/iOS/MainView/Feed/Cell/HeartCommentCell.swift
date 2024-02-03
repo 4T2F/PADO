@@ -25,8 +25,11 @@ struct HeartCommentCell: View {
                 VStack(spacing: 10) {
                     Button {
                         withAnimation {
-                                feedVM.isHeaderVisible.toggle()
-                            }
+                            // 햅틱 피드백 생성
+                            let generator = UIImpactFeedbackGenerator(style: .light)
+                            generator.impactOccurred()
+                            feedVM.isHeaderVisible.toggle()
+                        }
                     } label: {
                         Circle()
                             .frame(width: 50)
