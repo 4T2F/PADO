@@ -36,13 +36,10 @@ class UpdateUserData {
                 print("Error: User data could not be decoded")
                 return nil
             }
-            
             return user
-            
         } catch {
             print("Error fetching user: \(error)")
         }
-        
         return nil
     }
     

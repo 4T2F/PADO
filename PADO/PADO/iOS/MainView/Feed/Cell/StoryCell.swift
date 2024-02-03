@@ -12,13 +12,14 @@ import SwiftUI
 
 struct StoryCell: View {
     
-    var story: Story
+    var story: Post
     var storyIndex: Int
     var isWatched: Bool {
-        feedVM.watchedPostIDs.contains(story.postID)
+        feedVM.watchedPostIDs.contains(story.id ?? "")
     }
     
-    @State var imageProfileUrl: String = ""
+    @State var ownerProfileUrl: String = ""
+    @State var surferProfileUrl: String = ""
     @ObservedObject var feedVM: FeedViewModel
 
     var onTap: () -> Void  // 탭 동작을 위한 클로저
@@ -33,7 +34,7 @@ struct StoryCell: View {
                         .foregroundColor(.black)
                         .frame(width: 70, height: 70)
                     
-                    KFImage.url(URL(string: imageProfileUrl))
+                    KFImage.url(URL(string: ownerProfileUrl))
                         .resizable()
                         .frame(width: 66, height: 66)
                         .cornerRadius(70)
@@ -47,7 +48,7 @@ struct StoryCell: View {
                         .background(.clear)
                         .frame(width: 70, height: 70)
                     
-                    KFImage.url(URL(string: imageProfileUrl))
+                    KFImage.url(URL(string: ownerProfileUrl))
                         .resizable()
                         .frame(width: 66, height: 66)
                         .cornerRadius(70)
@@ -55,13 +56,14 @@ struct StoryCell: View {
                 .padding(.top, 5)
             }
 
-            Text(story.name)
+            Text(story.ownerUid)
                 .font(.system(size: 12))
                 .foregroundStyle(.white)
         }
         .onAppear {
             Task {
-                imageProfileUrl = await feedVM.setupProfileImageURL(id: story.name)
+                ownerProfileUrl = await feedVM.setupProfileImageURL(id: story.ownerUid)
+                surferProfileUrl = await feedVM.setupProfileImageURL(id: story.surferUid)
 
             }
         }
@@ -72,12 +74,16 @@ struct StoryCell: View {
     }
     
     func setFeedData() {
-        feedVM.feedProfileID = story.name
-        feedVM.feedProfileImageUrl = imageProfileUrl
+        feedVM.feedOwnerProfileID = story.ownerUid
+        feedVM.feedOwnerProfileImageUrl = ownerProfileUrl
+        feedVM.feedSurferProfileID = story.surferUid
+        feedVM.feedSurferProfileImageUrl = surferProfileUrl
         feedVM.selectedFeedTitle = story.title
-        feedVM.selectedFeedTime = TimestampDateFormatter.formatDate(story.postTime)
+        feedVM.selectedFeedTime = TimestampDateFormatter.formatDate(story.created_Time)
 //        feedVM.selectedFeedHearts = story.heartsCount
-        feedVM.documentID = story.postID
+        if let postID = story.id {
+            feedVM.documentID = postID
+        }
         Task {
             await feedVM.getCommentsDocument()
         }

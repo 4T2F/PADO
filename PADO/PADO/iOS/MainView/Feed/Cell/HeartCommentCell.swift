@@ -9,6 +9,9 @@ import Lottie
 import SwiftUI
 
 struct HeartCommentCell: View {
+    
+    @State var heartLoading: Bool = false
+    
     @Binding var isShowingReportView: Bool
     @Binding var isShowingCommentView: Bool
     
@@ -22,20 +25,28 @@ struct HeartCommentCell: View {
                 VStack(spacing: 10) {
                     if feedVM.selectedFeedCheckHeart {
                         Button {
-                            Task {
-                                await feedVM.deleteHeart()
-                                feedVM.selectedFeedCheckHeart = await feedVM.checkHeartExists()
-                                await profileVM.fetchHighlihts(id: userNameID)
+                            if !heartLoading {
+                                Task {
+                                    heartLoading = true
+                                    await feedVM.deleteHeart()
+                                    feedVM.selectedFeedCheckHeart = await feedVM.checkHeartExists()
+                                    heartLoading = false
+                                    await profileVM.fetchHighlihts(id: userNameID)
+                                }
                             }
                         } label: {
                             Image("heart_fill")
                         }
                     } else {
                         Button {
-                            Task {
-                                await feedVM.addHeart()
-                                feedVM.selectedFeedCheckHeart = await feedVM.checkHeartExists()
-                                await profileVM.fetchHighlihts(id: userNameID)
+                            if !heartLoading {
+                                Task {
+                                    heartLoading = true
+                                    await feedVM.addHeart()
+                                    feedVM.selectedFeedCheckHeart = await feedVM.checkHeartExists()
+                                    heartLoading = false
+                                    await profileVM.fetchHighlihts(id: userNameID)
+                                }
                             }
                         } label: {
                             Image("heart")
