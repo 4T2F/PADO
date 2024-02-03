@@ -138,7 +138,7 @@
 		B1749A692B5F485300BCC6BA /* MainFaceMojiCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1749A682B5F485300BCC6BA /* MainFaceMojiCell.swift */; };
 		B1749A6B2B5F4C8700BCC6BA /* MainFaceMojiModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1749A6A2B5F4C8700BCC6BA /* MainFaceMojiModel.swift */; };
 		B198BBA02B5639D500EAA6C0 /* ModalAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B198BB9F2B5639D500EAA6C0 /* ModalAlertView.swift */; };
-		B1999ED92B6E1A6F005B37BA /* PushNotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1999ED82B6E1A6F005B37BA /* PushNotificationViewModel.swift */; };
+		B1999ED92B6E1A6F005B37BA /* UpdatePushNotiData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1999ED82B6E1A6F005B37BA /* UpdatePushNotiData.swift */; };
 		B1999EDB2B6E205D005B37BA /* Noti.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1999EDA2B6E205D005B37BA /* Noti.swift */; };
 		B1999EDD2B6E2312005B37BA /* PushNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1999EDC2B6E2312005B37BA /* PushNotificationManager.swift */; };
 		B1999EDF2B6E2EC8005B37BA /* NotificationObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1999EDE2B6E2EC8005B37BA /* NotificationObserver.swift */; };
@@ -308,7 +308,7 @@
 		B198BB9B2B56259600EAA6C0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B198BB9C2B56259600EAA6C0 /* ApiKeys.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ApiKeys.xcconfig; sourceTree = "<group>"; };
 		B198BB9F2B5639D500EAA6C0 /* ModalAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalAlertView.swift; sourceTree = "<group>"; };
-		B1999ED82B6E1A6F005B37BA /* PushNotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationViewModel.swift; sourceTree = "<group>"; };
+		B1999ED82B6E1A6F005B37BA /* UpdatePushNotiData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePushNotiData.swift; sourceTree = "<group>"; };
 		B1999EDA2B6E205D005B37BA /* Noti.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Noti.swift; sourceTree = "<group>"; };
 		B1999EDC2B6E2312005B37BA /* PushNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationManager.swift; sourceTree = "<group>"; };
 		B1999EDE2B6E2EC8005B37BA /* NotificationObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationObserver.swift; sourceTree = "<group>"; };
@@ -611,7 +611,7 @@
 				41FD99F52B43D5EC0028D38E /* PADOApp.swift */,
 				B1749A642B5D755700BCC6BA /* AppDelegate.swift */,
 				B1999EDE2B6E2EC8005B37BA /* NotificationObserver.swift */,
-				B1999ED82B6E1A6F005B37BA /* PushNotificationViewModel.swift */,
+				B1999ED82B6E1A6F005B37BA /* UpdatePushNotiData.swift */,
 				B1999EDC2B6E2312005B37BA /* PushNotificationManager.swift */,
 				64D0E7472B55053500060A73 /* iOS */,
 				41FD99F92B43D5ED0028D38E /* Assets.xcassets */,
@@ -1251,7 +1251,7 @@
 				63C8BA4D2B56241200025422 /* TextAnimation.swift in Sources */,
 				649372FE2B56665200BCDA71 /* FollowerUserCellView.swift in Sources */,
 				04AD70EC2B6CB80F00437134 /* KeyboardHide.swift in Sources */,
-				B1999ED92B6E1A6F005B37BA /* PushNotificationViewModel.swift in Sources */,
+				B1999ED92B6E1A6F005B37BA /* UpdatePushNotiData.swift in Sources */,
 				63C20BED2B56CFAF00911F64 /* AdvancedSettingsCell.swift in Sources */,
 				417D188C2B5CFEF100545A5E /* LoginCodeView.swift in Sources */,
 				4197420F2B55900D0055F2AB /* MainView.swift in Sources */,
