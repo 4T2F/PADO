@@ -148,12 +148,14 @@ class UpdateImageUrl {
             case .post:
                 try await Firestore.firestore().collection("users").document(userNameID).collection("sendpost").document(formattedPostingTitle).setData([
                     "surfingID": surfingID,
-                    "userID": userNameID
+                    "userID": userNameID,
+                    "created_Time": Timestamp()
                 ])
                 
                 try await Firestore.firestore().collection("users").document(surfingID).collection("mypost").document(formattedPostingTitle).setData([
                     "surferID": userNameID,
-                    "userID": surfingID
+                    "userID": surfingID,
+                    "created_Time": Timestamp()
                 ])
                 
                 return imageUrl

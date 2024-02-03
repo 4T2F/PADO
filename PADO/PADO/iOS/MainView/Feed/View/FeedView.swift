@@ -126,8 +126,11 @@ struct FeedView: View {
                                 }
                                 Button(action: {
                                     if !feedVM.postFetchLoading {
-                                        feedVM.findFollowingUsers()
-                                        followVM.initializeFollowFetch()
+                                        Task {
+                                            feedVM.findFollowingUsers()
+                                            followVM.initializeFollowFetch()
+                                            await profileVM.fetchPadoPosts(id: userNameID)
+                                        }
                                     }
                                 }) {
                                     Image("refresh")
