@@ -16,6 +16,7 @@ struct ReCommentView: View {
     
     @FocusState private var isTextFieldFocused: Bool
     @State private var commentText: String = ""
+    
     var body: some View {
         NavigationStack {
             HStack {
