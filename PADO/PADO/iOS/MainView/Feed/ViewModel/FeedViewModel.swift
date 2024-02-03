@@ -33,7 +33,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
     @Published var selectedFeedTime: String = ""
     @Published var selectedFeedCheckHeart: Bool = false
     @Published var postFetchLoading: Bool = false
-    
+    @Published var selectedPostID: String = ""
     @Published var selectedFeedHearts: Int = 0
     @Published var selectedCommentCounts: Int = 0
     // MARK: - comment관련
@@ -176,7 +176,9 @@ class FeedViewModel:Identifiable ,ObservableObject {
     // 스토리 선택 핸들러
     func selectStory(_ story: Post) async {
         // 스토리의 이름과 게시물의 소유자 UID가 같은 경우 해당 게시물의 이미지 URL을 선택
-        
+        if let storyID = story.id {
+            selectedPostID = storyID
+        }
         selectedPostImageUrl = story.imageUrl
         print("Selected post image URL: \(selectedPostImageUrl)")
         
