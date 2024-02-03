@@ -144,7 +144,6 @@
 		B1999ED92B6E1A6F005B37BA /* UpdatePushNotiData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1999ED82B6E1A6F005B37BA /* UpdatePushNotiData.swift */; };
 		B1999EDB2B6E205D005B37BA /* Noti.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1999EDA2B6E205D005B37BA /* Noti.swift */; };
 		B1999EDD2B6E2312005B37BA /* PushNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1999EDC2B6E2312005B37BA /* PushNotificationManager.swift */; };
-		B1999EDF2B6E2EC8005B37BA /* NotificationObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1999EDE2B6E2EC8005B37BA /* NotificationObserver.swift */; };
 		B1A91D0F2B55928D00FE7F62 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A91D062B55928D00FE7F62 /* SettingView.swift */; };
 		B1A91D102B55928D00FE7F62 /* SettingNormalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A91D072B55928D00FE7F62 /* SettingNormalCell.swift */; };
 		B1A91D112B55928D00FE7F62 /* SettingNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A91D082B55928D00FE7F62 /* SettingNotificationView.swift */; };
@@ -317,7 +316,6 @@
 		B1999ED82B6E1A6F005B37BA /* UpdatePushNotiData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePushNotiData.swift; sourceTree = "<group>"; };
 		B1999EDA2B6E205D005B37BA /* Noti.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Noti.swift; sourceTree = "<group>"; };
 		B1999EDC2B6E2312005B37BA /* PushNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationManager.swift; sourceTree = "<group>"; };
-		B1999EDE2B6E2EC8005B37BA /* NotificationObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationObserver.swift; sourceTree = "<group>"; };
 		B1A91D062B55928D00FE7F62 /* SettingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		B1A91D072B55928D00FE7F62 /* SettingNormalCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingNormalCell.swift; sourceTree = "<group>"; };
 		B1A91D082B55928D00FE7F62 /* SettingNotificationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingNotificationView.swift; sourceTree = "<group>"; };
@@ -568,6 +566,8 @@
 		41A1029C2B62C7510070AB8D /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				B1999ED82B6E1A6F005B37BA /* UpdatePushNotiData.swift */,
+				B1999EDC2B6E2312005B37BA /* PushNotificationManager.swift */,
 				64B4C8E92B62532000D405DE /* UpdateUserData.swift */,
 				647E7EFC2B63775100A5487E /* UpdateImageUrl.swift */,
 				417CD6642B68C3F8001D9EC0 /* UpdateFollowData.swift */,
@@ -616,9 +616,6 @@
 				412B3AA32B44F67100C2C7CD /* PADO.entitlements */,
 				41FD99F52B43D5EC0028D38E /* PADOApp.swift */,
 				B1749A642B5D755700BCC6BA /* AppDelegate.swift */,
-				B1999EDE2B6E2EC8005B37BA /* NotificationObserver.swift */,
-				B1999ED82B6E1A6F005B37BA /* UpdatePushNotiData.swift */,
-				B1999EDC2B6E2312005B37BA /* PushNotificationManager.swift */,
 				64D0E7472B55053500060A73 /* iOS */,
 				41FD99F92B43D5ED0028D38E /* Assets.xcassets */,
 				41FD99FB2B43D5ED0028D38E /* Preview Content */,
@@ -1270,7 +1267,6 @@
 				6408FEE82B6E98E000BF0DDF /* deleteCommentView.swift in Sources */,
 				B1D7CDE72B5668CD0090544B /* RoundedEdge.swift in Sources */,
 				63AA035A2B68F1BE00431332 /* OffsetModifier.swift in Sources */,
-				B1999EDF2B6E2EC8005B37BA /* NotificationObserver.swift in Sources */,
 				632291472B5C1674007C51D1 /* HeartCommentCell.swift in Sources */,
 				B102FE822B56DB5B0005C310 /* PostButtonView.swift in Sources */,
 				419D086A2B5FA9CA00E61A6F /* LoadingCircleView.swift in Sources */,
@@ -1476,8 +1472,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Dark;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1516,8 +1511,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Dark;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

@@ -53,7 +53,7 @@ struct FeedView: View {
                 } else {
                     Image("firstPhoto")
                         .resizable()
-                        .scaledToFill()
+                        .scaledToFit()
                         .ignoresSafeArea()
                         .frame(height: UIScreen.main.bounds.height * 0.85)
                 }
