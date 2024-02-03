@@ -40,6 +40,9 @@ class FeedViewModel:Identifiable ,ObservableObject {
     @Published var comments: [Comment] = []
     @Published var documentID: String = ""
     @Published var inputcomment: String = ""
+    @Published var showdeleteModal: Bool = false
+    @Published var showreportModal: Bool = false
+    @Published var selectedComment: Comment?
     
     private var db = Firestore.firestore()
     private var listener: ListenerRegistration?
@@ -181,13 +184,13 @@ class FeedViewModel:Identifiable ,ObservableObject {
         await fetchHeartCommentCounts()
         await watchedPost(story)
     }
- 
+    
     func watchedPost(_ story: Post) async {
         do {
             if let postID = story.id {
                 try await db.collection("users").document(userNameID).collection("watched")
                     .document(postID).setData(["created_Time": story.created_Time,
-                                                       "watchedPost": postID])
+                                               "watchedPost": postID])
                 self.watchedPostIDs.insert(postID)
             }
         } catch {
@@ -356,13 +359,12 @@ extension FeedViewModel {
         } catch {
             print("Error fetching comments: \(error)")
         }
-        print(comments)
     }
     
     
     //  댓글 작성 및 프로필 이미지 URL 반환
     func writeComment(inputcomment: String) async {
-        let profileImageUrl = await setupProfileImageURL(id: userNameID)
+        let _ = await setupProfileImageURL(id: userNameID)
         
         let initialPostData : [String: Any] = [
             "userID": userNameID,
@@ -380,6 +382,7 @@ extension FeedViewModel {
         let formattedCommentTitle = userNameID+formattedDate
         
         do {
+            // 포스트에서 댓글을 보여주기 위해 만들어줌
             try await db.collection("post").document(documentName).collection("comment").document(formattedCommentTitle).setData(data)
             _ = try await db.runTransaction({ (transaction, errorPointer) in
                 let postRef = self.db.collection("post").document(self.documentID)
@@ -407,7 +410,44 @@ extension FeedViewModel {
             print("Error saving post data: \(error.localizedDescription)")
         }
     }
+    
+    // 댓글 삭제 함수에 commentID = 댓글 서브 컬렉션의 DocumentID 매개변수
+    func deleteComment(commentID: String) async {
+        do {
+            // 포스트의 'comment' 컬렉션에서 특정 댓글 삭제
+            try await db.collection("post").document(documentID).collection("comment").document(commentID).delete()
+            
+            // 그 다음, 'post' 문서의 'commentCount'를 업데이트하는 트랜잭션을 시작합니다.
+            _ = try await db.runTransaction({ (transaction, errorPointer) in
+                let postRef = self.db.collection("post").document(self.documentID)
+                let postDocument: DocumentSnapshot
+                
+                do {
+                    try postDocument = transaction.getDocument(postRef)
+                } catch let fetchError as NSError {
+                    errorPointer?.pointee = fetchError
+                    return nil
+                }
+                
+                guard let oldCount = postDocument.data()?["commentCount"] as? Int else {
+                    let error = NSError(domain: "AppErrorDomain", code: -1, userInfo: [
+                        NSLocalizedDescriptionKey: "Unable to retrieve hearts count from snapshot \(postDocument)"
+                    ])
+                    errorPointer?.pointee = error
+                    return nil
+                }
+                
+                transaction.updateData(["commentCount": oldCount - 1], forDocument: postRef)
+                return nil
+            })
 
+            // 성공적으로 삭제됐다는 메시지 출력
+            print(commentID)
+            print("댓글이 성공적으로 삭제되었습니다.")
+        } catch {
+            print("댓글 삭제 중 오류 발생: \(error.localizedDescription)")
+        }
+    }
 }
 
 // MARK: - FaceMoji 관련
@@ -418,7 +458,7 @@ extension FeedViewModel {
             uiImage: faceMojiUIImage,
             storageTypeInput: .facemoji,
             documentid: documentID,
-            imageQuality: .lowforFaceMoji, 
+            imageQuality: .lowforFaceMoji,
             surfingID: ""
         )
         

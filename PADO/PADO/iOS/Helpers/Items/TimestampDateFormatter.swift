@@ -40,4 +40,12 @@ class TimestampDateFormatter {
             }
         }
     }
+    
+    static func convertTimestampToString(timestamp: Timestamp) -> String {
+        let date = timestamp.dateValue() // Timestamp를 Date로 변환
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd-HH:mm:ss.sssZ" // 원하는 날짜 형식 설정
+        let dateString = dateFormatter.string(from: date) // Date를 String으로 변환
+        return dateString
+    }
 }
