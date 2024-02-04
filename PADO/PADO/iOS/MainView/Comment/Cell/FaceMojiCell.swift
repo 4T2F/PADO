@@ -43,6 +43,8 @@ enum Emotion: String, CaseIterable {
 struct FaceMojiCell: View {
     
     var facemoji: Facemoji
+    let hapticImpact = UIImpactFeedbackGenerator(style: .medium)
+    
     @ObservedObject var feedVM: FeedViewModel
     
     var body: some View {
@@ -62,10 +64,9 @@ struct FaceMojiCell: View {
                         .scaledToFill()
                         .frame(width: 54, height: 54)
                         .clipShape(Circle())
-                        .onTapGesture {
-                            Task {
-                                await feedVM.deleteFaceModji(storagefileName: facemoji.storagename)
-                            }
+                        .onLongPressGesture(minimumDuration: 1) {
+                            hapticImpact.impactOccurred()
+                            feedVM.deleteFacemojiModal = true
                         }
                 }
                 

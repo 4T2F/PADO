@@ -21,6 +21,10 @@ struct FaceMojiView: View {
                 ForEach(feedVM.facemojies, id: \.self) { facemoji in
                     FaceMojiCell(facemoji: facemoji, feedVM: feedVM)
                         .padding(.horizontal, 6)
+                        .sheet(isPresented: $feedVM.deleteFacemojiModal) {
+                            DeleteFaceMojiView(facemoji: facemoji, feedVM: feedVM)
+                                .presentationDetents([.medium])
+                        }
                 }
                 Button {
                     // 페이스모지 열기
