@@ -101,12 +101,16 @@ struct SelectEmojiView: View {
             Spacer()
             
             HStack {
+                Spacer()
+                
                 Button {
                     feedVM.selectedEmoji = "Basic"
                 } label: {
-                    Text("Basic")
+                    Text("❌")
                         .font(.system(size: 30))
                 }
+                
+                Spacer()
                 
                 Button {
                     feedVM.selectedEmoji = "👍"
@@ -115,22 +119,31 @@ struct SelectEmojiView: View {
                         .font(.system(size: 30))
                 }
                 
+                Spacer()
+                
                 Button {
                     feedVM.selectedEmoji = "🥰"
                 } label: {
                     Text("🥰")
                         .font(.system(size: 30))
                 }
+                
+                Spacer()
             }
             .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
+            .padding()
             
             HStack {
+                Spacer()
+                
                 Button {
                     feedVM.selectedEmoji = "🤣"
                 } label: {
                     Text("🤣")
                         .font(.system(size: 30))
                 }
+                
+                Spacer()
                 
                 Button {
                     feedVM.selectedEmoji = "😡"
@@ -139,14 +152,22 @@ struct SelectEmojiView: View {
                         .font(.system(size: 30))
                 }
                 
+                Spacer()
+                
                 Button {
                     feedVM.selectedEmoji = "😢"
                 } label: {
                     Text("😢")
                         .font(.system(size: 30))
                 }
+                
+                Spacer()
             }
             .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
+            .padding()
+            .padding(.bottom, 20)
+
+            
             
             Button {
                 feedVM.updateEmoji(emoji: feedVM.selectedEmoji)
@@ -156,8 +177,12 @@ struct SelectEmojiView: View {
                     .foregroundStyle(.white)
             }
             .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
+            .cornerRadius(24)
             .background(.blueButton)
-            .cornerRadius(10)
+            .padding(.horizontal)
+            
+            
+
         }
     }
 }
