@@ -5,11 +5,15 @@
 //  Created by 김명현 on 1/16/24.
 //
 
+import MessageUI
 import SwiftUI
 
 struct ReportResultView: View {
     @Binding var isShowingReportView: Bool
     
+    @State private var showingMailView = false
+    @State private var mailResult: Result<MFMailComposeResult, Error>? = nil
+        
     var body: some View {
         VStack {
             Image(systemName: "megaphone")
@@ -19,7 +23,7 @@ struct ReportResultView: View {
                 .foregroundStyle(Color(.systemBlue))
                 .padding(.bottom, 20)
             
-            Text("신고가 접수되었습니다")
+            Text("확인을 누르면 메일로 이동합니다")
                 .font(.system(size: 22))
                 .fontWeight(.semibold)
                 .padding(.bottom, 20)
@@ -60,7 +64,11 @@ struct ReportResultView: View {
             Spacer()
             
             Button {
-                isShowingReportView = false
+                if MFMailComposeViewController.canSendMail() {
+                    self.showingMailView = true
+                } else {
+                    print("메일을 보내지 못했습니다.")
+                }
             } label: {
                 ZStack {
                     RoundedRectangle(cornerRadius: 8)
@@ -72,6 +80,9 @@ struct ReportResultView: View {
                         .font(.system(size: 16))
                         .fontWeight(.medium)
                 }
+            }
+            .sheet(isPresented: $showingMailView) {
+                MailView(isShowing: $showingMailView, result: $mailResult)
             }
         } //: VStack
         .padding(.vertical)
