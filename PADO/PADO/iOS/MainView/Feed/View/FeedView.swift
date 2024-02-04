@@ -84,7 +84,7 @@ struct FeedView: View {
                         } else {
                             Image("firstPhoto")
                                 .resizable()
-                                .scaledToFill()
+                                .scaledToFit()
                                 .ignoresSafeArea()
                                 .frame(height: UIScreen.main.bounds.height * 0.85)
                         }
@@ -113,7 +113,11 @@ struct FeedView: View {
                             Spacer()
                             
                             // MARK: - HeartComment
-                            HeartCommentCell(isShowingReportView: $feedVM.isShowingReportView, isShowingCommentView: $feedVM.isShowingCommentView, feedVM: feedVM, surfingVM: surfingVM, profileVM: profileVM)
+                            HeartCommentCell(isShowingReportView: $feedVM.isShowingReportView,
+                                             isShowingCommentView: $feedVM.isShowingCommentView,
+                                             feedVM: feedVM,
+                                             surfingVM: surfingVM,
+                                             profileVM: profileVM)
                                 .padding(.leading, UIScreen.main.bounds.width)
                                 .padding(.trailing, 60)
                                 .padding(.bottom, 10)
@@ -165,11 +169,11 @@ struct FeedView: View {
                                                       feedVM.textPosition :
                                                         CGPoint(x: CGFloat(comment.commentPositionsX),
                                                                 y: CGFloat(comment.commentPositionsY)))
-                                            .gesture(
-                                                DragGesture()
-                                                    .onChanged(feedVM.handleDragGestureChange)
-                                                    .onEnded { _ in feedVM.handleDragGestureEnd() }
-                                            )
+//                                            .gesture(
+//                                                DragGesture()
+//                                                    .onChanged(feedVM.handleDragGestureChange)
+//                                                    .onEnded { _ in feedVM.handleDragGestureEnd() }
+//                                            )
                                     }
                                     ForEach(mainFaceMojiVM.mainFaceMoji.reversed()) { faceMoji in
                                         MainFaceMojiCell(mainFaceMoji: faceMoji)
@@ -192,9 +196,11 @@ struct FeedView: View {
             .frame(height: UIScreen.main.bounds.height * 0.85)
             .refreshable {
                 Task {
-                    feedVM.findFollowingUsers()
-                    followVM.initializeFollowFetch()
-                    await profileVM.fetchPadoPosts(id: userNameID)
+                    if !feedVM.postFetchLoading {
+                        feedVM.findFollowingUsers()
+                        followVM.initializeFollowFetch()
+                        await profileVM.fetchPadoPosts(id: userNameID)
+                    }
                 }
             }
         }

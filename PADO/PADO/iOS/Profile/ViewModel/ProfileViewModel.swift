@@ -15,7 +15,7 @@ enum InputPostType {
 }
 
 class ProfileViewModel: ObservableObject {
-    @Published var currentType: String = "파도"
+    @Published var currentType: String = "받은 파도"
     @Published var padoPosts: [Post] = []
     @Published var sendPadoPosts: [Post] = []
     @Published var highlights: [Post] = []

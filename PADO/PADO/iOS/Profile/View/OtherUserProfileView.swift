@@ -19,10 +19,10 @@ struct OtherUserProfileView: View {
     
     @Environment(\.dismiss) var dismiss
   
-    @State private var buttonOnOff = false
+    @Binding var buttonOnOff: Bool
     @State private var buttonActive: Bool = false
     
-    let updateFollowData = UpdateFollowData()
+    let updateFollowData: UpdateFollowData
     let updatePushNotiData = UpdatePushNotiData()
     
     let user: User
@@ -61,7 +61,6 @@ struct OtherUserProfileView: View {
                 followVM.profileFollowId = user.nameID
                 followVM.initializeFollowFetch()
                 await profileVM.fetchPostID(id: user.nameID)
-                self.buttonOnOff = await updateFollowData.checkFollowStatus(id: user.nameID)
             }
         }
     }
@@ -255,7 +254,7 @@ struct OtherUserProfileView: View {
     
     @ViewBuilder
     func pinnedHeaderView() -> some View {
-        let types: [String] = ["파도", "보낸 파도", "하이라이트"]
+        let types: [String] = ["받은 파도", "보낸 파도", "하이라이트"]
         HStack(spacing: 25) {
             ForEach(types, id: \.self) { type in
                 VStack(spacing: 12) {
@@ -291,7 +290,7 @@ struct OtherUserProfileView: View {
     @ViewBuilder
     func postList() -> some View {
         switch profileVM.currentType {
-        case "파도":
+        case "받은 파도":
             postView()
         case "보낸 파도":
             writtenPostsView()

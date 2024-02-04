@@ -18,6 +18,10 @@ struct StoryCell: View {
         feedVM.watchedPostIDs.contains(story.id ?? "")
     }
     
+    var isWatching: Bool  {
+        feedVM.selectedPostID == story.id
+    }
+    
     @State var ownerProfileUrl: String = ""
     @State var surferProfileUrl: String = ""
     @ObservedObject var feedVM: FeedViewModel
@@ -26,7 +30,22 @@ struct StoryCell: View {
     
     var body: some View {
         VStack {
-            if isWatched {
+            if isWatching {
+                ZStack {
+                    Circle()
+                        .fill(.clear)
+                        .stroke(.white, lineWidth: 1.6)
+                        .foregroundColor(.black)
+                        .frame(width: 70, height: 70)
+                    
+                    KFImage.url(URL(string: ownerProfileUrl))
+                        .resizable()
+                        .frame(width: 66, height: 66)
+                        .cornerRadius(70)
+                }
+                .padding(.top, 5)
+
+            } else if isWatched {
                 ZStack {
                     Circle()
                         .fill(.black)

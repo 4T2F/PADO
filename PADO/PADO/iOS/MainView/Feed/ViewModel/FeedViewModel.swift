@@ -33,7 +33,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
     @Published var selectedFeedTime: String = ""
     @Published var selectedFeedCheckHeart: Bool = false
     @Published var postFetchLoading: Bool = false
-    
+    @Published var selectedPostID: String = ""
     @Published var selectedFeedHearts: Int = 0
     @Published var selectedCommentCounts: Int = 0
     // MARK: - comment관련
@@ -176,7 +176,9 @@ class FeedViewModel:Identifiable ,ObservableObject {
     // 스토리 선택 핸들러
     func selectStory(_ story: Post) async {
         // 스토리의 이름과 게시물의 소유자 UID가 같은 경우 해당 게시물의 이미지 URL을 선택
-        
+        if let storyID = story.id {
+            selectedPostID = storyID
+        }
         selectedPostImageUrl = story.imageUrl
         print("Selected post image URL: \(selectedPostImageUrl)")
         
@@ -364,7 +366,9 @@ extension FeedViewModel {
     
     //  댓글 작성 및 프로필 이미지 URL 반환
     func writeComment(inputcomment: String) async {
-        let _ = await setupProfileImageURL(id: userNameID)
+        let imageUrl = await setupProfileImageURL(id: userNameID)
+        
+        print(imageUrl)
         
         let initialPostData : [String: Any] = [
             "userID": userNameID,
@@ -454,13 +458,15 @@ extension FeedViewModel {
 extension FeedViewModel {
     // 페이스 모지를 스토리지, 스토어에 업로드
     func updateFaceMoji() async throws {
-        let _ = try await UpdateImageUrl.shared.updateImageUserData(
+        let imageData = try await UpdateImageUrl.shared.updateImageUserData(
             uiImage: faceMojiUIImage,
             storageTypeInput: .facemoji,
             documentid: documentID,
             imageQuality: .lowforFaceMoji,
             surfingID: ""
         )
+        
+        print(imageData)
         
         try await db.collection("post").document(documentID).collection("facemoji").document(userNameID).updateData([
             "userID" : userNameID,

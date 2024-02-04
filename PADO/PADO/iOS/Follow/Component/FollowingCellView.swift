@@ -14,7 +14,7 @@ struct FollowingCellView: View {
     @State var followingProfileUrl: String = ""
     @State var profileUser: User?
     
-    @State private var buttonActive: Bool = false
+    @State var buttonActive: Bool = false
     
     let cellUserId: String
     let updateFollowData: UpdateFollowData
@@ -25,7 +25,9 @@ struct FollowingCellView: View {
             HStack(spacing: 0) {
                 NavigationLink {
                     if let user = profileUser {
-                        OtherUserProfileView(user: user)
+                        OtherUserProfileView(buttonOnOff: $buttonActive,
+                                             updateFollowData: updateFollowData,
+                                             user: user)
                     }
                 } label: {
                     if let imageUrl = URL(string: followingProfileUrl) {
@@ -63,6 +65,7 @@ struct FollowingCellView: View {
             
             if cellUserId != userNameID {
                 BlueButtonView(cellUserId: cellUserId,
+                               buttonActive: $buttonActive,
                                activeText: "팔로우",
                                unActiveText: "팔로잉",
                                widthValue: 85,

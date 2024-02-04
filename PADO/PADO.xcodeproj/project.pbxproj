@@ -146,7 +146,6 @@
 		B1999ED92B6E1A6F005B37BA /* UpdatePushNotiData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1999ED82B6E1A6F005B37BA /* UpdatePushNotiData.swift */; };
 		B1999EDB2B6E205D005B37BA /* Noti.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1999EDA2B6E205D005B37BA /* Noti.swift */; };
 		B1999EDD2B6E2312005B37BA /* PushNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1999EDC2B6E2312005B37BA /* PushNotificationManager.swift */; };
-		B1999EDF2B6E2EC8005B37BA /* NotificationObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1999EDE2B6E2EC8005B37BA /* NotificationObserver.swift */; };
 		B1A91D0F2B55928D00FE7F62 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A91D062B55928D00FE7F62 /* SettingView.swift */; };
 		B1A91D102B55928D00FE7F62 /* SettingNormalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A91D072B55928D00FE7F62 /* SettingNormalCell.swift */; };
 		B1A91D112B55928D00FE7F62 /* SettingNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A91D082B55928D00FE7F62 /* SettingNotificationView.swift */; };
@@ -183,7 +182,6 @@
 		040914F62B561A18001B549B /* ReportSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportSelectView.swift; sourceTree = "<group>"; };
 		040914F82B561FA8001B549B /* ReportSelectCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportSelectCellView.swift; sourceTree = "<group>"; };
 		040914FA2B5624E7001B549B /* ReportResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportResultView.swift; sourceTree = "<group>"; };
-		040914FE2B567231001B549B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0416CA922B6787DF009333CF /* SettingViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewCell.swift; sourceTree = "<group>"; };
 		0495988F2B68014E0075EEF9 /* SettingAskButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingAskButton.swift; sourceTree = "<group>"; };
 		04A785E22B5FB1C800BFCB9D /* SearchCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchCellView.swift; sourceTree = "<group>"; };
@@ -292,8 +290,6 @@
 		6408FEE92B6E98E800BF0DDF /* reportCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = reportCommentView.swift; sourceTree = "<group>"; };
 		643417322B5F947500E47639 /* SurfingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurfingView.swift; sourceTree = "<group>"; };
 		647E7EFC2B63775100A5487E /* UpdateImageUrl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateImageUrl.swift; sourceTree = "<group>"; };
-		647E7EFE2B66653600A5487E /* ApiKeys.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ApiKeys.xcconfig; sourceTree = "<group>"; };
-		647E7F042B6692C800A5487E /* ApiKeys.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = ApiKeys.xcconfig; path = ../../../../../Desktop/PADO/ApiKeys.xcconfig; sourceTree = "<group>"; };
 		648963DA2B6A9E960080050D /* PostCropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCropView.swift; sourceTree = "<group>"; };
 		648963DC2B6AA2310080050D /* Corp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Corp.swift; sourceTree = "<group>"; };
 		648963DE2B6B6BE50080050D /* SettingProfileEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingProfileEditView.swift; sourceTree = "<group>"; };
@@ -313,13 +309,10 @@
 		B1749A662B5E41AA00BCC6BA /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		B1749A682B5F485300BCC6BA /* MainFaceMojiCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFaceMojiCell.swift; sourceTree = "<group>"; };
 		B1749A6A2B5F4C8700BCC6BA /* MainFaceMojiModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFaceMojiModel.swift; sourceTree = "<group>"; };
-		B198BB9B2B56259600EAA6C0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		B198BB9C2B56259600EAA6C0 /* ApiKeys.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ApiKeys.xcconfig; sourceTree = "<group>"; };
 		B198BB9F2B5639D500EAA6C0 /* ModalAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalAlertView.swift; sourceTree = "<group>"; };
 		B1999ED82B6E1A6F005B37BA /* UpdatePushNotiData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePushNotiData.swift; sourceTree = "<group>"; };
 		B1999EDA2B6E205D005B37BA /* Noti.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Noti.swift; sourceTree = "<group>"; };
 		B1999EDC2B6E2312005B37BA /* PushNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationManager.swift; sourceTree = "<group>"; };
-		B1999EDE2B6E2EC8005B37BA /* NotificationObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationObserver.swift; sourceTree = "<group>"; };
 		B1A91D062B55928D00FE7F62 /* SettingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		B1A91D072B55928D00FE7F62 /* SettingNormalCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingNormalCell.swift; sourceTree = "<group>"; };
 		B1A91D082B55928D00FE7F62 /* SettingNotificationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingNotificationView.swift; sourceTree = "<group>"; };
@@ -571,6 +564,8 @@
 		41A1029C2B62C7510070AB8D /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				B1999ED82B6E1A6F005B37BA /* UpdatePushNotiData.swift */,
+				B1999EDC2B6E2312005B37BA /* PushNotificationManager.swift */,
 				64B4C8E92B62532000D405DE /* UpdateUserData.swift */,
 				647E7EFC2B63775100A5487E /* UpdateImageUrl.swift */,
 				417CD6642B68C3F8001D9EC0 /* UpdateFollowData.swift */,
@@ -596,7 +591,6 @@
 				41FD9A0F2B43D5ED0028D38E /* PADOUITests */,
 				41FD99F32B43D5EC0028D38E /* Products */,
 				63AB41172B45D38F007B37DC /* Frameworks */,
-				63E5620F2B567E590060E561 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -619,9 +613,6 @@
 				412B3AA32B44F67100C2C7CD /* PADO.entitlements */,
 				41FD99F52B43D5EC0028D38E /* PADOApp.swift */,
 				B1749A642B5D755700BCC6BA /* AppDelegate.swift */,
-				B1999EDE2B6E2EC8005B37BA /* NotificationObserver.swift */,
-				B1999ED82B6E1A6F005B37BA /* UpdatePushNotiData.swift */,
-				B1999EDC2B6E2312005B37BA /* PushNotificationManager.swift */,
 				64D0E7472B55053500060A73 /* iOS */,
 				41FD99F92B43D5ED0028D38E /* Assets.xcassets */,
 				41FD99FB2B43D5ED0028D38E /* Preview Content */,
@@ -848,7 +839,6 @@
 		63C8BA502B56618B00025422 /* Notification */ = {
 			isa = PBXGroup;
 			children = (
-				B1999ED72B6E1A55005B37BA /* ViewModel */,
 				63C20BF22B56F0BA00911F64 /* Cell */,
 				63C8BA512B5661A500025422 /* NotificationView.swift */,
 				63C20BEA2B56CEDB00911F64 /* AdvancedSettingsView.swift */,
@@ -875,18 +865,6 @@
 				6408FEE92B6E98E800BF0DDF /* reportCommentView.swift */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		63E5620F2B567E590060E561 /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-				040914FE2B567231001B549B /* GoogleService-Info.plist */,
-				B198BB9B2B56259600EAA6C0 /* GoogleService-Info.plist */,
-				B198BB9C2B56259600EAA6C0 /* ApiKeys.xcconfig */,
-				647E7EFE2B66653600A5487E /* ApiKeys.xcconfig */,
-				647E7F042B6692C800A5487E /* ApiKeys.xcconfig */,
-			);
-			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 		64D0E7472B55053500060A73 /* iOS */ = {
@@ -928,13 +906,6 @@
 				41A102992B6263000070AB8D /* Coordinator */,
 			);
 			path = Surfing;
-			sourceTree = "<group>";
-		};
-		B1999ED72B6E1A55005B37BA /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		B1A91D042B55926200FE7F62 /* Setting */ = {
@@ -1274,7 +1245,6 @@
 				6408FEE82B6E98E000BF0DDF /* deleteCommentView.swift in Sources */,
 				B1D7CDE72B5668CD0090544B /* RoundedEdge.swift in Sources */,
 				63AA035A2B68F1BE00431332 /* OffsetModifier.swift in Sources */,
-				B1999EDF2B6E2EC8005B37BA /* NotificationObserver.swift in Sources */,
 				632291472B5C1674007C51D1 /* HeartCommentCell.swift in Sources */,
 				B102FE822B56DB5B0005C310 /* PostButtonView.swift in Sources */,
 				419D086A2B5FA9CA00E61A6F /* LoadingCircleView.swift in Sources */,
@@ -1480,8 +1450,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Dark;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1520,8 +1489,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Dark;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

@@ -16,6 +16,8 @@ struct MainSearchView: View {
     @ObservedObject var followVM: FollowViewModel
     
     @FocusState private var isTextFieldFocused: Bool
+    
+    let updateFollowData = UpdateFollowData()
     // MARK: - BODY
     var body: some View {
         let searchTextBinding = Binding {
@@ -59,7 +61,8 @@ struct MainSearchView: View {
                                 RecordSearchCellView(profileVM: profileVM,
                                                      followVM: followVM,
                                                      searchVM: searchVM,
-                                                     searchCellID: searchData)
+                                                     searchCellID: searchData,
+                                                     updateFollowData: updateFollowData)
                                 .padding(.vertical, 3)
                             }
                         }
@@ -80,7 +83,8 @@ struct MainSearchView: View {
                             SearchCellView(profileVM: profileVM,
                                            followVM: followVM,
                                            searchVM: searchVM,
-                                           user: result)
+                                           user: result, 
+                                           updateFollowData: updateFollowData)
                                 .padding(.vertical, 3)
                         }
                     }

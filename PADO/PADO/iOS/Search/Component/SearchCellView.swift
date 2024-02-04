@@ -11,19 +11,26 @@ import SwiftUI
 
 struct SearchCellView: View {
     // MARK: - PROPERTY
+    
+    @State var buttonOnOff: Bool = false
+    
     @ObservedObject var profileVM: ProfileViewModel
     @ObservedObject var followVM: FollowViewModel
     @ObservedObject var searchVM: SearchViewModel
     let user: User
 
+    let updateFollowData: UpdateFollowData
     // MARK: - BODY
     var body: some View {
         NavigationStack {
             HStack {
                 NavigationLink {
-                    OtherUserProfileView(user: user)
+                    OtherUserProfileView(buttonOnOff: $buttonOnOff,
+                                         updateFollowData: updateFollowData,
+                                         user: user)
                         .onAppear {
                             searchVM.addSearchData(user.nameID)
+                           
                         }
                 } label: {
                     HStack(spacing: 0) {
@@ -60,5 +67,10 @@ struct SearchCellView: View {
             } //: HSTACK
             .padding(.horizontal)
         } //: NAVI
+        .onAppear {
+            Task {
+                self.buttonOnOff = await updateFollowData.checkFollowStatus(id: user.nameID)
+            }
+        }
     }
 }

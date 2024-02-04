@@ -54,7 +54,11 @@ struct FollowerView: View {
                                     LazyVStack(spacing: 8) {
                                         ForEach(followVM.surferIDs, id: \.self) { surferId in
                                             if user.nameID == userNameID {
-                                                FollowerUserCellView(followVM: followVM, cellUserId: surferId, followerType: FollowerModalType.surfer, sufferset: .removesuffer)
+                                                FollowerUserCellView(followVM: followVM,
+                                                                     cellUserId: surferId,
+                                                                     followerType: FollowerModalType.surfer,
+                                                                     updateFollowData: updateFollowData,
+                                                                     sufferset: .removesuffer)
                                                     .padding(.vertical)
                                             } else {
                                                 FollowerOtherUserCellView(followVM: followVM, cellUserId: surferId, updateFollowData: updateFollowData)
@@ -82,7 +86,11 @@ struct FollowerView: View {
                                 LazyVStack(spacing: 8) {
                                     ForEach(followVM.followerIDs, id: \.self) { followerId in
                                         if user.nameID == userNameID {
-                                            FollowerUserCellView(followVM: followVM, cellUserId: followerId, followerType: FollowerModalType.follower, sufferset: .setsuffer)
+                                            FollowerUserCellView(followVM: followVM,
+                                                                 cellUserId: followerId,
+                                                                 followerType: FollowerModalType.follower,
+                                                                 updateFollowData: updateFollowData,
+                                                                 sufferset: .setsuffer)
                                                 .padding(.vertical)
                                         } else {
                                             FollowerOtherUserCellView(followVM: followVM, cellUserId: followerId, updateFollowData: updateFollowData)
@@ -114,7 +122,11 @@ struct FollowerView: View {
                                     LazyVStack(spacing: 8) {
                                         ForEach(followVM.searchedSurfer, id: \.self) { surferId in
                                             if user.nameID == userNameID {
-                                                FollowerUserCellView(followVM: followVM, cellUserId: surferId, followerType: FollowerModalType.surfer, sufferset: .removesuffer)
+                                                FollowerUserCellView(followVM: followVM,
+                                                                     cellUserId: surferId,
+                                                                     followerType: FollowerModalType.surfer,
+                                                                     updateFollowData: updateFollowData,
+                                                                     sufferset: .removesuffer)
                                                     .padding(.vertical)
                                             } else {
                                                 FollowerOtherUserCellView(followVM: followVM, cellUserId: surferId, updateFollowData: updateFollowData)
@@ -142,7 +154,11 @@ struct FollowerView: View {
                                 LazyVStack(spacing: 8) {
                                     ForEach(followVM.searchedFollower, id: \.self) { followerId in
                                         if user.nameID == userNameID {
-                                            FollowerUserCellView(followVM: followVM, cellUserId: followerId, followerType: FollowerModalType.follower, sufferset: .setsuffer)
+                                            FollowerUserCellView(followVM: followVM,
+                                                                 cellUserId: followerId,
+                                                                 followerType: FollowerModalType.follower,
+                                                                 updateFollowData: updateFollowData,
+                                                                 sufferset: .setsuffer)
                                                 .padding(.vertical)
                                         } else {
                                             FollowerOtherUserCellView(followVM: followVM, cellUserId: followerId, updateFollowData: updateFollowData)
