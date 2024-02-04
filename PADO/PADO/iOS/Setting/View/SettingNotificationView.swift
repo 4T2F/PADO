@@ -10,7 +10,7 @@ import SwiftUI
 struct SettingNotificationView: View {
     
     @Environment (\.dismiss) var dismiss
-    @State var noti = false
+    @AppStorage("notificationsEnabled") var noti: Bool = true
     
     var body: some View {
         VStack {
