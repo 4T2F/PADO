@@ -16,4 +16,5 @@ struct Facemoji : Identifiable, Codable, Hashable {
     let faceMojiImageUrl: String
     let storagename: String
     let time: Timestamp
+    let emoji: String
 }
