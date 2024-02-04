@@ -52,8 +52,8 @@ struct FaceMojiCell: View {
             VStack {
                 ZStack {
                     Circle()
+                        .stroke(emojiColors[facemoji.emoji, default: .white], lineWidth: 1.4)
                         .frame(width: 56, height: 56)
-                        .foregroundStyle(.white)
                     
                     KFImage(URL(string: facemoji.faceMojiImageUrl))
                         .fade(duration: 0.5)
@@ -66,8 +66,12 @@ struct FaceMojiCell: View {
                         .clipShape(Circle())
                         .onLongPressGesture(minimumDuration: 1) {
                             hapticImpact.impactOccurred()
+                            feedVM.selectedFacemoji = facemoji
                             feedVM.deleteFacemojiModal = true
                         }
+                    
+                    Text(facemoji.emoji)
+                        .offset(x: 20, y: 20)
                 }
                 
                 Text(facemoji.userID)
@@ -78,8 +82,8 @@ struct FaceMojiCell: View {
             VStack {
                 ZStack {
                     Circle()
+                        .stroke(emojiColors[facemoji.emoji, default: .white], lineWidth: 1.4)
                         .frame(width: 56, height: 56)
-                        .foregroundStyle(.white)
                     
                     KFImage(URL(string: facemoji.faceMojiImageUrl))
                         .fade(duration: 0.5)
@@ -90,6 +94,9 @@ struct FaceMojiCell: View {
                         .scaledToFill()
                         .frame(width: 54, height: 54)
                         .clipShape(Circle())
+                    
+                    Text(facemoji.emoji)
+                        .offset(x: 20, y: 20)
                 }
                 
                 Text(facemoji.userID)

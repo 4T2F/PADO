@@ -60,6 +60,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
     @Published var showCropFaceMoji: Bool = false
     @Published var showEmojiView: Bool = false
     @Published var selectedEmoji: String = ""
+    @Published var selectedFacemoji: Facemoji?
     
     init() {
         // Firestore의 `post` 컬렉션에 대한 실시간 리스너 설정
@@ -478,7 +479,7 @@ extension FeedViewModel {
             "userID" : userNameID,
             "storagename" : "\(userNameID)-\(documentID)",
             "time" : Timestamp(),
-            "emoji" : ""
+            "emoji" : selectedEmoji
         ])
     }
     
@@ -507,9 +508,13 @@ extension FeedViewModel {
         }
     }
     
-    func updateEmoji(emoji: String) {
-        db.collection("post").document(documentID).collection("facemoji").document(userNameID).updateData([
-            "emoji" : emoji
-        ])
+    func updateEmoji(emoji: String) async {
+        do {
+            try await db.collection("post").document(documentID).collection("facemoji").document(userNameID).updateData([
+                "emoji" : emoji
+            ])
+        } catch {
+            print("파이어베이스에 이모지 업로드 오류 : \(error.localizedDescription)")
+        }
     }
 }

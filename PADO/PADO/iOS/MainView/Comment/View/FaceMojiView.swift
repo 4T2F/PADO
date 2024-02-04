@@ -23,7 +23,7 @@ struct FaceMojiView: View {
                         FaceMojiCell(facemoji: facemoji, feedVM: feedVM)
                             .padding(.horizontal, 6)
                             .sheet(isPresented: $feedVM.deleteFacemojiModal) {
-                                DeleteFaceMojiView(facemoji: facemoji, feedVM: feedVM)
+                                DeleteFaceMojiView(facemoji: feedVM.selectedFacemoji ?? facemoji, feedVM: feedVM)
                                     .presentationDetents([.medium])
                             }
                     }

@@ -7,18 +7,19 @@
 
 import SwiftUI
 
+let emojiColors: [String: Color] = [
+    "None": .white,
+    "👍": .green,
+    "🥰": .pink,
+    "🤣": .yellow,
+    "😡": .orange,
+    "😢": .blue
+]
+
 struct SelectEmojiView: View {
     @ObservedObject var feedVM: FeedViewModel
     
     let emojis = ["None", "👍", "🥰", "🤣", "😡", "😢"]
-    let emojiColors: [String: Color] = [
-        "None": .white,
-        "👍": .green,
-        "🥰": .pink,
-        "🤣": .yellow,
-        "😡": .orange,
-        "😢": .blue
-    ]
     
     var body: some View {
         VStack {
@@ -75,7 +76,13 @@ struct SelectEmojiView: View {
     
     var submitButton: some View {
         Button(action: {
-            feedVM.updateEmoji(emoji: feedVM.selectedEmoji)
+            Task {
+                await feedVM.updateEmoji(emoji: feedVM.selectedEmoji)
+                try await feedVM.updateFaceMoji()
+                try await feedVM.getFaceMoji()
+            }
+            feedVM.showEmojiView = false
+            feedVM.showCropFaceMoji = false
         }) {
             Text("페이스모지 올리기")
                 .font(.system(size: 16, weight: .semibold))

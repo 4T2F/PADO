@@ -52,10 +52,6 @@ struct FaceMojiCropView: View {
                             onCrop(image, true)
                             feedVM.cropMojiUIImage = image
                             feedVM.cropMojiImage = Image(uiImage: image)
-                            Task {
-                                try await feedVM.updateFaceMoji()
-                                try await feedVM.getFaceMoji()
-                            }
                         } else {
                             onCrop(nil, false)
                         }
