@@ -8,181 +8,88 @@
 import SwiftUI
 
 struct SelectEmojiView: View {
-    // MARK: - PROPERTY
-    //    let facemoji: Facemoji
-    
     @ObservedObject var feedVM: FeedViewModel
     
-    // MARK: - BODY
+    let emojis = ["None", "👍", "🥰", "🤣", "😡", "😢"]
+    let emojiColors: [String: Color] = [
+        "None": .white,
+        "👍": .green,
+        "🥰": .pink,
+        "🤣": .yellow,
+        "😡": .orange,
+        "😢": .blue
+    ]
+    
     var body: some View {
         VStack {
             Spacer()
-            
-            if feedVM.selectedEmoji == "Basic" {
-                ZStack {
-                    Circle()
-                        .fill(.black)
-                        .stroke(.white, lineWidth: 3.0)
-                        .frame(width: 102, height: 102)
-                    
-                    feedVM.cropMojiImage
-                        .resizable()
-                        .frame(width: 100, height: 100)
-                }
-            } else if feedVM.selectedEmoji == "👍" {
-                ZStack {
-                    Circle()
-                        .fill(.black)
-                        .stroke(.green, lineWidth: 3.0)
-                        .frame(width: 102, height: 102)
-                    
-                    feedVM.cropMojiImage
-                        .resizable()
-                        .frame(width: 100, height: 100)
-                }
-            } else if feedVM.selectedEmoji == "🥰" {
-                ZStack {
-                    Circle()
-                        .fill(.black)
-                        .stroke(.pink, lineWidth: 3.0)
-                        .frame(width: 102, height: 102)
-                    
-                    feedVM.cropMojiImage
-                        .resizable()
-                        .frame(width: 100, height: 100)
-                }
-            } else if feedVM.selectedEmoji == "🤣" {
-                ZStack {
-                    Circle()
-                        .fill(.black)
-                        .stroke(.yellow, lineWidth: 3.0)
-                        .frame(width: 102, height: 102)
-                    
-                    feedVM.cropMojiImage
-                        .resizable()
-                        .frame(width: 100, height: 100)
-                }
-            } else if feedVM.selectedEmoji == "😡" {
-                ZStack {
-                    Circle()
-                        .fill(.black)
-                        .stroke(.orange, lineWidth: 3.0)
-                        .frame(width: 102, height: 102)
-                    
-                    feedVM.cropMojiImage
-                        .resizable()
-                        .frame(width: 100, height: 100)
-                }
-            } else if feedVM.selectedEmoji == "😢" {
-                ZStack {
-                    Circle()
-                        .fill(.black)
-                        .stroke(.blue, lineWidth: 3.0)
-                        .frame(width: 102, height: 102)
-                    
-                    feedVM.cropMojiImage
-                        .resizable()
-                        .frame(width: 100, height: 100)
-                }
-            } else {
+            ZStack {
+                Circle()
+                    .fill(.black)
+                    .stroke(emojiColors[feedVM.selectedEmoji, default: .white], lineWidth: 3.0)
+                    .frame(width: 102, height: 102)
+                
                 feedVM.cropMojiImage
                     .resizable()
                     .frame(width: 100, height: 100)
+                
+                if feedVM.selectedEmoji != "None" {
+                    Text(feedVM.selectedEmoji)
+                        .offset(x: 40, y: 35)
+                }
             }
-            
             Spacer()
-            
             Text("FaceMoji의 이모티콘을 선택해주세요")
                 .font(.system(size: 16))
             
+            emojiPicker
+            
+            submitButton
+                .padding(.bottom, 20)
         }
-        
-        VStack(alignment: .center) {
-            Spacer()
-            
-            HStack {
-                Spacer()
-                
-                Button {
-                    feedVM.selectedEmoji = "Basic"
-                } label: {
-                    Text("❌")
-                        .font(.system(size: 30))
+    }
+    
+    var emojiPicker: some View {
+        VStack {
+            ForEach(Array(emojis.chunked(into: 3)), id: \.self) { chunk in
+                HStack {
+                    ForEach(chunk, id: \.self) { emoji in
+                        Button(action: {
+                            feedVM.selectedEmoji = emoji
+                        }) {
+                            if emoji == "None" {
+                                Text(emoji)
+                                    .font(.system(size: 14))
+                            } else {
+                                Text(emoji)
+                                    .font(.system(size: 20))
+                            }
+                        }
+                        .frame(width: 45, height: 45)
+                        .padding()
+                    }
                 }
-                
-                Spacer()
-                
-                Button {
-                    feedVM.selectedEmoji = "👍"
-                } label: {
-                    Text("👍")
-                        .font(.system(size: 30))
-                }
-                
-                Spacer()
-                
-                Button {
-                    feedVM.selectedEmoji = "🥰"
-                } label: {
-                    Text("🥰")
-                        .font(.system(size: 30))
-                }
-                
-                Spacer()
             }
-            .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
-            .padding()
-            
-            HStack {
-                Spacer()
-                
-                Button {
-                    feedVM.selectedEmoji = "🤣"
-                } label: {
-                    Text("🤣")
-                        .font(.system(size: 30))
-                }
-                
-                Spacer()
-                
-                Button {
-                    feedVM.selectedEmoji = "😡"
-                } label: {
-                    Text("😡")
-                        .font(.system(size: 30))
-                }
-                
-                Spacer()
-                
-                Button {
-                    feedVM.selectedEmoji = "😢"
-                } label: {
-                    Text("😢")
-                        .font(.system(size: 30))
-                }
-                
-                Spacer()
-            }
-            .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
-            .padding()
-            .padding(.bottom, 20)
+        }
+    }
+    
+    var submitButton: some View {
+        Button(action: {
+            feedVM.updateEmoji(emoji: feedVM.selectedEmoji)
+        }) {
+            Text("페이스모지 올리기")
+                .font(.system(size: 16, weight: .semibold))
+                .foregroundColor(.white)
+                .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
+                .background(RoundedRectangle(cornerRadius: 10).fill(Color.blue))
+        }
+    }
+}
 
-            
-            
-            Button {
-                feedVM.updateEmoji(emoji: feedVM.selectedEmoji)
-            } label: {
-                Text("페이스모지 게시")
-                    .font(.system(size: 16))
-                    .foregroundStyle(.white)
-            }
-            .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
-            .cornerRadius(24)
-            .background(.blueButton)
-            .padding(.horizontal)
-            
-            
-
+extension Array {
+    func chunked(into size: Int) -> [[Element]] {
+        stride(from: 0, to: count, by: size).map {
+            Array(self[$0 ..< Swift.min($0 + size, count)])
         }
     }
 }
