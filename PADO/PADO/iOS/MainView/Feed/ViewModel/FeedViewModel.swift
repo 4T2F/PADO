@@ -55,6 +55,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
     @Published var faceMojiImage: Image = Image(systemName: "photo")
     @Published var faceMojiUIImage: UIImage = UIImage()
     @Published var facemojies: [Facemoji] = []
+    @Published var deleteFacemoji: Bool = false
     
     init() {
         // Firestore의 `post` 컬렉션에 대한 실시간 리스너 설정
@@ -497,7 +498,7 @@ extension FeedViewModel {
             
             try await storageRef.delete()
         } catch {
-            
+            print("페이스모지 삭제 오류 : \(error.localizedDescription)")
         }
         
     }

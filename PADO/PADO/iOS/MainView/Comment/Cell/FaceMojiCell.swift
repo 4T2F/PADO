@@ -43,28 +43,58 @@ enum Emotion: String, CaseIterable {
 struct FaceMojiCell: View {
     
     var facemoji: Facemoji
+    @ObservedObject var feedVM: FeedViewModel
     
     var body: some View {
-        VStack {
-            ZStack {
-                Circle()
-                    .frame(width: 56, height: 56)
-                    .foregroundStyle(.white)
+        if facemoji.userID == userNameID {
+            VStack {
+                ZStack {
+                    Circle()
+                        .frame(width: 56, height: 56)
+                        .foregroundStyle(.white)
+                    
+                    KFImage(URL(string: facemoji.faceMojiImageUrl))
+                        .fade(duration: 0.5)
+                        .placeholder{
+                            ProgressView()
+                        }
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 54, height: 54)
+                        .clipShape(Circle())
+                        .onTapGesture {
+                            Task {
+                                await feedVM.deleteFaceModji(storagefileName: facemoji.storagename)
+                            }
+                        }
+                }
                 
-                KFImage(URL(string: facemoji.faceMojiImageUrl))
-                    .fade(duration: 0.5)
-                    .placeholder{
-                        ProgressView()
-                    }
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 54, height: 54)
-                    .clipShape(Circle())
+                Text(facemoji.userID)
+                    .foregroundStyle(.white)
+                    .font(.system(size: 12))
             }
-            
-            Text(facemoji.userID)
-                .foregroundStyle(.white)
-                .font(.system(size: 12))
+        } else {
+            VStack {
+                ZStack {
+                    Circle()
+                        .frame(width: 56, height: 56)
+                        .foregroundStyle(.white)
+                    
+                    KFImage(URL(string: facemoji.faceMojiImageUrl))
+                        .fade(duration: 0.5)
+                        .placeholder{
+                            ProgressView()
+                        }
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 54, height: 54)
+                        .clipShape(Circle())
+                }
+                
+                Text(facemoji.userID)
+                    .foregroundStyle(.white)
+                    .font(.system(size: 12))
+            }
         }
     }
 }

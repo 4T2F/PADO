@@ -19,7 +19,7 @@ struct FaceMojiView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
                 ForEach(feedVM.facemojies, id: \.self) { facemoji in
-                    FaceMojiCell(facemoji: facemoji)
+                    FaceMojiCell(facemoji: facemoji, feedVM: feedVM)
                         .padding(.horizontal, 6)
                 }
                 Button {
@@ -35,6 +35,7 @@ struct FaceMojiView: View {
                             .resizable()
                             .foregroundStyle(.white)
                             .frame(width: 40, height: 40)
+                            .padding(.vertical, 8)
                         
                         Text("")
                         
