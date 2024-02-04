@@ -52,10 +52,12 @@ class FeedViewModel:Identifiable ,ObservableObject {
     let dragThreshold: CGFloat = 0
     
     // MARK: - FaceMoji 관련
-    @Published var faceMojiImage: Image = Image(systemName: "photo")
-    @Published var faceMojiUIImage: UIImage = UIImage()
+    @Published var faceMojiUIImage: UIImage?
+    @Published var cropMojiUIImage: UIImage?
+    @Published var cropMojiImage: Image?
     @Published var facemojies: [Facemoji] = []
     @Published var deleteFacemojiModal: Bool = false
+    @Published var showCropFaceMoji: Bool = false
     
     init() {
         // Firestore의 `post` 컬렉션에 대한 실시간 리스너 설정
@@ -461,7 +463,7 @@ extension FeedViewModel {
     // 페이스 모지를 스토리지, 스토어에 업로드
     func updateFaceMoji() async throws {
         let imageData = try await UpdateImageUrl.shared.updateImageUserData(
-            uiImage: faceMojiUIImage,
+            uiImage: cropMojiUIImage,
             storageTypeInput: .facemoji,
             documentid: documentID,
             imageQuality: .lowforFaceMoji,

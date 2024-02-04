@@ -1,14 +1,14 @@
 //
-//  SettingProfileEditView.swift
+//  FaceMojiCropView.swift
 //  PADO
 //
-//  Created by 황성진 on 2/1/24.
+//  Created by 황성진 on 2/4/24.
 //
 
 import PhotosUI
 import SwiftUI
 
-struct SettingProfileEditView: View {
+struct FaceMojiCropView: View {
     // MARK: - PROPERTY
     @Environment(\.dismiss) var dismiss
     
@@ -20,7 +20,8 @@ struct SettingProfileEditView: View {
     @State private var showinGrid: Bool = false
     @GestureState private var isInteractig: Bool = false
     
-    @EnvironmentObject var authVM: AuthenticationViewModel
+    @ObservedObject var feedVM: FeedViewModel
+    @ObservedObject var surfingVM: SurfingViewModel
     
     var crop: Crop = .circle
     var onCrop: (UIImage?, Bool) -> Void
@@ -34,10 +35,6 @@ struct SettingProfileEditView: View {
             .toolbarBackground(Color.black, for: .navigationBar)
             .toolbarColorScheme(.dark, for: .navigationBar)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .onDisappear {
-                authVM.changedValue = false
-                authVM.imagePick = false
-            }
             .background {
                 Color.black
                     .ignoresSafeArea()
@@ -50,14 +47,16 @@ struct SettingProfileEditView: View {
                         renderer.proposedSize = .init(crop.size())
                         if let image = renderer.uiImage {
                             onCrop(image, true)
-                            authVM.uiImage = image
-                            if let uiImage = authVM.uiImage {
-                                authVM.userSelectImage = Image(uiImage: uiImage)
+                            feedVM.cropMojiUIImage = image
+                            feedVM.cropMojiImage = Image(uiImage: feedVM.cropMojiUIImage ?? UIImage())
+                            Task {
+                                try await feedVM.updateFaceMoji()
+                                try await feedVM.getFaceMoji()
                             }
                         } else {
                             onCrop(nil, false)
                         }
-                        authVM.showingSettingProfileView.toggle()
+                        feedVM.showCropFaceMoji = false
                     } label: {
                         Text("완료")
                             .font(.system(size: 16, weight: .semibold))
@@ -66,7 +65,7 @@ struct SettingProfileEditView: View {
                 
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
-                        authVM.showingSettingProfileView.toggle()
+                        feedVM.showCropFaceMoji = false
                     } label: {
                         Image("dismissArrow")
                     }
@@ -82,7 +81,7 @@ struct SettingProfileEditView: View {
         GeometryReader {
             let size = $0.size
             
-            if let image = authVM.uiImage {
+            if let image = feedVM.faceMojiUIImage {
                 Image(uiImage: image)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
