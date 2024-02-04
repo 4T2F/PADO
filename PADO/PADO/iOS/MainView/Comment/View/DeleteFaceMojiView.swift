@@ -36,7 +36,7 @@ struct DeleteFaceMojiView: View {
                     feedVM.deleteFacemojiModal = false
                     Task {
                         await feedVM.deleteFaceModji(storagefileName: facemoji.storagename)
-                        try await feedVM.updateFaceMoji()
+                        try await feedVM.getFaceMoji()
                     }
                 } label: {
                     Text("삭제")

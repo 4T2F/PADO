@@ -54,7 +54,6 @@ class FeedViewModel:Identifiable ,ObservableObject {
     // MARK: - FaceMoji 관련
     @Published var faceMojiUIImage: UIImage?
     @Published var cropMojiUIImage: UIImage?
-    @Published var cropMojiImage: Image?
     @Published var facemojies: [Facemoji] = []
     @Published var deleteFacemojiModal: Bool = false
     @Published var showCropFaceMoji: Bool = false

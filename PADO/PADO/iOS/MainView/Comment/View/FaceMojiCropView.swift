@@ -48,7 +48,6 @@ struct FaceMojiCropView: View {
                         if let image = renderer.uiImage {
                             onCrop(image, true)
                             feedVM.cropMojiUIImage = image
-                            feedVM.cropMojiImage = Image(uiImage: feedVM.cropMojiUIImage ?? UIImage())
                             Task {
                                 try await feedVM.updateFaceMoji()
                                 try await feedVM.getFaceMoji()
