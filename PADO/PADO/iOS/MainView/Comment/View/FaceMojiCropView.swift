@@ -39,6 +39,9 @@ struct FaceMojiCropView: View {
                 Color.black
                     .ignoresSafeArea()
             }
+            .navigationDestination(isPresented: $feedVM.showEmojiView) {
+                    SelectEmojiView(feedVM: feedVM)
+            }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
@@ -48,6 +51,7 @@ struct FaceMojiCropView: View {
                         if let image = renderer.uiImage {
                             onCrop(image, true)
                             feedVM.cropMojiUIImage = image
+                            feedVM.cropMojiImage = Image(uiImage: image)
                             Task {
                                 try await feedVM.updateFaceMoji()
                                 try await feedVM.getFaceMoji()
@@ -55,9 +59,9 @@ struct FaceMojiCropView: View {
                         } else {
                             onCrop(nil, false)
                         }
-                        feedVM.showCropFaceMoji = false
+                        feedVM.showEmojiView = true
                     } label: {
-                        Text("완료")
+                        Text("이모지 선택")
                             .font(.system(size: 16, weight: .semibold))
                     }
                 }

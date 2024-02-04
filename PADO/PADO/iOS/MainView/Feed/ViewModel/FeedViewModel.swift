@@ -54,9 +54,12 @@ class FeedViewModel:Identifiable ,ObservableObject {
     // MARK: - FaceMoji 관련
     @Published var faceMojiUIImage: UIImage?
     @Published var cropMojiUIImage: UIImage?
+    @Published var cropMojiImage: Image = Image("")
     @Published var facemojies: [Facemoji] = []
     @Published var deleteFacemojiModal: Bool = false
     @Published var showCropFaceMoji: Bool = false
+    @Published var showEmojiView: Bool = false
+    @Published var selectedEmoji: String = ""
     
     init() {
         // Firestore의 `post` 컬렉션에 대한 실시간 리스너 설정
@@ -474,7 +477,8 @@ extension FeedViewModel {
         try await db.collection("post").document(documentID).collection("facemoji").document(userNameID).updateData([
             "userID" : userNameID,
             "storagename" : "\(userNameID)-\(documentID)",
-            "time" : Timestamp()
+            "time" : Timestamp(),
+            "emoji" : ""
         ])
     }
     
@@ -501,6 +505,11 @@ extension FeedViewModel {
         } catch {
             print("페이스모지 삭제 오류 : \(error.localizedDescription)")
         }
-        
+    }
+    
+    func updateEmoji(emoji: String) {
+        db.collection("post").document(documentID).collection("facemoji").document(userNameID).updateData([
+            "emoji" : emoji
+        ])
     }
 }
