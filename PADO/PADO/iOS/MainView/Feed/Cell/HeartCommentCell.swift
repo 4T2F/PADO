@@ -61,7 +61,16 @@ struct HeartCommentCell: View {
                                 }
                             }
                         } label: {
-                            Image("heart_fill")
+                            Circle()
+                                .frame(width: 24)
+                                .foregroundStyle(.clear)
+                                .overlay {
+                                    LottieView(animation: .named("Heart"))
+                                        .playing()
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 65, height: 65)
+                                }
                         }
                     } else {
                         Button {
@@ -96,7 +105,7 @@ struct HeartCommentCell: View {
                     }
                     .sheet(isPresented: $isShowingCommentView) {
                         CommentView(feedVM: feedVM,
-                                      surfingVM: surfingVM, isShowingCommentView: $isShowingCommentView)
+                                    surfingVM: surfingVM, isShowingCommentView: $isShowingCommentView)
                     }
                     .presentationDetents([.large])
                     
