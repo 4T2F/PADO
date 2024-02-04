@@ -7,6 +7,7 @@
 
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import FirebaseStorage
 import SwiftUI
 
 @MainActor
@@ -485,5 +486,19 @@ extension FeedViewModel {
             print("Error fetching comments: \(error)")
         }
         print(facemojies)
+    }
+    
+    func deleteFaceModji(storagefileName: String) async {
+        let storage = Storage.storage()
+        let storageRef = storage.reference().child("facemoji/\(storagefileName)")
+        
+        do {
+            try await db.collection("post").document(documentID).collection("facemoji").document(userNameID).delete()
+            
+            try await storageRef.delete()
+        } catch {
+            
+        }
+        
     }
 }
