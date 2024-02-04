@@ -374,8 +374,8 @@
 			isa = PBXGroup;
 			children = (
 				040914F62B561A18001B549B /* ReportSelectView.swift */,
-				040914FA2B5624E7001B549B /* ReportResultView.swift */,
 				040914F82B561FA8001B549B /* ReportSelectCellView.swift */,
+				040914FA2B5624E7001B549B /* ReportResultView.swift */,
 				637323472B6FC16A00C02A32 /* MailView.swift */,
 			);
 			path = Report;
