@@ -5,10 +5,16 @@
 //  Created by 김명현 on 1/16/24.
 //
 
+import MessageUI
 import SwiftUI
 
 struct ReportResultView: View {
     @Binding var isShowingReportView: Bool
+    
+    @State private var showingMailView = false
+    @State private var mailResult: Result<MFMailComposeResult, Error>? = nil
+    @State private var mailSentSuccessfully = false
+    @State private var showAlert = false
     
     var body: some View {
         VStack {
@@ -19,9 +25,10 @@ struct ReportResultView: View {
                 .foregroundStyle(Color(.systemBlue))
                 .padding(.bottom, 20)
             
-            Text("신고가 접수되었습니다")
+            
+            Text("확인을 누르면 메일로 이동합니다")
                 .font(.system(size: 22))
-                .fontWeight(.semibold)
+                .fontWeight(.medium)
                 .padding(.bottom, 20)
             
             Text("신고 용도 :")
@@ -60,7 +67,12 @@ struct ReportResultView: View {
             Spacer()
             
             Button {
-                isShowingReportView = false
+                if MFMailComposeViewController.canSendMail() {
+                    self.showingMailView = true
+                } else {
+                    self.showAlert = true
+                    print("메일을 보내지 못했습니다.")
+                }
             } label: {
                 ZStack {
                     RoundedRectangle(cornerRadius: 8)
@@ -73,10 +85,27 @@ struct ReportResultView: View {
                         .fontWeight(.medium)
                 }
             }
+            .sheet(isPresented: $showingMailView) {
+                MailView(isShowing: $showingMailView, result: $mailResult)
+            }
+            .alert(isPresented: $showAlert) {
+                Alert(
+                    title: Text("메일 설정 오류"),
+                    message: Text("메일을 보낼 수 없습니다. 기기의 메일 설정을 확인해주세요."),
+                    dismissButton: .default(Text("확인"))
+                )
+            }
         } //: VStack
         .padding(.vertical)
         .padding(.top)
         .navigationBarBackButtonHidden()
+    }
+    
+    func handleMailResult() {
+        // 메일 결과를 처리하고 mailSentSuccessfully 상태를 업데이트합니다.
+        if case .success(let result) = mailResult, result == .sent {
+            mailSentSuccessfully = true
+        }
     }
 }
 
