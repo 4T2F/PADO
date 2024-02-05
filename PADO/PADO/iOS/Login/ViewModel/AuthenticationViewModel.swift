@@ -369,6 +369,7 @@ class AuthenticationViewModel: ObservableObject {
         username = currentUser?.username ?? ""
         instaAddress = currentUser?.instaAddress ?? ""
         tiktokAddress = currentUser?.tiktokAddress ?? ""
+        changedValue = false
     }
     
     func checkForChanges() {

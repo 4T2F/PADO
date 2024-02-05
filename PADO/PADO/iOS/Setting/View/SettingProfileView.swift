@@ -104,6 +104,7 @@ struct SettingProfileView: View {
                             .onChange(of: viewModel.imagePick) { _, _  in
                                 viewModel.checkForChanges()
                             }
+
                             // MARK: - 프로필수정, 이름
                             VStack {
                                 SettingProfileDivider()
