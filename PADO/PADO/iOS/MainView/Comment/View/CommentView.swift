@@ -48,14 +48,17 @@ struct CommentView: View {
             
             ScrollView {
                 ScrollViewReader { value in
-                    VStack {
-                        FaceMojiView(feedVM: feedVM, surfingVM: surfingVM)
-                            .padding(2)
-                        
-                        Divider()
-                            .opacity(0.5)
-                    }
-                    .padding(.top)
+//                    VStack {
+//                        FaceMojiView(feedVM: feedVM, 
+//                                     surfingVM: surfingVM,
+//                                     post: post,
+//                        updatePushNotiData: updatePushNotiData)
+//                            .padding(2)
+//                        
+//                        Divider()
+//                            .opacity(0.5)
+//                    }
+//                    .padding(.top)
                     
                     VStack(alignment: .leading) {
                         if !comments.isEmpty, let postID = post.id {
@@ -153,7 +156,7 @@ struct CommentView: View {
                         self.comments = fetchedComments
                     }
                 }
-                try await feedVM.getFaceMoji()
+//                try await feedVM.getFaceMoji()
             }
         }
     }

@@ -12,14 +12,15 @@ struct FaceMojiView: View {
     @ObservedObject var surfingVM: SurfingViewModel
     
     @State private var postOwner: User? = nil
-    
-    let updatePushNotiData = UpdatePushNotiData()
+    @State var facemojies: [Facemoji] = []
+    let post: Post
+    let updatePushNotiData: UpdatePushNotiData
     
     var body: some View {
         NavigationStack {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
-                    ForEach(feedVM.facemojies, id: \.self) { facemoji in
+                    ForEach(facemojies, id: \.self) { facemoji in
                         FaceMojiCell(facemoji: facemoji, feedVM: feedVM)
                             .padding(.horizontal, 6)
                             .sheet(isPresented: $feedVM.deleteFacemojiModal) {
