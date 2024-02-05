@@ -61,149 +61,148 @@ struct ProfileView: View {
             let size = proxy.size
             let height = (size.height + minY)
             
-            if let image = viewModel.currentUser?.backProfileImageUrl {
-                KFImage(URL(string: image))
-                    .scaledToFill()
-                    .frame(width: size.width, height: height > 0 ? height : 0, alignment: .top)
-                    .overlay {
-                        ZStack(alignment: .bottom) {
-                            LinearGradient(colors: [.clear,
-                                                    .black.opacity(0.1),
-                                                    .black.opacity(0.3),
-                                                    .black.opacity(0.5),
-                                                    .black.opacity(0.8),
-                                                    .black.opacity(1)], startPoint: .top, endPoint: .bottom)
-                            
-                            VStack(alignment: .leading, spacing: 12) {
-                                
-                                if let user = viewModel.currentUser {
-                                    CircularImageView(size: .xLarge, user: user)
-                                }
-                                
-                                HStack(alignment: .bottom, spacing: 10) {
-                                    VStack(alignment: .leading, spacing: 4) {
-                                        Text("\(viewModel.currentUser?.username ?? "")")
-                                            .font(.system(size: 14))
-                                            .fontWeight(.semibold)
-                                        
-                                        Text("@\(userNameID)")
-                                            .font(.title.bold())
-                                    }
-                                    
-                                    if viewModel.isAnySocialAccountRegistered {
-                                        Button {
-                                            buttonActive.toggle()
-                                        } label: {
-                                            Image(systemName: "checkmark.seal.fill")
-                                                .foregroundStyle(.blue)
-                                                .background {
-                                                    Circle()
-                                                        .fill(.white)
-                                                        .padding(3)
-                                                }
-                                                .offset(y: -5)
-                                        }
-                                        .sheet(isPresented: $buttonActive, content: {
-                                            if let user = viewModel.currentUser {
-                                                ProfileBadgeModalView(user: user)
-                                                    .presentationDetents([
-                                                        .fraction(viewModel.areBothSocialAccountsRegistered ? 0.3 : 0.2)
-                                                    ])
-                                                    .presentationCornerRadius(20)
-                                                    .presentationDragIndicator(.visible)
-                                            }
-                                        })
-                                    }
-                                    
-                                    Spacer()
-                                    
-                                    Button {
-                                        viewModel.showingSettingProfileView.toggle()
-                                    } label: {
-                                        ZStack {
-                                            RoundedRectangle(cornerRadius:4)
-                                                .stroke(Color.white, lineWidth: 1)
-                                                .frame(width: 80, height: 28)
-                                            Text("프로필 편집")
-                                                .font(.system(size: 12))
-                                                .fontWeight(.medium)
-                                                .foregroundStyle(.white)
-                                        }
-                                    }
-                                }
-                                
-                                HStack {
-                                    Label {
-                                        Text("파도")
-                                            .fontWeight(.semibold)
-                                            .foregroundStyle(.white.opacity(0.7))
-                                    } icon: {
-                                        Text("\(profileVM.padoPosts.count + profileVM.sendPadoPosts.count)")
-                                            .fontWeight(.semibold)
-                                            .foregroundStyle(.white.opacity(0.7))
-                                    }
-                                    .font(.caption)
-                                    if let user = viewModel.currentUser {
-                                        NavigationLink(destination: FollowMainView(currentType: "팔로워",
-                                                                                   followVM: followVM,
-                                                                                   updateFollowData: updateFollowData,
-                                                                                   user: user)) {
-                                            Label {
-                                                Text("팔로워")
-                                                    .fontWeight(.semibold)
-                                                    .foregroundStyle(.white.opacity(0.7))
-                                            } icon: {
-                                                Text("\(followVM.followerIDs.count + followVM.surferIDs.count)")
-                                                    .fontWeight(.semibold)
-                                                    .foregroundStyle(.white.opacity(0.7))
-                                            }
-                                            .font(.caption)
-                                        }
-                                        
-                                        NavigationLink(destination: FollowMainView(currentType: "팔로잉",
-                                                                                   followVM: followVM,
-                                                                                   updateFollowData: updateFollowData,
-                                                                                   user: user)) {
-                                            Label {
-                                                Text("팔로잉")
-                                                    .fontWeight(.semibold)
-                                                    .foregroundStyle(.white.opacity(0.7))
-                                            } icon: {
-                                                Text("\(followVM.followingIDs.count)")
-                                                    .fontWeight(.semibold)
-                                                    .foregroundStyle(.white.opacity(0.7))
-                                            }
-                                            .font(.caption)
-                                        }
-                                    }
-                                }
-                                .padding(.leading, 2)
-                                
-                            }
-                            .padding(.horizontal)
-                            .padding(.bottom, 25)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                        }
-                    }
-                    .cornerRadius(0)
-                    .offset(y: -minY)
-                
-                VStack {
-                    HStack {
-                        Spacer()
+            KFImage(URL(string: viewModel.currentUser?.backProfileImageUrl ?? ""))
+                .scaledToFill()
+                .frame(width: size.width, height: height > 0 ? height : 0, alignment: .top)
+                .overlay {
+                    ZStack(alignment: .bottom) {
+                        LinearGradient(colors: [.clear,
+                                                .black.opacity(0.1),
+                                                .black.opacity(0.3),
+                                                .black.opacity(0.5),
+                                                .black.opacity(0.8),
+                                                .black.opacity(1)], startPoint: .top, endPoint: .bottom)
                         
-                        NavigationLink(destination: SettingView()) {
-                            Image(systemName: "ellipsis")
-                                .font(.system(size: 22))
+                        VStack(alignment: .leading, spacing: 12) {
+                            
+                            if let user = viewModel.currentUser {
+                                CircularImageView(size: .xLarge, user: user)
+                            }
+                            
+                            HStack(alignment: .bottom, spacing: 10) {
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text("\(viewModel.currentUser?.username ?? "")")
+                                        .font(.system(size: 14))
+                                        .fontWeight(.semibold)
+                                    
+                                    Text("@\(userNameID)")
+                                        .font(.title.bold())
+                                }
+                                
+                                if viewModel.isAnySocialAccountRegistered {
+                                    Button {
+                                        buttonActive.toggle()
+                                    } label: {
+                                        Image(systemName: "checkmark.seal.fill")
+                                            .foregroundStyle(.blue)
+                                            .background {
+                                                Circle()
+                                                    .fill(.white)
+                                                    .padding(3)
+                                            }
+                                            .offset(y: -5)
+                                    }
+                                    .sheet(isPresented: $buttonActive, content: {
+                                        if let user = viewModel.currentUser {
+                                            ProfileBadgeModalView(user: user)
+                                                .presentationDetents([
+                                                    .fraction(viewModel.areBothSocialAccountsRegistered ? 0.3 : 0.2)
+                                                ])
+                                                .presentationCornerRadius(20)
+                                                .presentationDragIndicator(.visible)
+                                        }
+                                    })
+                                }
+                                
+                                Spacer()
+                                
+                                Button {
+                                    viewModel.showingSettingProfileView.toggle()
+                                } label: {
+                                    ZStack {
+                                        RoundedRectangle(cornerRadius:4)
+                                            .stroke(Color.white, lineWidth: 1)
+                                            .frame(width: 80, height: 28)
+                                        Text("프로필 편집")
+                                            .font(.system(size: 12))
+                                            .fontWeight(.medium)
+                                            .foregroundStyle(.white)
+                                    }
+                                }
+                            }
+                            
+                            HStack {
+                                Label {
+                                    Text("파도")
+                                        .fontWeight(.semibold)
+                                        .foregroundStyle(.white.opacity(0.7))
+                                } icon: {
+                                    Text("\(profileVM.padoPosts.count + profileVM.sendPadoPosts.count)")
+                                        .fontWeight(.semibold)
+                                        .foregroundStyle(.white.opacity(0.7))
+                                }
+                                .font(.caption)
+                                if let user = viewModel.currentUser {
+                                    NavigationLink(destination: FollowMainView(currentType: "팔로워",
+                                                                               followVM: followVM,
+                                                                               updateFollowData: updateFollowData,
+                                                                               user: user)) {
+                                        Label {
+                                            Text("팔로워")
+                                                .fontWeight(.semibold)
+                                                .foregroundStyle(.white.opacity(0.7))
+                                        } icon: {
+                                            Text("\(followVM.followerIDs.count + followVM.surferIDs.count)")
+                                                .fontWeight(.semibold)
+                                                .foregroundStyle(.white.opacity(0.7))
+                                        }
+                                        .font(.caption)
+                                    }
+                                    
+                                    NavigationLink(destination: FollowMainView(currentType: "팔로잉",
+                                                                               followVM: followVM,
+                                                                               updateFollowData: updateFollowData,
+                                                                               user: user)) {
+                                        Label {
+                                            Text("팔로잉")
+                                                .fontWeight(.semibold)
+                                                .foregroundStyle(.white.opacity(0.7))
+                                        } icon: {
+                                            Text("\(followVM.followingIDs.count)")
+                                                .fontWeight(.semibold)
+                                                .foregroundStyle(.white.opacity(0.7))
+                                        }
+                                        .font(.caption)
+                                    }
+                                }
+                            }
+                            .padding(.leading, 2)
+                            
                         }
+                        .padding(.horizontal)
+                        .padding(.bottom, 25)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                     }
-                    .foregroundStyle(.white)
-                    
-                    Spacer()
                 }
-                .padding(.horizontal)
-                .padding(.top, 70)
+                .cornerRadius(0)
+                .offset(y: -minY)
+            
+            VStack {
+                HStack {
+                    Spacer()
+                    
+                    NavigationLink(destination: SettingView()) {
+                        Image(systemName: "ellipsis")
+                            .font(.system(size: 22))
+                    }
+                }
+                .foregroundStyle(.white)
+                
+                Spacer()
             }
+            .padding(.horizontal)
+            .padding(.top, 70)
+            
         }
         .frame(height: 300)
     }
