@@ -30,9 +30,7 @@ struct ReFeedView: View {
                 ScrollView(showsIndicators: false) {
                     LazyVStack(spacing:0) {
                         ForEach(feedVM.followingPosts) { post in
-                            FeedCell(isShowingReportView: $feedVM.isShowingReportView,
-                                     isShowingCommentView: $feedVM.isShowingCommentView,
-                                     feedVM: feedVM,
+                            FeedCell(feedVM: feedVM,
                                      surfingVM: surfingVM,
                                      profileVM: profileVM,
                                      updatePushNotiData: updatePushNotiData,

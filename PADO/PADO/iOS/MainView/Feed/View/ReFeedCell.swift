@@ -13,8 +13,8 @@ struct FeedCell: View {
     @State var heartLoading: Bool = false
     @State var isLoading: Bool = false
     
-    @Binding var isShowingReportView: Bool
-    @Binding var isShowingCommentView: Bool
+    @State private var isShowingReportView: Bool = false
+    @State private var isShowingCommentView: Bool = false
     
     @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var surfingVM: SurfingViewModel
