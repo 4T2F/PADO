@@ -15,6 +15,8 @@ struct ReportResultView: View {
     @State private var mailResult: Result<MFMailComposeResult, Error>? = nil
     @State private var mailSentSuccessfully = false
     @State private var showAlert = false
+    @State private var title = "PADO 신고 문의"
+    @State private var messageBody = "자세한 신고 내용을 적어주세요"
     
     var body: some View {
         VStack {
@@ -86,7 +88,7 @@ struct ReportResultView: View {
                 }
             }
             .sheet(isPresented: $showingMailView) {
-                MailView(isShowing: $showingMailView, result: $mailResult)
+                MailView(isShowing: $showingMailView, result: $mailResult, title: $title, messageBody: $messageBody)
             }
             .alert(isPresented: $showAlert) {
                 Alert(
