@@ -77,7 +77,7 @@ class AuthenticationViewModel: ObservableObject {
         didSet {
             Task {
                 do {
-                    let (loadedUIImage, loadedSwiftUIImage) = try await UpdateImageUrl.shared.loadImage(selectedItem: selectedItem)
+                    let (loadedUIImage, loadedSwiftUIImage) = try await UpdateImageUrl.shared.loadImage(selectedItem: selectedBackgroundItem)
                     self.backuiImage = loadedUIImage
                     self.backSelectImage = loadedSwiftUIImage
                 } catch {

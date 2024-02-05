@@ -98,6 +98,8 @@ struct SettingProfileView: View {
 //                                    }
 //                                }
 //                            }
+                            
+                            // 변경사항에 맞춰 이미지 보여주는 기능 만들기
                             viewModel.backSelectImage?
                                 .resizable()
                                 .frame(width: UIScreen.main.bounds.width * 0.9, height: 300)
