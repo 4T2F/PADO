@@ -12,7 +12,9 @@ struct DeleteCommentView: View {
     let comment: Comment
     
     @ObservedObject var feedVM: FeedViewModel
-    
+    @Binding var comments: [Comment]
+    let updateCommentData: UpdateCommentData
+    let postID: String
     // MARK: - BODY
     var body: some View {
         VStack {
@@ -34,8 +36,11 @@ struct DeleteCommentView: View {
                 Button {
                     feedVM.showdeleteModal = false
                     Task {
-                        await feedVM.deleteComment(commentID: userNameID+TimestampDateFormatter.convertTimestampToString(timestamp: comment.time))
-                        await feedVM.getCommentsDocument()
+                        await updateCommentData.deleteComment(documentID: postID,
+                                                              commentID: userNameID+TimestampDateFormatter.convertTimestampToString(timestamp: comment.time))
+                        if let fetchedComments = await updateCommentData.getCommentsDocument(postID: postID) {
+                            self.comments = fetchedComments
+                        }
                     }
                 } label: {
                     Text("삭제")

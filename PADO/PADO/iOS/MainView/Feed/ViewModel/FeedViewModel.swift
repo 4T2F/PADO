@@ -73,11 +73,13 @@ class FeedViewModel:Identifiable ,ObservableObject {
             guard let self = self, let documents = querySnapshot?.documents else {
                 print("Error fetching following users: \(error?.localizedDescription ?? "Unknown error")")
                 return
+                
             }
             
             self.followingUsers = documents.compactMap { $0.data()["followingID"] as? String }
             self.followingUsers.append(userNameID)
             
+            print(followingPosts)
             Task {
                 self.postFetchLoading = true
                 await self.cacheWatchedData()
@@ -107,7 +109,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
         followingPosts.removeAll()
         
         // 현재 날짜로부터 2년 전의 날짜를 계산
-        let twoDaysAgo = Calendar.current.date(byAdding: .day, value: -2, to: Date()) ?? Date()
+        let twoDaysAgo = Calendar.current.date(byAdding: .day, value: -3, to: Date()) ?? Date()
            // Date 객체를 Timestamp로 변환
         let twoDaysAgoTimestamp = Timestamp(date: twoDaysAgo)
         
@@ -179,7 +181,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
             await selectStory(firstStory)
             let ownerProfileUrl = await setupProfileImageURL(id: firstStory.ownerUid)
             let surferProfileUrl = await setupProfileImageURL(id: firstStory.surferUid)
-            await getCommentsDocument()
+     
             
             feedOwnerProfileImageUrl = ownerProfileUrl
             feedSurferProfileImageUrl = surferProfileUrl
@@ -364,107 +366,9 @@ extension FeedViewModel {
 
 // MARK: - Comment관련
 extension FeedViewModel {
-    // 포스트 - 포스팅제목 - 서브컬렉션 포스트에 접근해서 문서 댓글정보를 가져와 comments 배열에 할당
-    func getCommentsDocument() async {
-        do {
-            let querySnapshot = try await db.collection("post").document(documentID).collection("comment").order(by: "time", descending: false).getDocuments()
-            self.comments = querySnapshot.documents.compactMap { document in
-                try? document.data(as: Comment.self)
-            }
-        } catch {
-            print("Error fetching comments: \(error)")
-        }
-    }
+  
     
-    
-    //  댓글 작성 및 프로필 이미지 URL 반환
-    func writeComment(inputcomment: String) async {
-        let imageUrl = await setupProfileImageURL(id: userNameID)
-        
-        print(imageUrl)
-        
-        let initialPostData : [String: Any] = [
-            "userID": userNameID,
-            "content": inputcomment,
-            "time": Timestamp(),
-        ]
-        await createCommentData(documentName: documentID, data: initialPostData)
-    }
-    
-    func createCommentData(documentName: String, data: [String: Any]) async {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd-HH:mm:ss.sssZ"
-        
-        let formattedDate = dateFormatter.string(from: Date())
-        let formattedCommentTitle = userNameID+formattedDate
-        
-        do {
-            // 포스트에서 댓글을 보여주기 위해 만들어줌
-            try await db.collection("post").document(documentName).collection("comment").document(formattedCommentTitle).setData(data)
-            _ = try await db.runTransaction({ (transaction, errorPointer) in
-                let postRef = self.db.collection("post").document(self.documentID)
-                let postDocument: DocumentSnapshot
-                
-                do {
-                    try postDocument = transaction.getDocument(postRef)
-                } catch let fetchError as NSError {
-                    errorPointer?.pointee = fetchError
-                    return nil
-                }
-                
-                guard let oldCount = postDocument.data()?["commentCount"] as? Int else {
-                    let error = NSError(domain: "AppErrorDomain", code: -1, userInfo: [
-                        NSLocalizedDescriptionKey: "Unable to retrieve hearts count from snapshot \(postDocument)"
-                    ])
-                    errorPointer?.pointee = error
-                    return nil
-                }
-                
-                transaction.updateData(["commentCount": oldCount + 1], forDocument: postRef)
-                return nil
-            })
-        } catch {
-            print("Error saving post data: \(error.localizedDescription)")
-        }
-    }
-    
-    // 댓글 삭제 함수에 commentID = 댓글 서브 컬렉션의 DocumentID 매개변수
-    func deleteComment(commentID: String) async {
-        do {
-            // 포스트의 'comment' 컬렉션에서 특정 댓글 삭제
-            try await db.collection("post").document(documentID).collection("comment").document(commentID).delete()
-            
-            // 그 다음, 'post' 문서의 'commentCount'를 업데이트하는 트랜잭션을 시작합니다.
-            _ = try await db.runTransaction({ (transaction, errorPointer) in
-                let postRef = self.db.collection("post").document(self.documentID)
-                let postDocument: DocumentSnapshot
-                
-                do {
-                    try postDocument = transaction.getDocument(postRef)
-                } catch let fetchError as NSError {
-                    errorPointer?.pointee = fetchError
-                    return nil
-                }
-                
-                guard let oldCount = postDocument.data()?["commentCount"] as? Int else {
-                    let error = NSError(domain: "AppErrorDomain", code: -1, userInfo: [
-                        NSLocalizedDescriptionKey: "Unable to retrieve hearts count from snapshot \(postDocument)"
-                    ])
-                    errorPointer?.pointee = error
-                    return nil
-                }
-                
-                transaction.updateData(["commentCount": oldCount - 1], forDocument: postRef)
-                return nil
-            })
-
-            // 성공적으로 삭제됐다는 메시지 출력
-            print(commentID)
-            print("댓글이 성공적으로 삭제되었습니다.")
-        } catch {
-            print("댓글 삭제 중 오류 발생: \(error.localizedDescription)")
-        }
-    }
+   
 }
 
 // MARK: - FaceMoji 관련

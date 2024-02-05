@@ -103,8 +103,8 @@ struct StoryCell: View {
         if let postID = story.id {
             feedVM.documentID = postID
         }
-        Task {
-            await feedVM.getCommentsDocument()
-        }
+//        Task {
+//            await feedVM.getCommentsDocument()
+//        }
     }
 }

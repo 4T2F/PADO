@@ -47,10 +47,10 @@ struct TodayHeartCommentCell: View {
                     Image("chat")
                 }
                 .sheet(isPresented: $isShowingCommentView) {
-                    CommentView(feedVM: feedVM,
-                                surfingVM: surfingVM, isShowingCommentView: $isShowingCommentView)
-                        .presentationDetents([.fraction(0.99), .fraction(0.8)])
-                        .presentationDragIndicator(.visible)
+//                    CommentView(feedVM: feedVM,
+//                                surfingVM: surfingVM, isShowingCommentView: $isShowingCommentView)
+//                        .presentationDetents([.fraction(0.99), .fraction(0.8)])
+//                        .presentationDragIndicator(.visible)
                 }
                 // 댓글이 추가 될 때 +1 카운팅 되게 하는 로직
                 Text("13")

@@ -21,19 +21,24 @@ struct ReFeedView: View {
     @StateObject private var mainCommentVM = MainCommentViewModel()
     @StateObject private var mainFaceMojiVM = MainFaceMojiViewModel()
     
+    let updateCommentData = UpdateCommentData()
+    let updatePushNotiData = UpdatePushNotiData()
+    
     var body: some View {
         NavigationStack {
             ZStack {
                 ScrollView(showsIndicators: false) {
                     LazyVStack(spacing:0) {
-                        ForEach (0..<10) { post in
-                            FeedCell(heartLoading: (post != 0),
-                                     isShowingReportView: $feedVM.isShowingReportView,
+                        ForEach(feedVM.followingPosts) { post in
+                            FeedCell(isShowingReportView: $feedVM.isShowingReportView,
                                      isShowingCommentView: $feedVM.isShowingCommentView,
                                      feedVM: feedVM,
                                      surfingVM: surfingVM,
                                      profileVM: profileVM,
+                                     updatePushNotiData: updatePushNotiData,
+                                     updateCommentData: updateCommentData,
                                      post: post)
+                            
                         }
                     }
                     .scrollTargetLayout()

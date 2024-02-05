@@ -16,9 +16,13 @@ struct CommentView: View {
     
     @FocusState private var isTextFieldFocused: Bool
     @State private var commentText: String = ""
-    @State private var postOwner: User? = nil
+    @State var postUser: User
     
-    let updatePushNotiData = UpdatePushNotiData()
+    let updatePushNotiData: UpdatePushNotiData
+    let updateCommentData: UpdateCommentData
+    
+    let post: Post
+    @State var comments: [Comment] = []
     
     var body: some View {
         NavigationStack {
@@ -54,7 +58,14 @@ struct CommentView: View {
                     .padding(.top)
                     
                     VStack(alignment: .leading) {
-                        if feedVM.comments.isEmpty {
+                        if !comments.isEmpty, let postID = post.id {
+                            ForEach(comments) { comment in
+                                CommentCell(comment: comment, feedVM: feedVM, comments: $comments, updateCommentData: updateCommentData, postID: postID)
+                                    .id(comment.id)
+                                    .padding(.horizontal, 10)
+                                    .padding(.bottom, 20)
+                            }
+                        } else {
                             VStack {
                                 Text("아직 댓글이 없습니다.")
                                     .font(.system(size: 16, weight: .semibold))
@@ -63,13 +74,6 @@ struct CommentView: View {
                                 Text("댓글을 남겨보세요.")
                                     .font(.system(size: 12))
                                     .foregroundStyle(.gray)
-                            }
-                        } else {
-                            ForEach(feedVM.comments) { comment in
-                                CommentCell(comment: comment, feedVM: feedVM)
-                                    .id(comment.id)
-                                    .padding(.horizontal, 10)
-                                    .padding(.bottom, 20)
                             }
                         }
                     }
@@ -98,10 +102,16 @@ struct CommentView: View {
                     if !commentText.isEmpty {
                         Button {
                             Task {
-                                await feedVM.writeComment(inputcomment: commentText)
-                                commentText = ""
-                                await feedVM.getCommentsDocument()
-                                await updatePushNotiData.pushNoti(receiveUser: postOwner!, type: .comment)
+                                if let postID = post.id {
+                                await updateCommentData.writeComment(documentID: postID,
+                                                                     imageUrl: viewModel.currentUser?.profileImageUrl ?? "",
+                                                                     inputcomment: commentText)
+                                    commentText = ""
+                                if let fetchedComments = await updateCommentData.getCommentsDocument(postID: postID) {
+                                        self.comments = fetchedComments
+                                    }
+                                }
+                                await updatePushNotiData.pushNoti(receiveUser: postUser, type: .comment)
                             }
                         } label: {
                             ZStack {
@@ -136,8 +146,14 @@ struct CommentView: View {
         }
         .onAppear {
             Task {
+                print(postUser)
+                if let postID = post.id {
+                    if let fetchedComments = await updateCommentData.getCommentsDocument(postID: postID) {
+                        
+                        self.comments = fetchedComments
+                    }
+                }
                 try await feedVM.getFaceMoji()
-                self.postOwner = await UpdateUserData.shared.getOthersProfileDatas(id: feedVM.feedOwnerProfileID)
             }
         }
     }

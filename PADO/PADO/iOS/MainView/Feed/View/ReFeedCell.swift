@@ -5,11 +5,13 @@
 //  Created by Berk Ilgar Özalp on 3.02.2024.
 //
 
+import Kingfisher
 import Lottie
 import SwiftUI
 
 struct FeedCell: View {
     @State var heartLoading: Bool = false
+    @State var isLoading: Bool = false
     
     @Binding var isShowingReportView: Bool
     @Binding var isShowingCommentView: Bool
@@ -19,30 +21,69 @@ struct FeedCell: View {
     @ObservedObject var profileVM: ProfileViewModel
     
     @State private var postOwner: User? = nil
-    let updatePushNotiData = UpdatePushNotiData()
     
-    var post: Int
+    let updatePushNotiData: UpdatePushNotiData
+    let updateCommentData: UpdateCommentData
+    let post: Post
+    
+    @State var postUser: User? = nil
+    @State var surferUser: User? = nil
+    
     var body: some View {
         ZStack {
             Rectangle()
                 .foregroundStyle(.black)
                 .containerRelativeFrame([.horizontal,.vertical])
                 .overlay {
-                    //MARK: - 사진
-                    Text("Post \(post)")
-                        .foregroundStyle(.white)
+                    // MARK: - 사진
+                    if let imageUrl = URL(string: post.imageUrl) {
+                        ZStack {
+                            KFImage.url(imageUrl)
+                                .resizable()
+                                .onSuccess { _ in
+                                    // 이미지 로딩 성공 시
+                                    isLoading = false
+                                }
+                                .onFailure { _ in
+                                    // 이미지 로딩 실패 시
+                                    isLoading = false
+                                }
+                                .onProgress { receivedSize, totalSize in
+                                    // 로딩 중
+                                    isLoading = true
+                                }
+                                .scaledToFill()
+                                .containerRelativeFrame([.horizontal,.vertical])
+                        }
+                        if isLoading { // feedVM에서 로딩 상태를 관리한다고 가정
+                            ProgressView()
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        }
+                    }
                 }
             
             VStack {
                 Spacer()
                 
                 HStack(alignment: .bottom) {
-                    //MARK: - 아이디 및 타이틀
+                    // MARK: - 아이디 및 타이틀
                     VStack(alignment: .leading, spacing: 10) {
-                        Text("hanabi님이 goat님에게 보낸 파도")
+                        if let postUser = postUser, let surferUser = surferUser {
+                            CircularImageView(size: .small,
+                                              user: postUser)
+                            .padding(.leading, 24)
+                            .overlay {
+                                CircularImageView(size: .small,
+                                                  user: surferUser)
+                                .offset(x: -12)
+                            }
+                        }
+                            
+                        
+                        Text("\(post.surferUid)님이 \(post.ownerUid)님에게 보낸 파도")
                             .fontWeight(.semibold)
                         
-                        Text("아 살자 마렵다 진짜")
+                        Text("\(post.title)")
                         
                     }.font(.subheadline)
                         .foregroundStyle(.white)
@@ -51,7 +92,7 @@ struct FeedCell: View {
                     
                     VStack(spacing: 16) {
                         VStack(spacing: 10) {
-                            //MARK: - 멍게
+                            // MARK: - 멍게
                             VStack(spacing: 10) {
                                 Button {
                                     withAnimation {
@@ -75,10 +116,11 @@ struct FeedCell: View {
                             }
                             .padding(.bottom, 15)
                             
-                            //MARK: - 하트
+                            // MARK: - 하트
                             VStack(spacing: 10) {
+
                                 if feedVM.selectedFeedCheckHeart {
-                                    Button {
+                                    Button {                                       
                                         if !heartLoading {
                                             Task {
                                                 heartLoading = true
@@ -118,14 +160,14 @@ struct FeedCell: View {
                                     }
                                 }
                                 
-                                //MARK: - 하트 숫자
-                                Text("\(feedVM.selectedFeedHearts)")
+                                // MARK: - 하트 숫자
+                                Text("\(post.heartsCount)")
                                     .font(.system(size: 10))
                                     .fontWeight(.semibold)
                                     .shadow(radius: 1, y: 1)
                             }
                             
-                            //MARK: - 댓글
+                            // MARK: - 댓글
                             VStack(spacing: 10) {
                                 Button {
                                     isShowingCommentView = true
@@ -133,19 +175,26 @@ struct FeedCell: View {
                                     Image("chat")
                                 }
                                 .sheet(isPresented: $isShowingCommentView) {
-                                    CommentView(feedVM: feedVM,
-                                                surfingVM: surfingVM, isShowingCommentView: $isShowingCommentView)
+                                    if let postUser = postUser {
+                                        CommentView(feedVM: feedVM,
+                                                    surfingVM: surfingVM,
+                                                    isShowingCommentView: $isShowingCommentView,
+                                                    postUser: postUser,
+                                                    updatePushNotiData: updatePushNotiData,
+                                                    updateCommentData: updateCommentData,
+                                                    post: post)
+                                    }
                                 }
                                 .presentationDetents([.large])
                                 
-                                //MARK: - 댓글 숫자
-                                Text(String(feedVM.selectedCommentCounts))
+                                // MARK: - 댓글 숫자
+                                Text("\(post.commentCount)")
                                     .font(.system(size: 10))
                                     .fontWeight(.semibold)
                                     .shadow(radius: 1, y: 1)
                             }
                             
-                            //MARK: - 신고하기
+                            // MARK: - 신고하기
                             VStack(spacing: 10) {
                                 Button {
                                     isShowingReportView.toggle()
@@ -172,6 +221,12 @@ struct FeedCell: View {
                 .padding(.bottom ,80)
             }
             .padding()
+        }
+        .onAppear {
+            Task {
+                self.postUser = await UpdateUserData.shared.getOthersProfileDatas(id: post.ownerUid)
+                self.surferUser = await UpdateUserData.shared.getOthersProfileDatas(id: post.surferUid)
+            }
         }
     }
 }
