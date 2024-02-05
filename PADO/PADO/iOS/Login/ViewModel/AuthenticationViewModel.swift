@@ -32,12 +32,14 @@ class AuthenticationViewModel: ObservableObject {
     // 세팅 관련 뷰 이동 변수
     @Published var showingEditProfile: Bool = false
     @Published var showingSettingProfileView: Bool = false
+    @Published var showwingEditBackProfile: Bool = false
     
     // MARK: - SettingProfile
     @Published var username = ""
     @Published var instaAddress = ""
     @Published var tiktokAddress = ""
     @Published var imagePick: Bool = false
+    @Published var backimagePick: Bool = false
     @Published var changedValue: Bool = false
     @Published var showProfileModal: Bool = false
     
@@ -49,6 +51,7 @@ class AuthenticationViewModel: ObservableObject {
         }
     }
     
+    // 프로필 사진 변경 값 저장
     @Published var userSelectImage: Image?
     @Published var uiImage: UIImage?
     
@@ -66,7 +69,7 @@ class AuthenticationViewModel: ObservableObject {
         }
     }
     
-    // 뒷 배경화면 변경값 저장
+    // 배경화면 변경값 저장
     @Published var backSelectImage: Image?
     @Published var backuiImage: UIImage?
     
@@ -397,7 +400,7 @@ class AuthenticationViewModel: ObservableObject {
         let isInstaAddressChanged = currentUser?.instaAddress != instaAddress
         let isTiktokAddressChanged = currentUser?.tiktokAddress != tiktokAddress
         
-        changedValue = isUsernameChanged || isInstaAddressChanged || isTiktokAddressChanged || imagePick
+        changedValue = isUsernameChanged || isInstaAddressChanged || isTiktokAddressChanged || imagePick || backimagePick
         
     }
 }

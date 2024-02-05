@@ -9,13 +9,20 @@ import PhotosUI
 import SwiftUI
 
 struct SettingProfileModal: View {
+    // MARK: - PROPERTY
+    @EnvironmentObject var viewModel: AuthenticationViewModel
+    
+    // MARK: - BODY
     var body: some View {
         VStack {
             Button {
-                showProfileModal
+                viewModel.showProfileModal = false
             } label: {
-                Text("프로필 사진 변경")
-                    .foregroundStyle(.white)
+                PhotosPicker(selection: $viewModel.selectedItem) {
+                    Text("프로필 사진 변경")
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundStyle(.white)
+                }
             }
             .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
             .background(.grayButton)
@@ -23,10 +30,13 @@ struct SettingProfileModal: View {
             .padding(.vertical)
             
             Button {
-                print("2")
+                viewModel.showProfileModal = false
             } label: {
-                Text("배경 사진 변경")
-                    .foregroundStyle(.white)
+                PhotosPicker(selection: $viewModel.selectedBackgroundItem) {
+                    Text("배경 사진 변경")
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundStyle(.white)
+                }
             }
             .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
             .background(.grayButton)

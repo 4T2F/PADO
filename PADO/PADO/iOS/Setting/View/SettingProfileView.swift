@@ -82,41 +82,51 @@ struct SettingProfileView: View {
                     
                     VStack {
                         VStack {
-                            PhotosPicker(selection: $viewModel.selectedItem) {
-                                if let image = viewModel.userSelectImage {
-                                    image
-                                        .resizable()
-                                        .scaledToFill()
-                                        .frame(width: 129, height: 129)
-                                        .clipShape(Circle())
-                                        .onAppear {
-                                            viewModel.imagePick.toggle()
-                                        }
-                                } else {
-                                    if let user = viewModel.currentUser {
-                                        CircularImageView(size: .xxxLarge, user: user)
+//                            PhotosPicker(selection: $viewModel.selectedItem) {
+//                                if let image = viewModel.userSelectImage {
+//                                    image
+//                                        .resizable()
+//                                        .scaledToFill()
+//                                        .frame(width: 129, height: 129)
+//                                        .clipShape(Circle())
+//                                        .onAppear {
+//                                            viewModel.imagePick.toggle()
+//                                        }
+//                                } else {
+//                                    if let user = viewModel.currentUser {
+//                                        CircularImageView(size: .xxxLarge, user: user)
+//                                    }
+//                                }
+//                            }
+                            viewModel.backSelectImage?
+                                .resizable()
+                                .frame(width: UIScreen.main.bounds.width * 0.8, height: 300)
+                            
+                            if let user = viewModel.currentUser {
+                                CircularImageView(size: .xxxLarge, user: user)
+                                    .onChange(of: viewModel.selectedItem) { _, _  in
+                                        viewModel.showingEditProfile = true
                                     }
-                                }
-                            }
-                            .onChange(of: viewModel.selectedItem) { _, _  in
-                                viewModel.showingEditProfile.toggle()
-                            }
-                            .onChange(of: viewModel.imagePick) { _, _  in
-                                viewModel.checkForChanges()
-                            }
-                            .overlay {
-                                Button {
-                                    viewModel.showProfileModal = true
-                                } label: {
-                                    Image(systemName: "plus.circle")
-                                        .font(.system(size: 24, weight: .bold))
-                                        .foregroundStyle(.white)
-                                }
-                                .offset(x: 47, y: 47)
-                            }
-                            .sheet(isPresented: $viewModel.showProfileModal) {
-                                SettingProfileModal()
-                                    .presentationDetents([.fraction(0.2)])
+                                    .onChange(of: viewModel.selectedBackgroundItem) { _, _  in
+                                        viewModel.showwingEditBackProfile = true
+                                    }
+                                    .onChange(of: viewModel.imagePick) { _, _  in
+                                        viewModel.checkForChanges()
+                                    }
+                                    .overlay {
+                                        Button {
+                                            viewModel.showProfileModal = true
+                                        } label: {
+                                            Image(systemName: "plus.circle")
+                                                .font(.system(size: 24, weight: .bold))
+                                                .foregroundStyle(.white)
+                                        }
+                                        .offset(x: 47, y: 47)
+                                    }
+                                    .sheet(isPresented: $viewModel.showProfileModal) {
+                                        SettingProfileModal()
+                                            .presentationDetents([.fraction(0.2)])
+                                    }
                             }
                             // MARK: - 프로필수정, 이름
                             VStack {
@@ -255,6 +265,13 @@ struct SettingProfileView: View {
                 SettingProfileEditView { croppedImage, status in
                     if let croppedImage {
                         viewModel.uiImage = croppedImage
+                    }
+                }
+            }
+            .navigationDestination(isPresented: $viewModel.showwingEditBackProfile) {
+                SettingBackProfileCropView { croppedImage, status in
+                    if let croppedImage {
+                        viewModel.backuiImage = croppedImage
                     }
                 }
             }
