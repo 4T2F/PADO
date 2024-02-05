@@ -104,7 +104,20 @@ struct SettingProfileView: View {
                             .onChange(of: viewModel.imagePick) { _, _  in
                                 viewModel.checkForChanges()
                             }
-
+                            .overlay {
+                                Button {
+                                    viewModel.showProfileModal = true
+                                } label: {
+                                    Image(systemName: "plus.circle")
+                                        .font(.system(size: 24, weight: .bold))
+                                        .foregroundStyle(.white)
+                                }
+                                .offset(x: 47, y: 47)
+                            }
+                            .sheet(isPresented: $viewModel.showProfileModal) {
+                                SettingProfileModal()
+                                    .presentationDetents([.fraction(0.2)])
+                            }
                             // MARK: - 프로필수정, 이름
                             VStack {
                                 SettingProfileDivider()

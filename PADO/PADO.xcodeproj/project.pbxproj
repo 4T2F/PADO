@@ -124,6 +124,7 @@
 		6408FEEE2B6FBE0C00BF0DDF /* FaceMojiCropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6408FEED2B6FBE0C00BF0DDF /* FaceMojiCropView.swift */; };
 		6408FEF02B6FCB9900BF0DDF /* SelectEmojiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6408FEEF2B6FCB9900BF0DDF /* SelectEmojiView.swift */; };
 		643417332B5F947500E47639 /* SurfingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 643417322B5F947500E47639 /* SurfingView.swift */; };
+		64392B602B7074CD0047BA12 /* SettingProfileModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B5F2B7074CD0047BA12 /* SettingProfileModal.swift */; };
 		647E7EFD2B63775100A5487E /* UpdateImageUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647E7EFC2B63775100A5487E /* UpdateImageUrl.swift */; };
 		648963DB2B6A9E960080050D /* PostCropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648963DA2B6A9E960080050D /* PostCropView.swift */; };
 		648963DD2B6AA2310080050D /* Corp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648963DC2B6AA2310080050D /* Corp.swift */; };
@@ -295,6 +296,7 @@
 		6408FEED2B6FBE0C00BF0DDF /* FaceMojiCropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceMojiCropView.swift; sourceTree = "<group>"; };
 		6408FEEF2B6FCB9900BF0DDF /* SelectEmojiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectEmojiView.swift; sourceTree = "<group>"; };
 		643417322B5F947500E47639 /* SurfingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurfingView.swift; sourceTree = "<group>"; };
+		64392B5F2B7074CD0047BA12 /* SettingProfileModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingProfileModal.swift; sourceTree = "<group>"; };
 		647E7EFC2B63775100A5487E /* UpdateImageUrl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateImageUrl.swift; sourceTree = "<group>"; };
 		648963DA2B6A9E960080050D /* PostCropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCropView.swift; sourceTree = "<group>"; };
 		648963DC2B6AA2310080050D /* Corp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Corp.swift; sourceTree = "<group>"; };
@@ -935,6 +937,7 @@
 				B1A91D0D2B55928D00FE7F62 /* SettingInfoView.swift */,
 				B1A91D082B55928D00FE7F62 /* SettingNotificationView.swift */,
 				B1A91D0E2B55928D00FE7F62 /* SettingProfileView.swift */,
+				64392B5F2B7074CD0047BA12 /* SettingProfileModal.swift */,
 				648963DE2B6B6BE50080050D /* SettingProfileEditView.swift */,
 				B1A91D092B55928D00FE7F62 /* SettingOthersView.swift */,
 				B1A91D062B55928D00FE7F62 /* SettingView.swift */,
@@ -1204,6 +1207,7 @@
 				648963E12B6BEF890080050D /* Facemoji.swift in Sources */,
 				63B563FF2B44656600AEC5E7 /* Year.swift in Sources */,
 				B1A91D0F2B55928D00FE7F62 /* SettingView.swift in Sources */,
+				64392B602B7074CD0047BA12 /* SettingProfileModal.swift in Sources */,
 				63824C4C2B558B5500D1D653 /* ModalBlackButton.swift in Sources */,
 				637891742B624FD100B40AF6 /* Reel.swift in Sources */,
 				63077D512B5E2542006A9DBB /* MainCommentModel.swift in Sources */,

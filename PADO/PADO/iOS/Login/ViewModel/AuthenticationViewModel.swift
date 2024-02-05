@@ -39,6 +39,7 @@ class AuthenticationViewModel: ObservableObject {
     @Published var tiktokAddress = ""
     @Published var imagePick: Bool = false
     @Published var changedValue: Bool = false
+    @Published var showProfileModal: Bool = false
     
     @Published var birthDate = Date() {
         didSet {
@@ -58,6 +59,24 @@ class AuthenticationViewModel: ObservableObject {
                     let (loadedUIImage, loadedSwiftUIImage) = try await UpdateImageUrl.shared.loadImage(selectedItem: selectedItem)
                     self.uiImage = loadedUIImage
                     self.userSelectImage = loadedSwiftUIImage
+                } catch {
+                    print("이미지 로드 중 오류 발생: \(error)")
+                }
+            }
+        }
+    }
+    
+    // 뒷 배경화면 변경값 저장
+    @Published var backSelectImage: Image?
+    @Published var backuiImage: UIImage?
+    
+    @Published var selectedBackgroundItem: PhotosPickerItem? {
+        didSet {
+            Task {
+                do {
+                    let (loadedUIImage, loadedSwiftUIImage) = try await UpdateImageUrl.shared.loadImage(selectedItem: selectedItem)
+                    self.backuiImage = loadedUIImage
+                    self.backSelectImage = loadedSwiftUIImage
                 } catch {
                     print("이미지 로드 중 오류 발생: \(error)")
                 }
