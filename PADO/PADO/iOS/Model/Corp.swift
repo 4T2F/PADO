@@ -30,7 +30,7 @@ enum Crop: Equatable {
         case .rectangle:
             return .init(width: 300, height: 500)
         case .backImage:
-            return .init(width: UIScreen.main.bounds.width * 0.9, height: 300)
+            return .init(width: UIScreen.main.bounds.width * 1.0, height: 400)
         }
     }
 }

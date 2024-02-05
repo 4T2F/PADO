@@ -390,7 +390,7 @@ class AuthenticationViewModel: ObservableObject {
                 let returnBackString = try await UpdateImageUrl.shared.updateImageUserData(uiImage: backuiImage,
                                                                                            storageTypeInput: .backImage,
                                                                                            documentid: "",
-                                                                                           imageQuality: .middleforProfile,
+                                                                                           imageQuality: .highforPost,
                                                                                            surfingID: "")
                 currentUser?.backProfileImageUrl = returnBackString
             } else if imagePick {
@@ -404,7 +404,7 @@ class AuthenticationViewModel: ObservableObject {
                 let returnBackString = try await UpdateImageUrl.shared.updateImageUserData(uiImage: backuiImage,
                                                                                            storageTypeInput: .backImage,
                                                                                            documentid: "",
-                                                                                           imageQuality: .middleforProfile,
+                                                                                           imageQuality: .highforPost,
                                                                                            surfingID: "")
                 currentUser?.backProfileImageUrl = returnBackString
             }

@@ -72,7 +72,7 @@ struct OtherUserProfileView: View {
             let size = proxy.size
             let height = (size.height + minY)
             
-            RectangleImageView(user: user)
+            RectangleImageView(imageUrl: user.backProfileImageUrl)
                     .scaledToFit()
                     .frame(width: size.width, height: height > 0 ? height : 0, alignment: .top)
                     .overlay {

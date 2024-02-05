@@ -61,8 +61,9 @@ struct ProfileView: View {
             let size = proxy.size
             let height = (size.height + minY)
             
-            RectangleImageView(user: viewModel.currentUser!)
-                    .scaledToFit()
+            if let image = viewModel.currentUser?.backProfileImageUrl {
+                KFImage(URL(string: image))
+                    .scaledToFill()
                     .frame(width: size.width, height: height > 0 ? height : 0, alignment: .top)
                     .overlay {
                         ZStack(alignment: .bottom) {
@@ -202,6 +203,7 @@ struct ProfileView: View {
                 }
                 .padding(.horizontal)
                 .padding(.top, 70)
+            }
         }
         .frame(height: 300)
     }

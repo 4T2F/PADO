@@ -92,7 +92,7 @@ struct SettingProfileView: View {
                             if let image = viewModel.backSelectImage {
                                 image
                                     .resizable()
-                                    .frame(width: UIScreen.main.bounds.width * 0.9, height: 300)
+                                    .frame(width: UIScreen.main.bounds.width * 1.0, height: 300)
                                     .scaledToFit()
                                     .overlay(
                                         LinearGradient(colors: [.clear,
@@ -157,7 +157,7 @@ struct SettingProfileView: View {
                                 }
                             } else {
                                 if let user = viewModel.currentUser {
-                                    RectangleImageView(user: user)
+                                    RectangleImageView(imageUrl: user.backProfileImageUrl)
                                         .overlay(
                                             LinearGradient(colors: [.clear,
                                                                     .black.opacity(0.1),
