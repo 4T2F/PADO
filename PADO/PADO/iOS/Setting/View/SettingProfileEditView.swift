@@ -66,6 +66,7 @@ struct SettingProfileEditView: View {
                 
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
+                        viewModel.selectedItem = nil
                         viewModel.showingSettingProfileView.toggle()
                     } label: {
                         Image("dismissArrow")
