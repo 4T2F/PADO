@@ -18,6 +18,7 @@ struct ReFeedView: View {
     @StateObject var profileVM: ProfileViewModel
     @StateObject var followVM: FollowViewModel
     
+    let updateHeartData = UpdateHeartData()
     let updateCommentData = UpdateCommentData()
     let updatePushNotiData = UpdatePushNotiData()
     
@@ -30,6 +31,7 @@ struct ReFeedView: View {
                             FeedCell(feedVM: feedVM,
                                      surfingVM: surfingVM,
                                      profileVM: profileVM,
+                                     updateHeartData: updateHeartData,
                                      updatePushNotiData: updatePushNotiData,
                                      updateCommentData: updateCommentData,
                                      post: post)

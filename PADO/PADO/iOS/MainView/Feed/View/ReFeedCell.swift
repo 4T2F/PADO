@@ -5,6 +5,8 @@
 //  Created by Berk Ilgar Özalp on 3.02.2024.
 //
 
+import Firebase
+import FirebaseFirestoreSwift
 import Kingfisher
 import Lottie
 import SwiftUI
@@ -12,22 +14,23 @@ import SwiftUI
 struct FeedCell: View {
     @State var heartLoading: Bool = false
     @State var isLoading: Bool = false
+    @State var isHeartCheck: Bool = false
+    @State var postUser: User? = nil
+    @State var surferUser: User? = nil
     
+    @State private var heartCounts: Int = 0
+    @State private var commentCounts: Int = 0
     @State private var isShowingReportView: Bool = false
     @State private var isShowingCommentView: Bool = false
     
     @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var surfingVM: SurfingViewModel
     @ObservedObject var profileVM: ProfileViewModel
-    
-    @State private var postOwner: User? = nil
-    
+
+    let updateHeartData: UpdateHeartData
     let updatePushNotiData: UpdatePushNotiData
     let updateCommentData: UpdateCommentData
     let post: Post
-    
-    @State var postUser: User? = nil
-    @State var surferUser: User? = nil
     
     var body: some View {
         ZStack {
@@ -79,7 +82,6 @@ struct FeedCell: View {
                             }
                         }
                             
-                        
                         Text("\(post.surferUid)님이 \(post.ownerUid)님에게 보낸 파도")
                             .fontWeight(.semibold)
                         
@@ -119,14 +121,16 @@ struct FeedCell: View {
                             // MARK: - 하트
                             VStack(spacing: 10) {
 
-                                if feedVM.selectedFeedCheckHeart {
-                                    Button {                                       
+                                if isHeartCheck {
+                                    Button {
                                         if !heartLoading {
                                             Task {
                                                 heartLoading = true
-                                                await feedVM.deleteHeart()
-                                                feedVM.selectedFeedCheckHeart = await feedVM.checkHeartExists()
-                                                heartLoading = false
+                                                if let postID = post.id {
+                                                    await updateHeartData.deleteHeart(documentID: postID)
+                                                    isHeartCheck = await updateHeartData.checkHeartExists(documentID: postID)
+                                                    heartLoading = false
+                                                }
                                                 await profileVM.fetchHighlihts(id: userNameID)
                                             }
                                         }
@@ -147,12 +151,14 @@ struct FeedCell: View {
                                         if !heartLoading {
                                             Task {
                                                 heartLoading = true
-                                                await feedVM.addHeart()
-                                                feedVM.selectedFeedCheckHeart = await feedVM.checkHeartExists()
-                                                heartLoading = false
+                                                if let postID = post.id, let postUser = postUser {
+                                                    await updateHeartData.addHeart(documentID: postID)
+                                                    isHeartCheck = await updateHeartData.checkHeartExists(documentID: postID)
+                                                    heartLoading = false
+                                                    await updatePushNotiData.pushNoti(receiveUser: postUser, type: .heart)
+                                                }
                                                 await profileVM.fetchHighlihts(id: userNameID)
-//                                                self.postOwner = await UpdateUserData.shared.getOthersProfileDatas(id: feedVM.feedOwnerProfileID)
-                                                await updatePushNotiData.pushNoti(receiveUser: postOwner!, type: .heart)
+                                             
                                             }
                                         }
                                     } label: {
@@ -161,7 +167,7 @@ struct FeedCell: View {
                                 }
                                 
                                 // MARK: - 하트 숫자
-                                Text("\(post.heartsCount)")
+                                Text("\(heartCounts)")
                                     .font(.system(size: 10))
                                     .fontWeight(.semibold)
                                     .shadow(radius: 1, y: 1)
@@ -188,7 +194,7 @@ struct FeedCell: View {
                                 .presentationDetents([.large])
                                 
                                 // MARK: - 댓글 숫자
-                                Text("\(post.commentCount)")
+                                Text("\(commentCounts)")
                                     .font(.system(size: 10))
                                     .fontWeight(.semibold)
                                     .shadow(radius: 1, y: 1)
@@ -226,7 +232,28 @@ struct FeedCell: View {
             Task {
                 self.postUser = await UpdateUserData.shared.getOthersProfileDatas(id: post.ownerUid)
                 self.surferUser = await UpdateUserData.shared.getOthersProfileDatas(id: post.surferUid)
+                if let postID = post.id {
+                    await fetchHeartCommentCounts(documentID: postID)
+                    isHeartCheck = await updateHeartData.checkHeartExists(documentID: postID)
+                }
             }
+        }
+    }
+    
+    func fetchHeartCommentCounts(documentID: String) async {
+        let db = Firestore.firestore()
+        db.collection("post").document(documentID).addSnapshotListener { documentSnapshot, error in
+            guard let document = documentSnapshot else {
+                print("Error fetching document: \(error!)")
+                return
+            }
+            guard let data = document.data() else {
+                print("Document data was empty.")
+                return
+            }
+            print("Current data: \(data)")
+            self.heartCounts = data["heartsCount"] as? Int ?? 0
+            self.commentCounts = data["commentCount"] as? Int ?? 0
         }
     }
 }

@@ -31,6 +31,7 @@
 		41711EF22B70AA0A00F0A1A7 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41711EF12B70AA0A00F0A1A7 /* NotificationService.swift */; };
 		41711EF62B70AA0A00F0A1A7 /* NotificationService.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 41711EEF2B70AA0A00F0A1A7 /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		41711F402B716E4E00F0A1A7 /* UpdateCommentData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41711F3F2B716E4E00F0A1A7 /* UpdateCommentData.swift */; };
+		41711F442B719C0A00F0A1A7 /* UpdateHeartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41711F432B719C0A00F0A1A7 /* UpdateHeartData.swift */; };
 		417568642B47999E003AA8C0 /* PhoneumberTFFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417568632B47999E003AA8C0 /* PhoneumberTFFormat.swift */; };
 		417CD6652B68C3F8001D9EC0 /* UpdateFollowData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417CD6642B68C3F8001D9EC0 /* UpdateFollowData.swift */; };
 		417D188A2B5CFEE400545A5E /* LoginPhoneNumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417D18892B5CFEE400545A5E /* LoginPhoneNumberView.swift */; };
@@ -226,6 +227,7 @@
 		41711EF32B70AA0A00F0A1A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		41711EFD2B70E39900F0A1A7 /* NotificationService.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NotificationService.entitlements; sourceTree = "<group>"; };
 		41711F3F2B716E4E00F0A1A7 /* UpdateCommentData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateCommentData.swift; sourceTree = "<group>"; };
+		41711F432B719C0A00F0A1A7 /* UpdateHeartData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateHeartData.swift; sourceTree = "<group>"; };
 		417568632B47999E003AA8C0 /* PhoneumberTFFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneumberTFFormat.swift; sourceTree = "<group>"; };
 		417CD6642B68C3F8001D9EC0 /* UpdateFollowData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateFollowData.swift; sourceTree = "<group>"; };
 		417D18892B5CFEE400545A5E /* LoginPhoneNumberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPhoneNumberView.swift; sourceTree = "<group>"; };
@@ -619,6 +621,7 @@
 				647E7EFC2B63775100A5487E /* UpdateImageUrl.swift */,
 				417CD6642B68C3F8001D9EC0 /* UpdateFollowData.swift */,
 				41711F3F2B716E4E00F0A1A7 /* UpdateCommentData.swift */,
+				41711F432B719C0A00F0A1A7 /* UpdateHeartData.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1345,6 +1348,7 @@
 				41A1029B2B62631A0070AB8D /* CamerCoordinator.swift in Sources */,
 				63824C4D2B558B5500D1D653 /* ModalWhiteButton.swift in Sources */,
 				B1D7CDEC2B5669B80090544B /* SettingDivider.swift in Sources */,
+				41711F442B719C0A00F0A1A7 /* UpdateHeartData.swift in Sources */,
 				B1A91D142B55928D00FE7F62 /* SettingAskView.swift in Sources */,
 				418743292B5C42AB00D93CBE /* LoginView.swift in Sources */,
 				63A779A22B6BD45A0068BE98 /* FollowerModalAlert.swift in Sources */,
