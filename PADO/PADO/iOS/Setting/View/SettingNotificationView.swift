@@ -10,7 +10,7 @@ import SwiftUI
 struct SettingNotificationView: View {
     
     @Environment (\.dismiss) var dismiss
-    @AppStorage("notificationsEnabled") var noti: Bool = true
+    @State var noti: Bool = true
     
     var body: some View {
         VStack {
@@ -43,6 +43,9 @@ struct SettingNotificationView: View {
                 VStack {
                     VStack {
                         SettingToggleCell(icon: "square.and.pencil", text: "알림 설정", toggle: $noti)
+                            .onChange(of: noti) { oldValue, newValue in
+                                UserDefaults.standard.set(newValue, forKey: "notification")
+                            }
                     }
                     Spacer()
                     
@@ -53,10 +56,8 @@ struct SettingNotificationView: View {
         }
         .padding(.top, 10)
         .navigationBarBackButtonHidden(true)
+        .onAppear {
+            noti = UserDefaults.standard.bool(forKey: "notification")
+        }
     }
-}
-
-
-#Preview {
-    SettingNotificationView()
 }
