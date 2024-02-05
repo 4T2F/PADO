@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TodayCommentCell: View {
-    let mainComment: MainComment
+//    let mainComment: MainComment
     
     var body: some View {
         HStack {
@@ -16,15 +16,15 @@ struct TodayCommentCell: View {
             Circle()
                 .fill(Color.gray)
                 .frame(width: 30, height: 30)
-                .overlay(
-                    Text(mainComment.nameID.prefix(1))
-                        .fontWeight(.semibold)
-                        .foregroundColor(.white)
-                )
-            // 댓글 연동 시켜야함
-            Text(mainComment.comment)
-                .font(.system(size: 14))
-                .foregroundStyle(.white)
+//                .overlay(
+//                    Text(mainComment.nameID.prefix(1))
+//                        .fontWeight(.semibold)
+//                        .foregroundColor(.white)
+//                )
+//            // 댓글 연동 시켜야함
+//            Text(mainComment.comment)
+//                .font(.system(size: 14))
+//                .foregroundStyle(.white)
         }
     }
 }

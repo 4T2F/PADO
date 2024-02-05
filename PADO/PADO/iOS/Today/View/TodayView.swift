@@ -14,8 +14,6 @@ struct TodayView: View {
     @State private var isCellVisible = true
     @State private var isCommentVisible = false
     
-    @StateObject private var mainCommentVM = MainCommentViewModel()
-    
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -63,11 +61,11 @@ struct TodayView: View {
                         }
                         .overlay {
                             if isCellVisible {
-                                VStack {
-                                    ForEach(mainCommentVM.mainComments) { comment in
-                                        MainCommentCell(mainComment: comment)
-                                    }
-                                }
+//                                VStack {
+//                                    ForEach(mainCommentVM.mainComments) { comment in
+//                                        MainCommentCell(mainComment: comment)
+//                                    }
+//                                }
                             }
                         }
                     }

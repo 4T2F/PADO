@@ -19,22 +19,13 @@ class FeedViewModel:Identifiable ,ObservableObject {
     @Published var isHeaderVisible = true
     @Published var textPosition = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
     @Published var faceMojiPosition = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
-    
-    @Published var selectedStoryImage: String? = nil
-    @Published var selectedPostImageUrl: String = ""
+  
     @Published var followingPosts: [Post] = []
     @Published var followingUsers: [String] = []
     @Published var watchedPostIDs: Set<String> = []
     
-    @Published var feedOwnerProfileImageUrl: String = ""
-    @Published var feedOwnerProfileID: String = ""
-    @Published var feedSurferProfileImageUrl: String = ""
-    @Published var feedSurferProfileID: String = ""
-    @Published var selectedFeedTitle: String = ""
-    @Published var selectedFeedTime: String = ""
     @Published var selectedFeedCheckHeart: Bool = false
     @Published var postFetchLoading: Bool = false
-    @Published var selectedPostID: String = ""
     @Published var selectedFeedHearts: Int = 0
     @Published var selectedCommentCounts: Int = 0
     // MARK: - comment관련
@@ -108,7 +99,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
     private func fetchFollowingPosts() async {
         followingPosts.removeAll()
         
-        // 현재 날짜로부터 2년 전의 날짜를 계산
+        // 현재 날짜로부터 3일 전의 날짜를 계산
         let twoDaysAgo = Calendar.current.date(byAdding: .day, value: -3, to: Date()) ?? Date()
            // Date 객체를 Timestamp로 변환
         let twoDaysAgoTimestamp = Timestamp(date: twoDaysAgo)
@@ -133,8 +124,6 @@ class FeedViewModel:Identifiable ,ObservableObject {
         self.followingPosts.sort {
             !self.watchedPostIDs.contains($0.id ?? "") && self.watchedPostIDs.contains($1.id ?? "")
         }
-        
-        await self.selectFirstStory()
     }
     
     private func cacheWatchedData() async {
@@ -166,42 +155,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
         return ""
     }
     
-    // 첫 번째 스토리를 선택하는 함수
-    private func selectFirstStory() async {
-        // storyData 배열의 첫 번째 스토리를 가져옴
-        if let firstStory = self.followingPosts.first,
-           let postId = firstStory.id {
-            // 해당 스토리를 선택
-            feedOwnerProfileID = firstStory.ownerUid
-            feedSurferProfileID = firstStory.surferUid
-            selectedPostImageUrl = firstStory.imageUrl
-            selectedFeedTitle = firstStory.title
-            selectedFeedTime = TimestampDateFormatter.formatDate(firstStory.created_Time)
-            documentID = postId
-            await selectStory(firstStory)
-            let ownerProfileUrl = await setupProfileImageURL(id: firstStory.ownerUid)
-            let surferProfileUrl = await setupProfileImageURL(id: firstStory.surferUid)
-     
-            
-            feedOwnerProfileImageUrl = ownerProfileUrl
-            feedSurferProfileImageUrl = surferProfileUrl
-        }
-    }
-    
-    // 스토리 선택 핸들러
-    func selectStory(_ story: Post) async {
-        // 스토리의 이름과 게시물의 소유자 UID가 같은 경우 해당 게시물의 이미지 URL을 선택
-        if let storyID = story.id {
-            selectedPostID = storyID
-        }
-        selectedPostImageUrl = story.imageUrl
-        print("Selected post image URL: \(selectedPostImageUrl)")
-        
-        selectedFeedCheckHeart = await checkHeartExists()
-        await fetchHeartCommentCounts()
-        await watchedPost(story)
-    }
-    
+  
     func watchedPost(_ story: Post) async {
         do {
             if let postID = story.id {
@@ -362,13 +316,6 @@ extension FeedViewModel {
         }
     }
     
-}
-
-// MARK: - Comment관련
-extension FeedViewModel {
-  
-    
-   
 }
 
 // MARK: - FaceMoji 관련

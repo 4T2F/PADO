@@ -18,9 +18,6 @@ struct ReFeedView: View {
     @StateObject var profileVM: ProfileViewModel
     @StateObject var followVM: FollowViewModel
     
-    @StateObject private var mainCommentVM = MainCommentViewModel()
-    @StateObject private var mainFaceMojiVM = MainFaceMojiViewModel()
-    
     let updateCommentData = UpdateCommentData()
     let updatePushNotiData = UpdatePushNotiData()
     
