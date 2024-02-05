@@ -5,8 +5,8 @@
 //  Created by 강치우 on 2/4/24.
 //
 
-import SwiftUI
 import MessageUI
+import SwiftUI
 
 // MFMailComposeViewController를 SwiftUI에서 사용하기 위한 래퍼
 struct MailView: UIViewControllerRepresentable {

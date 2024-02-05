@@ -43,11 +43,18 @@ struct ProfileView: View {
                     }
                 }
                 .overlay {
-                    Rectangle()
-                        .fill(.black)
-                        .frame(height: 50)
-                        .frame(maxHeight: .infinity, alignment: .top)
-                        .opacity(profileVM.headerOffsets.0 < 5 ? 1 : 0)
+                    if showDetail, let selectedItem = selectedItem {
+                        PostDetailView(post: selectedItem, 
+                                       animation: animation,
+                                       showDetail: $showDetail)
+                            .edgesIgnoringSafeArea(.all)
+                    } else {
+                        Rectangle()
+                            .fill(.black)
+                            .frame(height: 50)
+                            .frame(maxHeight: .infinity, alignment: .top)
+                            .opacity(profileVM.headerOffsets.0 < 5 ? 1 : 0)
+                    }
                 }
                 .coordinateSpace(name: "SCROLL")
                 .ignoresSafeArea(.container, edges: .vertical)
@@ -279,27 +286,23 @@ struct ProfileView: View {
                                     .scaledToFill()
                                     .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
                                     .clipped()
-                                    .onTapGesture {
-                                        withAnimation {
-                                            self.selectedItem = post
-                                            self.showDetail = true
-                                        }
-                                    }
-                                    .matchedGeometryEffect(id: post.id, in: animation)
+                                    .matchedGeometryEffect(id: post.imageUrl, in: animation)
                             }
                             Text(post.title)
                                 .foregroundStyle(.white)
                                 .font(.system(size: 14))
                                 .padding([.leading, .bottom], 5)
+                                .matchedGeometryEffect(id: post.title, in: animation)
                         }
                         .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
+                        .onTapGesture {
+                            withAnimation {
+                                self.selectedItem = post
+                                self.showDetail = true
+                            }
+                        }
                     }
                 }
-            }
-            
-            if showDetail, let selectedItem = selectedItem {
-                PostDetailView(post: selectedItem, animation: animation, showDetail: $showDetail)
-                    .edgesIgnoringSafeArea(.all)
             }
         }
         .padding(.bottom, 300)
@@ -325,13 +328,21 @@ struct ProfileView: View {
                                     .scaledToFill()
                                     .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
                                     .clipped()
+                                    .matchedGeometryEffect(id: post.imageUrl, in: animation)
                             }
                             Text(post.title)
                                 .foregroundStyle(.white)
                                 .font(.system(size: 14))
                                 .padding([.leading, .bottom], 5)
+                                .matchedGeometryEffect(id: post.title, in: animation)
                         }
                         .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
+                        .onTapGesture {
+                            withAnimation {
+                                self.selectedItem = post
+                                self.showDetail = true
+                            }
+                        }
                     }
                 }
             }
@@ -359,14 +370,21 @@ struct ProfileView: View {
                                     .scaledToFill()
                                     .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
                                     .clipped()
-                                
+                                    .matchedGeometryEffect(id: post.imageUrl, in: animation)
                             }
                             Text(post.title)
                                 .foregroundStyle(.white)
                                 .font(.system(size: 14))
                                 .padding([.leading, .bottom], 5)
+                                .matchedGeometryEffect(id: post.title, in: animation)
                         }
                         .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
+                        .onTapGesture {
+                            withAnimation {
+                                self.selectedItem = post
+                                self.showDetail = true
+                            }
+                        }
                     }
                 }
             }
