@@ -32,13 +32,13 @@ struct MainHeaderCell: View {
                 Text(vm.selectedFeedTime)
                     .font(.system(size: 12))
             }
-            
-            Spacer()
-            
-            // 알림이 없으면 기본 Bell_light 바꾸는 로직 추가해야함
-            NavigationLink(destination: NotificationView()) {
-                Image("Bell_pin_light")
-            }
+//            
+//            Spacer()
+//            
+//            // 알림이 없으면 기본 Bell_light 바꾸는 로직 추가해야함
+//            NavigationLink(destination: NotificationView()) {
+//                Image("Bell_pin_light")
+//            }
         }
         .padding(.horizontal)
         .padding(.leading, 20)
