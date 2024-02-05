@@ -16,6 +16,7 @@ struct ProfileView: View {
     let updateFollowData = UpdateFollowData()
     
     @Namespace var animation
+    @State private var selectedItem: Post?
     @State private var buttonActive: Bool = false
     
     let columns = [GridItem(.flexible(), spacing: 1), GridItem(.flexible(), spacing: 1), GridItem(.flexible())]
@@ -275,6 +276,29 @@ struct ProfileView: View {
                                     .scaledToFill()
                                     .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
                                     .clipped()
+                                    .matchedGeometryEffect(id: post.id, 
+                                                           in: animation,
+                                                           isSource: selectedItem == nil)
+                                    .onTapGesture {
+                                        withAnimation(.spring(response: 0.45, dampingFraction: 0.9)) {
+                                            selectedItem = post
+                                        }
+                                    }
+                                
+                                if let selectedItem {
+                                    KFImage(image)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .matchedGeometryEffect(id: selectedItem.id,
+                                                               in: animation,
+                                                               isSource: self.selectedItem != nil
+                                        )
+                                        .onTapGesture {
+                                            withAnimation(.spring(response: 0.45, dampingFraction: 0.9)) {
+                                                self.selectedItem = nil
+                                            }
+                                        }
+                                }
                             }
                             Text(post.title)
                                 .foregroundStyle(.white)
