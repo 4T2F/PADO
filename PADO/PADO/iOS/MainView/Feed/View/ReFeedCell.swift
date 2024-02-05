@@ -151,7 +151,7 @@ struct FeedCell: View {
                                                 feedVM.selectedFeedCheckHeart = await feedVM.checkHeartExists()
                                                 heartLoading = false
                                                 await profileVM.fetchHighlihts(id: userNameID)
-                                                self.postOwner = await UpdateUserData.shared.getOthersProfileDatas(id: feedVM.feedOwnerProfileID)
+//                                                self.postOwner = await UpdateUserData.shared.getOthersProfileDatas(id: feedVM.feedOwnerProfileID)
                                                 await updatePushNotiData.pushNoti(receiveUser: postOwner!, type: .heart)
                                             }
                                         }

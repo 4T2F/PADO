@@ -53,11 +53,11 @@ struct FaceMojiView: View {
                                          myUIImage: $surfingVM.faceMojiUIImage,
                                          mysourceType: $surfingVM.sourceType,
                                          mycameraDevice: $surfingVM.cameraDevice)
-                        .onAppear {
-                            Task {
-                                self.postOwner = await UpdateUserData.shared.getOthersProfileDatas(id: feedVM.feedOwnerProfileID)
-                            }
-                        }
+//                        .onAppear {
+//                            Task {
+//                                self.postOwner = await UpdateUserData.shared.getOthersProfileDatas(id: feedVM.feedOwnerProfileID)
+//                            }
+//                        }
                         .onDisappear {
                             feedVM.faceMojiUIImage = surfingVM.faceMojiUIImage
                             feedVM.showCropFaceMoji = true
