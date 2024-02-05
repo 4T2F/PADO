@@ -1410,6 +1410,7 @@
 /* Begin XCBuildConfiguration section */
 		41711EF82B70AA0A00F0A1A7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63AA03522B68F14E00431332 /* ApiKeys.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
@@ -1440,6 +1441,7 @@
 		};
 		41711EF92B70AA0A00F0A1A7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63AA03522B68F14E00431332 /* ApiKeys.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
@@ -1534,6 +1536,7 @@
 		};
 		41FD9A152B43D5EE0028D38E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63AA03522B68F14E00431332 /* ApiKeys.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -1628,6 +1631,7 @@
 		};
 		41FD9A182B43D5EE0028D38E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63AA03522B68F14E00431332 /* ApiKeys.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1686,6 +1690,7 @@
 		};
 		41FD9A1B2B43D5EE0028D38E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63AA03522B68F14E00431332 /* ApiKeys.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1725,6 +1730,7 @@
 		};
 		41FD9A1E2B43D5EE0028D38E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63AA03522B68F14E00431332 /* ApiKeys.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
