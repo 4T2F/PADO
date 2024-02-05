@@ -102,7 +102,7 @@ struct SettingProfileView: View {
                                                                 .black.opacity(0.8),
                                                                 .black.opacity(1)], startPoint: .top, endPoint: .bottom)
                                     )
-                                    .onAppear() {
+                                    .onAppear {
                                         viewModel.backimagePick = true
                                     }
                                 .overlay {
@@ -133,7 +133,7 @@ struct SettingProfileView: View {
                                     viewModel.showingEditProfile = true
                                 }
                                 .onChange(of: viewModel.selectedBackgroundItem) { _, _  in
-                                    viewModel.showwingEditBackProfile = true
+                                    viewModel.showingEditBackProfile = true
                                 }
                                 .onChange(of: viewModel.imagePick) { _, _  in
                                     viewModel.checkForChanges()
@@ -194,7 +194,7 @@ struct SettingProfileView: View {
                                             viewModel.showingEditProfile = true
                                         }
                                         .onChange(of: viewModel.selectedBackgroundItem) { _, _  in
-                                            viewModel.showwingEditBackProfile = true
+                                            viewModel.showingEditBackProfile = true
                                         }
                                         .onChange(of: viewModel.imagePick) { _, _  in
                                             viewModel.checkForChanges()
@@ -358,7 +358,7 @@ struct SettingProfileView: View {
                     }
                 }
             }
-            .navigationDestination(isPresented: $viewModel.showwingEditBackProfile) {
+            .navigationDestination(isPresented: $viewModel.showingEditBackProfile) {
                 SettingBackProfileCropView { croppedImage, status in
                     if let croppedImage {
                         viewModel.backuiImage = croppedImage
