@@ -100,7 +100,7 @@ struct SettingProfileView: View {
 //                            }
                             viewModel.backSelectImage?
                                 .resizable()
-                                .frame(width: UIScreen.main.bounds.width * 0.8, height: 300)
+                                .frame(width: UIScreen.main.bounds.width * 0.9, height: 300)
                             
                             if let user = viewModel.currentUser {
                                 CircularImageView(size: .xxxLarge, user: user)
@@ -125,7 +125,7 @@ struct SettingProfileView: View {
                                     }
                                     .sheet(isPresented: $viewModel.showProfileModal) {
                                         SettingProfileModal()
-                                            .presentationDetents([.fraction(0.2)])
+                                            .presentationDetents([.fraction(0.3)])
                                     }
                             }
                             // MARK: - 프로필수정, 이름

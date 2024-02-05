@@ -42,6 +42,7 @@ struct User: Codable, Identifiable, Hashable {
     var lowercasedName: String
     var nameID: String
     var profileImageUrl: String?
+    var backProfileImageUrl: String?
     var date: String // 날짜가 문자열로 저장된 경우
     var bio: String?
     var location: String?

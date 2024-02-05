@@ -384,6 +384,13 @@ class AuthenticationViewModel: ObservableObject {
                                                                                    imageQuality: .middleforProfile,
                                                                                    surfingID: "")
             currentUser?.profileImageUrl = returnString
+            
+            let returnBackString = try await UpdateImageUrl.shared.updateImageUserData(uiImage: backuiImage,
+                                                                                   storageTypeInput: .backImage,
+                                                                                   documentid: "",
+                                                                                   imageQuality: .highforPost,
+                                                                                   surfingID: "")
+            currentUser?.backProfileImageUrl = returnBackString
         }
     }
     
