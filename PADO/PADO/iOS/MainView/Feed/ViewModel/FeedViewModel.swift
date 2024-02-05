@@ -106,8 +106,14 @@ class FeedViewModel:Identifiable ,ObservableObject {
     private func fetchFollowingPosts() async {
         followingPosts.removeAll()
         
+        // 현재 날짜로부터 2년 전의 날짜를 계산
+        let twoDaysAgo = Calendar.current.date(byAdding: .day, value: -2, to: Date()) ?? Date()
+           // Date 객체를 Timestamp로 변환
+        let twoDaysAgoTimestamp = Timestamp(date: twoDaysAgo)
+        
         for userID in followingUsers {
             let query = db.collection("post").whereField("ownerUid", isEqualTo: userID)
+                .whereField("created_Time", isGreaterThanOrEqualTo: twoDaysAgoTimestamp)
             do {
                 let documents = try await getDocumentsAsync(collection: db.collection("post"), query: query)
                 let posts = documents.compactMap { document in
