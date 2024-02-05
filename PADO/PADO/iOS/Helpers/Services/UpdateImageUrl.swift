@@ -20,6 +20,7 @@ enum StorageTypeInput: String {
     case user
     case post
     case facemoji
+    case backImage
 }
 
 enum ImageQuality: Double {
@@ -60,10 +61,10 @@ class UpdateImageUrl {
         guard let image = uiImage else { throw ImageLoadError.imageCreationFailed }
         
         switch storageTypeInput {
-        case .user, .facemoji:
+        case .user, .facemoji, .backImage:
             guard let imageUrl = try? await uploadImageToStorage(image: image,
                                                                  storageTypeInput: storageTypeInput,
-                                                                 imageQuality: imageQuality) 
+                                                                 imageQuality: imageQuality)
             else {
                 throw ImageLoadError.imageCreationFailed
             }
@@ -82,7 +83,7 @@ class UpdateImageUrl {
             }
             let returnString = try await updateImageToStore(withImageUrl: imageUrl,
                                                             storageTypeInput: storageTypeInput,
-                                                            documentid: documentid, 
+                                                            documentid: documentid,
                                                             surfingID: surfingID)
             return returnString
         }
@@ -133,6 +134,16 @@ class UpdateImageUrl {
                     print("DEBUG: Failed to upload image with error: \(error.localizedDescription)")
                     return nil
                 }
+            case .backImage:
+                let storageRef = Storage.storage().reference(withPath: "/back_image/\(filename)")
+                do {
+                    _ = try await storageRef.putDataAsync(imageData)
+                    let url = try await storageRef.downloadURL()
+                    return url.absoluteString
+                } catch {
+                    print("DEBUG: Failed to upload image with error: \(error.localizedDescription)")
+                    return nil
+                }
             }
         }
         
@@ -164,8 +175,13 @@ class UpdateImageUrl {
                     "faceMojiImageUrl": imageUrl
                 ])
                 return imageUrl
+            case .backImage:
+                try await Firestore.firestore().collection("users").document(userNameID).updateData([
+                    "backProfileImageUrl": imageUrl
+                ])
+                return imageUrl
             }
         }
-    
+        
     }
 }

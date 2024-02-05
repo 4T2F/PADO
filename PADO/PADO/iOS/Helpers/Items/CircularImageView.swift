@@ -44,7 +44,12 @@ struct CircularImageView: View {
             KFImage(URL(string: imageUrl))
                 .fade(duration: 0.5)
                 .placeholder{
-                    ProgressView()
+                    Image("defaultProfile")
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: size.dimension, height: size.dimension)
+                        .clipShape(Circle())
+                        .foregroundStyle(Color(.systemGray4))
                 }
                 .resizable()
                 .scaledToFill()

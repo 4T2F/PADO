@@ -1,14 +1,13 @@
 //
-//  SettingProfileEditView.swift
+//  SettingBackProfileCropView.swift
 //  PADO
 //
-//  Created by 황성진 on 2/1/24.
+//  Created by 황성진 on 2/5/24.
 //
 
-import PhotosUI
 import SwiftUI
 
-struct SettingProfileEditView: View {
+struct SettingBackProfileCropView: View {
     // MARK: - PROPERTY
     @Environment(\.dismiss) var dismiss
     
@@ -22,7 +21,7 @@ struct SettingProfileEditView: View {
     
     @EnvironmentObject var viewModel: AuthenticationViewModel
     
-    var crop: Crop = .circle
+    var crop: Crop = .backImage
     var onCrop: (UIImage?, Bool) -> Void
     
     var body: some View {
@@ -36,7 +35,7 @@ struct SettingProfileEditView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .onDisappear {
                 viewModel.changedValue = false
-                viewModel.imagePick = false
+                viewModel.backimagePick = false
             }
             .background {
                 Color.black
@@ -50,9 +49,9 @@ struct SettingProfileEditView: View {
                         renderer.proposedSize = .init(crop.size())
                         if let image = renderer.uiImage {
                             onCrop(image, true)
-                            viewModel.uiImage = image
-                            if let uiImage = viewModel.uiImage {
-                                viewModel.userSelectImage = Image(uiImage: uiImage)
+                            viewModel.backuiImage = image
+                            if let uiImage = viewModel.backuiImage {
+                                viewModel.backSelectImage = Image(uiImage: uiImage)
                             }
                         } else {
                             onCrop(nil, false)
@@ -82,7 +81,7 @@ struct SettingProfileEditView: View {
         GeometryReader {
             let size = $0.size
             
-            if let image = viewModel.uiImage {
+            if let image = viewModel.backuiImage {
                 Image(uiImage: image)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
