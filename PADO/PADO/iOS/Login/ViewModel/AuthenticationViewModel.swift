@@ -32,13 +32,16 @@ class AuthenticationViewModel: ObservableObject {
     // 세팅 관련 뷰 이동 변수
     @Published var showingEditProfile: Bool = false
     @Published var showingSettingProfileView: Bool = false
+    @Published var showwingEditBackProfile: Bool = false
     
     // MARK: - SettingProfile
     @Published var username = ""
     @Published var instaAddress = ""
     @Published var tiktokAddress = ""
     @Published var imagePick: Bool = false
+    @Published var backimagePick: Bool = false
     @Published var changedValue: Bool = false
+    @Published var showProfileModal: Bool = false
     
     @Published var birthDate = Date() {
         didSet {
@@ -48,6 +51,7 @@ class AuthenticationViewModel: ObservableObject {
         }
     }
     
+    // 프로필 사진 변경 값 저장
     @Published var userSelectImage: Image?
     @Published var uiImage: UIImage?
     
@@ -58,6 +62,24 @@ class AuthenticationViewModel: ObservableObject {
                     let (loadedUIImage, loadedSwiftUIImage) = try await UpdateImageUrl.shared.loadImage(selectedItem: selectedItem)
                     self.uiImage = loadedUIImage
                     self.userSelectImage = loadedSwiftUIImage
+                } catch {
+                    print("이미지 로드 중 오류 발생: \(error)")
+                }
+            }
+        }
+    }
+    
+    // 배경화면 변경값 저장
+    @Published var backSelectImage: Image?
+    @Published var backuiImage: UIImage?
+    
+    @Published var selectedBackgroundItem: PhotosPickerItem? {
+        didSet {
+            Task {
+                do {
+                    let (loadedUIImage, loadedSwiftUIImage) = try await UpdateImageUrl.shared.loadImage(selectedItem: selectedBackgroundItem)
+                    self.backuiImage = loadedUIImage
+                    self.backSelectImage = loadedSwiftUIImage
                 } catch {
                     print("이미지 로드 중 오류 발생: \(error)")
                 }
@@ -356,12 +378,36 @@ class AuthenticationViewModel: ObservableObject {
             currentUser?.instaAddress = instaAddress
             currentUser?.tiktokAddress = tiktokAddress
             
-            let returnString = try await UpdateImageUrl.shared.updateImageUserData(uiImage: uiImage,
-                                                                                   storageTypeInput: .user,
-                                                                                   documentid: "",
-                                                                                   imageQuality: .middleforProfile,
-                                                                                   surfingID: "")
-            currentUser?.profileImageUrl = returnString
+            
+            if imagePick && backimagePick {
+                let returnString = try await UpdateImageUrl.shared.updateImageUserData(uiImage: uiImage,
+                                                                                       storageTypeInput: .user,
+                                                                                       documentid: "",
+                                                                                       imageQuality: .middleforProfile,
+                                                                                       surfingID: "")
+                currentUser?.profileImageUrl = returnString
+                
+                let returnBackString = try await UpdateImageUrl.shared.updateImageUserData(uiImage: backuiImage,
+                                                                                           storageTypeInput: .backImage,
+                                                                                           documentid: "",
+                                                                                           imageQuality: .highforPost,
+                                                                                           surfingID: "")
+                currentUser?.backProfileImageUrl = returnBackString
+            } else if imagePick {
+                let returnString = try await UpdateImageUrl.shared.updateImageUserData(uiImage: uiImage,
+                                                                                       storageTypeInput: .user,
+                                                                                       documentid: "",
+                                                                                       imageQuality: .middleforProfile,
+                                                                                       surfingID: "")
+                currentUser?.profileImageUrl = returnString
+            } else {
+                let returnBackString = try await UpdateImageUrl.shared.updateImageUserData(uiImage: backuiImage,
+                                                                                           storageTypeInput: .backImage,
+                                                                                           documentid: "",
+                                                                                           imageQuality: .highforPost,
+                                                                                           surfingID: "")
+                currentUser?.backProfileImageUrl = returnBackString
+            }
         }
     }
     
@@ -369,6 +415,7 @@ class AuthenticationViewModel: ObservableObject {
         username = currentUser?.username ?? ""
         instaAddress = currentUser?.instaAddress ?? ""
         tiktokAddress = currentUser?.tiktokAddress ?? ""
+        changedValue = false
     }
     
     func checkForChanges() {
@@ -377,7 +424,7 @@ class AuthenticationViewModel: ObservableObject {
         let isInstaAddressChanged = currentUser?.instaAddress != instaAddress
         let isTiktokAddressChanged = currentUser?.tiktokAddress != tiktokAddress
         
-        changedValue = isUsernameChanged || isInstaAddressChanged || isTiktokAddressChanged || imagePick
+        changedValue = isUsernameChanged || isInstaAddressChanged || isTiktokAddressChanged || imagePick || backimagePick
         
     }
 }

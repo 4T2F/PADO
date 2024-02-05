@@ -10,6 +10,7 @@ import SwiftUI
 enum Crop: Equatable {
     case circle
     case rectangle
+    case backImage
     
     func name() -> String {
         switch self {
@@ -17,6 +18,8 @@ enum Crop: Equatable {
             return "circle"
         case .rectangle:
             return "Rectangle"
+        case .backImage:
+            return "BackImage"
         }
     }
     
@@ -26,6 +29,8 @@ enum Crop: Equatable {
             return .init(width: 300, height: 300)
         case .rectangle:
             return .init(width: 300, height: 500)
+        case .backImage:
+            return .init(width: UIScreen.main.bounds.width * 1.0, height: 400)
         }
     }
 }

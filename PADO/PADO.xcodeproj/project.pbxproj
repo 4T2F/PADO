@@ -124,6 +124,9 @@
 		6408FEEE2B6FBE0C00BF0DDF /* FaceMojiCropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6408FEED2B6FBE0C00BF0DDF /* FaceMojiCropView.swift */; };
 		6408FEF02B6FCB9900BF0DDF /* SelectEmojiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6408FEEF2B6FCB9900BF0DDF /* SelectEmojiView.swift */; };
 		643417332B5F947500E47639 /* SurfingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 643417322B5F947500E47639 /* SurfingView.swift */; };
+		64392B602B7074CD0047BA12 /* SettingProfileModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B5F2B7074CD0047BA12 /* SettingProfileModal.swift */; };
+		64392B622B707C9A0047BA12 /* SettingBackProfileCropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B612B707C9A0047BA12 /* SettingBackProfileCropView.swift */; };
+		64392B642B7099C70047BA12 /* RectangleImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B632B7099C70047BA12 /* RectangleImageView.swift */; };
 		647E7EFD2B63775100A5487E /* UpdateImageUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647E7EFC2B63775100A5487E /* UpdateImageUrl.swift */; };
 		648963DB2B6A9E960080050D /* PostCropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648963DA2B6A9E960080050D /* PostCropView.swift */; };
 		648963DD2B6AA2310080050D /* Corp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648963DC2B6AA2310080050D /* Corp.swift */; };
@@ -295,6 +298,9 @@
 		6408FEED2B6FBE0C00BF0DDF /* FaceMojiCropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceMojiCropView.swift; sourceTree = "<group>"; };
 		6408FEEF2B6FCB9900BF0DDF /* SelectEmojiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectEmojiView.swift; sourceTree = "<group>"; };
 		643417322B5F947500E47639 /* SurfingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurfingView.swift; sourceTree = "<group>"; };
+		64392B5F2B7074CD0047BA12 /* SettingProfileModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingProfileModal.swift; sourceTree = "<group>"; };
+		64392B612B707C9A0047BA12 /* SettingBackProfileCropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingBackProfileCropView.swift; sourceTree = "<group>"; };
+		64392B632B7099C70047BA12 /* RectangleImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangleImageView.swift; sourceTree = "<group>"; };
 		647E7EFC2B63775100A5487E /* UpdateImageUrl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateImageUrl.swift; sourceTree = "<group>"; };
 		648963DA2B6A9E960080050D /* PostCropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCropView.swift; sourceTree = "<group>"; };
 		648963DC2B6AA2310080050D /* Corp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Corp.swift; sourceTree = "<group>"; };
@@ -704,6 +710,7 @@
 			isa = PBXGroup;
 			children = (
 				4187431C2B5C32CF00D93CBE /* CircularImageView.swift */,
+				64392B632B7099C70047BA12 /* RectangleImageView.swift */,
 				419742032B55900D0055F2AB /* LoginAlert.swift */,
 				418B6C892B5EBC0100E8289D /* SearchBar.swift */,
 				417568632B47999E003AA8C0 /* PhoneumberTFFormat.swift */,
@@ -935,6 +942,8 @@
 				B1A91D0D2B55928D00FE7F62 /* SettingInfoView.swift */,
 				B1A91D082B55928D00FE7F62 /* SettingNotificationView.swift */,
 				B1A91D0E2B55928D00FE7F62 /* SettingProfileView.swift */,
+				64392B612B707C9A0047BA12 /* SettingBackProfileCropView.swift */,
+				64392B5F2B7074CD0047BA12 /* SettingProfileModal.swift */,
 				648963DE2B6B6BE50080050D /* SettingProfileEditView.swift */,
 				B1A91D092B55928D00FE7F62 /* SettingOthersView.swift */,
 				B1A91D062B55928D00FE7F62 /* SettingView.swift */,
@@ -1186,6 +1195,7 @@
 				04A785E72B5FB1ED00BFCB9D /* SurfingSearchView.swift in Sources */,
 				6408FEEC2B6FB90E00BF0DDF /* DeleteFaceMojiView.swift in Sources */,
 				0416CA932B6787DF009333CF /* SettingViewCell.swift in Sources */,
+				64392B642B7099C70047BA12 /* RectangleImageView.swift in Sources */,
 				417CD6652B68C3F8001D9EC0 /* UpdateFollowData.swift in Sources */,
 				6408FEEE2B6FBE0C00BF0DDF /* FaceMojiCropView.swift in Sources */,
 				649372F62B5612EE00BCDA71 /* FollowerView.swift in Sources */,
@@ -1204,6 +1214,7 @@
 				648963E12B6BEF890080050D /* Facemoji.swift in Sources */,
 				63B563FF2B44656600AEC5E7 /* Year.swift in Sources */,
 				B1A91D0F2B55928D00FE7F62 /* SettingView.swift in Sources */,
+				64392B602B7074CD0047BA12 /* SettingProfileModal.swift in Sources */,
 				63824C4C2B558B5500D1D653 /* ModalBlackButton.swift in Sources */,
 				637891742B624FD100B40AF6 /* Reel.swift in Sources */,
 				63077D512B5E2542006A9DBB /* MainCommentModel.swift in Sources */,
@@ -1217,6 +1228,7 @@
 				6408FEF02B6FCB9900BF0DDF /* SelectEmojiView.swift in Sources */,
 				B1749A692B5F485300BCC6BA /* MainFaceMojiCell.swift in Sources */,
 				63824C422B558B2400D1D653 /* BirthView.swift in Sources */,
+				64392B622B707C9A0047BA12 /* SettingBackProfileCropView.swift in Sources */,
 				648963DF2B6B6BE50080050D /* SettingProfileEditView.swift in Sources */,
 				419741E22B558F3A0055F2AB /* FeedSurfers.swift in Sources */,
 				648963DB2B6A9E960080050D /* PostCropView.swift in Sources */,
