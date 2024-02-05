@@ -21,7 +21,7 @@ struct SettingBackProfileCropView: View {
     
     @EnvironmentObject var viewModel: AuthenticationViewModel
     
-    var crop: Crop = .rectangle
+    var crop: Crop = .backImage
     var onCrop: (UIImage?, Bool) -> Void
     
     var body: some View {

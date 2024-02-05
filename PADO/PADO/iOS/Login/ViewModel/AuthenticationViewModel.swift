@@ -378,19 +378,36 @@ class AuthenticationViewModel: ObservableObject {
             currentUser?.instaAddress = instaAddress
             currentUser?.tiktokAddress = tiktokAddress
             
-            let returnString = try await UpdateImageUrl.shared.updateImageUserData(uiImage: uiImage,
-                                                                                   storageTypeInput: .user,
-                                                                                   documentid: "",
-                                                                                   imageQuality: .middleforProfile,
-                                                                                   surfingID: "")
-            currentUser?.profileImageUrl = returnString
             
-            let returnBackString = try await UpdateImageUrl.shared.updateImageUserData(uiImage: backuiImage,
-                                                                                   storageTypeInput: .backImage,
-                                                                                   documentid: "",
-                                                                                   imageQuality: .highforPost,
-                                                                                   surfingID: "")
-            currentUser?.backProfileImageUrl = returnBackString
+            if imagePick && backimagePick {
+                let returnString = try await UpdateImageUrl.shared.updateImageUserData(uiImage: uiImage,
+                                                                                       storageTypeInput: .user,
+                                                                                       documentid: "",
+                                                                                       imageQuality: .middleforProfile,
+                                                                                       surfingID: "")
+                currentUser?.profileImageUrl = returnString
+                
+                let returnBackString = try await UpdateImageUrl.shared.updateImageUserData(uiImage: backuiImage,
+                                                                                           storageTypeInput: .backImage,
+                                                                                           documentid: "",
+                                                                                           imageQuality: .middleforProfile,
+                                                                                           surfingID: "")
+                currentUser?.backProfileImageUrl = returnBackString
+            } else if imagePick {
+                let returnString = try await UpdateImageUrl.shared.updateImageUserData(uiImage: uiImage,
+                                                                                       storageTypeInput: .user,
+                                                                                       documentid: "",
+                                                                                       imageQuality: .middleforProfile,
+                                                                                       surfingID: "")
+                currentUser?.profileImageUrl = returnString
+            } else {
+                let returnBackString = try await UpdateImageUrl.shared.updateImageUserData(uiImage: backuiImage,
+                                                                                           storageTypeInput: .backImage,
+                                                                                           documentid: "",
+                                                                                           imageQuality: .middleforProfile,
+                                                                                           surfingID: "")
+                currentUser?.backProfileImageUrl = returnBackString
+            }
         }
     }
     

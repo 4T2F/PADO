@@ -29,7 +29,9 @@ struct SettingProfileView: View {
                                 Button {
                                     dismiss()
                                     viewModel.imagePick = false
+                                    viewModel.backimagePick = false
                                     viewModel.userSelectImage = nil
+                                    viewModel.backSelectImage = nil
                                 } label: {
                                     Text("취소")
                                         .foregroundStyle(.white)
@@ -51,10 +53,10 @@ struct SettingProfileView: View {
                                     if isActive {
                                         Task {
                                             await viewModel.profileSaveData()
-                                            viewModel.imagePick.toggle()
-                                            viewModel.userSelectImage = nil
-                                            
                                             dismiss()
+                                            
+                                            viewModel.userSelectImage = nil
+                                            viewModel.backSelectImage = nil
                                         }
                                     }
                                     // 비활성화 상태일 때는 아무 작업도 수행하지 않음
@@ -79,56 +81,142 @@ struct SettingProfileView: View {
                         
                         Spacer()
                     }
+                    .onDisappear {
+                        viewModel.imagePick = false
+                        viewModel.backimagePick = false
+                    }
                     
                     VStack {
                         VStack {
-//                            PhotosPicker(selection: $viewModel.selectedItem) {
-//                                if let image = viewModel.userSelectImage {
-//                                    image
-//                                        .resizable()
-//                                        .scaledToFill()
-//                                        .frame(width: 129, height: 129)
-//                                        .clipShape(Circle())
-//                                        .onAppear {
-//                                            viewModel.imagePick.toggle()
-//                                        }
-//                                } else {
-//                                    if let user = viewModel.currentUser {
-//                                        CircularImageView(size: .xxxLarge, user: user)
-//                                    }
-//                                }
-//                            }
                             
-                            // 변경사항에 맞춰 이미지 보여주는 기능 만들기
-                            viewModel.backSelectImage?
-                                .resizable()
-                                .frame(width: UIScreen.main.bounds.width * 0.9, height: 300)
-                            
-                            if let user = viewModel.currentUser {
-                                CircularImageView(size: .xxxLarge, user: user)
-                                    .onChange(of: viewModel.selectedItem) { _, _  in
-                                        viewModel.showingEditProfile = true
+                            if let image = viewModel.backSelectImage {
+                                image
+                                    .resizable()
+                                    .frame(width: UIScreen.main.bounds.width * 0.9, height: 300)
+                                    .scaledToFit()
+                                    .overlay(
+                                        LinearGradient(colors: [.clear,
+                                                                .black.opacity(0.1),
+                                                                .black.opacity(0.3),
+                                                                .black.opacity(0.5),
+                                                                .black.opacity(0.8),
+                                                                .black.opacity(1)], startPoint: .top, endPoint: .bottom)
+                                    )
+                                    .onAppear() {
+                                        viewModel.backimagePick = true
                                     }
-                                    .onChange(of: viewModel.selectedBackgroundItem) { _, _  in
-                                        viewModel.showwingEditBackProfile = true
-                                    }
-                                    .onChange(of: viewModel.imagePick) { _, _  in
-                                        viewModel.checkForChanges()
-                                    }
-                                    .overlay {
-                                        Button {
-                                            viewModel.showProfileModal = true
-                                        } label: {
-                                            Image(systemName: "plus.circle")
-                                                .font(.system(size: 24, weight: .bold))
-                                                .foregroundStyle(.white)
+                                .overlay {
+                                    if let image = viewModel.userSelectImage {
+                                        image
+                                            .resizable()
+                                            .scaledToFill()
+                                            .frame(width: 129, height: 129)
+                                            .onAppear {
+                                                viewModel.imagePick = true
+                                            }
+                                            .overlay(
+                                                Circle()
+                                                    .stroke(Color.white, lineWidth: 1.4)
+                                            )
+                                        
+                                    } else {
+                                        if let user = viewModel.currentUser {
+                                            CircularImageView(size: .xxxLarge, user: user)
+                                                .overlay(
+                                                    Circle()
+                                                        .stroke(Color.white, lineWidth: 1.4)
+                                                )
                                         }
-                                        .offset(x: 47, y: 47)
                                     }
-                                    .sheet(isPresented: $viewModel.showProfileModal) {
-                                        SettingProfileModal()
-                                            .presentationDetents([.fraction(0.3)])
+                                }
+                                .onChange(of: viewModel.selectedItem) { _, _  in
+                                    viewModel.showingEditProfile = true
+                                }
+                                .onChange(of: viewModel.selectedBackgroundItem) { _, _  in
+                                    viewModel.showwingEditBackProfile = true
+                                }
+                                .onChange(of: viewModel.imagePick) { _, _  in
+                                    viewModel.checkForChanges()
+                                }
+                                .onChange(of: viewModel.backimagePick) { _, _  in
+                                    viewModel.checkForChanges()
+                                }
+                                .overlay {
+                                    Button {
+                                        viewModel.showProfileModal = true
+                                    } label: {
+                                        Image("plusButton")
+                                            .resizable()
+                                            .frame(width: 35, height: 35)
                                     }
+                                    .offset(x: 45, y: 45)
+                                }
+                                .sheet(isPresented: $viewModel.showProfileModal) {
+                                    SettingProfileModal()
+                                        .presentationDetents([.fraction(0.3)])
+                                }
+                            } else {
+                                if let user = viewModel.currentUser {
+                                    RectangleImageView(user: user)
+                                        .overlay(
+                                            LinearGradient(colors: [.clear,
+                                                                    .black.opacity(0.1),
+                                                                    .black.opacity(0.3),
+                                                                    .black.opacity(0.5),
+                                                                    .black.opacity(0.8),
+                                                                    .black.opacity(1)], startPoint: .top, endPoint: .bottom)
+                                        )
+                                        .overlay {
+                                            if let image = viewModel.userSelectImage {
+                                                image
+                                                    .resizable()
+                                                    .scaledToFill()
+                                                    .frame(width: 129, height: 129)
+                                                    .clipShape(Circle())
+                                                    .onAppear {
+                                                        viewModel.imagePick = true
+                                                    }
+                                                    .overlay(
+                                                        Circle()
+                                                            .stroke(Color.white, lineWidth: 1.4)
+                                                    )
+                                            } else {
+                                                if let user = viewModel.currentUser {
+                                                    CircularImageView(size: .xxxLarge, user: user)
+                                                        .overlay(
+                                                            Circle()
+                                                                .stroke(Color.white, lineWidth: 1.4)
+                                                        )
+                                                }
+                                            }
+                                        }
+                                        .onChange(of: viewModel.selectedItem) { _, _  in
+                                            viewModel.showingEditProfile = true
+                                        }
+                                        .onChange(of: viewModel.selectedBackgroundItem) { _, _  in
+                                            viewModel.showwingEditBackProfile = true
+                                        }
+                                        .onChange(of: viewModel.imagePick) { _, _  in
+                                            viewModel.checkForChanges()
+                                        }
+                                        .onChange(of: viewModel.backimagePick) { _, _  in
+                                            viewModel.checkForChanges()
+                                        }
+                                        .overlay {
+                                            Button {
+                                                viewModel.showProfileModal = true
+                                            } label: {
+                                                Image("plusButton")
+                                                    .resizable()
+                                                    .frame(width: 35, height: 35)
+                                            }
+                                            .offset(x: 45, y: 45)
+                                        }
+                                        .sheet(isPresented: $viewModel.showProfileModal) {
+                                            SettingProfileModal()
+                                                .presentationDetents([.fraction(0.3)])
+                                        }
+                                }
                             }
                             // MARK: - 프로필수정, 이름
                             VStack {
