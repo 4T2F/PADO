@@ -36,11 +36,11 @@ struct ReFeedView: View {
                         }
                         .scrollTargetLayout()
                     }
+                    .padding(.bottom, 3)
                     .scrollTargetBehavior(.paging)
-                    .ignoresSafeArea()
+                    .ignoresSafeArea(.all, edges: .top)
                 } else {
                     ScrollView(showsIndicators: false) {
-                        
                         LazyVStack(spacing:0) {
                             ForEach(feedVM.todayPadoPosts) { post in
                                 FeedCell(feedVM: feedVM,
@@ -53,8 +53,9 @@ struct ReFeedView: View {
                         }
                         .scrollTargetLayout()
                     }
+                    .padding(.bottom, 3)
                     .scrollTargetBehavior(.paging)
-                    .ignoresSafeArea()
+                    .ignoresSafeArea(.all, edges: .top)
                     .onAppear {
                         Task {
                             await feedVM.fetchTodayPadoPosts()

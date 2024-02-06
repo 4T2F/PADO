@@ -18,7 +18,7 @@ enum FeedFilter: Int, CaseIterable, Identifiable {
     var title: String {
         switch self {
         case .following: return "팔로잉"
-        case .today: return "오늘 파도"
+        case .today: return "인기"
         }
     }
     var id: Int { return self.rawValue }
@@ -33,29 +33,29 @@ struct FeedHeaderCell: View {
     
     private var filterBarWidth: CGFloat {
         let count = CGFloat(FeedFilter.allCases.count)
-        return UIScreen.main.bounds.width / count - 100
+        return UIScreen.main.bounds.width / count - 160
     }
     
     // MARK: - BODY
     var body: some View {
         VStack {
-            HStack {
+            HStack(spacing: 22) {
                 ForEach(FeedFilter.allCases) { filter in
-                    VStack {
+                    VStack(spacing: 4) {
                         Text(filter.title)
-                            .font(.system(size: 16))
-                            .fontWeight(selectedFilter == filter ? .bold : .semibold)
+                            .font(.system(size: 18))
+                            .fontWeight(selectedFilter == filter ? .semibold : .medium)
                             .foregroundStyle(selectedFilter == filter ? .white : .gray)
                         
                         if selectedFilter == filter {
-                            Rectangle()
+                            RoundedRectangle(cornerRadius: 8)
                                 .foregroundStyle(.white)
-                                .frame(width: filterBarWidth, height: 1)
+                                .frame(width: filterBarWidth, height: 1.5)
                                 .matchedGeometryEffect(id: "item", in: animation)
                         } else {
-                            Rectangle()
+                            RoundedRectangle(cornerRadius: 8)
                                 .foregroundStyle(.clear)
-                                .frame(width: filterBarWidth, height: 1)
+                                .frame(width: filterBarWidth, height: 1.5)
                         }
                         
                     } //: VSTACK
@@ -67,7 +67,6 @@ struct FeedHeaderCell: View {
                     }
                 } //: LOOP
             } //: HSTACK
-            .padding(.vertical, 8)
         } //: VSTACK
     }
 }

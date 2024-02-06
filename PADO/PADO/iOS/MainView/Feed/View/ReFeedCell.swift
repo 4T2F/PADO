@@ -221,7 +221,6 @@ struct FeedCell: View {
                         }
                     }
                 }
-                .padding(.bottom ,80)
             }
             .padding()
         }
