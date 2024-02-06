@@ -63,11 +63,11 @@ struct ContentView: View {
                 }
                 .onAppear { viewModel.showTab = 2 }
                 .tag(2)
-                EmptyView()
+                SwiftUIView()
                     .tabItem {
                         Image(viewModel.showTab == 3 ? "today_light" : "today_gray")
                         
-                        Text("오늘 파도")
+                        Text("임시용")
                     }
                     .onAppear { viewModel.showTab = 3 }
                     .tag(3)

@@ -38,36 +38,47 @@ struct FeedHeaderCell: View {
     
     // MARK: - BODY
     var body: some View {
-        VStack {
-            HStack(spacing: 22) {
-                ForEach(FeedFilter.allCases) { filter in
-                    VStack(spacing: 4) {
-                        Text(filter.title)
-                            .font(.system(size: 18))
-                            .fontWeight(selectedFilter == filter ? .semibold : .medium)
-                            .foregroundStyle(selectedFilter == filter ? .white : .gray)
-                        
-                        if selectedFilter == filter {
-                            RoundedRectangle(cornerRadius: 8)
-                                .foregroundStyle(.white)
-                                .frame(width: filterBarWidth, height: 1.5)
-                                .matchedGeometryEffect(id: "item", in: animation)
-                        } else {
-                            RoundedRectangle(cornerRadius: 8)
-                                .foregroundStyle(.clear)
-                                .frame(width: filterBarWidth, height: 1.5)
+        HStack {
+            Spacer()
+            VStack {
+                HStack(spacing: 22) {
+                    ForEach(FeedFilter.allCases) { filter in
+                        VStack(spacing: 4) {
+                            Text(filter.title)
+                                .font(.system(size: 18))
+                                .fontWeight(selectedFilter == filter ? .semibold : .medium)
+                                .foregroundStyle(selectedFilter == filter ? .white : .gray)
+                            
+                            if selectedFilter == filter {
+                                RoundedRectangle(cornerRadius: 8)
+                                    .foregroundStyle(.white)
+                                    .frame(width: filterBarWidth, height: 1.5)
+                                    .matchedGeometryEffect(id: "item", in: animation)
+                            } else {
+                                RoundedRectangle(cornerRadius: 8)
+                                    .foregroundStyle(.clear)
+                                    .frame(width: filterBarWidth, height: 1.5)
+                            }
+                            
+                        } //: VSTACK
+                        .onTapGesture {
+                            withAnimation(.spring()) {
+                                selectedFilter = filter
+                                viewModel.selectFilter = filter
+                            }
                         }
-                        
-                    } //: VSTACK
-                    .onTapGesture {
-                        withAnimation(.spring()) {
-                            selectedFilter = filter
-                            viewModel.selectFilter = filter
-                        }
-                    }
-                } //: LOOP
-            } //: HSTACK
-        } //: VSTACK
+                    } //: LOOP
+                } //: HSTACK
+            } //: VSTACK
+            .padding(.leading, 30)
+            
+            Spacer()
+            
+            NavigationLink(destination: NotificationView()) {
+                Image("Bell_pin_light")
+            }
+        }
+        .padding(.horizontal)
     }
 }
 
