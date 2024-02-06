@@ -19,6 +19,7 @@ let emojiColors: [String: Color] = [
 struct SelectEmojiView: View {
     @ObservedObject var feedVM: FeedViewModel
     
+    let postID: String
     let emojis = ["None", "👍", "🥰", "🤣", "😡", "😢"]
     
     var body: some View {
@@ -77,9 +78,14 @@ struct SelectEmojiView: View {
     var submitButton: some View {
         Button(action: {
             Task {
-                await feedVM.updateEmoji(emoji: feedVM.selectedEmoji)
-                try await feedVM.updateFaceMoji()
-                try await feedVM.getFaceMoji()
+                await feedVM.updateFacemojiData.updateEmoji(documentID: postID, emoji: feedVM.selectedEmoji)
+                if let cropImage = feedVM.cropMojiUIImage {
+                    try await feedVM.updateFacemojiData.updateFaceMoji(cropMojiUIImage: cropImage,
+                                                                       documentID: postID,
+                                                                       selectedEmoji: feedVM.selectedEmoji)
+                }
+                feedVM.facemojies = try await feedVM.updateFacemojiData.getFaceMoji(documentID: postID) ?? []
+//                await feedVM.updatePushNotiData.pushNoti(receiveUser: postOwner, type: .facemoji)
             }
             feedVM.showEmojiView = false
             feedVM.showCropFaceMoji = false

@@ -10,6 +10,7 @@ import SwiftUI
 
 struct CommentCell: View {
     let comment: Comment
+    
     @State private var commentUser: User? = nil
     @State private var isUserLoaded = false
     
@@ -18,6 +19,8 @@ struct CommentCell: View {
     @State var buttonOnOff: Bool = false
     
     let updateFollowData = UpdateFollowData()
+    let postID: String
+    
     var body: some View {
         HStack(alignment: .top) {
             NavigationLink {
@@ -72,7 +75,6 @@ struct CommentCell: View {
                     
                     if commentUser?.nameID == userNameID {
                         Button {
-                            feedVM.selectedComment = comment
                             feedVM.showdeleteModal = true
                         } label: {
                             Image(systemName: "ellipsis")
@@ -103,7 +105,7 @@ struct CommentCell: View {
             }
         }
         .sheet(isPresented: $feedVM.showdeleteModal) {
-            DeleteCommentView(comment: feedVM.selectedComment ?? comment, feedVM: feedVM)
+            DeleteCommentView(comment: feedVM.selectedComment ?? comment, feedVM: feedVM, postID: postID)
                 .presentationDetents([.fraction(0.4)])
         }
         .sheet(isPresented: $feedVM.showreportModal) {

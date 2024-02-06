@@ -16,10 +16,11 @@ struct CommentView: View {
     
     @FocusState private var isTextFieldFocused: Bool
     @State private var commentText: String = ""
-    @State private var postOwner: User? = nil
+    @State var postUser: User
     
-    let updatePushNotiData = UpdatePushNotiData()
-    
+    let post: Post
+    let postID: String
+
     var body: some View {
         NavigationStack {
             HStack {
@@ -45,8 +46,15 @@ struct CommentView: View {
             ScrollView {
                 ScrollViewReader { value in
                     VStack {
-                        FaceMojiView(feedVM: feedVM, surfingVM: surfingVM)
+                        if let postID = post.id {
+                            FaceMojiView(feedVM: feedVM,
+                                         surfingVM: surfingVM,
+                                         postOwner: $postUser,
+                                         post: post,
+                                         postID: postID)
                             .padding(2)
+                        }
+                            
                         
                         Divider()
                             .opacity(0.5)
@@ -54,7 +62,14 @@ struct CommentView: View {
                     .padding(.top)
                     
                     VStack(alignment: .leading) {
-                        if feedVM.comments.isEmpty {
+                        if !feedVM.comments.isEmpty, let postID = post.id {
+                            ForEach(feedVM.comments) { comment in
+                                CommentCell(comment: comment, feedVM: feedVM, postID: postID)
+                                    .id(comment.id)
+                                    .padding(.horizontal, 10)
+                                    .padding(.bottom, 20)
+                            }
+                        } else {
                             VStack {
                                 Text("아직 댓글이 없습니다.")
                                     .font(.system(size: 16, weight: .semibold))
@@ -63,13 +78,6 @@ struct CommentView: View {
                                 Text("댓글을 남겨보세요.")
                                     .font(.system(size: 12))
                                     .foregroundStyle(.gray)
-                            }
-                        } else {
-                            ForEach(feedVM.comments) { comment in
-                                CommentCell(comment: comment, feedVM: feedVM)
-                                    .id(comment.id)
-                                    .padding(.horizontal, 10)
-                                    .padding(.bottom, 20)
                             }
                         }
                     }
@@ -84,51 +92,57 @@ struct CommentView: View {
                     CircularImageView(size: .small, user: user)
                 }
                 
-                HStack {
-                    TextField("\(userNameID)(으)로 댓글 남기기...",
-                              text: $commentText,
-                              axis: .vertical) // 세로 축으로 동적 높이 조절 활성화
-                    .font(.system(size: 14))
-                    .tint(Color(.systemBlue))
-                    .focused($isTextFieldFocused)
-                    .onAppear {
-                        isTextFieldFocused = true
-                    }
+//                HStack {
+//                    TextField("\(userNameID)(으)로 댓글 남기기...",
+//                              text: $commentText,
+//                              axis: .vertical) // 세로 축으로 동적 높이 조절 활성화
+//                    .font(.system(size: 14))
+//                    .tint(Color(.systemBlue))
+//                    .focused($isTextFieldFocused)
+//                    .onAppear {
+//                        isTextFieldFocused = true
+//                    }
                     
-                    if !commentText.isEmpty {
-                        Button {
-                            Task {
-                                await feedVM.writeComment(inputcomment: commentText)
-                                commentText = ""
-                                await feedVM.getCommentsDocument()
-                                await updatePushNotiData.pushNoti(receiveUser: postOwner!, type: .comment)
-                            }
-                        } label: {
-                            ZStack {
-                                RoundedRectangle(cornerRadius: 26)
-                                    .frame(width: 48, height: 28)
-                                    .foregroundStyle(.blue)
-                                Image(systemName: "arrow.up")
-                                    .font(.system(size: 14))
-                                    .foregroundStyle(.white)
-                            }
-                        }
-                        .padding(.vertical, -5)
-                    } else {
-                        Button {
-                            //
-                        } label: {
-                            ZStack {
-                                RoundedRectangle(cornerRadius: 26)
-                                    .frame(width: 48, height: 28)
-                                    .foregroundStyle(.gray)
-                                Image(systemName: "arrow.up")
-                                    .font(.system(size: 14))
-                                    .foregroundStyle(.black)
-                            }
-                        }
-                    }
-                }
+//                    if !commentText.isEmpty {
+//                        Button {
+//                            Task {
+//                                if let postID = post.id {
+//                                await updateCommentData.writeComment(documentID: postID,
+//                                                                     imageUrl: viewModel.currentUser?.profileImageUrl ?? "",
+//                                                                     inputcomment: commentText)
+//                                    commentText = ""
+//                                if let fetchedComments = await updateCommentData.getCommentsDocument(postID: postID) {
+//                                        self.comments = fetchedComments
+//                                    }
+//                                }
+//                                await updatePushNotiData.pushNoti(receiveUser: postUser, type: .comment)
+//                            }
+//                        } label: {
+//                            ZStack {
+//                                RoundedRectangle(cornerRadius: 26)
+//                                    .frame(width: 48, height: 28)
+//                                    .foregroundStyle(.blue)
+//                                Image(systemName: "arrow.up")
+//                                    .font(.system(size: 14))
+//                                    .foregroundStyle(.white)
+//                            }
+//                        }
+//                        .padding(.vertical, -5)
+//                    } else {
+//                        Button {
+//                            //
+//                        } label: {
+//                            ZStack {
+//                                RoundedRectangle(cornerRadius: 26)
+//                                    .frame(width: 48, height: 28)
+//                                    .foregroundStyle(.gray)
+//                                Image(systemName: "arrow.up")
+//                                    .font(.system(size: 14))
+//                                    .foregroundStyle(.black)
+//                            }
+//                        }
+//                    }
+//                }
             }
             .frame(height: 30)
             .padding(.horizontal)
@@ -136,8 +150,14 @@ struct CommentView: View {
         }
         .onAppear {
             Task {
-                try await feedVM.getFaceMoji()
-                self.postOwner = await UpdateUserData.shared.getOthersProfileDatas(id: feedVM.feedOwnerProfileID)
+                print(postUser)
+                feedVM.comments.removeAll()
+                if let postID = post.id {
+                    if let fetchedComments = await feedVM.updateCommentData.getCommentsDocument(postID: postID) {
+                        feedVM.comments = fetchedComments
+                    }
+                }
+//                try await feedVM.getFaceMoji()
             }
         }
     }

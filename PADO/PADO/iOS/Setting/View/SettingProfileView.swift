@@ -75,9 +75,9 @@ struct SettingProfileView: View {
                             .padding(.horizontal, width * 0.05)
                         }
                         
-                        HStack {
-                            SettingProfileDivider()
-                        }
+//                        HStack {
+//                            SettingProfileDivider()
+//                        }
                         
                         Spacer()
                     }
