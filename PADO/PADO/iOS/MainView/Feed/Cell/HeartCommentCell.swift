@@ -82,7 +82,7 @@ struct HeartCommentCell: View {
                                     heartLoading = false
                                     await profileVM.fetchHighlihts(id: userNameID)
                                     self.postOwner = await UpdateUserData.shared.getOthersProfileDatas(id: feedVM.feedOwnerProfileID)
-                                    await updatePushNotiData.pushNoti(receiveUser: postOwner!, type: .heart)
+                                    await updatePushNotiData.pushNotiWithImage(receiveUser: postOwner!, type: .heart)
                                 }
                             }
                         } label: {

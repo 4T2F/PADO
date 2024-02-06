@@ -38,7 +38,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             
             UNUserNotificationCenter.current().delegate = self
         }
-        // MARK: - 원격 알림을 위해 앱을 등록
         return true
     }
     

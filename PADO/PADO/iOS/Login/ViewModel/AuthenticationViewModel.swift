@@ -43,6 +43,9 @@ class AuthenticationViewModel: ObservableObject {
     @Published var changedValue: Bool = false
     @Published var showProfileModal: Bool = false
     
+    // MARK: - SettingNoti
+    @Published var alertAccept = ""
+    
     @Published var birthDate = Date() {
         didSet {
             let dateFormatter = DateFormatter()
@@ -100,7 +103,7 @@ class AuthenticationViewModel: ObservableObject {
     var areBothSocialAccountsRegistered: Bool {
         !(currentUser?.instaAddress ?? "").isEmpty && !(currentUser?.tiktokAddress ?? "").isEmpty
     }
-
+    
     // MARK: - 인증 관련
     func sendOtp() async {
         // OTP 발송
@@ -163,7 +166,7 @@ class AuthenticationViewModel: ObservableObject {
         
         do {
             try await Firestore.firestore().collection("users").document(nameID).setData(data)
-
+            
             currentUser = User(
                 id: userId,
                 username: "",
@@ -226,7 +229,7 @@ class AuthenticationViewModel: ObservableObject {
     func signOut() {
         do {
             try Auth.auth().signOut()
-         
+            
             nameID = ""
             userNameID = ""
             year = ""
@@ -335,9 +338,9 @@ class AuthenticationViewModel: ObservableObject {
     
     func fetchUser() async {
         // 사용자 데이터 불러오기
-
+        
         do {
-           
+            
             try await Firestore.firestore().collection("users").document(userNameID).updateData([
                 "fcmToken": userToken,
                 "alertAccept": userAlertAccept
@@ -426,5 +429,20 @@ class AuthenticationViewModel: ObservableObject {
         
         changedValue = isUsernameChanged || isInstaAddressChanged || isTiktokAddressChanged || imagePick || backimagePick
         
+    }
+    
+    func updateAlertAcceptance(newStatus: Bool) async {
+        let alertAccept = newStatus ? "yes" : "no"
+        
+        do {
+            try await UpdateUserData.shared.updateUserData(initialUserData: ["alertAccept": alertAccept])
+            currentUser?.alertAccept = userAlertAccept
+        } catch {
+            print("알림 설정 업데이트 중 오류 발생: \(error)")
+        }
+    }
+    
+    func fetchUserAlertAcceptance() {
+        alertAccept = currentUser?.alertAccept ?? ""
     }
 }

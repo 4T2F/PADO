@@ -14,6 +14,7 @@ class NotificationService: UNNotificationServiceExtension {
     var contentHandler: ((UNNotificationContent) -> Void)?
     var bestAttemptContent: UNMutableNotificationContent?
     
+    // 이 메서드는 알림이 도착했을 때 호출함
     override func didReceive(_ request: UNNotificationRequest, withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void) {
         self.contentHandler = contentHandler
         bestAttemptContent = (request.content.mutableCopy() as? UNMutableNotificationContent)
@@ -25,8 +26,8 @@ class NotificationService: UNNotificationServiceExtension {
                let alertData = apsData["alert"] as? [String: Any],
                let imageData = request.content.userInfo["fcm_options"] as? [String: Any] {
                 
-                bestAttemptContent.title = "\(bestAttemptContent.title) [modified]"
-                bestAttemptContent.body = "\(bestAttemptContent.body) [modified]"
+                bestAttemptContent.title = "\(bestAttemptContent.title) [테스트중]"
+                bestAttemptContent.body = "\(bestAttemptContent.body) [테스트중]"
                 
                 if let urlImageString = imageData["image"] as? String,
                    let newsImageUrl = URL(string: urlImageString) {
