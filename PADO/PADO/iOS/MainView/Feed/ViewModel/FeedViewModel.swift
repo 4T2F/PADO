@@ -21,6 +21,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
     @Published var faceMojiPosition = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
   
     @Published var followingPosts: [Post] = []
+    @Published var todayPadoPosts: [Post] = []
     @Published var followingUsers: [String] = []
     @Published var watchedPostIDs: Set<String> = []
     
@@ -123,6 +124,25 @@ class FeedViewModel:Identifiable ,ObservableObject {
         
         self.followingPosts.sort {
             !self.watchedPostIDs.contains($0.id ?? "") && self.watchedPostIDs.contains($1.id ?? "")
+        }
+    }
+    
+    // 오늘 파도 포스트 가져오기
+    private func fetchTodayPadoPosts() async {
+        todayPadoPosts.removeAll()
+        
+        let aDaysAgo = Calendar.current.date(byAdding: .day, value: -1, to: Date()) ?? Date()
+        let aDaysAgoTimestamp = Timestamp(date: aDaysAgo)
+        
+        let query = db.collection("post").whereField("created_Time", isGreaterThanOrEqualTo: aDaysAgo).order(by: "heartsCount", descending: true)
+        
+        do {
+            let documents = try await getDocumentsAsync(collection: db.collection("post"), query: query)
+            self.todayPadoPosts = documents.compactMap { document in
+                try? document.data(as: Post.self)
+            }
+        } catch {
+            print("포스트 가져오기 오류: \(error.localizedDescription)")
         }
     }
     

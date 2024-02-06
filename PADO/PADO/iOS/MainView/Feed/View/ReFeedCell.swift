@@ -1,8 +1,8 @@
 //
 //  FeedCell.swift
-//  TiktokReplica
+//  PADO
 //
-//  Created by Berk Ilgar Özalp on 3.02.2024.
+//  Created by 최동호, 황민채 on 2/6/24.
 //
 
 import Firebase
