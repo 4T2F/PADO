@@ -25,15 +25,13 @@ struct ReFeedView: View {
             ZStack {
                 if authenticationViewModel.selectFilter == .following {
                     ScrollView(showsIndicators: false) {
-                        ScrollViewReader { value in
-                            LazyVStack(spacing:0) {
-                                ForEach(feedVM.followingPosts) { post in
-                                    FeedCell(feedVM: feedVM,
-                                             surfingVM: surfingVM,
-                                             profileVM: profileVM,
-                                             updateHeartData: updateHeartData,
-                                             post: post)
-                                }
+                        LazyVStack(spacing:0) {
+                            ForEach(feedVM.followingPosts) { post in
+                                FeedCell(feedVM: feedVM,
+                                         surfingVM: surfingVM,
+                                         profileVM: profileVM,
+                                         updateHeartData: updateHeartData,
+                                         post: post)
                             }
                         }
                         .scrollTargetLayout()
@@ -41,10 +39,27 @@ struct ReFeedView: View {
                     .scrollTargetBehavior(.paging)
                     .ignoresSafeArea()
                 } else {
-                    TestTodayView(feedVM: feedVM,
-                                  surfingVM: surfingVM,
-                                  profileVM: profileVM,
-                                  followVM: followVM)
+                    ScrollView(showsIndicators: false) {
+                        
+                        LazyVStack(spacing:0) {
+                            ForEach(feedVM.todayPadoPosts) { post in
+                                FeedCell(feedVM: feedVM,
+                                         surfingVM: surfingVM,
+                                         profileVM: profileVM,
+                                         updateHeartData: updateHeartData,
+                                         post: post)
+                            }
+                            
+                        }
+                        .scrollTargetLayout()
+                    }
+                    .scrollTargetBehavior(.paging)
+                    .ignoresSafeArea()
+                    .onAppear {
+                        Task {
+                            await feedVM.fetchTodayPadoPosts()
+                        }
+                    }
                 }
                 
                 VStack {

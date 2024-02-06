@@ -132,18 +132,21 @@ class FeedViewModel:Identifiable ,ObservableObject {
     }
     
     // 오늘 파도 포스트 가져오기
-    private func fetchTodayPadoPosts() async {
+    func fetchTodayPadoPosts() async {
         todayPadoPosts.removeAll()
         
         let aDaysAgo = Calendar.current.date(byAdding: .day, value: -1, to: Date()) ?? Date()
         let aDayAgoTimestamp = Timestamp(date: aDaysAgo)
         
-        let query = db.collection("post").whereField("created_Time", isGreaterThanOrEqualTo: aDayAgoTimestamp).order(by: "heartsCount", descending: true)
+        let query = db.collection("post").whereField("created_Time", isGreaterThanOrEqualTo: aDayAgoTimestamp)
         
         do {
             let documents = try await getDocumentsAsync(collection: db.collection("post"), query: query)
             self.todayPadoPosts = documents.compactMap { document in
                 try? document.data(as: Post.self)
+            }
+            self.todayPadoPosts.sort {
+                $0.heartsCount > $1.heartsCount
             }
         } catch {
             print("포스트 가져오기 오류: \(error.localizedDescription)")
