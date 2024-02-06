@@ -72,8 +72,7 @@ struct ProfileView: View {
             let size = proxy.size
             let height = (size.height + minY)
             
-            Image("pp")
-                .resizable()
+            KFImage(URL(string: viewModel.currentUser?.backProfileImageUrl ?? ""))
                 .scaledToFill()
                 .frame(width: size.width, height: height > 0 ? height : 0, alignment: .top)
                 .overlay {
@@ -214,6 +213,7 @@ struct ProfileView: View {
             }
             .padding(.horizontal)
             .padding(.top, 70)
+            
         }
         .frame(height: 300)
     }
@@ -239,7 +239,7 @@ struct ProfileView: View {
                         }
                     }
                     //                    .padding(.horizontal, 8)
-                    .frame(height: 1)
+                    .frame(height: 2)
                 }
                 .contentShape(Rectangle())
                 .onTapGesture {

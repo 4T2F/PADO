@@ -1,14 +1,14 @@
 //
-//  SettingProfileEditView.swift
+//  FaceMojiCropView.swift
 //  PADO
 //
-//  Created by 황성진 on 2/1/24.
+//  Created by 황성진 on 2/4/24.
 //
 
 import PhotosUI
 import SwiftUI
 
-struct SettingProfileEditView: View {
+struct FaceMojiCropView: View {
     // MARK: - PROPERTY
     @Environment(\.dismiss) var dismiss
     
@@ -20,9 +20,12 @@ struct SettingProfileEditView: View {
     @State private var showinGrid: Bool = false
     @GestureState private var isInteractig: Bool = false
     
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @ObservedObject var feedVM: FeedViewModel
+    @ObservedObject var surfingVM: SurfingViewModel
     
     var crop: Crop = .circle
+    let postID: String
+    
     var onCrop: (UIImage?, Bool) -> Void
     
     var body: some View {
@@ -34,13 +37,12 @@ struct SettingProfileEditView: View {
             .toolbarBackground(Color.black, for: .navigationBar)
             .toolbarColorScheme(.dark, for: .navigationBar)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .onDisappear {
-                viewModel.changedValue = false
-                viewModel.imagePick = false
-            }
             .background {
                 Color.black
                     .ignoresSafeArea()
+            }
+            .navigationDestination(isPresented: $feedVM.showEmojiView) {
+                SelectEmojiView(feedVM: feedVM, postID: postID)
             }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -50,23 +52,21 @@ struct SettingProfileEditView: View {
                         renderer.proposedSize = .init(crop.size())
                         if let image = renderer.uiImage {
                             onCrop(image, true)
-                            viewModel.uiImage = image
-                            if let uiImage = viewModel.uiImage {
-                                viewModel.userSelectImage = Image(uiImage: uiImage)
-                            }
+                            feedVM.cropMojiUIImage = image
+                            feedVM.cropMojiImage = Image(uiImage: image)
                         } else {
                             onCrop(nil, false)
                         }
-                        viewModel.showingSettingProfileView.toggle()
+                        feedVM.showEmojiView = true
                     } label: {
-                        Text("완료")
+                        Text("이모지 선택")
                             .font(.system(size: 16, weight: .semibold))
                     }
                 }
                 
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
-                        viewModel.showingSettingProfileView.toggle()
+                        feedVM.showCropFaceMoji = false
                     } label: {
                         Image("dismissArrow")
                     }
@@ -82,7 +82,7 @@ struct SettingProfileEditView: View {
         GeometryReader {
             let size = $0.size
             
-            if let image = viewModel.uiImage {
+            if let image = feedVM.faceMojiUIImage {
                 Image(uiImage: image)
                     .resizable()
                     .aspectRatio(contentMode: .fill)

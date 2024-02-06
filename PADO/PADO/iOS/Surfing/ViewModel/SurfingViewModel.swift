@@ -35,6 +35,21 @@ class SurfingViewModel: ObservableObject, Searchable  {
     // 페이스 모지 관련 변수
     @Published var faceMojiUIImage: UIImage = UIImage()
     @Published var faceMojiImage: Image = Image(systemName: "photo")
+    @Published var isShowingFaceMojiModal: Bool = false
+    @MainActor
+    @Published var faceMojiItem: PhotosPickerItem? {
+        didSet {
+            Task {
+                do {
+                    let (loadedUIImage, loadedSwiftUIImage) = try await UpdateImageUrl.shared.loadImage(selectedItem: faceMojiItem)
+                    self.faceMojiUIImage = loadedUIImage
+                    self.faceMojiImage = loadedSwiftUIImage
+                } catch {
+                    print("이미지 로드 중 오류 발생: \(error)")
+                }
+            }
+        }
+    }
     
     @Published var isLoading: Bool = false
     @State var progress: Double = 0

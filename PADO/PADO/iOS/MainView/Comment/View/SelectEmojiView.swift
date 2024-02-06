@@ -1,0 +1,108 @@
+//
+//  SelectEmojiView.swift
+//  PADO
+//
+//  Created by 황성진 on 2/4/24.
+//
+
+import SwiftUI
+
+let emojiColors: [String: Color] = [
+    "None": .white,
+    "👍": .green,
+    "🥰": .pink,
+    "🤣": .yellow,
+    "😡": .orange,
+    "😢": .blue
+]
+
+struct SelectEmojiView: View {
+    @ObservedObject var feedVM: FeedViewModel
+    
+    let postID: String
+    let emojis = ["None", "👍", "🥰", "🤣", "😡", "😢"]
+    
+    var body: some View {
+        VStack {
+            Spacer()
+            ZStack {
+                Circle()
+                    .fill(.black)
+                    .stroke(emojiColors[feedVM.selectedEmoji, default: .white], lineWidth: 3.0)
+                    .frame(width: 102, height: 102)
+                
+                feedVM.cropMojiImage
+                    .resizable()
+                    .frame(width: 100, height: 100)
+                
+                if feedVM.selectedEmoji != "None" {
+                    Text(feedVM.selectedEmoji)
+                        .offset(x: 40, y: 35)
+                }
+            }
+            Spacer()
+            Text("FaceMoji의 이모티콘을 선택해주세요")
+                .font(.system(size: 16))
+            
+            emojiPicker
+            
+            submitButton
+                .padding(.bottom, 20)
+        }
+    }
+    
+    var emojiPicker: some View {
+        VStack {
+            ForEach(Array(emojis.chunked(into: 3)), id: \.self) { chunk in
+                HStack {
+                    ForEach(chunk, id: \.self) { emoji in
+                        Button(action: {
+                            feedVM.selectedEmoji = emoji
+                        }) {
+                            if emoji == "None" {
+                                Text(emoji)
+                                    .font(.system(size: 14))
+                            } else {
+                                Text(emoji)
+                                    .font(.system(size: 20))
+                            }
+                        }
+                        .frame(width: 45, height: 45)
+                        .padding()
+                    }
+                }
+            }
+        }
+    }
+    
+    var submitButton: some View {
+        Button(action: {
+            Task {
+                await feedVM.updateFacemojiData.updateEmoji(documentID: postID, emoji: feedVM.selectedEmoji)
+                if let cropImage = feedVM.cropMojiUIImage {
+                    try await feedVM.updateFacemojiData.updateFaceMoji(cropMojiUIImage: cropImage,
+                                                                       documentID: postID,
+                                                                       selectedEmoji: feedVM.selectedEmoji)
+                }
+                feedVM.facemojies = try await feedVM.updateFacemojiData.getFaceMoji(documentID: postID) ?? []
+//                await feedVM.updatePushNotiData.pushNoti(receiveUser: postOwner, type: .facemoji)
+            }
+            feedVM.showEmojiView = false
+            feedVM.showCropFaceMoji = false
+        }) {
+            Text("페이스모지 올리기")
+                .font(.system(size: 16, weight: .semibold))
+                .foregroundColor(.white)
+                .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
+                .background(RoundedRectangle(cornerRadius: 10).fill(Color.blue))
+        }
+    }
+}
+
+extension Array {
+    func chunked(into size: Int) -> [[Element]] {
+        stride(from: 0, to: count, by: size).map {
+            Array(self[$0 ..< Swift.min($0 + size, count)])
+        }
+    }
+}

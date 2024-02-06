@@ -8,6 +8,8 @@ import SwiftUI
 
 struct SettingInfoView: View {
     @Environment (\.dismiss) var dismiss
+    @State var showWK = false
+    @State var showPersonalInfoWK = false
     
     var body: some View {
         VStack {
@@ -40,27 +42,28 @@ struct SettingInfoView: View {
                 VStack {
                     Button {
                         // TODO: - 이용약관 링크 걸기
+                        showWK.toggle()
                     } label: {
                         VStack {
                             SettingNormalCell(icon: "doc.text", text: "이용약관")
                         }
                     }
+                    .sheet(isPresented: $showWK) {
+                        WebView(url: "https://notch-galaxy-ab8.notion.site/de9e469fca24427cbcf16ada473c9231?pvs=4")
+                    }
                     
                     Button {
                         // TODO: - 개인정보처리방침 링크 걸기
+                        showPersonalInfoWK.toggle()
                     } label: {
                         VStack {
                             SettingNormalCell(icon: "doc.text", text: "개인정보처리방침")
                         }
                     }
-                    
-                    Button {
-                        // TODO: - 개발자에게 플러팅하기 로직 구현 필요
-                    } label: {
-                        VStack {
-                            SettingNormalCell(icon: "heart.fill", text: "개발자에게 플러팅하기")
-                        }
+                    .sheet(isPresented: $showPersonalInfoWK) {
+                        WebView(url: "https://notch-galaxy-ab8.notion.site/1069395170324617b046f096118cd815")
                     }
+                    
                     Spacer()
                     
                 }

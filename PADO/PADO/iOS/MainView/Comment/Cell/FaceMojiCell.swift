@@ -43,28 +43,66 @@ enum Emotion: String, CaseIterable {
 struct FaceMojiCell: View {
     
     var facemoji: Facemoji
+    let hapticImpact = UIImpactFeedbackGenerator(style: .medium)
+    
+    @ObservedObject var feedVM: FeedViewModel
     
     var body: some View {
-        VStack {
-            ZStack {
-                Circle()
-                    .frame(width: 56, height: 56)
-                    .foregroundStyle(.white)
+        if facemoji.userID == userNameID {
+            VStack {
+                ZStack {
+                    Circle()
+                        .stroke(emojiColors[facemoji.emoji, default: .white], lineWidth: 1.4)
+                        .frame(width: 56, height: 56)
+                    
+                    KFImage(URL(string: facemoji.faceMojiImageUrl))
+                        .fade(duration: 0.5)
+                        .placeholder{
+                            ProgressView()
+                        }
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 54, height: 54)
+                        .clipShape(Circle())
+                        .onLongPressGesture(minimumDuration: 1) {
+                            hapticImpact.impactOccurred()
+                            feedVM.selectedFacemoji = facemoji
+                            feedVM.deleteFacemojiModal = true
+                        }
+                    
+                    Text(facemoji.emoji)
+                        .offset(x: 20, y: 20)
+                }
                 
-                KFImage(URL(string: facemoji.faceMojiImageUrl))
-                    .fade(duration: 0.5)
-                    .placeholder{
-                        ProgressView()
-                    }
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 54, height: 54)
-                    .clipShape(Circle())
+                Text(facemoji.userID)
+                    .foregroundStyle(.white)
+                    .font(.system(size: 12))
             }
-            
-            Text(facemoji.userID)
-                .foregroundStyle(.white)
-                .font(.system(size: 12))
+        } else {
+            VStack {
+                ZStack {
+                    Circle()
+                        .stroke(emojiColors[facemoji.emoji, default: .white], lineWidth: 1.4)
+                        .frame(width: 56, height: 56)
+                    
+                    KFImage(URL(string: facemoji.faceMojiImageUrl))
+                        .fade(duration: 0.5)
+                        .placeholder{
+                            ProgressView()
+                        }
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 54, height: 54)
+                        .clipShape(Circle())
+                    
+                    Text(facemoji.emoji)
+                        .offset(x: 20, y: 20)
+                }
+                
+                Text(facemoji.userID)
+                    .foregroundStyle(.white)
+                    .font(.system(size: 12))
+            }
         }
     }
 }

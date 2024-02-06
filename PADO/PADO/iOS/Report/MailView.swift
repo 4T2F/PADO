@@ -13,6 +13,8 @@ struct MailView: UIViewControllerRepresentable {
     @Environment(\.presentationMode) var presentation
     @Binding var isShowing: Bool
     @Binding var result: Result<MFMailComposeResult, Error>?
+    @Binding var title: String
+    @Binding var messageBody: String
     
     class Coordinator: NSObject, MFMailComposeViewControllerDelegate {
         @Binding var isShowing: Bool
@@ -43,8 +45,8 @@ struct MailView: UIViewControllerRepresentable {
         let vc = MFMailComposeViewController()
         vc.mailComposeDelegate = context.coordinator
         vc.setToRecipients(["a2849535@gmail.com"])
-        vc.setSubject("PADO 신고 문의") // 메일 제목 설정
-        vc.setMessageBody("자세한 신고 내용을 적어주세요.", isHTML: false) // 메일 본문 설정
+        vc.setSubject("\(title)") // 메일 제목 설정
+        vc.setMessageBody("\(messageBody).", isHTML: false) // 메일 본문 설정
         return vc
     }
     

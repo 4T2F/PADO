@@ -5,7 +5,6 @@
 //  Created by 최동호 on 2/2/24.
 //
 
-
 import Kingfisher
 import SwiftUI
 
@@ -18,7 +17,7 @@ struct OtherUserProfileView: View {
     @Namespace var animation
     
     @Environment(\.dismiss) var dismiss
-  
+    
     @Binding var buttonOnOff: Bool
     @State private var buttonActive: Bool = false
     
@@ -72,182 +71,181 @@ struct OtherUserProfileView: View {
             let size = proxy.size
             let height = (size.height + minY)
             
-            Image("pp")
-                .resizable()
-                .scaledToFill()
-                .frame(width: size.width, height: height > 0 ? height : 0, alignment: .top)
-                .overlay {
-                    ZStack(alignment: .bottom) {
-                        LinearGradient(colors: [.clear,
-                                                .black.opacity(0.1),
-                                                .black.opacity(0.3),
-                                                .black.opacity(0.5),
-                                                .black.opacity(0.8),
-                                                .black.opacity(1)], startPoint: .top, endPoint: .bottom)
-                        
-                        VStack(alignment: .leading, spacing: 12) {
-                         
-                            CircularImageView(size: .xLarge, user: user)
+            RectangleImageView(imageUrl: user.backProfileImageUrl)
+                    .scaledToFit()
+                    .frame(width: size.width, height: height > 0 ? height : 0, alignment: .top)
+                    .overlay {
+                        ZStack(alignment: .bottom) {
+                            LinearGradient(colors: [.clear,
+                                                    .black.opacity(0.1),
+                                                    .black.opacity(0.3),
+                                                    .black.opacity(0.5),
+                                                    .black.opacity(0.8),
+                                                    .black.opacity(1)], startPoint: .top, endPoint: .bottom)
                             
-                            HStack(alignment: .bottom, spacing: 10) {
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text("\(user.username)")
-                                        .font(.system(size: 14))
-                                        .fontWeight(.semibold)
-                                    
-                                    Text("@\(user.nameID)")
-                                        .font(.title.bold())
-                                }
+                            VStack(alignment: .leading, spacing: 12) {
                                 
-                                if !user.instaAddress.isEmpty || !user.tiktokAddress.isEmpty {
-                                    Button {
-                                        buttonActive.toggle()
-                                    } label: {
-                                        Image(systemName: "checkmark.seal.fill")
-                                            .foregroundStyle(.blue)
-                                            .background {
-                                                Circle()
-                                                    .fill(.white)
-                                                    .padding(3)
-                                            }
-                                            .offset(y: -5)
-                                    }
-                                    .sheet(isPresented: $buttonActive, content: {
-                                        ProfileBadgeModalView(user: user)
-                                            .presentationDetents([
-                                                .fraction(!user.instaAddress.isEmpty && !user.tiktokAddress.isEmpty ? 0.3 : 0.2)
-                                            ])
-                                            .presentationCornerRadius(20)
-                                            .presentationDragIndicator(.visible)
+                                CircularImageView(size: .xLarge, user: user)
+                                
+                                HStack(alignment: .bottom, spacing: 10) {
+                                    VStack(alignment: .leading, spacing: 4) {
+                                        Text("\(user.username)")
+                                            .font(.system(size: 14))
+                                            .fontWeight(.semibold)
                                         
-                                    })
-                                }
-                                
-                                Spacer()
-                                
-                                if user.nameID == userNameID {
-                                    NavigationLink(destination: SettingProfileView()) {
-                                        ZStack {
-                                            RoundedRectangle(cornerRadius:4)
-                                                .stroke(Color.white, lineWidth: 1)
-                                                .frame(width: 80, height: 28)
-                                            Text("프로필 편집")
-                                                .font(.system(size: 12))
-                                                .fontWeight(.medium)
-                                                .foregroundStyle(.white)
-                                        }
+                                        Text("@\(user.nameID)")
+                                            .font(.title.bold())
                                     }
-                                } else {
                                     
-                                    if buttonOnOff {
+                                    if !user.instaAddress.isEmpty || !user.tiktokAddress.isEmpty {
                                         Button {
-                                            Task {
-                                                await updateFollowData.directUnfollowUser(id: user.nameID)
-                                                buttonOnOff.toggle()
-                                            }
+                                            buttonActive.toggle()
                                         } label: {
-                                            ZStack {
-                                                RoundedRectangle(cornerRadius:6)
-                                                    .stroke(Color(.systemGray), lineWidth: 1)
-                                                    .frame(width: 70, height: 28)
-                                                Text("팔로잉")
-                                                    .font(.system(size: 14))
-                                                    .fontWeight(.medium)
-                                                    .foregroundStyle(Color(.systemGray))
-                                            }
+                                            Image(systemName: "checkmark.seal.fill")
+                                                .foregroundStyle(.blue)
+                                                .background {
+                                                    Circle()
+                                                        .fill(.white)
+                                                        .padding(3)
+                                                }
+                                                .offset(y: -5)
                                         }
-                                    } else {
-                                        Button {
-                                            Task {
-                                                await updateFollowData.followUser(id: user.nameID)
-                                                await updatePushNotiData.pushNoti(receiveUser: user, type: .follow)
-                                                buttonOnOff.toggle()
-                                            }
-                                        } label: {
+                                        .sheet(isPresented: $buttonActive, content: {
+                                            ProfileBadgeModalView(user: user)
+                                                .presentationDetents([
+                                                    .fraction(!user.instaAddress.isEmpty && !user.tiktokAddress.isEmpty ? 0.3 : 0.2)
+                                                ])
+                                                .presentationCornerRadius(20)
+                                                .presentationDragIndicator(.visible)
+                                            
+                                        })
+                                    }
+                                    
+                                    Spacer()
+                                    
+                                    if user.nameID == userNameID {
+                                        NavigationLink(destination: SettingProfileView()) {
                                             ZStack {
-                                                RoundedRectangle(cornerRadius:6)
-                                                    .stroke(Color.blue, lineWidth: 1)
-                                                    .frame(width: 70, height: 28)
-                                                Text("팔로우")
-                                                    .font(.system(size: 14))
+                                                RoundedRectangle(cornerRadius:4)
+                                                    .stroke(Color.white, lineWidth: 1)
+                                                    .frame(width: 80, height: 28)
+                                                Text("프로필 편집")
+                                                    .font(.system(size: 12))
                                                     .fontWeight(.medium)
                                                     .foregroundStyle(.white)
                                             }
-                                            
+                                        }
+                                    } else {
+                                        
+                                        if buttonOnOff {
+                                            Button {
+                                                Task {
+                                                    await updateFollowData.directUnfollowUser(id: user.nameID)
+                                                    buttonOnOff.toggle()
+                                                }
+                                            } label: {
+                                                ZStack {
+                                                    RoundedRectangle(cornerRadius:6)
+                                                        .stroke(Color(.systemGray), lineWidth: 1)
+                                                        .frame(width: 70, height: 28)
+                                                    Text("팔로잉")
+                                                        .font(.system(size: 14))
+                                                        .fontWeight(.medium)
+                                                        .foregroundStyle(Color(.systemGray))
+                                                }
+                                            }
+                                        } else {
+                                            Button {
+                                                Task {
+                                                    await updateFollowData.followUser(id: user.nameID)
+                                                    await updatePushNotiData.pushNoti(receiveUser: user, type: .follow)
+                                                    buttonOnOff.toggle()
+                                                }
+                                            } label: {
+                                                ZStack {
+                                                    RoundedRectangle(cornerRadius:6)
+                                                        .stroke(Color.blue, lineWidth: 1)
+                                                        .frame(width: 70, height: 28)
+                                                    Text("팔로우")
+                                                        .font(.system(size: 14))
+                                                        .fontWeight(.medium)
+                                                        .foregroundStyle(.white)
+                                                }
+                                                
+                                            }
                                         }
                                     }
                                 }
-                            }
-                                                       
-                            HStack {
-                                Label {
-                                    Text("파도")
-                                        .fontWeight(.semibold)
-                                        .foregroundStyle(.white.opacity(0.7))
-                                } icon: {
-                                    Text("\(profileVM.padoPosts.count + profileVM.sendPadoPosts.count)")
-                                        .fontWeight(.semibold)
-                                        .foregroundStyle(.white.opacity(0.7))
-                                }
-                                .font(.caption)
                                 
-                                NavigationLink(destination: FollowMainView(currentType: "팔로워", followVM: followVM, updateFollowData: updateFollowData, user: user)) {
+                                HStack {
                                     Label {
-                                        Text("팔로워")
+                                        Text("파도")
                                             .fontWeight(.semibold)
                                             .foregroundStyle(.white.opacity(0.7))
                                     } icon: {
-                                        Text("\(followVM.followerIDs.count + followVM.surferIDs.count)")
+                                        Text("\(profileVM.padoPosts.count + profileVM.sendPadoPosts.count)")
                                             .fontWeight(.semibold)
                                             .foregroundStyle(.white.opacity(0.7))
                                     }
                                     .font(.caption)
-                                }
-                                
-                                NavigationLink(destination: FollowMainView(currentType: "팔로잉", followVM: followVM, updateFollowData: updateFollowData, user: user)) {
-                                    Label {
-                                        Text("팔로잉")
-                                            .fontWeight(.semibold)
-                                            .foregroundStyle(.white.opacity(0.7))
-                                    } icon: {
-                                        Text("\(followVM.followingIDs.count)")
-                                            .fontWeight(.semibold)
-                                            .foregroundStyle(.white.opacity(0.7))
+                                    
+                                    NavigationLink(destination: FollowMainView(currentType: "팔로워", followVM: followVM, updateFollowData: updateFollowData, user: user)) {
+                                        Label {
+                                            Text("팔로워")
+                                                .fontWeight(.semibold)
+                                                .foregroundStyle(.white.opacity(0.7))
+                                        } icon: {
+                                            Text("\(followVM.followerIDs.count + followVM.surferIDs.count)")
+                                                .fontWeight(.semibold)
+                                                .foregroundStyle(.white.opacity(0.7))
+                                        }
+                                        .font(.caption)
                                     }
-                                    .font(.caption)
+                                    
+                                    NavigationLink(destination: FollowMainView(currentType: "팔로잉", followVM: followVM, updateFollowData: updateFollowData, user: user)) {
+                                        Label {
+                                            Text("팔로잉")
+                                                .fontWeight(.semibold)
+                                                .foregroundStyle(.white.opacity(0.7))
+                                        } icon: {
+                                            Text("\(followVM.followingIDs.count)")
+                                                .fontWeight(.semibold)
+                                                .foregroundStyle(.white.opacity(0.7))
+                                        }
+                                        .font(.caption)
+                                    }
                                 }
+                                .padding(.leading, 2)
+                                
                             }
-                            .padding(.leading, 2)
-                            
+                            .padding(.horizontal)
+                            .padding(.bottom, 25)
+                            .frame(maxWidth: .infinity, alignment: .leading)
                         }
-                        .padding(.horizontal)
-                        .padding(.bottom, 25)
-                        .frame(maxWidth: .infinity, alignment: .leading)
                     }
-                }
-                .cornerRadius(0)
-                .offset(y: -minY)
-            
-            VStack {
-                HStack {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image("dismissArrow")
-                    }
-                    
-                    Spacer()
-//                    NavigationLink(destination: SettingView()) {
+                    .cornerRadius(0)
+                    .offset(y: -minY)
+                
+                VStack {
+                    HStack {
+                        Button {
+                            dismiss()
+                        } label: {
+                            Image("dismissArrow")
+                        }
+                        
+                        Spacer()
+                        //                    NavigationLink(destination: SettingView()) {
                         Image(systemName: "ellipsis")
                             .font(.system(size: 22))
-//                    }
+                        //                    }
+                    }
+                    .foregroundStyle(.white)
+                    
+                    Spacer()
                 }
-                .foregroundStyle(.white)
-                
-                Spacer()
-            }
-            .padding(.horizontal)
-            .padding(.top, 70)
+                .padding(.horizontal)
+                .padding(.top, 70)
         }
         .frame(height: 300)
     }
@@ -272,7 +270,7 @@ struct OtherUserProfileView: View {
                                 .fill(.clear)
                         }
                     }
-//                    .padding(.horizontal, 8)
+                    //                    .padding(.horizontal, 8)
                     .frame(height: 2)
                 }
                 .contentShape(Rectangle())
