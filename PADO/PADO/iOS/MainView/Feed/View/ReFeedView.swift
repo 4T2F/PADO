@@ -33,10 +33,6 @@ struct ReFeedView: View {
                                              profileVM: profileVM,
                                              updateHeartData: updateHeartData,
                                              post: post)
-                                    .id(post.id)
-                                }
-                                .onAppear {
-                                    value.scrollTo(feedVM.scrollPosition, anchor: .top)
                                 }
                             }
                         }

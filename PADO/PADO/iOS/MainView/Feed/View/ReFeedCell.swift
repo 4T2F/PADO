@@ -232,15 +232,8 @@ struct FeedCell: View {
                 if let postID = post.id {
                     await fetchHeartCommentCounts(documentID: postID)
                     isHeartCheck = await updateHeartData.checkHeartExists(documentID: postID)
-                    feedVM.documentID = postID
                 }
             }
-        }
-        .onDisappear {
-            feedVM.scrollPosition = post.id ?? ""
-            print("=============================")
-            print(feedVM.scrollPosition)
-            print("=============================")
         }
     }
     

@@ -29,7 +29,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
     @Published var postFetchLoading: Bool = false
     @Published var selectedFeedHearts: Int = 0
     @Published var selectedCommentCounts: Int = 0
-    @Published var scrollPosition: String = ""
+
     // MARK: - comment관련
     @Published var comments: [Comment] = []
     @Published var documentID: String = ""
