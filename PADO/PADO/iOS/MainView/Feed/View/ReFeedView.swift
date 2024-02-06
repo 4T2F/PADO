@@ -32,7 +32,15 @@ struct ReFeedView: View {
                                          profileVM: profileVM,
                                          updateHeartData: updateHeartData,
                                          post: feedVM.followingPosts[index])
-                               
+                                .id(index)
+                                .onAppear {
+                                    if index == feedVM.followingPosts.count - 1{
+                                        Task {
+                                            await feedVM.fetchFollowMorePosts()
+                                        }
+                                    }
+                                }
+                                
                             }
                         }
                         .scrollTargetLayout()
@@ -49,6 +57,14 @@ struct ReFeedView: View {
                                          profileVM: profileVM,
                                          updateHeartData: updateHeartData,
                                          post: feedVM.todayPadoPosts[index])
+                                .id(index)
+                                .onAppear {
+                                    if index == feedVM.todayPadoPosts.count - 1{
+                                        Task {
+                                            await feedVM.fetchTodayPadoMorePosts()
+                                        }
+                                    }
+                                }
                         
                             }
                             
