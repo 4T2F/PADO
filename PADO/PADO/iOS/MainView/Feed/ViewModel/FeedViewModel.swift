@@ -58,6 +58,9 @@ class FeedViewModel:Identifiable ,ObservableObject {
     
     let updateFacemojiData = UpdateFacemojiData()
     
+    @Published var lastFollowFetchedDocument: DocumentSnapshot? = nil
+    @Published var lastTodayPadoFetchedDocument: DocumentSnapshot? = nil
+    
     init() {
         // Firestore의 `post` 컬렉션에 대한 실시간 리스너 설정
         findFollowingUsers()
@@ -75,7 +78,6 @@ class FeedViewModel:Identifiable ,ObservableObject {
             self.followingUsers = documents.compactMap { $0.data()["followingID"] as? String }
             self.followingUsers.append(userNameID)
             
-            print(followingPosts)
             Task {
                 self.postFetchLoading = true
                 await self.cacheWatchedData()
@@ -103,29 +105,31 @@ class FeedViewModel:Identifiable ,ObservableObject {
     // 팔로잉 중인 사용자들로부터 포스트 가져오기 (비동기적으로)
     private func fetchFollowingPosts() async {
         followingPosts.removeAll()
-        
-        // 현재 날짜로부터 3일 전의 날짜를 계산
-        let twoDaysAgo = Calendar.current.date(byAdding: .day, value: -3, to: Date()) ?? Date()
+        lastFollowFetchedDocument = nil
+        // 현재 날짜로부터 2일 전의 날짜를 계산
+        let twoDaysAgo = Calendar.current.date(byAdding: .day, value: -4, to: Date()) ?? Date()
            // Date 객체를 Timestamp로 변환
         let twoDaysAgoTimestamp = Timestamp(date: twoDaysAgo)
         
-        for userID in followingUsers {
-            let query = db.collection("post").whereField("ownerUid", isEqualTo: userID)
-                .whereField("created_Time", isGreaterThanOrEqualTo: twoDaysAgoTimestamp)
-            do {
-                let documents = try await getDocumentsAsync(collection: db.collection("post"), query: query)
-                let posts = documents.compactMap { document in
-                    try? document.data(as: Post.self)
-                }
-                self.followingPosts.append(contentsOf: posts)
-            } catch {
-                print("포스트 가져오기 오류: \(error.localizedDescription)")
+  
+        let query = db.collection("post")
+            .whereField("created_Time", isGreaterThanOrEqualTo: twoDaysAgoTimestamp)
+            .order(by: "created_Time", descending: true)
+            .limit(to: 5)
+        
+        do {
+            let documents = try await getDocumentsAsync(collection: db.collection("post"), query: query)
+            
+            self.lastFollowFetchedDocument = documents.last
+            self.followingPosts = documents.compactMap { document in
+                try? document.data(as: Post.self)
             }
+            .filter { post in
+                followingUsers.contains(where: { $0 == post.ownerUid })
+            }
+        } catch {
+            print("포스트 가져오기 오류: \(error.localizedDescription)")
         }
-        
-        // created_Time을 Date로 변환 후 내림차순 정렬
-        self.followingPosts.sort { $0.created_Time.dateValue() > $1.created_Time.dateValue() }
-        
         self.followingPosts.sort {
             !self.watchedPostIDs.contains($0.id ?? "") && self.watchedPostIDs.contains($1.id ?? "")
         }
@@ -134,19 +138,86 @@ class FeedViewModel:Identifiable ,ObservableObject {
     // 오늘 파도 포스트 가져오기
     func fetchTodayPadoPosts() async {
         todayPadoPosts.removeAll()
+        lastTodayPadoFetchedDocument = nil
         
-        let aDaysAgo = Calendar.current.date(byAdding: .day, value: -1, to: Date()) ?? Date()
-        let aDayAgoTimestamp = Timestamp(date: aDaysAgo)
+        let sevenDaysAgo = Calendar.current.date(byAdding: .day, value: -7, to: Date()) ?? Date()
+           // Date 객체를 Timestamp로 변환
+        let sevenDaysAgoTimestamp = Timestamp(date: sevenDaysAgo)
         
-        let query = db.collection("post").whereField("created_Time", isGreaterThanOrEqualTo: aDayAgoTimestamp)
-        
+        let query = db.collection("post")
+            .whereField("created_Time", isGreaterThanOrEqualTo: sevenDaysAgoTimestamp)
+            .order(by: "created_Time", descending: true)
+            .order(by: "heartsCount", descending: true)
+            .limit(to: 5)
         do {
             let documents = try await getDocumentsAsync(collection: db.collection("post"), query: query)
             self.todayPadoPosts = documents.compactMap { document in
                 try? document.data(as: Post.self)
             }
-            self.todayPadoPosts.sort {
-                $0.heartsCount > $1.heartsCount
+            self.lastTodayPadoFetchedDocument = documents.last
+
+        } catch {
+            print("포스트 가져오기 오류: \(error.localizedDescription)")
+        }
+    }
+    
+    func fetchFollowMorePosts() async {
+        guard let lastDocument = lastFollowFetchedDocument else { return }
+        
+        let twoDaysAgo = Calendar.current.date(byAdding: .day, value: -4, to: Date()) ?? Date()
+        let twoDaysAgoTimestamp = Timestamp(date: twoDaysAgo)
+        
+        let query = db.collection("post")
+            .whereField("created_Time", isGreaterThanOrEqualTo: twoDaysAgoTimestamp)
+            .order(by: "created_Time", descending: true)
+            .order(by: "heartsCount", descending: true)
+            .start(afterDocument: lastDocument)
+            .limit(to: 3)
+            
+        do {
+            let documents = try await getDocumentsAsync(collection: db.collection("post"), query: query)
+            
+            self.lastFollowFetchedDocument = documents.last
+            let documentsData = documents.compactMap { document in
+                try? document.data(as: Post.self)
+            }
+            .filter { post in
+                followingUsers.contains(where: { $0 == post.ownerUid })
+            }
+            print("받아온 데이터")
+            print(documentsData)
+            print("여깄음")
+            for documentData in documentsData {
+                self.followingPosts.append(documentData)
+            }
+
+        } catch {
+            print("포스트 가져오기 오류: \(error.localizedDescription)")
+        }
+    }
+    
+    func fetchTodayPadoMorePosts() async {
+        guard let lastDocument = lastTodayPadoFetchedDocument else { return }
+    
+        let sevenDaysAgo = Calendar.current.date(byAdding: .day, value: -7, to: Date()) ?? Date()
+           // Date 객체를 Timestamp로 변환
+        let sevenDaysAgoTimestamp = Timestamp(date: sevenDaysAgo)
+        
+        let query = db.collection("post")
+            .whereField("created_Time", isGreaterThanOrEqualTo: sevenDaysAgoTimestamp)
+            .order(by: "created_Time", descending: true)
+            .order(by: "heartsCount", descending: true)
+            .start(afterDocument: lastDocument)
+            .limit(to: 3)
+        
+        do {
+            let documents = try await getDocumentsAsync(collection: db.collection("post"), query: query)
+            let documentsData = documents.compactMap { document in
+                try? document.data(as: Post.self)
+            }
+            self.lastTodayPadoFetchedDocument = documents.last
+            for documentData in documentsData {
+                self.todayPadoPosts.append(documentData)
             }
         } catch {
             print("포스트 가져오기 오류: \(error.localizedDescription)")

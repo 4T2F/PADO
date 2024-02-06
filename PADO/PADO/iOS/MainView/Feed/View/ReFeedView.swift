@@ -26,12 +26,21 @@ struct ReFeedView: View {
                 if authenticationViewModel.selectFilter == .following {
                     ScrollView(showsIndicators: false) {
                         LazyVStack(spacing:0) {
-                            ForEach(feedVM.followingPosts) { post in
+                            ForEach(feedVM.followingPosts.indices, id: \.self) { index in
                                 FeedCell(feedVM: feedVM,
                                          surfingVM: surfingVM,
                                          profileVM: profileVM,
                                          updateHeartData: updateHeartData,
-                                         post: post)
+                                         post: feedVM.followingPosts[index])
+                                .id(index)
+                                .onAppear {
+                                    if index == feedVM.followingPosts.count - 1{
+                                        Task {
+                                            await feedVM.fetchFollowMorePosts()
+                                        }
+                                    }
+                                }
+                                
                             }
                         }
                         .scrollTargetLayout()
@@ -41,13 +50,22 @@ struct ReFeedView: View {
                     .ignoresSafeArea(.all, edges: .top)
                 } else {
                     ScrollView(showsIndicators: false) {
-                        LazyVStack(spacing: 0) {
-                            ForEach(feedVM.todayPadoPosts) { post in
+                        LazyVStack(spacing:0) {
+                            ForEach(feedVM.todayPadoPosts.indices, id: \.self) { index in
                                 FeedCell(feedVM: feedVM,
                                          surfingVM: surfingVM,
                                          profileVM: profileVM,
                                          updateHeartData: updateHeartData,
-                                         post: post)
+                                         post: feedVM.todayPadoPosts[index])
+                                .id(index)
+                                .onAppear {
+                                    if index == feedVM.todayPadoPosts.count - 1{
+                                        Task {
+                                            await feedVM.fetchTodayPadoMorePosts()
+                                        }
+                                    }
+                                }
+                        
                             }
                             
                         }
