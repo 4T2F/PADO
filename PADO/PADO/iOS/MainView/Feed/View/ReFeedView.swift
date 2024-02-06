@@ -41,7 +41,7 @@ struct ReFeedView: View {
                     .ignoresSafeArea(.all, edges: .top)
                 } else {
                     ScrollView(showsIndicators: false) {
-                        LazyVStack(spacing:0) {
+                        LazyVStack(spacing: 0) {
                             ForEach(feedVM.todayPadoPosts) { post in
                                 FeedCell(feedVM: feedVM,
                                          surfingVM: surfingVM,
