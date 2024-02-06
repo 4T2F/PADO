@@ -111,14 +111,25 @@ struct FeedCell: View {
                                 .offset(x: -12)
                             }
                         }
-                        
-                        Text("\(post.surferUid)님이 \(post.ownerUid)님에게 보낸 파도")
-                            .fontWeight(.semibold)
+                        VStack(alignment: .leading, spacing: 4) {
+                            HStack(alignment: .firstTextBaseline, spacing: 8) {
+                                Text("@\(post.surferUid)")
+                                    .font(.system(size: 20))
+                                
+                                Text("\(post.created_Time.toFormattedString())")
+                                    .font(.system(size: 14))
+                                    .fontDesign(.rounded)
+                                    .foregroundStyle(.white.opacity(0.7))
+                            }
+                            
+                            Text("\(post.ownerUid)님에게 보낸 파도")
+                                .fontWeight(.medium)
+                        }
                         
                         Text("\(post.title)")
-                        
-                    }.font(.subheadline)
-                        .foregroundStyle(.white)
+                    }
+                    .foregroundStyle(.white)
+                    .padding(.bottom, 14)
                     
                     Spacer()
                     

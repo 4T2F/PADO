@@ -47,7 +47,7 @@ struct FeedHeaderCell: View {
                             Text(filter.title)
                                 .font(.system(size: 18))
                                 .fontWeight(selectedFilter == filter ? .semibold : .medium)
-                                .foregroundStyle(selectedFilter == filter ? .white : .gray)
+                                .foregroundStyle(selectedFilter == filter ? .white : .white.opacity(0.6))
                             
                             if selectedFilter == filter {
                                 RoundedRectangle(cornerRadius: 8)

@@ -240,3 +240,20 @@ class FeedViewModel:Identifiable ,ObservableObject {
     }
 }
 
+// Timestamp 형식의 시간을 가져와서 날짜 및 시간 형식으로 변환
+extension Timestamp {
+    func toFormattedString() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "YYYY-M-d"
+        return formatter.string(from: self.dateValue())
+    }
+}
+
+extension Date {
+    func toFormattedString() -> String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .long
+        formatter.timeStyle = .medium
+        return formatter.string(from: self)
+    }
+}
