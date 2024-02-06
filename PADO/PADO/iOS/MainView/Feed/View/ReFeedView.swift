@@ -26,12 +26,13 @@ struct ReFeedView: View {
                 if authenticationViewModel.selectFilter == .following {
                     ScrollView(showsIndicators: false) {
                         LazyVStack(spacing:0) {
-                            ForEach(feedVM.followingPosts) { post in
+                            ForEach(feedVM.followingPosts.indices, id: \.self) { index in
                                 FeedCell(feedVM: feedVM,
                                          surfingVM: surfingVM,
                                          profileVM: profileVM,
                                          updateHeartData: updateHeartData,
-                                         post: post)
+                                         post: feedVM.followingPosts[index])
+                               
                             }
                         }
                         .scrollTargetLayout()
@@ -42,12 +43,13 @@ struct ReFeedView: View {
                 } else {
                     ScrollView(showsIndicators: false) {
                         LazyVStack(spacing:0) {
-                            ForEach(feedVM.todayPadoPosts) { post in
+                            ForEach(feedVM.todayPadoPosts.indices, id: \.self) { index in
                                 FeedCell(feedVM: feedVM,
                                          surfingVM: surfingVM,
                                          profileVM: profileVM,
                                          updateHeartData: updateHeartData,
-                                         post: post)
+                                         post: feedVM.todayPadoPosts[index])
+                        
                             }
                             
                         }
