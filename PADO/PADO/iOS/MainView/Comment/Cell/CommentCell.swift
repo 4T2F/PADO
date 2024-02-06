@@ -18,10 +18,7 @@ struct CommentCell: View {
     
     @State var buttonOnOff: Bool = false
     
-    @Binding var comments: [Comment]
-    
     let updateFollowData = UpdateFollowData()
-    let updateCommentData: UpdateCommentData
     let postID: String
     
     var body: some View {
@@ -78,7 +75,6 @@ struct CommentCell: View {
                     
                     if commentUser?.nameID == userNameID {
                         Button {
-                            feedVM.selectedComment = comment
                             feedVM.showdeleteModal = true
                         } label: {
                             Image(systemName: "ellipsis")
@@ -109,7 +105,7 @@ struct CommentCell: View {
             }
         }
         .sheet(isPresented: $feedVM.showdeleteModal) {
-            DeleteCommentView(comment: feedVM.selectedComment ?? comment, feedVM: feedVM, comments: $comments, updateCommentData: updateCommentData, postID: postID)
+            DeleteCommentView(comment: feedVM.selectedComment ?? comment, feedVM: feedVM, postID: postID)
                 .presentationDetents([.fraction(0.4)])
         }
         .sheet(isPresented: $feedVM.showreportModal) {

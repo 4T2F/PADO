@@ -12,14 +12,13 @@ struct FaceMojiModalView: View {
     
     var body: some View {
         VStack {
-                PhotosPicker(selection: $surfingVM.faceMojiItem) {
-                    Text("사진앨범")
-                        .font(.system(size: 16, weight: .semibold))
-                        .foregroundStyle(.white)
-                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
-                        .background(.grayButton)
-                        .cornerRadius(10)
-            }
+            PhotosPicker(selection: $surfingVM.faceMojiItem) {
+                Text("사진앨범")
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundStyle(.white)
+                    .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
+                    .background(.grayButton)
+                .cornerRadius(10)}
             .padding(.vertical)
             
             Button {

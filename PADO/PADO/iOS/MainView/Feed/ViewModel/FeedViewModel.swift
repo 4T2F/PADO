@@ -43,7 +43,8 @@ class FeedViewModel:Identifiable ,ObservableObject {
     
     var dragStart: CGPoint?
     let dragThreshold: CGFloat = 0
-    
+    let updateCommentData = UpdateCommentData()
+    let updatePushNotiData = UpdatePushNotiData()
     // MARK: - FaceMoji 관련
     @Published var faceMojiUIImage: UIImage?
     @Published var cropMojiUIImage: UIImage?
@@ -54,6 +55,8 @@ class FeedViewModel:Identifiable ,ObservableObject {
     @Published var showEmojiView: Bool = false
     @Published var selectedEmoji: String = ""
     @Published var selectedFacemoji: Facemoji?
+    
+    let updateFacemojiData = UpdateFacemojiData()
     
     init() {
         // Firestore의 `post` 컬렉션에 대한 실시간 리스너 설정
@@ -133,9 +136,9 @@ class FeedViewModel:Identifiable ,ObservableObject {
         todayPadoPosts.removeAll()
         
         let aDaysAgo = Calendar.current.date(byAdding: .day, value: -1, to: Date()) ?? Date()
-        let aDaysAgoTimestamp = Timestamp(date: aDaysAgo)
+        let aDayAgoTimestamp = Timestamp(date: aDaysAgo)
         
-        let query = db.collection("post").whereField("created_Time", isGreaterThanOrEqualTo: aDaysAgo).order(by: "heartsCount", descending: true)
+        let query = db.collection("post").whereField("created_Time", isGreaterThanOrEqualTo: aDayAgoTimestamp).order(by: "heartsCount", descending: true)
         
         do {
             let documents = try await getDocumentsAsync(collection: db.collection("post"), query: query)
@@ -234,60 +237,3 @@ class FeedViewModel:Identifiable ,ObservableObject {
     }
 }
 
-// MARK: - FaceMoji 관련
-extension FeedViewModel {
-    // 페이스 모지를 스토리지, 스토어에 업로드
-    func updateFaceMoji() async throws {
-        let imageData = try await UpdateImageUrl.shared.updateImageUserData(
-            uiImage: cropMojiUIImage,
-            storageTypeInput: .facemoji,
-            documentid: documentID,
-            imageQuality: .lowforFaceMoji,
-            surfingID: ""
-        )
-        
-        print(imageData)
-        
-        try await db.collection("post").document(documentID).collection("facemoji").document(userNameID).updateData([
-            "userID" : userNameID,
-            "storagename" : "\(userNameID)-\(documentID)",
-            "time" : Timestamp(),
-            "emoji" : selectedEmoji
-        ])
-    }
-    
-    func getFaceMoji() async throws {
-        do {
-            let querySnapshot = try await db.collection("post").document(documentID).collection("facemoji").order(by: "time", descending: false).getDocuments()
-            self.facemojies = querySnapshot.documents.compactMap { document in
-                try? document.data(as: Facemoji.self)
-            }
-        } catch {
-            print("Error fetching comments: \(error)")
-        }
-        print(facemojies)
-    }
-    
-    func deleteFaceModji(storagefileName: String) async {
-        let storage = Storage.storage()
-        let storageRef = storage.reference().child("facemoji/\(storagefileName)")
-        
-        do {
-            try await db.collection("post").document(documentID).collection("facemoji").document(userNameID).delete()
-            
-            try await storageRef.delete()
-        } catch {
-            print("페이스모지 삭제 오류 : \(error.localizedDescription)")
-        }
-    }
-    
-    func updateEmoji(emoji: String) async {
-        do {
-            try await db.collection("post").document(documentID).collection("facemoji").document(userNameID).updateData([
-                "emoji" : emoji
-            ])
-        } catch {
-            print("파이어베이스에 이모지 업로드 오류 : \(error.localizedDescription)")
-        }
-    }
-}

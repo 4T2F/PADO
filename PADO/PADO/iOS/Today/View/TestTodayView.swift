@@ -26,8 +26,6 @@ struct TestTodayView: View {
     @ObservedObject var followVM: FollowViewModel
     
     let updateHeartData = UpdateHeartData()
-    let updateCommentData = UpdateCommentData()
-    let updatePushNotiData = UpdatePushNotiData()
     
     var body: some View {
         NavigationStack {
@@ -39,8 +37,6 @@ struct TestTodayView: View {
                                       surfingVM: surfingVM,
                                       profileVM: profileVM,
                                       updateHeartData: updateHeartData,
-                                      updatePushNotiData: updatePushNotiData,
-                                      updateCommentData: updateCommentData,
                                       post: post)
                         }
                     }

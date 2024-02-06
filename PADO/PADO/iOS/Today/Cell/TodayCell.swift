@@ -28,8 +28,6 @@ struct TodayCell: View {
     @ObservedObject var profileVM: ProfileViewModel
 
     let updateHeartData: UpdateHeartData
-    let updatePushNotiData: UpdatePushNotiData
-    let updateCommentData: UpdateCommentData
     let post: Post
     
     var body: some View {
@@ -155,7 +153,7 @@ struct TodayCell: View {
                                                     await updateHeartData.addHeart(documentID: postID)
                                                     isHeartCheck = await updateHeartData.checkHeartExists(documentID: postID)
                                                     heartLoading = false
-                                                    await updatePushNotiData.pushNoti(receiveUser: postUser, type: .heart)
+                                                    await feedVM.updatePushNotiData.pushNoti(receiveUser: postUser, type: .heart)
                                                 }
                                                 await profileVM.fetchHighlihts(id: userNameID)
                                              
@@ -181,15 +179,14 @@ struct TodayCell: View {
                                     Image("chat")
                                 }
                                 .sheet(isPresented: $isShowingCommentView) {
-                                    if let postUser = postUser {
-                                        CommentView(feedVM: feedVM,
-                                                    surfingVM: surfingVM,
-                                                    isShowingCommentView: $isShowingCommentView,
-                                                    postUser: postUser,
-                                                    updatePushNotiData: updatePushNotiData,
-                                                    updateCommentData: updateCommentData,
-                                                    post: post)
-                                    }
+//                                    if let postUser = postUser {
+//                                        CommentView(feedVM: feedVM,
+//                                                    surfingVM: surfingVM,
+//                                                    isShowingCommentView: $isShowingCommentView,
+//                                                    postUser: postUser,
+//                                                    post: post,
+//                                                    postID: postID)
+//                                    }
                                 }
                                 .presentationDetents([.large])
                                 

@@ -12,8 +12,7 @@ struct DeleteCommentView: View {
     let comment: Comment
     
     @ObservedObject var feedVM: FeedViewModel
-    @Binding var comments: [Comment]
-    let updateCommentData: UpdateCommentData
+
     let postID: String
     // MARK: - BODY
     var body: some View {
@@ -36,10 +35,10 @@ struct DeleteCommentView: View {
                 Button {
                     feedVM.showdeleteModal = false
                     Task {
-                        await updateCommentData.deleteComment(documentID: postID,
+                        await feedVM.updateCommentData.deleteComment(documentID: postID,
                                                               commentID: userNameID+TimestampDateFormatter.convertTimestampToString(timestamp: comment.time))
-                        if let fetchedComments = await updateCommentData.getCommentsDocument(postID: postID) {
-                            self.comments = fetchedComments
+                        if let fetchedComments = await feedVM.updateCommentData.getCommentsDocument(postID: postID) {
+                            feedVM.comments = fetchedComments
                         }
                     }
                 } label: {
