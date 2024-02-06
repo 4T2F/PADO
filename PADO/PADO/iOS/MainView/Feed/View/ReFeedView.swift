@@ -27,37 +27,29 @@ struct ReFeedView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                ScrollView(showsIndicators: false) {
-                    LazyVStack(spacing:0) {
-                        ForEach(feedVM.followingPosts) { post in
-                            FeedCell(feedVM: feedVM,
-                                     surfingVM: surfingVM,
-                                     profileVM: profileVM,
-                                     updateHeartData: updateHeartData,
-                                     updatePushNotiData: updatePushNotiData,
-                                     updateCommentData: updateCommentData,
-                                     post: post)
-                            
+                if authenticationViewModel.selectFilter == .following {
+                    ScrollView(showsIndicators: false) {
+                        LazyVStack(spacing:0) {
+                            ForEach(feedVM.followingPosts) { post in
+                                FeedCell(feedVM: feedVM,
+                                         surfingVM: surfingVM,
+                                         profileVM: profileVM,
+                                         updateHeartData: updateHeartData,
+                                         updatePushNotiData: updatePushNotiData,
+                                         updateCommentData: updateCommentData,
+                                         post: post)
+                                
+                            }
                         }
+                        .scrollTargetLayout()
                     }
-                    .scrollTargetLayout()
+                    .scrollTargetBehavior(.paging)
+                    .ignoresSafeArea()
+                } else {
+                    TodayView()
                 }
-                .scrollTargetBehavior(.paging)
-                .ignoresSafeArea()
                 
                 VStack {
-//                    VStack {
-//                        HStack(spacing: 14) {
-//                            Text("팔로잉")
-//                                .foregroundStyle(.white)
-//                                .fontWeight(.semibold)
-//                            
-//                            Text("오늘 파도")
-//                                .foregroundStyle(.gray)
-//                                .fontWeight(.medium)
-//                        }
-//                    }
-  
                     FeedHeaderCell()
                     
                     Spacer()

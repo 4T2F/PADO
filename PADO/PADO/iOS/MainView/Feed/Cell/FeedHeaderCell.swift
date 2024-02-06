@@ -25,6 +25,8 @@ struct FeedHeaderCell: View {
     @State private var selectedFilter: FeedFilter = .following
     @Namespace var animation
     
+    @EnvironmentObject var viewModel: AuthenticationViewModel
+    
     private var filterBarWidth: CGFloat {
         let count = CGFloat(FeedFilter.allCases.count)
         return UIScreen.main.bounds.width / count - 100
@@ -56,6 +58,8 @@ struct FeedHeaderCell: View {
                     .onTapGesture {
                         withAnimation(.spring()) {
                             selectedFilter = filter
+                            viewModel.selectFilter = filter
+                            print(viewModel.selectFilter)
                         }
                     }
                 } //: LOOP
