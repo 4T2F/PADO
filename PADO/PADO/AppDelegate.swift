@@ -25,9 +25,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         UNUserNotificationCenter.current().requestAuthorization(
             options: authOptions,
             completionHandler: { granted, _ in
-                if granted {
-                    userAlertAccept = "yes"
-                }
+                
             })
         
         DispatchQueue.main.async {

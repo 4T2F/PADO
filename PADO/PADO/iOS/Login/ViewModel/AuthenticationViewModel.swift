@@ -152,7 +152,7 @@ class AuthenticationViewModel: ObservableObject {
             "date": year,
             "phoneNumber": "+82\(phoneNumber)",
             "fcmToken": userToken,
-            "alertAccept": userAlertAccept,
+            "alertAccept": "",
             "instaAddress": "",
             "tiktokAddress": ""
         ]
@@ -175,7 +175,7 @@ class AuthenticationViewModel: ObservableObject {
                 date: year,
                 phoneNumber: "+82\(phoneNumber)",
                 fcmToken: userToken,
-                alertAccept: userAlertAccept,
+                alertAccept: "",
                 instaAddress: "",
                 tiktokAddress: ""
             )
@@ -343,7 +343,6 @@ class AuthenticationViewModel: ObservableObject {
             
             try await Firestore.firestore().collection("users").document(userNameID).updateData([
                 "fcmToken": userToken,
-                "alertAccept": userAlertAccept
             ])
             
             let snapshot = try await Firestore.firestore().collection("users").document(userNameID).getDocument()
@@ -436,7 +435,6 @@ class AuthenticationViewModel: ObservableObject {
         
         do {
             try await UpdateUserData.shared.updateUserData(initialUserData: ["alertAccept": alertAccept])
-            currentUser?.alertAccept = userAlertAccept
         } catch {
             print("알림 설정 업데이트 중 오류 발생: \(error)")
         }

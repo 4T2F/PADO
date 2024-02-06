@@ -47,7 +47,6 @@ struct SettingNotificationView: View {
                             .onChange(of: noti) { oldValue, newValue in
                                 Task {
                                     await viewModel.updateAlertAcceptance(newStatus: newValue)
-                                    userAlertAccept = noti ?  "yes" : "no"
                                 }
                             }
                     }
