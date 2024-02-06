@@ -10,6 +10,8 @@ import SwiftUI
 
 struct ReFeedView: View {
     @State private var isLoading = true
+    @State private var selectedFilter: FeedFilter = .following
+    @Namespace var animation
     
     @EnvironmentObject var authenticationViewModel: AuthenticationViewModel
     
@@ -44,17 +46,19 @@ struct ReFeedView: View {
                 .ignoresSafeArea()
                 
                 VStack {
-                    VStack {
-                        HStack(spacing: 14) {
-                            Text("팔로잉")
-                                .foregroundStyle(.white)
-                                .fontWeight(.semibold)
-                            
-                            Text("오늘 파도")
-                                .foregroundStyle(.gray)
-                                .fontWeight(.medium)
-                        }
-                    }
+//                    VStack {
+//                        HStack(spacing: 14) {
+//                            Text("팔로잉")
+//                                .foregroundStyle(.white)
+//                                .fontWeight(.semibold)
+//                            
+//                            Text("오늘 파도")
+//                                .foregroundStyle(.gray)
+//                                .fontWeight(.medium)
+//                        }
+//                    }
+  
+                    FeedHeaderCell()
                     
                     Spacer()
                 }
