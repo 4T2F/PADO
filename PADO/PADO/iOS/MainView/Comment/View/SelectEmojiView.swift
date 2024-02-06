@@ -77,8 +77,8 @@ struct SelectEmojiView: View {
     var submitButton: some View {
         Button(action: {
             Task {
-                await feedVM.updateEmoji(emoji: feedVM.selectedEmoji)
                 try await feedVM.updateFaceMoji()
+                await feedVM.updateEmoji(emoji: feedVM.selectedEmoji)
                 try await feedVM.getFaceMoji()
             }
             feedVM.showEmojiView = false

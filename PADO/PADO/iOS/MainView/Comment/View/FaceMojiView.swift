@@ -30,11 +30,12 @@ struct FaceMojiView: View {
                     }
                     Button {
                         // 페이스모지 열기
-                        surfingVM.checkCameraPermission {
-                            surfingVM.isShownCamera.toggle()
-                            surfingVM.sourceType = .camera
-                            surfingVM.cameraDevice = .front
-                        }
+//                        surfingVM.checkCameraPermission {
+//                            surfingVM.isShownCamera.toggle()
+//                            surfingVM.sourceType = .camera
+//                            surfingVM.cameraDevice = .front
+//                        }
+                        surfingVM.isShowingFaceMojiModal = true
                     } label: {
                         VStack {
                             Image("face.dashed")
@@ -48,27 +49,46 @@ struct FaceMojiView: View {
                         }
                     }
                     .padding(.horizontal)
+                    .sheet(isPresented: $surfingVM.isShowingFaceMojiModal) {
+                        FaceMojiModalView(surfingVM: surfingVM)
+                            .presentationDetents([.fraction(0.3)])
+                            
+                    }
                     .sheet(isPresented: $surfingVM.isShownCamera) {
                         CameraAccessView(isShown: $surfingVM.isShownCamera,
                                          myimage: $surfingVM.faceMojiImage,
                                          myUIImage: $surfingVM.faceMojiUIImage,
                                          mysourceType: $surfingVM.sourceType,
                                          mycameraDevice: $surfingVM.cameraDevice)
-//                        .onAppear {
-//                            Task {
-//                                self.postOwner = await UpdateUserData.shared.getOthersProfileDatas(id: feedVM.feedOwnerProfileID)
-//                            }
-//                        }
-                        .onDisappear {
-                            feedVM.faceMojiUIImage = surfingVM.faceMojiUIImage
-                            feedVM.showCropFaceMoji = true
-                            //                        Task {
-                            //                            try await feedVM.updateFaceMoji()
-                            //                            try await feedVM.getFaceMoji()
-                            //                            await updatePushNotiData.pushNoti(receiveUser: postOwner!, type: .facemoji)
-                            //                        }
-                        }
                     }
+                    .onChange(of: surfingVM.faceMojiUIImage) { _, _ in
+                        surfingVM.isShowingFaceMojiModal = false
+                        feedVM.faceMojiUIImage = surfingVM.faceMojiUIImage
+                        feedVM.showCropFaceMoji = true
+                    }
+                    
+                    
+//                    .sheet(isPresented: $surfingVM.isShownCamera) {
+//                        CameraAccessView(isShown: $surfingVM.isShownCamera,
+//                                         myimage: $surfingVM.faceMojiImage,
+//                                         myUIImage: $surfingVM.faceMojiUIImage,
+//                                         mysourceType: $surfingVM.sourceType,
+//                                         mycameraDevice: $surfingVM.cameraDevice)
+////                        .onAppear {
+////                            Task {
+////                                self.postOwner = await UpdateUserData.shared.getOthersProfileDatas(id: feedVM.feedOwnerProfileID)
+////                            }
+////                        }
+//                        .onDisappear {
+//                            feedVM.faceMojiUIImage = surfingVM.faceMojiUIImage
+//                            feedVM.showCropFaceMoji = true
+//                            //                        Task {
+//                            //                            try await feedVM.updateFaceMoji()
+//                            //                            try await feedVM.getFaceMoji()
+//                            //                            await updatePushNotiData.pushNoti(receiveUser: postOwner!, type: .facemoji)
+//                            //                        }
+//                        }
+//                    }
                     .navigationDestination(isPresented: $feedVM.showCropFaceMoji) {
                         FaceMojiCropView(feedVM: feedVM,
                                          surfingVM: surfingVM) { croppedImage, status in
