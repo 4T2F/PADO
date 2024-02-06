@@ -5,13 +5,11 @@
 //  Created by 강치우 on 2/6/24.
 //
 
-import Kingfisher
 import SwiftUI
 
 struct ReFeedView: View {
     @State private var isLoading = true
     @State private var selectedFilter: FeedFilter = .following
-    @Namespace var animation
     
     @EnvironmentObject var authenticationViewModel: AuthenticationViewModel
     
@@ -29,16 +27,21 @@ struct ReFeedView: View {
             ZStack {
                 if authenticationViewModel.selectFilter == .following {
                     ScrollView(showsIndicators: false) {
-                        LazyVStack(spacing:0) {
-                            ForEach(feedVM.followingPosts) { post in
-                                FeedCell(feedVM: feedVM,
-                                         surfingVM: surfingVM,
-                                         profileVM: profileVM,
-                                         updateHeartData: updateHeartData,
-                                         updatePushNotiData: updatePushNotiData,
-                                         updateCommentData: updateCommentData,
-                                         post: post)
-                                
+                        ScrollViewReader { value in
+                            LazyVStack(spacing:0) {
+                                ForEach(feedVM.followingPosts) { post in
+                                    FeedCell(feedVM: feedVM,
+                                             surfingVM: surfingVM,
+                                             profileVM: profileVM,
+                                             updateHeartData: updateHeartData,
+                                             updatePushNotiData: updatePushNotiData,
+                                             updateCommentData: updateCommentData,
+                                             post: post)
+                                    .id(post.id)
+                                }
+                                .onAppear {
+                                    value.scrollTo(feedVM.scrollPosition, anchor: .top)
+                                }
                             }
                         }
                         .scrollTargetLayout()
@@ -46,7 +49,10 @@ struct ReFeedView: View {
                     .scrollTargetBehavior(.paging)
                     .ignoresSafeArea()
                 } else {
-                    TodayView()
+                    TestTodayView(feedVM: feedVM,
+                                  surfingVM: surfingVM,
+                                  profileVM: profileVM,
+                                  followVM: followVM)
                 }
                 
                 VStack {

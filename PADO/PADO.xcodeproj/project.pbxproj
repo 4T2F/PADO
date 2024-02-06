@@ -130,6 +130,7 @@
 		64392B622B707C9A0047BA12 /* SettingBackProfileCropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B612B707C9A0047BA12 /* SettingBackProfileCropView.swift */; };
 		64392B642B7099C70047BA12 /* RectangleImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B632B7099C70047BA12 /* RectangleImageView.swift */; };
 		64392B662B71D2C70047BA12 /* FeedHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B652B71D2C70047BA12 /* FeedHeaderCell.swift */; };
+		64392B682B71EFA90047BA12 /* TestTodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B672B71EFA90047BA12 /* TestTodayView.swift */; };
 		647E7EFD2B63775100A5487E /* UpdateImageUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647E7EFC2B63775100A5487E /* UpdateImageUrl.swift */; };
 		648963DB2B6A9E960080050D /* PostCropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648963DA2B6A9E960080050D /* PostCropView.swift */; };
 		648963DD2B6AA2310080050D /* Corp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648963DC2B6AA2310080050D /* Corp.swift */; };
@@ -329,6 +330,7 @@
 		64392B612B707C9A0047BA12 /* SettingBackProfileCropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingBackProfileCropView.swift; sourceTree = "<group>"; };
 		64392B632B7099C70047BA12 /* RectangleImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangleImageView.swift; sourceTree = "<group>"; };
 		64392B652B71D2C70047BA12 /* FeedHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedHeaderCell.swift; sourceTree = "<group>"; };
+		64392B672B71EFA90047BA12 /* TestTodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTodayView.swift; sourceTree = "<group>"; };
 		647E7EFC2B63775100A5487E /* UpdateImageUrl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateImageUrl.swift; sourceTree = "<group>"; };
 		648963DA2B6A9E960080050D /* PostCropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCropView.swift; sourceTree = "<group>"; };
 		648963DC2B6AA2310080050D /* Corp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Corp.swift; sourceTree = "<group>"; };
@@ -860,6 +862,7 @@
 			isa = PBXGroup;
 			children = (
 				637891692B62446600B40AF6 /* TodayView.swift */,
+				64392B672B71EFA90047BA12 /* TestTodayView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1360,6 +1363,7 @@
 				B1A91D142B55928D00FE7F62 /* SettingAskView.swift in Sources */,
 				418743292B5C42AB00D93CBE /* LoginView.swift in Sources */,
 				63A779A22B6BD45A0068BE98 /* FollowerModalAlert.swift in Sources */,
+				64392B682B71EFA90047BA12 /* TestTodayView.swift in Sources */,
 				41FD99F62B43D5EC0028D38E /* PADOApp.swift in Sources */,
 				41A102982B6262B20070AB8D /* PhotoPicker.swift in Sources */,
 				418935C02B67A79400D20048 /* TimestampDateFormatter.swift in Sources */,

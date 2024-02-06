@@ -5,6 +5,10 @@
 //  Created by 황성진 on 2/6/24.
 //
 
+import Firebase
+import FirebaseFirestoreSwift
+import Kingfisher
+import Lottie
 import SwiftUI
 
 enum FeedFilter: Int, CaseIterable, Identifiable {
@@ -59,7 +63,6 @@ struct FeedHeaderCell: View {
                         withAnimation(.spring()) {
                             selectedFilter = filter
                             viewModel.selectFilter = filter
-                            print(viewModel.selectFilter)
                         }
                     }
                 } //: LOOP

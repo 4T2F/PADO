@@ -26,7 +26,7 @@ struct FeedCell: View {
     @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var surfingVM: SurfingViewModel
     @ObservedObject var profileVM: ProfileViewModel
-
+    
     let updateHeartData: UpdateHeartData
     let updatePushNotiData: UpdatePushNotiData
     let updateCommentData: UpdateCommentData
@@ -81,7 +81,7 @@ struct FeedCell: View {
                                 .offset(x: -12)
                             }
                         }
-                            
+                        
                         Text("\(post.surferUid)님이 \(post.ownerUid)님에게 보낸 파도")
                             .fontWeight(.semibold)
                         
@@ -120,7 +120,7 @@ struct FeedCell: View {
                             
                             // MARK: - 하트
                             VStack(spacing: 10) {
-
+                                
                                 if isHeartCheck {
                                     Button {
                                         if !heartLoading {
@@ -158,7 +158,7 @@ struct FeedCell: View {
                                                     await updatePushNotiData.pushNoti(receiveUser: postUser, type: .heart)
                                                 }
                                                 await profileVM.fetchHighlihts(id: userNameID)
-                                             
+                                                
                                             }
                                         }
                                     } label: {
@@ -235,8 +235,15 @@ struct FeedCell: View {
                 if let postID = post.id {
                     await fetchHeartCommentCounts(documentID: postID)
                     isHeartCheck = await updateHeartData.checkHeartExists(documentID: postID)
+                    feedVM.documentID = postID
                 }
             }
+        }
+        .onDisappear {
+            feedVM.scrollPosition = post.id ?? ""
+            print("=============================")
+            print(feedVM.scrollPosition)
+            print("=============================")
         }
     }
     

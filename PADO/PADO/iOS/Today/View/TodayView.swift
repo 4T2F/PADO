@@ -44,8 +44,8 @@ struct TodayView: View {
                                 if isCellVisible {
                                     HStack {
                                         // MARK: - TodayCell
-                                        TodayCell()
-                                            .padding(.top, 80)
+//                                        TodayCell()
+//                                            .padding(.top, 80)
                                         
                                         Spacer()
                                         
