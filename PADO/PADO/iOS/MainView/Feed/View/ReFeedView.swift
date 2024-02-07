@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ReFeedView: View {
     @State private var isLoading = true
-    @State private var selectedFilter: FeedFilter = .following
+    @Binding var selectedFilter: FeedFilter
     
     @EnvironmentObject var authenticationViewModel: AuthenticationViewModel
     
@@ -40,7 +40,6 @@ struct ReFeedView: View {
                                         }
                                     }
                                 }
-                                
                             }
                         }
                         .scrollTargetLayout()
@@ -48,6 +47,9 @@ struct ReFeedView: View {
                     .padding(.bottom, 3)
                     .scrollTargetBehavior(.paging)
                     .ignoresSafeArea(.all, edges: .top)
+                    .refreshable {
+                        feedVM.findFollowingUsers()
+                    }
                 } else {
                     ScrollView(showsIndicators: false) {
                         LazyVStack(spacing:0) {
@@ -65,9 +67,7 @@ struct ReFeedView: View {
                                         }
                                     }
                                 }
-                        
                             }
-                            
                         }
                         .scrollTargetLayout()
                     }
@@ -76,6 +76,11 @@ struct ReFeedView: View {
                     .ignoresSafeArea(.all, edges: .top)
                     .onAppear {
                         Task {
+                            await feedVM.fetchTodayPadoPosts()
+                        }
+                    }
+                    .refreshable {
+                        Task{
                             await feedVM.fetchTodayPadoPosts()
                         }
                     }

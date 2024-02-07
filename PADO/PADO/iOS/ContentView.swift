@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @State var width = UIScreen.main.bounds.width
     @State var menu = "feed"
+    @State var selectedFilter: FeedFilter = .following
     
     @EnvironmentObject var viewModel: AuthenticationViewModel
     
@@ -30,7 +31,8 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             TabView(selection: $viewModel.showTab) {
-                ReFeedView(feedVM: feedVM,
+                ReFeedView(selectedFilter: $selectedFilter, 
+                           feedVM: feedVM,
                            surfingVM: surfingVM,
                            profileVM: profileVM,
                            followVM: followVM)
