@@ -25,7 +25,7 @@ struct PadoRideView: View {
                 Spacer()
                 
                 Button {
-                    
+                    padorideVM.downloadSelectedImage()
                 } label: {
                     Text("다음")
                         .foregroundStyle(.white)
