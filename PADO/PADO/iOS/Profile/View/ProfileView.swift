@@ -12,15 +12,18 @@ struct ProfileView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
     @StateObject var profileVM: ProfileViewModel
     @StateObject var followVM: FollowViewModel
+    @StateObject var surfingVM = SurfingViewModel()
     @ObservedObject var feedVM: FeedViewModel
     
     let updateFollowData = UpdateFollowData()
     
     @Namespace var animation
-    @State private var selectedItemIndex: Int? = nil
-    @State private var selectedItem: Post?
-    @State private var showDetail: Bool = false
     @State private var buttonActive: Bool = false
+    
+    @State private var isShowingReceiveDetail: Bool = false
+    @State private var isShowingSendDetail: Bool = false
+    @State private var isShowingHightlight: Bool = false
+    
     
     let columns = [GridItem(.flexible(), spacing: 1), GridItem(.flexible(), spacing: 1), GridItem(.flexible())]
     
@@ -55,8 +58,12 @@ struct ProfileView: View {
                 .ignoresSafeArea(.container, edges: .vertical)
             }
             .overlay {
-                if showDetail {
-                    GridDetailView(feedVM: feedVM, showDetail: $showDetail)
+                if isShowingReceiveDetail {
+                    ReceivePostView(feedVM: feedVM, profileVM: profileVM, surfingVM: surfingVM, isShowingReceiveDetail: $isShowingReceiveDetail)
+                } else if isShowingSendDetail {
+                    SendPostView(feedVM: feedVM, profileVM: profileVM, surfingVM: surfingVM, isShowingSendDetail: $isShowingSendDetail)
+                } else if isShowingHightlight {
+                    HighlightView(feedVM: feedVM, profileVM: profileVM, surfingVM: surfingVM, isShowingHightlight: $isShowingHightlight)
                 }
             }
         }
@@ -287,17 +294,11 @@ struct ProfileView: View {
                                     .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
                                     .clipped()
                             }
-                            Text(post.title)
-                                .foregroundStyle(.white)
-                                .font(.system(size: 12))
-                                .fontWeight(.medium)
-                                .padding([.leading, .bottom], 5)
                         }
                         .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
                         .onTapGesture {
                             withAnimation(.interactiveSpring(response: 0.3, dampingFraction: 0.8, blendDuration: 0.8)) {
-                                self.selectedItem = post
-                                self.showDetail = true
+                                self.isShowingReceiveDetail = true
                             }
                         }
                     }
@@ -328,16 +329,11 @@ struct ProfileView: View {
                                     .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
                                     .clipped()
                             }
-                            Text(post.title)
-                                .foregroundStyle(.white)
-                                .font(.system(size: 14))
-                                .padding([.leading, .bottom], 5)
                         }
                         .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
                         .onTapGesture {
                             withAnimation(.interactiveSpring(response: 0.3, dampingFraction: 0.8, blendDuration: 0.8)) {
-                                self.selectedItem = post
-                                self.showDetail = true
+                                self.isShowingSendDetail = true
                             }
                         }
                     }
@@ -368,16 +364,11 @@ struct ProfileView: View {
                                     .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
                                     .clipped()
                             }
-                            Text(post.title)
-                                .foregroundStyle(.white)
-                                .font(.system(size: 14))
-                                .padding([.leading, .bottom], 5)
                         }
                         .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
                         .onTapGesture {
                             withAnimation(.interactiveSpring(response: 0.3, dampingFraction: 0.8, blendDuration: 0.8)) {
-                                self.selectedItem = post
-                                self.showDetail = true
+                                self.isShowingHightlight = true
                             }
                         }
                     }
