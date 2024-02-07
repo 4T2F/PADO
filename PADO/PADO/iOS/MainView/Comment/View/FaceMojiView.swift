@@ -15,7 +15,7 @@ struct FaceMojiView: View {
     
     let post: Post
     let postID: String
- 
+    
     var body: some View {
         NavigationStack {
             ScrollView(.horizontal, showsIndicators: false) {
@@ -70,6 +70,7 @@ struct FaceMojiView: View {
                     .navigationDestination(isPresented: $feedVM.showCropFaceMoji) {
                         FaceMojiCropView(feedVM: feedVM,
                                          surfingVM: surfingVM,
+                                         postOwner: $postOwner, 
                                          postID: postID) { croppedImage, status in
                             if let croppedImage {
                                 feedVM.cropMojiUIImage = croppedImage

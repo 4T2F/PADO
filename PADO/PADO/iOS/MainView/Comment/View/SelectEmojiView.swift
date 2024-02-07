@@ -19,6 +19,8 @@ let emojiColors: [String: Color] = [
 struct SelectEmojiView: View {
     @ObservedObject var feedVM: FeedViewModel
     
+    @Binding var postOwner: User
+    
     let postID: String
     let emojis = ["None", "👍", "🥰", "🤣", "😡", "😢"]
     
@@ -85,7 +87,7 @@ struct SelectEmojiView: View {
                                                                        selectedEmoji: feedVM.selectedEmoji)
                 }
                 feedVM.facemojies = try await feedVM.updateFacemojiData.getFaceMoji(documentID: postID) ?? []
-//                await feedVM.updatePushNotiData.pushNoti(receiveUser: postOwner, type: .facemoji)
+                await feedVM.updatePushNotiData.pushPostNoti(targetPostID: postID, receiveUser: postOwner, type: .facemoji, message: "")
             }
             feedVM.showEmojiView = false
             feedVM.showCropFaceMoji = false
