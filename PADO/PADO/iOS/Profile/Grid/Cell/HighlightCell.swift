@@ -81,11 +81,23 @@ struct HighlightCell: View {
                 HStack(alignment: .bottom) {
                     VStack(alignment: .leading, spacing: 4) {
                         if post.title.isEmpty {
-                            Text("\(post.ownerUid)님의 파도")
-                                .font(.system(size: 14))
+                            HStack(alignment: .center, spacing: 8) {
+                                Text("\(post.ownerUid)님의 파도")
+                                    .font(.system(size: 14))
+                                
+                                Text("\(post.created_Time.toFormattedString())")
+                                    .font(.system(size: 12))
+                                    .foregroundStyle(.white.opacity(0.7))
+                            }
                         } else {
-                            Text("\(post.ownerUid)님의 파도")
-                                .font(.system(size: 14))
+                            HStack(alignment: .center, spacing: 8) {
+                                Text("\(post.ownerUid)님의 파도")
+                                    .font(.system(size: 14))
+                                
+                                Text("\(post.created_Time.toFormattedString())")
+                                    .font(.system(size: 12))
+                                    .foregroundStyle(.white.opacity(0.7))
+                            }
                             
                             Text("\(post.title)")
                                 .font(.system(size: 14))
