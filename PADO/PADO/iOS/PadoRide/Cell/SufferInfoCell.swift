@@ -21,10 +21,13 @@ struct SufferInfoCell: View {
                 CircularImageView(size: .small, user: user)
             }
             
-            Text("@ \(surfingUser?.nameID ?? "")")
+            Text("\(surfingUser?.nameID ?? "")")
                 .font(.system(size: 16, weight: .semibold))
                 .padding(.horizontal, 5)
+            
+            Spacer()
         }
+        .padding()
         .onAppear {
             Task {
                 let returnUser = await UpdateUserData.shared.getOthersProfileDatas(id: surfingID)

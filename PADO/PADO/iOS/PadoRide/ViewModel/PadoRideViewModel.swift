@@ -8,5 +8,9 @@
 import Foundation
 
 class PadoRideViewModel: ObservableObject {
-    @Published var suffingPost: [Post]
+//    @Published var suffingPost: [Post]
+    
+    @Published var selectedImage: String = ""
+    
+    let getPostData = GetPostData()
 }
