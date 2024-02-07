@@ -26,7 +26,9 @@ final class PushNotificationManager {
             "to": token,
             "notification": [
                 "title": title,
-                "body": body
+                "body": body,
+                "badge": "1",
+                "sound": "default"
             ]
         ]
         
