@@ -24,6 +24,8 @@ struct ProfileView: View {
     @State private var isShowingSendDetail: Bool = false
     @State private var isShowingHightlight: Bool = false
     
+    @State private var selectedPostID: String?
+    
     
     let columns = [GridItem(.flexible(), spacing: 1), GridItem(.flexible(), spacing: 1), GridItem(.flexible())]
     
@@ -59,11 +61,11 @@ struct ProfileView: View {
             }
             .overlay {
                 if isShowingReceiveDetail {
-                    ReceivePostView(feedVM: feedVM, profileVM: profileVM, surfingVM: surfingVM, isShowingReceiveDetail: $isShowingReceiveDetail)
+                    ReceivePostView(feedVM: feedVM, profileVM: profileVM, surfingVM: surfingVM, isShowingReceiveDetail: $isShowingReceiveDetail, selectedPostID: selectedPostID ?? "")
                 } else if isShowingSendDetail {
-                    SendPostView(feedVM: feedVM, profileVM: profileVM, surfingVM: surfingVM, isShowingSendDetail: $isShowingSendDetail)
+                    SendPostView(feedVM: feedVM, profileVM: profileVM, surfingVM: surfingVM, isShowingSendDetail: $isShowingSendDetail, selectedPostID: selectedPostID ?? "")
                 } else if isShowingHightlight {
-                    HighlightView(feedVM: feedVM, profileVM: profileVM, surfingVM: surfingVM, isShowingHightlight: $isShowingHightlight)
+                    HighlightView(feedVM: feedVM, profileVM: profileVM, surfingVM: surfingVM, isShowingHightlight: $isShowingHightlight, selectedPostID: selectedPostID ?? "")
                 }
             }
         }
@@ -298,6 +300,7 @@ struct ProfileView: View {
                         .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
                         .onTapGesture {
                             withAnimation(.interactiveSpring(response: 0.3, dampingFraction: 0.8, blendDuration: 0.8)) {
+                                self.selectedPostID = post.id
                                 self.isShowingReceiveDetail = true
                             }
                         }
@@ -333,6 +336,7 @@ struct ProfileView: View {
                         .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
                         .onTapGesture {
                             withAnimation(.interactiveSpring(response: 0.3, dampingFraction: 0.8, blendDuration: 0.8)) {
+                                self.selectedPostID = post.id
                                 self.isShowingSendDetail = true
                             }
                         }
@@ -368,6 +372,7 @@ struct ProfileView: View {
                         .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
                         .onTapGesture {
                             withAnimation(.interactiveSpring(response: 0.3, dampingFraction: 0.8, blendDuration: 0.8)) {
+                                self.selectedPostID = post.id
                                 self.isShowingHightlight = true
                             }
                         }

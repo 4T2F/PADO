@@ -82,15 +82,13 @@ struct ReceivePostCell: View {
                     VStack(alignment: .leading, spacing: 4) {
                         if post.title.isEmpty {
                             Text("\(post.surferUid)님에게 받은 파도")
-                                .font(.system(size: 16))
-                                .fontWeight(.regular)
+                                .font(.system(size: 14))
                         } else {
                             Text("\(post.surferUid)님에게 받은 파도")
-                                .font(.system(size: 16))
-                                .fontWeight(.regular)
+                                .font(.system(size: 14))
                             
                             Text("\(post.title)")
-                                .font(.system(size: 16))
+                                .font(.system(size: 14))
                         }
                     }
                     .foregroundStyle(.white)

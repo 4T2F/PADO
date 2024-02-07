@@ -18,6 +18,8 @@ struct ReceivePostView: View {
     @Binding var isShowingReceiveDetail: Bool
     @GestureState private var dragState = CGSize.zero
     
+    var selectedPostID: String
+    
     var body: some View {
         ZStack {
             ScrollView(showsIndicators: false) {
@@ -25,7 +27,10 @@ struct ReceivePostView: View {
                     LazyVStack(spacing: 0) {
                         ForEach (profileVM.padoPosts, id: \.self) { post in
                             ReceivePostCell(feedVM: feedVM, profileVM: profileVM, surfingVM: surfingVM ,updateHeartData: updateHeartData, post: post)
-                                .id(post)
+                                .id(post.id)
+                        }
+                        .onAppear {
+                            value.scrollTo(selectedPostID, anchor: .top)
                         }
                     }
                 }

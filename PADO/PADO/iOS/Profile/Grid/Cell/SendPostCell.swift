@@ -79,15 +79,16 @@ struct SendPostCell: View {
                 Spacer()
                 
                 HStack(alignment: .bottom) {
-                    VStack(alignment: .leading) {
+                    VStack(alignment: .leading, spacing: 4) {
                         if post.title.isEmpty {
                             Text("\(post.ownerUid)님에게 보낸 파도")
-                                .fontWeight(.semibold)
+                                .font(.system(size: 14))
                         } else {
                             Text("\(post.ownerUid)님에게 보낸 파도")
-                                .fontWeight(.semibold)
+                                .font(.system(size: 14))
                             
                             Text("\(post.title)")
+                                .font(.system(size: 14))
                         }
                     }
                     .font(.subheadline)
