@@ -54,8 +54,7 @@ struct FollowNotificationCell: View {
         }
         .onAppear {
             Task {
-                let updateUserData = UpdateUserData()
-                if let sendUserProfile = await updateUserData.getOthersProfileDatas(id: notification.sendUser) {
+                if let sendUserProfile = await UpdateUserData.shared.getOthersProfileDatas(id: notification.sendUser) {
                     self.sendUserProfileUrl = sendUserProfile.profileImageUrl ?? ""
                 }
             }

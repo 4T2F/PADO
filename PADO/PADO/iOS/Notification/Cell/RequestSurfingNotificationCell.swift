@@ -10,8 +10,7 @@ import SwiftUI
 
 struct RequestSurfingNotificationCell: View {
     @State var sendUserProfileUrl: String = ""
-    @State private var buttonActive: Bool = false
-    @State var name = ""
+    @State var sendPostUrl: String = ""
     
     var notification: Noti
     
@@ -43,15 +42,21 @@ struct RequestSurfingNotificationCell: View {
             
             Spacer()
             
-            Image("front")
-                .resizable()
-                .frame(width: 50, height: 60)
+            if let image = URL(string: sendPostUrl) {
+                KFImage(image)
+                    .resizable()
+                    .frame(width: 50, height: 60)
+            }
         }
         .onAppear {
             Task {
-                let updateUserData = UpdateUserData()
-                if let sendUserProfile = await updateUserData.getOthersProfileDatas(id: notification.sendUser) {
+                if let sendUserProfile = await UpdateUserData.shared.getOthersProfileDatas(id: notification.sendUser) {
                     self.sendUserProfileUrl = sendUserProfile.profileImageUrl ?? ""
+                }
+                
+                if let sendPost = await
+                    UpdatePostData.shared.fetchPostById(postId: notification.postID ?? "") {
+                    self.sendPostUrl = sendPost.imageUrl 
                 }
             }
         }

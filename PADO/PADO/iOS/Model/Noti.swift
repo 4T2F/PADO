@@ -12,6 +12,7 @@ struct Noti: Identifiable, Codable {
     @DocumentID var id: String?
     
     var type: String
+    var postID: String?
     var message: String?
     var sendUser: String
     var createdAt: Timestamp

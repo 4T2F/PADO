@@ -13,12 +13,12 @@ enum PostNotiType {
     case comment
     case facemoji
     case heart
-    
+    case requestSurfing
 }
+
 enum NotiType {
     case follow
     case surfer
-    case requestSurfing
 }
 
 class UpdatePushNotiData {
@@ -27,7 +27,7 @@ class UpdatePushNotiData {
     func pushPostNoti(targetPostID: String, receiveUser: User, type: PostNotiType, message: String) async { // 이미지도 포함하게 될 푸시 알람들
         switch type {
         case .comment:
-            await createPostNoti(userId: receiveUser.nameID, type: "comment", postID: targetPostID , message: message)
+            await createPostNoti(userId: receiveUser.nameID, type: "comment", postID: targetPostID, message: message)
             
             if receiveUser.nameID != userNameID && receiveUser.alertAccept == "yes" {
                 PushNotificationManager.shared.sendPushNotification(
@@ -56,6 +56,15 @@ class UpdatePushNotiData {
                     body: "\(userNameID)님이 회원님의 파도에 ❤️로 공감했습니다"
                 )
             }
+        case .requestSurfing:
+            await createPostNoti(userId: receiveUser.nameID, type: "requestSurfing", postID: targetPostID, message: message)
+            if receiveUser.alertAccept == "yes" {
+                PushNotificationManager.shared.sendPushNotification(
+                    toFCMToken: receiveUser.fcmToken,
+                    title: "PADO",
+                    body: "\(userNameID)님이 회원님에게 파도를 보내고싶어합니다🌊 확인해주세요"
+                )
+            }
         }
     }
     
@@ -80,15 +89,6 @@ class UpdatePushNotiData {
                     body: "\(userNameID)님이 회원님을 서퍼🏄🏼‍♀️로 지정했습니다"
                 )
             }
-        case .requestSurfing:
-            await createNoti(userId: receiveUser.nameID, type: "requestSurfing")
-            if receiveUser.alertAccept == "yes" {
-                PushNotificationManager.shared.sendPushNotification(
-                    toFCMToken: receiveUser.fcmToken,
-                    title: "PADO",
-                    body: "\(userNameID)님이 회원님에게 파도를 보내고싶어합니다🌊 확인해주세요"
-                )
-            }
         }
     }
     
@@ -109,6 +109,7 @@ class UpdatePushNotiData {
         let notificationRef = db.collection("users").document(userId).collection("notifications").document("\(type)-\(postID)")
         let notificationData: [String: Any] = [
             "type": type,
+            "postID": postID,
             "sendUser": userNameID,
             "message": message,
             "createdAt": FieldValue.serverTimestamp(),
@@ -116,6 +117,7 @@ class UpdatePushNotiData {
         ]
         do {
             try await notificationRef.setData(notificationData)
+            print("파베 등록 완료!")
         } catch {
             print("firebase notification collection add error : \(error)")
         }
