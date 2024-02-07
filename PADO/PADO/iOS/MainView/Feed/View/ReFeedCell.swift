@@ -218,6 +218,7 @@ struct FeedCell: View {
                             VStack(spacing: 10) {
                                 Button {
                                     isShowingCommentView = true
+                                    feedVM.scrollsave = post.id!
                                 } label: {
                                     Image("chat")
                                 }

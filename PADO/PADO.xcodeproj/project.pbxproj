@@ -128,6 +128,10 @@
 		64392B622B707C9A0047BA12 /* SettingBackProfileCropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B612B707C9A0047BA12 /* SettingBackProfileCropView.swift */; };
 		64392B642B7099C70047BA12 /* RectangleImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B632B7099C70047BA12 /* RectangleImageView.swift */; };
 		64392B662B71D2C70047BA12 /* FeedHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B652B71D2C70047BA12 /* FeedHeaderCell.swift */; };
+		64392B6D2B737F080047BA12 /* PadoRideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B6C2B737F080047BA12 /* PadoRideView.swift */; };
+		64392B6F2B73803E0047BA12 /* SufferInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B6E2B73803E0047BA12 /* SufferInfoCell.swift */; };
+		64392B712B73804B0047BA12 /* SufferPostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B702B73804B0047BA12 /* SufferPostCell.swift */; };
+		64392B742B7387590047BA12 /* PadoRideViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B732B7387590047BA12 /* PadoRideViewModel.swift */; };
 		647E7EFD2B63775100A5487E /* UpdateImageUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647E7EFC2B63775100A5487E /* UpdateImageUrl.swift */; };
 		648963DB2B6A9E960080050D /* PostCropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648963DA2B6A9E960080050D /* PostCropView.swift */; };
 		648963DD2B6AA2310080050D /* Corp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648963DC2B6AA2310080050D /* Corp.swift */; };
@@ -325,6 +329,10 @@
 		64392B612B707C9A0047BA12 /* SettingBackProfileCropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingBackProfileCropView.swift; sourceTree = "<group>"; };
 		64392B632B7099C70047BA12 /* RectangleImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangleImageView.swift; sourceTree = "<group>"; };
 		64392B652B71D2C70047BA12 /* FeedHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedHeaderCell.swift; sourceTree = "<group>"; };
+		64392B6C2B737F080047BA12 /* PadoRideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadoRideView.swift; sourceTree = "<group>"; };
+		64392B6E2B73803E0047BA12 /* SufferInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SufferInfoCell.swift; sourceTree = "<group>"; };
+		64392B702B73804B0047BA12 /* SufferPostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SufferPostCell.swift; sourceTree = "<group>"; };
+		64392B732B7387590047BA12 /* PadoRideViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadoRideViewModel.swift; sourceTree = "<group>"; };
 		647E7EFC2B63775100A5487E /* UpdateImageUrl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateImageUrl.swift; sourceTree = "<group>"; };
 		648963DA2B6A9E960080050D /* PostCropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCropView.swift; sourceTree = "<group>"; };
 		648963DC2B6AA2310080050D /* Corp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Corp.swift; sourceTree = "<group>"; };
@@ -881,6 +889,41 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		64392B692B737ED30047BA12 /* PadoRide */ = {
+			isa = PBXGroup;
+			children = (
+				64392B722B7387490047BA12 /* ViewModel */,
+				64392B6B2B737EFA0047BA12 /* Cell */,
+				64392B6A2B737EF70047BA12 /* View */,
+			);
+			path = PadoRide;
+			sourceTree = "<group>";
+		};
+		64392B6A2B737EF70047BA12 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				64392B6C2B737F080047BA12 /* PadoRideView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		64392B6B2B737EFA0047BA12 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				64392B6E2B73803E0047BA12 /* SufferInfoCell.swift */,
+				64392B702B73804B0047BA12 /* SufferPostCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		64392B722B7387490047BA12 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				64392B732B7387590047BA12 /* PadoRideViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		64D0E7472B55053500060A73 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
@@ -890,6 +933,7 @@
 				419742012B55900D0055F2AB /* MainView */,
 				64F210CE2B58B03300E2064A /* Search */,
 				B102FE7C2B56CB0A0005C310 /* Surfing */,
+				64392B692B737ED30047BA12 /* PadoRide */,
 				63AA03552B68F17E00431332 /* Profile */,
 				419741E32B558F4A0055F2AB /* Follow */,
 				B1A91D042B55926200FE7F62 /* Setting */,
@@ -1202,6 +1246,7 @@
 				418B6C932B5EC61600E8289D /* SurfingViewModel.swift in Sources */,
 				635B094A2B4500CB009E60A9 /* User.swift in Sources */,
 				63C20BEB2B56CEDC00911F64 /* AdvancedSettingsView.swift in Sources */,
+				64392B6D2B737F080047BA12 /* PadoRideView.swift in Sources */,
 				64392B662B71D2C70047BA12 /* FeedHeaderCell.swift in Sources */,
 				418B6C8F2B5EC16500E8289D /* FollowViewModel.swift in Sources */,
 				64B4C8EA2B62532100D405DE /* UpdateUserData.swift in Sources */,
@@ -1247,6 +1292,7 @@
 				B1A91D102B55928D00FE7F62 /* SettingNormalCell.swift in Sources */,
 				41E5F69C2B5666D7001750C2 /* FaceMojiCell.swift in Sources */,
 				63C8BA492B561DC200025422 /* SignUpButton.swift in Sources */,
+				64392B712B73804B0047BA12 /* SufferPostCell.swift in Sources */,
 				63824C462B558B2400D1D653 /* IdView.swift in Sources */,
 				040914F72B561A18001B549B /* ReportSelectView.swift in Sources */,
 				648963E12B6BEF890080050D /* Facemoji.swift in Sources */,
@@ -1271,6 +1317,7 @@
 				419741E22B558F3A0055F2AB /* FeedSurfers.swift in Sources */,
 				648963DB2B6A9E960080050D /* PostCropView.swift in Sources */,
 				B102FE842B56DC030005C310 /* GrayButtonView.swift in Sources */,
+				64392B742B7387590047BA12 /* PadoRideViewModel.swift in Sources */,
 				63824C522B558B6900D1D653 /* UseIDModalView.swift in Sources */,
 				63AA035E2B6A044300431332 /* SNSButton.swift in Sources */,
 				B1A91D112B55928D00FE7F62 /* SettingNotificationView.swift in Sources */,
@@ -1298,6 +1345,7 @@
 				63C20BED2B56CFAF00911F64 /* AdvancedSettingsCell.swift in Sources */,
 				417D188C2B5CFEF100545A5E /* LoginCodeView.swift in Sources */,
 				4197420F2B55900D0055F2AB /* MainView.swift in Sources */,
+				64392B6F2B73803E0047BA12 /* SufferInfoCell.swift in Sources */,
 				419742102B55900D0055F2AB /* ContentView.swift in Sources */,
 				6408FEE82B6E98E000BF0DDF /* DeleteCommentView.swift in Sources */,
 				04E9509A2B71B7860091F660 /* FaceMojiModalView.swift in Sources */,

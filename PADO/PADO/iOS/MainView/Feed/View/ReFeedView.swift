@@ -25,25 +25,30 @@ struct ReFeedView: View {
             ZStack {
                 if authenticationViewModel.selectFilter == .following {
                     ScrollView(showsIndicators: false) {
-                        LazyVStack(spacing:0) {
-                            ForEach(feedVM.followingPosts.indices, id: \.self) { index in
-                                FeedCell(feedVM: feedVM,
-                                         surfingVM: surfingVM,
-                                         profileVM: profileVM,
-                                         updateHeartData: updateHeartData,
-                                         post: feedVM.followingPosts[index])
-                                .id(index)
-                                .onAppear {
-                                    if index == feedVM.followingPosts.count - 1{
-                                        Task {
-                                            await feedVM.fetchFollowMorePosts()
+                        ScrollViewReader { value in
+                            LazyVStack(spacing:0) {
+                                ForEach(feedVM.followingPosts.indices, id: \.self) { index in
+                                    FeedCell(feedVM: feedVM,
+                                             surfingVM: surfingVM,
+                                             profileVM: profileVM,
+                                             updateHeartData: updateHeartData,
+                                             post: feedVM.followingPosts[index])
+                                    .id(index)
+                                    .id(feedVM.followingPosts[index].id)
+                                    .onAppear {
+                                        if index == feedVM.followingPosts.count - 1{
+                                            Task {
+                                                await feedVM.fetchFollowMorePosts()
+                                            }
                                         }
                                     }
                                 }
-                                
+                                .onAppear {
+                                    value.scrollTo(feedVM.scrollsave, anchor: .top)
+                                }
                             }
+                            .scrollTargetLayout()
                         }
-                        .scrollTargetLayout()
                     }
                     .padding(.bottom, 3)
                     .scrollTargetBehavior(.paging)
@@ -65,7 +70,7 @@ struct ReFeedView: View {
                                         }
                                     }
                                 }
-                        
+                                
                             }
                             
                         }
