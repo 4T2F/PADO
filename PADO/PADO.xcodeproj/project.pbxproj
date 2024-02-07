@@ -713,6 +713,13 @@
 			path = PADOUITests;
 			sourceTree = "<group>";
 		};
+		6302CFB82B73DE2B00E5B7CE /* OtherUserProfileGrid */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = OtherUserProfileGrid;
+			sourceTree = "<group>";
+		};
 		632291382B5BF412007C51D1 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
@@ -742,13 +749,13 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
-		63283DBC2B73BEFE00A42C0F /* Grid */ = {
+		63283DBC2B73BEFE00A42C0F /* ProfileGrid */ = {
 			isa = PBXGroup;
 			children = (
 				63283DBE2B73BFE100A42C0F /* View */,
 				63283DBD2B73BFDF00A42C0F /* Cell */,
 			);
-			path = Grid;
+			path = ProfileGrid;
 			sourceTree = "<group>";
 		};
 		63283DBD2B73BFDF00A42C0F /* Cell */ = {
@@ -845,8 +852,9 @@
 			isa = PBXGroup;
 			children = (
 				63AA035F2B6A173000431332 /* ViewModel */,
-				63283DBC2B73BEFE00A42C0F /* Grid */,
 				63AA03562B68F19A00431332 /* View */,
+				63283DBC2B73BEFE00A42C0F /* ProfileGrid */,
+				6302CFB82B73DE2B00E5B7CE /* OtherUserProfileGrid */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
