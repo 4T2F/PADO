@@ -20,10 +20,10 @@ struct NotificationView: View {
                     ZStack {
                         ScrollView(showsIndicators: false) {
                             // 나중에 ForEach로 만들어야함(?) -> 이뤄드림
-                                ForEach(notificationVM.notifications) { notification in
-                                    NotificationCell(notification: notification)
-                                        .padding(.horizontal, 10)
-                                        .padding(.vertical, 4)
+                            ForEach(notificationVM.notifications) { notification in
+                                NotificationCell(notification: notification)
+                                    .padding(.horizontal, 10)
+                                    .padding(.vertical, 4)
                             }
                             .padding(.top, 50)
                         }
