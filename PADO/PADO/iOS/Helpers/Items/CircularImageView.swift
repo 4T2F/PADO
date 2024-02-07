@@ -66,8 +66,6 @@ struct CircularImageView: View {
     }
 }
 
-
-
 struct UrlProfileImageView: View {
     
     var imageUrl: String

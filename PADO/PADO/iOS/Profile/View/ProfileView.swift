@@ -228,7 +228,7 @@ struct ProfileView: View {
                         }
                     }
                     //                    .padding(.horizontal, 8)
-                    .frame(height: 1)
+                    .frame(height: 2)
                 }
                 .contentShape(Rectangle())
                 .onTapGesture {
