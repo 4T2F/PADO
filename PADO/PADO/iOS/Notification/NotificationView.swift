@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct NotificationView: View {
-    
+    @StateObject private var notificationVM = NotificationViewModel()
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -18,21 +18,12 @@ struct NotificationView: View {
                 
                 VStack {
                     ZStack {
-                        ScrollView {
-                            // 나중에 ForEach로 만들어야함(?)
-                            VStack(spacing: 25) {
-                                
-                                FollowerCell(name: "official_tuna")
-                                
-                                CreateFeedCell(name: "donghochoi")
-                                
-                                SurferCell(name: "Hsungjin", day: 3)
-                                
-                                FollowerCell(name: "official_tuna")
-                                
-                                FollowerCell(name: "official_tuna")
-                                
-                                FollowerCell(name: "official_tuna")
+                        ScrollView(showsIndicators: false) {
+                            // 나중에 ForEach로 만들어야함(?) -> 이뤄드림
+                                ForEach(notificationVM.notifications) { notification in
+                                    NotificationCell(notification: notification)
+                                        .padding(.horizontal, 10)
+                                        .padding(.vertical, 4)
                             }
                             .padding(.top, 50)
                         }
@@ -64,6 +55,11 @@ struct NotificationView: View {
         }
         .padding(.top, 10)
         .navigationBarBackButtonHidden()
+        .onAppear {
+            Task {
+                await notificationVM.fetchNotifications()
+            }
+        }
     }
 }
 

@@ -23,7 +23,7 @@ enum NotiType {
 
 class UpdatePushNotiData {
     let db = Firestore.firestore()
-    //포스트의 정보가 포함된 경우 알람(하위컬렉션 이름을 포스트이름으로 하기 위함)
+    // 포스트의 정보가 포함된 경우 알람(하위컬렉션 이름을 포스트이름으로 하기 위함)
     func pushPostNoti(targetPostID: String, receiveUser: User, type: PostNotiType, message: String) async { // 이미지도 포함하게 될 푸시 알람들
         switch type {
         case .comment:
@@ -109,6 +109,7 @@ class UpdatePushNotiData {
         let notificationRef = db.collection("users").document(userId).collection("notifications").document("\(type)-\(postID)")
         let notificationData: [String: Any] = [
             "type": type,
+            "sendUser": userNameID,
             "message": message,
             "createdAt": FieldValue.serverTimestamp(),
             "read": false
@@ -125,6 +126,7 @@ class UpdatePushNotiData {
         let notificationRef = db.collection("users").document(userId).collection("notifications").document("\(type)-\(userNameID)")
         let notificationData: [String: Any] = [
             "type": type,
+            "sendUser": userNameID,
             "createdAt": FieldValue.serverTimestamp(),
             "read": false
         ]
