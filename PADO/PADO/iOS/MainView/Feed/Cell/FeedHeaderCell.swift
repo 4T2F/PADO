@@ -82,3 +82,24 @@ struct FeedHeaderCell: View {
     }
 }
 
+
+struct FeedRefreshHeaderCell: View {
+    // MARK: - PROPERTY
+    
+    // MARK: - BODY
+    var body: some View {
+        HStack {
+            Spacer()
+            VStack {
+                HStack(spacing: 22) {
+                    Text("아래로 드래그해서 새로고침")
+                        .foregroundStyle(.white)
+                        .font(.system(size: 14))
+                } //: HSTACK
+            } //: VSTACK
+            
+            Spacer()
+        }
+        .padding(.horizontal)
+    }
+}

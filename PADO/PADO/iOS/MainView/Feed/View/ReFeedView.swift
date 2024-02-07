@@ -13,18 +13,21 @@ struct ReFeedView: View {
     
     @EnvironmentObject var authenticationViewModel: AuthenticationViewModel
     
-    @StateObject var feedVM: FeedViewModel
-    @StateObject var surfingVM: SurfingViewModel
-    @StateObject var profileVM: ProfileViewModel
-    @StateObject var followVM: FollowViewModel
+    @ObservedObject var feedVM: FeedViewModel
+    @ObservedObject var surfingVM: SurfingViewModel
+    @ObservedObject var profileVM: ProfileViewModel
+    @ObservedObject var followVM: FollowViewModel
+    @StateObject var scrollDelegate: ScrollViewModel = .init()
     
     let updateHeartData = UpdateHeartData()
     
     var body: some View {
         NavigationStack {
             ZStack {
-                if authenticationViewModel.selectFilter == .following {
-                    ScrollView(showsIndicators: false) {
+            CustomRefreshView(showsIndicator: false,
+                              lottieFileName: "Loading",
+                              scrollDelegate: scrollDelegate) {
+                    if authenticationViewModel.selectFilter == .following {
                         LazyVStack(spacing:0) {
                             ForEach(feedVM.followingPosts.indices, id: \.self) { index in
                                 FeedCell(feedVM: feedVM,
@@ -42,16 +45,7 @@ struct ReFeedView: View {
                                 }
                             }
                         }
-                        .scrollTargetLayout()
-                    }
-                    .padding(.bottom, 3)
-                    .scrollTargetBehavior(.paging)
-                    .ignoresSafeArea(.all, edges: .top)
-                    .refreshable {
-                        feedVM.findFollowingUsers()
-                    }
-                } else {
-                    ScrollView(showsIndicators: false) {
+                    } else {
                         LazyVStack(spacing:0) {
                             ForEach(feedVM.todayPadoPosts.indices, id: \.self) { index in
                                 FeedCell(feedVM: feedVM,
@@ -69,29 +63,35 @@ struct ReFeedView: View {
                                 }
                             }
                         }
-                        .scrollTargetLayout()
-                    }
-                    .padding(.bottom, 3)
-                    .scrollTargetBehavior(.paging)
-                    .ignoresSafeArea(.all, edges: .top)
-                    .onAppear {
-                        Task {
-                            await feedVM.fetchTodayPadoPosts()
+                        .onAppear {
+                            Task {
+                                await feedVM.fetchTodayPadoPosts()
+                            }
+                        }
+                        .refreshable {
+                            Task{
+                                await feedVM.fetchTodayPadoPosts()
+                            }
                         }
                     }
-                    .refreshable {
-                        Task{
-                            await feedVM.fetchTodayPadoPosts()
-                        }
-                    }
-                }
-                
+            } onRefresh: {
+                try? await Task.sleep(nanoseconds: 1_500_000_000)
+                feedVM.findFollowingUsers()
+            }
+
                 VStack {
-                    FeedHeaderCell()
-                    
+                    if scrollDelegate.scrollOffset < 5 {
+                        FeedHeaderCell()
+                            .transition(.opacity.combined(with: .scale))
+                    } else if !scrollDelegate.isEligible {
+                        FeedRefreshHeaderCell()
+                            .transition(.opacity.combined(with: .scale))
+                    }
                     Spacer()
                 }
                 .padding(.top, 10)
+                .animation(.easeInOut, value: scrollDelegate.scrollOffset)
+
             }
         }
     }

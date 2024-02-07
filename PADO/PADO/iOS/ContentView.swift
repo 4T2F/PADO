@@ -31,7 +31,8 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             TabView(selection: $viewModel.showTab) {
-                ReFeedView(selectedFilter: $selectedFilter, 
+                
+                ReFeedView(selectedFilter: $selectedFilter,
                            feedVM: feedVM,
                            surfingVM: surfingVM,
                            profileVM: profileVM,
