@@ -11,7 +11,7 @@ import SwiftUI
 struct DeleteFaceMojiView: View {
     // MARK: - PROPERTY
     let facemoji: Facemoji
-    
+    let postID: String
     @ObservedObject var feedVM: FeedViewModel
     
     // MARK: - BODY
@@ -35,8 +35,8 @@ struct DeleteFaceMojiView: View {
                 Button {
                     feedVM.deleteFacemojiModal = false
                     Task {
-                        await feedVM.deleteFaceModji(storagefileName: facemoji.storagename)
-                        try await feedVM.getFaceMoji()
+                        await feedVM.updateFacemojiData.deleteFaceMoji(documentID: postID, storagefileName: facemoji.storagename)
+                        feedVM.facemojies = try await feedVM.updateFacemojiData.getFaceMoji(documentID: postID) ?? []
                     }
                 } label: {
                     Text("삭제")

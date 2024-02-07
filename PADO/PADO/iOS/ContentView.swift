@@ -29,61 +29,58 @@ struct ContentView: View {
     
     var body: some View {
         NavigationStack {
-            GeometryReader { geometry in
-                TabView(selection: $viewModel.showTab) {
-                    FeedView(feedVM: feedVM,
-                             surfingVM: surfingVM,
-                             profileVM: profileVM, 
-                             followVM: followVM)
-                        .tabItem {
-                            Image(viewModel.showTab == 0 ? "home_light" : "home_gray")
-                                
-                            Text("홈")
-                        }
-                        .onAppear { viewModel.showTab = 0 }
-                        .tag(0)
+            TabView(selection: $viewModel.showTab) {
+                ReFeedView(feedVM: feedVM,
+                           surfingVM: surfingVM,
+                           profileVM: profileVM,
+                           followVM: followVM)
+                .tabItem {
+                    Image(viewModel.showTab == 0 ? "home_light" : "home_gray")
                     
-                    MainSearchView(searchVM: searchVM,
-                                   profileVM: profileVM,
-                                   followVM: followVM)
-                        .tabItem {
-                            Image(viewModel.showTab == 1 ? "search_light" : "search_gray")
-                            
-                            Text("검색")
-                        }
-                        .onAppear { viewModel.showTab = 1 }
-                        .tag(1)
-                    SurfingView(surfingVM: surfingVM,
-                                feedVM: feedVM, profileVM:
-                                    profileVM, followVM:
-                                    followVM)
-                        .tabItem {
-                            Text("")
-                            
-                            Image(viewModel.showTab == 2 ? "tab_added" : "tab_add")
-                        }
-                        .onAppear { viewModel.showTab = 2 }
-                        .tag(2)
-                    TodayView()
-                        .tabItem {
-                            Image(viewModel.showTab == 3 ? "today_light" : "today_gray")
-                            
-                            Text("오늘 파도")
-                        }
-                        .onAppear { viewModel.showTab = 3 }
-                        .tag(3)
-                    ProfileView(profileVM: profileVM, followVM: followVM)
-                        .tabItem {
-                            Image(viewModel.showTab == 4 ? "profile_light" : "profile_gray")
-                            
-                            Text("프로필")
-                        }
-                        .onAppear { viewModel.showTab = 4 }
-                        .tag(4)
+                    Text("홈")
                 }
-                .tint(.white)
-                .frame(width: geometry.size.width, height: geometry.size.height)
+                .onAppear { viewModel.showTab = 0 }
+                .tag(0)
+                
+                MainSearchView(searchVM: searchVM,
+                               profileVM: profileVM,
+                               followVM: followVM)
+                .tabItem {
+                    Image(viewModel.showTab == 1 ? "search_light" : "search_gray")
+                    
+                    Text("검색")
+                }
+                .onAppear { viewModel.showTab = 1 }
+                .tag(1)
+                SurfingView(surfingVM: surfingVM,
+                            feedVM: feedVM, profileVM:
+                                profileVM, followVM:
+                                followVM)
+                .tabItem {
+                    Text("")
+                    
+                    Image(viewModel.showTab == 2 ? "tab_added" : "tab_add")
+                }
+                .onAppear { viewModel.showTab = 2 }
+                .tag(2)
+                SwiftUIView()
+                    .tabItem {
+                        Image(viewModel.showTab == 3 ? "today_light" : "today_gray")
+                        
+                        Text("임시용")
+                    }
+                    .onAppear { viewModel.showTab = 3 }
+                    .tag(3)
+                ProfileView(profileVM: profileVM, followVM: followVM)
+                    .tabItem {
+                        Image(viewModel.showTab == 4 ? "profile_light" : "profile_gray")
+                        
+                        Text("프로필")
+                    }
+                    .onAppear { viewModel.showTab = 4 }
+                    .tag(4)
             }
+            .tint(.white)
         }
         .onAppear {
             Task {
