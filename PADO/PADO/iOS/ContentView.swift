@@ -71,7 +71,7 @@ struct ContentView: View {
                     }
                     .onAppear { viewModel.showTab = 3 }
                     .tag(3)
-                ProfileView(profileVM: profileVM, followVM: followVM)
+                ProfileView(profileVM: profileVM, followVM: followVM, feedVM: feedVM)
                     .tabItem {
                         Image(viewModel.showTab == 4 ? "profile_light" : "profile_gray")
                         

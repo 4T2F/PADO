@@ -12,42 +12,62 @@ struct ProfileView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
     @StateObject var profileVM: ProfileViewModel
     @StateObject var followVM: FollowViewModel
+    @StateObject var surfingVM = SurfingViewModel()
+    @ObservedObject var feedVM: FeedViewModel
     
     let updateFollowData = UpdateFollowData()
     
     @Namespace var animation
     @State private var buttonActive: Bool = false
     
+    @State private var isShowingReceiveDetail: Bool = false
+    @State private var isShowingSendDetail: Bool = false
+    @State private var isShowingHightlight: Bool = false
+    
+    @State private var selectedPostID: String?
+    
+    
     let columns = [GridItem(.flexible(), spacing: 1), GridItem(.flexible(), spacing: 1), GridItem(.flexible())]
     
     var body: some View {
         NavigationStack {
-            ScrollView(.vertical, showsIndicators: false) {
-                VStack(spacing: 0) {
-                    headerView()
-                    
-                    LazyVStack(pinnedViews: [.sectionHeaders]) {
-                        Section {
-                            postList()
-                        } header: {
-                            pinnedHeaderView()
-                                .background(Color.black)
-                                .offset(y: profileVM.headerOffsets.1 > 0 ? 0 : -profileVM.headerOffsets.1 / 8)
-                                .modifier(OffsetModifier(offset: $profileVM.headerOffsets.0, returnFromStart: false))
-                                .modifier(OffsetModifier(offset: $profileVM.headerOffsets.1))
+            ZStack {
+                ScrollView(.vertical, showsIndicators: false) {
+                    VStack(spacing: 0) {
+                        headerView()
+                        
+                        LazyVStack(pinnedViews: [.sectionHeaders]) {
+                            Section {
+                                postList()
+                            } header: {
+                                pinnedHeaderView()
+                                    .background(Color.black)
+                                    .offset(y: profileVM.headerOffsets.1 > 0 ? 0 : -profileVM.headerOffsets.1 / 8)
+                                    .modifier(OffsetModifier(offset: $profileVM.headerOffsets.0, returnFromStart: false))
+                                    .modifier(OffsetModifier(offset: $profileVM.headerOffsets.1))
+                            }
                         }
                     }
                 }
+                .overlay {
+                    Rectangle()
+                        .fill(.black)
+                        .frame(height: 50)
+                        .frame(maxHeight: .infinity, alignment: .top)
+                        .opacity(profileVM.headerOffsets.0 < 5 ? 1 : 0)
+                }
+                .coordinateSpace(name: "SCROLL")
+                .ignoresSafeArea(.container, edges: .vertical)
             }
             .overlay {
-                Rectangle()
-                    .fill(.black)
-                    .frame(height: 50)
-                    .frame(maxHeight: .infinity, alignment: .top)
-                    .opacity(profileVM.headerOffsets.0 < 5 ? 1 : 0)
+                if isShowingReceiveDetail {
+                    ReceivePostView(feedVM: feedVM, profileVM: profileVM, surfingVM: surfingVM, isShowingReceiveDetail: $isShowingReceiveDetail, selectedPostID: selectedPostID ?? "")
+                } else if isShowingSendDetail {
+                    SendPostView(feedVM: feedVM, profileVM: profileVM, surfingVM: surfingVM, isShowingSendDetail: $isShowingSendDetail, selectedPostID: selectedPostID ?? "")
+                } else if isShowingHightlight {
+                    HighlightView(feedVM: feedVM, profileVM: profileVM, surfingVM: surfingVM, isShowingHightlight: $isShowingHightlight, selectedPostID: selectedPostID ?? "")
+                }
             }
-            .coordinateSpace(name: "SCROLL")
-            .ignoresSafeArea(.container, edges: .vertical)
         }
         .navigationDestination(isPresented: $viewModel.showingSettingProfileView) {
             SettingProfileView()
@@ -276,12 +296,14 @@ struct ProfileView: View {
                                     .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
                                     .clipped()
                             }
-                            Text(post.title)
-                                .foregroundStyle(.white)
-                                .font(.system(size: 14))
-                                .padding([.leading, .bottom], 5)
                         }
                         .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
+                        .onTapGesture {
+                            withAnimation(.interactiveSpring(response: 0.3, dampingFraction: 0.8, blendDuration: 0.8)) {
+                                self.selectedPostID = post.id
+                                self.isShowingReceiveDetail = true
+                            }
+                        }
                     }
                 }
             }
@@ -310,12 +332,14 @@ struct ProfileView: View {
                                     .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
                                     .clipped()
                             }
-                            Text(post.title)
-                                .foregroundStyle(.white)
-                                .font(.system(size: 14))
-                                .padding([.leading, .bottom], 5)
                         }
                         .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
+                        .onTapGesture {
+                            withAnimation(.interactiveSpring(response: 0.3, dampingFraction: 0.8, blendDuration: 0.8)) {
+                                self.selectedPostID = post.id
+                                self.isShowingSendDetail = true
+                            }
+                        }
                     }
                 }
             }
@@ -343,14 +367,15 @@ struct ProfileView: View {
                                     .scaledToFill()
                                     .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
                                     .clipped()
-                                
                             }
-                            Text(post.title)
-                                .foregroundStyle(.white)
-                                .font(.system(size: 14))
-                                .padding([.leading, .bottom], 5)
                         }
                         .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
+                        .onTapGesture {
+                            withAnimation(.interactiveSpring(response: 0.3, dampingFraction: 0.8, blendDuration: 0.8)) {
+                                self.selectedPostID = post.id
+                                self.isShowingHightlight = true
+                            }
+                        }
                     }
                 }
             }
