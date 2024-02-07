@@ -12,6 +12,7 @@ struct ProfileView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
     @StateObject var profileVM: ProfileViewModel
     @StateObject var followVM: FollowViewModel
+    @ObservedObject var feedVM: FeedViewModel
     
     let updateFollowData = UpdateFollowData()
     
@@ -43,13 +44,19 @@ struct ProfileView: View {
                         }
                     }
                 }
+                .overlay {
+                    Rectangle()
+                        .fill(.black)
+                        .frame(height: 50)
+                        .frame(maxHeight: .infinity, alignment: .top)
+                        .opacity(profileVM.headerOffsets.0 < 5 ? 1 : 0)
+                }
                 .coordinateSpace(name: "SCROLL")
                 .ignoresSafeArea(.container, edges: .vertical)
             }
             .overlay {
                 if showDetail {
-                    GridDetailView(profileVM: profileVM, animation: animation, showDetail: $showDetail, selectedItemIndex: $selectedItemIndex)
-                        .ignoresSafeArea(.all, edges: .top)
+                    GridDetailView(feedVM: feedVM, showDetail: $showDetail)
                 }
             }
         }
@@ -288,9 +295,8 @@ struct ProfileView: View {
                         }
                         .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
                         .onTapGesture {
-                            withAnimation(.easeInOut) {
+                            withAnimation(.interactiveSpring(response: 0.3, dampingFraction: 0.8, blendDuration: 0.8)) {
                                 self.selectedItem = post
-                                self.selectedItemIndex = profileVM.padoPosts.firstIndex(of: post)
                                 self.showDetail = true
                             }
                         }
@@ -328,6 +334,12 @@ struct ProfileView: View {
                                 .padding([.leading, .bottom], 5)
                         }
                         .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
+                        .onTapGesture {
+                            withAnimation(.interactiveSpring(response: 0.3, dampingFraction: 0.8, blendDuration: 0.8)) {
+                                self.selectedItem = post
+                                self.showDetail = true
+                            }
+                        }
                     }
                 }
             }
@@ -362,6 +374,12 @@ struct ProfileView: View {
                                 .padding([.leading, .bottom], 5)
                         }
                         .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
+                        .onTapGesture {
+                            withAnimation(.interactiveSpring(response: 0.3, dampingFraction: 0.8, blendDuration: 0.8)) {
+                                self.selectedItem = post
+                                self.showDetail = true
+                            }
+                        }
                     }
                 }
             }
