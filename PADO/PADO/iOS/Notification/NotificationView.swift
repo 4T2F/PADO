@@ -14,7 +14,7 @@ struct NotificationView: View {
     var body: some View {
         VStack {
             ZStack {
-                Color.black.ignoresSafeArea()
+                Color.main.ignoresSafeArea()
                 
                 VStack {
                     ZStack {
