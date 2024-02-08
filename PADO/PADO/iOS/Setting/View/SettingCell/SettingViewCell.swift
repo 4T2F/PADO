@@ -19,8 +19,9 @@ struct SettingViewCell: View {
             Spacer()
             
             Image(systemName: "chevron.right")
+                .font(.system(size: 14))
+                .fontWeight(.medium)
                 .foregroundStyle(.white)
-                .bold()
         }
         .padding(.horizontal)
         .padding(.vertical, -7)

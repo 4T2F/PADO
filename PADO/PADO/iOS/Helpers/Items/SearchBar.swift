@@ -26,7 +26,7 @@ struct SearchBar: View {
                         .font(.system(size: 16))
                         .foregroundStyle(Color.gray))
                     .tint(.gray)
-                    .padding(7)
+                    .padding(8)
                     .padding(.leading, -7)
                     .foregroundStyle(Color.white)
                     .accentColor(Color.gray)

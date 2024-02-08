@@ -45,7 +45,7 @@ struct ReFeedView: View {
                         }
                         .scrollTargetLayout()
                     }
-                    .padding(.bottom, 3)
+                    .padding(.bottom, 0.2)
                     .scrollTargetBehavior(.paging)
                     .ignoresSafeArea(.all, edges: .top)
                 } else {

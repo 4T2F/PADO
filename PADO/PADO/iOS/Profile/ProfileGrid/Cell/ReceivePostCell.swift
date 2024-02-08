@@ -86,7 +86,7 @@ struct ReceivePostCell: View {
                                     .font(.system(size: 14))
                                 
                                 Text("\(post.created_Time.toFormattedString())")
-                                    .font(.system(size: 12))
+                                    .font(.system(size: 14))
                                     .foregroundStyle(.white.opacity(0.7))
                             }
                         } else {
@@ -95,15 +95,18 @@ struct ReceivePostCell: View {
                                     .font(.system(size: 14))
                                 
                                 Text("\(post.created_Time.toFormattedString())")
-                                    .font(.system(size: 12))
+                                    .font(.system(size: 14))
                                     .foregroundStyle(.white.opacity(0.7))
                             }
+                            .padding(.bottom, 5)
                             
                             Text("\(post.title)")
-                                .font(.system(size: 14))
+                                .font(.system(size: 16))
+                                .fontWeight(.medium)
                         }
                     }
                     .foregroundStyle(.white)
+                    .padding(.bottom, 14)
                     
                     Spacer()
                     
