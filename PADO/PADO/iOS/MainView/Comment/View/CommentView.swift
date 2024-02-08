@@ -23,26 +23,6 @@ struct CommentView: View {
     
     var body: some View {
         NavigationStack {
-            HStack {
-                Button {
-                    isShowingCommentView = false
-                } label: {
-                    Text("취소")
-                        .font(.system(size: 16))
-                }
-                
-                Spacer()
-                
-                Text("댓글 달기")
-                    .font(.system(size: 16))
-                    .fontWeight(.semibold)
-                    .padding(.trailing, 30)
-                
-                Spacer()
-            }
-            .padding(.horizontal)
-            .frame(height: 50)
-            
             ScrollView {
                 ScrollViewReader { value in
                     VStack {
@@ -84,7 +64,20 @@ struct CommentView: View {
                     .padding(.top)
                 }
             }
-            .background(.modal)
+            .background(.main, ignoresSafeAreaEdges: .all)
+            .navigationTitle("댓글 달기")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        isShowingCommentView = false
+                    } label: {
+                        Text("취소")
+                            .font(.system(size: 16))
+                    }
+                }
+            }
+            .toolbarBackground(Color(.main), for: .navigationBar)
             .offset(y: -7)
             
             HStack {

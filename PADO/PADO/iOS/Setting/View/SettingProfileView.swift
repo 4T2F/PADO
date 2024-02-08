@@ -20,75 +20,8 @@ struct SettingProfileView: View {
         NavigationStack {
             VStack {
                 ZStack {
-                    Color.black.ignoresSafeArea()
-                    
-                    // MARK: - 프로필수정, 탑셀
-                    VStack {
-                        ZStack {
-                            HStack {
-                                Button {
-                                    dismiss()
-                                    viewModel.imagePick = false
-                                    viewModel.backimagePick = false
-                                    viewModel.userSelectImage = nil
-                                    viewModel.backSelectImage = nil
-                                } label: {
-                                    Text("취소")
-                                        .foregroundStyle(.white)
-                                        .font(.system(size: 14))
-                                        .fontWeight(.semibold)
-                                }
-                                
-                                Spacer()
-                                
-                                Text("프로필 수정")
-                                    .foregroundStyle(.white)
-                                    .font(.system(size: 14))
-                                    .fontWeight(.semibold)
-                                
-                                Spacer()
-                                
-                                Button {
-                                    // 버튼이 활성화된 경우 실행할 로직
-                                    if isActive {
-                                        Task {
-                                            await viewModel.profileSaveData()
-                                            dismiss()
-                                            
-                                            viewModel.userSelectImage = nil
-                                            viewModel.backSelectImage = nil
-                                        }
-                                    }
-                                    // 비활성화 상태일 때는 아무 작업도 수행하지 않음
-                                } label: {
-                                    Text("저장")
-                                        .foregroundStyle(isActive ? .white : .gray) // 활성화 상태에 따라 텍스트 색상 변경
-                                        .font(.system(size: 14))
-                                        .fontWeight(.semibold)
-                                }
-                                .disabled(!isActive) // 버튼 비활성화 여부 결정
-                                .onChange(of: viewModel.changedValue) { newValue, oldValue in
-                                    isActive = !newValue // viewModel의 changedValue에 따라 isActive 상태 업데이트
-                                }
-                            }
-                            .padding(.top, 5)
-                            .padding(.horizontal, width * 0.05)
-                        }
-                        
-//                        HStack {
-//                            SettingProfileDivider()
-//                        }
-                        
-                        Spacer()
-                    }
-                    .onDisappear {
-                        viewModel.imagePick = false
-                        viewModel.backimagePick = false
-                    }
-                    
                     VStack {
                         VStack {
-                            
                             if let image = viewModel.backSelectImage {
                                 image
                                     .resizable()
@@ -160,11 +93,11 @@ struct SettingProfileView: View {
                                     RectangleImageView(imageUrl: user.backProfileImageUrl)
                                         .overlay(
                                             LinearGradient(colors: [.clear,
-                                                                    .black.opacity(0.1),
-                                                                    .black.opacity(0.3),
-                                                                    .black.opacity(0.5),
-                                                                    .black.opacity(0.8),
-                                                                    .black.opacity(1)], startPoint: .top, endPoint: .bottom)
+                                                                    .main.opacity(0.1),
+                                                                    .main.opacity(0.3),
+                                                                    .main.opacity(0.5),
+                                                                    .main.opacity(0.8),
+                                                                    .main.opacity(1)], startPoint: .top, endPoint: .bottom)
                                         )
                                         .overlay {
                                             if let image = viewModel.userSelectImage {
@@ -301,7 +234,7 @@ struct SettingProfileView: View {
                                 // MARK: - 프로필수정, 틱톡주소
                                 HStack {
                                     HStack {
-                                        Text("tiktok")
+                                        Text("Tiktok")
                                             .foregroundStyle(.white)
                                             .font(.system(size: 14))
                                         
@@ -343,10 +276,61 @@ struct SettingProfileView: View {
                             Spacer()
                         }
                         .padding(.top, UIScreen.main.bounds.height * 0.08)
+                        .background(.main, ignoresSafeAreaEdges: .all)
                     }
                 }
             }
-            .padding(.top, 10)
+            .background(.main, ignoresSafeAreaEdges: .all)
+            .navigationBarBackButtonHidden()
+            .navigationTitle("프로필 편집")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        dismiss()
+                        viewModel.imagePick = false
+                        viewModel.backimagePick = false
+                        viewModel.userSelectImage = nil
+                        viewModel.backSelectImage = nil
+                    } label: {
+                        Image(systemName: "chevron.left")
+                            .font(.system(size: 14))
+                        
+                        Text("뒤로")
+                            .font(.system(size: 16))
+                    }
+                }
+                
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        // 버튼이 활성화된 경우 실행할 로직
+                        if isActive {
+                            Task {
+                                await viewModel.profileSaveData()
+                                dismiss()
+                                
+                                viewModel.userSelectImage = nil
+                                viewModel.backSelectImage = nil
+                            }
+                        }
+                        // 비활성화 상태일 때는 아무 작업도 수행하지 않음
+                    } label: {
+                        Text("저장")
+                            .foregroundStyle(isActive ? .white : .gray) // 활성화 상태에 따라 텍스트 색상 변경
+                            .font(.system(size: 16))
+                    }
+                    .disabled(!isActive) // 버튼 비활성화 여부 결정
+                    .onChange(of: viewModel.changedValue) { newValue, oldValue in
+                        isActive = !newValue // viewModel의 changedValue에 따라 isActive 상태 업데이트
+                    }
+                    .onDisappear {
+                        viewModel.imagePick = false
+                        viewModel.backimagePick = false
+                    }
+                }
+            }
+            .toolbarBackground(Color(.main), for: .navigationBar)
+
             .onAppear {
                 viewModel.fetchUserProfile()
             }

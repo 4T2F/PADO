@@ -112,21 +112,23 @@ struct FeedCell: View {
                             }
                         }
                         VStack(alignment: .leading, spacing: 4) {
-                            HStack(alignment: .firstTextBaseline, spacing: 8) {
-                                Text("@\(post.surferUid)")
-                                    .font(.system(size: 20))
+                            Text("@\(post.surferUid)")
+                                .font(.title)
+                                .fontWeight(.bold)
+                            
+                            HStack(alignment: .center, spacing: 8) {
+                                Text("\(post.ownerUid)님에게 보낸 파도")
+                                    .font(.system(size: 14))
                                 
                                 Text("\(post.created_Time.toFormattedString())")
                                     .font(.system(size: 14))
-                                    .fontDesign(.rounded)
                                     .foregroundStyle(.white.opacity(0.7))
                             }
-                            
-                            Text("\(post.ownerUid)님에게 보낸 파도")
-                                .fontWeight(.medium)
                         }
+                        .padding(.bottom, 5)
                         
                         Text("\(post.title)")
+                            .font(.system(size: 16))
                     }
                     .foregroundStyle(.white)
                     .padding(.bottom, 14)
@@ -191,6 +193,9 @@ struct FeedCell: View {
                                     Button {
                                         if !heartLoading {
                                             Task {
+                                                let generator = UIImpactFeedbackGenerator(style: .light)
+                                                generator.impactOccurred()
+                                                
                                                 heartLoading = true
                                                 if let postID = post.id, let postUser = postUser {
                                                     await updateHeartData.addHeart(documentID: postID)

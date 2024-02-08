@@ -19,18 +19,18 @@ struct RectangleImageView: View {
                 .fade(duration: 0.5)
                 .placeholder {
                     Rectangle()
-                        .fill(.black)
+                        .fill(.main)
                         .frame(width: UIScreen.main.bounds.width * 1.0, height: 300)
-                        .scaledToFit()
+                        .scaledToFill()
                 }
                 .resizable()
                 .frame(width: UIScreen.main.bounds.width * 1.0, height: 300)
-                .scaledToFit()
+                .scaledToFill()
         } else {
             Rectangle()
-                .fill(.black)
+                .fill(.main)
                 .frame(width: UIScreen.main.bounds.width * 1.0, height: 300)
-                .scaledToFit()
+                .scaledToFill()
                 .foregroundStyle(Color(.systemGray4))
         }
     }

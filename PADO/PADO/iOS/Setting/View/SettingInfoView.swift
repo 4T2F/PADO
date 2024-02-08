@@ -14,31 +14,6 @@ struct SettingInfoView: View {
     var body: some View {
         VStack {
             ZStack {
-                Color.black.ignoresSafeArea()
-                
-                VStack {
-                    ZStack {
-                        Text("정보")
-                            .foregroundStyle(.white)
-                            .font(.system(size: 14))
-                            .fontWeight(.semibold)
-                        
-                        HStack {
-                            Button {
-                                dismiss()
-                            } label: {
-                                Image("dismissArrow")
-                            }
-                            
-                            Spacer()
-                        }
-                    }
-                    .padding(.horizontal)
-                    
-                    Spacer()
-                }
-                .foregroundStyle(.white)
-                
                 VStack {
                     Button {
                         // TODO: - 이용약관 링크 걸기
@@ -68,11 +43,27 @@ struct SettingInfoView: View {
                     
                 }
                 .padding(.horizontal)
-                .padding(.top, 50)
             }
         }
         .padding(.top, 10)
-        .navigationBarBackButtonHidden(true)
+        .background(.main, ignoresSafeAreaEdges: .all)
+        .navigationBarBackButtonHidden()
+        .navigationTitle("정보")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "chevron.left")
+                        .font(.system(size: 14))
+                    
+                    Text("뒤로")
+                        .font(.system(size: 16))
+                }
+            }
+        }
+        .toolbarBackground(Color(.main), for: .navigationBar)
     }
 }
 

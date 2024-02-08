@@ -15,7 +15,7 @@ struct GrayButtonView: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 10)
-                .frame(width: UIScreen.main.bounds.width * grayButtonX, height: 47)
+                .frame(width: UIScreen.main.bounds.width * grayButtonX, height: 45)
                 .foregroundStyle(.grayButton)
             
             HStack {
