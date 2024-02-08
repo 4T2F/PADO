@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ReFeedView: View {
+struct FeedView: View {
     @State private var isLoading = true
     @Binding var selectedFilter: FeedFilter
     

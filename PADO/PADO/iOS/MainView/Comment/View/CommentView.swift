@@ -9,8 +9,7 @@ import SwiftUI
 
 struct CommentView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
-    @ObservedObject var feedVM: FeedViewModel
-    @ObservedObject var surfingVM: SurfingViewModel
+    @StateObject var commentVM = CommentViewModel()
     
     @Binding var isShowingCommentView: Bool
     
@@ -27,8 +26,7 @@ struct CommentView: View {
                 ScrollViewReader { value in
                     VStack {
                         if let postID = post.id {
-                            FaceMojiView(feedVM: feedVM,
-                                         surfingVM: surfingVM,
+                            FaceMojiView(commentVM: commentVM,
                                          postOwner: $postUser,
                                          post: post,
                                          postID: postID)
@@ -42,9 +40,9 @@ struct CommentView: View {
                     .padding(.top)
                     
                     VStack(alignment: .leading) {
-                        if !feedVM.comments.isEmpty, let postID = post.id {
-                            ForEach(feedVM.comments) { comment in
-                                CommentCell(comment: comment, feedVM: feedVM, postID: postID)
+                        if !commentVM.comments.isEmpty, let postID = post.id {
+                            ForEach(commentVM.comments) { comment in
+                                CommentCell(comment: comment, commentVM: commentVM, postID: postID)
                                     .id(comment.id)
                                     .padding(.horizontal, 10)
                                     .padding(.bottom, 20)
@@ -100,12 +98,15 @@ struct CommentView: View {
                         Button {
                             Task {
                                 if let postID = post.id {
-                                    await feedVM.updatePushNotiData.pushPostNoti(targetPostID: postID, receiveUser: postUser, type: .comment, message: commentText)
-                                    await feedVM.updateCommentData.writeComment(documentID: postID,
+                                    await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID,
+                                                                                 receiveUser: postUser,
+                                                                                 type: .comment,
+                                                                                 message: commentText)
+                                    await commentVM.updateCommentData.writeComment(documentID: postID,
                                                                                 imageUrl: viewModel.currentUser?.profileImageUrl ?? "",
                                                                                 inputcomment: commentText)
-                                    if let fetchedComments = await feedVM.updateCommentData.getCommentsDocument(postID: postID) {
-                                        feedVM.comments = fetchedComments
+                                    if let fetchedComments = await commentVM.updateCommentData.getCommentsDocument(postID: postID) {
+                                        commentVM.comments = fetchedComments
                                     }
                                     commentText = ""
                                 }
@@ -144,10 +145,10 @@ struct CommentView: View {
         .onAppear {
             Task {
                 print(postUser)
-                feedVM.comments.removeAll()
+                commentVM.comments.removeAll()
                 if let postID = post.id {
-                    if let fetchedComments = await feedVM.updateCommentData.getCommentsDocument(postID: postID) {
-                        feedVM.comments = fetchedComments
+                    if let fetchedComments = await commentVM.updateCommentData.getCommentsDocument(postID: postID) {
+                        commentVM.comments = fetchedComments
                     }
                 }
                 //                try await feedVM.getFaceMoji()

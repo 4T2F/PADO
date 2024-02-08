@@ -20,8 +20,8 @@ struct FaceMojiCropView: View {
     @State private var showinGrid: Bool = false
     @GestureState private var isInteractig: Bool = false
     
-    @ObservedObject var feedVM: FeedViewModel
-    @ObservedObject var surfingVM: SurfingViewModel
+    @ObservedObject var commentVM: CommentViewModel
+
     
     @Binding var postOwner: User
     
@@ -43,8 +43,8 @@ struct FaceMojiCropView: View {
                 Color.black
                     .ignoresSafeArea()
             }
-            .navigationDestination(isPresented: $feedVM.showEmojiView) {
-                SelectEmojiView(feedVM: feedVM,
+            .navigationDestination(isPresented: $commentVM.showEmojiView) {
+                SelectEmojiView(commentVM: commentVM,
                                 postOwner: $postOwner,
                                 postID: postID)
             }
@@ -56,12 +56,12 @@ struct FaceMojiCropView: View {
                         renderer.proposedSize = .init(crop.size())
                         if let image = renderer.uiImage {
                             onCrop(image, true)
-                            feedVM.cropMojiUIImage = image
-                            feedVM.cropMojiImage = Image(uiImage: image)
+                            commentVM.cropMojiUIImage = image
+                            commentVM.cropMojiImage = Image(uiImage: image)
                         } else {
                             onCrop(nil, false)
                         }
-                        feedVM.showEmojiView = true
+                        commentVM.showEmojiView = true
                     } label: {
                         Text("이모지 선택")
                             .font(.system(size: 16, weight: .semibold))
@@ -70,7 +70,7 @@ struct FaceMojiCropView: View {
                 
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
-                        feedVM.showCropFaceMoji = false
+                        commentVM.showCropFaceMoji = false
                     } label: {
                         Image("dismissArrow")
                     }
@@ -86,7 +86,7 @@ struct FaceMojiCropView: View {
         GeometryReader {
             let size = $0.size
             
-            if let image = feedVM.faceMojiUIImage {
+            if let image = commentVM.faceMojiUIImage {
                 Image(uiImage: image)
                     .resizable()
                     .aspectRatio(contentMode: .fill)

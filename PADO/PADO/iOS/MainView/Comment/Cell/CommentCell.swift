@@ -14,7 +14,7 @@ struct CommentCell: View {
     @State private var commentUser: User? = nil
     @State private var isUserLoaded = false
     
-    @ObservedObject var feedVM: FeedViewModel
+    @ObservedObject var commentVM: CommentViewModel
     
     @State var buttonOnOff: Bool = false
     
@@ -75,14 +75,14 @@ struct CommentCell: View {
                     
                     if commentUser?.nameID == userNameID {
                         Button {
-                            feedVM.showdeleteModal = true
+                            commentVM.showdeleteModal = true
                         } label: {
                             Image(systemName: "ellipsis")
                                 .foregroundStyle(.white)
                         }
                     } else {
                         Button {
-                            feedVM.showreportModal = true
+                            commentVM.showreportModal = true
                             Task {
                             }
                         } label: {
@@ -104,12 +104,14 @@ struct CommentCell: View {
                 self.buttonOnOff = await updateFollowData.checkFollowStatus(id: comment.userID)
             }
         }
-        .sheet(isPresented: $feedVM.showdeleteModal) {
-            DeleteCommentView(comment: feedVM.selectedComment ?? comment, feedVM: feedVM, postID: postID)
+        .sheet(isPresented: $commentVM.showdeleteModal) {
+            DeleteCommentView(comment: commentVM.selectedComment ?? comment,
+                              commentVM: commentVM,
+                              postID: postID)
                 .presentationDetents([.fraction(0.4)])
         }
-        .sheet(isPresented: $feedVM.showreportModal) {
-            ReportCommentView(isShowingReportView: $feedVM.showreportModal)
+        .sheet(isPresented: $commentVM.showreportModal) {
+            ReportCommentView(isShowingReportView: $commentVM.showreportModal)
                 .presentationDetents([.fraction(0.4), .fraction(0.6)])
         }
     }

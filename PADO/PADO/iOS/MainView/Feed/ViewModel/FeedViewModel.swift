@@ -17,8 +17,6 @@ class FeedViewModel:Identifiable ,ObservableObject {
     @Published var isShowingReportView = false
     @Published var isShowingCommentView = false
     @Published var isHeaderVisible = true
-    @Published var textPosition = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
-    @Published var faceMojiPosition = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
   
     @Published var followingPosts: [Post] = []
     @Published var todayPadoPosts: [Post] = []
@@ -27,36 +25,10 @@ class FeedViewModel:Identifiable ,ObservableObject {
     
     @Published var selectedFeedCheckHeart: Bool = false
     @Published var postFetchLoading: Bool = false
-    @Published var selectedFeedHearts: Int = 0
-    @Published var selectedCommentCounts: Int = 0
-
-    // MARK: - comment관련
-    @Published var comments: [Comment] = []
-    @Published var documentID: String = ""
-    @Published var inputcomment: String = ""
-    @Published var showdeleteModal: Bool = false
-    @Published var showreportModal: Bool = false
-    @Published var selectedComment: Comment?
     
     private var db = Firestore.firestore()
     private var listener: ListenerRegistration?
-    
-    var dragStart: CGPoint?
-    let dragThreshold: CGFloat = 0
-    let updateCommentData = UpdateCommentData()
-    let updatePushNotiData = UpdatePushNotiData()
-    // MARK: - FaceMoji 관련
-    @Published var faceMojiUIImage: UIImage?
-    @Published var cropMojiUIImage: UIImage?
-    @Published var cropMojiImage: Image = Image("")
-    @Published var facemojies: [Facemoji] = []
-    @Published var deleteFacemojiModal: Bool = false
-    @Published var showCropFaceMoji: Bool = false
-    @Published var showEmojiView: Bool = false
-    @Published var selectedEmoji: String = ""
-    @Published var selectedFacemoji: Facemoji?
-    
-    let updateFacemojiData = UpdateFacemojiData()
+    @Published var documentID: String = ""
     
     @Published var lastFollowFetchedDocument: DocumentSnapshot? = nil
     @Published var lastTodayPadoFetchedDocument: DocumentSnapshot? = nil
@@ -155,6 +127,8 @@ class FeedViewModel:Identifiable ,ObservableObject {
 
             // 인덱스 20개 초과 시 0~19번 인덱스까지만 포함
             self.todayPadoPosts = Array(filteredPosts.prefix(20))
+            
+            fetchTodayPadoHeartCommentCounts()
 
         } catch {
             print("포스트 가져오기 오류: \(error.localizedDescription)")
@@ -250,7 +224,6 @@ class FeedViewModel:Identifiable ,ObservableObject {
         
         return ""
     }
-    
   
     func watchedPost(_ story: Post) async {
         do {
@@ -264,46 +237,43 @@ class FeedViewModel:Identifiable ,ObservableObject {
             print("Error : \(error)")
         }
     }
-    
-    // 댓글 움직이는 로직
-    func handleDragGestureChange(_ gesture: DragGesture.Value) {
-        if dragStart == nil {
-            dragStart = gesture.startLocation
+}
+
+extension FeedViewModel {
+    @MainActor
+    func fetchFollowingHeartCommentCounts() {
+        for index in followingPosts.indices {
+            guard let postID = followingPosts[index].id else { continue }
+            let docRef = db.collection("post").document(postID)
+            
+            docRef.addSnapshotListener { documentSnapshot, error in
+                guard let document = documentSnapshot, let data = document.data() else {
+                    print("Error fetching document: \(error?.localizedDescription ?? "Unknown error")")
+                    return
+                }
+                
+                self.followingPosts[index].heartsCount = data["heartsCount"] as? Int ?? 0
+                self.followingPosts[index].commentCount = data["commentCount"] as? Int ?? 0
+                
+            }
         }
-        let dragAmount = CGPoint(x: gesture.translation.width, y: gesture.translation.height)
-        let initialPosition = dragStart ?? CGPoint.zero
-        
-        // 현재 드래그 중인 오브젝트에 따라 위치를 업데이트
-        textPosition = CGPoint(x: initialPosition.x + dragAmount.x, y: initialPosition.y + dragAmount.y)
     }
     
-    func handleDragGestureEnd() {
-        dragStart = nil
-    }
-    
-    // faceMoji 드래그 로직
-    func handleFaceMojiDragChange(_ gesture: DragGesture.Value) {
-        if dragStart == nil {
-            dragStart = gesture.startLocation
-        }
-        let dragAmount = CGPoint(x: gesture.translation.width, y: gesture.translation.height)
-        let initialPosition = dragStart ?? CGPoint.zero
-        
-        faceMojiPosition = CGPoint(x: initialPosition.x + dragAmount.x, y: initialPosition.y + dragAmount.y)
-    }
-    
-    // faceMoji 드래그 종료 처리
-    func handleFaceMojiDragEnd() {
-        dragStart = nil
-    }
-    
-    // 위 아래 제스쳐할 때 사라지거나 나타나는 로직
-    func toggleHeaderVisibility(basedOnDragValue value: DragGesture.Value) {
-        withAnimation(.easeInOut(duration: 0.2)) {
-            if value.translation.height > dragThreshold {
-                isHeaderVisible = false
-            } else if -value.translation.height > dragThreshold {
-                isHeaderVisible = true
+    @MainActor
+    func fetchTodayPadoHeartCommentCounts() {
+        for index in todayPadoPosts.indices {
+            guard let postID = todayPadoPosts[index].id else { continue }
+            let docRef = db.collection("post").document(postID)
+            
+            docRef.addSnapshotListener { documentSnapshot, error in
+                guard let document = documentSnapshot, let data = document.data() else {
+                    print("Error fetching document: \(error?.localizedDescription ?? "Unknown error")")
+                    return
+                }
+                
+                self.todayPadoPosts[index].heartsCount = data["heartsCount"] as? Int ?? 0
+                self.todayPadoPosts[index].commentCount = data["commentCount"] as? Int ?? 0
+                
             }
         }
     }
@@ -350,6 +320,7 @@ extension Timestamp {
         return dateString
     }
 }
+
 
 extension Date {
     func toFormattedString() -> String {

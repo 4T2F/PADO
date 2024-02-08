@@ -11,11 +11,10 @@ import SwiftUI
 struct ProfileView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
     @Environment(\.dismiss) var dismiss
-    @StateObject var profileVM: ProfileViewModel
-    @StateObject var followVM: FollowViewModel
-    @StateObject var surfingVM = SurfingViewModel()
+    @ObservedObject var profileVM: ProfileViewModel
+    @ObservedObject var followVM: FollowViewModel
     @ObservedObject var feedVM: FeedViewModel
-    
+    @StateObject var surfingVM = SurfingViewModel()
     let updateFollowData = UpdateFollowData()
     
     @Namespace var animation
@@ -327,7 +326,10 @@ struct ProfileView: View {
                                         .clipped()
                                 }
                                 .sheet(isPresented: $isShowingReceiveDetail) {
-                                    ReceivePostView(feedVM: feedVM, profileVM: profileVM, surfingVM: surfingVM, isShowingReceiveDetail: $isShowingReceiveDetail, selectedPostID: selectedPostID ?? "")
+                                    SelectPostView(profileVM: profileVM,
+                                                      viewType: PostViewType.receive,
+                                                      isShowingDetail: $isShowingReceiveDetail,
+                                                      selectedPostID: selectedPostID ?? "")
                                         .presentationDragIndicator(.visible)
                                 }
                             }
@@ -366,7 +368,10 @@ struct ProfileView: View {
                                         .clipped()
                                 }
                                 .sheet(isPresented: $isShowingSendDetail) {
-                                    SendPostView(feedVM: feedVM, profileVM: profileVM, surfingVM: surfingVM, isShowingSendDetail: $isShowingSendDetail, selectedPostID: selectedPostID ?? "")
+                                    SelectPostView(profileVM: profileVM,
+                                                      viewType: PostViewType.send,
+                                                      isShowingDetail: $isShowingSendDetail,
+                                                      selectedPostID: selectedPostID ?? "")
                                         .presentationDragIndicator(.visible)
                                 }
                             }
@@ -405,7 +410,10 @@ struct ProfileView: View {
                                         .clipped()
                                 }
                                 .sheet(isPresented: $isShowingHightlight) {
-                                    HighlightView(feedVM: feedVM, profileVM: profileVM, surfingVM: surfingVM, isShowingHightlight: $isShowingHightlight, selectedPostID: selectedPostID ?? "")
+                                    SelectPostView(profileVM: profileVM,
+                                                      viewType: PostViewType.highlight,
+                                                      isShowingDetail: $isShowingHightlight,
+                                                      selectedPostID: selectedPostID ?? "")
                                         .presentationDragIndicator(.visible)
                                 }
                             }

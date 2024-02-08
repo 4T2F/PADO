@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct FaceMojiView: View {
-    @ObservedObject var feedVM: FeedViewModel
-    @ObservedObject var surfingVM: SurfingViewModel
+    @ObservedObject var commentVM: CommentViewModel
+    @StateObject var surfingVM = SurfingViewModel()
     
     @Binding var postOwner: User
     
@@ -20,13 +20,13 @@ struct FaceMojiView: View {
         NavigationStack {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
-                    ForEach(feedVM.facemojies, id: \.self) { facemoji in
-                        FaceMojiCell(facemoji: facemoji, feedVM: feedVM)
+                    ForEach(commentVM.facemojies, id: \.self) { facemoji in
+                        FaceMojiCell(facemoji: facemoji, commentVM: commentVM)
                             .padding(.horizontal, 6)
-                            .sheet(isPresented: $feedVM.deleteFacemojiModal) {
-                                DeleteFaceMojiView(facemoji: feedVM.selectedFacemoji ?? facemoji, 
+                            .sheet(isPresented: $commentVM.deleteFacemojiModal) {
+                                DeleteFaceMojiView(facemoji: commentVM.selectedFacemoji ?? facemoji,
                                                    postID: postID,
-                                                   feedVM: feedVM)
+                                                   commentVM: commentVM)
                                     .presentationDetents([.medium])
                             }
                     }
@@ -47,7 +47,7 @@ struct FaceMojiView: View {
                     .padding(.horizontal)
                     .onAppear {
                         Task {
-                            feedVM.facemojies = try await feedVM.updateFacemojiData.getFaceMoji(documentID: postID) ?? []
+                            commentVM.facemojies = try await commentVM.updateFacemojiData.getFaceMoji(documentID: postID) ?? []
                         }
                     }
                     .sheet(isPresented: $surfingVM.isShowingFaceMojiModal) {
@@ -64,16 +64,15 @@ struct FaceMojiView: View {
                     }
                     .onChange(of: surfingVM.faceMojiUIImage) { _, _ in
                         surfingVM.isShowingFaceMojiModal = false
-                        feedVM.faceMojiUIImage = surfingVM.faceMojiUIImage
-                        feedVM.showCropFaceMoji = true
+                        commentVM.faceMojiUIImage = surfingVM.faceMojiUIImage
+                        commentVM.showCropFaceMoji = true
                     }
-                    .navigationDestination(isPresented: $feedVM.showCropFaceMoji) {
-                        FaceMojiCropView(feedVM: feedVM,
-                                         surfingVM: surfingVM,
-                                         postOwner: $postOwner, 
+                    .navigationDestination(isPresented: $commentVM.showCropFaceMoji) {
+                        FaceMojiCropView(commentVM: commentVM,
+                                         postOwner: $postOwner,
                                          postID: postID) { croppedImage, status in
                             if let croppedImage {
-                                feedVM.cropMojiUIImage = croppedImage
+                                commentVM.cropMojiUIImage = croppedImage
                             }
                         }
                     }
