@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct BirthView: View {
-    
+    @State var showBirthAlert: Bool = false
     @State var buttonActive: Bool = false
     @Binding var currentStep: SignUpStep
 
@@ -64,11 +64,13 @@ struct BirthView: View {
                 
                 Button {
                     if buttonActive {
-
-                        Task{
-                            await viewModel.signUpUser()
+                        if isFourteenOrOlder(birthDate: viewModel.birthDate) {
+                            Task{
+                                await viewModel.signUpUser()
+                            }
+                        } else {
+                            showBirthAlert = true
                         }
-                        // 14세 이상이 아니면 나이가 안된다는 알림 창 만들어야함
                     }
                 } label: {
                     WhiteButtonView(buttonActive: $buttonActive, text: "가입하기")
@@ -78,5 +80,16 @@ struct BirthView: View {
             }
             .padding(.top, 150)
         }
+        .sheet(isPresented: $showBirthAlert) {
+            BirthAlertModal()
+                .presentationDetents([.height(150)])
+                .presentationCornerRadius(30)
+        }
+    }
+    
+    func isFourteenOrOlder(birthDate: Date) -> Bool {
+        let calendar = Calendar.current
+        let fourteenYearsAgo = calendar.date(byAdding: .year, value: -14, to: Date())!
+        return birthDate <= fourteenYearsAgo
     }
 }
