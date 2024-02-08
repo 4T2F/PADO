@@ -5,36 +5,31 @@
 //  Created by 황성진 on 2/7/24.
 //
 
+import Firebase
+import FirebaseFirestore
+import FirebaseStorage
 import Kingfisher
 import PencilKit
 import SwiftUI
 
 class PadoRideViewModel: ObservableObject {
-//    @Published var suffingPost: [Post]
-    
     @Published var selectedImage: String = ""
     @Published var selectedUIImage: UIImage?
     @Published var postsData: [String: [Post]] = [:]
     
-    @Published var showImagePicker = false
+    @Published var selectedPost: Post?
+    
     @Published var isShowingEditView: Bool = false
-    @Published var imageData: Data = Data(count: 0)
     
-    // Canvas for drawing...
+    // Pencil킷 관련 변수들
     @Published var canvas = PKCanvasView()
-    // Tool picker..
     @Published var toolPicker = PKToolPicker()
-    
-    // List Of TextBoxes...
-    @Published var textBoxes : [TextBox] = []
-    
+    @Published var textBoxes: [TextBox] = []
     @Published var addNewBox = false
-    
-    // Current Index...
-    @Published var currentIndex : Int = 0
-    
-    // Saving The View Frame Size...
+    @Published var currentIndex: Int = 0
     @Published var rect: CGRect = .zero
+    @Published var decoUIImage: UIImage = UIImage()
+    @Published var showingModal: Bool = false
     
     let getPostData = GetPostData()
     
@@ -55,29 +50,27 @@ class PadoRideViewModel: ObservableObject {
     }
     
     func cancelImageEditing() {
-        imageData = Data(count: 0)
+        selectedUIImage = nil
+        selectedImage = ""
         canvas = PKCanvasView()
+        toolPicker = PKToolPicker()
         textBoxes.removeAll()
+        currentIndex = 0
+        addNewBox = false
     }
     
-    // cancel the text view..
     func cancelTextView() {
-        
-        // showing again the tool bar...
         toolPicker.setVisible(true, forFirstResponder: canvas)
         canvas.becomeFirstResponder()
         
         withAnimation{
             addNewBox = false
         }
-        
-        // removing if cancelled..
-        // avoiding the removal of already added....
         if textBoxes[currentIndex].isAdded{
-         
             textBoxes.removeLast()
         }
     }
+    
     // 특정 ID들에 대한 포스트 데이터를 미리 로드
     func preloadPostsData(for ids: [String]) async {
         for id in ids {
@@ -86,5 +79,44 @@ class PadoRideViewModel: ObservableObject {
                 self.postsData[id] = posts
             }
         }
+    }
+    
+    func saveImage(){
+        UIGraphicsBeginImageContextWithOptions(rect.size, false, 0)
+        canvas.drawHierarchy(in: CGRect(origin: .zero, size: rect.size), afterScreenUpdates: true)
+        
+        let SwiftUIView = ZStack{
+            ForEach(textBoxes){[self] box in
+                Text(textBoxes[currentIndex].id == box.id && addNewBox ? "" : box.text)
+                    .font(.system(size: 30))
+                    .fontWeight(box.isBold ? .bold : .none)
+                    .foregroundColor(box.textColor)
+                    .offset(box.offset)
+            }
+        }
+        
+        let controller = UIHostingController(rootView: SwiftUIView).view!
+        controller.frame = rect
+        
+        controller.backgroundColor = .clear
+        canvas.backgroundColor = .clear
+        
+        controller.drawHierarchy(in: CGRect(origin: .zero, size: rect.size), afterScreenUpdates: true)
+        
+        let generatedImage = UIGraphicsGetImageFromCurrentImageContext()
+        
+        UIGraphicsEndImageContext()
+        
+        if let image = generatedImage?.pngData(){
+            
+            UIImageWriteToSavedPhotosAlbum(UIImage(data: image)!, nil, nil, nil)
+            
+            decoUIImage = UIImage(data: image) ?? UIImage()
+        }
+    }
+    
+    func sendPost() {
+        
+        let storage = Storage.storage().reference(withPath: "/pado_ride/123")
     }
 }

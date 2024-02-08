@@ -17,7 +17,6 @@
 		048A34452B7491950085CE8B /* TextBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048A34442B7491950085CE8B /* TextBox.swift */; };
 		049598902B68014E0075EEF9 /* SettingAskButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0495988F2B68014E0075EEF9 /* SettingAskButton.swift */; };
 		04A785E32B5FB1C800BFCB9D /* SearchCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A785E22B5FB1C800BFCB9D /* SearchCellView.swift */; };
-		04A785E62B5FB1ED00BFCB9D /* SurfingMakeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A785E42B5FB1ED00BFCB9D /* SurfingMakeView.swift */; };
 		04A785E72B5FB1ED00BFCB9D /* SurfingSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A785E52B5FB1ED00BFCB9D /* SurfingSearchView.swift */; };
 		04AD70EC2B6CB80F00437134 /* KeyboardHide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AD70EB2B6CB80F00437134 /* KeyboardHide.swift */; };
 		04D1438C2B5F971F0076578A /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D1438B2B5F971F0076578A /* PostView.swift */; };
@@ -136,6 +135,7 @@
 		64392B712B73804B0047BA12 /* SufferPostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B702B73804B0047BA12 /* SufferPostCell.swift */; };
 		64392B742B7387590047BA12 /* PadoRideViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B732B7387590047BA12 /* PadoRideViewModel.swift */; };
 		64392B782B74567C0047BA12 /* GetPostData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B772B74567C0047BA12 /* GetPostData.swift */; };
+		64392B7A2B74B66D0047BA12 /* SendPadoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B792B74B66D0047BA12 /* SendPadoView.swift */; };
 		647E7EFD2B63775100A5487E /* UpdateImageUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647E7EFC2B63775100A5487E /* UpdateImageUrl.swift */; };
 		648963DB2B6A9E960080050D /* PostCropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648963DA2B6A9E960080050D /* PostCropView.swift */; };
 		648963DD2B6AA2310080050D /* Corp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648963DC2B6AA2310080050D /* Corp.swift */; };
@@ -224,7 +224,6 @@
 		048A34442B7491950085CE8B /* TextBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextBox.swift; sourceTree = "<group>"; };
 		0495988F2B68014E0075EEF9 /* SettingAskButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingAskButton.swift; sourceTree = "<group>"; };
 		04A785E22B5FB1C800BFCB9D /* SearchCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchCellView.swift; sourceTree = "<group>"; };
-		04A785E42B5FB1ED00BFCB9D /* SurfingMakeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SurfingMakeView.swift; sourceTree = "<group>"; };
 		04A785E52B5FB1ED00BFCB9D /* SurfingSearchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SurfingSearchView.swift; sourceTree = "<group>"; };
 		04AD70EB2B6CB80F00437134 /* KeyboardHide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHide.swift; sourceTree = "<group>"; };
 		04D1438B2B5F971F0076578A /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
@@ -341,6 +340,7 @@
 		64392B702B73804B0047BA12 /* SufferPostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SufferPostCell.swift; sourceTree = "<group>"; };
 		64392B732B7387590047BA12 /* PadoRideViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadoRideViewModel.swift; sourceTree = "<group>"; };
 		64392B772B74567C0047BA12 /* GetPostData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPostData.swift; sourceTree = "<group>"; };
+		64392B792B74B66D0047BA12 /* SendPadoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendPadoView.swift; sourceTree = "<group>"; };
 		647E7EFC2B63775100A5487E /* UpdateImageUrl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateImageUrl.swift; sourceTree = "<group>"; };
 		648963DA2B6A9E960080050D /* PostCropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCropView.swift; sourceTree = "<group>"; };
 		648963DC2B6AA2310080050D /* Corp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Corp.swift; sourceTree = "<group>"; };
@@ -555,7 +555,6 @@
 				643417322B5F947500E47639 /* SurfingView.swift */,
 				648963DA2B6A9E960080050D /* PostCropView.swift */,
 				04D1438B2B5F971F0076578A /* PostView.swift */,
-				04A785E42B5FB1ED00BFCB9D /* SurfingMakeView.swift */,
 				04A785E52B5FB1ED00BFCB9D /* SurfingSearchView.swift */,
 				648963E22B6CE5270080050D /* SurfingSelectView.swift */,
 				648963E82B6D38550080050D /* SurfingSelectCell.swift */,
@@ -924,6 +923,7 @@
 				048A343F2B748DDF0085CE8B /* PadoRideEditView.swift */,
 				048A343B2B748D960085CE8B /* DrawingView.swift */,
 				048A343D2B748DB60085CE8B /* CanvasView.swift */,
+				64392B792B74B66D0047BA12 /* SendPadoView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1267,6 +1267,7 @@
 				63C20BEB2B56CEDC00911F64 /* AdvancedSettingsView.swift in Sources */,
 				64392B6D2B737F080047BA12 /* PadoRideView.swift in Sources */,
 				64392B662B71D2C70047BA12 /* FeedHeaderCell.swift in Sources */,
+				64392B7A2B74B66D0047BA12 /* SendPadoView.swift in Sources */,
 				418B6C8F2B5EC16500E8289D /* FollowViewModel.swift in Sources */,
 				64B4C8EA2B62532100D405DE /* UpdateUserData.swift in Sources */,
 				649372F82B561A6F00BCDA71 /* FollowingCellView.swift in Sources */,
@@ -1308,7 +1309,6 @@
 				63824C432B558B2400D1D653 /* CodeView.swift in Sources */,
 				647E7EFD2B63775100A5487E /* UpdateImageUrl.swift in Sources */,
 				418743212B5C32CF00D93CBE /* CircularImageView.swift in Sources */,
-				04A785E62B5FB1ED00BFCB9D /* SurfingMakeView.swift in Sources */,
 				418B6C962B5EC69100E8289D /* ViewState.swift in Sources */,
 				B1A91D102B55928D00FE7F62 /* SettingNormalCell.swift in Sources */,
 				41E5F69C2B5666D7001750C2 /* FaceMojiCell.swift in Sources */,

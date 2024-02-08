@@ -22,6 +22,8 @@ struct SufferPostCell: View {
                 ForEach(posts, id: \.self) { post in
                     Button {
                         padorideVM.selectedImage = post.imageUrl
+                        padorideVM.selectedPost = post
+                        print(padorideVM.selectedPost)
                     } label: {
                         ZStack {
                             KFImage(URL(string: post.imageUrl))
