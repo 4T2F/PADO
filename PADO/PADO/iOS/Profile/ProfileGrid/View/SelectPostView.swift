@@ -29,47 +29,50 @@ struct SelectPostView: View {
         ZStack {
             ScrollView(showsIndicators: false) {
                 ScrollViewReader { value in
-                    switch viewType {
-                    case .receive:
-                        ForEach(profileVM.padoPosts.indices, id: \.self) { index in
-                            SelectPostCell(profileVM: profileVM,
-                                                updateHeartData: updateHeartData,
-                                                post: $profileVM.padoPosts[index],
-                                                cellType: PostViewType.receive)
+                    LazyVStack(spacing: 0) {
+                        switch viewType {
+                        case .receive:
+                            ForEach(profileVM.padoPosts.indices, id: \.self) { index in
+                                SelectPostCell(profileVM: profileVM,
+                                               updateHeartData: updateHeartData,
+                                               post: $profileVM.padoPosts[index],
+                                               cellType: PostViewType.receive)
                                 .id(profileVM.padoPosts[index].id)
                                 
-                        }
-                        .onAppear {
-                            value.scrollTo(selectedPostID, anchor: .top)
-                        }
-                    case .send:
-                        ForEach(profileVM.sendPadoPosts.indices, id: \.self) { index in
-                            SelectPostCell(profileVM: profileVM,
-                                                updateHeartData: updateHeartData,
-                                                post: $profileVM.sendPadoPosts[index],
-                                                cellType: PostViewType.send)
+                            }
+                            .onAppear {
+                                value.scrollTo(selectedPostID, anchor: .top)
+                            }
+                            
+                        case .send:
+                            ForEach(profileVM.sendPadoPosts.indices, id: \.self) { index in
+                                SelectPostCell(profileVM: profileVM,
+                                               updateHeartData: updateHeartData,
+                                               post: $profileVM.sendPadoPosts[index],
+                                               cellType: PostViewType.send)
                                 .id(profileVM.sendPadoPosts[index].id)
-                               
+                                
+                            }
+                            .onAppear {
+                                value.scrollTo(selectedPostID, anchor: .top)
+                            }
+                        case .highlight:
+                            ForEach(profileVM.highlights.indices, id: \.self) { index in
+                                SelectPostCell(profileVM: profileVM,
+                                               updateHeartData: updateHeartData,
+                                               post: $profileVM.highlights[index],
+                                               cellType: PostViewType.highlight)
+                                .id(profileVM.highlights[index].id)
+                                
+                            }
+                            .onAppear {
+                                value.scrollTo(selectedPostID, anchor: .top)
+                            }
                         }
-                        .onAppear {
-                            value.scrollTo(selectedPostID, anchor: .top)
-                        }
-                    case .highlight:
-                        ForEach(profileVM.highlights.indices, id: \.self) { index in
-                            SelectPostCell(profileVM: profileVM,
-                                                updateHeartData: updateHeartData,
-                                                post: $profileVM.highlights[index],
-                                                cellType: PostViewType.highlight)
-                            .id(profileVM.highlights[index].id)
-                               
-                        }
-                        .onAppear {
-                            value.scrollTo(selectedPostID, anchor: .top)
-                        }
+                        
                     }
-                    
+                    .scrollTargetLayout()
                 }
-                .scrollTargetLayout()
             }
             .scrollTargetBehavior(.paging)
             .ignoresSafeArea()
