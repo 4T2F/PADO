@@ -36,7 +36,7 @@ struct SufferPostCell: View {
                             // 선택된 이미지일 경우 체크마크 표시
                             if padorideVM.selectedImage == post.imageUrl {
                                 Image(systemName: "checkmark.circle.fill")
-                                    .foregroundColor(.green)
+                                    .foregroundColor(.blue)
                                     .background(Circle().fill(Color.white))
                                     .frame(width: 30, height: 30)
                                     .offset(x: 35, y: -60)

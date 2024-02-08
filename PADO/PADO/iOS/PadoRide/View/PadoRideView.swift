@@ -26,15 +26,24 @@ struct PadoRideView: View {
                 
                 Spacer()
                 
-                
-                Button {
-                    padorideVM.downloadSelectedImage()
-                    isShowingEditView.toggle()
-                } label: {
-                    Text("다음")
-                        .foregroundStyle(.white)
-                        .font(.system(size: 14, weight: .semibold))
-                        .padding(.trailing, 10)
+                if padorideVM.selectedImage == "" {
+                    Button {
+                    } label: {
+                        Text("다음")
+                            .foregroundStyle(.gray)
+                            .font(.system(size: 14, weight: .semibold))
+                            .padding(.trailing, 10)
+                    }
+                } else {
+                    Button {
+                        padorideVM.downloadSelectedImage()
+                        isShowingEditView.toggle()
+                    } label: {
+                        Text("다음")
+                            .foregroundStyle(.white)
+                            .font(.system(size: 14, weight: .semibold))
+                            .padding(.trailing, 10)
+                    }
                 }
             }
             .navigationDestination(isPresented: $isShowingEditView) {
