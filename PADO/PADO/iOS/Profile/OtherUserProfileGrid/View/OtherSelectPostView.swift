@@ -30,8 +30,9 @@ struct OtherSelectPostView: View {
                                 OtherSelectPostCell(profileVM: profileVM,
                                                     updateHeartData: updateHeartData,
                                                     post: $profileVM.padoPosts[index],
-                                                    cellType: .receive)
-                                    .id(index)
+                                                    cellType: PostViewType.receive)
+                                    .id(profileVM.padoPosts[index].id)
+                                   
                             }
                             .onAppear {
                                 value.scrollTo(selectedPostID, anchor: .top)
@@ -41,8 +42,9 @@ struct OtherSelectPostView: View {
                                 OtherSelectPostCell(profileVM: profileVM,
                                                     updateHeartData: updateHeartData,
                                                     post: $profileVM.sendPadoPosts[index],
-                                                    cellType: .receive)
-                                    .id(index)
+                                                    cellType: PostViewType.send)
+                                    .id(profileVM.sendPadoPosts[index].id)
+                                   
                             }
                             .onAppear {
                                 value.scrollTo(selectedPostID, anchor: .top)
@@ -52,14 +54,13 @@ struct OtherSelectPostView: View {
                                 OtherSelectPostCell(profileVM: profileVM,
                                                     updateHeartData: updateHeartData,
                                                     post: $profileVM.highlights[index],
-                                                    cellType: .receive)
-                                    .id(index)
+                                                    cellType: PostViewType.highlight)
+                                    .id(profileVM.highlights[index].id)
                             }
                             .onAppear {
                                 value.scrollTo(selectedPostID, anchor: .top)
                             }
                         }
-                        
                     }
                 }
                 .scrollTargetLayout()
