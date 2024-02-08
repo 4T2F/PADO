@@ -77,7 +77,7 @@
 		41FD9A212B43D94A0028D38E /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 41FD9A202B43D94A0028D38E /* .swiftlint.yml */; };
 		6302CFC42B73E40900E5B7CE /* OtherSelectPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6302CFC32B73E40900E5B7CE /* OtherSelectPostView.swift */; };
 		6302CFC62B73E41600E5B7CE /* OtherSelectPostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6302CFC52B73E41600E5B7CE /* OtherSelectPostCell.swift */; };
-		63077D532B5E259E006A9DBB /* MainCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63077D522B5E259E006A9DBB /* MainCommentCell.swift */; };
+		632711D02B75339E00E8E59A /* RepresentableTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632711CF2B75339E00E8E59A /* RepresentableTextField.swift */; };
 		63283DA82B7256A800A42C0F /* SwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63283DA72B7256A800A42C0F /* SwiftUIView.swift */; };
 		63283DB92B73BDF700A42C0F /* SelectPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63283DB82B73BDF700A42C0F /* SelectPostView.swift */; };
 		63283DBB2B73BE0100A42C0F /* SelectPostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63283DBA2B73BE0100A42C0F /* SelectPostCell.swift */; };
@@ -160,7 +160,6 @@
 		B107655C2B7421390023B686 /* UpdatePostData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B107655B2B7421390023B686 /* UpdatePostData.swift */; };
 		B1749A652B5D755700BCC6BA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1749A642B5D755700BCC6BA /* AppDelegate.swift */; };
 		B1749A672B5E41AA00BCC6BA /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1749A662B5E41AA00BCC6BA /* Post.swift */; };
-		B1749A692B5F485300BCC6BA /* MainFaceMojiCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1749A682B5F485300BCC6BA /* MainFaceMojiCell.swift */; };
 		B198BBA02B5639D500EAA6C0 /* ModalAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B198BB9F2B5639D500EAA6C0 /* ModalAlertView.swift */; };
 		B1999ED92B6E1A6F005B37BA /* UpdatePushNotiData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1999ED82B6E1A6F005B37BA /* UpdatePushNotiData.swift */; };
 		B1999EDB2B6E205D005B37BA /* Noti.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1999EDA2B6E205D005B37BA /* Noti.swift */; };
@@ -289,7 +288,7 @@
 		41FD9A202B43D94A0028D38E /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		6302CFC32B73E40900E5B7CE /* OtherSelectPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherSelectPostView.swift; sourceTree = "<group>"; };
 		6302CFC52B73E41600E5B7CE /* OtherSelectPostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherSelectPostCell.swift; sourceTree = "<group>"; };
-		63077D522B5E259E006A9DBB /* MainCommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCommentCell.swift; sourceTree = "<group>"; };
+		632711CF2B75339E00E8E59A /* RepresentableTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepresentableTextField.swift; sourceTree = "<group>"; };
 		63283DA72B7256A800A42C0F /* SwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIView.swift; sourceTree = "<group>"; };
 		63283DB82B73BDF700A42C0F /* SelectPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPostView.swift; sourceTree = "<group>"; };
 		63283DBA2B73BE0100A42C0F /* SelectPostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPostCell.swift; sourceTree = "<group>"; };
@@ -368,7 +367,6 @@
 		B107655B2B7421390023B686 /* UpdatePostData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePostData.swift; sourceTree = "<group>"; };
 		B1749A642B5D755700BCC6BA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B1749A662B5E41AA00BCC6BA /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
-		B1749A682B5F485300BCC6BA /* MainFaceMojiCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFaceMojiCell.swift; sourceTree = "<group>"; };
 		B198BB9F2B5639D500EAA6C0 /* ModalAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalAlertView.swift; sourceTree = "<group>"; };
 		B1999ED82B6E1A6F005B37BA /* UpdatePushNotiData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePushNotiData.swift; sourceTree = "<group>"; };
 		B1999EDA2B6E205D005B37BA /* Noti.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Noti.swift; sourceTree = "<group>"; };
@@ -778,7 +776,6 @@
 			isa = PBXGroup;
 			children = (
 				6373235B2B7140E800C02A32 /* FeedView.swift */,
-				6373235D2B71552D00C02A32 /* FeedCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -786,8 +783,7 @@
 		6322913A2B5BF422007C51D1 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				63077D522B5E259E006A9DBB /* MainCommentCell.swift */,
-				B1749A682B5F485300BCC6BA /* MainFaceMojiCell.swift */,
+				6373235D2B71552D00C02A32 /* FeedCell.swift */,
 				64392B652B71D2C70047BA12 /* FeedHeaderCell.swift */,
 			);
 			path = Cell;
@@ -853,6 +849,7 @@
 				419D086C2B5FB31C00E61A6F /* LaunchSTA.swift */,
 				63AA035D2B6A044300431332 /* SNSButton.swift */,
 				419981CE2B7412A700EEA06E /* CustomRefreshView.swift */,
+				632711CF2B75339E00E8E59A /* RepresentableTextField.swift */,
 			);
 			path = Items;
 			sourceTree = "<group>";
@@ -1361,7 +1358,6 @@
 				63824C4C2B558B5500D1D653 /* ModalBlackButton.swift in Sources */,
 				B1A91D122B55928D00FE7F62 /* SettingOthersView.swift in Sources */,
 				648963DD2B6AA2310080050D /* Corp.swift in Sources */,
-				63077D532B5E259E006A9DBB /* MainCommentCell.swift in Sources */,
 				B1D7CDE42B5656B10090544B /* ModalBackground.swift in Sources */,
 				63824C4F2B558B5500D1D653 /* VerificationView.swift in Sources */,
 				419981D82B75060F00EEA06E /* CommentViewModel.swift in Sources */,
@@ -1370,7 +1366,6 @@
 				04E950982B715E6F0091F660 /* InfoWebView.swift in Sources */,
 				419741E12B558F3A0055F2AB /* BlueButtonView.swift in Sources */,
 				6408FEF02B6FCB9900BF0DDF /* SelectEmojiView.swift in Sources */,
-				B1749A692B5F485300BCC6BA /* MainFaceMojiCell.swift in Sources */,
 				63824C422B558B2400D1D653 /* BirthView.swift in Sources */,
 				64392B622B707C9A0047BA12 /* SettingBackProfileCropView.swift in Sources */,
 				648963DF2B6B6BE50080050D /* SettingProfileEditView.swift in Sources */,
@@ -1381,6 +1376,7 @@
 				63824C522B558B6900D1D653 /* UseIDModalView.swift in Sources */,
 				63AA035E2B6A044300431332 /* SNSButton.swift in Sources */,
 				B1A91D112B55928D00FE7F62 /* SettingNotificationView.swift in Sources */,
+				632711D02B75339E00E8E59A /* RepresentableTextField.swift in Sources */,
 				63C8BA562B56644600025422 /* RequestSurfingNotificationCell.swift in Sources */,
 				B1749A672B5E41AA00BCC6BA /* Post.swift in Sources */,
 				B1A91D162B55928D00FE7F62 /* SettingInfoView.swift in Sources */,
@@ -1679,10 +1675,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PADO/PADO.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PADO/Preview Content\"";
-				DEVELOPMENT_TEAM = UAG934M4Q7;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = UAG934M4Q7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PADO/Info.plist;
@@ -1703,6 +1701,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.4T2F.PADO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "PADO Debug";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1718,10 +1717,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PADO/PADO.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PADO/Preview Content\"";
-				DEVELOPMENT_TEAM = UAG934M4Q7;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = UAG934M4Q7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PADO/Info.plist;
@@ -1742,6 +1743,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.4T2F.PADO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "PADO Debug";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
