@@ -7,19 +7,18 @@
 
 import Firebase
 import FirebaseFirestoreSwift
-import Lottie
 import Kingfisher
+import Lottie
 import SwiftUI
 
-struct ReceivePostCell: View {
-    @ObservedObject var feedVM: FeedViewModel
+struct SelectPostCell: View {
     @ObservedObject var profileVM: ProfileViewModel
-    @ObservedObject var surfingVM: SurfingViewModel
     
     @State var heartLoading: Bool = false
     @State var isHeartCheck: Bool = false
     @State var postUser: User? = nil
     
+    @State private var isHeaderVisible: Bool = true
     @State private var heartCounts: Int = 0
     @State private var commentCounts: Int = 0
     @State private var isShowingReportView: Bool = false
@@ -27,6 +26,7 @@ struct ReceivePostCell: View {
     
     let updateHeartData: UpdateHeartData
     let post: Post
+    let cellType: PostViewType
     
     var body: some View {
         ZStack {
@@ -42,7 +42,7 @@ struct ReceivePostCell: View {
                                 .containerRelativeFrame([.horizontal,.vertical])
                         }
                         .overlay {
-                            if feedVM.isHeaderVisible {
+                            if isHeaderVisible {
                                 LinearGradient(colors: [.black.opacity(0.5),
                                                         .black.opacity(0.4),
                                                         .black.opacity(0.3),
@@ -82,19 +82,19 @@ struct ReceivePostCell: View {
                     VStack(alignment: .leading, spacing: 4) {
                         if post.title.isEmpty {
                             HStack(alignment: .center, spacing: 8) {
-                                Text("\(post.surferUid)님에게 받은 파도")
+                                Text(descriptionForType(cellType))
                                     .font(.system(size: 14))
                                 
-                                Text("\(post.created_Time.toFormattedString())")
+                                Text("\(post.created_Time.formatDate(post.created_Time))")
                                     .font(.system(size: 14))
                                     .foregroundStyle(.white.opacity(0.7))
                             }
                         } else {
                             HStack(alignment: .center, spacing: 8) {
-                                Text("\(post.surferUid)님에게 받은 파도")
+                                Text(descriptionForType(cellType))
                                     .font(.system(size: 14))
                                 
-                                Text("\(post.created_Time.toFormattedString())")
+                                Text("\(post.created_Time.formatDate(post.created_Time))")
                                     .font(.system(size: 14))
                                     .foregroundStyle(.white.opacity(0.7))
                             }
@@ -102,7 +102,6 @@ struct ReceivePostCell: View {
                             
                             Text("\(post.title)")
                                 .font(.system(size: 16))
-                                .fontWeight(.medium)
                         }
                     }
                     .foregroundStyle(.white)
@@ -119,7 +118,7 @@ struct ReceivePostCell: View {
                                         // 햅틱 피드백 생성
                                         let generator = UIImpactFeedbackGenerator(style: .light)
                                         generator.impactOccurred()
-                                        feedVM.isHeaderVisible.toggle()
+                                        isHeaderVisible.toggle()
                                     }
                                 } label: {
                                     Circle()
@@ -172,7 +171,7 @@ struct ReceivePostCell: View {
                                                     await updateHeartData.addHeart(documentID: postID)
                                                     isHeartCheck = await updateHeartData.checkHeartExists(documentID: postID)
                                                     heartLoading = false
-                                                    await feedVM.updatePushNotiData.pushPostNoti(targetPostID: postID, receiveUser: postUser, type: .heart, message:"")
+                                                    await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID, receiveUser: postUser, type: .heart, message: "")
                                                 }
                                                 await profileVM.fetchHighlihts(id: userNameID)
                                                 
@@ -199,9 +198,7 @@ struct ReceivePostCell: View {
                                 }
                                 .sheet(isPresented: $isShowingCommentView) {
                                     if let postUser = postUser, let postID = post.id {
-                                        CommentView(feedVM: feedVM,
-                                                    surfingVM: surfingVM,
-                                                    isShowingCommentView: $isShowingCommentView,
+                                        CommentView(isShowingCommentView: $isShowingCommentView,
                                                     postUser: postUser,
                                                     post: post,
                                                     postID: postID)
@@ -270,4 +267,15 @@ struct ReceivePostCell: View {
             self.commentCounts = data["commentCount"] as? Int ?? 0
         }
     }
+    
+    private func descriptionForType(_ type: PostViewType) -> String {
+           switch type {
+           case .receive:
+               return "\(post.surferUid)님에게 받은 파도"
+           case .send:
+               return "\(post.ownerUid)님에게 보낸 파도"
+           case .highlight:
+               return "\(post.ownerUid)님의 파도"
+           }
+       }
 }

@@ -35,7 +35,7 @@ struct HeartNotificationCell: View {
                         .font(.system(size: 14))
                         .fontWeight(.medium)
                     +
-                    Text(TimestampDateFormatter.formatDate(notification.createdAt))
+                    Text(notification.createdAt.formatDate(notification.createdAt))
                         .font(.system(size: 12))
                         .foregroundStyle(Color(.systemGray))
                 }

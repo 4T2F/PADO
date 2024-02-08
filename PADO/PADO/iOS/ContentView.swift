@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @State var width = UIScreen.main.bounds.width
     @State var menu = "feed"
+    @State var selectedFilter: FeedFilter = .following
     
     @EnvironmentObject var viewModel: AuthenticationViewModel
     
@@ -29,7 +30,7 @@ struct ContentView: View {
     
     var body: some View {
         TabView(selection: $viewModel.showTab) {
-            ReFeedView(feedVM: feedVM,
+            FeedView(selectedFilter: $selectedFilter,         feedVM: feedVM,
                        surfingVM: surfingVM,
                        profileVM: profileVM,
                        followVM: followVM)
@@ -89,23 +90,6 @@ struct ContentView: View {
                 followVM.initializeFollowFetch()
                 await profileVM.fetchPostID(id: userNameID)
             }
-        }
-    }
-    // 터치 했을 때 진동 울리게 하는 haptics vibration 싱글톤
-    class HapticManager {
-        
-        static let instance = HapticManager()
-        
-        // notification 함수
-        func simpleSuccess() {
-            let generator = UINotificationFeedbackGenerator()
-            generator.notificationOccurred(.success)
-        }
-        
-        // impact 함수
-        func impact(style: UIImpactFeedbackGenerator.FeedbackStyle) {
-            let generator = UIImpactFeedbackGenerator(style: style)
-            generator.impactOccurred()
         }
     }
 }

@@ -45,7 +45,7 @@ struct FaceMojiCell: View {
     var facemoji: Facemoji
     let hapticImpact = UIImpactFeedbackGenerator(style: .medium)
     
-    @ObservedObject var feedVM: FeedViewModel
+    @ObservedObject var commentVM: CommentViewModel
     
     var body: some View {
         if facemoji.userID == userNameID {
@@ -66,8 +66,8 @@ struct FaceMojiCell: View {
                         .clipShape(Circle())
                         .onLongPressGesture(minimumDuration: 1) {
                             hapticImpact.impactOccurred()
-                            feedVM.selectedFacemoji = facemoji
-                            feedVM.deleteFacemojiModal = true
+                            commentVM.selectedFacemoji = facemoji
+                            commentVM.deleteFacemojiModal = true
                         }
                     
                     Text(facemoji.emoji)

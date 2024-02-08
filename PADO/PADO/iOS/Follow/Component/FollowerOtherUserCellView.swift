@@ -30,7 +30,8 @@ struct FollowerOtherUserCellView: View {
             HStack(spacing: 0) {
                 NavigationLink {
                     if let user = profileUser {
-                        OtherUserProfileView(buttonOnOff: $buttonOnOff, updateFollowData: updateFollowData,
+                        OtherUserProfileView(buttonOnOff: $buttonOnOff,
+                                             updateFollowData: updateFollowData,
                                              user: user)
                     }
                 } label: {

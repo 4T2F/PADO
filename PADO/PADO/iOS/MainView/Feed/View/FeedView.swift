@@ -7,24 +7,27 @@
 
 import SwiftUI
 
-struct ReFeedView: View {
+struct FeedView: View {
     @State private var isLoading = true
-    @State private var selectedFilter: FeedFilter = .following
+    @Binding var selectedFilter: FeedFilter
     
     @EnvironmentObject var authenticationViewModel: AuthenticationViewModel
     
-    @StateObject var feedVM: FeedViewModel
-    @StateObject var surfingVM: SurfingViewModel
-    @StateObject var profileVM: ProfileViewModel
-    @StateObject var followVM: FollowViewModel
+    @ObservedObject var feedVM: FeedViewModel
+    @ObservedObject var surfingVM: SurfingViewModel
+    @ObservedObject var profileVM: ProfileViewModel
+    @ObservedObject var followVM: FollowViewModel
+    @StateObject var scrollDelegate: ScrollViewModel = .init()
     
     let updateHeartData = UpdateHeartData()
     
     var body: some View {
         NavigationStack {
             ZStack {
-                if authenticationViewModel.selectFilter == .following {
-                    ScrollView(showsIndicators: false) {
+            CustomRefreshView(showsIndicator: false,
+                              lottieFileName: "Loading",
+                              scrollDelegate: scrollDelegate) {
+                    if selectedFilter == .following {
                         LazyVStack(spacing:0) {
                             ForEach(feedVM.followingPosts.indices, id: \.self) { index in
                                 FeedCell(feedVM: feedVM,
@@ -40,16 +43,9 @@ struct ReFeedView: View {
                                         }
                                     }
                                 }
-                                
                             }
                         }
-                        .scrollTargetLayout()
-                    }
-                    .padding(.bottom, 0.2)
-                    .scrollTargetBehavior(.paging)
-                    .ignoresSafeArea(.all, edges: .top)
-                } else {
-                    ScrollView(showsIndicators: false) {
+                    } else {
                         LazyVStack(spacing:0) {
                             ForEach(feedVM.todayPadoPosts.indices, id: \.self) { index in
                                 FeedCell(feedVM: feedVM,
@@ -58,35 +54,38 @@ struct ReFeedView: View {
                                          updateHeartData: updateHeartData,
                                          post: feedVM.todayPadoPosts[index])
                                 .id(index)
-                                .onAppear {
-                                    if index == feedVM.todayPadoPosts.count - 1{
-                                        Task {
-                                            await feedVM.fetchTodayPadoMorePosts()
-                                        }
-                                    }
-                                }
-                        
+ 
                             }
-                            
                         }
-                        .scrollTargetLayout()
+                        .onAppear {
+                            Task {
+                                await feedVM.fetchTodayPadoPosts()
+                            }
+                        }
                     }
-                    .padding(.bottom, 3)
-                    .scrollTargetBehavior(.paging)
-                    .ignoresSafeArea(.all, edges: .top)
-                    .onAppear {
-                        Task {
-                            await feedVM.fetchTodayPadoPosts()
-                        }
+            } onRefresh: {
+                try? await Task.sleep(nanoseconds: 1_500_000_000)
+                if selectedFilter == FeedFilter.following {
+                    feedVM.findFollowingUsers()
+                } else {
+                    Task{
+                        await feedVM.fetchTodayPadoPosts()
                     }
                 }
-                
+            }
                 VStack {
-                    FeedHeaderCell()
-                    
+                    if scrollDelegate.scrollOffset < 5 {
+                        FeedHeaderCell(selectedFilter: $selectedFilter)
+                            .transition(.opacity.combined(with: .scale))
+                    } else if !scrollDelegate.isEligible {
+                        FeedRefreshHeaderCell()
+                            .transition(.opacity.combined(with: .scale))
+                    }
                     Spacer()
                 }
                 .padding(.top, 10)
+                .animation(.easeInOut, value: scrollDelegate.scrollOffset)
+                
             }
         }
     }

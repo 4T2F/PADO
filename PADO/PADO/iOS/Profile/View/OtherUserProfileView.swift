@@ -13,7 +13,6 @@ struct OtherUserProfileView: View {
     
     @StateObject var profileVM = ProfileViewModel()
     @StateObject var followVM = FollowViewModel()
-    
     @Namespace var animation
     
     @Environment(\.dismiss) var dismiss
@@ -21,6 +20,11 @@ struct OtherUserProfileView: View {
     @Binding var buttonOnOff: Bool
     @State private var buttonActive: Bool = false
     @State private var profileEditButtonActive: Bool = false
+    
+    @State private var isShowingReceiveDetail: Bool = false
+    @State private var isShowingSendDetail: Bool = false
+    @State private var isShowingHightlight: Bool = false
+    @State private var selectedPostID: String?
     
     let updateFollowData: UpdateFollowData
     let updatePushNotiData = UpdatePushNotiData()
@@ -313,16 +317,26 @@ struct OtherUserProfileView: View {
                     ForEach(profileVM.padoPosts, id: \.self) { post in
                         ZStack(alignment: .bottomLeading) {
                             if let image = URL(string: post.imageUrl) {
-                                KFImage(image)
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
-                                    .clipped()
+                                Button {
+                                    isShowingReceiveDetail.toggle()
+                                    self.selectedPostID = post.id
+                                } label: {
+                                    KFImage(image)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
+                                        .clipped()
+                                }
+                                .sheet(isPresented: $isShowingReceiveDetail) {
+                                    OtherSelectPostView(profileVM: profileVM,
+                                                      viewType: PostViewType.receive,
+                                                      isShowingDetail: $isShowingReceiveDetail,
+                                                      selectedPostID: selectedPostID ?? "")
+                                        .presentationDragIndicator(.visible)
+                                }
+                                
                             }
-                            Text(post.title)
-                                .foregroundStyle(.white)
-                                .font(.system(size: 14))
-                                .padding([.leading, .bottom], 5)
+                           
                         }
                         .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
                     }
@@ -347,16 +361,24 @@ struct OtherUserProfileView: View {
                     ForEach(profileVM.sendPadoPosts, id: \.self) { post in
                         ZStack(alignment: .bottomLeading) {
                             if let image = URL(string: post.imageUrl) {
-                                KFImage(image)
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
-                                    .clipped()
+                                Button {
+                                    isShowingSendDetail.toggle()
+                                    self.selectedPostID = post.id
+                                } label: {
+                                    KFImage(image)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
+                                        .clipped()
+                                }
+                                .sheet(isPresented: $isShowingSendDetail) {
+                                    OtherSelectPostView(profileVM: profileVM,
+                                                      viewType: PostViewType.send,
+                                                      isShowingDetail: $isShowingSendDetail,
+                                                      selectedPostID: selectedPostID ?? "")
+                                        .presentationDragIndicator(.visible)
+                                }
                             }
-                            Text(post.title)
-                                .foregroundStyle(.white)
-                                .font(.system(size: 14))
-                                .padding([.leading, .bottom], 5)
                         }
                         .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
                     }
@@ -381,16 +403,24 @@ struct OtherUserProfileView: View {
                     ForEach(profileVM.highlights, id: \.self) { post in
                         ZStack(alignment: .bottomLeading) {
                             if let image = URL(string: post.imageUrl) {
-                                KFImage(image)
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
-                                    .clipped()
+                                Button {
+                                    isShowingHightlight.toggle()
+                                    self.selectedPostID = post.id
+                                } label: {
+                                    KFImage(image)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
+                                        .clipped()
+                                }
+                                .sheet(isPresented: $isShowingHightlight) {
+                                    OtherSelectPostView(profileVM: profileVM,
+                                                      viewType: PostViewType.highlight,
+                                                      isShowingDetail: $isShowingHightlight,
+                                                      selectedPostID: selectedPostID ?? "")
+                                        .presentationDragIndicator(.visible)
+                                }
                             }
-                            Text(post.title)
-                                .foregroundStyle(.white)
-                                .font(.system(size: 14))
-                                .padding([.leading, .bottom], 5)
                         }
                         .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
                     }

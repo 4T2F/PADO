@@ -22,6 +22,8 @@ enum NotiType {
 }
 
 class UpdatePushNotiData {
+    static let shared = UpdatePushNotiData()
+    
     let db = Firestore.firestore()
     // 포스트의 정보가 포함된 경우 알람(하위컬렉션 이름을 포스트이름으로 하기 위함)
     func pushPostNoti(targetPostID: String, receiveUser: User, type: PostNotiType, message: String) async { // 이미지도 포함하게 될 푸시 알람들

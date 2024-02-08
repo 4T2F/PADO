@@ -17,8 +17,6 @@ class FeedViewModel:Identifiable ,ObservableObject {
     @Published var isShowingReportView = false
     @Published var isShowingCommentView = false
     @Published var isHeaderVisible = true
-    @Published var textPosition = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
-    @Published var faceMojiPosition = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
   
     @Published var followingPosts: [Post] = []
     @Published var todayPadoPosts: [Post] = []
@@ -27,36 +25,10 @@ class FeedViewModel:Identifiable ,ObservableObject {
     
     @Published var selectedFeedCheckHeart: Bool = false
     @Published var postFetchLoading: Bool = false
-    @Published var selectedFeedHearts: Int = 0
-    @Published var selectedCommentCounts: Int = 0
-
-    // MARK: - comment관련
-    @Published var comments: [Comment] = []
-    @Published var documentID: String = ""
-    @Published var inputcomment: String = ""
-    @Published var showdeleteModal: Bool = false
-    @Published var showreportModal: Bool = false
-    @Published var selectedComment: Comment?
     
     private var db = Firestore.firestore()
     private var listener: ListenerRegistration?
-    
-    var dragStart: CGPoint?
-    let dragThreshold: CGFloat = 0
-    let updateCommentData = UpdateCommentData()
-    let updatePushNotiData = UpdatePushNotiData()
-    // MARK: - FaceMoji 관련
-    @Published var faceMojiUIImage: UIImage?
-    @Published var cropMojiUIImage: UIImage?
-    @Published var cropMojiImage: Image = Image("")
-    @Published var facemojies: [Facemoji] = []
-    @Published var deleteFacemojiModal: Bool = false
-    @Published var showCropFaceMoji: Bool = false
-    @Published var showEmojiView: Bool = false
-    @Published var selectedEmoji: String = ""
-    @Published var selectedFacemoji: Facemoji?
-    
-    let updateFacemojiData = UpdateFacemojiData()
+    @Published var documentID: String = ""
     
     @Published var lastFollowFetchedDocument: DocumentSnapshot? = nil
     @Published var lastTodayPadoFetchedDocument: DocumentSnapshot? = nil
@@ -138,23 +110,25 @@ class FeedViewModel:Identifiable ,ObservableObject {
     // 오늘 파도 포스트 가져오기
     func fetchTodayPadoPosts() async {
         todayPadoPosts.removeAll()
-        lastTodayPadoFetchedDocument = nil
         
-        let sevenDaysAgo = Calendar.current.date(byAdding: .day, value: -7, to: Date()) ?? Date()
+        let threeDaysAgo = Calendar.current.date(byAdding: .day, value: -3, to: Date()) ?? Date()
            // Date 객체를 Timestamp로 변환
-        let sevenDaysAgoTimestamp = Timestamp(date: sevenDaysAgo)
+        let threeDaysAgoTimestamp = Timestamp(date: threeDaysAgo)
         
         let query = db.collection("post")
-            .whereField("created_Time", isGreaterThanOrEqualTo: sevenDaysAgoTimestamp)
-            .order(by: "created_Time", descending: true)
-            .order(by: "heartsCount", descending: true)
-            .limit(to: 5)
+            .whereField("created_Time", isGreaterThanOrEqualTo: threeDaysAgoTimestamp)
         do {
             let documents = try await getDocumentsAsync(collection: db.collection("post"), query: query)
-            self.todayPadoPosts = documents.compactMap { document in
+            var filteredPosts = documents.compactMap { document in
                 try? document.data(as: Post.self)
             }
-            self.lastTodayPadoFetchedDocument = documents.last
+        
+            filteredPosts.sort { $0.heartsCount > $1.heartsCount }
+
+            // 인덱스 20개 초과 시 0~19번 인덱스까지만 포함
+            self.todayPadoPosts = Array(filteredPosts.prefix(20))
+            
+            fetchTodayPadoHeartCommentCounts()
 
         } catch {
             print("포스트 가져오기 오류: \(error.localizedDescription)")
@@ -196,33 +170,31 @@ class FeedViewModel:Identifiable ,ObservableObject {
         }
     }
     
-    func fetchTodayPadoMorePosts() async {
-        guard let lastDocument = lastTodayPadoFetchedDocument else { return }
-    
-        let sevenDaysAgo = Calendar.current.date(byAdding: .day, value: -7, to: Date()) ?? Date()
-           // Date 객체를 Timestamp로 변환
-        let sevenDaysAgoTimestamp = Timestamp(date: sevenDaysAgo)
-        
-        let query = db.collection("post")
-            .whereField("created_Time", isGreaterThanOrEqualTo: sevenDaysAgoTimestamp)
-            .order(by: "created_Time", descending: true)
-            .order(by: "heartsCount", descending: true)
-            .start(afterDocument: lastDocument)
-            .limit(to: 3)
-        
-        do {
-            let documents = try await getDocumentsAsync(collection: db.collection("post"), query: query)
-            let documentsData = documents.compactMap { document in
-                try? document.data(as: Post.self)
-            }
-            self.lastTodayPadoFetchedDocument = documents.last
-            for documentData in documentsData {
-                self.todayPadoPosts.append(documentData)
-            }
-        } catch {
-            print("포스트 가져오기 오류: \(error.localizedDescription)")
-        }
-    }
+//    func fetchTodayPadoMorePosts() async {
+//        guard let lastDocument = lastTodayPadoFetchedDocument else { return }
+//    
+//        let sevenDaysAgo = Calendar.current.date(byAdding: .day, value: -7, to: Date()) ?? Date()
+//           // Date 객체를 Timestamp로 변환
+//        let sevenDaysAgoTimestamp = Timestamp(date: sevenDaysAgo)
+//        
+//        let query = db.collection("post")
+//            .whereField("created_Time", isGreaterThanOrEqualTo: sevenDaysAgoTimestamp)
+//            .start(afterDocument: lastDocument)
+//            .limit(to: 3)
+//        
+//        do {
+//            let documents = try await getDocumentsAsync(collection: db.collection("post"), query: query)
+//            let documentsData = documents.compactMap { document in
+//                try? document.data(as: Post.self)
+//            }
+//            self.lastTodayPadoFetchedDocument = documents.last
+//            for documentData in documentsData {
+//                self.todayPadoPosts.append(documentData)
+//            }
+//        } catch {
+//            print("포스트 가져오기 오류: \(error.localizedDescription)")
+//        }
+//    }
     
     private func cacheWatchedData() async {
         do {
@@ -252,7 +224,6 @@ class FeedViewModel:Identifiable ,ObservableObject {
         
         return ""
     }
-    
   
     func watchedPost(_ story: Post) async {
         do {
@@ -266,46 +237,43 @@ class FeedViewModel:Identifiable ,ObservableObject {
             print("Error : \(error)")
         }
     }
-    
-    // 댓글 움직이는 로직
-    func handleDragGestureChange(_ gesture: DragGesture.Value) {
-        if dragStart == nil {
-            dragStart = gesture.startLocation
+}
+
+extension FeedViewModel {
+    @MainActor
+    func fetchFollowingHeartCommentCounts() {
+        for index in followingPosts.indices {
+            guard let postID = followingPosts[index].id else { continue }
+            let docRef = db.collection("post").document(postID)
+            
+            docRef.addSnapshotListener { documentSnapshot, error in
+                guard let document = documentSnapshot, let data = document.data() else {
+                    print("Error fetching document: \(error?.localizedDescription ?? "Unknown error")")
+                    return
+                }
+                
+                self.followingPosts[index].heartsCount = data["heartsCount"] as? Int ?? 0
+                self.followingPosts[index].commentCount = data["commentCount"] as? Int ?? 0
+                
+            }
         }
-        let dragAmount = CGPoint(x: gesture.translation.width, y: gesture.translation.height)
-        let initialPosition = dragStart ?? CGPoint.zero
-        
-        // 현재 드래그 중인 오브젝트에 따라 위치를 업데이트
-        textPosition = CGPoint(x: initialPosition.x + dragAmount.x, y: initialPosition.y + dragAmount.y)
     }
     
-    func handleDragGestureEnd() {
-        dragStart = nil
-    }
-    
-    // faceMoji 드래그 로직
-    func handleFaceMojiDragChange(_ gesture: DragGesture.Value) {
-        if dragStart == nil {
-            dragStart = gesture.startLocation
-        }
-        let dragAmount = CGPoint(x: gesture.translation.width, y: gesture.translation.height)
-        let initialPosition = dragStart ?? CGPoint.zero
-        
-        faceMojiPosition = CGPoint(x: initialPosition.x + dragAmount.x, y: initialPosition.y + dragAmount.y)
-    }
-    
-    // faceMoji 드래그 종료 처리
-    func handleFaceMojiDragEnd() {
-        dragStart = nil
-    }
-    
-    // 위 아래 제스쳐할 때 사라지거나 나타나는 로직
-    func toggleHeaderVisibility(basedOnDragValue value: DragGesture.Value) {
-        withAnimation(.easeInOut(duration: 0.2)) {
-            if value.translation.height > dragThreshold {
-                isHeaderVisible = false
-            } else if -value.translation.height > dragThreshold {
-                isHeaderVisible = true
+    @MainActor
+    func fetchTodayPadoHeartCommentCounts() {
+        for index in todayPadoPosts.indices {
+            guard let postID = todayPadoPosts[index].id else { continue }
+            let docRef = db.collection("post").document(postID)
+            
+            docRef.addSnapshotListener { documentSnapshot, error in
+                guard let document = documentSnapshot, let data = document.data() else {
+                    print("Error fetching document: \(error?.localizedDescription ?? "Unknown error")")
+                    return
+                }
+                
+                self.todayPadoPosts[index].heartsCount = data["heartsCount"] as? Int ?? 0
+                self.todayPadoPosts[index].commentCount = data["commentCount"] as? Int ?? 0
+                
             }
         }
     }
@@ -313,12 +281,46 @@ class FeedViewModel:Identifiable ,ObservableObject {
 
 // Timestamp 형식의 시간을 가져와서 날짜 및 시간 형식으로 변환
 extension Timestamp {
-    func toFormattedString() -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "YYYY-M-d"
-        return formatter.string(from: self.dateValue())
+    func formatDate(_ timestamp: Timestamp) -> String {
+        let currentDate = Date() // 현재 날짜 및 시간
+        let date = timestamp.dateValue() // Timestamp를 Date로 변환
+        let calendar = Calendar.current
+
+        let hoursAgo = calendar.dateComponents([.hour], from: date, to: currentDate).hour ?? 0
+        let minutesAgo = calendar.dateComponents([.minute], from: date, to: currentDate).minute ?? 0
+        let secondsAgo = calendar.dateComponents([.second], from: date, to: currentDate).second ?? 0
+        
+        switch hoursAgo {
+        case 24...:
+            // 1일보다 오래된 경우
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy.MM.dd. a h:mm" // AM/PM을 포함하는 날짜 형식 지정
+            formatter.amSymbol = "오전"
+            formatter.pmSymbol = "오후"
+            return formatter.string(from: date)
+        case 1...:
+            // 1시간 이상, 1일 미만
+            return "\(hoursAgo)시간 전"
+
+        default:
+            // 1시간 미만
+            if minutesAgo >= 1 {
+                return "\(minutesAgo)분 전"
+            } else {
+                return "\(secondsAgo)초 전"
+            }
+        }
+    }
+    
+    func convertTimestampToString(timestamp: Timestamp) -> String {
+        let date = timestamp.dateValue() // Timestamp를 Date로 변환
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd-HH:mm:ss.sssZ" // 원하는 날짜 형식 설정
+        let dateString = dateFormatter.string(from: date) // Date를 String으로 변환
+        return dateString
     }
 }
+
 
 extension Date {
     func toFormattedString() -> String {

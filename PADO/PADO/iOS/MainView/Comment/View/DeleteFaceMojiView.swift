@@ -12,7 +12,7 @@ struct DeleteFaceMojiView: View {
     // MARK: - PROPERTY
     let facemoji: Facemoji
     let postID: String
-    @ObservedObject var feedVM: FeedViewModel
+    @ObservedObject var commentVM: CommentViewModel
     
     // MARK: - BODY
     var body: some View {
@@ -33,10 +33,11 @@ struct DeleteFaceMojiView: View {
                     .padding()
                 
                 Button {
-                    feedVM.deleteFacemojiModal = false
+                    commentVM.deleteFacemojiModal = false
                     Task {
-                        await feedVM.updateFacemojiData.deleteFaceMoji(documentID: postID, storagefileName: facemoji.storagename)
-                        feedVM.facemojies = try await feedVM.updateFacemojiData.getFaceMoji(documentID: postID) ?? []
+                        await commentVM.updateFacemojiData.deleteFaceMoji(documentID: postID,
+                                                                          storagefileName: facemoji.storagename)
+                        commentVM.facemojies = try await commentVM.updateFacemojiData.getFaceMoji(documentID: postID) ?? []
                     }
                 } label: {
                     Text("삭제")
@@ -51,7 +52,7 @@ struct DeleteFaceMojiView: View {
                 .padding()
                 
                 Button {
-                    feedVM.deleteFacemojiModal = false
+                    commentVM.deleteFacemojiModal = false
                 } label: {
                     Text("취소")
                         .background(

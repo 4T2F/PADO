@@ -26,8 +26,6 @@ class AuthenticationViewModel: ObservableObject {
     @Published var showAlert = false
     @Published var isExisted = false
     
-    @Published var selectFilter: FeedFilter = .following
-    
     // 탭바 이동관련 변수
     @Published var showTab: Int = 0
     
