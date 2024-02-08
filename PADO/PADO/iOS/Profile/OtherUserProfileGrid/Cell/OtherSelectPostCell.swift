@@ -24,7 +24,7 @@ struct OtherSelectPostCell: View {
     @State private var isShowingCommentView: Bool = false
     
     let updateHeartData: UpdateHeartData
-    let post: Post
+    @Binding var post: Post
     let cellType: PostViewType
     
     var body: some View {
@@ -146,7 +146,8 @@ struct OtherSelectPostCell: View {
                                                     isHeartCheck = await updateHeartData.checkHeartExists(documentID: postID)
                                                     heartLoading = false
                                                 }
-                                                await profileVM.fetchHighlihts(id: userNameID)
+                                                await profileVM.fetchPostData(documentID: userNameID,
+                                                                              inputType: InputPostType.highlight)
                                             }
                                         }
                                     } label: {
@@ -185,7 +186,7 @@ struct OtherSelectPostCell: View {
                                 }
                                 
                                 // MARK: - 하트 숫자
-                                Text("\(heartCounts)")
+                                Text("\(post.heartsCount)")
                                     .font(.system(size: 10))
                                     .fontWeight(.semibold)
                                     .shadow(radius: 1, y: 1)
@@ -209,7 +210,7 @@ struct OtherSelectPostCell: View {
                                 .presentationDetents([.large])
                                 
                                 // MARK: - 댓글 숫자
-                                Text("\(commentCounts)")
+                                Text("\(post.commentCount)")
                                     .font(.system(size: 10))
                                     .fontWeight(.semibold)
                                     .shadow(radius: 1, y: 1)
@@ -246,29 +247,12 @@ struct OtherSelectPostCell: View {
             Task {
                 self.postUser = await UpdateUserData.shared.getOthersProfileDatas(id: post.ownerUid)
                 if let postID = post.id {
-                    await fetchHeartCommentCounts(documentID: postID)
                     isHeartCheck = await updateHeartData.checkHeartExists(documentID: postID)
                 }
             }
         }
     }
     
-    func fetchHeartCommentCounts(documentID: String) async {
-        let db = Firestore.firestore()
-        db.collection("post").document(documentID).addSnapshotListener { documentSnapshot, error in
-            guard let document = documentSnapshot else {
-                print("Error fetching document: \(error!)")
-                return
-            }
-            guard let data = document.data() else {
-                print("Document data was empty.")
-                return
-            }
-            print("Current data: \(data)")
-            self.heartCounts = data["heartsCount"] as? Int ?? 0
-            self.commentCounts = data["commentCount"] as? Int ?? 0
-        }
-    }
     
     private func descriptionForType(_ type: PostViewType) -> String {
            switch type {

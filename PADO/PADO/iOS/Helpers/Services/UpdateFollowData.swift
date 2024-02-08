@@ -73,6 +73,9 @@ class UpdateFollowData {
     }
     
     func fetchFollowStatusData() {
+        
+        guard !userNameID.isEmpty else { return }
+        
         db.collection("users").document(userNameID).collection("following")
             .whereField("status", isEqualTo: false)
             .getDocuments { (querySnapshot, err) in
@@ -95,6 +98,9 @@ class UpdateFollowData {
     
     func checkFollowStatus(id: String) async -> Bool {
         let db = Firestore.firestore()
+        
+        guard !userNameID.isEmpty else { return false }
+        
         let query = db.collection("users").document(userNameID).collection("following").whereField("followingID", isEqualTo: id)
         
         do {

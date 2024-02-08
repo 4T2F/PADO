@@ -91,13 +91,16 @@ class FeedViewModel:Identifiable ,ObservableObject {
         
         do {
             let documents = try await getDocumentsAsync(collection: db.collection("post"), query: query)
-            
             self.lastFollowFetchedDocument = documents.last
+            
             self.followingPosts = documents.compactMap { document in
                 try? document.data(as: Post.self)
             }
-            .filter { post in
-                followingUsers.contains(where: { $0 == post.ownerUid })
+            for document in documents {
+                guard let post = try? document.data(as: Post.self) else { continue }
+                if followingUsers.contains(where: { $0 == post.ownerUid }) {
+                    setupSnapshotFollowingListener(for: post)
+                }
             }
         } catch {
             print("포스트 가져오기 오류: \(error.localizedDescription)")
@@ -110,11 +113,10 @@ class FeedViewModel:Identifiable ,ObservableObject {
     // 오늘 파도 포스트 가져오기
     func fetchTodayPadoPosts() async {
         todayPadoPosts.removeAll()
-        
+
         let threeDaysAgo = Calendar.current.date(byAdding: .day, value: -3, to: Date()) ?? Date()
-           // Date 객체를 Timestamp로 변환
         let threeDaysAgoTimestamp = Timestamp(date: threeDaysAgo)
-        
+
         let query = db.collection("post")
             .whereField("created_Time", isGreaterThanOrEqualTo: threeDaysAgoTimestamp)
         do {
@@ -122,18 +124,21 @@ class FeedViewModel:Identifiable ,ObservableObject {
             var filteredPosts = documents.compactMap { document in
                 try? document.data(as: Post.self)
             }
-        
+
             filteredPosts.sort { $0.heartsCount > $1.heartsCount }
+
+            for post in filteredPosts.prefix(20) {
+                setupSnapshotTodayPadoListener(for: post)
+            }
 
             // 인덱스 20개 초과 시 0~19번 인덱스까지만 포함
             self.todayPadoPosts = Array(filteredPosts.prefix(20))
-            
-            fetchTodayPadoHeartCommentCounts()
 
         } catch {
             print("포스트 가져오기 오류: \(error.localizedDescription)")
         }
     }
+
     
     func fetchFollowMorePosts() async {
         guard let lastDocument = lastFollowFetchedDocument else { return }
@@ -158,10 +163,9 @@ class FeedViewModel:Identifiable ,ObservableObject {
             .filter { post in
                 followingUsers.contains(where: { $0 == post.ownerUid })
             }
-            print("받아온 데이터")
-            print(documentsData)
-            print("여깄음")
+      
             for documentData in documentsData {
+                setupSnapshotFollowingListener(for: documentData)
                 self.followingPosts.append(documentData)
             }
 
@@ -206,6 +210,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
     }
     
     func setupProfileImageURL(id: String) async -> String {
+        guard !id.isEmpty else { return "" }
         do {
             let querySnapshot = try await Firestore.firestore().collection("users").document(id).getDocument()
             
@@ -241,39 +246,36 @@ class FeedViewModel:Identifiable ,ObservableObject {
 
 extension FeedViewModel {
     @MainActor
-    func fetchFollowingHeartCommentCounts() {
-        for index in followingPosts.indices {
-            guard let postID = followingPosts[index].id else { continue }
-            let docRef = db.collection("post").document(postID)
-            
-            docRef.addSnapshotListener { documentSnapshot, error in
-                guard let document = documentSnapshot, let data = document.data() else {
-                    print("Error fetching document: \(error?.localizedDescription ?? "Unknown error")")
-                    return
-                }
-                
+    private func setupSnapshotFollowingListener(for post: Post) {
+        guard let postID = post.id else { return }
+
+        let docRef = db.collection("post").document(postID)
+        docRef.addSnapshotListener { documentSnapshot, error in
+            guard let document = documentSnapshot, let data = document.data() else {
+                print("Error fetching document: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+            if let index = self.followingPosts.firstIndex(where: { $0.id == postID }) {
                 self.followingPosts[index].heartsCount = data["heartsCount"] as? Int ?? 0
                 self.followingPosts[index].commentCount = data["commentCount"] as? Int ?? 0
-                
             }
         }
     }
     
     @MainActor
-    func fetchTodayPadoHeartCommentCounts() {
-        for index in todayPadoPosts.indices {
-            guard let postID = todayPadoPosts[index].id else { continue }
-            let docRef = db.collection("post").document(postID)
-            
-            docRef.addSnapshotListener { documentSnapshot, error in
-                guard let document = documentSnapshot, let data = document.data() else {
-                    print("Error fetching document: \(error?.localizedDescription ?? "Unknown error")")
-                    return
-                }
+    func setupSnapshotTodayPadoListener(for post: Post) {
+        guard let postID = post.id else { return }
+
+        let docRef = db.collection("post").document(postID)
+        docRef.addSnapshotListener { documentSnapshot, error in
+            guard let document = documentSnapshot, let data = document.data() else {
+                print("Error fetching document: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+            if let index = self.todayPadoPosts.firstIndex(where: { $0.id == postID }) {
                 
                 self.todayPadoPosts[index].heartsCount = data["heartsCount"] as? Int ?? 0
                 self.todayPadoPosts[index].commentCount = data["commentCount"] as? Int ?? 0
-                
             }
         }
     }
