@@ -51,6 +51,8 @@
 		418B6C982B5EC75F00E8289D /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418B6C972B5EC75F00E8289D /* SearchViewModel.swift */; };
 		418B6C9B2B5EC9BB00E8289D /* Searchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418B6C9A2B5EC9BB00E8289D /* Searchable.swift */; };
 		418D45BF2B756AAD007F6633 /* Comment.json in Resources */ = {isa = PBXBuildFile; fileRef = 418D45BE2B756AAD007F6633 /* Comment.json */; };
+		418D45C12B757388007F6633 /* PostitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418D45C02B757388007F6633 /* PostitView.swift */; };
+		418D45C32B757393007F6633 /* PostitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418D45C22B757393007F6633 /* PostitViewModel.swift */; };
 		419741E12B558F3A0055F2AB /* BlueButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419741DF2B558F3A0055F2AB /* BlueButtonView.swift */; };
 		4197420A2B55900D0055F2AB /* LoginAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419742032B55900D0055F2AB /* LoginAlert.swift */; };
 		4197420F2B55900D0055F2AB /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419742082B55900D0055F2AB /* MainView.swift */; };
@@ -260,6 +262,8 @@
 		418B6C972B5EC75F00E8289D /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		418B6C9A2B5EC9BB00E8289D /* Searchable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Searchable.swift; sourceTree = "<group>"; };
 		418D45BE2B756AAD007F6633 /* Comment.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Comment.json; sourceTree = "<group>"; };
+		418D45C02B757388007F6633 /* PostitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostitView.swift; sourceTree = "<group>"; };
+		418D45C22B757393007F6633 /* PostitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostitViewModel.swift; sourceTree = "<group>"; };
 		419741DF2B558F3A0055F2AB /* BlueButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlueButtonView.swift; sourceTree = "<group>"; };
 		419742032B55900D0055F2AB /* LoginAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginAlert.swift; sourceTree = "<group>"; };
 		419742082B55900D0055F2AB /* MainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -905,6 +909,7 @@
 				63AA03572B68F1BE00431332 /* ProfileView.swift */,
 				41101B3A2B6BF8AF002E8C64 /* OtherUserProfileView.swift */,
 				63AA03582B68F1BE00431332 /* OffsetModifier.swift */,
+				418D45C02B757388007F6633 /* PostitView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -913,6 +918,7 @@
 			isa = PBXGroup;
 			children = (
 				63AA03602B6A173F00431332 /* ProfileViewModel.swift */,
+				418D45C22B757393007F6633 /* PostitViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1366,6 +1372,7 @@
 				63824C4F2B558B5500D1D653 /* VerificationView.swift in Sources */,
 				419981D82B75060F00EEA06E /* CommentViewModel.swift in Sources */,
 				63824C502B558B5500D1D653 /* WhiteButtonView.swift in Sources */,
+				418D45C12B757388007F6633 /* PostitView.swift in Sources */,
 				41711F462B72281D00F0A1A7 /* UpdatePhotomojiData.swift in Sources */,
 				04E950982B715E6F0091F660 /* InfoWebView.swift in Sources */,
 				419741E12B558F3A0055F2AB /* BlueButtonView.swift in Sources */,
@@ -1424,6 +1431,7 @@
 				418B6C9B2B5EC9BB00E8289D /* Searchable.swift in Sources */,
 				41101B342B6B8B7D002E8C64 /* SearchGuide.swift in Sources */,
 				41A1029B2B62631A0070AB8D /* CamerCoordinator.swift in Sources */,
+				418D45C32B757393007F6633 /* PostitViewModel.swift in Sources */,
 				63824C4D2B558B5500D1D653 /* ModalWhiteButton.swift in Sources */,
 				B1D7CDEC2B5669B80090544B /* SettingDivider.swift in Sources */,
 				41711F442B719C0A00F0A1A7 /* UpdateHeartData.swift in Sources */,
