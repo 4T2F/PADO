@@ -27,15 +27,18 @@ struct MainSearchView: View {
             searchVM.updateSearchText(with: $0)
         }
         NavigationStack {
-            ZStack {
-                Color.main.ignoresSafeArea()
-                
-                VStack(alignment: .leading) {
-                    Text("검색")
-                        .font(.title)
-                        .fontWeight(.heavy)
-                        .padding(.leading)
-                    
+            VStack {
+                VStack(alignment: .leading, spacing: 0) {
+                    HStack(spacing: 0) {
+                        Text("검색")
+                            .font(.title)
+                            .fontWeight(.heavy)
+                            .padding(.leading)
+                        
+                        Spacer()
+                    }
+                }
+                VStack(alignment: .center, spacing: 0) {
                     SearchBar(text: searchTextBinding,
                               isLoading: $searchVM.isLoading)
                     .focused($isTextFieldFocused)
@@ -77,31 +80,30 @@ struct MainSearchView: View {
                                 .padding(.top, 150)
                         }
                     } else if searchVM.viewState == .empty {
-                        HStack(alignment: .center) {
-                            Text("검색 결과가 없습니다")
-                                .foregroundColor(.gray)
-                                .font(.system(size: 16,
-                                              weight: .semibold))
-                                .padding(.top, 150)
-                        }
+                        Text("검색 결과가 없습니다")
+                            .foregroundColor(.gray)
+                            .font(.system(size: 16,
+                                          weight: .semibold))
+                            .padding(.top, 150)
+                        
                     } else if searchVM.viewState == .ready {
                         ScrollView(showsIndicators: false) {
                             ForEach(searchVM.searchResults) { result in
                                 SearchCellView(profileVM: profileVM,
                                                followVM: followVM,
                                                searchVM: searchVM,
-                                               user: result, 
+                                               user: result,
                                                updateFollowData: updateFollowData)
                                 .padding(.vertical, 3)
                             }
                         }
                         .padding(.top, 16)
                     }
-                    Spacer()
                     
+                    Spacer()
                 }
-                .padding(.top, 15)
             }
+            .background(.main, ignoresSafeAreaEdges: .all)
         }
     }
 }
