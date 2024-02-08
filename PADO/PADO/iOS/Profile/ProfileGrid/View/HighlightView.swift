@@ -25,8 +25,12 @@ struct HighlightView: View {
             ScrollView(showsIndicators: false) {
                 ScrollViewReader { value in
                     LazyVStack(spacing: 0) {
-                        ForEach (profileVM.highlights, id: \.self) { post in
-                            HighlightCell(feedVM: feedVM, profileVM: profileVM, surfingVM: surfingVM ,updateHeartData: updateHeartData, post: post)
+                        ForEach(profileVM.highlights, id: \.self) { post in
+                            HighlightCell(feedVM: feedVM,
+                                          profileVM: profileVM,
+                                          surfingVM: surfingVM,
+                                          updateHeartData: updateHeartData,
+                                          post: post)
                                 .id(post.id)
                         }
                         .onAppear {

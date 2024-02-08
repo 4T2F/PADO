@@ -25,8 +25,12 @@ struct ReceivePostView: View {
             ScrollView(showsIndicators: false) {
                 ScrollViewReader { value in
                     LazyVStack(spacing: 0) {
-                        ForEach (profileVM.padoPosts, id: \.self) { post in
-                            ReceivePostCell(feedVM: feedVM, profileVM: profileVM, surfingVM: surfingVM ,updateHeartData: updateHeartData, post: post)
+                        ForEach(profileVM.padoPosts, id: \.self) { post in
+                            ReceivePostCell(feedVM: feedVM,
+                                            profileVM: profileVM,
+                                            surfingVM: surfingVM,
+                                            updateHeartData: updateHeartData,
+                                            post: post)
                                 .id(post.id)
                         }
                         .onAppear {

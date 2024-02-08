@@ -27,6 +27,7 @@ struct FeedCell: View {
     @ObservedObject var surfingVM: SurfingViewModel
     @ObservedObject var profileVM: ProfileViewModel
     
+    
     let updateHeartData: UpdateHeartData
     let post: Post
     
@@ -112,15 +113,15 @@ struct FeedCell: View {
                             }
                         }
                         VStack(alignment: .leading, spacing: 4) {
-                            Text("@\(post.surferUid)")
+                            Text("@\(post.ownerUid)")
                                 .font(.title)
                                 .fontWeight(.bold)
                             
                             HStack(alignment: .center, spacing: 8) {
-                                Text("\(post.ownerUid)님에게 보낸 파도")
+                                Text("\(post.surferUid)님이 보낸 파도")
                                     .font(.system(size: 14))
                                 
-                                Text("\(post.created_Time.toFormattedString())")
+                                Text("\(post.created_Time.formatDate(post.created_Time))")
                                     .font(.system(size: 14))
                                     .foregroundStyle(.white.opacity(0.7))
                             }

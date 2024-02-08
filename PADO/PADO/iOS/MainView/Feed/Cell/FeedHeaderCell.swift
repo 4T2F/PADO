@@ -26,7 +26,7 @@ enum FeedFilter: Int, CaseIterable, Identifiable {
 
 struct FeedHeaderCell: View {
     // MARK: - PROPERTY
-    @State private var selectedFilter: FeedFilter = .following
+    @Binding var selectedFilter: FeedFilter
     @Namespace var animation
     
     @EnvironmentObject var viewModel: AuthenticationViewModel
@@ -64,7 +64,6 @@ struct FeedHeaderCell: View {
                         .onTapGesture {
                             withAnimation(.spring()) {
                                 selectedFilter = filter
-                                viewModel.selectFilter = filter
                             }
                         }
                     } //: LOOP
@@ -84,8 +83,6 @@ struct FeedHeaderCell: View {
 
 
 struct FeedRefreshHeaderCell: View {
-    // MARK: - PROPERTY
-    
     // MARK: - BODY
     var body: some View {
         HStack {

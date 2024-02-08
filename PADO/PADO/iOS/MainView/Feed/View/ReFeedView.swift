@@ -27,7 +27,7 @@ struct ReFeedView: View {
             CustomRefreshView(showsIndicator: false,
                               lottieFileName: "Loading",
                               scrollDelegate: scrollDelegate) {
-                    if authenticationViewModel.selectFilter == .following {
+                    if selectedFilter == .following {
                         LazyVStack(spacing:0) {
                             ForEach(feedVM.followingPosts.indices, id: \.self) { index in
                                 FeedCell(feedVM: feedVM,
@@ -68,20 +68,20 @@ struct ReFeedView: View {
                                 await feedVM.fetchTodayPadoPosts()
                             }
                         }
-                        .refreshable {
-                            Task{
-                                await feedVM.fetchTodayPadoPosts()
-                            }
-                        }
                     }
             } onRefresh: {
                 try? await Task.sleep(nanoseconds: 1_500_000_000)
-                feedVM.findFollowingUsers()
+                if selectedFilter == FeedFilter.following {
+                    feedVM.findFollowingUsers()
+                } else {
+                    Task{
+                        await feedVM.fetchTodayPadoPosts()
+                    }
+                }
             }
-
                 VStack {
                     if scrollDelegate.scrollOffset < 5 {
-                        FeedHeaderCell()
+                        FeedHeaderCell(selectedFilter: $selectedFilter)
                             .transition(.opacity.combined(with: .scale))
                     } else if !scrollDelegate.isEligible {
                         FeedRefreshHeaderCell()
@@ -91,7 +91,7 @@ struct ReFeedView: View {
                 }
                 .padding(.top, 10)
                 .animation(.easeInOut, value: scrollDelegate.scrollOffset)
-
+                
             }
         }
     }

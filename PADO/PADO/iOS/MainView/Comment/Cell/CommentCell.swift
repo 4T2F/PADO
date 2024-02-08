@@ -67,7 +67,7 @@ struct CommentCell: View {
                             .foregroundStyle(.white)
                     }
                     
-                    Text(TimestampDateFormatter.formatDate(comment.time))
+                    Text(comment.time.formatDate(comment.time))
                         .font(.caption)
                         .foregroundColor(.secondary)
                     

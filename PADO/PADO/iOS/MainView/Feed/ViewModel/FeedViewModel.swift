@@ -140,20 +140,19 @@ class FeedViewModel:Identifiable ,ObservableObject {
         todayPadoPosts.removeAll()
         lastTodayPadoFetchedDocument = nil
         
-        let sevenDaysAgo = Calendar.current.date(byAdding: .day, value: -7, to: Date()) ?? Date()
+        let sevenDaysAgo = Calendar.current.date(byAdding: .day, value: -3, to: Date()) ?? Date()
            // Date 객체를 Timestamp로 변환
         let sevenDaysAgoTimestamp = Timestamp(date: sevenDaysAgo)
         
         let query = db.collection("post")
             .whereField("created_Time", isGreaterThanOrEqualTo: sevenDaysAgoTimestamp)
-            .order(by: "created_Time", descending: true)
-            .order(by: "heartsCount", descending: true)
-            .limit(to: 5)
+            .limit(to: 20)
         do {
             let documents = try await getDocumentsAsync(collection: db.collection("post"), query: query)
             self.todayPadoPosts = documents.compactMap { document in
                 try? document.data(as: Post.self)
             }
+  
             self.lastTodayPadoFetchedDocument = documents.last
 
         } catch {
@@ -205,8 +204,6 @@ class FeedViewModel:Identifiable ,ObservableObject {
         
         let query = db.collection("post")
             .whereField("created_Time", isGreaterThanOrEqualTo: sevenDaysAgoTimestamp)
-            .order(by: "created_Time", descending: true)
-            .order(by: "heartsCount", descending: true)
             .start(afterDocument: lastDocument)
             .limit(to: 3)
         
@@ -313,10 +310,43 @@ class FeedViewModel:Identifiable ,ObservableObject {
 
 // Timestamp 형식의 시간을 가져와서 날짜 및 시간 형식으로 변환
 extension Timestamp {
-    func toFormattedString() -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "YYYY-M-d"
-        return formatter.string(from: self.dateValue())
+    func formatDate(_ timestamp: Timestamp) -> String {
+        let currentDate = Date() // 현재 날짜 및 시간
+        let date = timestamp.dateValue() // Timestamp를 Date로 변환
+        let calendar = Calendar.current
+
+        let hoursAgo = calendar.dateComponents([.hour], from: date, to: currentDate).hour ?? 0
+        let minutesAgo = calendar.dateComponents([.minute], from: date, to: currentDate).minute ?? 0
+        let secondsAgo = calendar.dateComponents([.second], from: date, to: currentDate).second ?? 0
+        
+        switch hoursAgo {
+        case 24...:
+            // 1일보다 오래된 경우
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy.MM.dd. a h:mm" // AM/PM을 포함하는 날짜 형식 지정
+            formatter.amSymbol = "오전"
+            formatter.pmSymbol = "오후"
+            return formatter.string(from: date)
+        case 1...:
+            // 1시간 이상, 1일 미만
+            return "\(hoursAgo)시간 전"
+
+        default:
+            // 1시간 미만
+            if minutesAgo >= 1 {
+                return "\(minutesAgo)분 전"
+            } else {
+                return "\(secondsAgo)초 전"
+            }
+        }
+    }
+    
+    func convertTimestampToString(timestamp: Timestamp) -> String {
+        let date = timestamp.dateValue() // Timestamp를 Date로 변환
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd-HH:mm:ss.sssZ" // 원하는 날짜 형식 설정
+        let dateString = dateFormatter.string(from: date) // Date를 String으로 변환
+        return dateString
     }
 }
 

@@ -7,8 +7,8 @@
 
 import Firebase
 import FirebaseFirestoreSwift
-import Lottie
 import Kingfisher
+import Lottie
 import SwiftUI
 
 struct SendPostCell: View {
@@ -85,7 +85,7 @@ struct SendPostCell: View {
                                 Text("\(post.ownerUid)님에게 보낸 파도")
                                     .font(.system(size: 14))
                                 
-                                Text("\(post.created_Time.toFormattedString())")
+                                Text("\(post.created_Time.formatDate(post.created_Time))")
                                     .font(.system(size: 14))
                                     .foregroundStyle(.white.opacity(0.7))
                             }
@@ -94,7 +94,7 @@ struct SendPostCell: View {
                                 Text("\(post.ownerUid)님에게 보낸 파도")
                                     .font(.system(size: 14))
                                 
-                                Text("\(post.created_Time.toFormattedString())")
+                                Text("\(post.created_Time.formatDate(post.created_Time))")
                                     .font(.system(size: 14))
                                     .foregroundStyle(.white.opacity(0.7))
                             }

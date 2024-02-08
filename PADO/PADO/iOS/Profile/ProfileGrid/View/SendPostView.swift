@@ -25,8 +25,12 @@ struct SendPostView: View {
             ScrollView(showsIndicators: false) {
                 ScrollViewReader { value in
                     LazyVStack(spacing: 0) {
-                        ForEach (profileVM.sendPadoPosts, id: \.self) { post in
-                            SendPostCell(feedVM: feedVM, profileVM: profileVM, surfingVM: surfingVM ,updateHeartData: updateHeartData, post: post)
+                        ForEach(profileVM.sendPadoPosts, id: \.self) { post in
+                            SendPostCell(feedVM: feedVM, 
+                                         profileVM: profileVM,
+                                         surfingVM: surfingVM,
+                                         updateHeartData: updateHeartData,
+                                         post: post)
                                 .id(post.id)
                         }
                         .onAppear {

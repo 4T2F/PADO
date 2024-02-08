@@ -36,7 +36,7 @@ struct DeleteCommentView: View {
                     feedVM.showdeleteModal = false
                     Task {
                         await feedVM.updateCommentData.deleteComment(documentID: postID,
-                                                              commentID: userNameID+TimestampDateFormatter.convertTimestampToString(timestamp: comment.time))
+                                                              commentID: userNameID+(comment.time.convertTimestampToString(timestamp: comment.time)))
                         if let fetchedComments = await feedVM.updateCommentData.getCommentsDocument(postID: postID) {
                             feedVM.comments = fetchedComments
                         }

@@ -43,7 +43,6 @@ struct VerificationPostView: View {
                         .padding(.horizontal)
                         
                         HStack {
-                            FeedSurfers()
                             
                             Spacer()
                             
