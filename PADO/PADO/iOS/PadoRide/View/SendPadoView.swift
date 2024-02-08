@@ -28,7 +28,11 @@ struct SendPadoView: View {
             
             
             Button {
-                
+                Task {
+                    print("123123")
+                    await padorideVM.sendPostAtStorage()
+                    print("123123")
+                }
             } label: {
                 ZStack {
                     RoundedRectangle(cornerRadius: 8)

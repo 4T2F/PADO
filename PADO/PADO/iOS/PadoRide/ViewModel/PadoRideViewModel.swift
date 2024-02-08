@@ -32,6 +32,7 @@ class PadoRideViewModel: ObservableObject {
     @Published var showingModal: Bool = false
     
     let getPostData = GetPostData()
+    let db = Firestore.firestore()
     
     // 선택된 이미지 URL을 기반으로 UIImage를 다운로드하고 저장하는 함수
     func downloadSelectedImage() {
@@ -85,7 +86,7 @@ class PadoRideViewModel: ObservableObject {
         UIGraphicsBeginImageContextWithOptions(rect.size, false, 0)
         canvas.drawHierarchy(in: CGRect(origin: .zero, size: rect.size), afterScreenUpdates: true)
         
-        let SwiftUIView = ZStack{
+        let makeUIView = ZStack{
             ForEach(textBoxes){[self] box in
                 Text(textBoxes[currentIndex].id == box.id && addNewBox ? "" : box.text)
                     .font(.system(size: 30))
@@ -95,7 +96,7 @@ class PadoRideViewModel: ObservableObject {
             }
         }
         
-        let controller = UIHostingController(rootView: SwiftUIView).view!
+        let controller = UIHostingController(rootView: makeUIView).view!
         controller.frame = rect
         
         controller.backgroundColor = .clear
@@ -115,8 +116,30 @@ class PadoRideViewModel: ObservableObject {
         }
     }
     
-    func sendPost() {
+    func sendPostAtStorage() async {
+        let filename = "\(userNameID)-\(String(describing: selectedPost?.id ?? ""))"
         
-        let storage = Storage.storage().reference(withPath: "/pado_ride/123")
+        let storageRef = Storage.storage().reference(withPath: "/pado_ride/\(filename)")
+        
+        guard let imageData = decoUIImage.jpegData(compressionQuality: 1.0) else { return }
+        
+        do {
+            _ = try await storageRef.putDataAsync(imageData)
+            let url = try await storageRef.downloadURL()
+            
+            let query = try await db.collection("post")
+                .document(String(describing: selectedPost?.id ?? ""))
+                .collection("padoride")
+                .document(userNameID)
+                .setData(
+                    ["OwnerUid" : "11",
+                     "imageUrl" : url.absoluteString,
+                     "fdsfsd" : "111",
+                     "time" : Timestamp()]
+                )
+            
+        } catch {
+            print("DEBUG: Failed to upload image with error: \(error.localizedDescription)")
+        }
     }
 }
