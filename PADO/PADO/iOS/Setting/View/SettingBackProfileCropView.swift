@@ -38,7 +38,7 @@ struct SettingBackProfileCropView: View {
                 viewModel.backimagePick = false
             }
             .background {
-                Color.black
+                Color.main
                     .ignoresSafeArea()
             }
             .toolbar {

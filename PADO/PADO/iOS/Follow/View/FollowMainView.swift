@@ -19,35 +19,21 @@ struct FollowMainView: View {
     let user: User
     
     var body: some View {
-        VStack {
-            ZStack {
-                Text("\(user.nameID)")
-                    .font(.system(size: 16))
-                    .fontWeight(.bold)
+        NavigationStack {
+            VStack {
+                pinnedHeaderView()
                 
-                HStack {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image("dismissArrow")
-                    }
-                    
-                    Spacer()
-                }
-            }
-            .padding(.horizontal)
-            
-            pinnedHeaderView()
-            
-            ScrollView(.vertical, showsIndicators: false) {
-                VStack(spacing: 0) {
-                    LazyVStack(pinnedViews: [.sectionHeaders]) {
+                ScrollView(.vertical, showsIndicators: false) {
+                    VStack(spacing: 0) {
+                        LazyVStack(pinnedViews: [.sectionHeaders]) {
                             postList()
+                        }
                     }
                 }
             }
+            .navigationBarBackButtonHidden()
+            .background(.main)
         }
-        .navigationBarBackButtonHidden()
     }
     
     @ViewBuilder
@@ -72,7 +58,12 @@ struct FollowMainView: View {
                                 .fill(.clear)
                         }
                     }
-                    .frame(height: 2)
+                    .frame(height: 1)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 4, style: .continuous)
+                            .frame(width: UIScreen.main.bounds.width, height: 0.5)
+                            .foregroundStyle(Color(.systemGray2))
+                    }
                 }
                 .contentShape(Rectangle())
                 .onTapGesture {

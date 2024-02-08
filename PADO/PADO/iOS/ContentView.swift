@@ -29,52 +29,51 @@ struct ContentView: View {
     }
     
     var body: some View {
-        NavigationStack {
-            TabView(selection: $viewModel.showTab) {
+        TabView(selection: $viewModel.showTab) {
+            ReFeedView(selectedFilter: $selectedFilter,         feedVM: feedVM,
+                       surfingVM: surfingVM,
+                       profileVM: profileVM,
+                       followVM: followVM)
+            .tabItem {
+                Image(viewModel.showTab == 0 ? "home_light" : "home_gray")
                 
-                ReFeedView(selectedFilter: $selectedFilter,
-                           feedVM: feedVM,
-                           surfingVM: surfingVM,
+                Text("홈")
+            }
+            .onAppear { viewModel.showTab = 0 }
+            .tag(0)
+            
+            MainSearchView(searchVM: searchVM,
                            profileVM: profileVM,
                            followVM: followVM)
-                .tabItem {
-                    Image(viewModel.showTab == 0 ? "home_light" : "home_gray")
-                    
-                    Text("홈")
-                }
-                .onAppear { viewModel.showTab = 0 }
-                .tag(0)
+            .tabItem {
+                Image(viewModel.showTab == 1 ? "search_light" : "search_gray")
                 
-                MainSearchView(searchVM: searchVM,
-                               profileVM: profileVM,
-                               followVM: followVM)
+                Text("검색")
+            }
+            .onAppear { viewModel.showTab = 1 }
+            .tag(1)
+            SurfingView(surfingVM: surfingVM,
+                        feedVM: feedVM, profileVM:
+                            profileVM, followVM:
+                            followVM)
+            .tabItem {
+                Text("")
+                
+                Image(viewModel.showTab == 2 ? "tab_added" : "tab_add")
+            }
+            .onAppear { viewModel.showTab = 2 }
+            .tag(2)
+            SwiftUIView()
                 .tabItem {
-                    Image(viewModel.showTab == 1 ? "search_light" : "search_gray")
+                    Image(viewModel.showTab == 3 ? "today_light" : "today_gray")
                     
-                    Text("검색")
+                    Text("임시용")
                 }
-                .onAppear { viewModel.showTab = 1 }
-                .tag(1)
-                SurfingView(surfingVM: surfingVM,
-                            feedVM: feedVM, profileVM:
-                                profileVM, followVM:
-                                followVM)
-                .tabItem {
-                    Text("")
-                    
-                    Image(viewModel.showTab == 2 ? "tab_added" : "tab_add")
-                }
-                .onAppear { viewModel.showTab = 2 }
-                .tag(2)
-                SwiftUIView()
-                    .tabItem {
-                        Image(viewModel.showTab == 3 ? "today_light" : "today_gray")
-                        
-                        Text("임시용")
-                    }
-                    .onAppear { viewModel.showTab = 3 }
-                    .tag(3)
-                ProfileView(profileVM: profileVM, followVM: followVM)
+                .onAppear { viewModel.showTab = 3 }
+                .tag(3)
+            
+            if let user = viewModel.currentUser {
+                ProfileView(profileVM: profileVM, followVM: followVM, feedVM: feedVM, user: user)
                     .tabItem {
                         Image(viewModel.showTab == 4 ? "profile_light" : "profile_gray")
                         
@@ -83,31 +82,14 @@ struct ContentView: View {
                     .onAppear { viewModel.showTab = 4 }
                     .tag(4)
             }
-            .tint(.white)
         }
+        .tint(.white)
         .onAppear {
             Task {
                 followVM.profileFollowId = userNameID
                 followVM.initializeFollowFetch()
                 await profileVM.fetchPostID(id: userNameID)
             }
-        }
-    }
-    // 터치 했을 때 진동 울리게 하는 haptics vibration 싱글톤
-    class HapticManager {
-        
-        static let instance = HapticManager()
-        
-        // notification 함수
-        func simpleSuccess() {
-            let generator = UINotificationFeedbackGenerator()
-            generator.notificationOccurred(.success)
-        }
-        
-        // impact 함수
-        func impact(style: UIImpactFeedbackGenerator.FeedbackStyle) {
-            let generator = UIImpactFeedbackGenerator(style: style)
-            generator.impactOccurred()
         }
     }
 }

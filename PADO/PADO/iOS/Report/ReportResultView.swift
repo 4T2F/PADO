@@ -78,8 +78,8 @@ struct ReportResultView: View {
             } label: {
                 ZStack {
                     RoundedRectangle(cornerRadius: 8)
-                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
-                        .foregroundStyle(.blueButton)
+                        .frame(width: UIScreen.main.bounds.width * 0.8, height: 45)
+                        .foregroundStyle(.blue)
                     
                     Text("확인")
                         .foregroundStyle(.white)
@@ -98,9 +98,11 @@ struct ReportResultView: View {
                 )
             }
         } //: VStack
+        .frame(width: UIScreen.main.bounds.width)
         .padding(.vertical)
         .padding(.top)
         .navigationBarBackButtonHidden()
+        .background(.main, ignoresSafeAreaEdges: .all)
     }
     
     func handleMailResult() {

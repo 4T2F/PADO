@@ -10,31 +10,90 @@ import SwiftUI
 
 struct ProfileView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
+    @Environment(\.dismiss) var dismiss
     @StateObject var profileVM: ProfileViewModel
     @StateObject var followVM: FollowViewModel
+    @StateObject var surfingVM = SurfingViewModel()
+    @ObservedObject var feedVM: FeedViewModel
     
     let updateFollowData = UpdateFollowData()
     
     @Namespace var animation
     @State private var buttonActive: Bool = false
+    @State private var settingButtonActive: Bool = false
+    @State private var profileEditButtonActive: Bool = false
+    @State private var followerActive: Bool = false
+    @State private var followingActive: Bool = false
+    
+    @State private var isShowingReceiveDetail: Bool = false
+    @State private var isShowingSendDetail: Bool = false
+    @State private var isShowingHightlight: Bool = false
+    
+    @State private var selectedPostID: String?
+    
+    let user: User
     
     let columns = [GridItem(.flexible(), spacing: 1), GridItem(.flexible(), spacing: 1), GridItem(.flexible())]
     
     var body: some View {
         NavigationStack {
-            ScrollView(.vertical, showsIndicators: false) {
-                VStack(spacing: 0) {
-                    headerView()
+            ZStack {
+                ScrollView(.vertical, showsIndicators: false) {
+                    VStack(spacing: 0) {
+                        headerView()
+                        
+                        LazyVStack(pinnedViews: [.sectionHeaders]) {
+                            Section {
+                                postList()
+                            } header: {
+                                pinnedHeaderView()
+                                    .background(Color.main)
+                                    .modifier(OffsetModifier(offset: $profileVM.headerOffsets.0, returnFromStart: false))
+                                    .modifier(OffsetModifier(offset: $profileVM.headerOffsets.1))
+                            }
+                        }
+                        .background(.main)
+                    }
+                }
+                .background(.main, ignoresSafeAreaEdges: .all)
+                .navigationBarBackButtonHidden()
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Text("@\(userNameID)")
+                            .font(.system(size: 22))
+                            .fontWeight(.bold)
+                    }
                     
-                    LazyVStack(pinnedViews: [.sectionHeaders]) {
-                        Section {
-                            postList()
-                        } header: {
-                            pinnedHeaderView()
-                                .background(Color.black)
-                                .offset(y: profileVM.headerOffsets.1 > 0 ? 0 : -profileVM.headerOffsets.1 / 8)
-                                .modifier(OffsetModifier(offset: $profileVM.headerOffsets.0, returnFromStart: false))
-                                .modifier(OffsetModifier(offset: $profileVM.headerOffsets.1))
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        HStack(spacing: 0) {
+                            HStack(spacing: 6) {
+                                if !user.instaAddress.isEmpty {
+                                    Button {
+                                        profileVM.openSocialMediaApp(urlScheme: "instagram://user?username=\(user.instaAddress)", fallbackURL: "https://instagram.com/\(user.instaAddress)")
+                                    } label: {
+                                        Image("instagramicon")
+                                    }
+                                }
+                                    
+                                if !user.tiktokAddress.isEmpty {
+                                    Button {
+                                        profileVM.openSocialMediaApp(urlScheme: "tiktok://user?username=\(user.tiktokAddress)", fallbackURL: "https://www.tiktok.com/@\(user.tiktokAddress)")
+                                    } label: {
+                                        Image("tiktokicon")
+                                    }
+                                }
+                            }
+                            
+                            Button {
+                                settingButtonActive.toggle()
+                            } label: {
+                                Image("more")
+                                    .foregroundStyle(.white)
+                            }
+                            .sheet(isPresented: $settingButtonActive) {
+                                SettingView()
+                            }
                         }
                     }
                 }
@@ -48,9 +107,6 @@ struct ProfileView: View {
             }
             .coordinateSpace(name: "SCROLL")
             .ignoresSafeArea(.container, edges: .vertical)
-        }
-        .navigationDestination(isPresented: $viewModel.showingSettingProfileView) {
-            SettingProfileView()
         }
     }
     
@@ -67,60 +123,39 @@ struct ProfileView: View {
                 .overlay {
                     ZStack(alignment: .bottom) {
                         LinearGradient(colors: [.clear,
-                                                .black.opacity(0.1),
-                                                .black.opacity(0.3),
-                                                .black.opacity(0.5),
-                                                .black.opacity(0.8),
-                                                .black.opacity(1)], startPoint: .top, endPoint: .bottom)
+                                                .main.opacity(0.1),
+                                                .main.opacity(0.3),
+                                                .main.opacity(0.5),
+                                                .main.opacity(0.8),
+                                                .main.opacity(1)], startPoint: .top, endPoint: .bottom)
                         
-                        VStack(alignment: .leading, spacing: 12) {
-                            
+                        VStack(alignment: .leading, spacing: 10) {
                             if let user = viewModel.currentUser {
-                                CircularImageView(size: .xLarge, user: user)
+                                if !user.username.isEmpty {
+                                    CircularImageView(size: .xLarge, user: user)
+                                        .offset(y: 5)
+                                } else {
+                                    CircularImageView(size: .xLarge, user: user)
+                                        .offset(y: 30)
+                                }
                             }
                             
-                            HStack(alignment: .bottom, spacing: 10) {
+                            HStack(alignment: .center, spacing: 5) {
                                 VStack(alignment: .leading, spacing: 4) {
-                                    Text("\(viewModel.currentUser?.username ?? "")")
-                                        .font(.system(size: 14))
-                                        .fontWeight(.semibold)
-                                    
-                                    Text("@\(userNameID)")
-                                        .font(.title.bold())
-                                }
-                                
-                                if viewModel.isAnySocialAccountRegistered {
-                                    Button {
-                                        buttonActive.toggle()
-                                    } label: {
-                                        Image(systemName: "checkmark.seal.fill")
-                                            .foregroundStyle(.blue)
-                                            .background {
-                                                Circle()
-                                                    .fill(.white)
-                                                    .padding(3)
-                                            }
-                                            .offset(y: -5)
+                                    if let user = viewModel.currentUser {
+                                        Text(user.username)
+                                            .font(.system(size: 16))
+                                            .fontWeight(.semibold)
                                     }
-                                    .sheet(isPresented: $buttonActive, content: {
-                                        if let user = viewModel.currentUser {
-                                            ProfileBadgeModalView(user: user)
-                                                .presentationDetents([
-                                                    .fraction(viewModel.areBothSocialAccountsRegistered ? 0.3 : 0.2)
-                                                ])
-                                                .presentationCornerRadius(20)
-                                                .presentationDragIndicator(.visible)
-                                        }
-                                    })
                                 }
                                 
                                 Spacer()
                                 
                                 Button {
-                                    viewModel.showingSettingProfileView.toggle()
+                                    profileEditButtonActive = true
                                 } label: {
                                     ZStack {
-                                        RoundedRectangle(cornerRadius:4)
+                                        RoundedRectangle(cornerRadius: 4)
                                             .stroke(Color.white, lineWidth: 1)
                                             .frame(width: 80, height: 28)
                                         Text("프로필 편집")
@@ -129,50 +164,74 @@ struct ProfileView: View {
                                             .foregroundStyle(.white)
                                     }
                                 }
+                                .sheet(isPresented: $profileEditButtonActive) {
+                                    SettingProfileView()
+                                        .onDisappear {
+                                            profileEditButtonActive = false
+                                        }
+                                }
                             }
                             
                             HStack {
                                 Label {
                                     Text("파도")
                                         .fontWeight(.semibold)
-                                        .foregroundStyle(.white.opacity(0.7))
+                                        .foregroundStyle(.white.opacity(0.9))
                                 } icon: {
                                     Text("\(profileVM.padoPosts.count + profileVM.sendPadoPosts.count)")
                                         .fontWeight(.semibold)
-                                        .foregroundStyle(.white.opacity(0.7))
+                                        .foregroundStyle(.white.opacity(0.9))
                                 }
-                                .font(.caption)
+                                .font(.callout)
                                 if let user = viewModel.currentUser {
-                                    NavigationLink(destination: FollowMainView(currentType: "팔로워",
-                                                                               followVM: followVM,
-                                                                               updateFollowData: updateFollowData,
-                                                                               user: user)) {
+                                    Button {
+                                        followerActive = true
+                                    } label: {
                                         Label {
                                             Text("팔로워")
                                                 .fontWeight(.semibold)
-                                                .foregroundStyle(.white.opacity(0.7))
+                                                .foregroundStyle(.white.opacity(0.9))
                                         } icon: {
                                             Text("\(followVM.followerIDs.count + followVM.surferIDs.count)")
                                                 .fontWeight(.semibold)
-                                                .foregroundStyle(.white.opacity(0.7))
+                                                .foregroundStyle(.white.opacity(0.9))
                                         }
-                                        .font(.caption)
+                                        .font(.callout)
+                                    }
+                                    .sheet(isPresented: $followerActive) {
+                                        FollowMainView(currentType: "팔로워", followVM: followVM, updateFollowData: updateFollowData, user: user)
+                                            .presentationDetents([.large])
+                                            .presentationDragIndicator(.visible)
+                                            .onDisappear {
+                                                followerActive = false
+                                            }
                                     }
                                     
-                                    NavigationLink(destination: FollowMainView(currentType: "팔로잉",
-                                                                               followVM: followVM,
-                                                                               updateFollowData: updateFollowData,
-                                                                               user: user)) {
+                                    Button {
+                                        followingActive = true
+                                    } label: {
                                         Label {
                                             Text("팔로잉")
                                                 .fontWeight(.semibold)
-                                                .foregroundStyle(.white.opacity(0.7))
+                                                .foregroundStyle(.white.opacity(0.9))
                                         } icon: {
                                             Text("\(followVM.followingIDs.count)")
                                                 .fontWeight(.semibold)
-                                                .foregroundStyle(.white.opacity(0.7))
+                                                .foregroundStyle(.white.opacity(0.9))
                                         }
-                                        .font(.caption)
+                                        .font(.callout)
+                                    }
+                                    
+                                    .sheet(isPresented: $followingActive) {
+                                        FollowMainView(currentType: "팔로잉",
+                                                       followVM: followVM,
+                                                       updateFollowData: updateFollowData,
+                                                       user: user)
+                                        .presentationDetents([.large])
+                                        .presentationDragIndicator(.visible)
+                                        .onDisappear {
+                                            followingActive = false
+                                        }
                                     }
                                 }
                             }
@@ -180,29 +239,12 @@ struct ProfileView: View {
                             
                         }
                         .padding(.horizontal)
-                        .padding(.bottom, 25)
+                        .padding(.bottom, 20)
                         .frame(maxWidth: .infinity, alignment: .leading)
                     }
                 }
                 .cornerRadius(0)
                 .offset(y: -minY)
-            
-            VStack {
-                HStack {
-                    Spacer()
-                    
-                    NavigationLink(destination: SettingView()) {
-                        Image(systemName: "ellipsis")
-                            .font(.system(size: 22))
-                    }
-                }
-                .foregroundStyle(.white)
-                
-                Spacer()
-            }
-            .padding(.horizontal)
-            .padding(.top, 70)
-            
         }
         .frame(height: 300)
     }
@@ -227,8 +269,12 @@ struct ProfileView: View {
                                 .fill(.clear)
                         }
                     }
-                    //                    .padding(.horizontal, 8)
-                    .frame(height: 2)
+                    .frame(height: 1)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 4, style: .continuous)
+                            .frame(width: UIScreen.main.bounds.width, height: 0.5)
+                            .foregroundStyle(Color(.systemGray2))
+                    }
                 }
                 .contentShape(Rectangle())
                 .onTapGesture {
@@ -238,8 +284,8 @@ struct ProfileView: View {
                 }
             }
         }
+        .padding(.top, 15)
         .padding(.horizontal)
-        .padding(.top, 20)
     }
     
     @ViewBuilder
@@ -270,24 +316,29 @@ struct ProfileView: View {
                     ForEach(profileVM.padoPosts, id: \.self) { post in
                         ZStack(alignment: .bottomLeading) {
                             if let image = URL(string: post.imageUrl) {
-                                KFImage(image)
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
-                                    .clipped()
+                                Button {
+                                    isShowingReceiveDetail.toggle()
+                                    self.selectedPostID = post.id
+                                } label: {
+                                    KFImage(image)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
+                                        .clipped()
+                                }
+                                .sheet(isPresented: $isShowingReceiveDetail) {
+                                    ReceivePostView(feedVM: feedVM, profileVM: profileVM, surfingVM: surfingVM, isShowingReceiveDetail: $isShowingReceiveDetail, selectedPostID: selectedPostID ?? "")
+                                        .presentationDragIndicator(.visible)
+                                }
                             }
-                            Text(post.title)
-                                .foregroundStyle(.white)
-                                .font(.system(size: 14))
-                                .padding([.leading, .bottom], 5)
                         }
                         .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
                     }
                 }
             }
         }
-        .padding(.bottom, 300)
-        .padding(.top, 5)
+        .padding(.bottom, 500)
+        .offset(y: -6)
     }
     
     @ViewBuilder
@@ -304,24 +355,29 @@ struct ProfileView: View {
                     ForEach(profileVM.sendPadoPosts, id: \.self) { post in
                         ZStack(alignment: .bottomLeading) {
                             if let image = URL(string: post.imageUrl) {
-                                KFImage(image)
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
-                                    .clipped()
+                                Button {
+                                    isShowingSendDetail.toggle()
+                                    self.selectedPostID = post.id
+                                } label: {
+                                    KFImage(image)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
+                                        .clipped()
+                                }
+                                .sheet(isPresented: $isShowingSendDetail) {
+                                    SendPostView(feedVM: feedVM, profileVM: profileVM, surfingVM: surfingVM, isShowingSendDetail: $isShowingSendDetail, selectedPostID: selectedPostID ?? "")
+                                        .presentationDragIndicator(.visible)
+                                }
                             }
-                            Text(post.title)
-                                .foregroundStyle(.white)
-                                .font(.system(size: 14))
-                                .padding([.leading, .bottom], 5)
                         }
                         .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
                     }
                 }
             }
         }
-        .padding(.bottom, 300)
-        .padding(.top, 5)
+        .padding(.bottom, 500)
+        .offset(y: -6)
     }
     
     @ViewBuilder
@@ -338,24 +394,28 @@ struct ProfileView: View {
                     ForEach(profileVM.highlights, id: \.self) { post in
                         ZStack(alignment: .bottomLeading) {
                             if let image = URL(string: post.imageUrl) {
-                                KFImage(image)
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
-                                    .clipped()
-                                
+                                Button {
+                                    isShowingHightlight.toggle()
+                                    self.selectedPostID = post.id
+                                } label: {
+                                    KFImage(image)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
+                                        .clipped()
+                                }
+                                .sheet(isPresented: $isShowingHightlight) {
+                                    HighlightView(feedVM: feedVM, profileVM: profileVM, surfingVM: surfingVM, isShowingHightlight: $isShowingHightlight, selectedPostID: selectedPostID ?? "")
+                                        .presentationDragIndicator(.visible)
+                                }
                             }
-                            Text(post.title)
-                                .foregroundStyle(.white)
-                                .font(.system(size: 14))
-                                .padding([.leading, .bottom], 5)
                         }
                         .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
                     }
                 }
             }
         }
-        .padding(.bottom, 300)
-        .padding(.top, 5)
+        .padding(.bottom, 500)
+        .offset(y: -6)
     }
 }

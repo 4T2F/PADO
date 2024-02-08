@@ -18,7 +18,8 @@ struct FaceMojiModalView: View {
                     .foregroundStyle(.white)
                     .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
                     .background(.grayButton)
-                .cornerRadius(10)}
+                .cornerRadius(10)
+            }
             .padding(.vertical)
             
             Button {

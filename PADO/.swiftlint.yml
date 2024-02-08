@@ -30,6 +30,7 @@ disabled_rules:
   - multiple_closures_with_trailing_closure
   - indentation_width
   - void_function_in_ternary
+  - closure_end_indentation
   
 # 옵트 인 룰
 opt_in_rules:

@@ -11,9 +11,10 @@ import Foundation
 struct Noti: Identifiable, Codable {
     @DocumentID var id: String?
     
-//    let sendUserID: String
-//    let sendUserFcmToken: String
-    let receiveUserId: String
-    let receiveUserFcmToken: String
-    let createAt: Timestamp
+    var type: String
+    var postID: String?
+    var message: String?
+    var sendUser: String
+    var createdAt: Timestamp
+    var read: Bool
 }
