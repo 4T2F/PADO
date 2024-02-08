@@ -35,13 +35,17 @@ struct PadoRideView: View {
             }
             
             ScrollView(.vertical, showsIndicators: false) {
-                ForEach(followVM.surfingIDs, id: \.self) { surfingID in
-                    SufferInfoCell(surfingID: surfingID)
-                    
-                    ScrollView(.horizontal) {
-                        SufferPostCell(padorideVM: padorideVM,
-                                       suffingPost: padorideVM.postsData[surfingID],
-                                       surfingID: surfingID)
+                LazyVStack {
+                    ForEach(followVM.surfingIDs, id: \.self) { surfingID in
+                        SufferInfoCell(surfingID: surfingID)
+                        
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            LazyHStack {
+                                SufferPostCell(padorideVM: padorideVM,
+                                               suffingPost: padorideVM.postsData[surfingID],
+                                               surfingID: surfingID)
+                            }
+                        }
                     }
                 }
             }

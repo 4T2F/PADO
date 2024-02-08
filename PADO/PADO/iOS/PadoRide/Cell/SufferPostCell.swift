@@ -25,6 +25,7 @@ struct SufferPostCell: View {
                     } label: {
                         ZStack {
                             KFImage(URL(string: post.imageUrl))
+                                .setProcessor(ResizingImageProcessor(referenceSize: CGSize(width: 100, height: 150), mode: .aspectFill))
                                 .placeholder {
                                     ProgressView()
                                 }
