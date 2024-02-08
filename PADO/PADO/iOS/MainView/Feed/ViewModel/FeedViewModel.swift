@@ -48,6 +48,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
             }
             
             self.followingUsers = documents.compactMap { $0.data()["followingID"] as? String }
+
             self.followingUsers.append(userNameID)
             
             Task {
@@ -90,19 +91,26 @@ class FeedViewModel:Identifiable ,ObservableObject {
             .limit(to: 5)
         
         do {
-            let documents = try await getDocumentsAsync(collection: db.collection("post"), query: query)
-            self.lastFollowFetchedDocument = documents.last
-            
-            self.followingPosts = documents.compactMap { document in
-                try? document.data(as: Post.self)
-            }
-            for document in documents {
-                guard let post = try? document.data(as: Post.self) else { continue }
-                if followingUsers.contains(where: { $0 == post.ownerUid }) {
-                    setupSnapshotFollowingListener(for: post)
-                }
-            }
-        } catch {
+               let documents = try await getDocumentsAsync(collection: db.collection("post"), query: query)
+               let filteredDocuments = documents.compactMap { document -> DocumentSnapshot? in
+                   guard let post = try? document.data(as: Post.self),
+                         followingUsers.contains(post.ownerUid) else {
+                       return nil
+                   }
+                   return document
+               }
+
+               self.lastFollowFetchedDocument = filteredDocuments.last
+
+               self.followingPosts = filteredDocuments.compactMap { document in
+                   try? document.data(as: Post.self)
+               }
+
+               for document in filteredDocuments {
+                   guard let post = try? document.data(as: Post.self) else { continue }
+                   setupSnapshotFollowingListener(for: post)
+               }
+           } catch {
             print("포스트 가져오기 오류: \(error.localizedDescription)")
         }
         self.followingPosts.sort {

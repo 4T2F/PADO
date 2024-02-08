@@ -6,6 +6,7 @@
 //
 
 import Kingfisher
+import Lottie
 import SwiftUI
 
 struct OtherUserProfileView: View {
@@ -123,9 +124,43 @@ struct OtherUserProfileView: View {
                             if !user.username.isEmpty {
                                 CircularImageView(size: .xLarge, user: user)
                                     .offset(y: 5)
+                                    .overlay {
+                                        Button {
+                                           //
+                                        } label: {
+                                            Circle()
+                                                .frame(width: 30)
+                                                .foregroundStyle(.clear)
+                                                .overlay {
+                                                    LottieView(animation: .named("Comment"))
+                                                        .looping()
+                                                        .resizable()
+                                                        .scaledToFit()
+                                                        .frame(width: 40, height: 40)
+                                                }
+                                        }
+                                        .offset(x: +46, y: -30)
+                                    }
                             } else {
                                 CircularImageView(size: .xLarge, user: user)
                                     .offset(y: 22)
+                                    .overlay {
+                                        Button {
+                                           //
+                                        } label: {
+                                            Circle()
+                                                .frame(width: 30)
+                                                .foregroundStyle(.clear)
+                                                .overlay {
+                                                    LottieView(animation: .named("Comment"))
+                                                        .looping()
+                                                        .resizable()
+                                                        .scaledToFit()
+                                                        .frame(width: 40, height: 40)
+                                                }
+                                        }
+                                        .offset(x: +46, y: -30)
+                                    }
                             }
                             
                             HStack(alignment: .center, spacing: 5) {
