@@ -34,7 +34,7 @@ struct FeedView: View {
                                          surfingVM: surfingVM,
                                          profileVM: profileVM,
                                          updateHeartData: updateHeartData,
-                                         post: feedVM.followingPosts[index])
+                                         post: $feedVM.followingPosts[index])
                                 .id(index)
                                 .onAppear {
                                     if index == feedVM.followingPosts.count - 1{
@@ -52,7 +52,7 @@ struct FeedView: View {
                                          surfingVM: surfingVM,
                                          profileVM: profileVM,
                                          updateHeartData: updateHeartData,
-                                         post: feedVM.todayPadoPosts[index])
+                                         post: $feedVM.todayPadoPosts[index])
                                 .id(index)
  
                             }

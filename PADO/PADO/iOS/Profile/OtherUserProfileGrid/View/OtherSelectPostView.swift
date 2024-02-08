@@ -24,16 +24,42 @@ struct OtherSelectPostView: View {
             ScrollView(showsIndicators: false) {
                 ScrollViewReader { value in
                     LazyVStack(spacing: 0) {
-                        ForEach(postsForType(viewType), id: \.self) { post in
-                            OtherSelectPostCell(profileVM: profileVM,
-                                                updateHeartData: updateHeartData,
-                                                post: post,
-                                                cellType: .receive)
-                                .id(post.id)
+                        switch viewType {
+                        case .receive:
+                            ForEach(profileVM.padoPosts.indices, id: \.self) { index in
+                                OtherSelectPostCell(profileVM: profileVM,
+                                                    updateHeartData: updateHeartData,
+                                                    post: $profileVM.padoPosts[index],
+                                                    cellType: .receive)
+                                    .id(index)
+                            }
+                            .onAppear {
+                                value.scrollTo(selectedPostID, anchor: .top)
+                            }
+                        case .send:
+                            ForEach(profileVM.sendPadoPosts.indices, id: \.self) { index in
+                                OtherSelectPostCell(profileVM: profileVM,
+                                                    updateHeartData: updateHeartData,
+                                                    post: $profileVM.sendPadoPosts[index],
+                                                    cellType: .receive)
+                                    .id(index)
+                            }
+                            .onAppear {
+                                value.scrollTo(selectedPostID, anchor: .top)
+                            }
+                        case .highlight:
+                            ForEach(profileVM.highlights.indices, id: \.self) { index in
+                                OtherSelectPostCell(profileVM: profileVM,
+                                                    updateHeartData: updateHeartData,
+                                                    post: $profileVM.highlights[index],
+                                                    cellType: .receive)
+                                    .id(index)
+                            }
+                            .onAppear {
+                                value.scrollTo(selectedPostID, anchor: .top)
+                            }
                         }
-                        .onAppear {
-                            value.scrollTo(selectedPostID, anchor: .top)
-                        }
+                        
                     }
                 }
                 .scrollTargetLayout()
@@ -81,18 +107,6 @@ struct OtherSelectPostView: View {
                     }
                 }
         )
-    }
-    
-    // 각 뷰 타입에 맞는 포스트 배열 반환
-    private func postsForType(_ type: PostViewType) -> [Post] {
-        switch type {
-        case .receive:
-            return profileVM.padoPosts
-        case .send:
-            return profileVM.sendPadoPosts
-        case .highlight:
-            return profileVM.highlights
-        }
     }
     
     // 각 뷰 타입에 맞는 제목 반환

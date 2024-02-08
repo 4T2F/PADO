@@ -29,7 +29,7 @@ struct FeedCell: View {
     
     
     let updateHeartData: UpdateHeartData
-    let post: Post
+    @Binding var post: Post
     
     var body: some View {
         ZStack {
@@ -214,7 +214,7 @@ struct FeedCell: View {
                                 }
                                 
                                 // MARK: - 하트 숫자
-                                Text("\(heartCounts)")
+                                Text("\(post.heartsCount)")
                                     .font(.system(size: 10))
                                     .fontWeight(.semibold)
                                     .shadow(radius: 1, y: 1)
@@ -238,7 +238,7 @@ struct FeedCell: View {
                                 .presentationDetents([.large])
                                 
                                 // MARK: - 댓글 숫자
-                                Text("\(commentCounts)")
+                                Text("\(post.commentCount)")
                                     .font(.system(size: 10))
                                     .fontWeight(.semibold)
                                     .shadow(radius: 1, y: 1)
@@ -276,27 +276,10 @@ struct FeedCell: View {
                 self.postUser = await UpdateUserData.shared.getOthersProfileDatas(id: post.ownerUid)
                 self.surferUser = await UpdateUserData.shared.getOthersProfileDatas(id: post.surferUid)
                 if let postID = post.id {
-                    await fetchHeartCommentCounts(documentID: postID)
                     isHeartCheck = await updateHeartData.checkHeartExists(documentID: postID)
                 }
             }
         }
     }
-    
-    func fetchHeartCommentCounts(documentID: String) async {
-        let db = Firestore.firestore()
-        db.collection("post").document(documentID).addSnapshotListener { documentSnapshot, error in
-            guard let document = documentSnapshot else {
-                print("Error fetching document: \(error!)")
-                return
-            }
-            guard let data = document.data() else {
-                print("Document data was empty.")
-                return
-            }
-            print("Current data: \(data)")
-            self.heartCounts = data["heartsCount"] as? Int ?? 0
-            self.commentCounts = data["commentCount"] as? Int ?? 0
-        }
-    }
+
 }
