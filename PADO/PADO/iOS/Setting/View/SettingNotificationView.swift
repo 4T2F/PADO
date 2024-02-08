@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SettingNotificationView: View {
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     
     @Environment (\.dismiss) var dismiss
     @State var noti: Bool = true
@@ -44,7 +45,9 @@ struct SettingNotificationView: View {
                     VStack {
                         SettingToggleCell(icon: "square.and.pencil", text: "알림 설정", toggle: $noti)
                             .onChange(of: noti) { oldValue, newValue in
-                                UserDefaults.standard.set(newValue, forKey: "notification")
+                                Task {
+                                    await viewModel.updateAlertAcceptance(newStatus: newValue)
+                                }
                             }
                     }
                     Spacer()
@@ -57,7 +60,7 @@ struct SettingNotificationView: View {
         .padding(.top, 10)
         .navigationBarBackButtonHidden(true)
         .onAppear {
-            noti = UserDefaults.standard.bool(forKey: "notification")
+            noti = viewModel.currentUser?.alertAccept == "yes" ? true : false
         }
     }
 }

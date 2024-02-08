@@ -84,7 +84,7 @@ class UpdateHeartData {
     }
     
     func checkHeartExists(documentID: String) async -> Bool {
-        let heartDocRef = db.collection("post").document(documentID).collection("heart").document(userNameID)
+        let heartDocRef = db.collection("post").document(documentID).collection("heart").document(userNameID) // 로그아웃할때 여기서 튕김
         
         do {
             let documentSnapshot = try await heartDocRef.getDocument()
