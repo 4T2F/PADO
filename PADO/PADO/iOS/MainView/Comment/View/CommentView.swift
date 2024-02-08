@@ -90,7 +90,7 @@ struct CommentView: View {
                 
                 HStack {
                     RepresentableTextField(placeHolderString: "\(userNameID)(으)로 댓글 남기기...", keyboardType: .default, text: $commentText, isFocused: $isFocused)
-                    .tint(Color(.systemBlue))
+                        .tint(Color(.systemBlue).opacity(0.7))
                     .focused($isTextFieldFocused)
                     .onAppear {
                         isTextFieldFocused = true

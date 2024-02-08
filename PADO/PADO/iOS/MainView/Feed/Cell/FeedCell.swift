@@ -29,7 +29,7 @@ struct FeedCell: View {
     
     
     let updateHeartData: UpdateHeartData
-    let post: Post
+    @Binding var post: Post
     
     var body: some View {
         ZStack {
