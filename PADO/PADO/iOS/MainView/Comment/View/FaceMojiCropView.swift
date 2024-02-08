@@ -23,6 +23,8 @@ struct FaceMojiCropView: View {
     @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var surfingVM: SurfingViewModel
     
+    @Binding var postOwner: User
+    
     var crop: Crop = .circle
     let postID: String
     
@@ -42,7 +44,9 @@ struct FaceMojiCropView: View {
                     .ignoresSafeArea()
             }
             .navigationDestination(isPresented: $feedVM.showEmojiView) {
-                SelectEmojiView(feedVM: feedVM, postID: postID)
+                SelectEmojiView(feedVM: feedVM,
+                                postOwner: $postOwner,
+                                postID: postID)
             }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {

@@ -25,9 +25,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         UNUserNotificationCenter.current().requestAuthorization(
             options: authOptions,
             completionHandler: { granted, _ in
-                if granted {
-                    userAlertAccept = "yes"
-                }
+                
             })
         
         DispatchQueue.main.async {
@@ -38,7 +36,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             
             UNUserNotificationCenter.current().delegate = self
         }
-        // MARK: - 원격 알림을 위해 앱을 등록
         return true
     }
     

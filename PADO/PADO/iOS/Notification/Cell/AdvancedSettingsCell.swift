@@ -44,7 +44,3 @@ struct AdvancedSettingsCell: View {
         .padding(.horizontal)
     }
 }
-
-#Preview {
-    AdvancedSettingsCell(mainTitle: "좋아요 및 조회수", title: "이 게시물의 좋아요 수 숨기기", subtitle: "이 게시물의 총 좋아요 수는 회원님만 볼 수 있어요", toggleOnOff: false)
-}

@@ -20,7 +20,7 @@ struct CommentView: View {
     
     let post: Post
     let postID: String
-
+    
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -85,57 +85,57 @@ struct CommentView: View {
                     CircularImageView(size: .small, user: user)
                 }
                 
-                //                HStack {
-                //                    TextField("\(userNameID)(으)로 댓글 남기기...",
-                //                              text: $commentText,
-                //                              axis: .vertical) // 세로 축으로 동적 높이 조절 활성화
-                //                    .font(.system(size: 14))
-                //                    .tint(Color(.systemBlue))
-                //                    .focused($isTextFieldFocused)
-                //                    .onAppear {
-                //                        isTextFieldFocused = true
-                //                    }
-                
-                //                    if !commentText.isEmpty {
-                //                        Button {
-                //                            Task {
-                //                                if let postID = post.id {
-                //                                await updateCommentData.writeComment(documentID: postID,
-                //                                                                     imageUrl: viewModel.currentUser?.profileImageUrl ?? "",
-                //                                                                     inputcomment: commentText)
-                //                                    commentText = ""
-                //                                if let fetchedComments = await updateCommentData.getCommentsDocument(postID: postID) {
-                //                                        self.comments = fetchedComments
-                //                                    }
-                //                                }
-                //                                await updatePushNotiData.pushNoti(receiveUser: postUser, type: .comment)
-                //                            }
-                //                        } label: {
-                //                            ZStack {
-                //                                RoundedRectangle(cornerRadius: 26)
-                //                                    .frame(width: 48, height: 28)
-                //                                    .foregroundStyle(.blue)
-                //                                Image(systemName: "arrow.up")
-                //                                    .font(.system(size: 14))
-                //                                    .foregroundStyle(.white)
-                //                            }
-                //                        }
-                //                        .padding(.vertical, -5)
-                //                    } else {
-                //                        Button {
-                //                            //
-                //                        } label: {
-                //                            ZStack {
-                //                                RoundedRectangle(cornerRadius: 26)
-                //                                    .frame(width: 48, height: 28)
-                //                                    .foregroundStyle(.gray)
-                //                                Image(systemName: "arrow.up")
-                //                                    .font(.system(size: 14))
-                //                                    .foregroundStyle(.black)
-                //                            }
-                //                        }
-                //                    }
-                //                }
+                HStack {
+                    TextField("\(userNameID)(으)로 댓글 남기기...",
+                              text: $commentText,
+                              axis: .vertical) // 세로 축으로 동적 높이 조절 활성화
+                    .font(.system(size: 14))
+                    .tint(Color(.systemBlue))
+                    .focused($isTextFieldFocused)
+                    .onAppear {
+                        isTextFieldFocused = true
+                    }
+                    
+                    if !commentText.isEmpty {
+                        Button {
+                            Task {
+                                if let postID = post.id {
+                                    await feedVM.updatePushNotiData.pushPostNoti(targetPostID: postID, receiveUser: postUser, type: .comment, message: commentText)
+                                    await feedVM.updateCommentData.writeComment(documentID: postID,
+                                                                                imageUrl: viewModel.currentUser?.profileImageUrl ?? "",
+                                                                                inputcomment: commentText)
+                                    if let fetchedComments = await feedVM.updateCommentData.getCommentsDocument(postID: postID) {
+                                        feedVM.comments = fetchedComments
+                                    }
+                                    commentText = ""
+                                }
+                            }
+                        } label: {
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 26)
+                                    .frame(width: 48, height: 28)
+                                    .foregroundStyle(.blue)
+                                Image(systemName: "arrow.up")
+                                    .font(.system(size: 14))
+                                    .foregroundStyle(.white)
+                            }
+                        }
+                        .padding(.vertical, -5)
+                    } else {
+                        Button {
+                            //
+                        } label: {
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 26)
+                                    .frame(width: 48, height: 28)
+                                    .foregroundStyle(.gray)
+                                Image(systemName: "arrow.up")
+                                    .font(.system(size: 14))
+                                    .foregroundStyle(.black)
+                            }
+                        }
+                    }
+                }
             }
             .frame(height: 30)
             .padding(.horizontal)
