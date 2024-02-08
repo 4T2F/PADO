@@ -15,6 +15,7 @@ struct CommentView: View {
     
     @FocusState private var isTextFieldFocused: Bool
     @State private var commentText: String = ""
+    @State private var isFocused: Bool = false
     @State var postUser: User
     
     let post: Post
@@ -70,12 +71,16 @@ struct CommentView: View {
                     Button {
                         isShowingCommentView = false
                     } label: {
-                        Text("취소")
+                        Image(systemName: "chevron.left")
+                            .font(.system(size: 14))
+                        
+                        Text("뒤로")
                             .font(.system(size: 16))
                     }
                 }
             }
             .toolbarBackground(Color(.main), for: .navigationBar)
+            .navigationBarBackButtonHidden()
             .offset(y: -7)
             
             HStack {
@@ -84,10 +89,7 @@ struct CommentView: View {
                 }
                 
                 HStack {
-                    TextField("\(userNameID)(으)로 댓글 남기기...",
-                              text: $commentText,
-                              axis: .vertical) // 세로 축으로 동적 높이 조절 활성화
-                    .font(.system(size: 14))
+                    RepresentableTextField(placeHolderString: "\(userNameID)(으)로 댓글 남기기...", keyboardType: .default, text: $commentText, isFocused: $isFocused)
                     .tint(Color(.systemBlue))
                     .focused($isTextFieldFocused)
                     .onAppear {
