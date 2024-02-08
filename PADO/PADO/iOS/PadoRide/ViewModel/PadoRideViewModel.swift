@@ -9,10 +9,9 @@ import Kingfisher
 import SwiftUI
 
 class PadoRideViewModel: ObservableObject {
-//    @Published var suffingPost: [Post]
-    
     @Published var selectedImage: String = ""
     @Published var selectedUIImage: UIImage?
+    @Published var postsData: [String: [Post]] = [:]
     
     let getPostData = GetPostData()
     
@@ -28,6 +27,16 @@ class PadoRideViewModel: ObservableObject {
             case .failure(let error):
                 print(error)
                 self.selectedUIImage = nil
+            }
+        }
+    }
+    
+    // 특정 ID들에 대한 포스트 데이터를 미리 로드
+    func preloadPostsData(for ids: [String]) async {
+        for id in ids {
+            let posts = await getPostData.suffingPostData(id: id)
+            DispatchQueue.main.async {
+                self.postsData[id] = posts
             }
         }
     }

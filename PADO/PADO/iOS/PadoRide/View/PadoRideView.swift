@@ -39,9 +39,16 @@ struct PadoRideView: View {
                     SufferInfoCell(surfingID: surfingID)
                     
                     ScrollView(.horizontal) {
-                        SufferPostCell(padorideVM: padorideVM, surfingID: surfingID)
+                        SufferPostCell(padorideVM: padorideVM,
+                                       suffingPost: padorideVM.postsData[surfingID],
+                                       surfingID: surfingID)
                     }
                 }
+            }
+        }
+        .onAppear {
+            Task {
+                await padorideVM.preloadPostsData(for: followVM.surfingIDs)
             }
         }
     }
