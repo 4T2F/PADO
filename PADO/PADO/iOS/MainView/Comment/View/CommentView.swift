@@ -23,26 +23,6 @@ struct CommentView: View {
 
     var body: some View {
         NavigationStack {
-            HStack {
-                Button {
-                    isShowingCommentView = false
-                } label: {
-                    Text("취소")
-                        .font(.system(size: 16))
-                }
-                
-                Spacer()
-                
-                Text("댓글 달기")
-                    .font(.system(size: 16))
-                    .fontWeight(.semibold)
-                    .padding(.trailing, 30)
-                
-                Spacer()
-            }
-            .padding(.horizontal)
-            .frame(height: 50)
-            
             ScrollView {
                 ScrollViewReader { value in
                     VStack {
@@ -54,7 +34,7 @@ struct CommentView: View {
                                          postID: postID)
                             .padding(2)
                         }
-                            
+                        
                         
                         Divider()
                             .opacity(0.5)
@@ -84,7 +64,20 @@ struct CommentView: View {
                     .padding(.top)
                 }
             }
-            .background(.modal)
+            .background(.main, ignoresSafeAreaEdges: .all)
+            .navigationTitle("댓글 달기")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        isShowingCommentView = false
+                    } label: {
+                        Text("취소")
+                            .font(.system(size: 16))
+                    }
+                }
+            }
+            .toolbarBackground(Color(.main), for: .navigationBar)
             .offset(y: -7)
             
             HStack {
@@ -92,57 +85,57 @@ struct CommentView: View {
                     CircularImageView(size: .small, user: user)
                 }
                 
-//                HStack {
-//                    TextField("\(userNameID)(으)로 댓글 남기기...",
-//                              text: $commentText,
-//                              axis: .vertical) // 세로 축으로 동적 높이 조절 활성화
-//                    .font(.system(size: 14))
-//                    .tint(Color(.systemBlue))
-//                    .focused($isTextFieldFocused)
-//                    .onAppear {
-//                        isTextFieldFocused = true
-//                    }
-                    
-//                    if !commentText.isEmpty {
-//                        Button {
-//                            Task {
-//                                if let postID = post.id {
-//                                await updateCommentData.writeComment(documentID: postID,
-//                                                                     imageUrl: viewModel.currentUser?.profileImageUrl ?? "",
-//                                                                     inputcomment: commentText)
-//                                    commentText = ""
-//                                if let fetchedComments = await updateCommentData.getCommentsDocument(postID: postID) {
-//                                        self.comments = fetchedComments
-//                                    }
-//                                }
-//                                await updatePushNotiData.pushNoti(receiveUser: postUser, type: .comment)
-//                            }
-//                        } label: {
-//                            ZStack {
-//                                RoundedRectangle(cornerRadius: 26)
-//                                    .frame(width: 48, height: 28)
-//                                    .foregroundStyle(.blue)
-//                                Image(systemName: "arrow.up")
-//                                    .font(.system(size: 14))
-//                                    .foregroundStyle(.white)
-//                            }
-//                        }
-//                        .padding(.vertical, -5)
-//                    } else {
-//                        Button {
-//                            //
-//                        } label: {
-//                            ZStack {
-//                                RoundedRectangle(cornerRadius: 26)
-//                                    .frame(width: 48, height: 28)
-//                                    .foregroundStyle(.gray)
-//                                Image(systemName: "arrow.up")
-//                                    .font(.system(size: 14))
-//                                    .foregroundStyle(.black)
-//                            }
-//                        }
-//                    }
-//                }
+                //                HStack {
+                //                    TextField("\(userNameID)(으)로 댓글 남기기...",
+                //                              text: $commentText,
+                //                              axis: .vertical) // 세로 축으로 동적 높이 조절 활성화
+                //                    .font(.system(size: 14))
+                //                    .tint(Color(.systemBlue))
+                //                    .focused($isTextFieldFocused)
+                //                    .onAppear {
+                //                        isTextFieldFocused = true
+                //                    }
+                
+                //                    if !commentText.isEmpty {
+                //                        Button {
+                //                            Task {
+                //                                if let postID = post.id {
+                //                                await updateCommentData.writeComment(documentID: postID,
+                //                                                                     imageUrl: viewModel.currentUser?.profileImageUrl ?? "",
+                //                                                                     inputcomment: commentText)
+                //                                    commentText = ""
+                //                                if let fetchedComments = await updateCommentData.getCommentsDocument(postID: postID) {
+                //                                        self.comments = fetchedComments
+                //                                    }
+                //                                }
+                //                                await updatePushNotiData.pushNoti(receiveUser: postUser, type: .comment)
+                //                            }
+                //                        } label: {
+                //                            ZStack {
+                //                                RoundedRectangle(cornerRadius: 26)
+                //                                    .frame(width: 48, height: 28)
+                //                                    .foregroundStyle(.blue)
+                //                                Image(systemName: "arrow.up")
+                //                                    .font(.system(size: 14))
+                //                                    .foregroundStyle(.white)
+                //                            }
+                //                        }
+                //                        .padding(.vertical, -5)
+                //                    } else {
+                //                        Button {
+                //                            //
+                //                        } label: {
+                //                            ZStack {
+                //                                RoundedRectangle(cornerRadius: 26)
+                //                                    .frame(width: 48, height: 28)
+                //                                    .foregroundStyle(.gray)
+                //                                Image(systemName: "arrow.up")
+                //                                    .font(.system(size: 14))
+                //                                    .foregroundStyle(.black)
+                //                            }
+                //                        }
+                //                    }
+                //                }
             }
             .frame(height: 30)
             .padding(.horizontal)
@@ -157,7 +150,7 @@ struct CommentView: View {
                         feedVM.comments = fetchedComments
                     }
                 }
-//                try await feedVM.getFaceMoji()
+                //                try await feedVM.getFaceMoji()
             }
         }
     }

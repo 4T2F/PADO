@@ -15,31 +15,6 @@ struct SettingNotificationView: View {
     var body: some View {
         VStack {
             ZStack {
-                Color.black.ignoresSafeArea()
-                
-                VStack {
-                    ZStack {
-                        Text("알림")
-                            .foregroundStyle(.white)
-                            .font(.system(size: 14))
-                            .fontWeight(.semibold)
-                        
-                        HStack {
-                            Button {
-                                dismiss()
-                            } label: {
-                                Image("dismissArrow")
-                            }
-                            
-                            Spacer()
-                        }
-                    }
-                    .padding(.horizontal)
-                    
-                    Spacer()
-                }
-                .foregroundStyle(.white)
-                
                 VStack {
                     VStack {
                         SettingToggleCell(icon: "square.and.pencil", text: "알림 설정", toggle: $noti)
@@ -47,15 +22,31 @@ struct SettingNotificationView: View {
                                 UserDefaults.standard.set(newValue, forKey: "notification")
                             }
                     }
-                    Spacer()
                     
+                    Spacer()
                 }
                 .padding(.horizontal)
-                .padding(.top, 50)
             }
         }
         .padding(.top, 10)
-        .navigationBarBackButtonHidden(true)
+        .background(.main, ignoresSafeAreaEdges: .all)
+        .navigationBarBackButtonHidden()
+        .navigationTitle("알림")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "chevron.left")
+                        .font(.system(size: 14))
+                    
+                    Text("뒤로")
+                        .font(.system(size: 16))
+                }
+            }
+        }
+        .toolbarBackground(Color(.main), for: .navigationBar)
         .onAppear {
             noti = UserDefaults.standard.bool(forKey: "notification")
         }

@@ -34,28 +34,30 @@ struct FollowingCellView: View {
                         KFImage.url(imageUrl)
                             .resizable()
                             .scaledToFill()
-                            .frame(width: 50, height: 50)
-                            .cornerRadius(50)
-                            .padding(.horizontal)
+                            .frame(width: 44, height: 44)
+                            .cornerRadius(44)
+                            .padding(.leading)
                     } else {
                         Image("defaultProfile")
                             .resizable()
                             .scaledToFill()
-                            .frame(width: 50, height: 50)
-                            .cornerRadius(50)
-                            .padding(.horizontal)
+                            .frame(width: 44, height: 44)
+                            .cornerRadius(44)
+                            .padding(.leading)
                     }
                     
                     VStack(alignment: .leading, spacing: 3) {
                         Text(cellUserId)
                             .foregroundStyle(.white)
-                            .font(.system(size: 14))
-                            .fontWeight(.semibold)
+                            .font(.system(size: 12))
+                            .fontWeight(.medium)
+                            .padding(.leading, 4)
                         
                         if !followingUsername.isEmpty {
                             Text(followingUsername)
                                 .font(.system(size: 12, weight: .regular))
                                 .foregroundStyle(Color(.systemGray))
+                                .padding(.leading, 4)
                         }
                     } //: VSTACK
                 }
@@ -67,9 +69,9 @@ struct FollowingCellView: View {
                 BlueButtonView(cellUserId: cellUserId,
                                buttonActive: $buttonActive,
                                activeText: "팔로우",
-                               unActiveText: "팔로잉",
+                               unActiveText: "팔로우 취소",
                                widthValue: 85,
-                               heightValue: 30,
+                               heightValue: 28,
                                updateFollowData: updateFollowData)
                 .padding(.horizontal)
             }
