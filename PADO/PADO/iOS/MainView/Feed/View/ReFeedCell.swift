@@ -193,6 +193,9 @@ struct FeedCell: View {
                                     Button {
                                         if !heartLoading {
                                             Task {
+                                                let generator = UIImpactFeedbackGenerator(style: .light)
+                                                generator.impactOccurred()
+                                                
                                                 heartLoading = true
                                                 if let postID = post.id, let postUser = postUser {
                                                     await updateHeartData.addHeart(documentID: postID)

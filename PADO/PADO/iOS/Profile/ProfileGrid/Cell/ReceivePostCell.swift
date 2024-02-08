@@ -102,6 +102,7 @@ struct ReceivePostCell: View {
                             
                             Text("\(post.title)")
                                 .font(.system(size: 16))
+                                .fontWeight(.medium)
                         }
                     }
                     .foregroundStyle(.white)

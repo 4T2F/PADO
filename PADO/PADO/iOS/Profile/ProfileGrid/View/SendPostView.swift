@@ -37,8 +37,7 @@ struct SendPostView: View {
                 .scrollTargetLayout()
             }
             .scrollTargetBehavior(.paging)
-            .ignoresSafeArea(.all, edges: .top)
-            .padding(.bottom, 0.2)
+            .ignoresSafeArea()
             
             VStack {
                 HStack(alignment: .top) {
@@ -48,7 +47,7 @@ struct SendPostView: View {
                         }
                     } label: {
                         Image(systemName: "chevron.left")
-                            .font(.system(size: 22))
+                            .font(.system(size: 18))
                             .fontWeight(.medium)
                     }
                     
@@ -65,7 +64,7 @@ struct SendPostView: View {
                 
                 Spacer()
             }
-            .padding(.top, 10)
+            .padding(.top, 20)
         }
         .gesture(
             DragGesture()
