@@ -66,8 +66,7 @@ struct MessageBubbleView: View {
         if isUser {
             return Text(text)
                 .font(.system(size: 16))
-                .padding(.vertical, 4)
-                .padding(.horizontal, 8)
+                .padding(10)
                 .background(Color.num3)
                 .foregroundColor(.white)
                 .clipShape(RoundedCorner(radius: 6, corners: [.topLeft, .topRight, .bottomRight]))
@@ -75,8 +74,7 @@ struct MessageBubbleView: View {
         } else {
             return Text(text)
                 .font(.system(size: 16))
-                .padding(.vertical, 4)
-                .padding(.horizontal, 8)
+                .padding(10)
                 .background(Color.grayButton)
                 .foregroundColor(.white)
                 .clipShape(RoundedCorner(radius: 6, corners: [.topLeft, .topRight, .bottomLeft]))

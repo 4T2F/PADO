@@ -130,7 +130,7 @@ class PadoRideViewModel: ObservableObject {
             _ = try await storageRef.putDataAsync(imageData)
             let url = try await storageRef.downloadURL()
             
-            let query = try await db.collection("post")
+            try await db.collection("post")
                 .document(String(describing: selectedPost?.id ?? ""))
                 .collection("padoride")
                 .document(userNameID)

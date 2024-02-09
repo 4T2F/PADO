@@ -29,7 +29,7 @@ struct PostitView: View {
                 Spacer()
                 
                 Text("방명록")
-                    .font(.system(size: 16))
+                    .font(.system(size: 18))
                     .fontWeight(.semibold)
                     .padding(.trailing, 30)
                 
@@ -47,7 +47,7 @@ struct PostitView: View {
                             HStack {
                                 if message.messageUserID == postitVM.ownerID {
                                     UrlProfileImageView(imageUrl: message.imageUrl,
-                                                        size: .small,
+                                                        size: .medium,
                                                         defaultImageName: "defaultProfile")
                                     if let messageID = message.id {
                                         MessageBubbleView(text: message.content,
@@ -69,7 +69,7 @@ struct PostitView: View {
                                                           postitVM: postitVM)
                                     }
                                     UrlProfileImageView(imageUrl: message.imageUrl,
-                                                        size: .small,
+                                                        size: .medium,
                                                         defaultImageName: "defaultProfile")
                                 }
                             }
