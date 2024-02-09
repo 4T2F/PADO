@@ -23,29 +23,8 @@ struct CommentView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
-                HStack {
-                    Button {
-                        isShowingCommentView = false
-                    } label: {
-                        Text("닫기")
-                            .font(.system(size: 16))
-                            .fontWeight(.medium)
-                    }
-                    
-                    Spacer()
-                    
-                    Text("댓글")
-                        .font(.system(size: 16))
-                        .fontWeight(.semibold)
-                        .padding(.trailing, 30)
-                    
-                    Spacer()
-                }
-                .padding(.horizontal)
-                .padding(.top, 20)
-                .padding(.bottom, 15)
-                
                 Divider()
+                
                 ScrollView {
                     VStack {
                         if let postID = post.id {
@@ -132,6 +111,27 @@ struct CommentView: View {
                 })
             }
             .background(.main, ignoresSafeAreaEdges: .all)
+            .navigationBarBackButtonHidden()
+            .navigationTitle("댓글")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        isShowingCommentView = false
+                    } label: {
+                        HStack(spacing: 2) {
+                            Image(systemName: "chevron.left")
+                                .font(.system(size: 14))
+                                .fontWeight(.medium)
+                            
+                            Text("닫기")
+                                .font(.system(size: 16))
+                                .fontWeight(.medium)
+                        }
+                    }
+                }
+            }
+            .toolbarBackground(Color(.main), for: .navigationBar)
         }
         .background(.main, ignoresSafeAreaEdges: .all)
     }

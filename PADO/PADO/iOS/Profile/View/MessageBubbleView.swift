@@ -33,7 +33,7 @@ struct MessageBubbleView: View {
                 switch isUser {
                 case true:
                     Text("\(messageUserID)")
-                        .fontWeight(.semibold)
+                        .fontWeight(.medium)
                         .font(.system(size: 14))
                         .foregroundStyle(.white)
                         .padding(.trailing, 2)
@@ -47,7 +47,7 @@ struct MessageBubbleView: View {
                         .foregroundStyle(.secondary)
                         .padding(.trailing, 2)
                     Text("\(messageUserID)")
-                        .fontWeight(.semibold)
+                        .fontWeight(.medium)
                         .font(.system(size: 14))
                         .foregroundStyle(.white)
              

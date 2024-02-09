@@ -22,6 +22,8 @@ struct OtherUserProfileView: View {
     @Binding var buttonOnOff: Bool
     @State private var buttonActive: Bool = false
     @State private var profileEditButtonActive: Bool = false
+    @State private var followerActive: Bool = false
+    @State private var followingActive: Bool = false
     
     @State private var isShowingReceiveDetail: Bool = false
     @State private var isShowingSendDetail: Bool = false
@@ -77,7 +79,7 @@ struct OtherUserProfileView: View {
             
             ToolbarItem(placement: .navigationBarTrailing) {
                 HStack {
-                    HStack(spacing: 6) {
+                    HStack(spacing: 0) {
                         if !user.instaAddress.isEmpty {
                             Button {
                                 profileVM.openSocialMediaApp(urlScheme: "instagram://user?username=\(user.instaAddress)", fallbackURL: "https://instagram.com/\(user.instaAddress)")
@@ -163,10 +165,9 @@ struct OtherUserProfileView: View {
                                     }
                                     .offset(x: +46, y: -30)
                                     .sheet(isPresented: $isShowingMessageView) {
-                                        
                                         PostitView(postitVM: postitVM,
                                                    isShowingMessageView: $isShowingMessageView)
-                                        
+                                        .presentationDragIndicator(.visible)
                                     }
                                     .presentationDetents([.large])
                                 }
@@ -252,30 +253,55 @@ struct OtherUserProfileView: View {
                                 }
                                 .font(.callout)
                                 
-                                NavigationLink(destination: FollowMainView(currentType: "팔로워", followVM: followVM, updateFollowData: updateFollowData, user: user)) {
-                                    Label {
-                                        Text("팔로워")
-                                            .foregroundStyle(.white.opacity(0.9))
-                                    } icon: {
-                                        Text("\(followVM.followerIDs.count + followVM.surferIDs.count)")
-                                            .foregroundStyle(.white.opacity(0.9))
+                                if let user = viewModel.currentUser {
+                                    Button {
+                                        followerActive = true
+                                    } label: {
+                                        Label {
+                                            Text("팔로워")
+                                                .foregroundStyle(.white.opacity(0.9))
+                                        } icon: {
+                                            Text("\(followVM.followerIDs.count + followVM.surferIDs.count)")
+                                                .foregroundStyle(.white.opacity(0.9))
+                                        }
+                                        .font(.callout)
                                     }
-                                    .font(.callout)
-                                }
-                                
-                                NavigationLink(destination: FollowMainView(currentType: "팔로잉", followVM: followVM, updateFollowData: updateFollowData, user: user)) {
-                                    Label {
-                                        Text("팔로잉")
-                                            .foregroundStyle(.white.opacity(0.9))
-                                    } icon: {
-                                        Text("\(followVM.followingIDs.count)")
-                                            .foregroundStyle(.white.opacity(0.9))
+                                    .sheet(isPresented: $followerActive) {
+                                        FollowMainView(currentType: "팔로워", followVM: followVM, updateFollowData: updateFollowData, user: user)
+                                            .presentationDetents([.large])
+                                            .presentationDragIndicator(.visible)
+                                            .onDisappear {
+                                                followerActive = false
+                                            }
                                     }
-                                    .font(.callout)
+                                    
+                                    Button {
+                                        followingActive = true
+                                    } label: {
+                                        Label {
+                                            Text("팔로잉")
+                                                .foregroundStyle(.white.opacity(0.9))
+                                        } icon: {
+                                            Text("\(followVM.followingIDs.count)")
+                                                .foregroundStyle(.white.opacity(0.9))
+                                        }
+                                        .font(.callout)
+                                    }
+                                    
+                                    .sheet(isPresented: $followingActive) {
+                                        FollowMainView(currentType: "팔로잉",
+                                                       followVM: followVM,
+                                                       updateFollowData: updateFollowData,
+                                                       user: user)
+                                        .presentationDetents([.large])
+                                        .presentationDragIndicator(.visible)
+                                        .onDisappear {
+                                            followingActive = false
+                                        }
+                                    }
                                 }
                             }
                             .padding(.leading, 2)
-                            
                         }
                         .padding(.horizontal)
                         .padding(.bottom, 20)

@@ -69,7 +69,7 @@ struct ProfileView: View {
                     
                     ToolbarItem(placement: .navigationBarTrailing) {
                         HStack(spacing: 0) {
-                            HStack(spacing: 6) {
+                            HStack(spacing: 0) {
                                 if !user.instaAddress.isEmpty {
                                     Button {
                                         profileVM.openSocialMediaApp(urlScheme: "instagram://user?username=\(user.instaAddress)", fallbackURL: "https://instagram.com/\(user.instaAddress)")
@@ -161,10 +161,9 @@ struct ProfileView: View {
                                         }
                                         .offset(x: +46, y: -30)
                                         .sheet(isPresented: $isShowingMessageView) {
-                                            
                                             PostitView(postitVM: postitVM,
                                                        isShowingMessageView: $isShowingMessageView)
-                                            
+                                            .presentationDragIndicator(.visible)
                                         }
                                         .presentationDetents([.large])
                                     }
@@ -212,6 +211,7 @@ struct ProfileView: View {
                                         .foregroundStyle(.white.opacity(0.9))
                                 }
                                 .font(.callout)
+                                
                                 if let user = viewModel.currentUser {
                                     Button {
                                         followerActive = true
@@ -261,7 +261,6 @@ struct ProfileView: View {
                                 }
                             }
                             .padding(.leading, 2)
-                            
                         }
                         .padding(.horizontal)
                         .padding(.bottom, 20)
