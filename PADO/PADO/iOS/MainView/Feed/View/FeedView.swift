@@ -25,7 +25,7 @@ struct FeedView: View {
         NavigationStack {
             ZStack {
             CustomRefreshView(showsIndicator: false,
-                              lottieFileName: "Loading",
+                              lottieFileName: "Wave",
                               scrollDelegate: scrollDelegate) {
                     if selectedFilter == .following {
                         LazyVStack(spacing:0) {

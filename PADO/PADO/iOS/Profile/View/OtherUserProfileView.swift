@@ -132,8 +132,8 @@ struct OtherUserProfileView: View {
                                                 .frame(width: 30)
                                                 .foregroundStyle(.clear)
                                                 .overlay {
-                                                    LottieView(animation: .named("Comment"))
-                                                        .looping()
+                                                    LottieView(animation: .named("noneComment"))
+                                                        .paused(at: .progress(1))
                                                         .resizable()
                                                         .scaledToFit()
                                                         .frame(width: 40, height: 40)
@@ -152,8 +152,8 @@ struct OtherUserProfileView: View {
                                                 .frame(width: 30)
                                                 .foregroundStyle(.clear)
                                                 .overlay {
-                                                    LottieView(animation: .named("Comment"))
-                                                        .looping()
+                                                    LottieView(animation: .named("noneComment"))
+                                                        .paused(at: .progress(1))
                                                         .resizable()
                                                         .scaledToFit()
                                                         .frame(width: 40, height: 40)
