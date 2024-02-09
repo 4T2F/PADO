@@ -104,11 +104,15 @@ struct SettingAskView: View {
                 Button {
                     dismiss()
                 } label: {
-                    Image(systemName: "chevron.left")
-                        .font(.system(size: 14))
-                    
-                    Text("뒤로")
-                        .font(.system(size: 16))
+                    HStack(spacing: 2) {
+                        Image(systemName: "chevron.left")
+                            .font(.system(size: 14))
+                            .fontWeight(.medium)
+                        
+                        Text("뒤로")
+                            .font(.system(size: 16))
+                            .fontWeight(.medium)
+                    }
                 }
             }
         }

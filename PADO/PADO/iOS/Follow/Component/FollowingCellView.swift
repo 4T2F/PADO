@@ -30,36 +30,38 @@ struct FollowingCellView: View {
                                              user: user)
                     }
                 } label: {
-                    if let imageUrl = URL(string: followingProfileUrl) {
-                        KFImage.url(imageUrl)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 44, height: 44)
-                            .cornerRadius(44)
-                            .padding(.leading)
-                    } else {
-                        Image("defaultProfile")
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 44, height: 44)
-                            .cornerRadius(44)
-                            .padding(.leading)
+                    HStack(spacing: 0) {
+                        if let imageUrl = URL(string: followingProfileUrl) {
+                            KFImage.url(imageUrl)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 40, height: 40)
+                                .cornerRadius(40)
+                                .padding(.trailing)
+                        } else {
+                            Image("defaultProfile")
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 40, height: 40)
+                                .cornerRadius(40)
+                                .padding(.trailing)
+                        }
+                        
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(cellUserId)
+                                .foregroundStyle(.white)
+                                .font(.system(size: 14))
+                                .fontWeight(.medium)
+                            
+                            if !followingUsername.isEmpty {
+                                Text(followingUsername)
+                                    .font(.system(size: 14, weight: .regular))
+                                    .foregroundStyle(Color(.systemGray))
+                            }
+                        } //: VSTACK
                     }
                     
-                    VStack(alignment: .leading, spacing: 3) {
-                        Text(cellUserId)
-                            .foregroundStyle(.white)
-                            .font(.system(size: 12))
-                            .fontWeight(.medium)
-                            .padding(.leading, 4)
-                        
-                        if !followingUsername.isEmpty {
-                            Text(followingUsername)
-                                .font(.system(size: 12, weight: .regular))
-                                .foregroundStyle(Color(.systemGray))
-                                .padding(.leading, 4)
-                        }
-                    } //: VSTACK
+                    Spacer()
                 }
             }
             
@@ -77,7 +79,8 @@ struct FollowingCellView: View {
             }
             
         } // :HSTACK
-        .padding(.vertical, -12)
+        .padding(.vertical, -8)
+        .padding(.horizontal)
         .onAppear {
             Task {
                 let updateUserData = UpdateUserData()

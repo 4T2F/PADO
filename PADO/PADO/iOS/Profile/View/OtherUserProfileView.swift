@@ -57,11 +57,22 @@ struct OtherUserProfileView: View {
         .background(.main, ignoresSafeAreaEdges: .all)
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden()
+        .navigationTitle("@\(user.nameID)")
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
-                Text("@\(user.nameID)")
-                    .font(.system(size: 22))
-                    .fontWeight(.bold)
+                Button {
+                    dismiss()
+                } label: {
+                    HStack(spacing: 2) {
+                        Image(systemName: "chevron.left")
+                            .font(.system(size: 14))
+                            .fontWeight(.medium)
+                        
+                        Text("뒤로")
+                            .font(.system(size: 16))
+                            .fontWeight(.medium)
+                    }
+                }
             }
             
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -234,11 +245,9 @@ struct OtherUserProfileView: View {
                             HStack {
                                 Label {
                                     Text("파도")
-                                        .fontWeight(.semibold)
                                         .foregroundStyle(.white.opacity(0.9))
                                 } icon: {
                                     Text("\(profileVM.padoPosts.count + profileVM.sendPadoPosts.count)")
-                                        .fontWeight(.semibold)
                                         .foregroundStyle(.white.opacity(0.9))
                                 }
                                 .font(.callout)
@@ -246,11 +255,9 @@ struct OtherUserProfileView: View {
                                 NavigationLink(destination: FollowMainView(currentType: "팔로워", followVM: followVM, updateFollowData: updateFollowData, user: user)) {
                                     Label {
                                         Text("팔로워")
-                                            .fontWeight(.semibold)
                                             .foregroundStyle(.white.opacity(0.9))
                                     } icon: {
                                         Text("\(followVM.followerIDs.count + followVM.surferIDs.count)")
-                                            .fontWeight(.semibold)
                                             .foregroundStyle(.white.opacity(0.9))
                                     }
                                     .font(.callout)
@@ -259,11 +266,9 @@ struct OtherUserProfileView: View {
                                 NavigationLink(destination: FollowMainView(currentType: "팔로잉", followVM: followVM, updateFollowData: updateFollowData, user: user)) {
                                     Label {
                                         Text("팔로잉")
-                                            .fontWeight(.semibold)
                                             .foregroundStyle(.white.opacity(0.9))
                                     } icon: {
                                         Text("\(followVM.followingIDs.count)")
-                                            .fontWeight(.semibold)
                                             .foregroundStyle(.white.opacity(0.9))
                                     }
                                     .font(.callout)
@@ -280,7 +285,7 @@ struct OtherUserProfileView: View {
                 .cornerRadius(0)
                 .offset(y: -minY)
         }
-        .frame(height: 250)
+        .frame(height: 300)
     }
     
     @ViewBuilder

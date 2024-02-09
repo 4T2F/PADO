@@ -233,6 +233,7 @@ struct FeedCell: View {
                                                     postUser: postUser,
                                                     post: post,
                                                     postID: postID)
+                                        .presentationDragIndicator(.visible)
                                     }
                                 }
                                 .presentationDetents([.large])

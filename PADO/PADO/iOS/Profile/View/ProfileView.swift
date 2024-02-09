@@ -206,11 +206,9 @@ struct ProfileView: View {
                             HStack {
                                 Label {
                                     Text("파도")
-                                        .fontWeight(.semibold)
                                         .foregroundStyle(.white.opacity(0.9))
                                 } icon: {
                                     Text("\(profileVM.padoPosts.count + profileVM.sendPadoPosts.count)")
-                                        .fontWeight(.semibold)
                                         .foregroundStyle(.white.opacity(0.9))
                                 }
                                 .font(.callout)
@@ -220,11 +218,9 @@ struct ProfileView: View {
                                     } label: {
                                         Label {
                                             Text("팔로워")
-                                                .fontWeight(.semibold)
                                                 .foregroundStyle(.white.opacity(0.9))
                                         } icon: {
                                             Text("\(followVM.followerIDs.count + followVM.surferIDs.count)")
-                                                .fontWeight(.semibold)
                                                 .foregroundStyle(.white.opacity(0.9))
                                         }
                                         .font(.callout)
@@ -243,11 +239,9 @@ struct ProfileView: View {
                                     } label: {
                                         Label {
                                             Text("팔로잉")
-                                                .fontWeight(.semibold)
                                                 .foregroundStyle(.white.opacity(0.9))
                                         } icon: {
                                             Text("\(followVM.followingIDs.count)")
-                                                .fontWeight(.semibold)
                                                 .foregroundStyle(.white.opacity(0.9))
                                         }
                                         .font(.callout)

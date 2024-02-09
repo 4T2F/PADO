@@ -26,7 +26,7 @@ struct SettingProfileView: View {
                                 image
                                     .resizable()
                                     .frame(width: UIScreen.main.bounds.width * 1.0, height: 300)
-                                    .scaledToFit()
+                                    .scaledToFill()
                                     .overlay(
                                         LinearGradient(colors: [.clear,
                                                                 .black.opacity(0.1),
@@ -293,11 +293,15 @@ struct SettingProfileView: View {
                         viewModel.userSelectImage = nil
                         viewModel.backSelectImage = nil
                     } label: {
-                        Image(systemName: "chevron.left")
-                            .font(.system(size: 14))
-                        
-                        Text("뒤로")
-                            .font(.system(size: 16))
+                        HStack(spacing: 2) {
+                            Image(systemName: "chevron.left")
+                                .font(.system(size: 14))
+                                .fontWeight(.medium)
+                            
+                            Text("뒤로")
+                                .font(.system(size: 16))
+                                .fontWeight(.medium)
+                        }
                     }
                 }
                 

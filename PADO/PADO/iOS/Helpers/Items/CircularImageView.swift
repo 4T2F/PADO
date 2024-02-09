@@ -10,6 +10,7 @@ import SwiftUI
 
 // 이미지 사용을 위해 enum 형식으로 크기를 미리 정의
 enum ProfileImageSize {
+    case xxxSmall
     case xxSmall
     case xSmall
     case small
@@ -21,6 +22,7 @@ enum ProfileImageSize {
     
     var dimension: CGFloat {
         switch self {
+        case .xxxSmall: return 22
         case .xxSmall: return 28
         case .xSmall: return 32
         case .small: return 36

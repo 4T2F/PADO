@@ -13,9 +13,8 @@ struct CommentView: View {
     
     @Binding var isShowingCommentView: Bool
     
-    @FocusState private var isTextFieldFocused: Bool
     @State private var commentText: String = ""
-    @State private var isFocused: Bool = false
+    @State private var isShowingComment: Bool = false
     @State var postUser: User
     
     let post: Post
@@ -23,8 +22,31 @@ struct CommentView: View {
     
     var body: some View {
         NavigationStack {
-            ScrollView {
-                ScrollViewReader { value in
+            VStack(spacing: 0) {
+                HStack {
+                    Button {
+                        isShowingCommentView = false
+                    } label: {
+                        Text("닫기")
+                            .font(.system(size: 16))
+                            .fontWeight(.medium)
+                    }
+                    
+                    Spacer()
+                    
+                    Text("댓글")
+                        .font(.system(size: 16))
+                        .fontWeight(.semibold)
+                        .padding(.trailing, 30)
+                    
+                    Spacer()
+                }
+                .padding(.horizontal)
+                .padding(.top, 20)
+                .padding(.bottom, 15)
+                
+                Divider()
+                ScrollView {
                     VStack {
                         if let postID = post.id {
                             FaceMojiView(commentVM: commentVM,
@@ -34,9 +56,7 @@ struct CommentView: View {
                             .padding(2)
                         }
                         
-                        
                         Divider()
-                            .opacity(0.5)
                     }
                     .padding(.top)
                     
@@ -62,99 +82,57 @@ struct CommentView: View {
                     }
                     .padding(.top)
                 }
-            }
-            .background(.main, ignoresSafeAreaEdges: .all)
-            .navigationTitle("댓글 달기")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button {
-                        isShowingCommentView = false
-                    } label: {
-                        Image(systemName: "chevron.left")
-                            .font(.system(size: 14))
-                        
-                        Text("뒤로")
-                            .font(.system(size: 16))
+                .onAppear {
+                    Task {
+                        print(postUser)
+                        commentVM.comments.removeAll()
+                        if let postID = post.id {
+                            if let fetchedComments = await commentVM.updateCommentData.getCommentsDocument(postID: postID) {
+                                commentVM.comments = fetchedComments
+                            }
+                        }
+                        //                try await feedVM.getFaceMoji()
                     }
-                }
-            }
-            .toolbarBackground(Color(.main), for: .navigationBar)
-            .navigationBarBackButtonHidden()
-            .offset(y: -7)
-            
-            HStack {
-                if let user = viewModel.currentUser {
-                    CircularImageView(size: .small, user: user)
                 }
                 
-                HStack {
-                    RepresentableTextField(placeHolderString: "\(userNameID)(으)로 댓글 남기기...", keyboardType: .default, text: $commentText, isFocused: $isFocused)
-                        .tint(Color(.systemBlue).opacity(0.7))
-                    .focused($isTextFieldFocused)
-                    .onAppear {
-                        isTextFieldFocused = true
-                    }
+                Divider()
+                
+                Button {
+                    let generator = UIImpactFeedbackGenerator(style: .medium)
+                    generator.impactOccurred()
                     
-                    if !commentText.isEmpty {
-                        Button {
-                            Task {
-                                if let postID = post.id {
-                                    await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID,
-                                                                                 receiveUser: postUser,
-                                                                                 type: .comment,
-                                                                                 message: commentText)
-                                    await commentVM.updateCommentData.writeComment(documentID: postID,
-                                                                                imageUrl: viewModel.currentUser?.profileImageUrl ?? "",
-                                                                                inputcomment: commentText)
-                                    if let fetchedComments = await commentVM.updateCommentData.getCommentsDocument(postID: postID) {
-                                        commentVM.comments = fetchedComments
-                                    }
-                                    commentText = ""
-                                }
-                            }
-                        } label: {
-                            ZStack {
-                                RoundedRectangle(cornerRadius: 26)
-                                    .frame(width: 48, height: 28)
-                                    .foregroundStyle(.blue)
-                                Image(systemName: "arrow.up")
-                                    .font(.system(size: 14))
-                                    .foregroundStyle(.white)
-                            }
+                    isShowingComment.toggle()
+                } label: {
+                    HStack(spacing: 6) {
+                        CircularImageView(size: .xxxSmall, user: postUser)
+                        if post.ownerUid == userNameID {
+                            Text("나의 파도에 댓글 남기기")
+                                .font(.system(size: 14))
+                                .fontWeight(.medium)
+                                .foregroundStyle(.gray)
+                                .padding(.leading, 2)
+                        } else {
+                            Text("\(post.ownerUid)님의 파도에 댓글 남기기")
+                                .font(.system(size: 14))
+                                .fontWeight(.medium)
+                                .foregroundStyle(.gray)
+                                .padding(.leading, 2)
                         }
-                        .padding(.vertical, -5)
-                    } else {
-                        Button {
-                            //
-                        } label: {
-                            ZStack {
-                                RoundedRectangle(cornerRadius: 26)
-                                    .frame(width: 48, height: 28)
-                                    .foregroundStyle(.gray)
-                                Image(systemName: "arrow.up")
-                                    .font(.system(size: 14))
-                                    .foregroundStyle(.black)
-                            }
-                        }
+                        
+                        Spacer()
                     }
+                    .padding(10)
+                    .background(.commentButton)
+                    .clipShape(Capsule())
                 }
+                .padding(10)
+                .sheet(isPresented: $isShowingComment, content: {
+                    CommentWriteView(commentVM: commentVM, isShowingComment: $isShowingComment, postUser: postUser, post: post)
+                        .presentationDragIndicator(.visible)
+                })
             }
-            .frame(height: 30)
-            .padding(.horizontal)
-            .padding(.bottom)
+            .background(.main, ignoresSafeAreaEdges: .all)
         }
-        .onAppear {
-            Task {
-                print(postUser)
-                commentVM.comments.removeAll()
-                if let postID = post.id {
-                    if let fetchedComments = await commentVM.updateCommentData.getCommentsDocument(postID: postID) {
-                        commentVM.comments = fetchedComments
-                    }
-                }
-                //                try await feedVM.getFaceMoji()
-            }
-        }
+        .background(.main, ignoresSafeAreaEdges: .all)
     }
 }

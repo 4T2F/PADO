@@ -109,6 +109,7 @@ struct SettingView: View {
                     } label: {
                         Text("취소")
                             .font(.system(size: 16))
+                            .fontWeight(.medium)
                     }
                 }
             }
