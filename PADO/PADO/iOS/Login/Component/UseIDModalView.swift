@@ -18,7 +18,7 @@ struct UseIDModalView: View {
     
     var body: some View {
         ZStack {
-            Color.main.ignoresSafeArea()
+            Color.modal.ignoresSafeArea()
             VStack(alignment: .leading, spacing: 15, content: {
                 Text("이미 가입된 사용자 입니다")
                     .font(.system(size: 24))

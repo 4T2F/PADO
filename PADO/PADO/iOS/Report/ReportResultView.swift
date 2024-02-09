@@ -102,7 +102,7 @@ struct ReportResultView: View {
         .padding(.vertical)
         .padding(.top)
         .navigationBarBackButtonHidden()
-        .background(.main, ignoresSafeAreaEdges: .all)
+        .background(.modal, ignoresSafeAreaEdges: .all)
     }
     
     func handleMailResult() {

@@ -78,7 +78,7 @@ struct SettingView: View {
                         .padding(.vertical, -7)
                     }
                     .sheet(isPresented: $showingSignOutModal, content: {
-                        ModalAlertView(showingCircleImage: false, mainTitle: .signOut, subTitle: .signOut, removeMessage: .signOut)
+                        ModalAlertView(showingCircleImage: true, mainTitle: .signOut, subTitle: .signOut, removeMessage: .signOut)
                             .background(Color.clear)
                             .presentationDetents([.fraction(0.4)])
                     })

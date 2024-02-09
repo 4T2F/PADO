@@ -47,7 +47,7 @@ struct SettingOthersView: View {
         })
         
         .sheet(isPresented: $showingDeleteModal, content: {
-            ModalAlertView(showingCircleImage: false, mainTitle: .account, subTitle: .account, removeMessage: .account)
+            ModalAlertView(showingCircleImage: true, mainTitle: .account, subTitle: .account, removeMessage: .account)
                 .background(Color.clear)
                 .presentationDetents([.fraction(0.4)])
         })
