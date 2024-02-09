@@ -116,7 +116,6 @@ struct PostitView: View {
                             await postitVM.writeMessage(ownerID: postitVM.ownerID,
                                                         imageUrl: viewModel.currentUser?.profileImageUrl ?? "",
                                                         inputcomment: postitVM.inputcomment)
-                            
                         }
                     } label: {
                         ZStack {

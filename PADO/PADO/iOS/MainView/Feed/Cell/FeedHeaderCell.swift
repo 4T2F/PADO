@@ -30,6 +30,7 @@ struct FeedHeaderCell: View {
     @Namespace var animation
     
     @EnvironmentObject var viewModel: AuthenticationViewModel
+    @ObservedObject var notiVM: NotificationViewModel
     
     private var filterBarWidth: CGFloat {
         let count = CGFloat(FeedFilter.allCases.count)
@@ -72,8 +73,8 @@ struct FeedHeaderCell: View {
             
             Spacer()
             
-            NavigationLink(destination: NotificationView()) {
-                Image("Bell_pin_light")
+            NavigationLink(destination: NotificationView(notiVM: notiVM)) {
+                Image(notiVM.hasNewNotifications ? "Bell_pin_light" : "Bell_light") // 조건부 아이콘 변경
             }
         }
         .padding(.horizontal)

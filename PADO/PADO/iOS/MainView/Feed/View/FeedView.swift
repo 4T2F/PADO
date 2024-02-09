@@ -17,6 +17,7 @@ struct FeedView: View {
     @ObservedObject var surfingVM: SurfingViewModel
     @ObservedObject var profileVM: ProfileViewModel
     @ObservedObject var followVM: FollowViewModel
+    @ObservedObject var notiVM: NotificationViewModel
     @StateObject var scrollDelegate: ScrollViewModel = .init()
     
     let updateHeartData = UpdateHeartData()
@@ -65,12 +66,13 @@ struct FeedView: View {
                 } else {
                     Task{
                         await feedVM.fetchTodayPadoPosts()
+                        await notiVM.fetchNotifications()
                     }
                 }
             }
                 VStack {
                     if scrollDelegate.scrollOffset < 5 {
-                        FeedHeaderCell(selectedFilter: $selectedFilter)
+                        FeedHeaderCell(selectedFilter: $selectedFilter, notiVM: notiVM)
                             .transition(.opacity.combined(with: .scale))
                     } else if !scrollDelegate.isEligible {
                         FeedRefreshHeaderCell()

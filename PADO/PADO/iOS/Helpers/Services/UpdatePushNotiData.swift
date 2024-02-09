@@ -19,6 +19,7 @@ enum PostNotiType {
 enum NotiType {
     case follow
     case surfer
+    case postit
 }
 
 class UpdatePushNotiData {
@@ -29,8 +30,9 @@ class UpdatePushNotiData {
     func pushPostNoti(targetPostID: String, receiveUser: User, type: PostNotiType, message: String) async { // 이미지도 포함하게 될 푸시 알람들
         switch type {
         case .comment:
-            await createPostNoti(userId: receiveUser.nameID, type: "comment", postID: targetPostID, message: message)
-            
+            if receiveUser.nameID != userNameID {
+                await createPostNoti(userId: receiveUser.nameID, type: "comment", postID: targetPostID, message: message)
+            }
             if receiveUser.nameID != userNameID && receiveUser.alertAccept == "yes" {
                 PushNotificationManager.shared.sendPushNotification(
                     toFCMToken: receiveUser.fcmToken,
@@ -39,8 +41,9 @@ class UpdatePushNotiData {
                 )
             }
         case .facemoji:
-            await createPostNoti(userId: receiveUser.nameID, type: "facemoji", postID: targetPostID, message: "")
-            
+            if receiveUser.nameID != userNameID {
+                await createPostNoti(userId: receiveUser.nameID, type: "facemoji", postID: targetPostID, message: "")
+            }
             if receiveUser.nameID != userNameID && receiveUser.alertAccept == "yes" {
                 PushNotificationManager.shared.sendPushNotification(
                     toFCMToken: receiveUser.fcmToken,
@@ -49,8 +52,9 @@ class UpdatePushNotiData {
                 )
             }
         case .heart:
-            await createPostNoti(userId: receiveUser.nameID, type: "heart", postID: targetPostID, message: "")
-            
+            if receiveUser.nameID != userNameID {
+                await createPostNoti(userId: receiveUser.nameID, type: "heart", postID: targetPostID, message: "")
+            }
             if receiveUser.nameID != userNameID && receiveUser.alertAccept == "yes" {
                 PushNotificationManager.shared.sendPushNotification(
                     toFCMToken: receiveUser.fcmToken,
@@ -89,6 +93,17 @@ class UpdatePushNotiData {
                     toFCMToken: receiveUser.fcmToken,
                     title: "PADO",
                     body: "\(userNameID)님이 회원님을 서퍼🏄🏼‍♀️로 지정했습니다"
+                )
+            }
+        case .postit:
+            if receiveUser.nameID != userNameID {
+                await createNoti(userId: receiveUser.nameID, type: "postit")
+            }
+            if receiveUser.nameID != userNameID && receiveUser.alertAccept == "yes" {
+                PushNotificationManager.shared.sendPushNotification(
+                    toFCMToken: receiveUser.fcmToken,
+                    title: "PADO",
+                    body: "\(userNameID)님이 회원님의 방명록에 글을 남겼습니다"
                 )
             }
         }

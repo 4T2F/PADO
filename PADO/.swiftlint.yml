@@ -31,6 +31,7 @@ disabled_rules:
   - indentation_width
   - void_function_in_ternary
   - closure_end_indentation
+  - closing_brace
   
 # 옵트 인 룰
 opt_in_rules:
