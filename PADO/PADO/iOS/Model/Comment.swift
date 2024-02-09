@@ -6,7 +6,7 @@
 //
 
 import Firebase
-import FirebaseFirestore
+import FirebaseFirestoreSwift
 import Foundation
 
 struct Comment: Identifiable, Hashable, Codable {

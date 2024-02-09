@@ -44,7 +44,10 @@
 		418743272B5C42A300D93CBE /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418743262B5C42A300D93CBE /* SignUpView.swift */; };
 		418743292B5C42AB00D93CBE /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418743282B5C42AB00D93CBE /* LoginView.swift */; };
 		418ACDC12B76181B003DD9E7 /* Wave.json in Resources */ = {isa = PBXBuildFile; fileRef = 418ACDC02B76181B003DD9E7 /* Wave.json */; };
-		418ACDC32B761AE6003DD9E7 /* noneComment.json in Resources */ = {isa = PBXBuildFile; fileRef = 418ACDC22B761AE5003DD9E7 /* noneComment.json */; };
+		418ACDC32B761AE6003DD9E7 /* nonePostit.json in Resources */ = {isa = PBXBuildFile; fileRef = 418ACDC22B761AE5003DD9E7 /* nonePostit.json */; };
+		418ACDC52B764B3C003DD9E7 /* PostitMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418ACDC42B764B3C003DD9E7 /* PostitMessage.swift */; };
+		418ACDC92B766633003DD9E7 /* MessageBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418ACDC82B766633003DD9E7 /* MessageBubbleView.swift */; };
+		418ACDCB2B767CB3003DD9E7 /* DeleteMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418ACDCA2B767CB3003DD9E7 /* DeleteMessageView.swift */; };
 		418B6C8A2B5EBC0100E8289D /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418B6C892B5EBC0100E8289D /* SearchBar.swift */; };
 		418B6C8C2B5EBC6000E8289D /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418B6C8B2B5EBC6000E8289D /* ActivityIndicator.swift */; };
 		418B6C8F2B5EC16500E8289D /* FollowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418B6C8E2B5EC16500E8289D /* FollowViewModel.swift */; };
@@ -52,7 +55,7 @@
 		418B6C962B5EC69100E8289D /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418B6C952B5EC69100E8289D /* ViewState.swift */; };
 		418B6C982B5EC75F00E8289D /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418B6C972B5EC75F00E8289D /* SearchViewModel.swift */; };
 		418B6C9B2B5EC9BB00E8289D /* Searchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418B6C9A2B5EC9BB00E8289D /* Searchable.swift */; };
-		418D45BF2B756AAD007F6633 /* Comment.json in Resources */ = {isa = PBXBuildFile; fileRef = 418D45BE2B756AAD007F6633 /* Comment.json */; };
+		418D45BF2B756AAD007F6633 /* Postit.json in Resources */ = {isa = PBXBuildFile; fileRef = 418D45BE2B756AAD007F6633 /* Postit.json */; };
 		418D45C12B757388007F6633 /* PostitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418D45C02B757388007F6633 /* PostitView.swift */; };
 		418D45C32B757393007F6633 /* PostitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418D45C22B757393007F6633 /* PostitViewModel.swift */; };
 		419741E12B558F3A0055F2AB /* BlueButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419741DF2B558F3A0055F2AB /* BlueButtonView.swift */; };
@@ -257,7 +260,10 @@
 		418743262B5C42A300D93CBE /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		418743282B5C42AB00D93CBE /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		418ACDC02B76181B003DD9E7 /* Wave.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Wave.json; sourceTree = "<group>"; };
-		418ACDC22B761AE5003DD9E7 /* noneComment.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = noneComment.json; sourceTree = "<group>"; };
+		418ACDC22B761AE5003DD9E7 /* nonePostit.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = nonePostit.json; sourceTree = "<group>"; };
+		418ACDC42B764B3C003DD9E7 /* PostitMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostitMessage.swift; sourceTree = "<group>"; };
+		418ACDC82B766633003DD9E7 /* MessageBubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubbleView.swift; sourceTree = "<group>"; };
+		418ACDCA2B767CB3003DD9E7 /* DeleteMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteMessageView.swift; sourceTree = "<group>"; };
 		418B6C892B5EBC0100E8289D /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		418B6C8B2B5EBC6000E8289D /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		418B6C8E2B5EC16500E8289D /* FollowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowViewModel.swift; sourceTree = "<group>"; };
@@ -265,7 +271,7 @@
 		418B6C952B5EC69100E8289D /* ViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewState.swift; sourceTree = "<group>"; };
 		418B6C972B5EC75F00E8289D /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		418B6C9A2B5EC9BB00E8289D /* Searchable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Searchable.swift; sourceTree = "<group>"; };
-		418D45BE2B756AAD007F6633 /* Comment.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Comment.json; sourceTree = "<group>"; };
+		418D45BE2B756AAD007F6633 /* Postit.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Postit.json; sourceTree = "<group>"; };
 		418D45C02B757388007F6633 /* PostitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostitView.swift; sourceTree = "<group>"; };
 		418D45C22B757393007F6633 /* PostitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostitViewModel.swift; sourceTree = "<group>"; };
 		419741DF2B558F3A0055F2AB /* BlueButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlueButtonView.swift; sourceTree = "<group>"; };
@@ -483,6 +489,7 @@
 				635B09492B4500CB009E60A9 /* User.swift */,
 				B1749A662B5E41AA00BCC6BA /* Post.swift */,
 				41A102922B624CCB0070AB8D /* Comment.swift */,
+				418ACDC42B764B3C003DD9E7 /* PostitMessage.swift */,
 				41101B312B6B67A1002E8C64 /* Heart.swift */,
 				648963DC2B6AA2310080050D /* Corp.swift */,
 				648963E02B6BEF890080050D /* Facemoji.swift */,
@@ -828,8 +835,8 @@
 			isa = PBXGroup;
 			children = (
 				418ACDC02B76181B003DD9E7 /* Wave.json */,
-				418D45BE2B756AAD007F6633 /* Comment.json */,
-				418ACDC22B761AE5003DD9E7 /* noneComment.json */,
+				418D45BE2B756AAD007F6633 /* Postit.json */,
+				418ACDC22B761AE5003DD9E7 /* nonePostit.json */,
 				419981D22B7439F400EEA06E /* Loading.json */,
 				637323452B6FBFDF00C02A32 /* Heart.json */,
 				6373233F2B6EA09200C02A32 /* button.json */,
@@ -913,6 +920,7 @@
 			isa = PBXGroup;
 			children = (
 				63AA03572B68F1BE00431332 /* ProfileView.swift */,
+				418ACDC82B766633003DD9E7 /* MessageBubbleView.swift */,
 				41101B3A2B6BF8AF002E8C64 /* OtherUserProfileView.swift */,
 				63AA03582B68F1BE00431332 /* OffsetModifier.swift */,
 				418D45C02B757388007F6633 /* PostitView.swift */,
@@ -925,6 +933,7 @@
 			children = (
 				63AA03602B6A173F00431332 /* ProfileViewModel.swift */,
 				418D45C22B757393007F6633 /* PostitViewModel.swift */,
+				418ACDCA2B767CB3003DD9E7 /* DeleteMessageView.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1246,14 +1255,14 @@
 				418ACDC12B76181B003DD9E7 /* Wave.json in Resources */,
 				63AA03542B68F14E00431332 /* ApiKeys.xcconfig in Resources */,
 				41FD9A212B43D94A0028D38E /* .swiftlint.yml in Resources */,
-				418ACDC32B761AE6003DD9E7 /* noneComment.json in Resources */,
+				418ACDC32B761AE6003DD9E7 /* nonePostit.json in Resources */,
 				419981D32B7439F400EEA06E /* Loading.json in Resources */,
 				637323462B6FBFDF00C02A32 /* Heart.json in Resources */,
 				63AA03532B68F14E00431332 /* GoogleService-Info.plist in Resources */,
 				41FD99FD2B43D5ED0028D38E /* Preview Assets.xcassets in Resources */,
 				41FD99FA2B43D5ED0028D38E /* Assets.xcassets in Resources */,
 				637323402B6EA09200C02A32 /* button.json in Resources */,
-				418D45BF2B756AAD007F6633 /* Comment.json in Resources */,
+				418D45BF2B756AAD007F6633 /* Postit.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1322,6 +1331,7 @@
 				64B4C8EA2B62532100D405DE /* UpdateUserData.swift in Sources */,
 				649372F82B561A6F00BCDA71 /* FollowingCellView.swift in Sources */,
 				B10765522B73E5400023B686 /* NotificationViewModel.swift in Sources */,
+				418ACDC92B766633003DD9E7 /* MessageBubbleView.swift in Sources */,
 				B102FE802B56D34C0005C310 /* VerificationPostView.swift in Sources */,
 				049598902B68014E0075EEF9 /* SettingAskButton.swift in Sources */,
 				417D188A2B5CFEE400545A5E /* LoginPhoneNumberView.swift in Sources */,
@@ -1329,6 +1339,7 @@
 				63824C452B558B2400D1D653 /* StartView.swift in Sources */,
 				63283DB92B73BDF700A42C0F /* SelectPostView.swift in Sources */,
 				B1D7CDEF2B566A2F0090544B /* ViewExtension.swift in Sources */,
+				418ACDCB2B767CB3003DD9E7 /* DeleteMessageView.swift in Sources */,
 				6302CFC62B73E41600E5B7CE /* OtherSelectPostCell.swift in Sources */,
 				41A102932B624CCB0070AB8D /* Comment.swift in Sources */,
 				649372F42B5612E700BCDA71 /* FollowingView.swift in Sources */,
@@ -1434,6 +1445,7 @@
 				419D086A2B5FA9CA00E61A6F /* LoadingCircleView.swift in Sources */,
 				63C8BA4B2B561FA900025422 /* EnjoyButton.swift in Sources */,
 				B1749A652B5D755700BCC6BA /* AppDelegate.swift in Sources */,
+				418ACDC52B764B3C003DD9E7 /* PostitMessage.swift in Sources */,
 				637891632B5ECE3300B40AF6 /* FeedViewModel.swift in Sources */,
 				64F210D32B58B26F00E2064A /* MainSearchView.swift in Sources */,
 				418B6C9B2B5EC9BB00E8289D /* Searchable.swift in Sources */,
