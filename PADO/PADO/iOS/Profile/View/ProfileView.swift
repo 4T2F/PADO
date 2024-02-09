@@ -133,75 +133,42 @@ struct ProfileView: View {
                         
                         VStack(alignment: .leading, spacing: 10) {
                             if let user = viewModel.currentUser {
-                                if !user.username.isEmpty {
-                                    CircularImageView(size: .xLarge, user: user)
-                                        .offset(y: 5)
-                                        .overlay {
-                                            Button {
-                                                isShowingMessageView = true
-                                            } label: {
-                                                Circle()
-                                                    .frame(width: 30)
-                                                    .foregroundStyle(.clear)
-                                                    .overlay {
-                                                        if postitVM.messages.isEmpty {
-                                                            LottieView(animation: .named("nonePostit"))
-                                                                .paused(at: .progress(1))
-                                                                .resizable()
-                                                                .scaledToFit()
-                                                                .frame(width: 40, height: 40)
-                                                        } else {
-                                                            LottieView(animation: .named("Postit"))
-                                                                .looping()
-                                                                .resizable()
-                                                                .scaledToFit()
-                                                                .frame(width: 40, height: 40)
-                                                        }
+                                
+                                CircularImageView(size: .xLarge, user: user)
+                                    .offset(y: 5)
+                                    .overlay {
+                                        Button {
+                                            isShowingMessageView = true
+                                        } label: {
+                                            Circle()
+                                                .frame(width: 30)
+                                                .foregroundStyle(.clear)
+                                                .overlay {
+                                                    if postitVM.messages.isEmpty {
+                                                        LottieView(animation: .named("nonePostit"))
+                                                            .paused(at: .progress(1))
+                                                            .resizable()
+                                                            .scaledToFit()
+                                                            .frame(width: 40, height: 40)
+                                                    } else {
+                                                        LottieView(animation: .named("Postit"))
+                                                            .looping()
+                                                            .resizable()
+                                                            .scaledToFit()
+                                                            .frame(width: 40, height: 40)
                                                     }
-                                            }
-                                            .offset(x: +46, y: -30)
-                                            .sheet(isPresented: $isShowingMessageView) {
-                                                
-                                                PostitView(postitVM: postitVM,
-                                                           isShowingMessageView: $isShowingMessageView)
-                                                
-                                            }
-                                            .presentationDetents([.large])
+                                                }
                                         }
-                                } else {
-                                    CircularImageView(size: .xLarge, user: user)
-                                        .offset(y: 30)
-                                        .overlay {
-                                            Button {
-                                                isShowingMessageView = true
-                                            } label: {
-                                                Circle()
-                                                    .frame(width: 30)
-                                                    .foregroundStyle(.clear)
-                                                    .overlay {
-                                                        if postitVM.messages.isEmpty {
-                                                            LottieView(animation: .named("nonePostit"))
-                                                                .paused(at: .progress(1))
-                                                                .resizable()
-                                                                .scaledToFit()
-                                                                .frame(width: 40, height: 40)
-                                                        } else {
-                                                            LottieView(animation: .named("Postit"))
-                                                                .looping()
-                                                                .resizable()
-                                                                .scaledToFit()
-                                                                .frame(width: 40, height: 40)
-                                                        }
-                                                    }
-                                            }
-                                            .offset(x: +46, y: -5)
-                                            .sheet(isPresented: $isShowingMessageView) {
-                                                PostitView(postitVM: postitVM,
-                                                           isShowingMessageView: $isShowingMessageView)
-                                            }
-                                            .presentationDetents([.large])
+                                        .offset(x: +46, y: -30)
+                                        .sheet(isPresented: $isShowingMessageView) {
+                                            
+                                            PostitView(postitVM: postitVM,
+                                                       isShowingMessageView: $isShowingMessageView)
+                                            
                                         }
-                                }
+                                        .presentationDetents([.large])
+                                    }
+                                
                             }
                             
                             HStack(alignment: .center, spacing: 5) {

@@ -125,70 +125,41 @@ struct OtherUserProfileView: View {
                                                 .main.opacity(1)], startPoint: .top, endPoint: .bottom)
                         
                         VStack(alignment: .leading, spacing: 10) {
-                            if !user.username.isEmpty {
-                                CircularImageView(size: .xLarge, user: user)
-                                    .offset(y: 5)
-                                    .overlay {
-                                        Button {
-                                            isShowingMessageView = true
-                                        } label: {
-                                            Circle()
-                                                .frame(width: 30)
-                                                .foregroundStyle(.clear)
-                                                .overlay {
-                                                    if postitVM.messages.isEmpty {
-                                                        LottieView(animation: .named("nonePostit"))
-                                                            .paused(at: .progress(1))
-                                                            .resizable()
-                                                            .scaledToFit()
-                                                            .frame(width: 40, height: 40)
-                                                    } else {
-                                                        LottieView(animation: .named("Postit"))
-                                                            .looping()
-                                                            .resizable()
-                                                            .scaledToFit()
-                                                            .frame(width: 40, height: 40)
-                                                    }
+                            CircularImageView(size: .xLarge, user: user)
+                                .offset(y: 5)
+                                .overlay {
+                                    Button {
+                                        isShowingMessageView = true
+                                    } label: {
+                                        Circle()
+                                            .frame(width: 30)
+                                            .foregroundStyle(.clear)
+                                            .overlay {
+                                                if postitVM.messages.isEmpty {
+                                                    LottieView(animation: .named("nonePostit"))
+                                                        .paused(at: .progress(1))
+                                                        .resizable()
+                                                        .scaledToFit()
+                                                        .frame(width: 40, height: 40)
+                                                } else {
+                                                    LottieView(animation: .named("Postit"))
+                                                        .looping()
+                                                        .resizable()
+                                                        .scaledToFit()
+                                                        .frame(width: 40, height: 40)
                                                 }
-                                        }
-                                        .offset(x: +46, y: -30)
-                                        .sheet(isPresented: $isShowingMessageView) {
-                                            
-                                            PostitView(postitVM: postitVM,
-                                                       isShowingMessageView: $isShowingMessageView)
-                                            
-                                        }
-                                        .presentationDetents([.large])
+                                            }
                                     }
-                            } else {
-                                CircularImageView(size: .xLarge, user: user)
-                                    .offset(y: 22)
-                                    .overlay {
-                                        Button {
-                                           //
-                                        } label: {
-                                            Circle()
-                                                .frame(width: 30)
-                                                .foregroundStyle(.clear)
-                                                .overlay {
-                                                    if postitVM.messages.isEmpty {
-                                                        LottieView(animation: .named("nonePostit"))
-                                                            .paused(at: .progress(1))
-                                                            .resizable()
-                                                            .scaledToFit()
-                                                            .frame(width: 40, height: 40)
-                                                    } else {
-                                                        LottieView(animation: .named("Postit"))
-                                                            .looping()
-                                                            .resizable()
-                                                            .scaledToFit()
-                                                            .frame(width: 40, height: 40)
-                                                    }
-                                                }
-                                        }
-                                        .offset(x: +46, y: -5)
+                                    .offset(x: +46, y: -30)
+                                    .sheet(isPresented: $isShowingMessageView) {
+                                        
+                                        PostitView(postitVM: postitVM,
+                                                   isShowingMessageView: $isShowingMessageView)
+                                        
                                     }
-                            }
+                                    .presentationDetents([.large])
+                                }
+                            
                             
                             HStack(alignment: .center, spacing: 5) {
                                 VStack(alignment: .leading, spacing: 4) {
@@ -391,14 +362,14 @@ struct OtherUserProfileView: View {
                                 }
                                 .sheet(isPresented: $isShowingReceiveDetail) {
                                     OtherSelectPostView(profileVM: profileVM,
-                                                      viewType: PostViewType.receive,
-                                                      isShowingDetail: $isShowingReceiveDetail,
-                                                      selectedPostID: selectedPostID ?? "")
-                                        .presentationDragIndicator(.visible)
+                                                        viewType: PostViewType.receive,
+                                                        isShowingDetail: $isShowingReceiveDetail,
+                                                        selectedPostID: selectedPostID ?? "")
+                                    .presentationDragIndicator(.visible)
                                 }
                                 
                             }
-                           
+                            
                         }
                         .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
                     }
@@ -435,10 +406,10 @@ struct OtherUserProfileView: View {
                                 }
                                 .sheet(isPresented: $isShowingSendDetail) {
                                     OtherSelectPostView(profileVM: profileVM,
-                                                      viewType: PostViewType.send,
-                                                      isShowingDetail: $isShowingSendDetail,
-                                                      selectedPostID: selectedPostID ?? "")
-                                        .presentationDragIndicator(.visible)
+                                                        viewType: PostViewType.send,
+                                                        isShowingDetail: $isShowingSendDetail,
+                                                        selectedPostID: selectedPostID ?? "")
+                                    .presentationDragIndicator(.visible)
                                 }
                             }
                         }
@@ -477,10 +448,10 @@ struct OtherUserProfileView: View {
                                 }
                                 .sheet(isPresented: $isShowingHightlight) {
                                     OtherSelectPostView(profileVM: profileVM,
-                                                      viewType: PostViewType.highlight,
-                                                      isShowingDetail: $isShowingHightlight,
-                                                      selectedPostID: selectedPostID ?? "")
-                                        .presentationDragIndicator(.visible)
+                                                        viewType: PostViewType.highlight,
+                                                        isShowingDetail: $isShowingHightlight,
+                                                        selectedPostID: selectedPostID ?? "")
+                                    .presentationDragIndicator(.visible)
                                 }
                             }
                         }
