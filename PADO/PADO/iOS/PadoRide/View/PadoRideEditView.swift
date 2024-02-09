@@ -45,9 +45,11 @@ struct PadoRideEditView: View {
                 
                 HStack {
                     Button {
-                        padorideVM.cancelTextView()
+                        Task {
+                            await padorideVM.cancelTextView()
+                        }
                     } label: {
-                        Text("삭제")
+                        Text("취소")
                             .fontWeight(.heavy)
                             .foregroundColor(.white)
                             .padding()
@@ -57,8 +59,10 @@ struct PadoRideEditView: View {
                     
                     Button {
                         padorideVM.textBoxes[padorideVM.currentIndex].isAdded = true
-                        padorideVM.toolPicker.setVisible(true, forFirstResponder: padorideVM.canvas)
-                        padorideVM.canvas.becomeFirstResponder()
+                        Task {
+                            padorideVM.toolPicker.setVisible(true, forFirstResponder: padorideVM.canvas)
+                            padorideVM.canvas.becomeFirstResponder()
+                        }
                         withAnimation{
                             padorideVM.addNewBox = false
                         }

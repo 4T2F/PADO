@@ -42,7 +42,7 @@ class PadoRideViewModel: ObservableObject {
             switch result {
             case .success(let imageResult):
                 self.selectedUIImage = imageResult.image
-                print("나 성공했어!")
+                
             case .failure(let error):
                 print(error)
                 self.selectedUIImage = nil
@@ -60,17 +60,20 @@ class PadoRideViewModel: ObservableObject {
         addNewBox = false
     }
     
-    func cancelTextView() {
-        toolPicker.setVisible(true, forFirstResponder: canvas)
-        canvas.becomeFirstResponder()
-        
-        withAnimation{
-            addNewBox = false
+    @MainActor
+        func cancelTextView() async {
+            
+            self.toolPicker.setVisible(true, forFirstResponder: self.canvas)
+            self.canvas.becomeFirstResponder()
+           
+            withAnimation {
+                addNewBox = false
+            }
+            
+            if textBoxes[currentIndex].isAdded {
+                textBoxes.removeLast()
+            }
         }
-        if textBoxes[currentIndex].isAdded{
-            textBoxes.removeLast()
-        }
-    }
     
     // 특정 ID들에 대한 포스트 데이터를 미리 로드
     func preloadPostsData(for ids: [String]) async {
@@ -82,11 +85,11 @@ class PadoRideViewModel: ObservableObject {
         }
     }
     
-    func saveImage(){
+    func saveImage() {
         UIGraphicsBeginImageContextWithOptions(rect.size, false, 0)
         canvas.drawHierarchy(in: CGRect(origin: .zero, size: rect.size), afterScreenUpdates: true)
         
-        let makeUIView = ZStack{
+        let makeUIView = ZStack {
             ForEach(textBoxes){[self] box in
                 Text(textBoxes[currentIndex].id == box.id && addNewBox ? "" : box.text)
                     .font(.system(size: 30))

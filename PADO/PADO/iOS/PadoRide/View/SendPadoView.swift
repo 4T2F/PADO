@@ -11,7 +11,6 @@ import SwiftUI
 struct SendPadoView: View {
     // MARK: - PROPERTY
     @ObservedObject var padorideVM: PadoRideViewModel
-    
     @State private var surfingUser: User?
     
     // MARK: - BODY
@@ -21,11 +20,9 @@ struct SendPadoView: View {
                 if let user = surfingUser {
                     CircularImageView(size: .medium, user: user)
                 }
-                
                 Text("\(padorideVM.selectedPost?.ownerUid ?? "") 님에게 파도타기")
             }
             .padding()
-            
             
             Button {
                 Task {

@@ -30,8 +30,9 @@ struct CanvasView: UIViewRepresentable {
         subView.addSubview(imageView)
         subView.sendSubviewToBack(imageView)
         
-        toolPicker.setVisible(true, forFirstResponder: canvas)
+        
         toolPicker.addObserver(canvas)
+        toolPicker.setVisible(true, forFirstResponder: canvas)
         canvas.becomeFirstResponder()
         
         return canvas
@@ -40,6 +41,6 @@ struct CanvasView: UIViewRepresentable {
     func updateUIView(_ uiView: PKCanvasView, context: Context) {
         
     }
-
+    
 }
 

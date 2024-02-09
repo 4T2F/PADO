@@ -11,8 +11,7 @@ struct DrawingView: View {
     @ObservedObject var padorideVM: PadoRideViewModel
     
     var body: some View {
-        
-        ZStack{
+        ZStack {
             GeometryReader { proxy -> AnyView in
                 
                 let size = proxy.frame(in: .global)
@@ -29,6 +28,12 @@ struct DrawingView: View {
                                    canvas: $padorideVM.canvas,
                                    toolPicker: $padorideVM.toolPicker,
                                    rect: size.size)
+                        .onTapGesture {
+                            Task {
+                                padorideVM.toolPicker.setVisible(true, forFirstResponder: padorideVM.canvas)
+                                padorideVM.canvas.becomeFirstResponder()
+                            }
+                        }
                         
                         ForEach(padorideVM.textBoxes) { box in
                             
@@ -96,7 +101,7 @@ struct DrawingView: View {
         }
     }
     
-    func getIndex(textBox: TextBox)->Int{
+    func getIndex(textBox: TextBox) -> Int{
         
         let index = padorideVM.textBoxes.firstIndex { (box) -> Bool in
             return textBox.id == box.id

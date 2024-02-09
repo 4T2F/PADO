@@ -26,7 +26,7 @@ struct PadoRideView: View {
                 
                 Spacer()
                 
-                if padorideVM.selectedImage == "" {
+                if padorideVM.selectedImage.isEmpty {
                     Button {
                     } label: {
                         Text("다음")

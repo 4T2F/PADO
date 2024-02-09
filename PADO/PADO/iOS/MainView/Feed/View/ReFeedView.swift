@@ -70,9 +70,7 @@ struct ReFeedView: View {
                                         }
                                     }
                                 }
-                                
                             }
-                            
                         }
                         .scrollTargetLayout()
                     }
