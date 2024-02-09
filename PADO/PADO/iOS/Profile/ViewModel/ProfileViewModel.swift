@@ -80,25 +80,57 @@ class ProfileViewModel: ObservableObject {
     
     @MainActor
     func fetchPostData(documentID: String, inputType: InputPostType) async {
+        guard !documentID.isEmpty else { return }
         do {
-            let querySnapshot = try await db.collection("post").document(documentID).getDocument()
+            let docRef = db.collection("post").document(documentID)
+            let querySnapshot = try await docRef.getDocument()
 
-            guard let post = try? querySnapshot.data(as: Post.self) else {
+            guard var post = try? querySnapshot.data(as: Post.self) else {
                 print("\(documentID)는 삭제된 게시글입니다")
                 return
             }
-            
-            switch inputType {
-            case .pado:
-                padoPosts.append(post)
-            case .sendPado:
-                sendPadoPosts.append(post)
-            case .highlight:
-                highlights.append(post)
+
+            // 스냅샷 리스너 설정
+            docRef.addSnapshotListener { documentSnapshot, error in
+                guard let document = documentSnapshot, let data = document.data() else {
+                    print("Error fetching document: \(error?.localizedDescription ?? "Unknown error")")
+                    return
+                }
+                
+                post.heartsCount = data["heartsCount"] as? Int ?? 0
+                post.commentCount = data["commentCount"] as? Int ?? 0
+                
+                // 배열 업데이트
+                self.updatePostArray(post: post, inputType: inputType)
             }
+            
 
         } catch {
             print("Error fetching user: \(error.localizedDescription)")
         }
     }
+
+    private func updatePostArray(post: Post, inputType: InputPostType) {
+        switch inputType {
+        case .pado:
+            if let index = padoPosts.firstIndex(where: { $0.id == post.id }) {
+                padoPosts[index] = post
+            } else {
+                padoPosts.append(post)
+            }
+        case .sendPado:
+            if let index = sendPadoPosts.firstIndex(where: { $0.id == post.id }) {
+                sendPadoPosts[index] = post
+            } else {
+                sendPadoPosts.append(post)
+            }
+        case .highlight:
+            if let index = highlights.firstIndex(where: { $0.id == post.id }) {
+                highlights[index] = post
+            } else {
+                highlights.append(post)
+            }
+        }
+    }
+
 }

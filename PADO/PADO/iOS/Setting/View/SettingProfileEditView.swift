@@ -39,7 +39,7 @@ struct SettingProfileEditView: View {
                 viewModel.imagePick = false
             }
             .background {
-                Color.black
+                Color.main
                     .ignoresSafeArea()
             }
             .toolbar {

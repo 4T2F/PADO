@@ -5,6 +5,7 @@
 //  Created by 황민채 on 1/17/24.
 //
 
+// 레거시~
 import SwiftUI
 
 struct VerificationPostView: View {
@@ -42,7 +43,6 @@ struct VerificationPostView: View {
                         .padding(.horizontal)
                         
                         HStack {
-                            FeedSurfers()
                             
                             Spacer()
                             

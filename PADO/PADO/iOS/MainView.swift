@@ -20,14 +20,12 @@ struct MainView: View {
                 LaunchSTA()
                     .onAppear {
                         Task {
+                            viewModel.nameID = userNameID
                             try? await Task.sleep(nanoseconds: 2 * 1_000_000_000)
-                            if Auth.auth().currentUser?.uid == nil {
+                           
+                            if viewModel.nameID.isEmpty {
                                 showLaunchScreen = false
                             } else {
-                                if userNameID.isEmpty {
-                                    await viewModel.fetchNameID()
-                                    showLaunchScreen = false
-                                }
                                 await viewModel.initializeUser()
                                 showLaunchScreen = false
                             }

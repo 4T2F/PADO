@@ -27,15 +27,6 @@ var userToken: String {
     }
 }
 
-var userAlertAccept: String {
-    get {
-        UserDefaults.standard.string(forKey: "userAlertAccept") ?? "no"
-    }
-    set {
-        UserDefaults.standard.set(newValue, forKey: "userAlertAccept")
-    }
-}
-
 struct User: Codable, Identifiable, Hashable {
     @DocumentID var id: String?
     var username: String // 유저 닉네임

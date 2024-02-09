@@ -50,6 +50,7 @@ struct ReportSelectView: View {
                 }
                 .padding(.top, 30)
             }
+            .background(.main, ignoresSafeAreaEdges: .all)
         }
     }
 }

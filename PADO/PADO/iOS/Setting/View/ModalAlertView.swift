@@ -97,7 +97,7 @@ struct ModalAlertView: View {
                 .padding(.bottom, 5)
             }
             .frame(width: width * 0.9)
-            .background(Color.modal)
+            .background(Color.main)
             .clipShape(.rect(cornerRadius: 22))
             
             VStack {

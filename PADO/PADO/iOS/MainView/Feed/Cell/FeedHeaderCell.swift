@@ -26,7 +26,7 @@ enum FeedFilter: Int, CaseIterable, Identifiable {
 
 struct FeedHeaderCell: View {
     // MARK: - PROPERTY
-    @State private var selectedFilter: FeedFilter = .following
+    @Binding var selectedFilter: FeedFilter
     @Namespace var animation
     
     @EnvironmentObject var viewModel: AuthenticationViewModel
@@ -59,12 +59,10 @@ struct FeedHeaderCell: View {
                                     .foregroundStyle(.clear)
                                     .frame(width: filterBarWidth, height: 1.5)
                             }
-                            
                         } //: VSTACK
                         .onTapGesture {
                             withAnimation(.spring()) {
                                 selectedFilter = filter
-                                viewModel.selectFilter = filter
                             }
                         }
                     } //: LOOP
@@ -82,3 +80,21 @@ struct FeedHeaderCell: View {
     }
 }
 
+struct FeedRefreshHeaderCell: View {
+    // MARK: - BODY
+    var body: some View {
+        HStack {
+            Spacer()
+            VStack {
+                HStack(spacing: 22) {
+                    Text("아래로 드래그해서 새로고침")
+                        .foregroundStyle(.white)
+                        .font(.system(size: 14))
+                } //: HSTACK
+            } //: VSTACK
+            
+            Spacer()
+        }
+        .padding(.horizontal)
+    }
+}

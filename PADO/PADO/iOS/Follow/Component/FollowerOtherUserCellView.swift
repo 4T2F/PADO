@@ -30,7 +30,8 @@ struct FollowerOtherUserCellView: View {
             HStack(spacing: 0) {
                 NavigationLink {
                     if let user = profileUser {
-                        OtherUserProfileView(buttonOnOff: $buttonOnOff, updateFollowData: updateFollowData,
+                        OtherUserProfileView(buttonOnOff: $buttonOnOff,
+                                             updateFollowData: updateFollowData,
                                              user: user)
                     }
                 } label: {
@@ -38,26 +39,29 @@ struct FollowerOtherUserCellView: View {
                         KFImage.url(imageUrl)
                             .resizable()
                             .scaledToFill()
-                            .frame(width: 50, height: 50)
-                            .cornerRadius(50)
-                            .padding(.horizontal)
+                            .frame(width: 44, height: 44)
+                            .cornerRadius(44)
+                            .padding(.leading)
                     } else {
                         Image("defaultProfile")
                             .resizable()
                             .scaledToFill()
-                            .frame(width: 50, height: 50)
-                            .cornerRadius(50)
-                            .padding(.horizontal)
+                            .frame(width: 44, height: 44)
+                            .cornerRadius(44)
+                            .padding(.leading)
                     }
                     
                     VStack(alignment: .leading, spacing: 3) {
                         Text(cellUserId)
-                            .font(.system(size: 14, weight: .semibold))
+                            .font(.system(size: 12, weight: .medium))
                             .foregroundStyle(.white)
+                            .padding(.leading, 4)
+                        
                         if !followerUsername.isEmpty {
                             Text(followerUsername)
                                 .font(.system(size: 12, weight: .regular))
                                 .foregroundStyle(Color(.systemGray))
+                                .padding(.leading, 4)
                         }
                     } //: VSTACK
                 }
@@ -69,9 +73,9 @@ struct FollowerOtherUserCellView: View {
                 BlueButtonView(cellUserId: cellUserId,
                                buttonActive: $buttonOnOff,
                                activeText: "팔로우",
-                               unActiveText: "팔로잉",
+                               unActiveText: "팔로우 취소",
                                widthValue: 85,
-                               heightValue: 30,
+                               heightValue: 28,
                                updateFollowData: updateFollowData)
                 .padding(.horizontal)
             }

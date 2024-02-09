@@ -12,6 +12,7 @@ struct SearchBar: View {
     @Binding var isLoading: Bool
     
     @State private var isEditing = false
+    @State var isFocused: Bool = false
     
     var body: some View {
         ZStack(alignment: .leading) {
@@ -21,12 +22,10 @@ struct SearchBar: View {
                         .foregroundStyle(Color.gray)
                         .padding(.leading, 10)
                     
-                    TextField("", text: $text,
-                              prompt: Text("검색")
-                        .font(.system(size: 16))
-                        .foregroundStyle(Color.gray))
+                    RepresentableTextField(placeHolderString: "검색", keyboardType: .default, text: $text, isFocused: $isFocused)
                     .tint(.gray)
-                    .padding(7)
+                    .frame(height: 20)
+                    .padding(8)
                     .padding(.leading, -7)
                     .foregroundStyle(Color.white)
                     .accentColor(Color.gray)

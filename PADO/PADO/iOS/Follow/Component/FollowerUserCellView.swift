@@ -14,6 +14,7 @@ struct FollowerUserCellView: View {
     @State private var followerUsername: String = ""
     @State private var followerProfileUrl: String = ""
     @State private var showingModal: Bool = false
+    @State private var showingSurferModal: Bool = false
     @State var profileUser: User?
     
     let cellUserId: String
@@ -47,32 +48,80 @@ struct FollowerUserCellView: View {
                         KFImage.url(imageUrl)
                             .resizable()
                             .scaledToFill()
-                            .frame(width: 50, height: 50)
-                            .cornerRadius(50)
-                            .padding(.horizontal)
+                            .frame(width: 44, height: 44)
+                            .cornerRadius(44)
+                            .padding(.leading)
                     } else {
                         Image("defaultProfile")
                             .resizable()
                             .scaledToFill()
-                            .frame(width: 50, height: 50)
-                            .cornerRadius(50)
-                            .padding(.horizontal)
+                            .frame(width: 44, height: 44)
+                            .cornerRadius(44)
+                            .padding(.leading)
                     }
                     
                     VStack(alignment: .leading, spacing: 3) {
                         Text(cellUserId)
-                            .font(.system(size: 14, weight: .semibold))
+                            .font(.system(size: 12, weight: .medium))
                             .foregroundStyle(.white)
+                            .padding(.leading, 4)
+                        
                         if !followerUsername.isEmpty {
                             Text(followerUsername)
                                 .font(.system(size: 12, weight: .regular))
                                 .foregroundStyle(Color(.systemGray))
+                                .padding(.leading, 4)
                         }
                     } //: VSTACK
                 }
             }
             
             Spacer()
+            
+            switch followerType {
+            case .surfer:
+                Button {
+                    showingSurferModal.toggle()
+                } label: {
+                    ZStack {
+                        RoundedRectangle(cornerRadius:6)
+                            .stroke(.gray, lineWidth: 1)
+                            .frame(width: 78, height: 28)
+                        Text("서퍼 해제")
+                            .font(.system(size: 12))
+                            .fontWeight(.medium)
+                            .foregroundStyle(.gray)
+                    }
+                    .sheet(isPresented: $showingSurferModal) {
+                        FollowerModalAlert(followerUsername: "\(cellUserId)님을 서퍼 해제하시겠어요?",
+                                           followerProfileUrl: followerProfileUrl,
+                                           buttonText1: "서퍼 해제",
+                                           onButton1: { await updateFollowData.removeSurfer(id: cellUserId)})
+                        .presentationDetents([.fraction(0.4)])
+                        
+                    }
+                }
+                .padding(.trailing, 6)
+                
+            case .follower:
+                Button {
+                    Task {
+                        await updateFollowData.registerSurfer(id: cellUserId)
+                        await UpdatePushNotiData().pushNoti(receiveUser: profileUser!, type: .surfer)
+                    }
+                } label: {
+                    ZStack {
+                        RoundedRectangle(cornerRadius:6)
+                            .stroke(.gray, lineWidth: 1)
+                            .frame(width: 78, height: 28)
+                        Text("서퍼 등록")
+                            .font(.system(size: 12))
+                            .fontWeight(.medium)
+                            .foregroundStyle(.white)
+                    }
+                }
+                .padding(.trailing, 6)
+            }
             
             Button {
                 showingModal.toggle()
@@ -83,27 +132,13 @@ struct FollowerUserCellView: View {
                     .padding(.trailing)
             }
             .sheet(isPresented: $showingModal) {
-                switch followerType {
-                case .surfer:
-                    FollowerModalAlert(followerUsername: cellUserId,
-                                       followerProfileUrl: followerProfileUrl,
-                                       buttonText1: "서퍼 해제",
-                                       onButton1: { await updateFollowData.removeSurfer(id: cellUserId)})
-                    .presentationDetents([.fraction(0.4)])
-                case .follower:
-                    FollowerModalAlert(followerUsername: cellUserId,
-                                       followerProfileUrl: followerProfileUrl,
-                                       buttonText1: "서퍼 등록",
-                                       buttonText2: "팔로워 삭제",
-                                       onButton1: {
-                        await updateFollowData.registerSurfer(id: cellUserId)
-                        await UpdatePushNotiData().pushNoti(receiveUser: profileUser!, type: .surfer)
-                    },
-                                       onButton2: { 
-                        await updateFollowData.removeFollower(id: cellUserId)
-                    })
-                    .presentationDetents([.fraction(0.4)])
-                }
+                FollowerModalAlert(followerUsername: "\(cellUserId)님을 팔로워에서 삭제하시겠어요?",
+                                   followerProfileUrl: followerProfileUrl,
+                                   buttonText1: "팔로워 삭제",
+                                   onButton1: {
+                    await updateFollowData.removeFollower(id: cellUserId)
+                })
+                .presentationDetents([.fraction(0.4)])
             }
            
         } // :HSTACK

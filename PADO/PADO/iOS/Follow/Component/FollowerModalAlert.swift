@@ -34,9 +34,11 @@ struct FollowerModalAlert: View {
                     
                     Text(followerUsername)
                         .font(.system(size: 12))
-                        .fontWeight(.semibold)
+                        .fontWeight(.medium)
                     
                     Divider()
+                        .frame(width: UIScreen.main.bounds.width)
+                        .padding(.vertical, 4)
                     
                     Button {
                         if let onButton1 = onButton1 {
@@ -49,25 +51,11 @@ struct FollowerModalAlert: View {
                         Text(buttonText1)
                             .font(.system(size: 14))
                             .fontWeight(.regular)
-                    }
-                    
-                    Divider()
-                    
-                    if let buttonText = buttonText2,
-                       let onButton2 = onButton2 {
-                        Button {
-                            Task {
-                                await onButton2()
-                            }
-                        } label: {
-                            Text(buttonText)
-                                .font(.system(size: 14))
-                                .fontWeight(.regular)
-                        }
+                            .foregroundStyle(.red)
                     }
                 }
                 .foregroundStyle(Color.white)
-                .padding(30)
+                .padding(15)
             }
             .frame(width: width * 0.9)
             .background(Color.modal)

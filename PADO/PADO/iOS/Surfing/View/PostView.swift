@@ -147,10 +147,9 @@ struct PostView: View {
                                                                                                     surfingID: followVM.selectSurfingID)
                                 await surfingVM.postRequest(imageURL: uploadedImageUrl,
                                                             surfingID: followVM.selectSurfingID)
-                                await profileVM.fetchPadoPosts(id: userNameID)
-                                await profileVM.fetchSendPadoPosts(id: userNameID)
+            
                                 postOwner = await UpdateUserData.shared.getOthersProfileDatas(id: followVM.selectSurfingID)
-                                await UpdatePushNotiData().pushNoti(receiveUser: postOwner!, type: .requestSurfing)
+                                await UpdatePushNotiData.shared.pushPostNoti(targetPostID: formattedPostingTitle, receiveUser: postOwner!, type: .requestSurfing, message: "\($surfingVM.postingTitle)") // 예시 postID 넣어둠
                                 surfingVM.resetImage()
                                 feedVM.findFollowingUsers()
                                 followVM.selectSurfingID = ""

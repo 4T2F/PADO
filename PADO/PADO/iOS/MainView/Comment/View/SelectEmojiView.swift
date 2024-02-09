@@ -17,7 +17,9 @@ let emojiColors: [String: Color] = [
 ]
 
 struct SelectEmojiView: View {
-    @ObservedObject var feedVM: FeedViewModel
+    @ObservedObject var commentVM: CommentViewModel
+    
+    @Binding var postOwner: User
     
     let postID: String
     let emojis = ["None", "👍", "🥰", "🤣", "😡", "😢"]
@@ -28,15 +30,15 @@ struct SelectEmojiView: View {
             ZStack {
                 Circle()
                     .fill(.black)
-                    .stroke(emojiColors[feedVM.selectedEmoji, default: .white], lineWidth: 3.0)
+                    .stroke(emojiColors[commentVM.selectedEmoji, default: .white], lineWidth: 3.0)
                     .frame(width: 102, height: 102)
                 
-                feedVM.cropMojiImage
+                commentVM.cropMojiImage
                     .resizable()
                     .frame(width: 100, height: 100)
                 
-                if feedVM.selectedEmoji != "None" {
-                    Text(feedVM.selectedEmoji)
+                if commentVM.selectedEmoji != "None" {
+                    Text(commentVM.selectedEmoji)
                         .offset(x: 40, y: 35)
                 }
             }
@@ -57,7 +59,7 @@ struct SelectEmojiView: View {
                 HStack {
                     ForEach(chunk, id: \.self) { emoji in
                         Button(action: {
-                            feedVM.selectedEmoji = emoji
+                            commentVM.selectedEmoji = emoji
                         }) {
                             if emoji == "None" {
                                 Text(emoji)
@@ -78,17 +80,18 @@ struct SelectEmojiView: View {
     var submitButton: some View {
         Button(action: {
             Task {
-                await feedVM.updateFacemojiData.updateEmoji(documentID: postID, emoji: feedVM.selectedEmoji)
-                if let cropImage = feedVM.cropMojiUIImage {
-                    try await feedVM.updateFacemojiData.updateFaceMoji(cropMojiUIImage: cropImage,
+                await commentVM.updateFacemojiData.updateEmoji(documentID: postID,
+                                                               emoji: commentVM.selectedEmoji)
+                if let cropImage = commentVM.cropMojiUIImage {
+                    try await commentVM.updateFacemojiData.updateFaceMoji(cropMojiUIImage: cropImage,
                                                                        documentID: postID,
-                                                                       selectedEmoji: feedVM.selectedEmoji)
+                                                                       selectedEmoji: commentVM.selectedEmoji)
                 }
-                feedVM.facemojies = try await feedVM.updateFacemojiData.getFaceMoji(documentID: postID) ?? []
-//                await feedVM.updatePushNotiData.pushNoti(receiveUser: postOwner, type: .facemoji)
+                commentVM.facemojies = try await commentVM.updateFacemojiData.getFaceMoji(documentID: postID) ?? []
+                await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID, receiveUser: postOwner, type: .facemoji, message: "")
             }
-            feedVM.showEmojiView = false
-            feedVM.showCropFaceMoji = false
+            commentVM.showEmojiView = false
+            commentVM.showCropFaceMoji = false
         }) {
             Text("페이스모지 올리기")
                 .font(.system(size: 16, weight: .semibold))

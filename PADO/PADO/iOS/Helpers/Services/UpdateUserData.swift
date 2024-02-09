@@ -29,6 +29,7 @@ class UpdateUserData {
     
     @MainActor
     func getOthersProfileDatas(id: String) async -> User? {
+        guard !id.isEmpty else { return nil }
         do {
             let querySnapshot = try await Firestore.firestore().collection("users").document(id).getDocument()
             

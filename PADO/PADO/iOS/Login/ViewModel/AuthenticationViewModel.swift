@@ -26,8 +26,6 @@ class AuthenticationViewModel: ObservableObject {
     @Published var showAlert = false
     @Published var isExisted = false
     
-    @Published var selectFilter: FeedFilter = .following
-    
     // 탭바 이동관련 변수
     @Published var showTab: Int = 0
     
@@ -44,6 +42,9 @@ class AuthenticationViewModel: ObservableObject {
     @Published var backimagePick: Bool = false
     @Published var changedValue: Bool = false
     @Published var showProfileModal: Bool = false
+    
+    // MARK: - SettingNoti
+    @Published var alertAccept = ""
     
     @Published var birthDate = Date() {
         didSet {
@@ -102,7 +103,7 @@ class AuthenticationViewModel: ObservableObject {
     var areBothSocialAccountsRegistered: Bool {
         !(currentUser?.instaAddress ?? "").isEmpty && !(currentUser?.tiktokAddress ?? "").isEmpty
     }
-
+    
     // MARK: - 인증 관련
     func sendOtp() async {
         // OTP 발송
@@ -151,7 +152,7 @@ class AuthenticationViewModel: ObservableObject {
             "date": year,
             "phoneNumber": "+82\(phoneNumber)",
             "fcmToken": userToken,
-            "alertAccept": userAlertAccept,
+            "alertAccept": "",
             "instaAddress": "",
             "tiktokAddress": ""
         ]
@@ -165,7 +166,7 @@ class AuthenticationViewModel: ObservableObject {
         
         do {
             try await Firestore.firestore().collection("users").document(nameID).setData(data)
-
+            
             currentUser = User(
                 id: userId,
                 username: "",
@@ -174,7 +175,7 @@ class AuthenticationViewModel: ObservableObject {
                 date: year,
                 phoneNumber: "+82\(phoneNumber)",
                 fcmToken: userToken,
-                alertAccept: userAlertAccept,
+                alertAccept: "",
                 instaAddress: "",
                 tiktokAddress: ""
             )
@@ -221,6 +222,7 @@ class AuthenticationViewModel: ObservableObject {
     // MARK: - 사용자 데이터 관리
     func initializeUser() async {
         // 사용자 초기화
+
         guard Auth.auth().currentUser?.uid != nil else { return }
         await fetchUser()
     }
@@ -228,7 +230,7 @@ class AuthenticationViewModel: ObservableObject {
     func signOut() {
         do {
             try Auth.auth().signOut()
-         
+            
             nameID = ""
             userNameID = ""
             year = ""
@@ -318,31 +320,11 @@ class AuthenticationViewModel: ObservableObject {
         }
     }
     
-    func fetchNameID() async {
-        guard let id = Auth.auth().currentUser?.uid else { return }
-        
-        let query = Firestore.firestore().collection("users").whereField("id", isEqualTo: id)
-        
-        do {
-            let querySnapshot = try await query.getDocuments()
-            for document in querySnapshot.documents {
-                if let temp = document.data()["nameID"] {
-                    userNameID = temp as? String ?? ""
-                }
-            }
-        } catch {
-            print("Error getting documents: \(error)")
-        }
-    }
-    
     func fetchUser() async {
         // 사용자 데이터 불러오기
-
         do {
-           
             try await Firestore.firestore().collection("users").document(userNameID).updateData([
                 "fcmToken": userToken,
-                "alertAccept": userAlertAccept
             ])
             
             let snapshot = try await Firestore.firestore().collection("users").document(userNameID).getDocument()
@@ -428,5 +410,19 @@ class AuthenticationViewModel: ObservableObject {
         
         changedValue = isUsernameChanged || isInstaAddressChanged || isTiktokAddressChanged || imagePick || backimagePick
         
+    }
+    
+    func updateAlertAcceptance(newStatus: Bool) async {
+        let alertAccept = newStatus ? "yes" : "no"
+        
+        do {
+            try await UpdateUserData.shared.updateUserData(initialUserData: ["alertAccept": alertAccept])
+        } catch {
+            print("알림 설정 업데이트 중 오류 발생: \(error)")
+        }
+    }
+    
+    func fetchUserAlertAcceptance() {
+        alertAccept = currentUser?.alertAccept ?? ""
     }
 }

@@ -25,7 +25,7 @@ struct FollowingView: View {
             followVM.searchFollowers(with: $0, type: SearchFollowType.following)
         }
         ZStack {
-            Color.black.ignoresSafeArea()
+            Color.main.ignoresSafeArea()
             VStack {
                 VStack {
                     SearchBar(text: searchTextBinding,
