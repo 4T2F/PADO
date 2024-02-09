@@ -24,9 +24,9 @@ struct FeedView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-            CustomRefreshView(showsIndicator: false,
-                              lottieFileName: "Wave",
-                              scrollDelegate: scrollDelegate) {
+                CustomRefreshView(showsIndicator: false,
+                                  lottieFileName: "Wave",
+                                  scrollDelegate: scrollDelegate) {
                     if selectedFilter == .following {
                         LazyVStack(spacing:0) {
                             ForEach(feedVM.followingPosts.indices, id: \.self) { index in
@@ -58,16 +58,18 @@ struct FeedView: View {
                             }
                         }
                     }
-            } onRefresh: {
-                try? await Task.sleep(nanoseconds: 1_500_000_000)
-                if selectedFilter == FeedFilter.following {
-                    feedVM.findFollowingUsers()
-                } else {
-                    Task{
-                        await feedVM.fetchTodayPadoPosts()
+                } onRefresh: {
+                    try? await Task.sleep(nanoseconds: 1_500_000_000)
+                    if selectedFilter == FeedFilter.following {
+                        feedVM.findFollowingUsers()
+                    } else {
+                        Task{
+                            await feedVM.fetchTodayPadoPosts()
+                        }
                     }
                 }
-            }
+                .scrollDisabled(feedVM.isShowingPadoRide)
+               
                 VStack {
                     if scrollDelegate.scrollOffset < 5 {
                         FeedHeaderCell(selectedFilter: $selectedFilter)
