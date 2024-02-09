@@ -44,6 +44,7 @@ struct FeedView: View {
                                     }
                                 }
                             }
+                            .scrollTargetLayout()
                         }
                     } else {
                         LazyVStack(spacing:0) {

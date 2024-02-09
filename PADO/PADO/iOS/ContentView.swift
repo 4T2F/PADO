@@ -20,6 +20,7 @@ struct ContentView: View {
     @StateObject var searchVM = SearchViewModel()
     @StateObject var profileVM = ProfileViewModel()
     @StateObject var postitVM = PostitViewModel()
+    @StateObject var padorideVM = PadoRideViewModel()
     
     init() {
         let appearance = UITabBarAppearance()
@@ -64,11 +65,11 @@ struct ContentView: View {
             }
             .onAppear { viewModel.showTab = 2 }
             .tag(2)
-            SwiftUIView()
+            PadoRideView(followVM: followVM, padorideVM: padorideVM)
                 .tabItem {
                     Image(viewModel.showTab == 3 ? "today_light" : "today_gray")
                     
-                    Text("임시용")
+                    Text("파도타기")
                 }
                 .onAppear { viewModel.showTab = 3 }
                 .tag(3)
@@ -99,4 +100,3 @@ struct ContentView: View {
         }
     }
 }
-
