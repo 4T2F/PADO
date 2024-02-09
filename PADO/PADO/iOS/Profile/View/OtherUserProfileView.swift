@@ -159,7 +159,7 @@ struct OtherUserProfileView: View {
                                                         .frame(width: 40, height: 40)
                                                 }
                                         }
-                                        .offset(x: +46, y: -30)
+                                        .offset(x: +46, y: -5)
                                     }
                             }
                             
