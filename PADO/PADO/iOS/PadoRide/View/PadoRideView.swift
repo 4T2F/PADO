@@ -37,7 +37,7 @@ struct PadoRideView: View {
                 } else {
                     Button {
                         padorideVM.downloadSelectedImage()
-                        isShowingEditView.toggle()
+                        isShowingEditView = true
                     } label: {
                         Text("다음")
                             .foregroundStyle(.white)

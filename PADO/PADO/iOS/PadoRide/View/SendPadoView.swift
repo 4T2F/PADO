@@ -13,6 +13,8 @@ struct SendPadoView: View {
     @ObservedObject var padorideVM: PadoRideViewModel
     @State private var surfingUser: User?
     
+    @Environment (\.dismiss) var dismiss
+    
     // MARK: - BODY
     var body: some View {
         VStack {
@@ -25,11 +27,12 @@ struct SendPadoView: View {
             .padding()
             
             Button {
+                padorideVM.showingModal = false
                 Task {
-                    print("123123")
-                    await padorideVM.sendPostAtStorage()
-                    print("123123")
+                    await padorideVM.sendPostAtFirebase()
+                    padorideVM.cancelImageEditing()
                 }
+                dismiss()
             } label: {
                 ZStack {
                     RoundedRectangle(cornerRadius: 8)

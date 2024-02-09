@@ -61,19 +61,19 @@ class PadoRideViewModel: ObservableObject {
     }
     
     @MainActor
-        func cancelTextView() async {
-            
-            self.toolPicker.setVisible(true, forFirstResponder: self.canvas)
-            self.canvas.becomeFirstResponder()
-           
-            withAnimation {
-                addNewBox = false
-            }
-            
-            if textBoxes[currentIndex].isAdded {
-                textBoxes.removeLast()
-            }
+    func cancelTextView() async {
+        
+        self.toolPicker.setVisible(true, forFirstResponder: self.canvas)
+        self.canvas.becomeFirstResponder()
+        
+        withAnimation {
+            addNewBox = false
         }
+        
+        if textBoxes[currentIndex].isAdded {
+            textBoxes.removeLast()
+        }
+    }
     
     // 특정 ID들에 대한 포스트 데이터를 미리 로드
     func preloadPostsData(for ids: [String]) async {
@@ -119,7 +119,7 @@ class PadoRideViewModel: ObservableObject {
         }
     }
     
-    func sendPostAtStorage() async {
+    func sendPostAtFirebase() async {
         let filename = "\(userNameID)-\(String(describing: selectedPost?.id ?? ""))"
         
         let storageRef = Storage.storage().reference(withPath: "/pado_ride/\(filename)")
@@ -135,9 +135,8 @@ class PadoRideViewModel: ObservableObject {
                 .collection("padoride")
                 .document(userNameID)
                 .setData(
-                    ["OwnerUid" : "11",
-                     "imageUrl" : url.absoluteString,
-                     "fdsfsd" : "111",
+                    ["imageUrl" : url.absoluteString,
+                     "storageFileName" : "\(userNameID)-\(String(describing: selectedPost?.id ?? ""))",
                      "time" : Timestamp()]
                 )
             
