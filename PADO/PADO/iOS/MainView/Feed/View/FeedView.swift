@@ -54,12 +54,6 @@ struct FeedView: View {
                                          updateHeartData: updateHeartData,
                                          post: $feedVM.todayPadoPosts[index])
                                 .id(index)
- 
-                            }
-                        }
-                        .onAppear {
-                            Task {
-                                await feedVM.fetchTodayPadoPosts()
                             }
                         }
                     }

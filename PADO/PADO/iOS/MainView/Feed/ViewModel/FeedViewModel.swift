@@ -12,7 +12,7 @@ import SwiftUI
 
 @MainActor
 class FeedViewModel:Identifiable ,ObservableObject {
-    
+
     // MARK: - feed관련
     @Published var isShowingReportView = false
     @Published var isShowingCommentView = false
@@ -35,7 +35,10 @@ class FeedViewModel:Identifiable ,ObservableObject {
     
     init() {
         // Firestore의 `post` 컬렉션에 대한 실시간 리스너 설정
-        findFollowingUsers()
+        Task {
+            findFollowingUsers()
+            await fetchTodayPadoPosts()
+        }
     }
     
     func findFollowingUsers() {
@@ -84,8 +87,8 @@ class FeedViewModel:Identifiable ,ObservableObject {
            // Date 객체를 Timestamp로 변환
         let twoDaysAgoTimestamp = Timestamp(date: twoDaysAgo)
         
-  
         let query = db.collection("post")
+            .whereField("ownerUid", in: followingUsers)
             .whereField("created_Time", isGreaterThanOrEqualTo: twoDaysAgoTimestamp)
             .order(by: "created_Time", descending: true)
             .limit(to: 5)
@@ -93,8 +96,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
         do {
                let documents = try await getDocumentsAsync(collection: db.collection("post"), query: query)
                let filteredDocuments = documents.compactMap { document -> DocumentSnapshot? in
-                   guard let post = try? document.data(as: Post.self),
-                         followingUsers.contains(post.ownerUid) else {
+                   guard let post = try? document.data(as: Post.self) else {
                        return nil
                    }
                    return document
@@ -102,9 +104,13 @@ class FeedViewModel:Identifiable ,ObservableObject {
 
                self.lastFollowFetchedDocument = filteredDocuments.last
 
-               self.followingPosts = filteredDocuments.compactMap { document in
+               let fetchedFollowingPosts = filteredDocuments.compactMap { document in
                    try? document.data(as: Post.self)
                }
+            
+            self.followingPosts = fetchedFollowingPosts.sorted {
+                $0.created_Time.dateValue() > $1.created_Time.dateValue()
+            }
 
                for document in filteredDocuments {
                    guard let post = try? document.data(as: Post.self) else { continue }
