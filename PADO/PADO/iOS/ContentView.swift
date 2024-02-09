@@ -19,6 +19,7 @@ struct ContentView: View {
     @StateObject var followVM = FollowViewModel()
     @StateObject var searchVM = SearchViewModel()
     @StateObject var profileVM = ProfileViewModel()
+    @StateObject var notiVM = NotificationViewModel()
     
     init() {
         let appearance = UITabBarAppearance()
@@ -30,10 +31,12 @@ struct ContentView: View {
     
     var body: some View {
         TabView(selection: $viewModel.showTab) {
-            FeedView(selectedFilter: $selectedFilter,         feedVM: feedVM,
-                       surfingVM: surfingVM,
-                       profileVM: profileVM,
-                       followVM: followVM)
+            FeedView(selectedFilter: $selectedFilter,         
+                     feedVM: feedVM,
+                     surfingVM: surfingVM,
+                     profileVM: profileVM,
+                     followVM: followVM,
+                     notiVM: notiVM)
             .tabItem {
                 Image(viewModel.showTab == 0 ? "home_light" : "home_gray")
                 
@@ -89,6 +92,7 @@ struct ContentView: View {
                 followVM.profileFollowId = userNameID
                 followVM.initializeFollowFetch()
                 await profileVM.fetchPostID(id: userNameID)
+                await notiVM.fetchNotifications()
             }
         }
     }
