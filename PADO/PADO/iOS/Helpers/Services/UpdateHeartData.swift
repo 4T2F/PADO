@@ -84,12 +84,13 @@ class UpdateHeartData {
     }
     
     func checkHeartExists(documentID: String) async -> Bool {
-        let heartDocRef = db.collection("post").document(documentID).collection("heart").document(userNameID) // 로그아웃할때 여기서 튕김
+        guard !userNameID.isEmpty else { return false }
         
         do {
-            let documentSnapshot = try await heartDocRef.getDocument()
+            let documentSnapshot = try await db.collection("post").document(documentID).collection("heart").document(userNameID).getDocument()
             // 문서가 존재하지 않으면 false, 존재하면 true 반환
             return documentSnapshot.exists
+                
         } catch {
             print("Error checking heart document: \(error)")
             return false

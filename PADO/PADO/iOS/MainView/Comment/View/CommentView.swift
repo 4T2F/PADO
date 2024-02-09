@@ -9,13 +9,13 @@ import SwiftUI
 
 struct CommentView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
-    @ObservedObject var feedVM: FeedViewModel
-    @ObservedObject var surfingVM: SurfingViewModel
+    @StateObject var commentVM = CommentViewModel()
     
     @Binding var isShowingCommentView: Bool
     
     @FocusState private var isTextFieldFocused: Bool
     @State private var commentText: String = ""
+    @State private var isFocused: Bool = false
     @State var postUser: User
     
     let post: Post
@@ -27,8 +27,7 @@ struct CommentView: View {
                 ScrollViewReader { value in
                     VStack {
                         if let postID = post.id {
-                            FaceMojiView(feedVM: feedVM,
-                                         surfingVM: surfingVM,
+                            FaceMojiView(commentVM: commentVM,
                                          postOwner: $postUser,
                                          post: post,
                                          postID: postID)
@@ -42,9 +41,9 @@ struct CommentView: View {
                     .padding(.top)
                     
                     VStack(alignment: .leading) {
-                        if !feedVM.comments.isEmpty, let postID = post.id {
-                            ForEach(feedVM.comments) { comment in
-                                CommentCell(comment: comment, feedVM: feedVM, postID: postID)
+                        if !commentVM.comments.isEmpty, let postID = post.id {
+                            ForEach(commentVM.comments) { comment in
+                                CommentCell(comment: comment, commentVM: commentVM, postID: postID)
                                     .id(comment.id)
                                     .padding(.horizontal, 10)
                                     .padding(.bottom, 20)
@@ -72,12 +71,16 @@ struct CommentView: View {
                     Button {
                         isShowingCommentView = false
                     } label: {
-                        Text("취소")
+                        Image(systemName: "chevron.left")
+                            .font(.system(size: 14))
+                        
+                        Text("뒤로")
                             .font(.system(size: 16))
                     }
                 }
             }
             .toolbarBackground(Color(.main), for: .navigationBar)
+            .navigationBarBackButtonHidden()
             .offset(y: -7)
             
             HStack {
@@ -86,11 +89,8 @@ struct CommentView: View {
                 }
                 
                 HStack {
-                    TextField("\(userNameID)(으)로 댓글 남기기...",
-                              text: $commentText,
-                              axis: .vertical) // 세로 축으로 동적 높이 조절 활성화
-                    .font(.system(size: 14))
-                    .tint(Color(.systemBlue))
+                    RepresentableTextField(placeHolderString: "\(userNameID)(으)로 댓글 남기기...", keyboardType: .default, text: $commentText, isFocused: $isFocused)
+                        .tint(Color(.systemBlue).opacity(0.7))
                     .focused($isTextFieldFocused)
                     .onAppear {
                         isTextFieldFocused = true
@@ -100,12 +100,15 @@ struct CommentView: View {
                         Button {
                             Task {
                                 if let postID = post.id {
-                                    await feedVM.updatePushNotiData.pushPostNoti(targetPostID: postID, receiveUser: postUser, type: .comment, message: commentText)
-                                    await feedVM.updateCommentData.writeComment(documentID: postID,
+                                    await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID,
+                                                                                 receiveUser: postUser,
+                                                                                 type: .comment,
+                                                                                 message: commentText)
+                                    await commentVM.updateCommentData.writeComment(documentID: postID,
                                                                                 imageUrl: viewModel.currentUser?.profileImageUrl ?? "",
                                                                                 inputcomment: commentText)
-                                    if let fetchedComments = await feedVM.updateCommentData.getCommentsDocument(postID: postID) {
-                                        feedVM.comments = fetchedComments
+                                    if let fetchedComments = await commentVM.updateCommentData.getCommentsDocument(postID: postID) {
+                                        commentVM.comments = fetchedComments
                                     }
                                     commentText = ""
                                 }
@@ -144,10 +147,10 @@ struct CommentView: View {
         .onAppear {
             Task {
                 print(postUser)
-                feedVM.comments.removeAll()
+                commentVM.comments.removeAll()
                 if let postID = post.id {
-                    if let fetchedComments = await feedVM.updateCommentData.getCommentsDocument(postID: postID) {
-                        feedVM.comments = fetchedComments
+                    if let fetchedComments = await commentVM.updateCommentData.getCommentsDocument(postID: postID) {
+                        commentVM.comments = fetchedComments
                     }
                 }
                 //                try await feedVM.getFaceMoji()

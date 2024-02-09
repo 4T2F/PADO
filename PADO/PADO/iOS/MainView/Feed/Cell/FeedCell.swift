@@ -1,32 +1,35 @@
 //
-//  GridCell.swift
+//  FeedCell.swift
 //  PADO
 //
-//  Created by 강치우 on 2/7/24.
+//  Created by 최동호, 황민채 on 2/6/24.
 //
 
 import Firebase
 import FirebaseFirestoreSwift
-import Lottie
 import Kingfisher
+import Lottie
 import SwiftUI
 
-struct ReceivePostCell: View {
-    @ObservedObject var feedVM: FeedViewModel
-    @ObservedObject var profileVM: ProfileViewModel
-    @ObservedObject var surfingVM: SurfingViewModel
-    
+struct FeedCell: View {
     @State var heartLoading: Bool = false
+    @State var isLoading: Bool = false
     @State var isHeartCheck: Bool = false
     @State var postUser: User? = nil
+    @State var surferUser: User? = nil
     
     @State private var heartCounts: Int = 0
     @State private var commentCounts: Int = 0
     @State private var isShowingReportView: Bool = false
     @State private var isShowingCommentView: Bool = false
     
+    @ObservedObject var feedVM: FeedViewModel
+    @ObservedObject var surfingVM: SurfingViewModel
+    @ObservedObject var profileVM: ProfileViewModel
+    
+    
     let updateHeartData: UpdateHeartData
-    let post: Post
+    @Binding var post: Post
     
     var body: some View {
         ZStack {
@@ -34,10 +37,23 @@ struct ReceivePostCell: View {
                 .foregroundStyle(.black)
                 .containerRelativeFrame([.horizontal,.vertical])
                 .overlay {
+                    // MARK: - 사진
                     if let imageUrl = URL(string: post.imageUrl) {
                         ZStack {
                             KFImage.url(imageUrl)
                                 .resizable()
+                                .onSuccess { _ in
+                                    // 이미지 로딩 성공 시
+                                    isLoading = false
+                                }
+                                .onFailure { _ in
+                                    // 이미지 로딩 실패 시
+                                    isLoading = false
+                                }
+                                .onProgress { receivedSize, totalSize in
+                                    // 로딩 중
+                                    isLoading = true
+                                }
                                 .scaledToFill()
                                 .containerRelativeFrame([.horizontal,.vertical])
                         }
@@ -72,6 +88,11 @@ struct ReceivePostCell: View {
                                 .ignoresSafeArea()
                             }
                         }
+                        
+                        if isLoading { // feedVM에서 로딩 상태를 관리한다고 가정
+                            ProgressView()
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        }
                     }
                 }
             
@@ -79,31 +100,36 @@ struct ReceivePostCell: View {
                 Spacer()
                 
                 HStack(alignment: .bottom) {
-                    VStack(alignment: .leading, spacing: 4) {
-                        if post.title.isEmpty {
-                            HStack(alignment: .center, spacing: 8) {
-                                Text("\(post.surferUid)님에게 받은 파도")
-                                    .font(.system(size: 14))
-                                
-                                Text("\(post.created_Time.toFormattedString())")
-                                    .font(.system(size: 14))
-                                    .foregroundStyle(.white.opacity(0.7))
+                    // MARK: - 아이디 및 타이틀
+                    VStack(alignment: .leading, spacing: 10) {
+                        if let postUser = postUser, let surferUser = surferUser {
+                            CircularImageView(size: .small,
+                                              user: surferUser)
+                            .padding(.leading, 24)
+                            .overlay {
+                                CircularImageView(size: .small,
+                                                  user: postUser)
+                                .offset(x: -12)
                             }
-                        } else {
-                            HStack(alignment: .center, spacing: 8) {
-                                Text("\(post.surferUid)님에게 받은 파도")
-                                    .font(.system(size: 14))
-                                
-                                Text("\(post.created_Time.toFormattedString())")
-                                    .font(.system(size: 14))
-                                    .foregroundStyle(.white.opacity(0.7))
-                            }
-                            .padding(.bottom, 5)
-                            
-                            Text("\(post.title)")
-                                .font(.system(size: 16))
-                                .fontWeight(.medium)
                         }
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("@\(post.ownerUid)")
+                                .font(.title)
+                                .fontWeight(.bold)
+                            
+                            HStack(alignment: .center, spacing: 8) {
+                                Text("\(post.surferUid)님에게 받은 파도")
+                                    .font(.system(size: 14))
+                                
+                                Text("\(post.created_Time.formatDate(post.created_Time))")
+                                    .font(.system(size: 14))
+                                    .foregroundStyle(.white.opacity(0.7))
+                            }
+                        }
+                        .padding(.bottom, 5)
+                        
+                        Text("\(post.title)")
+                            .font(.system(size: 16))
                     }
                     .foregroundStyle(.white)
                     .padding(.bottom, 14)
@@ -138,6 +164,7 @@ struct ReceivePostCell: View {
                             
                             // MARK: - 하트
                             VStack(spacing: 10) {
+                                
                                 if isHeartCheck {
                                     Button {
                                         if !heartLoading {
@@ -167,12 +194,15 @@ struct ReceivePostCell: View {
                                     Button {
                                         if !heartLoading {
                                             Task {
+                                                let generator = UIImpactFeedbackGenerator(style: .light)
+                                                generator.impactOccurred()
+                                                
                                                 heartLoading = true
                                                 if let postID = post.id, let postUser = postUser {
                                                     await updateHeartData.addHeart(documentID: postID)
                                                     isHeartCheck = await updateHeartData.checkHeartExists(documentID: postID)
                                                     heartLoading = false
-                                                    await feedVM.updatePushNotiData.pushPostNoti(targetPostID: postID, receiveUser: postUser, type: .heart, message:"")
+                                                    await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID, receiveUser: postUser, type: .heart, message: "")
                                                 }
                                                 await profileVM.fetchHighlihts(id: userNameID)
                                                 
@@ -199,9 +229,7 @@ struct ReceivePostCell: View {
                                 }
                                 .sheet(isPresented: $isShowingCommentView) {
                                     if let postUser = postUser, let postID = post.id {
-                                        CommentView(feedVM: feedVM,
-                                                    surfingVM: surfingVM,
-                                                    isShowingCommentView: $isShowingCommentView,
+                                        CommentView(isShowingCommentView: $isShowingCommentView,
                                                     postUser: postUser,
                                                     post: post,
                                                     postID: postID)
@@ -246,6 +274,7 @@ struct ReceivePostCell: View {
         .onAppear {
             Task {
                 self.postUser = await UpdateUserData.shared.getOthersProfileDatas(id: post.ownerUid)
+                self.surferUser = await UpdateUserData.shared.getOthersProfileDatas(id: post.surferUid)
                 if let postID = post.id {
                     await fetchHeartCommentCounts(documentID: postID)
                     isHeartCheck = await updateHeartData.checkHeartExists(documentID: postID)

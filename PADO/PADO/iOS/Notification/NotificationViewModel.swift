@@ -16,6 +16,7 @@ class NotificationViewModel: ObservableObject {
     private let db = Firestore.firestore()
 
     func fetchNotifications() async {
+        guard !userNameID.isEmpty else { return }
         let notificationsRef = db.collection("users").document(userNameID).collection("notifications")
         do {
             let snapshot = try await notificationsRef.order(by: "createdAt", descending: true).getDocuments()

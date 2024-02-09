@@ -26,8 +26,6 @@ class AuthenticationViewModel: ObservableObject {
     @Published var showAlert = false
     @Published var isExisted = false
     
-    @Published var selectFilter: FeedFilter = .following
-    
     // 탭바 이동관련 변수
     @Published var showTab: Int = 0
     
@@ -224,6 +222,7 @@ class AuthenticationViewModel: ObservableObject {
     // MARK: - 사용자 데이터 관리
     func initializeUser() async {
         // 사용자 초기화
+
         guard Auth.auth().currentUser?.uid != nil else { return }
         await fetchUser()
     }
@@ -321,28 +320,9 @@ class AuthenticationViewModel: ObservableObject {
         }
     }
     
-    func fetchNameID() async {
-        guard let id = Auth.auth().currentUser?.uid else { return }
-        
-        let query = Firestore.firestore().collection("users").whereField("id", isEqualTo: id)
-        
-        do {
-            let querySnapshot = try await query.getDocuments()
-            for document in querySnapshot.documents {
-                if let temp = document.data()["nameID"] {
-                    userNameID = temp as? String ?? ""
-                }
-            }
-        } catch {
-            print("Error getting documents: \(error)")
-        }
-    }
-    
     func fetchUser() async {
         // 사용자 데이터 불러오기
-        
         do {
-            
             try await Firestore.firestore().collection("users").document(userNameID).updateData([
                 "fcmToken": userToken,
             ])
