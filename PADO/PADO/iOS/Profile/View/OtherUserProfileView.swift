@@ -6,6 +6,7 @@
 //
 
 import Kingfisher
+import Lottie
 import SwiftUI
 
 struct OtherUserProfileView: View {
@@ -13,6 +14,7 @@ struct OtherUserProfileView: View {
     
     @StateObject var profileVM = ProfileViewModel()
     @StateObject var followVM = FollowViewModel()
+    @StateObject var postitVM = PostitViewModel()
     @Namespace var animation
     
     @Environment(\.dismiss) var dismiss
@@ -24,6 +26,8 @@ struct OtherUserProfileView: View {
     @State private var isShowingReceiveDetail: Bool = false
     @State private var isShowingSendDetail: Bool = false
     @State private var isShowingHightlight: Bool = false
+    @State private var isShowingMessageView: Bool = false
+    
     @State private var selectedPostID: String?
     
     let updateFollowData: UpdateFollowData
@@ -96,6 +100,7 @@ struct OtherUserProfileView: View {
                 followVM.profileFollowId = user.nameID
                 followVM.initializeFollowFetch()
                 await profileVM.fetchPostID(id: user.nameID)
+                await postitVM.getMessageDocument(ownerID: user.nameID)
             }
         }
     }
@@ -123,9 +128,66 @@ struct OtherUserProfileView: View {
                             if !user.username.isEmpty {
                                 CircularImageView(size: .xLarge, user: user)
                                     .offset(y: 5)
+                                    .overlay {
+                                        Button {
+                                            isShowingMessageView = true
+                                        } label: {
+                                            Circle()
+                                                .frame(width: 30)
+                                                .foregroundStyle(.clear)
+                                                .overlay {
+                                                    if postitVM.messages.isEmpty {
+                                                        LottieView(animation: .named("nonePostit"))
+                                                            .paused(at: .progress(1))
+                                                            .resizable()
+                                                            .scaledToFit()
+                                                            .frame(width: 40, height: 40)
+                                                    } else {
+                                                        LottieView(animation: .named("Postit"))
+                                                            .looping()
+                                                            .resizable()
+                                                            .scaledToFit()
+                                                            .frame(width: 40, height: 40)
+                                                    }
+                                                }
+                                        }
+                                        .offset(x: +46, y: -30)
+                                        .sheet(isPresented: $isShowingMessageView) {
+                                            
+                                            PostitView(postitVM: postitVM,
+                                                       isShowingMessageView: $isShowingMessageView)
+                                            
+                                        }
+                                        .presentationDetents([.large])
+                                    }
                             } else {
                                 CircularImageView(size: .xLarge, user: user)
                                     .offset(y: 22)
+                                    .overlay {
+                                        Button {
+                                           //
+                                        } label: {
+                                            Circle()
+                                                .frame(width: 30)
+                                                .foregroundStyle(.clear)
+                                                .overlay {
+                                                    if postitVM.messages.isEmpty {
+                                                        LottieView(animation: .named("nonePostit"))
+                                                            .paused(at: .progress(1))
+                                                            .resizable()
+                                                            .scaledToFit()
+                                                            .frame(width: 40, height: 40)
+                                                    } else {
+                                                        LottieView(animation: .named("Postit"))
+                                                            .looping()
+                                                            .resizable()
+                                                            .scaledToFit()
+                                                            .frame(width: 40, height: 40)
+                                                    }
+                                                }
+                                        }
+                                        .offset(x: +46, y: -5)
+                                    }
                             }
                             
                             HStack(alignment: .center, spacing: 5) {

@@ -19,6 +19,7 @@ struct ContentView: View {
     @StateObject var followVM = FollowViewModel()
     @StateObject var searchVM = SearchViewModel()
     @StateObject var profileVM = ProfileViewModel()
+    @StateObject var postitVM = PostitViewModel()
     
     init() {
         let appearance = UITabBarAppearance()
@@ -73,7 +74,11 @@ struct ContentView: View {
                 .tag(3)
             
             if let user = viewModel.currentUser {
-                ProfileView(profileVM: profileVM, followVM: followVM, feedVM: feedVM, user: user)
+                ProfileView(profileVM: profileVM,
+                            followVM: followVM,
+                            feedVM: feedVM,
+                            postitVM: postitVM,
+                            user: user)
                     .tabItem {
                         Image(viewModel.showTab == 4 ? "profile_light" : "profile_gray")
                         
@@ -89,6 +94,7 @@ struct ContentView: View {
                 followVM.profileFollowId = userNameID
                 followVM.initializeFollowFetch()
                 await profileVM.fetchPostID(id: userNameID)
+                await postitVM.getMessageDocument(ownerID: userNameID)
             }
         }
     }
