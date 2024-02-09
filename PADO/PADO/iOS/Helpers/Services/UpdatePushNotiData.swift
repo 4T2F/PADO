@@ -19,6 +19,7 @@ enum PostNotiType {
 enum NotiType {
     case follow
     case surfer
+    case postit
 }
 
 class UpdatePushNotiData {
@@ -92,6 +93,17 @@ class UpdatePushNotiData {
                     toFCMToken: receiveUser.fcmToken,
                     title: "PADO",
                     body: "\(userNameID)님이 회원님을 서퍼🏄🏼‍♀️로 지정했습니다"
+                )
+            }
+        case .postit:
+            if receiveUser.nameID != userNameID {
+                await createNoti(userId: receiveUser.nameID, type: "postit")
+            }
+            if receiveUser.nameID != userNameID && receiveUser.alertAccept == "yes" {
+                PushNotificationManager.shared.sendPushNotification(
+                    toFCMToken: receiveUser.fcmToken,
+                    title: "PADO",
+                    body: "\(userNameID)님이 회원님의 방명록에 글을 남겼습니다"
                 )
             }
         }
