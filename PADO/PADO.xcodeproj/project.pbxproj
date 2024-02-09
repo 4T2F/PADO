@@ -90,7 +90,6 @@
 		6302CFC42B73E40900E5B7CE /* OtherSelectPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6302CFC32B73E40900E5B7CE /* OtherSelectPostView.swift */; };
 		6302CFC62B73E41600E5B7CE /* OtherSelectPostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6302CFC52B73E41600E5B7CE /* OtherSelectPostCell.swift */; };
 		632711D02B75339E00E8E59A /* RepresentableTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632711CF2B75339E00E8E59A /* RepresentableTextField.swift */; };
-		63283DA82B7256A800A42C0F /* SwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63283DA72B7256A800A42C0F /* SwiftUIView.swift */; };
 		63283DB92B73BDF700A42C0F /* SelectPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63283DB82B73BDF700A42C0F /* SelectPostView.swift */; };
 		63283DBB2B73BE0100A42C0F /* SelectPostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63283DBA2B73BE0100A42C0F /* SelectPostCell.swift */; };
 		6346F7D92B6606A3009C752A /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 6346F7D82B6606A3009C752A /* Lottie */; };
