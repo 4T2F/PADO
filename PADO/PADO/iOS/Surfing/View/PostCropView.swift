@@ -29,54 +29,54 @@ struct PostCropView: View {
     var onCrop: (UIImage?, Bool) -> Void
     
     var body: some View {
-        NavigationStack {
-            imageView()
-                .navigationTitle("편집")
-                .navigationBarTitleDisplayMode(.inline)
-                .navigationBarBackButtonHidden()
-                .toolbarBackground(.visible, for: .navigationBar)
-                .toolbarBackground(Color.black, for: .navigationBar)
-                .toolbarColorScheme(.dark, for: .navigationBar)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background {
-                    Color.black
-                        .ignoresSafeArea()
-                }
-                .toolbar {
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Button {
-                            let renderer = ImageRenderer(content: imageView(true))
-                            renderer.scale = 3
-                            renderer.proposedSize = .init(crop.size())
-                            if let image = renderer.uiImage {
-                                onCrop(image, true)
-                                surfingVM.postingUIImage = image
-                                if let uiImage = surfingVM.postingUIImage {
-                                    surfingVM.postingImage = Image(uiImage: uiImage)
-                                }
-                                surfingVM.showPostView.toggle()
-                            } else {
-                                onCrop(nil, false)
+        
+        imageView()
+            .navigationTitle("편집")
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarBackButtonHidden()
+            .toolbarBackground(.visible, for: .navigationBar)
+            .toolbarBackground(Color.black, for: .navigationBar)
+            .toolbarColorScheme(.dark, for: .navigationBar)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background {
+                Color.black
+                    .ignoresSafeArea()
+            }
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        let renderer = ImageRenderer(content: imageView(true))
+                        renderer.scale = 3
+                        renderer.proposedSize = .init(crop.size())
+                        if let image = renderer.uiImage {
+                            onCrop(image, true)
+                            surfingVM.postingUIImage = image
+                            if let uiImage = surfingVM.postingUIImage {
+                                surfingVM.postingImage = Image(uiImage: uiImage)
                             }
-                        } label: {
-                            Text("다음")
-                                .font(.system(size: 16, weight: .semibold))
+                            surfingVM.showPostView.toggle()
+                        } else {
+                            onCrop(nil, false)
                         }
-                    }
-                    
-                    ToolbarItem(placement: .topBarLeading) {
-                        Button {
-                            surfingVM.resetImage()
-                            dismiss()
-                        } label: {
-                            Image("dismissArrow")
-                        }
+                    } label: {
+                        Text("다음")
+                            .font(.system(size: 16, weight: .semibold))
                     }
                 }
-        }
-        .navigationDestination(isPresented: $surfingVM.showPostView) {
-            PostView(surfingVM: surfingVM, feedVM: feedVM, profileVM: profileVM, followVM: followVM)
-        }
+                
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        surfingVM.resetImage()
+                        dismiss()
+                    } label: {
+                        Image("dismissArrow")
+                    }
+                }
+            }
+        
+            .navigationDestination(isPresented: $surfingVM.showPostView) {
+                PostView(surfingVM: surfingVM, feedVM: feedVM, profileVM: profileVM, followVM: followVM)
+            }
     }
     
     // 이미지 뷰를 구성하는 함수

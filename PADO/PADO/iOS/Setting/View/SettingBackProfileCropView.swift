@@ -65,6 +65,7 @@ struct SettingBackProfileCropView: View {
                 
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
+                        viewModel.backSelectImage = nil
                         viewModel.showingSettingProfileView.toggle()
                     } label: {
                         Image("dismissArrow")

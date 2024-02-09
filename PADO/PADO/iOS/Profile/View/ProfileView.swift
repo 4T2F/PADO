@@ -6,6 +6,7 @@
 //
 
 import Kingfisher
+import Lottie
 import SwiftUI
 
 struct ProfileView: View {
@@ -14,6 +15,7 @@ struct ProfileView: View {
     @ObservedObject var profileVM: ProfileViewModel
     @ObservedObject var followVM: FollowViewModel
     @ObservedObject var feedVM: FeedViewModel
+    @ObservedObject var postitVM: PostitViewModel
     @StateObject var surfingVM = SurfingViewModel()
     let updateFollowData = UpdateFollowData()
     
@@ -27,6 +29,7 @@ struct ProfileView: View {
     @State private var isShowingReceiveDetail: Bool = false
     @State private var isShowingSendDetail: Bool = false
     @State private var isShowingHightlight: Bool = false
+    @State private var isShowingMessageView: Bool = false
     
     @State private var selectedPostID: String?
     
@@ -74,7 +77,7 @@ struct ProfileView: View {
                                         Image("instagramicon")
                                     }
                                 }
-                                    
+                                
                                 if !user.tiktokAddress.isEmpty {
                                     Button {
                                         profileVM.openSocialMediaApp(urlScheme: "tiktok://user?username=\(user.tiktokAddress)", fallbackURL: "https://www.tiktok.com/@\(user.tiktokAddress)")
@@ -130,13 +133,42 @@ struct ProfileView: View {
                         
                         VStack(alignment: .leading, spacing: 10) {
                             if let user = viewModel.currentUser {
-                                if !user.username.isEmpty {
-                                    CircularImageView(size: .xLarge, user: user)
-                                        .offset(y: 5)
-                                } else {
-                                    CircularImageView(size: .xLarge, user: user)
-                                        .offset(y: 30)
-                                }
+                                
+                                CircularImageView(size: .xLarge, user: user)
+                                    .offset(y: 5)
+                                    .overlay {
+                                        Button {
+                                            isShowingMessageView = true
+                                        } label: {
+                                            Circle()
+                                                .frame(width: 30)
+                                                .foregroundStyle(.clear)
+                                                .overlay {
+                                                    if postitVM.messages.isEmpty {
+                                                        LottieView(animation: .named("nonePostit"))
+                                                            .paused(at: .progress(1))
+                                                            .resizable()
+                                                            .scaledToFit()
+                                                            .frame(width: 40, height: 40)
+                                                    } else {
+                                                        LottieView(animation: .named("Postit"))
+                                                            .looping()
+                                                            .resizable()
+                                                            .scaledToFit()
+                                                            .frame(width: 40, height: 40)
+                                                    }
+                                                }
+                                        }
+                                        .offset(x: +46, y: -30)
+                                        .sheet(isPresented: $isShowingMessageView) {
+                                            
+                                            PostitView(postitVM: postitVM,
+                                                       isShowingMessageView: $isShowingMessageView)
+                                            
+                                        }
+                                        .presentationDetents([.large])
+                                    }
+                                
                             }
                             
                             HStack(alignment: .center, spacing: 5) {
@@ -327,10 +359,10 @@ struct ProfileView: View {
                                 }
                                 .sheet(isPresented: $isShowingReceiveDetail) {
                                     SelectPostView(profileVM: profileVM,
-                                                      viewType: PostViewType.receive,
-                                                      isShowingDetail: $isShowingReceiveDetail,
-                                                      selectedPostID: selectedPostID ?? "")
-                                        .presentationDragIndicator(.visible)
+                                                   viewType: PostViewType.receive,
+                                                   isShowingDetail: $isShowingReceiveDetail,
+                                                   selectedPostID: selectedPostID ?? "")
+                                    .presentationDragIndicator(.visible)
                                 }
                             }
                         }
@@ -369,10 +401,10 @@ struct ProfileView: View {
                                 }
                                 .sheet(isPresented: $isShowingSendDetail) {
                                     SelectPostView(profileVM: profileVM,
-                                                      viewType: PostViewType.send,
-                                                      isShowingDetail: $isShowingSendDetail,
-                                                      selectedPostID: selectedPostID ?? "")
-                                        .presentationDragIndicator(.visible)
+                                                   viewType: PostViewType.send,
+                                                   isShowingDetail: $isShowingSendDetail,
+                                                   selectedPostID: selectedPostID ?? "")
+                                    .presentationDragIndicator(.visible)
                                 }
                             }
                         }
@@ -411,10 +443,10 @@ struct ProfileView: View {
                                 }
                                 .sheet(isPresented: $isShowingHightlight) {
                                     SelectPostView(profileVM: profileVM,
-                                                      viewType: PostViewType.highlight,
-                                                      isShowingDetail: $isShowingHightlight,
-                                                      selectedPostID: selectedPostID ?? "")
-                                        .presentationDragIndicator(.visible)
+                                                   viewType: PostViewType.highlight,
+                                                   isShowingDetail: $isShowingHightlight,
+                                                   selectedPostID: selectedPostID ?? "")
+                                    .presentationDragIndicator(.visible)
                                 }
                             }
                         }

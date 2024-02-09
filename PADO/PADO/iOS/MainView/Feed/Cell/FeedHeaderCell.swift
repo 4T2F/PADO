@@ -60,7 +60,6 @@ struct FeedHeaderCell: View {
                                     .foregroundStyle(.clear)
                                     .frame(width: filterBarWidth, height: 1.5)
                             }
-                            
                         } //: VSTACK
                         .onTapGesture {
                             withAnimation(.spring()) {
@@ -81,7 +80,6 @@ struct FeedHeaderCell: View {
         .padding(.horizontal)
     }
 }
-
 
 struct FeedRefreshHeaderCell: View {
     // MARK: - BODY

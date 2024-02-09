@@ -26,7 +26,7 @@ struct FeedView: View {
         NavigationStack {
             ZStack {
             CustomRefreshView(showsIndicator: false,
-                              lottieFileName: "Loading",
+                              lottieFileName: "Wave",
                               scrollDelegate: scrollDelegate) {
                     if selectedFilter == .following {
                         LazyVStack(spacing:0) {
@@ -45,6 +45,7 @@ struct FeedView: View {
                                     }
                                 }
                             }
+                            .scrollTargetLayout()
                         }
                     } else {
                         LazyVStack(spacing:0) {
@@ -55,12 +56,6 @@ struct FeedView: View {
                                          updateHeartData: updateHeartData,
                                          post: $feedVM.todayPadoPosts[index])
                                 .id(index)
- 
-                            }
-                        }
-                        .onAppear {
-                            Task {
-                                await feedVM.fetchTodayPadoPosts()
                             }
                         }
                     }

@@ -20,6 +20,8 @@ struct ContentView: View {
     @StateObject var searchVM = SearchViewModel()
     @StateObject var profileVM = ProfileViewModel()
     @StateObject var notiVM = NotificationViewModel()
+    @StateObject var postitVM = PostitViewModel()
+    @StateObject var padorideVM = PadoRideViewModel()
     
     init() {
         let appearance = UITabBarAppearance()
@@ -66,17 +68,21 @@ struct ContentView: View {
             }
             .onAppear { viewModel.showTab = 2 }
             .tag(2)
-            SwiftUIView()
+            PadoRideView(followVM: followVM, padorideVM: padorideVM)
                 .tabItem {
                     Image(viewModel.showTab == 3 ? "today_light" : "today_gray")
                     
-                    Text("임시용")
+                    Text("파도타기")
                 }
                 .onAppear { viewModel.showTab = 3 }
                 .tag(3)
             
             if let user = viewModel.currentUser {
-                ProfileView(profileVM: profileVM, followVM: followVM, feedVM: feedVM, user: user)
+                ProfileView(profileVM: profileVM,
+                            followVM: followVM,
+                            feedVM: feedVM,
+                            postitVM: postitVM,
+                            user: user)
                     .tabItem {
                         Image(viewModel.showTab == 4 ? "profile_light" : "profile_gray")
                         
@@ -93,8 +99,8 @@ struct ContentView: View {
                 followVM.initializeFollowFetch()
                 await profileVM.fetchPostID(id: userNameID)
                 await notiVM.fetchNotifications()
+                await postitVM.getMessageDocument(ownerID: userNameID)
             }
         }
     }
 }
-
