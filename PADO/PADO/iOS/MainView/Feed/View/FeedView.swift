@@ -71,14 +71,16 @@ struct FeedView: View {
                 .scrollDisabled(feedVM.isShowingPadoRide)
                
                 VStack {
-                    if scrollDelegate.scrollOffset < 5 {
-                        FeedHeaderCell(selectedFilter: $selectedFilter)
-                            .transition(.opacity.combined(with: .scale))
-                    } else if !scrollDelegate.isEligible {
-                        FeedRefreshHeaderCell()
-                            .transition(.opacity.combined(with: .scale))
-                    }
-                    Spacer()
+                    if !feedVM.isShowingPadoRide {
+                        if scrollDelegate.scrollOffset < 5 {
+                            FeedHeaderCell(selectedFilter: $selectedFilter)
+                                .transition(.opacity.combined(with: .scale))
+                        } else if !scrollDelegate.isEligible {
+                            FeedRefreshHeaderCell()
+                                .transition(.opacity.combined(with: .scale))
+                        }
+                        Spacer()
+                    }ㅇ
                 }
                 .padding(.top, 10)
                 .animation(.easeInOut, value: scrollDelegate.scrollOffset)
