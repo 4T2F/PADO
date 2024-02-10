@@ -150,7 +150,6 @@
 		64392B782B74567C0047BA12 /* GetPostData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B772B74567C0047BA12 /* GetPostData.swift */; };
 		64392B7A2B74B66D0047BA12 /* SendPadoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B792B74B66D0047BA12 /* SendPadoView.swift */; };
 		64392B7C2B76852D0047BA12 /* PadoRide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B7B2B76852D0047BA12 /* PadoRide.swift */; };
-		64392B7F2B76A45D0047BA12 /* PadoRideCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B7E2B76A45D0047BA12 /* PadoRideCell.swift */; };
 		647E7EFD2B63775100A5487E /* UpdateImageUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647E7EFC2B63775100A5487E /* UpdateImageUrl.swift */; };
 		648963DB2B6A9E960080050D /* PostCropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648963DA2B6A9E960080050D /* PostCropView.swift */; };
 		648963DD2B6AA2310080050D /* Corp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648963DC2B6AA2310080050D /* Corp.swift */; };
@@ -377,7 +376,6 @@
 		64392B772B74567C0047BA12 /* GetPostData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPostData.swift; sourceTree = "<group>"; };
 		64392B792B74B66D0047BA12 /* SendPadoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendPadoView.swift; sourceTree = "<group>"; };
 		64392B7B2B76852D0047BA12 /* PadoRide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadoRide.swift; sourceTree = "<group>"; };
-		64392B7E2B76A45D0047BA12 /* PadoRideCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadoRideCell.swift; sourceTree = "<group>"; };
 		647E7EFC2B63775100A5487E /* UpdateImageUrl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateImageUrl.swift; sourceTree = "<group>"; };
 		648963DA2B6A9E960080050D /* PostCropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCropView.swift; sourceTree = "<group>"; };
 		648963DC2B6AA2310080050D /* Corp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Corp.swift; sourceTree = "<group>"; };
@@ -831,7 +829,6 @@
 			children = (
 				6373235D2B71552D00C02A32 /* FeedCell.swift */,
 				64392B652B71D2C70047BA12 /* FeedHeaderCell.swift */,
-				64392B7E2B76A45D0047BA12 /* PadoRideCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -1541,7 +1538,6 @@
 				63A779A22B6BD45A0068BE98 /* FollowerModalAlert.swift in Sources */,
 				41FD99F62B43D5EC0028D38E /* PADOApp.swift in Sources */,
 				41A102982B6262B20070AB8D /* PhotoPicker.swift in Sources */,
-				64392B7F2B76A45D0047BA12 /* PadoRideCell.swift in Sources */,
 				4197420A2B55900D0055F2AB /* LoginAlert.swift in Sources */,
 				643417332B5F947500E47639 /* SurfingView.swift in Sources */,
 				040914F92B561FA8001B549B /* ReportSelectCellView.swift in Sources */,

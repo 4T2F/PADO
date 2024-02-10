@@ -161,10 +161,10 @@ struct FeedCell: View {
                                     
                                     if let currentIndex = feedVM.currentPadoRideIndex {
                                         // 다음 이미지로 이동
-                                        feedVM.isShowingPadoRide = true
                                         let nextIndex = currentIndex + 1
                                         if nextIndex < feedVM.padoRidePosts.count {
                                             feedVM.currentPadoRideIndex = nextIndex
+                                            feedVM.isShowingPadoRide = true
                                         } else {
                                             // 모든 PadoRide 이미지를 보여준 후, 원래 포스트로 돌아감
                                             feedVM.currentPadoRideIndex = nil
@@ -175,14 +175,15 @@ struct FeedCell: View {
                                         // 최초로 PadoRide 이미지 보여주기
                                         // PadoRidePosts가 이미 로드되었는지 확인
                                         if feedVM.padoRidePosts.isEmpty {
-                                            feedVM.isShowingPadoRide = true
                                             Task {
                                                 await feedVM.fetchPadoRides(postID: post.id ?? "")
                                                 if !feedVM.padoRidePosts.isEmpty {
+                                                    feedVM.isShowingPadoRide = true
                                                     feedVM.currentPadoRideIndex = 0
                                                 }
                                             }
                                         } else {
+                                            feedVM.isShowingPadoRide = false
                                             feedVM.currentPadoRideIndex = 0
                                         }
                                     }
