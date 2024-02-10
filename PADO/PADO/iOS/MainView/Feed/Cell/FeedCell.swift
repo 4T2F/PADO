@@ -100,10 +100,23 @@ struct FeedCell: View {
                 // PadoRide 이미지 표시
                 let padoRide = feedVM.padoRidePosts[currentIndex]
                 if let imageUrl = URL(string: padoRide.imageUrl) {
-                    KFImage.url(imageUrl)
-                        .resizable()
-                        .scaledToFill()
-                        .containerRelativeFrame([.horizontal,.vertical])
+                    ZStack {
+                        KFImage.url(imageUrl)
+                            .resizable()
+                            .scaledToFill()
+                            .containerRelativeFrame([.horizontal,.vertical])
+                        
+                        VStack(alignment: .leading) {
+                            HStack {
+                                Text("\(feedVM.padoRidePosts[currentIndex].id ?? "") 님이 꾸민 파도")
+                                    .font(.headline)
+                                    .padding(.top, UIScreen.main.bounds.height * 0.06)
+                                    .padding(.leading, 15)
+                                Spacer()
+                            }
+                            Spacer()
+                        }
+                    }
                 }
             }
             

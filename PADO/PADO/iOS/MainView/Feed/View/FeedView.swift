@@ -80,7 +80,7 @@ struct FeedView: View {
                                 .transition(.opacity.combined(with: .scale))
                         }
                         Spacer()
-                    }ㅇ
+                    }
                 }
                 .padding(.top, 10)
                 .animation(.easeInOut, value: scrollDelegate.scrollOffset)
