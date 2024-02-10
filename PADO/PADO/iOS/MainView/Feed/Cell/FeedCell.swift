@@ -99,24 +99,79 @@ struct FeedCell: View {
             } else if let currentIndex = feedVM.currentPadoRideIndex, feedVM.padoRidePosts.indices.contains(currentIndex) {
                 // PadoRide 이미지 표시
                 let padoRide = feedVM.padoRidePosts[currentIndex]
-                if let imageUrl = URL(string: padoRide.imageUrl) {
-                    ZStack {
-                        KFImage.url(imageUrl)
-                            .resizable()
-                            .scaledToFill()
-                            .containerRelativeFrame([.horizontal,.vertical])
-                        
-                        VStack(alignment: .leading) {
-                            HStack {
-                                Text("\(feedVM.padoRidePosts[currentIndex].id ?? "") 님이 꾸민 파도")
-                                    .font(.headline)
-                                    .padding(.top, UIScreen.main.bounds.height * 0.06)
-                                    .padding(.leading, 15)
-                                Spacer()
+                
+                Rectangle()
+                    .foregroundStyle(.black)
+                    .containerRelativeFrame([.horizontal,.vertical])
+                    .overlay {
+                        // MARK: - 사진
+                        if let imageUrl = URL(string: padoRide.imageUrl) {
+                            ZStack {
+                                KFImage.url(imageUrl)
+                                    .resizable()
+                                    .onSuccess { _ in
+                                        // 이미지 로딩 성공 시
+                                        isLoading = false
+                                    }
+                                    .onFailure { _ in
+                                        // 이미지 로딩 실패 시
+                                        isLoading = false
+                                    }
+                                    .onProgress { receivedSize, totalSize in
+                                        // 로딩 중
+                                        isLoading = true
+                                    }
+                                    .scaledToFill()
+                                    .containerRelativeFrame([.horizontal,.vertical])
                             }
-                            Spacer()
+                            .overlay {
+                                if feedVM.isHeaderVisible {
+                                    LinearGradient(colors: [.black.opacity(0.5),
+                                                            .black.opacity(0.4),
+                                                            .black.opacity(0.3),
+                                                            .black.opacity(0.2),
+                                                            .black.opacity(0.1),
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .black.opacity(0.1),
+                                                            .black.opacity(0.1),
+                                                            .black.opacity(0.1),
+                                                            .black.opacity(0.2),
+                                                            .black.opacity(0.3),
+                                                            .black.opacity(0.4),
+                                                            .black.opacity(0.5)],
+                                                   startPoint: .top,
+                                                   endPoint: .bottom
+                                    )
+                                    .ignoresSafeArea()
+                                }
+                            }
+                            
+                            if isLoading { // feedVM에서 로딩 상태를 관리한다고 가정
+                                ProgressView()
+                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            }
                         }
                     }
+                
+                VStack(alignment: .leading) {
+                    HStack {
+                        Text("\(feedVM.padoRidePosts[currentIndex].id ?? "") 님이 꾸민 파도")
+                            .font(.headline)
+                            .padding(.top, UIScreen.main.bounds.height * 0.06)
+                            .padding(.leading, 15)
+                        Spacer()
+                    }
+                    Spacer()
                 }
             }
             
