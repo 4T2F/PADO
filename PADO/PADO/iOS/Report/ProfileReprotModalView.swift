@@ -20,7 +20,7 @@ struct ReprotProfileModalView: View {
                 } label: {
                     HStack {
                         Text("숨기기")
-                            .font(.system(size: 16))
+                            .font(.system(size: 14))
                             .fontWeight(.bold)
                         
                         Spacer()
@@ -42,7 +42,7 @@ struct ReprotProfileModalView: View {
                     } label: {
                         HStack {
                             Text("차단")
-                                .font(.system(size: 16))
+                                .font(.system(size: 14))
                                 .fontWeight(.bold)
                                 .foregroundStyle(.red)
                             
@@ -63,7 +63,7 @@ struct ReprotProfileModalView: View {
                     } label: {
                         HStack {
                             Text("신고")
-                                .font(.system(size: 16))
+                                .font(.system(size: 14))
                                 .fontWeight(.bold)
                                 .foregroundStyle(.red)
                             
@@ -72,7 +72,7 @@ struct ReprotProfileModalView: View {
                             Image(systemName: "exclamationmark.bubble")
                                 .foregroundStyle(.red)
                                 .font(.system(size: 14))
-                                .fontWeight(.bold)
+                                .fontWeight(.semibold)
                         }
                         .sheet(isPresented: $isShowingReportView) {
                             ReportUserView(isShowingReportView: $isShowingReportView)
