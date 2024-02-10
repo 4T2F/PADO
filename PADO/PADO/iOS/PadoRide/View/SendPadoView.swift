@@ -32,9 +32,7 @@ struct SendPadoView: View {
                     await padorideVM.sendPostAtFirebase()
                     padorideVM.cancelImageEditing()
                     
-                    DispatchQueue.main.asyncAfter(deadline: .now()) {
-                        padorideVM.isShowingEditView = false
-                    }
+                    padorideVM.isShowingEditView = false
                 }
             } label: {
                 ZStack {
