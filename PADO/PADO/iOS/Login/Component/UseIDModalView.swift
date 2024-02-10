@@ -45,6 +45,9 @@ struct UseIDModalView: View {
                     } label: {
                         ModalBlackButton(buttonActive: $buttonActive,
                                          text: "시작 화면으로 이동")
+                        .presentationDetents([.fraction(0.2)])
+                        .presentationDragIndicator(.visible)
+                        .presentationCornerRadius(30)
                     }
                 }
                 .padding(.top, 20)

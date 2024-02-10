@@ -37,12 +37,14 @@ struct SearchCellView: View {
                         if let image = user.profileImageUrl {
                             KFImage(URL(string: image))
                                 .resizable()
+                                .scaledToFill()
                                 .frame(width: 40, height: 40)
                                 .cornerRadius(40)
                                 .padding(.trailing)
                         } else {
                             Image("defaultProfile")
                                 .resizable()
+                                .scaledToFill()
                                 .frame(width: 40, height: 40)
                                 .cornerRadius(40)
                                 .padding(.trailing)

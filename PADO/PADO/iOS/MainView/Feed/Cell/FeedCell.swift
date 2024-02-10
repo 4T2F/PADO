@@ -78,6 +78,9 @@ struct FeedCell: View {
                                                         .black.opacity(0.1),
                                                         .black.opacity(0.1),
                                                         .black.opacity(0.1),
+                                                        .black.opacity(0.1),
+                                                        .black.opacity(0.2),
+                                                        .black.opacity(0.2),
                                                         .black.opacity(0.2),
                                                         .black.opacity(0.3),
                                                         .black.opacity(0.4),
@@ -101,16 +104,10 @@ struct FeedCell: View {
                 
                 HStack(alignment: .bottom) {
                     // MARK: - 아이디 및 타이틀
-                    VStack(alignment: .leading, spacing: 10) {
-                        if let postUser = postUser, let surferUser = surferUser {
-                            CircularImageView(size: .small,
-                                              user: surferUser)
-                            .padding(.leading, 24)
-                            .overlay {
-                                CircularImageView(size: .small,
+                    VStack(alignment: .leading, spacing: 8) {
+                        if let postUser = postUser {
+                                CircularImageView(size: .xLarge,
                                                   user: postUser)
-                                .offset(x: -12)
-                            }
                         }
                         VStack(alignment: .leading, spacing: 4) {
                             Text("@\(post.ownerUid)")
@@ -119,7 +116,8 @@ struct FeedCell: View {
                             
                             HStack(alignment: .center, spacing: 8) {
                                 Text("\(post.surferUid)님에게 받은 파도")
-                                    .font(.system(size: 14))
+                                    .font(.system(size: 16))
+                                    .fontWeight(.medium)
                                 
                                 Text("\(post.created_Time.formatDate(post.created_Time))")
                                     .font(.system(size: 14))
@@ -161,6 +159,20 @@ struct FeedCell: View {
                                 }
                             }
                             .padding(.bottom, 15)
+                            
+                            // MARK: - 서퍼
+                            VStack(spacing: 10) {
+                                if let surferUser = surferUser {
+                                    Circle()
+                                        .foregroundStyle(.white)
+                                        .frame(width: 39)
+                                        .overlay {
+                                            CircularImageView(size: .small,
+                                                              user: surferUser)
+                                        }
+                                }
+                            }
+                            .padding(.bottom, 10)
                             
                             // MARK: - 하트
                             VStack(spacing: 10) {
@@ -268,6 +280,7 @@ struct FeedCell: View {
                             .padding(.top, -15)
                         }
                     }
+                    .padding(.bottom, 28)
                 }
             }
             .padding()

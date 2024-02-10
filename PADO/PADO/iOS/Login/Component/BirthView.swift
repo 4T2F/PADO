@@ -82,7 +82,8 @@ struct BirthView: View {
         }
         .sheet(isPresented: $showBirthAlert) {
             BirthAlertModal()
-                .presentationDetents([.height(150)])
+                .presentationDetents([.fraction(0.2)])
+                .presentationDragIndicator(.visible)
                 .presentationCornerRadius(30)
         }
     }

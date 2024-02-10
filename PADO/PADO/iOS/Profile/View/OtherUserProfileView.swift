@@ -29,6 +29,7 @@ struct OtherUserProfileView: View {
     @State private var isShowingSendDetail: Bool = false
     @State private var isShowingHightlight: Bool = false
     @State private var isShowingMessageView: Bool = false
+    @State private var isShowingUserReport: Bool = false
     
     @State private var selectedPostID: String?
     
@@ -95,6 +96,18 @@ struct OtherUserProfileView: View {
                                 Image("tiktokicon")
                             }
                         }
+                        
+                        Button {
+                            isShowingUserReport.toggle()
+                        } label: {
+                            Image(systemName: "ellipsis")
+                        }
+                        .sheet(isPresented: $isShowingUserReport) {
+                            ReprotProfileModalView()
+                                .presentationDetents([.fraction(0.33)])
+                                .presentationDragIndicator(.visible)
+                                .presentationCornerRadius(30)
+                        }
                     }
                 }
             }
@@ -138,7 +151,7 @@ struct OtherUserProfileView: View {
                                                 .main.opacity(1)], startPoint: .top, endPoint: .bottom)
                         
                         VStack(alignment: .leading, spacing: 10) {
-                            CircularImageView(size: .xLarge, user: user)
+                            CircularImageView(size: .xxLarge, user: user)
                                 .offset(y: 5)
                                 .overlay {
                                     Button {

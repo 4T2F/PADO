@@ -95,6 +95,7 @@ struct ProfileView: View {
                             }
                             .sheet(isPresented: $settingButtonActive) {
                                 SettingView()
+                                    .presentationDragIndicator(.visible)
                             }
                         }
                     }
@@ -134,7 +135,7 @@ struct ProfileView: View {
                         VStack(alignment: .leading, spacing: 10) {
                             if let user = viewModel.currentUser {
                                 
-                                CircularImageView(size: .xLarge, user: user)
+                                CircularImageView(size: .xxLarge, user: user)
                                     .offset(y: 5)
                                     .overlay {
                                         Button {
@@ -196,6 +197,7 @@ struct ProfileView: View {
                                 }
                                 .sheet(isPresented: $profileEditButtonActive) {
                                     SettingProfileView()
+                                        .presentationDragIndicator(.visible)
                                         .onDisappear {
                                             profileEditButtonActive = false
                                         }

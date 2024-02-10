@@ -19,12 +19,14 @@ struct ReportCommentView: View {
                 Text("신고하기")
                     .font(.system(size: 16))
                     .fontWeight(.semibold)
-                    .padding(.bottom, 20)
+                
+                Divider()
+                    .padding(.bottom, 10)
                 
                 VStack(alignment: .leading) {
                     VStack(alignment: .leading) {
                         
-                        Text("댓글을 신고하는 이유")
+                        Text("댓글을 신고하는 이유가 무엇인가요?")
                             .font(.system(size: 14))
                             .fontWeight(.semibold)
                             .padding(.bottom, 3)
@@ -38,17 +40,14 @@ struct ReportCommentView: View {
                     .padding(.bottom)
                     .padding(.leading)
                     
-                    ScrollView(showsIndicators: false) {
-                        VStack {
-                            ForEach(reportArray, id: \.self) { reportReason in
-                                ReportSelectCellView(isShowingReportView: $isShowingReportView, text: reportReason)
-                                    .padding(.bottom, 10)
-                            }
+                    VStack {
+                        ForEach(reportArray, id: \.self) { reportReason in
+                            ReportSelectCellView(isShowingReportView: $isShowingReportView, text: reportReason)
+                                .padding(.bottom, 10)
                         }
                     }
                 }
             }
-            .padding(.top, 30)
         }
         .background(.modal, ignoresSafeAreaEdges: .all)
     }

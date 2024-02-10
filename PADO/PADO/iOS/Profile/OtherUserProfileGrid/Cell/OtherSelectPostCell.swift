@@ -82,7 +82,8 @@ struct OtherSelectPostCell: View {
                         if post.title.isEmpty {
                             HStack(alignment: .center, spacing: 8) {
                                 Text(descriptionForType(cellType))
-                                    .font(.system(size: 14))
+                                    .font(.system(size: 16))
+                                    .fontWeight(.medium)
                                 
                                 Text("\(post.created_Time.formatDate(post.created_Time))")
                                     .font(.system(size: 14))
@@ -242,6 +243,7 @@ struct OtherSelectPostCell: View {
                 }
             }
             .padding()
+            .padding(.bottom)
         }
         .onAppear {
             Task {

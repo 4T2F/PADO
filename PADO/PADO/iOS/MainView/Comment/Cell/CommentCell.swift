@@ -111,7 +111,7 @@ struct CommentCell: View {
         }
         .sheet(isPresented: $commentVM.showreportModal) {
             ReportCommentView(isShowingReportView: $commentVM.showreportModal)
-                .presentationDetents([.fraction(0.4), .fraction(0.6)])
+                .presentationDetents([.medium])
                 .presentationDragIndicator(.visible)
         }
     }

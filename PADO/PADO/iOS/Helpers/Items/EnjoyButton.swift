@@ -15,8 +15,9 @@ struct EnjoyButton: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 10)
+                .stroke(.white, lineWidth: 1)
                 .frame(width: UIScreen.main.bounds.width * 0.5, height: 47)
-                .foregroundStyle(.black)
+                .foregroundStyle(.clear)
             
             HStack {
                 
