@@ -12,8 +12,6 @@ struct PadoRideView: View {
     @ObservedObject var followVM: FollowViewModel
     @ObservedObject var padorideVM: PadoRideViewModel
     
-    @State var isShowingEditView: Bool = false
-    
     // MARK: - BODY
     var body: some View {
         NavigationStack {
@@ -37,7 +35,7 @@ struct PadoRideView: View {
                 } else {
                     Button {
                         padorideVM.downloadSelectedImage()
-                        isShowingEditView = true
+                        padorideVM.isShowingEditView = true
                     } label: {
                         Text("다음")
                             .foregroundStyle(.white)
@@ -46,7 +44,7 @@ struct PadoRideView: View {
                     }
                 }
             }
-            .navigationDestination(isPresented: $isShowingEditView) {
+            .navigationDestination(isPresented: $padorideVM.isShowingEditView) {
                 PadoRideEditView(padorideVM: padorideVM)
             }
             

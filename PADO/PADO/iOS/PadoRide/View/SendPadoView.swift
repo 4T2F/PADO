@@ -31,8 +31,11 @@ struct SendPadoView: View {
                 Task {
                     await padorideVM.sendPostAtFirebase()
                     padorideVM.cancelImageEditing()
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now()) {
+                        padorideVM.isShowingEditView = false
+                    }
                 }
-                dismiss()
             } label: {
                 ZStack {
                     RoundedRectangle(cornerRadius: 8)

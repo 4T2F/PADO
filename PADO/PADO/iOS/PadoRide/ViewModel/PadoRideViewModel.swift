@@ -20,6 +20,8 @@ class PadoRideViewModel: ObservableObject {
     @Published var selectedPost: Post?
     
     @Published var isShowingEditView: Bool = false
+    @Published var isShowingDrawingView: Bool = false
+    @Published var showingModal: Bool = false
     
     // Pencil킷 관련 변수들
     @Published var canvas = PKCanvasView()
@@ -29,7 +31,6 @@ class PadoRideViewModel: ObservableObject {
     @Published var currentIndex: Int = 0
     @Published var rect: CGRect = .zero
     @Published var decoUIImage: UIImage = UIImage()
-    @Published var showingModal: Bool = false
     
     let getPostData = GetPostData()
     let cropWhiteBackground = CropWhiteBackground()
