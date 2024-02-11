@@ -43,6 +43,7 @@ struct SignUpView: View {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button {
                     dismiss()
+                    handleBackButton()
                 } label: {
                     HStack(spacing: 2) {
                         Image(systemName: "chevron.left")
