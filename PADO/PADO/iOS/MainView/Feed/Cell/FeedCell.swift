@@ -287,7 +287,7 @@ struct FeedCell: View {
                             // MARK: - 서퍼
                             NavigationLink {
                                 if let surferUser = surferUser {
-                                    OtherUserProfileView(buttonOnOff: $postOwnerButtonOnOff,
+                                    OtherUserProfileView(buttonOnOff: $postSurferButtonOnOff,
                                                          user: surferUser)
                                 }
                             } label: {
