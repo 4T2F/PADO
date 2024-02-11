@@ -47,6 +47,7 @@
 		418743272B5C42A300D93CBE /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418743262B5C42A300D93CBE /* SignUpView.swift */; };
 		418743292B5C42AB00D93CBE /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418743282B5C42AB00D93CBE /* LoginView.swift */; };
 		41898FB82B7874BE00F33F03 /* SelectCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41898FB72B7874BE00F33F03 /* SelectCommentView.swift */; };
+		41898FBA2B78D48800F33F03 /* PostitCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41898FB92B78D48800F33F03 /* PostitCell.swift */; };
 		418ACDC12B76181B003DD9E7 /* Wave.json in Resources */ = {isa = PBXBuildFile; fileRef = 418ACDC02B76181B003DD9E7 /* Wave.json */; };
 		418ACDC32B761AE6003DD9E7 /* nonePostit.json in Resources */ = {isa = PBXBuildFile; fileRef = 418ACDC22B761AE5003DD9E7 /* nonePostit.json */; };
 		418ACDC52B764B3C003DD9E7 /* PostitMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418ACDC42B764B3C003DD9E7 /* PostitMessage.swift */; };
@@ -275,6 +276,7 @@
 		418743262B5C42A300D93CBE /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		418743282B5C42AB00D93CBE /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		41898FB72B7874BE00F33F03 /* SelectCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCommentView.swift; sourceTree = "<group>"; };
+		41898FB92B78D48800F33F03 /* PostitCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostitCell.swift; sourceTree = "<group>"; };
 		418ACDC02B76181B003DD9E7 /* Wave.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Wave.json; sourceTree = "<group>"; };
 		418ACDC22B761AE5003DD9E7 /* nonePostit.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = nonePostit.json; sourceTree = "<group>"; };
 		418ACDC42B764B3C003DD9E7 /* PostitMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostitMessage.swift; sourceTree = "<group>"; };
@@ -955,10 +957,12 @@
 			isa = PBXGroup;
 			children = (
 				418ACDC82B766633003DD9E7 /* MessageBubbleView.swift */,
+				418ACDCA2B767CB3003DD9E7 /* DeleteMessageView.swift */,
 				63AA03572B68F1BE00431332 /* ProfileView.swift */,
 				41101B3A2B6BF8AF002E8C64 /* OtherUserProfileView.swift */,
 				63AA03582B68F1BE00431332 /* OffsetModifier.swift */,
 				418D45C02B757388007F6633 /* PostitView.swift */,
+				41898FB92B78D48800F33F03 /* PostitCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -968,7 +972,6 @@
 			children = (
 				63AA03602B6A173F00431332 /* ProfileViewModel.swift */,
 				418D45C22B757393007F6633 /* PostitViewModel.swift */,
-				418ACDCA2B767CB3003DD9E7 /* DeleteMessageView.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1396,6 +1399,7 @@
 			files = (
 				B107655E2B7699050023B686 /* RequestSurfingNotificationCell.swift in Sources */,
 				B107655D2B7698FE0023B686 /* FollowNotificationCell.swift in Sources */,
+				41898FBA2B78D48800F33F03 /* PostitCell.swift in Sources */,
 				418B6C8A2B5EBC0100E8289D /* SearchBar.swift in Sources */,
 				41E5F6982B56536D001750C2 /* CommentCell.swift in Sources */,
 				419981DA2B75144900EEA06E /* BirthAlertModal.swift in Sources */,
