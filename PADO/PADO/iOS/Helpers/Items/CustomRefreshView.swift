@@ -224,6 +224,8 @@ struct ResizbaleLottieView: UIViewRepresentable {
         lottieView.tag = 1009
         lottieView.translatesAutoresizingMaskIntoConstraints = false
         
+        lottieView.loopMode = .loop
+        
         let constraints = [
             lottieView.widthAnchor.constraint(equalTo: to.widthAnchor),
             lottieView.heightAnchor.constraint(equalTo: to.heightAnchor),
