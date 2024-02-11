@@ -20,42 +20,12 @@ struct PostitView: View {
         NavigationStack {
             VStack(spacing: 0) {
                 Divider()
-                
                 ScrollView {
                     VStack {
                         if !postitVM.messages.isEmpty {
                             ForEach(postitVM.messages) { message in
-                                HStack {
-                                    if message.messageUserID == postitVM.ownerID {
-                                        UrlProfileImageView(imageUrl: message.imageUrl,
-                                                            size: .medium,
-                                                            defaultImageName: "defaultProfile")
-                                        if let messageID = message.id {
-                                            MessageBubbleView(text: message.content,
-                                                              isUser: true,
-                                                              messageUserID: message.messageUserID,
-                                                              messageTime: message.messageTime,
-                                                              messageID: messageID,
-                                                              postitVM: postitVM)
-                                        }
-                                        Spacer()
-                                    } else {
-                                        Spacer()
-                                        if let messageID = message.id {
-                                            MessageBubbleView(text: message.content,
-                                                              isUser: false,
-                                                              messageUserID: message.messageUserID,
-                                                              messageTime: message.messageTime,
-                                                              messageID: messageID,
-                                                              postitVM: postitVM)
-                                        }
-                                        UrlProfileImageView(imageUrl: message.imageUrl,
-                                                            size: .medium,
-                                                            defaultImageName: "defaultProfile")
-                                    }
-                                }
-                                .padding(.horizontal, 10)
-                                .padding(.vertical, 5)
+                                PostitCell(postitVM: postitVM,
+                                           message: message)
                             }
                         } else {
                             Text("아직 방명록에 글이 없어요")

@@ -24,77 +24,80 @@ struct SelectPostView: View {
     @GestureState private var dragState = CGSize.zero
     @State private var isDetailViewReady = false
     
-    var selectedPostID: String
-    
     var body: some View {
-        ZStack {
-            ScrollView(showsIndicators: false) {
-                ScrollViewReader { value in
-                    LazyVStack(spacing: 0) {
-                        switch viewType {
-                        case .receive:
-                            ForEach(profileVM.padoPosts.indices, id: \.self) { index in
-                                SelectPostCell(profileVM: profileVM,
-                                               updateHeartData: updateHeartData,
-                                               post: $profileVM.padoPosts[index],
-                                               cellType: PostViewType.receive)
-                                .id(profileVM.padoPosts[index].id)
+        NavigationStack {
+            ZStack {
+                ScrollView(showsIndicators: false) {
+                    ScrollViewReader { value in
+                        LazyVStack(spacing: 0) {
+                            switch viewType {
+                            case .receive:
+                                ForEach(profileVM.padoPosts.indices, id: \.self) { index in
+                                    SelectPostCell(profileVM: profileVM,
+                                                   updateHeartData: updateHeartData,
+                                                   post: $profileVM.padoPosts[index],
+                                                   cellType: PostViewType.receive)
+                                    .id(profileVM.padoPosts[index].id)
+                                }
+                                
+                            case .send:
+                                ForEach(profileVM.sendPadoPosts.indices, id: \.self) { index in
+                                    SelectPostCell(profileVM: profileVM,
+                                                   updateHeartData: updateHeartData,
+                                                   post: $profileVM.sendPadoPosts[index],
+                                                   cellType: PostViewType.send)
+                                    .id(profileVM.sendPadoPosts[index].id)
+                                }
+                            case .highlight:
+                                ForEach(profileVM.highlights.indices, id: \.self) { index in
+                                    SelectPostCell(profileVM: profileVM,
+                                                   updateHeartData: updateHeartData,
+                                                   post: $profileVM.highlights[index],
+                                                   cellType: PostViewType.highlight)
+                                    .id(profileVM.highlights[index].id)
+                                }
                             }
                             
-                        case .send:
-                            ForEach(profileVM.sendPadoPosts.indices, id: \.self) { index in
-                                SelectPostCell(profileVM: profileVM,
-                                               updateHeartData: updateHeartData,
-                                               post: $profileVM.sendPadoPosts[index],
-                                               cellType: PostViewType.send)
-                                .id(profileVM.sendPadoPosts[index].id)
+                        }
+                        .scrollTargetLayout()
+                        .onAppear {
+                            Task {
+                                try? await Task.sleep(nanoseconds: 1 * 100_000_000)
+                                value.scrollTo(profileVM.selectedPostID, anchor: .top)
                             }
-                        case .highlight:
-                            ForEach(profileVM.highlights.indices, id: \.self) { index in
-                                SelectPostCell(profileVM: profileVM,
-                                               updateHeartData: updateHeartData,
-                                               post: $profileVM.highlights[index],
-                                               cellType: PostViewType.highlight)
-                                .id(profileVM.highlights[index].id)
+                        }
+                    }
+                }
+                .scrollTargetBehavior(.paging)
+                .ignoresSafeArea()
+                
+                VStack {
+                    HStack(alignment: .top) {
+                        Button {
+                            withAnimation(.interactiveSpring(response: 0.3, dampingFraction: 0.8, blendDuration: 0.8)) {
+                                self.isShowingDetail = false
                             }
+                        } label: {
+                            Image(systemName: "chevron.left")
+                                .font(.system(size: 18))
+                                .fontWeight(.medium)
                         }
                         
-                    }
-                    .scrollTargetLayout()
-                    .onAppear {
-                        value.scrollTo(selectedPostID, anchor: .top)
-                    }
-                }
-            }
-            .scrollTargetBehavior(.paging)
-            .ignoresSafeArea()
-            
-            VStack {
-                HStack(alignment: .top) {
-                    Button {
-                        withAnimation(.interactiveSpring(response: 0.3, dampingFraction: 0.8, blendDuration: 0.8)) {
-                            self.isShowingDetail = false
-                        }
-                    } label: {
-                        Image(systemName: "chevron.left")
+                        Spacer()
+                        
+                        Text(titleForType(viewType))
                             .font(.system(size: 18))
-                            .fontWeight(.medium)
+                            .fontWeight(.semibold)
+                            .padding(.trailing, 15)
+                        
+                        Spacer()
                     }
-                    
-                    Spacer()
-                    
-                    Text(titleForType(viewType))
-                        .font(.system(size: 18))
-                        .fontWeight(.semibold)
-                        .padding(.trailing, 15)
+                    .padding(.horizontal)
                     
                     Spacer()
                 }
-                .padding(.horizontal)
-                
-                Spacer()
+                .padding(.top, 20)
             }
-            .padding(.top, 20)
         }
         .gesture(
             DragGesture()

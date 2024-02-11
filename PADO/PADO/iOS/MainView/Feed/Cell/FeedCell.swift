@@ -17,6 +17,8 @@ struct FeedCell: View {
     @State var isHeartCheck: Bool = false
     @State var postUser: User? = nil
     @State var surferUser: User? = nil
+    @State var postOwnerButtonOnOff: Bool = false
+    @State var postSurferButtonOnOff: Bool = false
     
     @State private var heartCounts: Int = 0
     @State private var commentCounts: Int = 0
@@ -183,16 +185,30 @@ struct FeedCell: View {
                 
                 HStack(alignment: .bottom) {
                     // MARK: - 아이디 및 타이틀
+                    
                     VStack(alignment: .leading, spacing: 8) {
-                        if let postUser = postUser {
+                        NavigationLink {
+                            if let postUser = postUser {
+                                OtherUserProfileView(buttonOnOff: $postOwnerButtonOnOff,
+                                                     user: postUser)
+                            }
+                        } label: {
+                            if let postUser = postUser {
                                 CircularImageView(size: .xLarge,
                                                   user: postUser)
+                            }
                         }
                         VStack(alignment: .leading, spacing: 4) {
-                            Text("@\(post.ownerUid)")
-                                .font(.title)
-                                .fontWeight(.bold)
-                            
+                            NavigationLink {
+                                if let postUser = postUser {
+                                    OtherUserProfileView(buttonOnOff: $postOwnerButtonOnOff,
+                                                         user: postUser)
+                                }
+                            } label: {
+                                Text("@\(post.ownerUid)")
+                                    .font(.title)
+                                    .fontWeight(.bold)
+                            }
                             HStack(alignment: .center, spacing: 8) {
                                 Text("\(post.surferUid)님에게 받은 파도")
                                     .font(.system(size: 16))
@@ -269,19 +285,26 @@ struct FeedCell: View {
                             .padding(.bottom, 15)
                             
                             // MARK: - 서퍼
-                            VStack(spacing: 10) {
+                            NavigationLink {
                                 if let surferUser = surferUser {
-                                    Circle()
-                                        .foregroundStyle(.white)
-                                        .frame(width: 39)
-                                        .overlay {
-                                            CircularImageView(size: .small,
-                                                              user: surferUser)
-                                        }
+                                    OtherUserProfileView(buttonOnOff: $postSurferButtonOnOff,
+                                                         user: surferUser)
                                 }
+                            } label: {
+                                VStack(spacing: 10) {
+                                    if let surferUser = surferUser {
+                                        Circle()
+                                            .foregroundStyle(.white)
+                                            .frame(width: 39)
+                                            .overlay {
+                                                CircularImageView(size: .small,
+                                                                  user: surferUser)
+                                            }
+                                    }
+                                }
+                                .padding(.bottom, 10)
+                                
                             }
-                            .padding(.bottom, 10)
-                            
                             // MARK: - 하트
                             VStack(spacing: 10) {
                                 
@@ -401,6 +424,8 @@ struct FeedCell: View {
                     await fetchHeartCommentCounts(documentID: postID)
                     isHeartCheck = await updateHeartData.checkHeartExists(documentID: postID)
                 }
+                self.postOwnerButtonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: post.ownerUid)
+                self.postSurferButtonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: post.surferUid)
             }
         }
     }

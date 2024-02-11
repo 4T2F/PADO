@@ -88,7 +88,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
         followingPosts.removeAll()
         lastFollowFetchedDocument = nil
         // 현재 날짜로부터 2일 전의 날짜를 계산
-        let twoDaysAgo = Calendar.current.date(byAdding: .day, value: -4, to: Date()) ?? Date()
+        let twoDaysAgo = Calendar.current.date(byAdding: .day, value: -7, to: Date()) ?? Date()
            // Date 객체를 Timestamp로 변환
         let twoDaysAgoTimestamp = Timestamp(date: twoDaysAgo)
         
@@ -99,17 +99,19 @@ class FeedViewModel:Identifiable ,ObservableObject {
             .limit(to: 5)
         
         do {
-               let documents = try await getDocumentsAsync(collection: db.collection("post"), query: query)
-               let filteredDocuments = documents.compactMap { document -> DocumentSnapshot? in
-                   guard let post = try? document.data(as: Post.self) else {
-                       return nil
-                   }
-                   return document
-               }
-
-               self.lastFollowFetchedDocument = filteredDocuments.last
-
-               let fetchedFollowingPosts = filteredDocuments.compactMap { document in
+            let documents = try await getDocumentsAsync(collection: db.collection("post"), query: query)
+            
+            let filteredDocuments = documents.compactMap { document -> DocumentSnapshot? in
+                if (try? document.data(as: Post.self)) != nil {
+                    return document
+                } else {
+                    return nil
+                }
+            }
+            
+            self.lastFollowFetchedDocument = filteredDocuments.last
+            
+            let fetchedFollowingPosts = filteredDocuments.compactMap { document in
                    try? document.data(as: Post.self)
                }
             
@@ -133,7 +135,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
     func fetchTodayPadoPosts() async {
         todayPadoPosts.removeAll()
 
-        let threeDaysAgo = Calendar.current.date(byAdding: .day, value: -3, to: Date()) ?? Date()
+        let threeDaysAgo = Calendar.current.date(byAdding: .day, value: -7, to: Date()) ?? Date()
         let threeDaysAgoTimestamp = Timestamp(date: threeDaysAgo)
 
         let query = db.collection("post")
@@ -162,7 +164,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
     func fetchFollowMorePosts() async {
         guard let lastDocument = lastFollowFetchedDocument else { return }
         
-        let twoDaysAgo = Calendar.current.date(byAdding: .day, value: -4, to: Date()) ?? Date()
+        let twoDaysAgo = Calendar.current.date(byAdding: .day, value: -7, to: Date()) ?? Date()
         let twoDaysAgoTimestamp = Timestamp(date: twoDaysAgo)
         
         let query = db.collection("post")

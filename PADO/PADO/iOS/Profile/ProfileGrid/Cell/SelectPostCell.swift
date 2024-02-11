@@ -16,7 +16,11 @@ struct SelectPostCell: View {
     
     @State var heartLoading: Bool = false
     @State var isHeartCheck: Bool = false
+    
     @State var postUser: User? = nil
+    @State var surferUser: User? = nil
+    @State var postOwnerButtonOnOff: Bool = false
+    @State var postSurferButtonOnOff: Bool = false
     
     @State private var isHeaderVisible: Bool = true
     @State private var heartCounts: Int = 0
@@ -79,31 +83,57 @@ struct SelectPostCell: View {
                 Spacer()
                 
                 HStack(alignment: .bottom) {
+                    
                     VStack(alignment: .leading, spacing: 4) {
-                        if post.title.isEmpty {
-                            HStack(alignment: .center, spacing: 8) {
-                                Text("@\(descriptionForType(cellType))")
-                                    .font(.system(size: 16))
-                                    .fontWeight(.medium)
-                                
-                                Text("\(post.created_Time.formatDate(post.created_Time))")
-                                    .font(.system(size: 14))
-                                    .foregroundStyle(.white.opacity(0.7))
+                        NavigationLink {
+                            if let postUser = postUser {
+                                OtherUserProfileView(buttonOnOff: $postOwnerButtonOnOff,
+                                                     user: postUser)
                             }
-                        } else {
-                            HStack(alignment: .center, spacing: 8) {
-                                Text("@\(descriptionForType(cellType))")
-                                    .font(.system(size: 16))
-                                    .fontWeight(.medium)
-                                
-                                Text("\(post.created_Time.formatDate(post.created_Time))")
-                                    .font(.system(size: 14))
-                                    .foregroundStyle(.white.opacity(0.7))
+                        } label: {
+                            if let postUser = postUser {
+                                CircularImageView(size: .xLarge,
+                                                  user: postUser)
                             }
-                            .padding(.bottom, 5)
+                        }
+                        
+                        VStack(alignment: .leading, spacing: 4) {
+                            NavigationLink {
+                                if let postUser = postUser {
+                                    OtherUserProfileView(buttonOnOff: $postOwnerButtonOnOff,
+                                                         user: postUser)
+                                }
+                            } label: {
+                                Text("@\(post.ownerUid)")
+                                    .font(.title)
+                                    .fontWeight(.bold)
+                            }
                             
-                            Text("\(post.title)")
-                                .font(.system(size: 16))
+                            if post.title.isEmpty {
+                                HStack(alignment: .center, spacing: 8) {
+                                    Text("\(post.surferUid)님에게 받은 파도")
+                                        .font(.system(size: 16))
+                                        .fontWeight(.medium)
+                                    
+                                    Text("\(post.created_Time.formatDate(post.created_Time))")
+                                        .font(.system(size: 14))
+                                        .foregroundStyle(.white.opacity(0.7))
+                                }
+                            } else {
+                                HStack(alignment: .center, spacing: 8) {
+                                    Text("\(post.surferUid)님에게 받은 파도")
+                                        .font(.system(size: 16))
+                                        .fontWeight(.medium)
+                                    
+                                    Text("\(post.created_Time.formatDate(post.created_Time))")
+                                        .font(.system(size: 14))
+                                        .foregroundStyle(.white.opacity(0.7))
+                                }
+                                .padding(.bottom, 5)
+                                
+                                Text("\(post.title)")
+                                    .font(.system(size: 16))
+                            }
                         }
                     }
                     .foregroundStyle(.white)
@@ -136,6 +166,28 @@ struct SelectPostCell: View {
                                 }
                             }
                             .padding(.bottom, 15)
+                            
+                            // MARK: - 서퍼
+                            NavigationLink {
+                                if let surferUser = surferUser {
+                                    OtherUserProfileView(buttonOnOff: $postSurferButtonOnOff,
+                                                         user: surferUser)
+                                }
+                            } label: {
+                                VStack(spacing: 10) {
+                                    if let surferUser = surferUser {
+                                        Circle()
+                                            .foregroundStyle(.white)
+                                            .frame(width: 39)
+                                            .overlay {
+                                                CircularImageView(size: .small,
+                                                                  user: surferUser)
+                                            }
+                                    }
+                                }
+                                .padding(.bottom, 10)
+                                
+                            }
                             
                             // MARK: - 하트
                             VStack(spacing: 10) {
@@ -246,9 +298,12 @@ struct SelectPostCell: View {
         .onAppear {
             Task {
                 self.postUser = await UpdateUserData.shared.getOthersProfileDatas(id: post.ownerUid)
+                self.surferUser = await UpdateUserData.shared.getOthersProfileDatas(id: post.surferUid)
                 if let postID = post.id {
                     isHeartCheck = await updateHeartData.checkHeartExists(documentID: postID)
-                }
+                } 
+                self.postOwnerButtonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: post.ownerUid)
+                self.postSurferButtonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: post.surferUid)
             }
         }
     }

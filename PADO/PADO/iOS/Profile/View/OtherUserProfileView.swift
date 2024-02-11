@@ -31,9 +31,6 @@ struct OtherUserProfileView: View {
     @State private var isShowingMessageView: Bool = false
     @State private var isShowingUserReport: Bool = false
     
-    @State private var selectedPostID: String?
-    
-    let updateFollowData: UpdateFollowData
     let updatePushNotiData = UpdatePushNotiData()
     
     let user: User
@@ -219,7 +216,7 @@ struct OtherUserProfileView: View {
                                     if buttonOnOff {
                                         Button {
                                             Task {
-                                                await updateFollowData.directUnfollowUser(id: user.nameID)
+                                                await UpdateFollowData.shared.directUnfollowUser(id: user.nameID)
                                                 buttonOnOff.toggle()
                                             }
                                         } label: {
@@ -236,7 +233,7 @@ struct OtherUserProfileView: View {
                                     } else {
                                         Button {
                                             Task {
-                                                await updateFollowData.followUser(id: user.nameID)
+                                                await UpdateFollowData.shared.followUser(id: user.nameID)
                                                 await updatePushNotiData.pushNoti(receiveUser: user, type: .follow)
                                                 buttonOnOff.toggle()
                                             }
@@ -280,7 +277,9 @@ struct OtherUserProfileView: View {
                                         .font(.callout)
                                     }
                                     .sheet(isPresented: $followerActive) {
-                                        FollowMainView(currentType: "팔로워", followVM: followVM, updateFollowData: updateFollowData, user: user)
+                                        FollowMainView(currentType: "팔로워",
+                                                       followVM: followVM,
+                                                       user: user)
                                             .presentationDetents([.large])
                                             .presentationDragIndicator(.visible)
                                             .onDisappear {
@@ -304,7 +303,6 @@ struct OtherUserProfileView: View {
                                     .sheet(isPresented: $followingActive) {
                                         FollowMainView(currentType: "팔로잉",
                                                        followVM: followVM,
-                                                       updateFollowData: updateFollowData,
                                                        user: user)
                                         .presentationDetents([.large])
                                         .presentationDragIndicator(.visible)
@@ -396,7 +394,9 @@ struct OtherUserProfileView: View {
                             if let image = URL(string: post.imageUrl) {
                                 Button {
                                     isShowingReceiveDetail.toggle()
-                                    self.selectedPostID = post.id
+                                    if let postID = post.id {
+                                        profileVM.selectedPostID = postID
+                                    }
                                 } label: {
                                     KFImage(image)
                                         .resizable()
@@ -405,10 +405,9 @@ struct OtherUserProfileView: View {
                                         .clipped()
                                 }
                                 .sheet(isPresented: $isShowingReceiveDetail) {
-                                    OtherSelectPostView(profileVM: profileVM,
+                                    SelectPostView(profileVM: profileVM,
                                                         viewType: PostViewType.receive,
-                                                        isShowingDetail: $isShowingReceiveDetail,
-                                                        selectedPostID: selectedPostID ?? "")
+                                                        isShowingDetail: $isShowingReceiveDetail)
                                     .presentationDragIndicator(.visible)
                                 }
                                 
@@ -440,7 +439,9 @@ struct OtherUserProfileView: View {
                             if let image = URL(string: post.imageUrl) {
                                 Button {
                                     isShowingSendDetail.toggle()
-                                    self.selectedPostID = post.id
+                                    if let postID = post.id {
+                                        profileVM.selectedPostID = postID
+                                    }
                                 } label: {
                                     KFImage(image)
                                         .resizable()
@@ -449,10 +450,9 @@ struct OtherUserProfileView: View {
                                         .clipped()
                                 }
                                 .sheet(isPresented: $isShowingSendDetail) {
-                                    OtherSelectPostView(profileVM: profileVM,
+                                    SelectPostView(profileVM: profileVM,
                                                         viewType: PostViewType.send,
-                                                        isShowingDetail: $isShowingSendDetail,
-                                                        selectedPostID: selectedPostID ?? "")
+                                                        isShowingDetail: $isShowingSendDetail)
                                     .presentationDragIndicator(.visible)
                                 }
                             }
@@ -482,7 +482,9 @@ struct OtherUserProfileView: View {
                             if let image = URL(string: post.imageUrl) {
                                 Button {
                                     isShowingHightlight.toggle()
-                                    self.selectedPostID = post.id
+                                    if let postID = post.id {
+                                        profileVM.selectedPostID = postID
+                                    }
                                 } label: {
                                     KFImage(image)
                                         .resizable()
@@ -491,10 +493,9 @@ struct OtherUserProfileView: View {
                                         .clipped()
                                 }
                                 .sheet(isPresented: $isShowingHightlight) {
-                                    OtherSelectPostView(profileVM: profileVM,
+                                    SelectPostView(profileVM: profileVM,
                                                         viewType: PostViewType.highlight,
-                                                        isShowingDetail: $isShowingHightlight,
-                                                        selectedPostID: selectedPostID ?? "")
+                                                        isShowingDetail: $isShowingHightlight)
                                     .presentationDragIndicator(.visible)
                                 }
                             }

@@ -14,8 +14,6 @@ struct FollowMainView: View {
     
     @ObservedObject var followVM: FollowViewModel
     
-    let updateFollowData: UpdateFollowData
-    
     let user: User
     
     var body: some View {
@@ -82,9 +80,10 @@ struct FollowMainView: View {
     func postList() -> some View {
         switch currentType {
         case "팔로워":
-            FollowerView(followVM: followVM, updateFollowData: updateFollowData, user: user)
+            FollowerView(followVM: followVM,
+                         user: user)
         case "팔로잉":
-            FollowingView(followVM: followVM, updateFollowData: updateFollowData)
+            FollowingView(followVM: followVM)
         default:
             EmptyView()
         }
