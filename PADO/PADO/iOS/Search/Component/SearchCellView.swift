@@ -37,25 +37,27 @@ struct SearchCellView: View {
                         if let image = user.profileImageUrl {
                             KFImage(URL(string: image))
                                 .resizable()
-                                .frame(width: 50, height: 50)
-                                .cornerRadius(50)
+                                .scaledToFill()
+                                .frame(width: 40, height: 40)
+                                .cornerRadius(40)
                                 .padding(.trailing)
                         } else {
                             Image("defaultProfile")
                                 .resizable()
-                                .frame(width: 50, height: 50)
-                                .cornerRadius(50)
+                                .scaledToFill()
+                                .frame(width: 40, height: 40)
+                                .cornerRadius(40)
                                 .padding(.trailing)
                         }
                         
-                        VStack(alignment: .leading, spacing: 3) {
+                        VStack(alignment: .leading, spacing: 4) {
                             Text(user.nameID)
                                 .foregroundStyle(.white)
                                 .font(.system(size: 14))
-                                .fontWeight(.semibold)
+                                .fontWeight(.medium)
                             if !user.username.isEmpty {
                                 Text(user.username)
-                                    .font(.system(size: 12))
+                                    .font(.system(size: 14))
                                     .fontWeight(.regular)
                                     .foregroundStyle(Color(.systemGray))
                             }

@@ -18,18 +18,18 @@ struct FacemojiNotificationCell: View {
             if let image = URL(string: sendUserProfileUrl) {
                 KFImage(image)
                     .resizable()
-                    .frame(width: 50, height: 50)
-                    .cornerRadius(50)
+                    .frame(width: 40, height: 40)
+                    .cornerRadius(40)
                     .padding(.trailing)
             } else {
                 Image("defaultProfile")
                     .resizable()
-                    .frame(width: 50, height: 50)
-                    .cornerRadius(50)
+                    .frame(width: 40, height: 40)
+                    .cornerRadius(40)
                     .padding(.trailing)
             }
             
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 4) {
                 HStack {
                     Text("\(notification.sendUser)님이 회원님의 파도에 페이스모지를 남겼습니다. ")
                         .font(.system(size: 14))
@@ -39,6 +39,7 @@ struct FacemojiNotificationCell: View {
                         .font(.system(size: 12))
                         .foregroundStyle(Color(.systemGray))
                 }
+                .lineSpacing(4)
             }
             Spacer()
             

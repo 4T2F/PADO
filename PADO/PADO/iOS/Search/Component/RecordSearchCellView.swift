@@ -40,28 +40,28 @@ struct RecordSearchCellView: View {
                         KFImage(image)
                             .resizable()
                             .scaledToFill()
-                            .frame(width: 44, height: 44)
-                            .cornerRadius(44)
+                            .frame(width: 40, height: 40)
+                            .cornerRadius(40)
                             .padding(.trailing)
                     } else {
                         Image("defaultProfile")
                             .resizable()
                             .scaledToFill()
-                            .frame(width: 44, height: 44)
-                            .cornerRadius(44)
+                            .frame(width: 40, height: 40)
+                            .cornerRadius(40)
                             .padding(.trailing)
                     }
                     
-                    VStack(alignment: .leading, spacing: 3) {
+                    VStack(alignment: .leading, spacing: 4) {
                         if let user = searchUser {
                             Text(user.nameID)
                                 .foregroundStyle(.white)
-                                .font(.system(size: 12))
+                                .font(.system(size: 14))
                                 .fontWeight(.medium)
                             
                             if !user.username.isEmpty {
                                 Text(user.username)
-                                    .font(.system(size: 12))
+                                    .font(.system(size: 14))
                                     .fontWeight(.regular)
                                     .foregroundStyle(Color(.systemGray))
                             }

@@ -332,9 +332,7 @@ extension Timestamp {
         case 24...:
             // 1일보다 오래된 경우
             let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy.MM.dd. a h:mm" // AM/PM을 포함하는 날짜 형식 지정
-            formatter.amSymbol = "오전"
-            formatter.pmSymbol = "오후"
+            formatter.dateFormat = "yyyy-MM-dd" // AM/PM을 포함하는 날짜 형식 지정
             return formatter.string(from: date)
         case 1...:
             // 1시간 이상, 1일 미만

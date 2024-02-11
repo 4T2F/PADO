@@ -16,8 +16,6 @@ struct IdView: View {
     
     var body: some View {
         ZStack {
-            
-            
             VStack(alignment: .leading) {
                 Text("파도에서 사용할 아이디를 입력해주세요")
                     .font(.system(size: 20))

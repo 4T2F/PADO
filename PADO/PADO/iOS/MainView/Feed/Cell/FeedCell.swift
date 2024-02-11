@@ -93,6 +93,49 @@ struct FeedCell: View {
                             if isLoading { // feedVM에서 로딩 상태를 관리한다고 가정
                                 ProgressView()
                                     .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                .onFailure { _ in
+                                    // 이미지 로딩 실패 시
+                                    isLoading = false
+                                }
+                                .onProgress { receivedSize, totalSize in
+                                    // 로딩 중
+                                    isLoading = true
+                                }
+                                .scaledToFill()
+                                .containerRelativeFrame([.horizontal,.vertical])
+                        }
+                        .overlay {
+                            if feedVM.isHeaderVisible {
+                                LinearGradient(colors: [.black.opacity(0.5),
+                                                        .black.opacity(0.4),
+                                                        .black.opacity(0.3),
+                                                        .black.opacity(0.2),
+                                                        .black.opacity(0.1),
+                                                        .clear, .clear,
+                                                        .clear, .clear,
+                                                        .clear, .clear,
+                                                        .clear, .clear,
+                                                        .clear, .clear,
+                                                        .clear, .clear,
+                                                        .clear, .clear,
+                                                        .clear, .clear,
+                                                        .clear, .clear,
+                                                        .clear, .clear,
+                                                        .clear, .clear,
+                                                        .black.opacity(0.1),
+                                                        .black.opacity(0.1),
+                                                        .black.opacity(0.1),
+                                                        .black.opacity(0.1),
+                                                        .black.opacity(0.2),
+                                                        .black.opacity(0.2),
+                                                        .black.opacity(0.2),
+                                                        .black.opacity(0.3),
+                                                        .black.opacity(0.4),
+                                                        .black.opacity(0.5)],
+                                               startPoint: .top,
+                                               endPoint: .bottom
+                                )
+                                .ignoresSafeArea()
                             }
                         }
                     }
@@ -180,16 +223,10 @@ struct FeedCell: View {
                 
                 HStack(alignment: .bottom) {
                     // MARK: - 아이디 및 타이틀
-                    VStack(alignment: .leading, spacing: 10) {
-                        if let postUser = postUser, let surferUser = surferUser {
-                            CircularImageView(size: .small,
-                                              user: surferUser)
-                            .padding(.leading, 24)
-                            .overlay {
-                                CircularImageView(size: .small,
+                    VStack(alignment: .leading, spacing: 8) {
+                        if let postUser = postUser {
+                                CircularImageView(size: .xLarge,
                                                   user: postUser)
-                                .offset(x: -12)
-                            }
                         }
                         VStack(alignment: .leading, spacing: 4) {
                             Text("@\(post.ownerUid)")
@@ -198,7 +235,8 @@ struct FeedCell: View {
                             
                             HStack(alignment: .center, spacing: 8) {
                                 Text("\(post.surferUid)님에게 받은 파도")
-                                    .font(.system(size: 14))
+                                    .font(.system(size: 16))
+                                    .fontWeight(.medium)
                                 
                                 Text("\(post.created_Time.formatDate(post.created_Time))")
                                     .font(.system(size: 14))
@@ -269,6 +307,20 @@ struct FeedCell: View {
                                 }
                             }
                             .padding(.bottom, 15)
+                            
+                            // MARK: - 서퍼
+                            VStack(spacing: 10) {
+                                if let surferUser = surferUser {
+                                    Circle()
+                                        .foregroundStyle(.white)
+                                        .frame(width: 39)
+                                        .overlay {
+                                            CircularImageView(size: .small,
+                                                              user: surferUser)
+                                        }
+                                }
+                            }
+                            .padding(.bottom, 10)
                             
                             // MARK: - 하트
                             VStack(spacing: 10) {
@@ -341,6 +393,7 @@ struct FeedCell: View {
                                                     postUser: postUser,
                                                     post: post,
                                                     postID: postID)
+                                        .presentationDragIndicator(.visible)
                                     }
                                 }
                                 .presentationDetents([.large])
@@ -375,6 +428,7 @@ struct FeedCell: View {
                             .padding(.top, -15)
                         }
                     }
+                    .padding(.bottom, 28)
                 }
             }
             .padding()

@@ -17,7 +17,7 @@ struct ReportSelectCellView: View {
             ZStack {
                 RoundedRectangle(cornerRadius: 10)
                     .frame(width: UIScreen.main.bounds.width * 0.95, height: 45)
-                    .foregroundStyle(Color(.systemGray5))
+                    .foregroundStyle(.modalCell)
                 HStack {
                     
                     Text(text)

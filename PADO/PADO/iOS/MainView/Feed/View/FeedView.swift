@@ -17,6 +17,7 @@ struct FeedView: View {
     @ObservedObject var surfingVM: SurfingViewModel
     @ObservedObject var profileVM: ProfileViewModel
     @ObservedObject var followVM: FollowViewModel
+    @ObservedObject var notiVM: NotificationViewModel
     @StateObject var scrollDelegate: ScrollViewModel = .init()
     
     let updateHeartData = UpdateHeartData()
@@ -58,14 +59,14 @@ struct FeedView: View {
                             }
                         }
                     }
-                } onRefresh: {
-                    try? await Task.sleep(nanoseconds: 1_500_000_000)
-                    if selectedFilter == FeedFilter.following {
-                        feedVM.findFollowingUsers()
-                    } else {
-                        Task{
-                            await feedVM.fetchTodayPadoPosts()
-                        }
+            } onRefresh: {
+                try? await Task.sleep(nanoseconds: 1_500_000_000)
+                if selectedFilter == FeedFilter.following {
+                    feedVM.findFollowingUsers()
+                } else {
+                    Task{
+                        await feedVM.fetchTodayPadoPosts()
+                        await notiVM.fetchNotifications()
                     }
                 }
                 .scrollDisabled(feedVM.isShowingPadoRide)

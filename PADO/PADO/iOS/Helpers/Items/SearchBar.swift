@@ -22,7 +22,7 @@ struct SearchBar: View {
                         .foregroundStyle(Color.gray)
                         .padding(.leading, 10)
                     
-                    RepresentableTextField(placeHolderString: "검색", keyboardType: .default, text: $text, isFocused: $isFocused)
+                    TextField("검색", text: $text, axis: .vertical)
                     .tint(.gray)
                     .frame(height: 20)
                     .padding(8)

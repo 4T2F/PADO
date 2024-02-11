@@ -22,6 +22,7 @@ struct SelectPostView: View {
     
     @Binding var isShowingDetail: Bool
     @GestureState private var dragState = CGSize.zero
+    @State private var isDetailViewReady = false
     
     var selectedPostID: String
     
@@ -38,10 +39,6 @@ struct SelectPostView: View {
                                                post: $profileVM.padoPosts[index],
                                                cellType: PostViewType.receive)
                                 .id(profileVM.padoPosts[index].id)
-                                
-                            }
-                            .onAppear {
-                                value.scrollTo(selectedPostID, anchor: .top)
                             }
                             
                         case .send:
@@ -51,10 +48,6 @@ struct SelectPostView: View {
                                                post: $profileVM.sendPadoPosts[index],
                                                cellType: PostViewType.send)
                                 .id(profileVM.sendPadoPosts[index].id)
-                                
-                            }
-                            .onAppear {
-                                value.scrollTo(selectedPostID, anchor: .top)
                             }
                         case .highlight:
                             ForEach(profileVM.highlights.indices, id: \.self) { index in
@@ -63,15 +56,14 @@ struct SelectPostView: View {
                                                post: $profileVM.highlights[index],
                                                cellType: PostViewType.highlight)
                                 .id(profileVM.highlights[index].id)
-                                
-                            }
-                            .onAppear {
-                                value.scrollTo(selectedPostID, anchor: .top)
                             }
                         }
                         
                     }
                     .scrollTargetLayout()
+                    .onAppear {
+                        value.scrollTo(selectedPostID, anchor: .top)
+                    }
                 }
             }
             .scrollTargetBehavior(.paging)

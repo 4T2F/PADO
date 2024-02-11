@@ -38,5 +38,6 @@ struct FaceMojiModalView: View {
                     .cornerRadius(10)
             }
         }
+        .background(.modal, ignoresSafeAreaEdges: .all)
     }
 }

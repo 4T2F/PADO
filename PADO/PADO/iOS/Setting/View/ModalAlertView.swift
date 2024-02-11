@@ -14,7 +14,7 @@ enum ModalAlertTitle: String {
 }
 
 enum ModalAlertSubTitle: String {
-    case cash = "캐시를 지우면 몇몇의 문제가 해결될 수 있어요"
+    case cash = "캐시를 지우면 몇몇의 문제가 해결될 수도 있습니다"
     case account = "한번 삭제된 계정은 복원되지 않습니다. 정말 삭제하시겠습니까?"
     case signOut = "현재 계정에서 로그아웃하겠습니까?"
 }
@@ -56,7 +56,7 @@ struct ModalAlertView: View {
                 .foregroundStyle(Color.white)
                 .font(.system(size: 14))
                 .fontWeight(.medium)
-                .padding(30)
+                .padding()
                 
                 Divider()
                 
@@ -97,7 +97,7 @@ struct ModalAlertView: View {
                 .padding(.bottom, 5)
             }
             .frame(width: width * 0.9)
-            .background(Color.main)
+            .background(Color.modal)
             .clipShape(.rect(cornerRadius: 22))
             
             VStack {

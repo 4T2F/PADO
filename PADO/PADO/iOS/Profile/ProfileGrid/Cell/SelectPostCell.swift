@@ -82,8 +82,9 @@ struct SelectPostCell: View {
                     VStack(alignment: .leading, spacing: 4) {
                         if post.title.isEmpty {
                             HStack(alignment: .center, spacing: 8) {
-                                Text(descriptionForType(cellType))
-                                    .font(.system(size: 14))
+                                Text("@\(descriptionForType(cellType))")
+                                    .font(.system(size: 16))
+                                    .fontWeight(.medium)
                                 
                                 Text("\(post.created_Time.formatDate(post.created_Time))")
                                     .font(.system(size: 14))
@@ -91,8 +92,9 @@ struct SelectPostCell: View {
                             }
                         } else {
                             HStack(alignment: .center, spacing: 8) {
-                                Text(descriptionForType(cellType))
-                                    .font(.system(size: 14))
+                                Text("@\(descriptionForType(cellType))")
+                                    .font(.system(size: 16))
+                                    .fontWeight(.medium)
                                 
                                 Text("\(post.created_Time.formatDate(post.created_Time))")
                                     .font(.system(size: 14))
@@ -239,6 +241,7 @@ struct SelectPostCell: View {
                 }
             }
             .padding()
+            .padding(.bottom)
         }
         .onAppear {
             Task {

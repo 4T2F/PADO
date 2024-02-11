@@ -22,11 +22,14 @@ struct OtherUserProfileView: View {
     @Binding var buttonOnOff: Bool
     @State private var buttonActive: Bool = false
     @State private var profileEditButtonActive: Bool = false
+    @State private var followerActive: Bool = false
+    @State private var followingActive: Bool = false
     
     @State private var isShowingReceiveDetail: Bool = false
     @State private var isShowingSendDetail: Bool = false
     @State private var isShowingHightlight: Bool = false
     @State private var isShowingMessageView: Bool = false
+    @State private var isShowingUserReport: Bool = false
     
     @State private var selectedPostID: String?
     
@@ -57,16 +60,27 @@ struct OtherUserProfileView: View {
         .background(.main, ignoresSafeAreaEdges: .all)
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden()
+        .navigationTitle("@\(user.nameID)")
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
-                Text("@\(user.nameID)")
-                    .font(.system(size: 22))
-                    .fontWeight(.bold)
+                Button {
+                    dismiss()
+                } label: {
+                    HStack(spacing: 2) {
+                        Image(systemName: "chevron.left")
+                            .font(.system(size: 14))
+                            .fontWeight(.medium)
+                        
+                        Text("뒤로")
+                            .font(.system(size: 16))
+                            .fontWeight(.medium)
+                    }
+                }
             }
             
             ToolbarItem(placement: .navigationBarTrailing) {
                 HStack {
-                    HStack(spacing: 6) {
+                    HStack(spacing: 0) {
                         if !user.instaAddress.isEmpty {
                             Button {
                                 profileVM.openSocialMediaApp(urlScheme: "instagram://user?username=\(user.instaAddress)", fallbackURL: "https://instagram.com/\(user.instaAddress)")
@@ -81,6 +95,18 @@ struct OtherUserProfileView: View {
                             } label: {
                                 Image("tiktokicon")
                             }
+                        }
+                        
+                        Button {
+                            isShowingUserReport.toggle()
+                        } label: {
+                            Image(systemName: "ellipsis")
+                        }
+                        .sheet(isPresented: $isShowingUserReport) {
+                            ReprotProfileModalView()
+                                .presentationDetents([.fraction(0.33)])
+                                .presentationDragIndicator(.visible)
+                                .presentationCornerRadius(30)
                         }
                     }
                 }
@@ -125,7 +151,7 @@ struct OtherUserProfileView: View {
                                                 .main.opacity(1)], startPoint: .top, endPoint: .bottom)
                         
                         VStack(alignment: .leading, spacing: 10) {
-                            CircularImageView(size: .xLarge, user: user)
+                            CircularImageView(size: .xxLarge, user: user)
                                 .offset(y: 5)
                                 .overlay {
                                     Button {
@@ -152,10 +178,9 @@ struct OtherUserProfileView: View {
                                     }
                                     .offset(x: +46, y: -30)
                                     .sheet(isPresented: $isShowingMessageView) {
-                                        
                                         PostitView(postitVM: postitVM,
                                                    isShowingMessageView: $isShowingMessageView)
-                                        
+                                        .presentationDragIndicator(.visible)
                                     }
                                     .presentationDetents([.large])
                                 }
@@ -234,43 +259,62 @@ struct OtherUserProfileView: View {
                             HStack {
                                 Label {
                                     Text("파도")
-                                        .fontWeight(.semibold)
                                         .foregroundStyle(.white.opacity(0.9))
                                 } icon: {
                                     Text("\(profileVM.padoPosts.count + profileVM.sendPadoPosts.count)")
-                                        .fontWeight(.semibold)
                                         .foregroundStyle(.white.opacity(0.9))
                                 }
                                 .font(.callout)
                                 
-                                NavigationLink(destination: FollowMainView(currentType: "팔로워", followVM: followVM, updateFollowData: updateFollowData, user: user)) {
-                                    Label {
-                                        Text("팔로워")
-                                            .fontWeight(.semibold)
-                                            .foregroundStyle(.white.opacity(0.9))
-                                    } icon: {
-                                        Text("\(followVM.followerIDs.count + followVM.surferIDs.count)")
-                                            .fontWeight(.semibold)
-                                            .foregroundStyle(.white.opacity(0.9))
+                                if let user = viewModel.currentUser {
+                                    Button {
+                                        followerActive = true
+                                    } label: {
+                                        Label {
+                                            Text("팔로워")
+                                                .foregroundStyle(.white.opacity(0.9))
+                                        } icon: {
+                                            Text("\(followVM.followerIDs.count + followVM.surferIDs.count)")
+                                                .foregroundStyle(.white.opacity(0.9))
+                                        }
+                                        .font(.callout)
                                     }
-                                    .font(.callout)
-                                }
-                                
-                                NavigationLink(destination: FollowMainView(currentType: "팔로잉", followVM: followVM, updateFollowData: updateFollowData, user: user)) {
-                                    Label {
-                                        Text("팔로잉")
-                                            .fontWeight(.semibold)
-                                            .foregroundStyle(.white.opacity(0.9))
-                                    } icon: {
-                                        Text("\(followVM.followingIDs.count)")
-                                            .fontWeight(.semibold)
-                                            .foregroundStyle(.white.opacity(0.9))
+                                    .sheet(isPresented: $followerActive) {
+                                        FollowMainView(currentType: "팔로워", followVM: followVM, updateFollowData: updateFollowData, user: user)
+                                            .presentationDetents([.large])
+                                            .presentationDragIndicator(.visible)
+                                            .onDisappear {
+                                                followerActive = false
+                                            }
                                     }
-                                    .font(.callout)
+                                    
+                                    Button {
+                                        followingActive = true
+                                    } label: {
+                                        Label {
+                                            Text("팔로잉")
+                                                .foregroundStyle(.white.opacity(0.9))
+                                        } icon: {
+                                            Text("\(followVM.followingIDs.count)")
+                                                .foregroundStyle(.white.opacity(0.9))
+                                        }
+                                        .font(.callout)
+                                    }
+                                    
+                                    .sheet(isPresented: $followingActive) {
+                                        FollowMainView(currentType: "팔로잉",
+                                                       followVM: followVM,
+                                                       updateFollowData: updateFollowData,
+                                                       user: user)
+                                        .presentationDetents([.large])
+                                        .presentationDragIndicator(.visible)
+                                        .onDisappear {
+                                            followingActive = false
+                                        }
+                                    }
                                 }
                             }
                             .padding(.leading, 2)
-                            
                         }
                         .padding(.horizontal)
                         .padding(.bottom, 20)
@@ -280,7 +324,7 @@ struct OtherUserProfileView: View {
                 .cornerRadius(0)
                 .offset(y: -minY)
         }
-        .frame(height: 250)
+        .frame(height: 300)
     }
     
     @ViewBuilder

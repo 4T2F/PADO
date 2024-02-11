@@ -19,7 +19,6 @@ struct WhiteButtonView: View {
                 .foregroundStyle(buttonActive ? Color(red: 250/255, green: 250/255, blue: 250/255) : Color.grayButton)
             
             HStack {
-                
                 Text(text)
                     .foregroundStyle(.black)
                     .font(.system(size: 14))
