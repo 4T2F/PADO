@@ -33,71 +33,150 @@ struct FeedCell: View {
     
     var body: some View {
         ZStack {
-            Rectangle()
-                .foregroundStyle(.black)
-                .containerRelativeFrame([.horizontal,.vertical])
-                .overlay {
-                    // MARK: - 사진
-                    if let imageUrl = URL(string: post.imageUrl) {
-                        ZStack {
-                            KFImage.url(imageUrl)
-                                .resizable()
-                                .onSuccess { _ in
-                                    // 이미지 로딩 성공 시
-                                    isLoading = false
+            if feedVM.currentPadoRideIndex == nil || feedVM.padoRidePosts.isEmpty {
+                Rectangle()
+                    .foregroundStyle(.black)
+                    .containerRelativeFrame([.horizontal,.vertical])
+                    .overlay {
+                        // MARK: - 사진
+                        if let imageUrl = URL(string: post.imageUrl) {
+                            ZStack {
+                                KFImage.url(imageUrl)
+                                    .resizable()
+                                    .onSuccess { _ in
+                                        // 이미지 로딩 성공 시
+                                        isLoading = false
+                                    }
+                                    .onFailure { _ in
+                                        // 이미지 로딩 실패 시
+                                        isLoading = false
+                                    }
+                                    .onProgress { receivedSize, totalSize in
+                                        // 로딩 중
+                                        isLoading = true
+                                    }
+                                    .scaledToFill()
+                                    .containerRelativeFrame([.horizontal,.vertical])
+                            }
+                            .overlay {
+                                if feedVM.isHeaderVisible {
+                                    LinearGradient(colors: [.black.opacity(0.5),
+                                                            .black.opacity(0.4),
+                                                            .black.opacity(0.3),
+                                                            .black.opacity(0.2),
+                                                            .black.opacity(0.1),
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .black.opacity(0.1),
+                                                            .black.opacity(0.1),
+                                                            .black.opacity(0.1),
+                                                            .black.opacity(0.1),
+                                                            .black.opacity(0.2),
+                                                            .black.opacity(0.2),
+                                                            .black.opacity(0.2),
+                                                            .black.opacity(0.3),
+                                                            .black.opacity(0.4),
+                                                            .black.opacity(0.5)],
+                                                   startPoint: .top,
+                                                   endPoint: .bottom
+                                    )
+                                    .ignoresSafeArea()
                                 }
-                                .onFailure { _ in
-                                    // 이미지 로딩 실패 시
-                                    isLoading = false
-                                }
-                                .onProgress { receivedSize, totalSize in
-                                    // 로딩 중
-                                    isLoading = true
-                                }
-                                .scaledToFill()
-                                .containerRelativeFrame([.horizontal,.vertical])
-                        }
-                        .overlay {
-                            if feedVM.isHeaderVisible {
-                                LinearGradient(colors: [.black.opacity(0.5),
-                                                        .black.opacity(0.4),
-                                                        .black.opacity(0.3),
-                                                        .black.opacity(0.2),
-                                                        .black.opacity(0.1),
-                                                        .clear, .clear,
-                                                        .clear, .clear,
-                                                        .clear, .clear,
-                                                        .clear, .clear,
-                                                        .clear, .clear,
-                                                        .clear, .clear,
-                                                        .clear, .clear,
-                                                        .clear, .clear,
-                                                        .clear, .clear,
-                                                        .clear, .clear,
-                                                        .clear, .clear,
-                                                        .black.opacity(0.1),
-                                                        .black.opacity(0.1),
-                                                        .black.opacity(0.1),
-                                                        .black.opacity(0.1),
-                                                        .black.opacity(0.2),
-                                                        .black.opacity(0.2),
-                                                        .black.opacity(0.2),
-                                                        .black.opacity(0.3),
-                                                        .black.opacity(0.4),
-                                                        .black.opacity(0.5)],
-                                               startPoint: .top,
-                                               endPoint: .bottom
-                                )
-                                .ignoresSafeArea()
+                            }
+                            
+                            if isLoading { // feedVM에서 로딩 상태를 관리한다고 가정
+                                ProgressView()
+                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                             }
                         }
-                        
-                        if isLoading { // feedVM에서 로딩 상태를 관리한다고 가정
-                            ProgressView()
-                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    }
+            } else if let currentIndex = feedVM.currentPadoRideIndex, feedVM.padoRidePosts.indices.contains(currentIndex) {
+                // PadoRide 이미지 표시
+                let padoRide = feedVM.padoRidePosts[currentIndex]
+                
+                Rectangle()
+                    .foregroundStyle(.black)
+                    .containerRelativeFrame([.horizontal,.vertical])
+                    .overlay {
+                        // MARK: - 사진
+                        if let imageUrl = URL(string: padoRide.imageUrl) {
+                            ZStack {
+                                KFImage.url(imageUrl)
+                                    .resizable()
+                                    .onSuccess { _ in
+                                        // 이미지 로딩 성공 시
+                                        isLoading = false
+                                    }
+                                    .onFailure { _ in
+                                        // 이미지 로딩 실패 시
+                                        isLoading = false
+                                    }
+                                    .onProgress { receivedSize, totalSize in
+                                        // 로딩 중
+                                        isLoading = true
+                                    }
+                                    .scaledToFill()
+                                    .containerRelativeFrame([.horizontal,.vertical])
+                            }
+                            .overlay {
+                                if feedVM.isHeaderVisible {
+                                    LinearGradient(colors: [.black.opacity(0.5),
+                                                            .black.opacity(0.4),
+                                                            .black.opacity(0.3),
+                                                            .black.opacity(0.2),
+                                                            .black.opacity(0.1),
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .black.opacity(0.1),
+                                                            .black.opacity(0.1),
+                                                            .black.opacity(0.1),
+                                                            .black.opacity(0.2),
+                                                            .black.opacity(0.3),
+                                                            .black.opacity(0.4),
+                                                            .black.opacity(0.5)],
+                                                   startPoint: .top,
+                                                   endPoint: .bottom
+                                    )
+                                    .ignoresSafeArea()
+                                }
+                            }
+                            
+                            if isLoading { // feedVM에서 로딩 상태를 관리한다고 가정
+                                ProgressView()
+                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            }
                         }
                     }
+                
+                VStack(alignment: .leading) {
+                    HStack {
+                        Text("\(feedVM.padoRidePosts[currentIndex].id ?? "") 님이 꾸민 파도")
+                            .font(.headline)
+                            .padding(.top, UIScreen.main.bounds.height * 0.06)
+                            .padding(.leading, 15)
+                        Spacer()
+                    }
+                    Spacer()
                 }
+            }
             
             VStack {
                 Spacer()
@@ -143,7 +222,36 @@ struct FeedCell: View {
                                         // 햅틱 피드백 생성
                                         let generator = UIImpactFeedbackGenerator(style: .light)
                                         generator.impactOccurred()
-                                        feedVM.isHeaderVisible.toggle()
+                                        // feedVM.isHeaderVisible.toggle()
+                                    }
+                                    
+                                    if let currentIndex = feedVM.currentPadoRideIndex {
+                                        // 다음 이미지로 이동
+                                        let nextIndex = currentIndex + 1
+                                        if nextIndex < feedVM.padoRidePosts.count {
+                                            feedVM.currentPadoRideIndex = nextIndex
+                                            feedVM.isShowingPadoRide = true
+                                        } else {
+                                            // 모든 PadoRide 이미지를 보여준 후, 원래 포스트로 돌아감
+                                            feedVM.currentPadoRideIndex = nil
+                                            feedVM.isShowingPadoRide = false
+                                            feedVM.padoRidePosts = []
+                                        }
+                                    } else {
+                                        // 최초로 PadoRide 이미지 보여주기
+                                        // PadoRidePosts가 이미 로드되었는지 확인
+                                        if feedVM.padoRidePosts.isEmpty {
+                                            Task {
+                                                await feedVM.fetchPadoRides(postID: post.id ?? "")
+                                                if !feedVM.padoRidePosts.isEmpty {
+                                                    feedVM.isShowingPadoRide = true
+                                                    feedVM.currentPadoRideIndex = 0
+                                                }
+                                            }
+                                        } else {
+                                            feedVM.isShowingPadoRide = false
+                                            feedVM.currentPadoRideIndex = 0
+                                        }
                                     }
                                 } label: {
                                     Circle()

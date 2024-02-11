@@ -20,6 +20,8 @@ class PadoRideViewModel: ObservableObject {
     @Published var selectedPost: Post?
     
     @Published var isShowingEditView: Bool = false
+    @Published var isShowingDrawingView: Bool = false
+    @Published var showingModal: Bool = false
     
     // Pencil킷 관련 변수들
     @Published var canvas = PKCanvasView()
@@ -29,9 +31,9 @@ class PadoRideViewModel: ObservableObject {
     @Published var currentIndex: Int = 0
     @Published var rect: CGRect = .zero
     @Published var decoUIImage: UIImage = UIImage()
-    @Published var showingModal: Bool = false
     
     let getPostData = GetPostData()
+    let cropWhiteBackground = CropWhiteBackground()
     let db = Firestore.firestore()
     
     // 선택된 이미지 URL을 기반으로 UIImage를 다운로드하고 저장하는 함수
@@ -53,6 +55,7 @@ class PadoRideViewModel: ObservableObject {
     func cancelImageEditing() {
         selectedUIImage = nil
         selectedImage = ""
+        decoUIImage = UIImage()
         canvas = PKCanvasView()
         toolPicker = PKToolPicker()
         textBoxes.removeAll()
@@ -85,6 +88,7 @@ class PadoRideViewModel: ObservableObject {
         }
     }
     
+    @MainActor
     func saveImage() {
         UIGraphicsBeginImageContextWithOptions(rect.size, false, 0)
         canvas.drawHierarchy(in: CGRect(origin: .zero, size: rect.size), afterScreenUpdates: true)
@@ -114,8 +118,13 @@ class PadoRideViewModel: ObservableObject {
         if let image = generatedImage?.pngData(){
             
             UIImageWriteToSavedPhotosAlbum(UIImage(data: image)!, nil, nil, nil)
+            selectedUIImage = UIImage(data: image) ?? UIImage()
             
-            decoUIImage = UIImage(data: image) ?? UIImage()
+            Task {
+                let testdecoUIImage = try await cropWhiteBackground.processImage(inputImage: selectedUIImage ?? UIImage())
+                decoUIImage = testdecoUIImage
+            }
+            
         }
     }
     
