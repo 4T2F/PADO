@@ -59,14 +59,15 @@ struct FeedView: View {
                             }
                         }
                     }
-            } onRefresh: {
-                try? await Task.sleep(nanoseconds: 1_500_000_000)
-                if selectedFilter == FeedFilter.following {
-                    feedVM.findFollowingUsers()
-                } else {
-                    Task{
-                        await feedVM.fetchTodayPadoPosts()
-                        await notiVM.fetchNotifications()
+                } onRefresh: {
+                    try? await Task.sleep(nanoseconds: 1_500_000_000)
+                    if selectedFilter == FeedFilter.following {
+                        feedVM.findFollowingUsers()
+                    } else {
+                        Task{
+                            await feedVM.fetchTodayPadoPosts()
+                            await notiVM.fetchNotifications()
+                        }
                     }
                 }
                 .scrollDisabled(feedVM.isShowingPadoRide)
@@ -74,7 +75,7 @@ struct FeedView: View {
                 VStack {
                     if !feedVM.isShowingPadoRide {
                         if scrollDelegate.scrollOffset < 5 {
-                            FeedHeaderCell(selectedFilter: $selectedFilter)
+                            FeedHeaderCell(selectedFilter: $selectedFilter, notiVM: notiVM)
                                 .transition(.opacity.combined(with: .scale))
                         } else if !scrollDelegate.isEligible {
                             FeedRefreshHeaderCell()
@@ -85,7 +86,6 @@ struct FeedView: View {
                 }
                 .padding(.top, 10)
                 .animation(.easeInOut, value: scrollDelegate.scrollOffset)
-                
             }
         }
     }

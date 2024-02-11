@@ -79,6 +79,9 @@ struct FeedCell: View {
                                                             .black.opacity(0.1),
                                                             .black.opacity(0.1),
                                                             .black.opacity(0.1),
+                                                            .black.opacity(0.1),
+                                                            .black.opacity(0.2),
+                                                            .black.opacity(0.2),
                                                             .black.opacity(0.2),
                                                             .black.opacity(0.3),
                                                             .black.opacity(0.4),
@@ -93,49 +96,6 @@ struct FeedCell: View {
                             if isLoading { // feedVM에서 로딩 상태를 관리한다고 가정
                                 ProgressView()
                                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                .onFailure { _ in
-                                    // 이미지 로딩 실패 시
-                                    isLoading = false
-                                }
-                                .onProgress { receivedSize, totalSize in
-                                    // 로딩 중
-                                    isLoading = true
-                                }
-                                .scaledToFill()
-                                .containerRelativeFrame([.horizontal,.vertical])
-                        }
-                        .overlay {
-                            if feedVM.isHeaderVisible {
-                                LinearGradient(colors: [.black.opacity(0.5),
-                                                        .black.opacity(0.4),
-                                                        .black.opacity(0.3),
-                                                        .black.opacity(0.2),
-                                                        .black.opacity(0.1),
-                                                        .clear, .clear,
-                                                        .clear, .clear,
-                                                        .clear, .clear,
-                                                        .clear, .clear,
-                                                        .clear, .clear,
-                                                        .clear, .clear,
-                                                        .clear, .clear,
-                                                        .clear, .clear,
-                                                        .clear, .clear,
-                                                        .clear, .clear,
-                                                        .clear, .clear,
-                                                        .black.opacity(0.1),
-                                                        .black.opacity(0.1),
-                                                        .black.opacity(0.1),
-                                                        .black.opacity(0.1),
-                                                        .black.opacity(0.2),
-                                                        .black.opacity(0.2),
-                                                        .black.opacity(0.2),
-                                                        .black.opacity(0.3),
-                                                        .black.opacity(0.4),
-                                                        .black.opacity(0.5)],
-                                               startPoint: .top,
-                                               endPoint: .bottom
-                                )
-                                .ignoresSafeArea()
                             }
                         }
                     }
