@@ -58,7 +58,7 @@ struct PostView: View {
             surfingVM.postingImage
                 .resizable()
                 .scaledToFit()
-                .frame(width: UIScreen.main.bounds.width * 0.6, height: UIScreen.main.bounds.height * 0.5)
+                .frame(width: UIScreen.main.bounds.width * 0.5, height: UIScreen.main.bounds.height * 0.4)
                 .padding(.vertical, 20)
             
             Spacer()
@@ -96,11 +96,11 @@ struct PostView: View {
                             Image("defaultProfile")
                                 .resizable()
                                 .scaledToFill()
-                                .frame(width: 50, height: 50)
+                                .frame(width: 35, height: 35)
                                 .clipShape(Circle())
                         }
                         .scaledToFill()
-                        .frame(width: 50, height: 50)
+                        .frame(width: 35, height: 35)
                         .clipShape(Circle())
                         .padding(.leading, 5)
                     
@@ -126,9 +126,7 @@ struct PostView: View {
                 .padding(.trailing)
             } //: HSTACK
             .padding(20)
-            
-            Spacer()
-            
+                        
             Button {
                 // 게시요청 로직
                 if followVM.selectSurfingID.isEmpty {
@@ -150,8 +148,11 @@ struct PostView: View {
             
                                 postOwner = await UpdateUserData.shared.getOthersProfileDatas(id: followVM.selectSurfingID)
                                 await UpdatePushNotiData.shared.pushPostNoti(targetPostID: formattedPostingTitle, receiveUser: postOwner!, type: .requestSurfing, message: "\($surfingVM.postingTitle)") // 예시 postID 넣어둠
+                                
                                 surfingVM.resetImage()
-                                feedVM.findFollowingUsers()
+                                
+//                                feedVM.findFollowingUsers()
+                                
                                 followVM.selectSurfingID = ""
                                 followVM.selectSurfingUsername = ""
                                 followVM.selectSurfingProfileUrl = ""
@@ -178,6 +179,7 @@ struct PostView: View {
             .alert("서핑할 친구를 선택해주세요", isPresented: $showAlert) {
                 Button("확인", role: .cancel) { }
             }
+            .padding(.bottom, 20)
         } //: VSTACK
         .navigationBarBackButtonHidden()
         .sheet(isPresented: $followVM.showSurfingList) {
