@@ -179,8 +179,8 @@ struct ProfileView: View {
                                 
                                 Spacer()
                                 
-                                Button {
-                                    profileEditButtonActive = true
+                                NavigationLink {
+                                    SettingProfileView()
                                 } label: {
                                     ZStack {
                                         RoundedRectangle(cornerRadius: 4)
@@ -191,13 +191,6 @@ struct ProfileView: View {
                                             .fontWeight(.medium)
                                             .foregroundStyle(.white)
                                     }
-                                }
-                                .sheet(isPresented: $profileEditButtonActive) {
-                                    SettingProfileView()
-                                        .presentationDragIndicator(.visible)
-                                        .onDisappear {
-                                            profileEditButtonActive = false
-                                        }
                                 }
                             }
                             

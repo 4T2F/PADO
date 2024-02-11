@@ -193,8 +193,8 @@ struct OtherUserProfileView: View {
                                 Spacer()
                                 
                                 if user.nameID == userNameID {
-                                    Button {
-                                        profileEditButtonActive = true
+                                    NavigationLink {
+                                        SettingProfileView()
                                     } label: {
                                         ZStack {
                                             RoundedRectangle(cornerRadius:4)
@@ -205,12 +205,6 @@ struct OtherUserProfileView: View {
                                                 .fontWeight(.medium)
                                                 .foregroundStyle(.white)
                                         }
-                                    }
-                                    .sheet(isPresented: $profileEditButtonActive) {
-                                        SettingProfileView()
-                                            .onDisappear {
-                                                profileEditButtonActive = false
-                                            }
                                     }
                                 } else {
                                     if buttonOnOff {

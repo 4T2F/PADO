@@ -54,7 +54,7 @@ struct SettingProfileView: View {
                                         
                                     } else {
                                         if let user = viewModel.currentUser {
-                                            CircularImageView(size: .xxxLarge, user: user)
+                                            CircularImageView(size: .xxxxLarge, user: user)
                                                 .overlay(
                                                     Circle()
                                                         .stroke(Color.white, lineWidth: 1.4)
@@ -115,7 +115,7 @@ struct SettingProfileView: View {
                                                     )
                                             } else {
                                                 if let user = viewModel.currentUser {
-                                                    CircularImageView(size: .xxxLarge, user: user)
+                                                    CircularImageView(size: .xxxxLarge, user: user)
                                                         .overlay(
                                                             Circle()
                                                                 .stroke(Color.white, lineWidth: 1.4)
