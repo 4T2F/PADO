@@ -46,6 +46,7 @@
 		418743212B5C32CF00D93CBE /* CircularImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4187431C2B5C32CF00D93CBE /* CircularImageView.swift */; };
 		418743272B5C42A300D93CBE /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418743262B5C42A300D93CBE /* SignUpView.swift */; };
 		418743292B5C42AB00D93CBE /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418743282B5C42AB00D93CBE /* LoginView.swift */; };
+		41898FB82B7874BE00F33F03 /* SelectCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41898FB72B7874BE00F33F03 /* SelectCommentView.swift */; };
 		418ACDC12B76181B003DD9E7 /* Wave.json in Resources */ = {isa = PBXBuildFile; fileRef = 418ACDC02B76181B003DD9E7 /* Wave.json */; };
 		418ACDC32B761AE6003DD9E7 /* nonePostit.json in Resources */ = {isa = PBXBuildFile; fileRef = 418ACDC22B761AE5003DD9E7 /* nonePostit.json */; };
 		418ACDC52B764B3C003DD9E7 /* PostitMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418ACDC42B764B3C003DD9E7 /* PostitMessage.swift */; };
@@ -273,6 +274,7 @@
 		4187431C2B5C32CF00D93CBE /* CircularImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircularImageView.swift; sourceTree = "<group>"; };
 		418743262B5C42A300D93CBE /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		418743282B5C42AB00D93CBE /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		41898FB72B7874BE00F33F03 /* SelectCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCommentView.swift; sourceTree = "<group>"; };
 		418ACDC02B76181B003DD9E7 /* Wave.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Wave.json; sourceTree = "<group>"; };
 		418ACDC22B761AE5003DD9E7 /* nonePostit.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = nonePostit.json; sourceTree = "<group>"; };
 		418ACDC42B764B3C003DD9E7 /* PostitMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostitMessage.swift; sourceTree = "<group>"; };
@@ -1025,6 +1027,7 @@
 				6408FEEB2B6FB90E00BF0DDF /* DeleteFaceMojiView.swift */,
 				6408FEEF2B6FCB9900BF0DDF /* SelectEmojiView.swift */,
 				04E950992B71B7860091F660 /* FaceMojiModalView.swift */,
+				41898FB72B7874BE00F33F03 /* SelectCommentView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1402,6 +1405,7 @@
 				64392B6D2B737F080047BA12 /* PadoRideView.swift in Sources */,
 				64392B662B71D2C70047BA12 /* FeedHeaderCell.swift in Sources */,
 				64392B7A2B74B66D0047BA12 /* SendPadoView.swift in Sources */,
+				41898FB82B7874BE00F33F03 /* SelectCommentView.swift in Sources */,
 				418B6C8F2B5EC16500E8289D /* FollowViewModel.swift in Sources */,
 				419981CF2B7412A700EEA06E /* CustomRefreshView.swift in Sources */,
 				64B4C8EA2B62532100D405DE /* UpdateUserData.swift in Sources */,

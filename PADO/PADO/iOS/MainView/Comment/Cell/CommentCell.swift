@@ -19,6 +19,7 @@ struct CommentCell: View {
     @State var buttonOnOff: Bool = false
     
     let updateFollowData = UpdateFollowData()
+    let post: Post
     let postID: String
     
     var body: some View {
@@ -81,6 +82,15 @@ struct CommentCell: View {
                             Image(systemName: "ellipsis")
                                 .foregroundStyle(.white)
                         }
+                    } else if post.ownerUid == userNameID {
+                        // 댓글 삭제, 신고 두개 다 가능한 모달 열리게 해야함
+                        Button {
+                            commentVM.selectedComment = comment
+                            commentVM.showselectModal = true
+                        } label: {
+                            Image(systemName: "ellipsis")
+                                .foregroundStyle(.white)
+                        }
                     } else {
                         Button {
                             commentVM.selectedComment = comment
@@ -110,6 +120,13 @@ struct CommentCell: View {
             DeleteCommentView(commentVM: commentVM,
                               postID: postID)
                 .presentationDetents([.fraction(0.4)])
+        }
+        .sheet(isPresented: $commentVM.showselectModal) {
+            SelectCommentView(commentVM: commentVM,
+                              postID: postID)
+            .presentationDetents([.medium])
+            .presentationDragIndicator(.visible)
+                
         }
         .sheet(isPresented: $commentVM.showreportModal) {
             ReportCommentView(isShowingReportView: $commentVM.showreportModal)

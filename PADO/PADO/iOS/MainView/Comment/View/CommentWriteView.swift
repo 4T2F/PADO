@@ -54,7 +54,9 @@ struct CommentWriteView: View {
                     VStack(alignment: .leading) {
                         if !commentVM.comments.isEmpty, let postID = post.id {
                             ForEach(commentVM.comments) { comment in
-                                CommentCell(comment: comment, commentVM: commentVM, postID: postID)
+                                CommentCell(comment: comment, commentVM: commentVM,
+                                            post: post,
+                                            postID: postID)
                                     .id(comment.id)
                                     .padding(.horizontal, 10)
                                     .padding(.bottom, 20)

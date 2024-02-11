@@ -94,17 +94,19 @@ class FeedViewModel:Identifiable ,ObservableObject {
             .limit(to: 5)
         
         do {
-               let documents = try await getDocumentsAsync(collection: db.collection("post"), query: query)
-               let filteredDocuments = documents.compactMap { document -> DocumentSnapshot? in
-                   guard let post = try? document.data(as: Post.self) else {
-                       return nil
-                   }
-                   return document
-               }
-
-               self.lastFollowFetchedDocument = filteredDocuments.last
-
-               let fetchedFollowingPosts = filteredDocuments.compactMap { document in
+            let documents = try await getDocumentsAsync(collection: db.collection("post"), query: query)
+            
+            let filteredDocuments = documents.compactMap { document -> DocumentSnapshot? in
+                if (try? document.data(as: Post.self)) != nil {
+                    return document
+                } else {
+                    return nil
+                }
+            }
+            
+            self.lastFollowFetchedDocument = filteredDocuments.last
+            
+            let fetchedFollowingPosts = filteredDocuments.compactMap { document in
                    try? document.data(as: Post.self)
                }
             

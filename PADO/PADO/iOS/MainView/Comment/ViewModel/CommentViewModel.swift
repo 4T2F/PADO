@@ -16,6 +16,7 @@ class CommentViewModel: ObservableObject {
     @Published var inputcomment: String = ""
     @Published var showdeleteModal: Bool = false
     @Published var showreportModal: Bool = false
+    @Published var showselectModal: Bool = false
     @Published var selectedComment: Comment?
     
     let updateCommentData = UpdateCommentData()
