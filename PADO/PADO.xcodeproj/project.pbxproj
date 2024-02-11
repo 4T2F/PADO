@@ -88,8 +88,6 @@
 		41FD9A112B43D5ED0028D38E /* PADOUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FD9A102B43D5ED0028D38E /* PADOUITests.swift */; };
 		41FD9A132B43D5ED0028D38E /* PADOUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FD9A122B43D5ED0028D38E /* PADOUITestsLaunchTests.swift */; };
 		41FD9A212B43D94A0028D38E /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 41FD9A202B43D94A0028D38E /* .swiftlint.yml */; };
-		6302CFC42B73E40900E5B7CE /* OtherSelectPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6302CFC32B73E40900E5B7CE /* OtherSelectPostView.swift */; };
-		6302CFC62B73E41600E5B7CE /* OtherSelectPostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6302CFC52B73E41600E5B7CE /* OtherSelectPostCell.swift */; };
 		63283DB92B73BDF700A42C0F /* SelectPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63283DB82B73BDF700A42C0F /* SelectPostView.swift */; };
 		63283DBB2B73BE0100A42C0F /* SelectPostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63283DBA2B73BE0100A42C0F /* SelectPostCell.swift */; };
 		6346F7D92B6606A3009C752A /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 6346F7D82B6606A3009C752A /* Lottie */; };
@@ -320,8 +318,6 @@
 		41FD9A102B43D5ED0028D38E /* PADOUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PADOUITests.swift; sourceTree = "<group>"; };
 		41FD9A122B43D5ED0028D38E /* PADOUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PADOUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		41FD9A202B43D94A0028D38E /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
-		6302CFC32B73E40900E5B7CE /* OtherSelectPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherSelectPostView.swift; sourceTree = "<group>"; };
-		6302CFC52B73E41600E5B7CE /* OtherSelectPostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherSelectPostCell.swift; sourceTree = "<group>"; };
 		63283DB82B73BDF700A42C0F /* SelectPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPostView.swift; sourceTree = "<group>"; };
 		63283DBA2B73BE0100A42C0F /* SelectPostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPostCell.swift; sourceTree = "<group>"; };
 		635B09472B4500AA009E60A9 /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
@@ -792,31 +788,6 @@
 			path = PADOUITests;
 			sourceTree = "<group>";
 		};
-		6302CFB82B73DE2B00E5B7CE /* OtherUserProfileGrid */ = {
-			isa = PBXGroup;
-			children = (
-				6302CFBE2B73E3AB00E5B7CE /* View */,
-				6302CFBD2B73E3A900E5B7CE /* Cell */,
-			);
-			path = OtherUserProfileGrid;
-			sourceTree = "<group>";
-		};
-		6302CFBD2B73E3A900E5B7CE /* Cell */ = {
-			isa = PBXGroup;
-			children = (
-				6302CFC52B73E41600E5B7CE /* OtherSelectPostCell.swift */,
-			);
-			path = Cell;
-			sourceTree = "<group>";
-		};
-		6302CFBE2B73E3AB00E5B7CE /* View */ = {
-			isa = PBXGroup;
-			children = (
-				6302CFC32B73E40900E5B7CE /* OtherSelectPostView.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
 		632291382B5BF412007C51D1 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
@@ -948,7 +919,6 @@
 				63AA035F2B6A173000431332 /* ViewModel */,
 				63AA03562B68F19A00431332 /* View */,
 				63283DBC2B73BEFE00A42C0F /* ProfileGrid */,
-				6302CFB82B73DE2B00E5B7CE /* OtherUserProfileGrid */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -1424,7 +1394,6 @@
 				63283DB92B73BDF700A42C0F /* SelectPostView.swift in Sources */,
 				B1D7CDEF2B566A2F0090544B /* ViewExtension.swift in Sources */,
 				418ACDCB2B767CB3003DD9E7 /* DeleteMessageView.swift in Sources */,
-				6302CFC62B73E41600E5B7CE /* OtherSelectPostCell.swift in Sources */,
 				41A102932B624CCB0070AB8D /* Comment.swift in Sources */,
 				649372F42B5612E700BCDA71 /* FollowingView.swift in Sources */,
 				418B6C8C2B5EBC6000E8289D /* ActivityIndicator.swift in Sources */,
@@ -1470,7 +1439,6 @@
 				648963E12B6BEF890080050D /* Facemoji.swift in Sources */,
 				63B563FF2B44656600AEC5E7 /* Year.swift in Sources */,
 				B1A91D0F2B55928D00FE7F62 /* SettingView.swift in Sources */,
-				6302CFC42B73E40900E5B7CE /* OtherSelectPostView.swift in Sources */,
 				64392B602B7074CD0047BA12 /* SettingProfileModal.swift in Sources */,
 				63824C4C2B558B5500D1D653 /* ModalBlackButton.swift in Sources */,
 				B1A91D122B55928D00FE7F62 /* SettingOthersView.swift in Sources */,
