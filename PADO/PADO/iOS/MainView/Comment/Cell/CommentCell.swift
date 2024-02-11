@@ -11,7 +11,6 @@ import SwiftUI
 struct CommentCell: View {
     let comment: Comment
     
-    @State private var commentUser: User? = nil
     @State private var isUserLoaded = false
     
     @ObservedObject var commentVM: CommentViewModel
@@ -24,12 +23,12 @@ struct CommentCell: View {
     var body: some View {
         HStack(alignment: .top) {
             NavigationLink {
-                if let user = commentUser {
+                if let user = commentVM.commentUsers[comment.userID] {
                     OtherUserProfileView(buttonOnOff: $buttonOnOff,
                                          user: user)
                 }
             } label: {
-                if let user = commentUser {
+                if let user = commentVM.commentUsers[comment.userID] {
                     if let imageUrl = user.profileImageUrl {
                         KFImage(URL(string: imageUrl))
                             .fade(duration: 0.5)
@@ -54,7 +53,7 @@ struct CommentCell: View {
             VStack(alignment: .leading, spacing: 4) {
                 HStack(spacing: 4) {
                     NavigationLink {
-                        if let user = commentUser {
+                        if let user = commentVM.commentUsers[comment.userID] {
                             OtherUserProfileView(buttonOnOff: $buttonOnOff,
                                                  user: user)
                         }
@@ -72,7 +71,7 @@ struct CommentCell: View {
                     
                     Spacer()
                     
-                    if commentUser?.nameID == userNameID {
+                    if comment.userID == userNameID {
                         Button {
                             commentVM.selectedComment = comment
                             commentVM.showdeleteModal = true
@@ -110,7 +109,6 @@ struct CommentCell: View {
         }
         .onAppear {
             Task {
-                self.commentUser = await UpdateUserData.shared.getOthersProfileDatas(id: comment.userID)
                 self.buttonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: comment.userID)
             }
         }

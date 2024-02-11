@@ -31,7 +31,7 @@ class PostitViewModel: ObservableObject {
                 try? document.data(as: PostitMessage.self)
             }
             self.messageUserIDs = removeDuplicateUserIDs(from: messages)
-            await fetchMessageUser(ownerID: ownerID)
+            await fetchMessageUser()
         } catch {
             print("Error fetching comments: \(error)")
         }
@@ -85,7 +85,7 @@ class PostitViewModel: ObservableObject {
     }
     
     @MainActor
-    func fetchMessageUser(ownerID: String) async {
+    func fetchMessageUser() async {
         do {
             for documentID in messageUserIDs {
                 let querySnapshot = try await db.collection("users").document(documentID).getDocument()

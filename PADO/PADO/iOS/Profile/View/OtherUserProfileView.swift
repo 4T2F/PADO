@@ -263,54 +263,54 @@ struct OtherUserProfileView: View {
                                 }
                                 .font(.callout)
                                 
-                                if let user = viewModel.currentUser {
-                                    Button {
-                                        followerActive = true
-                                    } label: {
-                                        Label {
-                                            Text("팔로워")
-                                                .foregroundStyle(.white.opacity(0.9))
-                                        } icon: {
-                                            Text("\(followVM.followerIDs.count + followVM.surferIDs.count)")
-                                                .foregroundStyle(.white.opacity(0.9))
-                                        }
-                                        .font(.callout)
+                                
+                                Button {
+                                    followerActive = true
+                                } label: {
+                                    Label {
+                                        Text("팔로워")
+                                            .foregroundStyle(.white.opacity(0.9))
+                                    } icon: {
+                                        Text("\(followVM.followerIDs.count + followVM.surferIDs.count)")
+                                            .foregroundStyle(.white.opacity(0.9))
                                     }
-                                    .sheet(isPresented: $followerActive) {
-                                        FollowMainView(currentType: "팔로워",
-                                                       followVM: followVM,
-                                                       user: user)
-                                            .presentationDetents([.large])
-                                            .presentationDragIndicator(.visible)
-                                            .onDisappear {
-                                                followerActive = false
-                                            }
-                                    }
-                                    
-                                    Button {
-                                        followingActive = true
-                                    } label: {
-                                        Label {
-                                            Text("팔로잉")
-                                                .foregroundStyle(.white.opacity(0.9))
-                                        } icon: {
-                                            Text("\(followVM.followingIDs.count)")
-                                                .foregroundStyle(.white.opacity(0.9))
-                                        }
-                                        .font(.callout)
-                                    }
-                                    
-                                    .sheet(isPresented: $followingActive) {
-                                        FollowMainView(currentType: "팔로잉",
-                                                       followVM: followVM,
-                                                       user: user)
-                                        .presentationDetents([.large])
-                                        .presentationDragIndicator(.visible)
-                                        .onDisappear {
-                                            followingActive = false
-                                        }
+                                    .font(.callout)
+                                }
+                                .sheet(isPresented: $followerActive) {
+                                    FollowMainView(currentType: "팔로워",
+                                                   followVM: followVM,
+                                                   user: user)
+                                    .presentationDetents([.large])
+                                    .presentationDragIndicator(.visible)
+                                    .onDisappear {
+                                        followerActive = false
                                     }
                                 }
+                                
+                                Button {
+                                    followingActive = true
+                                } label: {
+                                    Label {
+                                        Text("팔로잉")
+                                            .foregroundStyle(.white.opacity(0.9))
+                                    } icon: {
+                                        Text("\(followVM.followingIDs.count)")
+                                            .foregroundStyle(.white.opacity(0.9))
+                                    }
+                                    .font(.callout)
+                                }
+                                
+                                .sheet(isPresented: $followingActive) {
+                                    FollowMainView(currentType: "팔로잉",
+                                                   followVM: followVM,
+                                                   user: user)
+                                    .presentationDetents([.large])
+                                    .presentationDragIndicator(.visible)
+                                    .onDisappear {
+                                        followingActive = false
+                                    }
+                                }
+                                
                             }
                             .padding(.leading, 2)
                         }
