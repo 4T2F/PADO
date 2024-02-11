@@ -100,16 +100,16 @@ struct SurfingView: View {
                                  mysourceType: $surfingVM.sourceType,
                                  mycameraDevice: $surfingVM.cameraDevice)
             }
-        }
-        .navigationDestination(isPresented: $surfingVM.showCropView) {
-            PostCropView(surfingVM: surfingVM,
-                         feedVM: feedVM,
-                         profileVM: profileVM,
-                         followVM: followVM) { croppedImage, status in
-                if let croppedImage {
-                    surfingVM.postingUIImage = croppedImage
+            .navigationDestination(isPresented: $surfingVM.showCropView) {
+                PostCropView(surfingVM: surfingVM,
+                             feedVM: feedVM,
+                             profileVM: profileVM,
+                             followVM: followVM) { croppedImage, status in
+                    if let croppedImage {
+                        surfingVM.postingUIImage = croppedImage
+                    }
                 }
             }
-        }//: NAVI
+        }
     }
 }

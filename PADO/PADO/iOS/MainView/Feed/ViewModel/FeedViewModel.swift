@@ -33,6 +33,11 @@ class FeedViewModel:Identifiable ,ObservableObject {
     @Published var lastFollowFetchedDocument: DocumentSnapshot? = nil
     @Published var lastTodayPadoFetchedDocument: DocumentSnapshot? = nil
     
+    // MARK: - 파도타기 관련
+    @Published var padoRidePosts: [PadoRide] = []
+    @Published var currentPadoRideIndex: Int? = nil
+    @Published var isShowingPadoRide: Bool = false
+    
     init() {
         // Firestore의 `post` 컬렉션에 대한 실시간 리스너 설정
         Task {
@@ -256,6 +261,23 @@ class FeedViewModel:Identifiable ,ObservableObject {
             }
         } catch {
             print("Error : \(error)")
+        }
+    }
+    
+    // 파도타기 게시글 불러오기
+    func fetchPadoRides(postID: String) async {
+        padoRidePosts.removeAll()
+
+        let postRef = db.collection("post").document(postID)
+        let padoRideCollection = postRef.collection("padoride")
+
+        do {
+            let snapshot = try await padoRideCollection.getDocuments()
+            self.padoRidePosts = snapshot.documents.compactMap { document in
+                try? document.data(as: PadoRide.self)
+            }
+        } catch {
+            print("PadoRides 가져오기 오류: \(error.localizedDescription)")
         }
     }
 }
