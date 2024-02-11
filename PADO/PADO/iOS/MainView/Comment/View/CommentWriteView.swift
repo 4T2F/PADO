@@ -153,17 +153,5 @@ struct CommentWriteView: View {
             .padding([.horizontal, .vertical], 8)
         }
         .background(.main, ignoresSafeAreaEdges: .all)
-        .onAppear {
-            Task {
-                print(postUser)
-                commentVM.comments.removeAll()
-                if let postID = post.id {
-                    if let fetchedComments = await commentVM.updateCommentData.getCommentsDocument(postID: postID) {
-                        commentVM.comments = fetchedComments
-                    }
-                }
-                //                try await feedVM.getFaceMoji()
-            }
-        }
     }
 }
