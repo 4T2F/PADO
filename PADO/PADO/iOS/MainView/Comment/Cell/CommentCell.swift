@@ -75,6 +75,7 @@ struct CommentCell: View {
                     
                     if commentUser?.nameID == userNameID {
                         Button {
+                            commentVM.selectedComment = comment
                             commentVM.showdeleteModal = true
                         } label: {
                             Image(systemName: "ellipsis")
@@ -82,6 +83,7 @@ struct CommentCell: View {
                         }
                     } else {
                         Button {
+                            commentVM.selectedComment = comment
                             commentVM.showreportModal = true
                             Task {
                             }
@@ -105,7 +107,7 @@ struct CommentCell: View {
             }
         }
         .sheet(isPresented: $commentVM.showdeleteModal) {
-            DeleteCommentView(commentVM: commentVM, comment: commentVM.selectedComment ?? comment,
+            DeleteCommentView(commentVM: commentVM,
                               postID: postID)
                 .presentationDetents([.fraction(0.4)])
         }

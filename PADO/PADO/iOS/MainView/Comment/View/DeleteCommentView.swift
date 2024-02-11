@@ -16,7 +16,6 @@ struct DeleteCommentView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
     @ObservedObject var commentVM: CommentViewModel
     
-    let comment: Comment
     let postID: String
     
     var body: some View {
@@ -38,15 +37,19 @@ struct DeleteCommentView: View {
                 Divider()
                 
                 Button {
-                    Task {
-                        await commentVM.updateCommentData.deleteComment(documentID: postID,
-                                                              commentID: userNameID+(comment.time.convertTimestampToString(timestamp: comment.time)))
-                        if let fetchedComments = await commentVM.updateCommentData.getCommentsDocument(postID: postID) {
-                            commentVM.comments = fetchedComments
+                    if let selectComment = commentVM.selectedComment {
+                        Task {
+                            await commentVM.updateCommentData.deleteComment(documentID: postID,
+                                                                            commentID: selectComment.userID+(selectComment.time.convertTimestampToString(timestamp: selectComment.time)))
+                            if let fetchedComments = await commentVM.updateCommentData.getCommentsDocument(postID: postID) {
+                                commentVM.comments = fetchedComments
+                            }
+                            
+                            commentVM.showdeleteModal = false
                         }
-                        
-                        commentVM.showdeleteModal = false
                     }
+                    
+                    commentVM.showdeleteModal = false
                 } label: {
                     Text("댓글 삭제")
                         .font(.system(size: 16))
