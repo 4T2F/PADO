@@ -20,6 +20,7 @@ class ProfileViewModel: ObservableObject {
     @Published var sendPadoPosts: [Post] = []
     @Published var highlights: [Post] = []
     @Published var headerOffsets: (CGFloat, CGFloat) = (0, 0)
+    @Published var selectedPostID: String = ""
     
     private var db = Firestore.firestore()
     

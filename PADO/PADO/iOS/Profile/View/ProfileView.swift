@@ -30,8 +30,6 @@ struct ProfileView: View {
     @State private var isShowingHightlight: Bool = false
     @State private var isShowingMessageView: Bool = false
     
-    @State private var selectedPostID: String?
-    
     let user: User
     
     let columns = [GridItem(.flexible(), spacing: 1), GridItem(.flexible(), spacing: 1), GridItem(.flexible())]
@@ -342,7 +340,9 @@ struct ProfileView: View {
                             if let image = URL(string: post.imageUrl) {
                                 Button {
                                     isShowingReceiveDetail.toggle()
-                                    self.selectedPostID = post.id
+                                    if let postID = post.id {
+                                        profileVM.selectedPostID = postID
+                                    }
                                 } label: {
                                     KFImage(image)
                                         .resizable()
@@ -353,8 +353,7 @@ struct ProfileView: View {
                                 .sheet(isPresented: $isShowingReceiveDetail) {
                                     SelectPostView(profileVM: profileVM,
                                                    viewType: PostViewType.receive,
-                                                   isShowingDetail: $isShowingReceiveDetail,
-                                                   selectedPostID: selectedPostID ?? "")
+                                                   isShowingDetail: $isShowingReceiveDetail)
                                     .presentationDragIndicator(.visible)
                                 }
                             }
@@ -384,7 +383,9 @@ struct ProfileView: View {
                             if let image = URL(string: post.imageUrl) {
                                 Button {
                                     isShowingSendDetail.toggle()
-                                    self.selectedPostID = post.id
+                                    if let postID = post.id {
+                                        profileVM.selectedPostID = postID
+                                    }
                                 } label: {
                                     KFImage(image)
                                         .resizable()
@@ -395,8 +396,7 @@ struct ProfileView: View {
                                 .sheet(isPresented: $isShowingSendDetail) {
                                     SelectPostView(profileVM: profileVM,
                                                    viewType: PostViewType.send,
-                                                   isShowingDetail: $isShowingSendDetail,
-                                                   selectedPostID: selectedPostID ?? "")
+                                                   isShowingDetail: $isShowingSendDetail)
                                     .presentationDragIndicator(.visible)
                                 }
                             }
@@ -426,7 +426,9 @@ struct ProfileView: View {
                             if let image = URL(string: post.imageUrl) {
                                 Button {
                                     isShowingHightlight.toggle()
-                                    self.selectedPostID = post.id
+                                    if let postID = post.id {
+                                        profileVM.selectedPostID = postID
+                                    }
                                 } label: {
                                     KFImage(image)
                                         .resizable()
@@ -437,8 +439,7 @@ struct ProfileView: View {
                                 .sheet(isPresented: $isShowingHightlight) {
                                     SelectPostView(profileVM: profileVM,
                                                    viewType: PostViewType.highlight,
-                                                   isShowingDetail: $isShowingHightlight,
-                                                   selectedPostID: selectedPostID ?? "")
+                                                   isShowingDetail: $isShowingHightlight)
                                     .presentationDragIndicator(.visible)
                                 }
                             }
