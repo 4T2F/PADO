@@ -69,7 +69,7 @@ struct ProfileView: View {
                     
                     ToolbarItem(placement: .navigationBarTrailing) {
                         HStack(spacing: 0) {
-                            HStack(spacing: 6) {
+                            HStack(spacing: 0) {
                                 if !user.instaAddress.isEmpty {
                                     Button {
                                         profileVM.openSocialMediaApp(urlScheme: "instagram://user?username=\(user.instaAddress)", fallbackURL: "https://instagram.com/\(user.instaAddress)")
@@ -95,6 +95,7 @@ struct ProfileView: View {
                             }
                             .sheet(isPresented: $settingButtonActive) {
                                 SettingView()
+                                    .presentationDragIndicator(.visible)
                             }
                         }
                     }
@@ -134,7 +135,7 @@ struct ProfileView: View {
                         VStack(alignment: .leading, spacing: 10) {
                             if let user = viewModel.currentUser {
                                 
-                                CircularImageView(size: .xLarge, user: user)
+                                CircularImageView(size: .xxLarge, user: user)
                                     .offset(y: 5)
                                     .overlay {
                                         Button {
@@ -161,10 +162,9 @@ struct ProfileView: View {
                                         }
                                         .offset(x: +46, y: -30)
                                         .sheet(isPresented: $isShowingMessageView) {
-                                            
                                             PostitView(postitVM: postitVM,
                                                        isShowingMessageView: $isShowingMessageView)
-                                            
+                                            .presentationDragIndicator(.visible)
                                         }
                                         .presentationDetents([.large])
                                     }
@@ -197,6 +197,7 @@ struct ProfileView: View {
                                 }
                                 .sheet(isPresented: $profileEditButtonActive) {
                                     SettingProfileView()
+                                        .presentationDragIndicator(.visible)
                                         .onDisappear {
                                             profileEditButtonActive = false
                                         }
@@ -206,25 +207,22 @@ struct ProfileView: View {
                             HStack {
                                 Label {
                                     Text("파도")
-                                        .fontWeight(.semibold)
                                         .foregroundStyle(.white.opacity(0.9))
                                 } icon: {
                                     Text("\(profileVM.padoPosts.count + profileVM.sendPadoPosts.count)")
-                                        .fontWeight(.semibold)
                                         .foregroundStyle(.white.opacity(0.9))
                                 }
                                 .font(.callout)
+                                
                                 if let user = viewModel.currentUser {
                                     Button {
                                         followerActive = true
                                     } label: {
                                         Label {
                                             Text("팔로워")
-                                                .fontWeight(.semibold)
                                                 .foregroundStyle(.white.opacity(0.9))
                                         } icon: {
                                             Text("\(followVM.followerIDs.count + followVM.surferIDs.count)")
-                                                .fontWeight(.semibold)
                                                 .foregroundStyle(.white.opacity(0.9))
                                         }
                                         .font(.callout)
@@ -243,11 +241,9 @@ struct ProfileView: View {
                                     } label: {
                                         Label {
                                             Text("팔로잉")
-                                                .fontWeight(.semibold)
                                                 .foregroundStyle(.white.opacity(0.9))
                                         } icon: {
                                             Text("\(followVM.followingIDs.count)")
-                                                .fontWeight(.semibold)
                                                 .foregroundStyle(.white.opacity(0.9))
                                         }
                                         .font(.callout)
@@ -267,7 +263,6 @@ struct ProfileView: View {
                                 }
                             }
                             .padding(.leading, 2)
-                            
                         }
                         .padding(.horizontal)
                         .padding(.bottom, 20)

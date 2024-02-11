@@ -13,48 +13,40 @@ struct NotificationView: View {
     
     var body: some View {
         VStack {
-            ZStack {
-                Color.black.ignoresSafeArea()
-                
-                VStack {
-                    ZStack {
-                        ScrollView(showsIndicators: false) {
-                            // 나중에 ForEach로 만들어야함(?) -> 이뤄드림
-                            ForEach(notiVM.notifications) { notification in
-                                NotificationCell(notification: notification)
-                                    .padding(.horizontal, 10)
-                                    .padding(.vertical, 4)
-                            }
-                            .padding(.top, 50)
-                        }
+            VStack {
+                ScrollView(showsIndicators: false) {
+                    // 나중에 ForEach로 만들어야함(?) -> 이뤄드림
+                    ForEach(notiVM.notifications) { notification in
+                        NotificationCell(notification: notification)
+                            .padding(.horizontal, 10)
+                            .padding(.vertical, 4)
+                    }
+                    .padding(.top)
+                }
+            }
+        }
+        .background(.main, ignoresSafeAreaEdges: .all)
+        .navigationBarBackButtonHidden()
+        .navigationTitle("문의하기")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    dismiss()
+                } label: {
+                    HStack(spacing: 2) {
+                        Image(systemName: "chevron.left")
+                            .font(.system(size: 14))
+                            .fontWeight(.medium)
                         
-                        VStack {
-                            ZStack {
-                                Text("알림")
-                                    .foregroundStyle(.white)
-                                    .font(.system(size: 16))
-                                    .fontWeight(.semibold)
-                                
-                                HStack {
-                                    Button {
-                                        dismiss()
-                                    } label: {
-                                        Image("dismissArrow")
-                                    }
-                                    
-                                    Spacer()
-                                }
-                            }
-                            .padding(.horizontal)
-                            
-                            Spacer()
-                        }
+                        Text("뒤로")
+                            .font(.system(size: 16))
+                            .fontWeight(.medium)
                     }
                 }
             }
         }
-        .padding(.top, 10)
-        .navigationBarBackButtonHidden()
+        .toolbarBackground(Color(.main), for: .navigationBar)
         .onAppear {
             Task {
                 await notiVM.fetchNotifications()

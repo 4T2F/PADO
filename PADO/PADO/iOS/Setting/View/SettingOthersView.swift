@@ -47,7 +47,7 @@ struct SettingOthersView: View {
         })
         
         .sheet(isPresented: $showingDeleteModal, content: {
-            ModalAlertView(showingCircleImage: false, mainTitle: .account, subTitle: .account, removeMessage: .account)
+            ModalAlertView(showingCircleImage: true, mainTitle: .account, subTitle: .account, removeMessage: .account)
                 .background(Color.clear)
                 .presentationDetents([.fraction(0.4)])
         })
@@ -60,11 +60,15 @@ struct SettingOthersView: View {
                 Button {
                     dismiss()
                 } label: {
-                    Image(systemName: "chevron.left")
-                        .font(.system(size: 14))
-                    
-                    Text("뒤로")
-                        .font(.system(size: 16))
+                    HStack(spacing: 2) {
+                        Image(systemName: "chevron.left")
+                            .font(.system(size: 14))
+                            .fontWeight(.medium)
+                        
+                        Text("뒤로")
+                            .font(.system(size: 16))
+                            .fontWeight(.medium)
+                    }
                 }
             }
         }

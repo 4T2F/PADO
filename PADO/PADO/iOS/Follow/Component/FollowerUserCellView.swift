@@ -36,44 +36,44 @@ struct FollowerUserCellView: View {
     // MARK: - BODY
     var body: some View {
         HStack {
-            HStack(spacing: 0) {
-                NavigationLink {
-                    if let user = profileUser {
-                        OtherUserProfileView(buttonOnOff: $buttonOnOff,
-                                             updateFollowData: updateFollowData,
-                                             user: user)
-                    }
-                } label: {
+            NavigationLink {
+                if let user = profileUser {
+                    OtherUserProfileView(buttonOnOff: $buttonOnOff,
+                                         updateFollowData: updateFollowData,
+                                         user: user)
+                }
+            } label: {
+                HStack(spacing: 0) {
                     if let imageUrl = URL(string: followerProfileUrl) {
                         KFImage.url(imageUrl)
                             .resizable()
                             .scaledToFill()
-                            .frame(width: 44, height: 44)
-                            .cornerRadius(44)
-                            .padding(.leading)
+                            .frame(width: 40, height: 40)
+                            .cornerRadius(40)
+                            .padding(.trailing)
                     } else {
                         Image("defaultProfile")
                             .resizable()
                             .scaledToFill()
-                            .frame(width: 44, height: 44)
-                            .cornerRadius(44)
-                            .padding(.leading)
+                            .frame(width: 40, height: 40)
+                            .cornerRadius(40)
+                            .padding(.trailing)
                     }
                     
-                    VStack(alignment: .leading, spacing: 3) {
+                    VStack(alignment: .leading, spacing: 4) {
                         Text(cellUserId)
-                            .font(.system(size: 12, weight: .medium))
+                            .font(.system(size: 14, weight: .medium))
                             .foregroundStyle(.white)
-                            .padding(.leading, 4)
                         
                         if !followerUsername.isEmpty {
                             Text(followerUsername)
-                                .font(.system(size: 12, weight: .regular))
+                                .font(.system(size: 14, weight: .regular))
                                 .foregroundStyle(Color(.systemGray))
-                                .padding(.leading, 4)
                         }
                     } //: VSTACK
                 }
+                
+                Spacer()
             }
             
             Spacer()
@@ -101,7 +101,7 @@ struct FollowerUserCellView: View {
                         
                     }
                 }
-                .padding(.trailing, 6)
+                .padding(.trailing)
                 
             case .follower:
                 Button {
@@ -120,7 +120,7 @@ struct FollowerUserCellView: View {
                             .foregroundStyle(.white)
                     }
                 }
-                .padding(.trailing, 6)
+                .padding(.trailing)
             }
             
             Button {
@@ -140,9 +140,10 @@ struct FollowerUserCellView: View {
                 })
                 .presentationDetents([.fraction(0.4)])
             }
-           
+            
         } // :HSTACK
-        .padding(.vertical, -12)
+        .padding(.horizontal)
+        .padding(.vertical, -8)
         .onAppear {
             Task {
                 let updateUserData = UpdateUserData()

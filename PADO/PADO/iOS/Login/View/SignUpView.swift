@@ -23,30 +23,6 @@ struct SignUpView: View {
     var body: some View {
         
         ZStack {
-            Color.mainBackground.ignoresSafeArea()
-            VStack {
-                ZStack {
-                    Text("PADO")
-                        .font(.system(size: 22))
-                        .fontWeight(.bold)
-                    
-                    HStack {
-                        Button {
-                            handleBackButton()
-                        } label: {
-                            Image("dismissArrow")
-                                .foregroundStyle(.white)
-                                .font(.system(size: 22))
-                        }
-                        
-                        Spacer()
-                    }
-                }
-                .padding(.horizontal)
-                
-                Spacer()
-            }
-            
             switch currentStep {
             case .phoneNumber:
                 PhoneNumberView(currentStep: $currentStep)
@@ -59,7 +35,29 @@ struct SignUpView: View {
                 BirthView(currentStep: $currentStep)
             }
         }
-        .navigationBarBackButtonHidden(true)
+        .background(.main, ignoresSafeAreaEdges: .all)
+        .navigationBarBackButtonHidden()
+        .navigationTitle("PADO")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    dismiss()
+                } label: {
+                    HStack(spacing: 2) {
+                        Image(systemName: "chevron.left")
+                            .font(.system(size: 14))
+                            .fontWeight(.medium)
+                        
+                        Text("뒤로")
+                            .font(.system(size: 16))
+                            .fontWeight(.medium)
+                    }
+                    .foregroundStyle(.white)
+                }
+            }
+        }
+        .toolbarBackground(Color(.main), for: .navigationBar)
     }
     
     func handleBackButton() {

@@ -29,7 +29,7 @@ struct ReportResultView: View {
             
             
             Text("확인을 누르면 메일로 이동합니다")
-                .font(.system(size: 22))
+                .font(.system(size: 20))
                 .fontWeight(.medium)
                 .padding(.bottom, 20)
             
@@ -102,7 +102,7 @@ struct ReportResultView: View {
         .padding(.vertical)
         .padding(.top)
         .navigationBarBackButtonHidden()
-        .background(.main, ignoresSafeAreaEdges: .all)
+        .background(.modal, ignoresSafeAreaEdges: .all)
     }
     
     func handleMailResult() {

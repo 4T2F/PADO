@@ -52,8 +52,8 @@ struct CommentCell: View {
                     
             }
             
-            VStack(alignment: .leading, spacing: 2) {
-                HStack(spacing: 2) {
+            VStack(alignment: .leading, spacing: 4) {
+                HStack(spacing: 4) {
                     NavigationLink {
                         if let user = commentUser {
                             OtherUserProfileView(buttonOnOff: $buttonOnOff, updateFollowData: updateFollowData,
@@ -105,14 +105,14 @@ struct CommentCell: View {
             }
         }
         .sheet(isPresented: $commentVM.showdeleteModal) {
-            DeleteCommentView(comment: commentVM.selectedComment ?? comment,
-                              commentVM: commentVM,
+            DeleteCommentView(commentVM: commentVM, comment: commentVM.selectedComment ?? comment,
                               postID: postID)
                 .presentationDetents([.fraction(0.4)])
         }
         .sheet(isPresented: $commentVM.showreportModal) {
             ReportCommentView(isShowingReportView: $commentVM.showreportModal)
-                .presentationDetents([.fraction(0.4), .fraction(0.6)])
+                .presentationDetents([.medium])
+                .presentationDragIndicator(.visible)
         }
     }
 }
