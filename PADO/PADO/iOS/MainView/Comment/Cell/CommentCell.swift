@@ -18,7 +18,6 @@ struct CommentCell: View {
     
     @State var buttonOnOff: Bool = false
     
-    let updateFollowData = UpdateFollowData()
     let post: Post
     let postID: String
     
@@ -26,8 +25,7 @@ struct CommentCell: View {
         HStack(alignment: .top) {
             NavigationLink {
                 if let user = commentUser {
-                    OtherUserProfileView(buttonOnOff: $buttonOnOff, 
-                                         updateFollowData: updateFollowData,
+                    OtherUserProfileView(buttonOnOff: $buttonOnOff,
                                          user: user)
                 }
             } label: {
@@ -57,7 +55,7 @@ struct CommentCell: View {
                 HStack(spacing: 4) {
                     NavigationLink {
                         if let user = commentUser {
-                            OtherUserProfileView(buttonOnOff: $buttonOnOff, updateFollowData: updateFollowData,
+                            OtherUserProfileView(buttonOnOff: $buttonOnOff,
                                                  user: user)
                         }
                     } label: {
@@ -113,7 +111,7 @@ struct CommentCell: View {
         .onAppear {
             Task {
                 self.commentUser = await UpdateUserData.shared.getOthersProfileDatas(id: comment.userID)
-                self.buttonOnOff = await updateFollowData.checkFollowStatus(id: comment.userID)
+                self.buttonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: comment.userID)
             }
         }
         .sheet(isPresented: $commentVM.showdeleteModal) {

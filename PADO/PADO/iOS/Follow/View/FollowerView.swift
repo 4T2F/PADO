@@ -19,8 +19,6 @@ struct FollowerView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
     @ObservedObject var followVM: FollowViewModel
     
-    let updateFollowData: UpdateFollowData
-    
     let user: User
     
     // MARK: - BODY
@@ -57,11 +55,11 @@ struct FollowerView: View {
                                                 FollowerUserCellView(followVM: followVM,
                                                                      cellUserId: surferId,
                                                                      followerType: FollowerModalType.surfer,
-                                                                     updateFollowData: updateFollowData,
                                                                      sufferset: .removesuffer)
                                                     .padding(.vertical)
                                             } else {
-                                                FollowerOtherUserCellView(followVM: followVM, cellUserId: surferId, updateFollowData: updateFollowData)
+                                                FollowerOtherUserCellView(followVM: followVM,
+                                                                          cellUserId: surferId)
                                                     .padding(.vertical)
                                             }
                                         }
@@ -89,11 +87,10 @@ struct FollowerView: View {
                                             FollowerUserCellView(followVM: followVM,
                                                                  cellUserId: followerId,
                                                                  followerType: FollowerModalType.follower,
-                                                                 updateFollowData: updateFollowData,
                                                                  sufferset: .setsuffer)
                                                 .padding(.vertical)
                                         } else {
-                                            FollowerOtherUserCellView(followVM: followVM, cellUserId: followerId, updateFollowData: updateFollowData)
+                                            FollowerOtherUserCellView(followVM: followVM, cellUserId: followerId)
                                                 .padding(.vertical)
                                         }
                                     }
@@ -125,11 +122,10 @@ struct FollowerView: View {
                                                 FollowerUserCellView(followVM: followVM,
                                                                      cellUserId: surferId,
                                                                      followerType: FollowerModalType.surfer,
-                                                                     updateFollowData: updateFollowData,
                                                                      sufferset: .removesuffer)
                                                     .padding(.vertical)
                                             } else {
-                                                FollowerOtherUserCellView(followVM: followVM, cellUserId: surferId, updateFollowData: updateFollowData)
+                                                FollowerOtherUserCellView(followVM: followVM, cellUserId: surferId)
                                                     .padding(.vertical)
                                             }
                                         }
@@ -157,11 +153,10 @@ struct FollowerView: View {
                                             FollowerUserCellView(followVM: followVM,
                                                                  cellUserId: followerId,
                                                                  followerType: FollowerModalType.follower,
-                                                                 updateFollowData: updateFollowData,
-                                                                 sufferset: .setsuffer)
+                                                               sufferset: .setsuffer)
                                                 .padding(.vertical)
                                         } else {
-                                            FollowerOtherUserCellView(followVM: followVM, cellUserId: followerId, updateFollowData: updateFollowData)
+                                            FollowerOtherUserCellView(followVM: followVM, cellUserId: followerId)
                                                 .padding(.vertical)
                                         }
                                     }

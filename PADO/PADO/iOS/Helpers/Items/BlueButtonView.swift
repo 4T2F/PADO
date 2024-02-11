@@ -16,17 +16,15 @@ struct BlueButtonView: View {
     let widthValue: CGFloat
     let heightValue: CGFloat
     
-    let updateFollowData: UpdateFollowData
-    
     var body: some View {
         Button(action: {
             if buttonActive {
                 Task {
-                    await updateFollowData.unfollowUser(id: cellUserId)
+                    await UpdateFollowData.shared.unfollowUser(id: cellUserId)
                 }
             } else {
                 Task {
-                    await updateFollowData.followUser(id: cellUserId)
+                    await UpdateFollowData.shared.followUser(id: cellUserId)
                 }
             }
             buttonActive.toggle()
@@ -54,7 +52,7 @@ struct BlueButtonView: View {
         }
         .onAppear {
             Task {
-                self.buttonActive = await updateFollowData.checkFollowStatus(id: cellUserId)
+                self.buttonActive = UpdateFollowData.shared.checkFollowingStatus(id: cellUserId)
             }
         }
     }

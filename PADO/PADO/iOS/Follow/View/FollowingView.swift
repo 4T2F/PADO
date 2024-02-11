@@ -14,8 +14,6 @@ struct FollowingView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
     @ObservedObject var followVM: FollowViewModel
     
-    let updateFollowData: UpdateFollowData
-    
     // MARK: - BODY
     var body: some View {
         let searchTextBinding = Binding {
@@ -46,8 +44,7 @@ struct FollowingView: View {
                                 
                                 LazyVStack(spacing: 8) {
                                     ForEach(followVM.followingIDs, id: \.self) { followingID in
-                                        FollowingCellView(cellUserId: followingID,
-                                                          updateFollowData: updateFollowData)
+                                        FollowingCellView(cellUserId: followingID)
                                         .padding(.vertical)
                                     }
                                 } //: SCROLL
@@ -73,8 +70,7 @@ struct FollowingView: View {
                                 
                                 LazyVStack(spacing: 8) {
                                     ForEach(followVM.searchedFollowing, id: \.self) { followingID in
-                                        FollowingCellView(cellUserId: followingID,
-                                                          updateFollowData: updateFollowData)
+                                        FollowingCellView(cellUserId: followingID)
                                         .padding(.vertical)
                                     }
                                 } //: SCROLL
@@ -86,7 +82,7 @@ struct FollowingView: View {
             } //: VSTACK
         } //: ZSTACK
         .onDisappear {
-           updateFollowData.fetchFollowStatusData()
+            UpdateFollowData.shared.fetchFollowStatusData()
         }
     }
 }

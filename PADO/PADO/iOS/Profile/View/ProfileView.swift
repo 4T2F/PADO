@@ -17,7 +17,6 @@ struct ProfileView: View {
     @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var postitVM: PostitViewModel
     @StateObject var surfingVM = SurfingViewModel()
-    let updateFollowData = UpdateFollowData()
     
     @Namespace var animation
     @State private var buttonActive: Bool = false
@@ -228,7 +227,7 @@ struct ProfileView: View {
                                         .font(.callout)
                                     }
                                     .sheet(isPresented: $followerActive) {
-                                        FollowMainView(currentType: "팔로워", followVM: followVM, updateFollowData: updateFollowData, user: user)
+                                        FollowMainView(currentType: "팔로워", followVM: followVM, user: user)
                                             .presentationDetents([.large])
                                             .presentationDragIndicator(.visible)
                                             .onDisappear {
@@ -252,7 +251,6 @@ struct ProfileView: View {
                                     .sheet(isPresented: $followingActive) {
                                         FollowMainView(currentType: "팔로잉",
                                                        followVM: followVM,
-                                                       updateFollowData: updateFollowData,
                                                        user: user)
                                         .presentationDetents([.large])
                                         .presentationDragIndicator(.visible)

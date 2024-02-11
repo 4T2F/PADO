@@ -33,7 +33,6 @@ struct OtherUserProfileView: View {
     
     @State private var selectedPostID: String?
     
-    let updateFollowData: UpdateFollowData
     let updatePushNotiData = UpdatePushNotiData()
     
     let user: User
@@ -219,7 +218,7 @@ struct OtherUserProfileView: View {
                                     if buttonOnOff {
                                         Button {
                                             Task {
-                                                await updateFollowData.directUnfollowUser(id: user.nameID)
+                                                await UpdateFollowData.shared.directUnfollowUser(id: user.nameID)
                                                 buttonOnOff.toggle()
                                             }
                                         } label: {
@@ -236,7 +235,7 @@ struct OtherUserProfileView: View {
                                     } else {
                                         Button {
                                             Task {
-                                                await updateFollowData.followUser(id: user.nameID)
+                                                await UpdateFollowData.shared.followUser(id: user.nameID)
                                                 await updatePushNotiData.pushNoti(receiveUser: user, type: .follow)
                                                 buttonOnOff.toggle()
                                             }
@@ -280,7 +279,9 @@ struct OtherUserProfileView: View {
                                         .font(.callout)
                                     }
                                     .sheet(isPresented: $followerActive) {
-                                        FollowMainView(currentType: "팔로워", followVM: followVM, updateFollowData: updateFollowData, user: user)
+                                        FollowMainView(currentType: "팔로워",
+                                                       followVM: followVM,
+                                                       user: user)
                                             .presentationDetents([.large])
                                             .presentationDragIndicator(.visible)
                                             .onDisappear {
@@ -304,7 +305,6 @@ struct OtherUserProfileView: View {
                                     .sheet(isPresented: $followingActive) {
                                         FollowMainView(currentType: "팔로잉",
                                                        followVM: followVM,
-                                                       updateFollowData: updateFollowData,
                                                        user: user)
                                         .presentationDetents([.large])
                                         .presentationDragIndicator(.visible)
