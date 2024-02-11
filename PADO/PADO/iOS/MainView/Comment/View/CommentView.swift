@@ -73,7 +73,8 @@ struct CommentView: View {
                                 commentVM.comments = fetchedComments
                             }
                         }
-                        //                try await feedVM.getFaceMoji()
+                        commentVM.removeDuplicateUserIDs(from: commentVM.comments)
+                        await commentVM.fetchCommentUser()
                     }
                 }
                 
