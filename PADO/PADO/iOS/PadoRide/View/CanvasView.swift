@@ -22,8 +22,8 @@ struct CanvasView: UIViewRepresentable {
         canvas.drawingPolicy = .anyInput
         
         let imageView = UIImageView(image: padorideVM.selectedUIImage)
-        imageView.frame = CGRect(x: 0, y: -50, width: rect.width, height: rect.height)
-        imageView.contentMode = .scaleAspectFit
+        imageView.frame = CGRect(x: 0, y: 0, width: rect.width, height: rect.height - 50)
+        imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         
         let subView = canvas.subviews[0]
