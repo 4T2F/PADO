@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ContentView: View {
     @State var width = UIScreen.main.bounds.width
-    @State var menu = "feed"
     @State var selectedFilter: FeedFilter = .following
     
     @EnvironmentObject var viewModel: AuthenticationViewModel
