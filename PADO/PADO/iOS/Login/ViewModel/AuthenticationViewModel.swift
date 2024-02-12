@@ -30,8 +30,8 @@ class AuthenticationViewModel: ObservableObject {
     @Published var showTab: Int = 0
     
     // 세팅 관련 뷰 이동 변수
+    @Published var showingProfileView: Bool = false
     @Published var showingEditProfile: Bool = false
-    @Published var showingSettingProfileView: Bool = false
     @Published var showingEditBackProfile: Bool = false
     
     // MARK: - SettingProfile
@@ -384,7 +384,7 @@ class AuthenticationViewModel: ObservableObject {
                                                                                        imageQuality: .middleforProfile,
                                                                                        surfingID: "")
                 currentUser?.profileImageUrl = returnString
-            } else {
+            } else if backimagePick {
                 let returnBackString = try await UpdateImageUrl.shared.updateImageUserData(uiImage: backuiImage,
                                                                                            storageTypeInput: .backImage,
                                                                                            documentid: "",
