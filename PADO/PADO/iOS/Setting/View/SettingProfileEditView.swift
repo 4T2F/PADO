@@ -57,7 +57,8 @@ struct SettingProfileEditView: View {
                         } else {
                             onCrop(nil, false)
                         }
-                        viewModel.showingSettingProfileView.toggle()
+                        viewModel.showingProfileView = true
+                        viewModel.selectedItem = nil
                     } label: {
                         Text("완료")
                             .font(.system(size: 16, weight: .semibold))
@@ -66,8 +67,10 @@ struct SettingProfileEditView: View {
                 
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
+                        viewModel.uiImage = nil
+                        viewModel.userSelectImage = nil
+                        viewModel.showingProfileView = true
                         viewModel.selectedItem = nil
-                        viewModel.showingSettingProfileView.toggle()
                     } label: {
                         Image("dismissArrow")
                     }

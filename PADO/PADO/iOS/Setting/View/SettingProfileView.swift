@@ -286,6 +286,20 @@ struct SettingProfileView: View {
             .navigationBarBackButtonHidden()
             .navigationTitle("프로필 편집")
             .navigationBarTitleDisplayMode(.inline)
+            .navigationDestination(isPresented: $viewModel.showingEditProfile) {
+                SettingProfileEditView { croppedImage, status in
+                    if let croppedImage {
+                        viewModel.uiImage = croppedImage
+                    }
+                }
+            }
+            .navigationDestination(isPresented: $viewModel.showingEditBackProfile) {
+                SettingBackProfileCropView { croppedImage, status in
+                    if let croppedImage {
+                        viewModel.backuiImage = croppedImage
+                    }
+                }
+            }
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
@@ -315,6 +329,8 @@ struct SettingProfileView: View {
                                 await viewModel.profileSaveData()
                                 dismiss()
                                 
+                                viewModel.selectedItem = nil
+                                viewModel.selectedBackgroundItem = nil
                                 viewModel.userSelectImage = nil
                                 viewModel.backSelectImage = nil
                             }
@@ -329,31 +345,16 @@ struct SettingProfileView: View {
                     .onChange(of: viewModel.changedValue) { newValue, oldValue in
                         isActive = !newValue // viewModel의 changedValue에 따라 isActive 상태 업데이트
                     }
-                    .onDisappear {
-                        viewModel.imagePick = false
-                        viewModel.backimagePick = false
-                    }
                 }
             }
             .toolbarBackground(Color(.main), for: .navigationBar)
-
+            
             .onAppear {
                 viewModel.fetchUserProfile()
             }
-            .navigationBarBackButtonHidden(true)
-            .navigationDestination(isPresented: $viewModel.showingEditProfile) {
-                SettingProfileEditView { croppedImage, status in
-                    if let croppedImage {
-                        viewModel.uiImage = croppedImage
-                    }
-                }
-            }
-            .navigationDestination(isPresented: $viewModel.showingEditBackProfile) {
-                SettingBackProfileCropView { croppedImage, status in
-                    if let croppedImage {
-                        viewModel.backuiImage = croppedImage
-                    }
-                }
+            .onDisappear {
+                viewModel.imagePick = false
+                viewModel.backimagePick = false
             }
         }
     }

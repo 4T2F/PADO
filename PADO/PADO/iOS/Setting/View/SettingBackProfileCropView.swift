@@ -56,7 +56,8 @@ struct SettingBackProfileCropView: View {
                         } else {
                             onCrop(nil, false)
                         }
-                        viewModel.showingSettingProfileView.toggle()
+                        viewModel.showingProfileView = true
+                        viewModel.selectedBackgroundItem = nil
                     } label: {
                         Text("완료")
                             .font(.system(size: 16, weight: .semibold))
@@ -65,8 +66,10 @@ struct SettingBackProfileCropView: View {
                 
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
+                        viewModel.backuiImage = nil
                         viewModel.backSelectImage = nil
-                        viewModel.showingSettingProfileView.toggle()
+                        viewModel.showingProfileView = true
+                        viewModel.selectedBackgroundItem = nil
                     } label: {
                         Image("dismissArrow")
                     }

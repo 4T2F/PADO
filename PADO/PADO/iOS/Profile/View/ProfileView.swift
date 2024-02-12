@@ -101,6 +101,9 @@ struct ProfileView: View {
             }
             .coordinateSpace(name: "SCROLL")
             .ignoresSafeArea(.container, edges: .vertical)
+            .navigationDestination(isPresented: $viewModel.showingProfileView) {
+                SettingProfileView()
+            }
         }
     }
     
@@ -173,8 +176,8 @@ struct ProfileView: View {
                                 
                                 Spacer()
                                 
-                                NavigationLink {
-                                    SettingProfileView()
+                                Button {
+                                    viewModel.showingProfileView = true
                                 } label: {
                                     ZStack {
                                         RoundedRectangle(cornerRadius: 4)
