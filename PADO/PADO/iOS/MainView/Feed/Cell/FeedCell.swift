@@ -215,8 +215,13 @@ struct FeedCell: View {
                                             .fontWeight(.bold)
                                     }
                                     
-                                    Image("goldmedal")
-                                        .offset(y: 7)
+                                    Circle()
+                                        .foregroundStyle(.clear)
+                                        .frame(width: 10)
+                                        .overlay {
+                                            Image("goldmedal")
+                                                .offset(x: 14, y: 6)
+                                        }
                                     
                                 } else if isTodayPadoPost && todayPadoPostIndex == 1 {
                                     NavigationLink {
@@ -230,8 +235,13 @@ struct FeedCell: View {
                                             .fontWeight(.bold)
                                     }
                                     
-                                    Image("silvermedal")
-                                        .offset(y: 7)
+                                    Circle()
+                                        .foregroundStyle(.clear)
+                                        .frame(width: 10)
+                                        .overlay {
+                                            Image("silvermedal")
+                                                .offset(x: 14, y: 6)
+                                        }
                                 } else if isTodayPadoPost && todayPadoPostIndex == 2 {
                                     NavigationLink {
                                         if let postUser = postUser {
@@ -244,8 +254,13 @@ struct FeedCell: View {
                                             .fontWeight(.bold)
                                     }
                                     
-                                    Image("bronzemedal")
-                                        .offset(y: 7)
+                                    Circle()
+                                        .foregroundStyle(.clear)
+                                        .frame(width: 10)
+                                        .overlay {
+                                            Image("bronzemedal")
+                                                .offset(x: 14, y: 6)
+                                        }
                                 } else {
                                     NavigationLink {
                                         if let postUser = postUser {
