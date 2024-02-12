@@ -68,6 +68,23 @@ struct DrawingView: View {
             }
         }
         .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    if padorideVM.toolPicker.isVisible {
+                        padorideVM.toolPicker.setVisible(false, forFirstResponder: padorideVM.canvas)
+                        padorideVM.canvas.resignFirstResponder()
+                    } else {
+                        Task {
+                            padorideVM.toolPicker.setVisible(true, forFirstResponder: padorideVM.canvas)
+                            padorideVM.canvas.becomeFirstResponder()
+                        }
+                    }
+                } label: {
+                    Image(systemName: "scribble")
+                        .foregroundStyle(.white)
+                }
+
+            }
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button{
                     padorideVM.textBoxes.append(TextBox())
