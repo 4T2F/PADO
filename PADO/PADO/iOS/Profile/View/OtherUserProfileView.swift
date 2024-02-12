@@ -94,16 +94,25 @@ struct OtherUserProfileView: View {
                             }
                         }
                         
-                        Button {
-                            isShowingUserReport.toggle()
-                        } label: {
-                            Image(systemName: "ellipsis")
-                        }
-                        .sheet(isPresented: $isShowingUserReport) {
-                            ReprotProfileModalView()
-                                .presentationDetents([.fraction(0.33)])
-                                .presentationDragIndicator(.visible)
-                                .presentationCornerRadius(30)
+                        if user.nameID == userNameID {
+                            NavigationLink {
+                                SettingView()
+                            } label: {
+                                Image("more")
+                                    .foregroundStyle(.white)
+                            }
+                        } else {
+                            Button {
+                                isShowingUserReport.toggle()
+                            } label: {
+                                Image(systemName: "ellipsis")
+                            }
+                            .sheet(isPresented: $isShowingUserReport) {
+                                ReprotProfileModalView()
+                                    .presentationDetents([.fraction(0.33)])
+                                    .presentationDragIndicator(.visible)
+                                    .presentationCornerRadius(30)
+                            }
                         }
                     }
                 }

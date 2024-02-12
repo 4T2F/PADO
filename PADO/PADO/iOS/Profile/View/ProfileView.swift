@@ -20,8 +20,6 @@ struct ProfileView: View {
     
     @Namespace var animation
     @State private var buttonActive: Bool = false
-    @State private var settingButtonActive: Bool = false
-    @State private var profileEditButtonActive: Bool = false
     @State private var followerActive: Bool = false
     @State private var followingActive: Bool = false
     
@@ -84,15 +82,11 @@ struct ProfileView: View {
                                 }
                             }
                             
-                            Button {
-                                settingButtonActive.toggle()
+                            NavigationLink {
+                                SettingView()
                             } label: {
                                 Image("more")
                                     .foregroundStyle(.white)
-                            }
-                            .sheet(isPresented: $settingButtonActive) {
-                                SettingView()
-                                    .presentationDragIndicator(.visible)
                             }
                         }
                     }
