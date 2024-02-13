@@ -15,6 +15,7 @@ struct CommentView: View {
     
     @State private var commentText: String = ""
     @State private var isShowingComment: Bool = false
+    @State private var isShowingLoginPage: Bool = false
     @State var postUser: User
     
     let post: Post
@@ -87,7 +88,7 @@ struct CommentView: View {
                     if !userNameID.isEmpty {
                         isShowingComment.toggle()
                     } else {
-                        // 로그인 모달 띄우기
+                        isShowingLoginPage = true
                     }
                 } label: {
                     HStack(spacing: 6) {
@@ -117,6 +118,10 @@ struct CommentView: View {
                     CommentWriteView(commentVM: commentVM, isShowingComment: $isShowingComment, postUser: postUser, post: post)
                         .presentationDragIndicator(.visible)
                 })
+                .sheet(isPresented: $isShowingLoginPage) {
+                    StartView()
+                        .presentationDragIndicator(.visible)
+                }
             }
             .background(.main, ignoresSafeAreaEdges: .all)
             .navigationBarBackButtonHidden()

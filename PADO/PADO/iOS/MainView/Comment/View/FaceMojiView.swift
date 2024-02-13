@@ -13,6 +13,8 @@ struct FaceMojiView: View {
     
     @Binding var postOwner: User
     
+    @State private var isShowingLoginPage: Bool = false
+    
     let post: Post
     let postID: String
     
@@ -34,7 +36,7 @@ struct FaceMojiView: View {
                         if !userNameID.isEmpty {
                             surfingVM.isShowingFaceMojiModal = true
                         } else {
-                            // 로그인 모달 띄우기
+                            isShowingLoginPage = true
                         }
                     } label: {
                         VStack {
@@ -66,6 +68,10 @@ struct FaceMojiView: View {
                                          mysourceType: $surfingVM.sourceType,
                                          mycameraDevice: $surfingVM.cameraDevice)
                     }
+                    .sheet(isPresented: $isShowingLoginPage, content: {
+                        StartView()
+                            .presentationDragIndicator(.visible)
+                    })
                     .onChange(of: surfingVM.faceMojiUIImage) { _, _ in
                         surfingVM.isShowingFaceMojiModal = false
                         commentVM.faceMojiUIImage = surfingVM.faceMojiUIImage

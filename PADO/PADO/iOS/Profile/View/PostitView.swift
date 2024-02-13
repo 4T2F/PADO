@@ -15,6 +15,7 @@ struct PostitView: View {
     
     @FocusState private var isTextFieldFocused: Bool
     @State private var isFocused: Bool = false
+    @State private var isShowingLoginPage: Bool = false
     
     var body: some View {
         NavigationStack {
@@ -72,7 +73,7 @@ struct PostitView: View {
                                                                     inputcomment: postitVM.inputcomment)
                                     }
                                 } else {
-                                    // 로그인 모달 띄우기
+                                    isShowingLoginPage = true
                                 }
                             } label: {
                                 ZStack {
@@ -85,6 +86,10 @@ struct PostitView: View {
                                 }
                             }
                             .padding(.vertical, -5)
+                            .sheet(isPresented: $isShowingLoginPage, content: {
+                                StartView()
+                                    .presentationDragIndicator(.visible)
+                            })
                         } else {
                             Button {
                                 //

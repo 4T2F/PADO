@@ -25,6 +25,7 @@ struct FeedCell: View {
     @State private var commentCounts: Int = 0
     @State private var isShowingReportView: Bool = false
     @State private var isShowingCommentView: Bool = false
+    @State private var isShowingLoginPage: Bool = false
     
     @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var surfingVM: SurfingViewModel
@@ -434,11 +435,15 @@ struct FeedCell: View {
                                                 await profileVM.fetchHighlihts(id: userNameID)
                                             }
                                         } else {
-                                            // 로그인 모달 띄우기
+                                            isShowingLoginPage = true
                                         }
                                     } label: {
                                         Image("heart")
                                     }
+                                    .sheet(isPresented: $isShowingLoginPage, content: {
+                                        StartView()
+                                            .presentationDragIndicator(.visible)
+                                    })
                                 }
                                 
                                 // MARK: - 하트 숫자
@@ -479,7 +484,7 @@ struct FeedCell: View {
                                     if !userNameID.isEmpty {
                                         isShowingReportView.toggle()
                                     } else {
-                                        // 로그인 모달띄우기
+                                        isShowingLoginPage = true
                                     }
                                 } label: {
                                     VStack {
@@ -496,6 +501,10 @@ struct FeedCell: View {
                                         .presentationDetents([.medium, .fraction(0.8)]) // 모달높이 조절
                                         .presentationDragIndicator(.visible)
                                 }
+                                .sheet(isPresented: $isShowingLoginPage, content: {
+                                    StartView()
+                                        .presentationDragIndicator(.visible)
+                                })
                             }
                             .padding(.top, -15)
                         }

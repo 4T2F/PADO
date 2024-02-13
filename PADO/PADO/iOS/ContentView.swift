@@ -93,7 +93,7 @@ struct ContentView: View {
                 .onAppear { viewModel.showTab = 4 }
                 .tag(4)
             } else {
-                LoginGuideView()
+                LoginAlert()
                     .tabItem {
                         Text("")
                         
@@ -102,7 +102,7 @@ struct ContentView: View {
                     .onAppear {viewModel.showTab = 2 }
                     .tag(2)
                     
-                LoginGuideView()
+                LoginAlert()
                     .tabItem {
                         Image(viewModel.showTab == 3 ? "today_light" : "today_gray")
                         
@@ -111,7 +111,7 @@ struct ContentView: View {
                     .onAppear { viewModel.showTab = 3 }
                     .tag(3)
                 
-                LoginGuideView()
+                LoginAlert()
                     .tabItem {
                         Image(viewModel.showTab == 4 ? "profile_light" : "profile_gray")
                         

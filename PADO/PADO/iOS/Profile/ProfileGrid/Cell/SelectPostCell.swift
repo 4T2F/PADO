@@ -28,6 +28,7 @@ struct SelectPostCell: View {
     @State private var commentCounts: Int = 0
     @State private var isShowingReportView: Bool = false
     @State private var isShowingCommentView: Bool = false
+    @State private var isShowingLoginPage: Bool = false
     
     let updateHeartData: UpdateHeartData
     @Binding var post: Post
@@ -330,11 +331,14 @@ struct SelectPostCell: View {
                                                 
                                             }
                                         } else {
-                                            // 로그인 모달
+                                            isShowingLoginPage = true
                                         }
                                     } label: {
                                         Image("heart")
                                     }
+                                    .sheet(isPresented: $isShowingLoginPage, content: {
+                                        StartView()
+                                    })
                                 }
                                 
                                 // MARK: - 하트 숫자
@@ -374,7 +378,7 @@ struct SelectPostCell: View {
                                     if !userNameID.isEmpty {
                                         isShowingReportView.toggle()
                                     } else {
-                                        // 로그인 모달 띄우기
+                                        isShowingLoginPage = true
                                     }
                                 } label: {
                                     VStack {
@@ -391,6 +395,10 @@ struct SelectPostCell: View {
                                         .presentationDetents([.medium, .fraction(0.8)]) // 모달높이 조절
                                         .presentationDragIndicator(.visible)
                                 }
+                                .sheet(isPresented: $isShowingLoginPage, content: {
+                                    StartView()
+                                        .presentationDragIndicator(.visible)
+                                })
                             }
                             .padding(.top, -15)
                         }
