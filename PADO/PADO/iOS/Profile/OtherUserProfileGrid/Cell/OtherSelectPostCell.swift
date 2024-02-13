@@ -13,6 +13,7 @@ import SwiftUI
 
 struct OtherSelectPostCell: View {
     @ObservedObject var profileVM: ProfileViewModel
+    @ObservedObject var feedVM: FeedViewModel
     
     @State var heartLoading: Bool = false
     @State var isHeartCheck: Bool = false
@@ -29,50 +30,119 @@ struct OtherSelectPostCell: View {
     
     var body: some View {
         ZStack {
-            Rectangle()
-                .foregroundStyle(.black)
-                .containerRelativeFrame([.horizontal,.vertical])
-                .overlay {
-                    if let imageUrl = URL(string: post.imageUrl) {
-                        ZStack {
-                            KFImage.url(imageUrl)
-                                .resizable()
-                                .scaledToFill()
-                                .containerRelativeFrame([.horizontal,.vertical])
-                        }
-                        .overlay {
-                            if isHeaderVisible {
-                                LinearGradient(colors: [.black.opacity(0.5),
-                                                        .black.opacity(0.4),
-                                                        .black.opacity(0.3),
-                                                        .black.opacity(0.2),
-                                                        .black.opacity(0.1),
-                                                        .clear, .clear,
-                                                        .clear, .clear,
-                                                        .clear, .clear,
-                                                        .clear, .clear,
-                                                        .clear, .clear,
-                                                        .clear, .clear,
-                                                        .clear, .clear,
-                                                        .clear, .clear,
-                                                        .clear, .clear,
-                                                        .clear, .clear,
-                                                        .clear, .clear,
-                                                        .black.opacity(0.1),
-                                                        .black.opacity(0.1),
-                                                        .black.opacity(0.1),
-                                                        .black.opacity(0.2),
-                                                        .black.opacity(0.3),
-                                                        .black.opacity(0.4),
-                                                        .black.opacity(0.5)],
-                                               startPoint: .top,
-                                               endPoint: .bottom
-                                )
-                                .ignoresSafeArea()
+            if feedVM.currentPadoRideIndex == nil || feedVM.padoRidePosts.isEmpty {
+                Rectangle()
+                    .foregroundStyle(.black)
+                    .containerRelativeFrame([.horizontal,.vertical])
+                    .overlay {
+                        // MARK: - 사진
+                        if let imageUrl = URL(string: post.imageUrl) {
+                            ZStack {
+                                KFImage.url(imageUrl)
+                                    .resizable()
+                                    .scaledToFill()
+                                    .containerRelativeFrame([.horizontal,.vertical])
+                            }
+                            .overlay {
+                                if feedVM.isHeaderVisible {
+                                    LinearGradient(colors: [.black.opacity(0.5),
+                                                            .black.opacity(0.4),
+                                                            .black.opacity(0.3),
+                                                            .black.opacity(0.2),
+                                                            .black.opacity(0.1),
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .black.opacity(0.1),
+                                                            .black.opacity(0.1),
+                                                            .black.opacity(0.1),
+                                                            .black.opacity(0.1),
+                                                            .black.opacity(0.2),
+                                                            .black.opacity(0.2),
+                                                            .black.opacity(0.2),
+                                                            .black.opacity(0.3),
+                                                            .black.opacity(0.4),
+                                                            .black.opacity(0.5)],
+                                                   startPoint: .top,
+                                                   endPoint: .bottom
+                                    )
+                                    .ignoresSafeArea()
+                                }
                             }
                         }
                     }
+            } else if let currentIndex = feedVM.currentPadoRideIndex, feedVM.padoRidePosts.indices.contains(currentIndex) {
+                // PadoRide 이미지 표시
+                let padoRide = feedVM.padoRidePosts[currentIndex]
+                
+                KFImage.url(URL(string:padoRide.imageUrl))
+                    .resizable()
+                    .blur(radius: 150)
+                    .containerRelativeFrame([.horizontal,.vertical])
+                    .overlay {
+                        // MARK: - 사진
+                        if let imageUrl = URL(string: padoRide.imageUrl) {
+                            ZStack {
+                                KFImage.url(imageUrl)
+                                    .resizable()
+                                    .frame(width: UIScreen.main.bounds.width * 0.8, height: UIScreen.main.bounds.height * 0.65)
+                                    .cornerRadius(15)
+                                    .scaledToFit()
+                                    .containerRelativeFrame([.horizontal,.vertical])
+                            }
+                            .overlay {
+                                if feedVM.isHeaderVisible {
+                                    LinearGradient(colors: [.black.opacity(0.5),
+                                                            .black.opacity(0.4),
+                                                            .black.opacity(0.3),
+                                                            .black.opacity(0.2),
+                                                            .black.opacity(0.1),
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .clear, .clear,
+                                                            .black.opacity(0.1),
+                                                            .black.opacity(0.1),
+                                                            .black.opacity(0.1),
+                                                            .black.opacity(0.2),
+                                                            .black.opacity(0.3),
+                                                            .black.opacity(0.4),
+                                                            .black.opacity(0.5)],
+                                                   startPoint: .top,
+                                                   endPoint: .bottom
+                                    )
+                                    .ignoresSafeArea()
+                                }
+                            }
+                        }
+                    }
+                
+                VStack(alignment: .leading) {
+                    HStack {
+                        Text("\(feedVM.padoRidePosts[currentIndex].id ?? "") 님이 꾸민 파도")
+                            .font(.headline)
+                            .padding(.top, UIScreen.main.bounds.height * 0.09)
+                            .padding(.leading, 20)
+                        Spacer()
+                    }
+                    Spacer()
                 }
+            }
             
             VStack {
                 Spacer()
@@ -118,7 +188,36 @@ struct OtherSelectPostCell: View {
                                         // 햅틱 피드백 생성
                                         let generator = UIImpactFeedbackGenerator(style: .light)
                                         generator.impactOccurred()
-                                        isHeaderVisible.toggle()
+                                        // feedVM.isHeaderVisible.toggle()
+                                    }
+                                    
+                                    if let currentIndex = feedVM.currentPadoRideIndex {
+                                        // 다음 이미지로 이동
+                                        let nextIndex = currentIndex + 1
+                                        if nextIndex < feedVM.padoRidePosts.count {
+                                            feedVM.currentPadoRideIndex = nextIndex
+                                            feedVM.isShowingPadoRide = true
+                                        } else {
+                                            // 모든 PadoRide 이미지를 보여준 후, 원래 포스트로 돌아감
+                                            feedVM.currentPadoRideIndex = nil
+                                            feedVM.isShowingPadoRide = false
+                                            feedVM.padoRidePosts = []
+                                        }
+                                    } else {
+                                        // 최초로 PadoRide 이미지 보여주기
+                                        // PadoRidePosts가 이미 로드되었는지 확인
+                                        if feedVM.padoRidePosts.isEmpty {
+                                            Task {
+                                                await feedVM.fetchPadoRides(postID: post.id ?? "")
+                                                if !feedVM.padoRidePosts.isEmpty {
+                                                    feedVM.isShowingPadoRide = true
+                                                    feedVM.currentPadoRideIndex = 0
+                                                }
+                                            }
+                                        } else {
+                                            feedVM.isShowingPadoRide = false
+                                            feedVM.currentPadoRideIndex = 0
+                                        }
                                     }
                                 } label: {
                                     Circle()
@@ -257,14 +356,14 @@ struct OtherSelectPostCell: View {
     
     
     private func descriptionForType(_ type: PostViewType) -> String {
-           switch type {
-           case .receive:
-               return "\(post.surferUid)님에게 받은 파도"
-           case .send:
-               return "\(post.ownerUid)님에게 보낸 파도"
-           case .highlight:
-               return "\(post.ownerUid)님의 파도"
-           }
-       }
+        switch type {
+        case .receive:
+            return "\(post.surferUid)님에게 받은 파도"
+        case .send:
+            return "\(post.ownerUid)님에게 보낸 파도"
+        case .highlight:
+            return "\(post.ownerUid)님의 파도"
+        }
+    }
 }
 

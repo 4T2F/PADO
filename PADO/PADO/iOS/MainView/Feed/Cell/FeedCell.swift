@@ -103,9 +103,6 @@ struct FeedCell: View {
                 // PadoRide 이미지 표시
                 let padoRide = feedVM.padoRidePosts[currentIndex]
                 
-//                Rectangle()
-//                    .foregroundStyle(.black)
-//                    .containerRelativeFrame([.horizontal,.vertical])
                 KFImage.url(URL(string:padoRide.imageUrl))
                     .resizable()
                     .blur(radius: 150)

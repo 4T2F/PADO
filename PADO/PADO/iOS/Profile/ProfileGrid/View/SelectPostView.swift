@@ -16,6 +16,7 @@ enum PostViewType {
 
 struct SelectPostView: View {
     @ObservedObject var profileVM: ProfileViewModel
+    @ObservedObject var feedVM: FeedViewModel
 
     let updateHeartData = UpdateHeartData()
     var viewType: PostViewType
@@ -34,7 +35,7 @@ struct SelectPostView: View {
                         switch viewType {
                         case .receive:
                             ForEach(profileVM.padoPosts.indices, id: \.self) { index in
-                                SelectPostCell(profileVM: profileVM,
+                                SelectPostCell(profileVM: profileVM, feedVM: feedVM,
                                                updateHeartData: updateHeartData,
                                                post: $profileVM.padoPosts[index],
                                                cellType: PostViewType.receive)
@@ -43,7 +44,7 @@ struct SelectPostView: View {
                             
                         case .send:
                             ForEach(profileVM.sendPadoPosts.indices, id: \.self) { index in
-                                SelectPostCell(profileVM: profileVM,
+                                SelectPostCell(profileVM: profileVM, feedVM: feedVM,
                                                updateHeartData: updateHeartData,
                                                post: $profileVM.sendPadoPosts[index],
                                                cellType: PostViewType.send)
@@ -51,7 +52,7 @@ struct SelectPostView: View {
                             }
                         case .highlight:
                             ForEach(profileVM.highlights.indices, id: \.self) { index in
-                                SelectPostCell(profileVM: profileVM,
+                                SelectPostCell(profileVM: profileVM, feedVM: feedVM,
                                                updateHeartData: updateHeartData,
                                                post: $profileVM.highlights[index],
                                                cellType: PostViewType.highlight)
@@ -66,6 +67,7 @@ struct SelectPostView: View {
                     }
                 }
             }
+            .scrollDisabled(feedVM.isShowingPadoRide)
             .scrollTargetBehavior(.paging)
             .ignoresSafeArea()
             

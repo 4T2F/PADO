@@ -11,6 +11,7 @@ import SwiftUI
 
 struct OtherSelectPostView: View {
     @ObservedObject var profileVM: ProfileViewModel
+    @ObservedObject var feedVM: FeedViewModel
 
     let updateHeartData = UpdateHeartData()
     var viewType: PostViewType
@@ -27,7 +28,7 @@ struct OtherSelectPostView: View {
                         switch viewType {
                         case .receive:
                             ForEach(profileVM.padoPosts.indices, id: \.self) { index in
-                                OtherSelectPostCell(profileVM: profileVM,
+                                OtherSelectPostCell(profileVM: profileVM, feedVM: feedVM,
                                                     updateHeartData: updateHeartData,
                                                     post: $profileVM.padoPosts[index],
                                                     cellType: PostViewType.receive)
@@ -39,7 +40,7 @@ struct OtherSelectPostView: View {
                             }
                         case .send:
                             ForEach(profileVM.sendPadoPosts.indices, id: \.self) { index in
-                                OtherSelectPostCell(profileVM: profileVM,
+                                OtherSelectPostCell(profileVM: profileVM, feedVM: feedVM,
                                                     updateHeartData: updateHeartData,
                                                     post: $profileVM.sendPadoPosts[index],
                                                     cellType: PostViewType.send)
@@ -51,7 +52,7 @@ struct OtherSelectPostView: View {
                             }
                         case .highlight:
                             ForEach(profileVM.highlights.indices, id: \.self) { index in
-                                OtherSelectPostCell(profileVM: profileVM,
+                                OtherSelectPostCell(profileVM: profileVM, feedVM: feedVM,
                                                     updateHeartData: updateHeartData,
                                                     post: $profileVM.highlights[index],
                                                     cellType: PostViewType.highlight)
@@ -65,6 +66,7 @@ struct OtherSelectPostView: View {
                 }
                 .scrollTargetLayout()
             }
+            .scrollDisabled(feedVM.isShowingPadoRide)
             .scrollTargetBehavior(.paging)
             .ignoresSafeArea()
             
