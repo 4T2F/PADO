@@ -68,7 +68,7 @@ struct DrawingView: View {
             }
         }
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
+            ToolbarItem(placement: .topBarTrailing) {
                 Button{
                     padorideVM.textBoxes.append(TextBox())
                     
@@ -85,7 +85,7 @@ struct DrawingView: View {
                 }
             }
             
-            ToolbarItem(placement: .navigationBarTrailing) {
+            ToolbarItem(placement: .topBarTrailing) {
                 Button{
                     padorideVM.showingModal = true
                     padorideVM.saveImage()

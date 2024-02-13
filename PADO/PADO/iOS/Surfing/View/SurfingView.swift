@@ -20,28 +20,18 @@ struct SurfingView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                Spacer()
-                
-                // 이미 선택된 이미지를 표시하는 영역
-                if surfingVM.selectedUIImage != Image(systemName: "photo") {
-                    surfingVM.selectedUIImage
-                        .resizable()
-                        .scaledToFit()
-
-                } else if surfingVM.cameraImage != Image(systemName: "photo") {
-                    surfingVM.cameraImage
-                        .resizable()
-                        .scaledToFit()
-                } else {
-                    Text("이미지를 선택하세요.")
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .background(Color.gray)
-                }
-                
-                Spacer()
-                
-                // 이미지 피커 버튼을 표시하는 영역
                 HStack {
+                    Spacer()
+                    
+                    // 사진 라이브러리 접근 버튼
+                    PhotosPicker(selection: $surfingVM.postImageItem) {
+                        Image(systemName: "photo")
+                            .resizable()
+                            .frame(width: 25, height: 20)
+                    }
+                    .padding(.trailing, 20)
+                    
+                    // 카메라 접근 버튼
                     Button {
                         surfingVM.checkCameraPermission {
                             surfingVM.isShownCamera.toggle()
@@ -55,38 +45,137 @@ struct SurfingView: View {
                             .resizable()
                             .frame(width: 30, height: 30)
                     }
+                    .padding(.trailing, 20)
                     
-                    Spacer()
-                    
-                    if surfingVM.cameraImage != Image(systemName: "photo") {
-                        Button {
-                            surfingVM.postingImage = surfingVM.cameraImage
-                            surfingVM.postingUIImage = surfingVM.cameraUIImage
+                    if surfingVM.cameraImage != Image(systemName: "photo") || surfingVM.selectedUIImage != Image(systemName: "photo") {
+                        // 변경될 수 있음
+                        Button("다음") {
+                            if surfingVM.cameraImage != Image(systemName: "photo") {
+                                surfingVM.postingImage = surfingVM.cameraImage
+                                surfingVM.postingUIImage = surfingVM.cameraUIImage
+                            } else if surfingVM.selectedUIImage != Image(systemName: "photo") {
+                                surfingVM.postingImage = surfingVM.selectedUIImage
+                                surfingVM.postingUIImage = surfingVM.selectedImage ?? UIImage()
+                            }
                             surfingVM.showCropView.toggle()
-                        } label: {
-                            Text("다음")
-                                .font(.system(size: 16, weight: .semibold))
                         }
-                    } else if surfingVM.selectedUIImage != Image(systemName: "photo") {
+                        .padding(.trailing, 20)
+                        .font(.system(size: 16, weight: .semibold))
+                    } else {
                         Button {
-                            surfingVM.postingImage = surfingVM.selectedUIImage
-                            surfingVM.postingUIImage = surfingVM.selectedImage ?? UIImage()
-                            surfingVM.showCropView.toggle()
+                            
                         } label: {
                             Text("다음")
                                 .font(.system(size: 16, weight: .semibold))
+                                .foregroundStyle(.gray)
+                                .padding(.trailing, 20)
                         }
                     }
                 }
-                .foregroundStyle(.white)
-                .padding(.horizontal, 20)
                 
-                PhotoPicker(pickerResult: $surfingVM.pickerResult,
-                            selectedImage: $surfingVM.selectedImage,
-                            selectedSwiftUIImage: $surfingVM.selectedUIImage)
-                    .frame(height: 300)
+                Spacer()
+                
+                // 이미 선택된 이미지를 표시하는 영역
+                if surfingVM.selectedUIImage != Image(systemName: "photo") {
+                    surfingVM.selectedUIImage
+                        .resizable()
+                        .scaledToFit()
+                    
+                } else if surfingVM.cameraImage != Image(systemName: "photo") {
+                    surfingVM.cameraImage
+                        .resizable()
+                        .scaledToFit()
+                } else {
+                    Text("이미지를 선택하세요.")
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(Color.gray)
+                }
+                
+                Spacer()
                 
             } //: VSTACK
+//            .toolbar {
+//                ToolbarItem(placement: .topBarTrailing) {
+//                    Button {
+//                        surfingVM.checkPhotoLibraryPermission()
+//                        surfingVM.isShowingPhoto.toggle()
+//                    } label: {
+//                        Image("photo")
+//                            .resizable()
+//                            .frame(width: 30, height: 30)
+//                    }
+//                }
+//                
+//                ToolbarItem(placement: .topBarTrailing) {
+//                    Button {
+//                        surfingVM.checkCameraPermission {
+//                            surfingVM.isShownCamera.toggle()
+//                            surfingVM.sourceType = .camera
+//                            surfingVM.pickerResult = []
+//                            surfingVM.selectedImage = nil
+//                            surfingVM.selectedUIImage = Image(systemName: "photo")
+//                        }
+//                    } label: {
+//                        Image("Camera")
+//                            .resizable()
+//                            .frame(width: 30, height: 30)
+//                    }
+//                }
+//                
+//                ToolbarItem(placement: .topBarTrailing) {
+//                    if surfingVM.cameraImage != Image(systemName: "photo") {
+//                        Button {
+//                            surfingVM.postingImage = surfingVM.cameraImage
+//                            surfingVM.postingUIImage = surfingVM.cameraUIImage
+//                            surfingVM.showCropView.toggle()
+//                        } label: {
+//                            Text("다음")
+//                                .font(.system(size: 16, weight: .semibold))
+//                        }
+//                    } else if surfingVM.selectedUIImage != Image(systemName: "photo") {
+//                        Button {
+//                            surfingVM.postingImage = surfingVM.selectedUIImage
+//                            surfingVM.postingUIImage = surfingVM.selectedImage ?? UIImage()
+//                            surfingVM.showCropView.toggle()
+//                        } label: {
+//                            Text("다음")
+//                                .font(.system(size: 16, weight: .semibold))
+//                        }
+//                    }
+//                }
+//            }
+            
+                
+                
+                // 다음 버튼이 필요한 경우 별도의 ToolbarItem으로 추가
+//                if surfingVM.cameraImage != Image(systemName: "photo") || surfingVM.selectedUIImage != Image(systemName: "photo") {
+//                    ToolbarItem(placement: .topBarTrailing) { // 변경될 수 있음
+//                        Button("다음") {
+//                            if surfingVM.cameraImage != Image(systemName: "photo") {
+//                                surfingVM.postingImage = surfingVM.cameraImage
+//                                surfingVM.postingUIImage = surfingVM.cameraUIImage
+//                            } else if surfingVM.selectedUIImage != Image(systemName: "photo") {
+//                                surfingVM.postingImage = surfingVM.selectedUIImage
+//                                surfingVM.postingUIImage = surfingVM.selectedImage ?? UIImage()
+//                            }
+//                            surfingVM.showCropView.toggle()
+//                        }
+//                        .font(.system(size: 16, weight: .semibold))
+//                    }
+//                } else {
+//                    ToolbarItem(placement: .topBarTrailing) {
+//                        Button {
+//                            
+//                        } label: {
+//                            Text("다음")
+//                                .font(.system(size: 16, weight: .semibold))
+//                                .foregroundStyle(.gray)
+//                        }
+//
+//                    }
+//                }
+                
+            
             .onAppear {
                 surfingVM.checkPhotoLibraryPermission()
             }
@@ -99,6 +188,11 @@ struct SurfingView: View {
                                  myUIImage: $surfingVM.cameraUIImage,
                                  mysourceType: $surfingVM.sourceType,
                                  mycameraDevice: $surfingVM.cameraDevice)
+            }
+            .sheet(isPresented: $surfingVM.isShowingPhoto) {
+                PhotoPicker(pickerResult: $surfingVM.pickerResult,
+                            selectedImage: $surfingVM.selectedImage,
+                            selectedSwiftUIImage: $surfingVM.selectedUIImage)
             }
             .navigationDestination(isPresented: $surfingVM.showCropView) {
                 PostCropView(surfingVM: surfingVM,
