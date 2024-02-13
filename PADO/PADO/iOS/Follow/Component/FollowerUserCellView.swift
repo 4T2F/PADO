@@ -20,8 +20,6 @@ struct FollowerUserCellView: View {
     let cellUserId: String
     let followerType: FollowerModalType
     
-    let updateFollowData: UpdateFollowData
-    
     enum SufferSet: String {
         case removesuffer = "서퍼 해제"
         case setsuffer = "서퍼 등록"
@@ -39,7 +37,6 @@ struct FollowerUserCellView: View {
             NavigationLink {
                 if let user = profileUser {
                     OtherUserProfileView(buttonOnOff: $buttonOnOff,
-                                         updateFollowData: updateFollowData,
                                          user: user)
                 }
             } label: {
@@ -96,7 +93,7 @@ struct FollowerUserCellView: View {
                         FollowerModalAlert(followerUsername: "\(cellUserId)님을 서퍼 해제하시겠어요?",
                                            followerProfileUrl: followerProfileUrl,
                                            buttonText1: "서퍼 해제",
-                                           onButton1: { await updateFollowData.removeSurfer(id: cellUserId)})
+                                           onButton1: { await UpdateFollowData.shared.removeSurfer(id: cellUserId)})
                         .presentationDetents([.fraction(0.4)])
                         
                     }
@@ -106,7 +103,7 @@ struct FollowerUserCellView: View {
             case .follower:
                 Button {
                     Task {
-                        await updateFollowData.registerSurfer(id: cellUserId)
+                        await UpdateFollowData.shared.registerSurfer(id: cellUserId)
                         await UpdatePushNotiData().pushNoti(receiveUser: profileUser!, type: .surfer)
                     }
                 } label: {
@@ -136,7 +133,7 @@ struct FollowerUserCellView: View {
                                    followerProfileUrl: followerProfileUrl,
                                    buttonText1: "팔로워 삭제",
                                    onButton1: {
-                    await updateFollowData.removeFollower(id: cellUserId)
+                    await UpdateFollowData.shared.removeFollower(id: cellUserId)
                 })
                 .presentationDetents([.fraction(0.4)])
             }
@@ -153,7 +150,7 @@ struct FollowerUserCellView: View {
                     self.profileUser = userProfile
                     print("유저: \(String(describing: profileUser))")
                 }
-                self.buttonOnOff = await updateFollowData.checkFollowStatus(id: cellUserId)
+                self.buttonOnOff = UpdateFollowData.shared.checkFollowingStatus(id: cellUserId)
             }
         }
         // contentShape 를 사용해서 H스택 전체적인 부분에 대해 패딩을 줌

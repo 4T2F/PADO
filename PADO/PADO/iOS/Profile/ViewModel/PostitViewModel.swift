@@ -16,6 +16,8 @@ class PostitViewModel: ObservableObject {
     @Published var longpressedMessage: String = ""
     @Published var longpressedID: String = ""
     @Published var showdeleteModal: Bool = false
+    @Published var messageUserIDs: [String] = []
+    @Published var messageUsers: [String: User] = [:]
     
     let db = Firestore.firestore()
     
@@ -28,11 +30,11 @@ class PostitViewModel: ObservableObject {
             self.messages = querySnapshot.documents.compactMap { document in
                 try? document.data(as: PostitMessage.self)
             }
-      
+            self.messageUserIDs = removeDuplicateUserIDs(from: messages)
+            await fetchMessageUser()
         } catch {
             print("Error fetching comments: \(error)")
         }
-
     }
     
     @MainActor
@@ -76,4 +78,24 @@ class PostitViewModel: ObservableObject {
         }
     }
     
+    func removeDuplicateUserIDs(from messages: [PostitMessage]) -> [String] {
+        let userIDs = messages.map { $0.messageUserID }
+        var uniqueUserIDs = Set(userIDs)
+        uniqueUserIDs.insert(userNameID)
+        return Array(uniqueUserIDs)
+    }
+    
+    @MainActor
+    func fetchMessageUser() async {
+        do {
+            for documentID in messageUserIDs {
+                let querySnapshot = try await db.collection("users").document(documentID).getDocument()
+                
+                let userData = try? querySnapshot.data(as: User.self)
+                self.messageUsers[documentID] = userData
+            }
+        } catch {
+            print("Error fetch User: \(error.localizedDescription)")
+        }
+    }
 }

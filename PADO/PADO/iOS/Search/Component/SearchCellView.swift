@@ -19,14 +19,12 @@ struct SearchCellView: View {
     @ObservedObject var searchVM: SearchViewModel
     let user: User
 
-    let updateFollowData: UpdateFollowData
     // MARK: - BODY
     var body: some View {
         NavigationStack {
             HStack {
                 NavigationLink {
                     OtherUserProfileView(buttonOnOff: $buttonOnOff,
-                                         updateFollowData: updateFollowData,
                                          user: user)
                         .onAppear {
                             searchVM.addSearchData(user.nameID)
@@ -70,9 +68,7 @@ struct SearchCellView: View {
             .padding(.horizontal)
         } //: NAVI
         .onAppear {
-            Task {
-                self.buttonOnOff = await updateFollowData.checkFollowStatus(id: user.nameID)
-            }
+            self.buttonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: user.nameID)
         }
     }
 }

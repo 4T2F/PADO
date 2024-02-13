@@ -27,6 +27,8 @@ var userToken: String {
     }
 }
 
+var userFollowingIDs: [String] = []
+
 struct User: Codable, Identifiable, Hashable {
     @DocumentID var id: String?
     var username: String // 유저 닉네임

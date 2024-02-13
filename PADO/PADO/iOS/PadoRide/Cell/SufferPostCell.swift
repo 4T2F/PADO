@@ -23,7 +23,6 @@ struct SufferPostCell: View {
                     Button {
                         padorideVM.selectedImage = post.imageUrl
                         padorideVM.selectedPost = post
-                        print(padorideVM.selectedPost)
                     } label: {
                         ZStack {
                             KFImage(URL(string: post.imageUrl))

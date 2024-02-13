@@ -24,21 +24,21 @@ class CropWhiteBackground {
             throw CroppingError.imageNotFound
         }
         
-        //Declaration of cropping frame size
+        // Declaration of cropping frame size
         scaleFactor = inputImage.scale
         processedImageWidth = (inputImage.size.width * scaleFactor)
         processedImageHeight = (inputImage.size.height * scaleFactor) - (36 * scaleFactor)
         
-        //Declaration of frame for cropping
+        // Declaration of frame for cropping
         croppingFrame = CGRect(x: 0, y: 0, width: processedImageWidth, height: processedImageHeight)
         
-        //Cropping CGImage
+        // Cropping CGImage
         guard let processedCGImage: CGImage = cgImage.cropping(to: croppingFrame) else {
             print("image not found")
             throw CroppingError.failedToCrop
         }
         
-        //Convert CGImage to UIImage
+        // Convert CGImage to UIImage
         croppedImage = UIImage(cgImage: processedCGImage, scale: scaleFactor, orientation: inputImage.imageOrientation)
         
         return croppedImage

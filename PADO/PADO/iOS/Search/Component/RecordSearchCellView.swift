@@ -19,7 +19,6 @@ struct RecordSearchCellView: View {
     @ObservedObject var searchVM: SearchViewModel
     
     let searchCellID: String
-    let updateFollowData: UpdateFollowData
     
     // MARK: - BODY
     var body: some View {
@@ -27,7 +26,6 @@ struct RecordSearchCellView: View {
             NavigationLink {
                 if let user = searchUser {
                     OtherUserProfileView(buttonOnOff: $buttonOnOff,
-                                         updateFollowData: updateFollowData,
                                          user: user)
                     .onAppear {
                         // 네비게이션 링크를 클릭했을 때 실행될 코드
@@ -93,7 +91,7 @@ struct RecordSearchCellView: View {
                     self.searchProfileUrl = userProfile.profileImageUrl ?? ""
                     self.searchUser = userProfile
                 }
-                self.buttonOnOff = await updateFollowData.checkFollowStatus(id: searchCellID)
+                self.buttonOnOff = UpdateFollowData.shared.checkFollowingStatus(id: searchCellID)
             }
         }
     }

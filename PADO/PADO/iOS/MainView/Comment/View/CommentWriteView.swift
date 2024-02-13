@@ -54,7 +54,9 @@ struct CommentWriteView: View {
                     VStack(alignment: .leading) {
                         if !commentVM.comments.isEmpty, let postID = post.id {
                             ForEach(commentVM.comments) { comment in
-                                CommentCell(comment: comment, commentVM: commentVM, postID: postID)
+                                CommentCell(comment: comment, commentVM: commentVM,
+                                            post: post,
+                                            postID: postID)
                                     .id(comment.id)
                                     .padding(.horizontal, 10)
                                     .padding(.bottom, 20)
@@ -153,17 +155,5 @@ struct CommentWriteView: View {
             .padding([.horizontal, .vertical], 8)
         }
         .background(.main, ignoresSafeAreaEdges: .all)
-        .onAppear {
-            Task {
-                print(postUser)
-                commentVM.comments.removeAll()
-                if let postID = post.id {
-                    if let fetchedComments = await commentVM.updateCommentData.getCommentsDocument(postID: postID) {
-                        commentVM.comments = fetchedComments
-                    }
-                }
-                //                try await feedVM.getFaceMoji()
-            }
-        }
     }
 }

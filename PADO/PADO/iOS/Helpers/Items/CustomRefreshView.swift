@@ -163,7 +163,7 @@ class ScrollViewModel: NSObject,ObservableObject,UIGestureRecognizerDelegate {
 }
 
 // MARK: Offset Modifier
-extension View{
+extension View {
     @ViewBuilder
     func offset(coordinateSpace: String,
                 offset: @escaping (CGFloat) -> Void) -> some View {
@@ -224,6 +224,8 @@ struct ResizbaleLottieView: UIViewRepresentable {
         lottieView.tag = 1009
         lottieView.translatesAutoresizingMaskIntoConstraints = false
         
+        lottieView.loopMode = .loop
+        
         let constraints = [
             lottieView.widthAnchor.constraint(equalTo: to.widthAnchor),
             lottieView.heightAnchor.constraint(equalTo: to.heightAnchor),
@@ -233,4 +235,3 @@ struct ResizbaleLottieView: UIViewRepresentable {
         to.addConstraints(constraints)
     }
 }
-

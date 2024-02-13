@@ -9,6 +9,7 @@ import FirebaseFirestoreSwift
 import Foundation
 
 class UpdateFollowData {
+    static let shared = UpdateFollowData()
     
     let db = Firestore.firestore()
     
@@ -96,24 +97,8 @@ class UpdateFollowData {
             }
     }
     
-    func checkFollowStatus(id: String) async -> Bool {
-        let db = Firestore.firestore()
-        
-        guard !userNameID.isEmpty else { return false }
-        
-        let query = db.collection("users").document(userNameID).collection("following").whereField("followingID", isEqualTo: id)
-        
-        do {
-            let querySnapshot = try await query.getDocuments()
-            for document in querySnapshot.documents {
-                if let status = document.data()["status"] as? Bool {
-                    return status
-                }
-            }
-        } catch {
-            print("Error getting documents: \(error)")
-        }
-        return false
+    func checkFollowingStatus(id: String) -> Bool {
+        return userFollowingIDs.contains(id)
     }
     
 }

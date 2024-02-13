@@ -22,7 +22,6 @@ struct FollowerOtherUserCellView: View {
     @State private var buttonActive: Bool = false
     @State var transitions: Bool = false
     
-    let updateFollowData: UpdateFollowData
     
     // MARK: - BODY
     var body: some View {
@@ -30,7 +29,6 @@ struct FollowerOtherUserCellView: View {
                 NavigationLink {
                     if let user = profileUser {
                         OtherUserProfileView(buttonOnOff: $buttonOnOff,
-                                             updateFollowData: updateFollowData,
                                              user: user)
                     }
                 } label: {
@@ -75,8 +73,7 @@ struct FollowerOtherUserCellView: View {
                                activeText: "팔로우",
                                unActiveText: "팔로우 취소",
                                widthValue: 85,
-                               heightValue: 28,
-                               updateFollowData: updateFollowData)
+                               heightValue: 28)
                 .padding(.horizontal)
             }
             
@@ -91,7 +88,7 @@ struct FollowerOtherUserCellView: View {
                     self.followerProfileUrl = userProfile.profileImageUrl ?? ""
                     self.profileUser = userProfile
                 }
-                self.buttonOnOff = await updateFollowData.checkFollowStatus(id: cellUserId)
+                self.buttonOnOff = UpdateFollowData.shared.checkFollowingStatus(id: cellUserId)
             }
         }
         // contentShape 를 사용해서 H스택 전체적인 부분에 대해 패딩을 줌

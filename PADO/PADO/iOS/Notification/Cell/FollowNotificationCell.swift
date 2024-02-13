@@ -14,7 +14,6 @@ struct FollowNotificationCell: View {
     @State var name = ""
     
     var notification: Noti
-    let updateFollowData = UpdateFollowData()
     
     var body: some View {
         HStack(spacing: 0) {
@@ -52,8 +51,7 @@ struct FollowNotificationCell: View {
                            activeText: "팔로우",
                            unActiveText: "팔로잉",
                            widthValue: 85,
-                           heightValue: 30,
-                           updateFollowData: updateFollowData)
+                           heightValue: 30)
         }
         .onAppear {
             Task {

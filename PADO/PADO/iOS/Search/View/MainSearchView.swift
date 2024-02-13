@@ -17,7 +17,6 @@ struct MainSearchView: View {
     
     @FocusState private var isTextFieldFocused: Bool
     
-    let updateFollowData = UpdateFollowData()
     // MARK: - BODY
     var body: some View {
         let searchTextBinding = Binding {
@@ -70,8 +69,7 @@ struct MainSearchView: View {
                                     RecordSearchCellView(profileVM: profileVM,
                                                          followVM: followVM,
                                                          searchVM: searchVM,
-                                                         searchCellID: searchData,
-                                                         updateFollowData: updateFollowData)
+                                                         searchCellID: searchData)
                                     .padding(.vertical, 3)
                                 }
                             }
@@ -92,8 +90,7 @@ struct MainSearchView: View {
                                 SearchCellView(profileVM: profileVM,
                                                followVM: followVM,
                                                searchVM: searchVM,
-                                               user: result,
-                                               updateFollowData: updateFollowData)
+                                               user: result)
                                 .padding(.vertical, 3)
                             }
                         }

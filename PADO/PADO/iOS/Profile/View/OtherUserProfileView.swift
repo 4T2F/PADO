@@ -32,9 +32,6 @@ struct OtherUserProfileView: View {
     @State private var isShowingMessageView: Bool = false
     @State private var isShowingUserReport: Bool = false
     
-    @State private var selectedPostID: String?
-    
-    let updateFollowData: UpdateFollowData
     let updatePushNotiData = UpdatePushNotiData()
     
     let user: User
@@ -98,16 +95,25 @@ struct OtherUserProfileView: View {
                             }
                         }
                         
-                        Button {
-                            isShowingUserReport.toggle()
-                        } label: {
-                            Image(systemName: "ellipsis")
-                        }
-                        .sheet(isPresented: $isShowingUserReport) {
-                            ReprotProfileModalView()
-                                .presentationDetents([.fraction(0.33)])
-                                .presentationDragIndicator(.visible)
-                                .presentationCornerRadius(30)
+                        if user.nameID == userNameID {
+                            NavigationLink {
+                                SettingView()
+                            } label: {
+                                Image("more")
+                                    .foregroundStyle(.white)
+                            }
+                        } else {
+                            Button {
+                                isShowingUserReport.toggle()
+                            } label: {
+                                Image(systemName: "ellipsis")
+                            }
+                            .sheet(isPresented: $isShowingUserReport) {
+                                ReprotProfileModalView()
+                                    .presentationDetents([.fraction(0.33)])
+                                    .presentationDragIndicator(.visible)
+                                    .presentationCornerRadius(30)
+                            }
                         }
                     }
                 }
@@ -197,8 +203,8 @@ struct OtherUserProfileView: View {
                                 Spacer()
                                 
                                 if user.nameID == userNameID {
-                                    Button {
-                                        profileEditButtonActive = true
+                                    NavigationLink {
+                                        SettingProfileView()
                                     } label: {
                                         ZStack {
                                             RoundedRectangle(cornerRadius:4)
@@ -210,17 +216,11 @@ struct OtherUserProfileView: View {
                                                 .foregroundStyle(.white)
                                         }
                                     }
-                                    .sheet(isPresented: $profileEditButtonActive) {
-                                        SettingProfileView()
-                                            .onDisappear {
-                                                profileEditButtonActive = false
-                                            }
-                                    }
                                 } else {
                                     if buttonOnOff {
                                         Button {
                                             Task {
-                                                await updateFollowData.directUnfollowUser(id: user.nameID)
+                                                await UpdateFollowData.shared.directUnfollowUser(id: user.nameID)
                                                 buttonOnOff.toggle()
                                             }
                                         } label: {
@@ -237,7 +237,7 @@ struct OtherUserProfileView: View {
                                     } else {
                                         Button {
                                             Task {
-                                                await updateFollowData.followUser(id: user.nameID)
+                                                await UpdateFollowData.shared.followUser(id: user.nameID)
                                                 await updatePushNotiData.pushNoti(receiveUser: user, type: .follow)
                                                 buttonOnOff.toggle()
                                             }
@@ -267,53 +267,54 @@ struct OtherUserProfileView: View {
                                 }
                                 .font(.callout)
                                 
-                                if let user = viewModel.currentUser {
-                                    Button {
-                                        followerActive = true
-                                    } label: {
-                                        Label {
-                                            Text("팔로워")
-                                                .foregroundStyle(.white.opacity(0.9))
-                                        } icon: {
-                                            Text("\(followVM.followerIDs.count + followVM.surferIDs.count)")
-                                                .foregroundStyle(.white.opacity(0.9))
-                                        }
-                                        .font(.callout)
+                                
+                                Button {
+                                    followerActive = true
+                                } label: {
+                                    Label {
+                                        Text("팔로워")
+                                            .foregroundStyle(.white.opacity(0.9))
+                                    } icon: {
+                                        Text("\(followVM.followerIDs.count + followVM.surferIDs.count)")
+                                            .foregroundStyle(.white.opacity(0.9))
                                     }
-                                    .sheet(isPresented: $followerActive) {
-                                        FollowMainView(currentType: "팔로워", followVM: followVM, updateFollowData: updateFollowData, user: user)
-                                            .presentationDetents([.large])
-                                            .presentationDragIndicator(.visible)
-                                            .onDisappear {
-                                                followerActive = false
-                                            }
-                                    }
-                                    
-                                    Button {
-                                        followingActive = true
-                                    } label: {
-                                        Label {
-                                            Text("팔로잉")
-                                                .foregroundStyle(.white.opacity(0.9))
-                                        } icon: {
-                                            Text("\(followVM.followingIDs.count)")
-                                                .foregroundStyle(.white.opacity(0.9))
-                                        }
-                                        .font(.callout)
-                                    }
-                                    
-                                    .sheet(isPresented: $followingActive) {
-                                        FollowMainView(currentType: "팔로잉",
-                                                       followVM: followVM,
-                                                       updateFollowData: updateFollowData,
-                                                       user: user)
-                                        .presentationDetents([.large])
-                                        .presentationDragIndicator(.visible)
-                                        .onDisappear {
-                                            followingActive = false
-                                        }
+                                    .font(.callout)
+                                }
+                                .sheet(isPresented: $followerActive) {
+                                    FollowMainView(currentType: "팔로워",
+                                                   followVM: followVM,
+                                                   user: user)
+                                    .presentationDetents([.large])
+                                    .presentationDragIndicator(.visible)
+                                    .onDisappear {
+                                        followerActive = false
                                     }
                                 }
+                                
+                                Button {
+                                    followingActive = true
+                                } label: {
+                                    Label {
+                                        Text("팔로잉")
+                                            .foregroundStyle(.white.opacity(0.9))
+                                    } icon: {
+                                        Text("\(followVM.followingIDs.count)")
+                                            .foregroundStyle(.white.opacity(0.9))
+                                    }
+                                    .font(.callout)
+                                }
+                                
+                                .sheet(isPresented: $followingActive) {
+                                    FollowMainView(currentType: "팔로잉",
+                                                   followVM: followVM,
+                                                   user: user)
+                                    .presentationDetents([.large])
+                                    .presentationDragIndicator(.visible)
+                                    .onDisappear {
+                                        followingActive = false
+                                    }
+                                }
+                                
                             }
                             .padding(.leading, 2)
                         }
@@ -397,7 +398,9 @@ struct OtherUserProfileView: View {
                             if let image = URL(string: post.imageUrl) {
                                 Button {
                                     isShowingReceiveDetail.toggle()
-                                    self.selectedPostID = post.id
+                                    if let postID = post.id {
+                                        profileVM.selectedPostID = postID
+                                    }
                                 } label: {
                                     KFImage(image)
                                         .resizable()
@@ -406,10 +409,9 @@ struct OtherUserProfileView: View {
                                         .clipped()
                                 }
                                 .sheet(isPresented: $isShowingReceiveDetail) {
-                                    OtherSelectPostView(profileVM: profileVM, feedVM: feedVM,
+                                    SelectPostView(profileVM: profileVM,
                                                         viewType: PostViewType.receive,
-                                                        isShowingDetail: $isShowingReceiveDetail,
-                                                        selectedPostID: selectedPostID ?? "")
+                                                        isShowingDetail: $isShowingReceiveDetail)
                                     .presentationDragIndicator(.visible)
                                     .onDisappear {
                                         feedVM.currentPadoRideIndex = nil
@@ -446,7 +448,9 @@ struct OtherUserProfileView: View {
                             if let image = URL(string: post.imageUrl) {
                                 Button {
                                     isShowingSendDetail.toggle()
-                                    self.selectedPostID = post.id
+                                    if let postID = post.id {
+                                        profileVM.selectedPostID = postID
+                                    }
                                 } label: {
                                     KFImage(image)
                                         .resizable()
@@ -455,10 +459,9 @@ struct OtherUserProfileView: View {
                                         .clipped()
                                 }
                                 .sheet(isPresented: $isShowingSendDetail) {
-                                    OtherSelectPostView(profileVM: profileVM, feedVM: feedVM,
+                                    SelectPostView(profileVM: profileVM,
                                                         viewType: PostViewType.send,
-                                                        isShowingDetail: $isShowingSendDetail,
-                                                        selectedPostID: selectedPostID ?? "")
+                                                        isShowingDetail: $isShowingSendDetail)
                                     .presentationDragIndicator(.visible)
                                     .onDisappear {
                                         feedVM.currentPadoRideIndex = nil
@@ -493,7 +496,9 @@ struct OtherUserProfileView: View {
                             if let image = URL(string: post.imageUrl) {
                                 Button {
                                     isShowingHightlight.toggle()
-                                    self.selectedPostID = post.id
+                                    if let postID = post.id {
+                                        profileVM.selectedPostID = postID
+                                    }
                                 } label: {
                                     KFImage(image)
                                         .resizable()
@@ -502,10 +507,9 @@ struct OtherUserProfileView: View {
                                         .clipped()
                                 }
                                 .sheet(isPresented: $isShowingHightlight) {
-                                    OtherSelectPostView(profileVM: profileVM, feedVM: feedVM,
+                                    SelectPostView(profileVM: profileVM,
                                                         viewType: PostViewType.highlight,
-                                                        isShowingDetail: $isShowingHightlight,
-                                                        selectedPostID: selectedPostID ?? "")
+                                                        isShowingDetail: $isShowingHightlight)
                                     .presentationDragIndicator(.visible)
                                     .onDisappear {
                                         feedVM.currentPadoRideIndex = nil

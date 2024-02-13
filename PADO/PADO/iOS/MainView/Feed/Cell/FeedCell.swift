@@ -17,6 +17,9 @@ struct FeedCell: View {
     @State var isHeartCheck: Bool = false
     @State var postUser: User? = nil
     @State var surferUser: User? = nil
+    @State var postOwnerButtonOnOff: Bool = false
+    @State var postSurferButtonOnOff: Bool = false
+    @State var postIndex: Int = -1
     
     @State private var heartCounts: Int = 0
     @State private var commentCounts: Int = 0
@@ -30,6 +33,9 @@ struct FeedCell: View {
     
     let updateHeartData: UpdateHeartData
     @Binding var post: Post
+    
+    var isTodayPadoPost: Bool
+    var todayPadoPostIndex: Int
     
     var body: some View {
         ZStack {
@@ -187,14 +193,90 @@ struct FeedCell: View {
                 HStack(alignment: .bottom) {
                     // MARK: - 아이디 및 타이틀
                     VStack(alignment: .leading, spacing: 8) {
-                        if let postUser = postUser {
+                        NavigationLink {
+                            if let postUser = postUser {
+                                OtherUserProfileView(buttonOnOff: $postOwnerButtonOnOff,
+                                                     user: postUser)
+                            }
+                        } label: {
+                            if let postUser = postUser {
                                 CircularImageView(size: .xLarge,
                                                   user: postUser)
+                            }
                         }
                         VStack(alignment: .leading, spacing: 4) {
-                            Text("@\(post.ownerUid)")
-                                .font(.title)
-                                .fontWeight(.bold)
+                            HStack(spacing: 4) {
+                                if isTodayPadoPost && todayPadoPostIndex == 0 {
+                                    NavigationLink {
+                                        if let postUser = postUser {
+                                            OtherUserProfileView(buttonOnOff: $postOwnerButtonOnOff,
+                                                                 user: postUser)
+                                        }
+                                    } label: {
+                                        Text("@\(post.ownerUid)")
+                                            .font(.title)
+                                            .fontWeight(.bold)
+                                    }
+                                    
+                                    Circle()
+                                        .foregroundStyle(.clear)
+                                        .frame(width: 10)
+                                        .overlay {
+                                            Image("goldmedal")
+                                                .offset(x: 14, y: 6)
+                                        }
+                                    
+                                } else if isTodayPadoPost && todayPadoPostIndex == 1 {
+                                    NavigationLink {
+                                        if let postUser = postUser {
+                                            OtherUserProfileView(buttonOnOff: $postOwnerButtonOnOff,
+                                                                 user: postUser)
+                                        }
+                                    } label: {
+                                        Text("@\(post.ownerUid)")
+                                            .font(.title)
+                                            .fontWeight(.bold)
+                                    }
+                                    
+                                    Circle()
+                                        .foregroundStyle(.clear)
+                                        .frame(width: 10)
+                                        .overlay {
+                                            Image("silvermedal")
+                                                .offset(x: 14, y: 6)
+                                        }
+                                } else if isTodayPadoPost && todayPadoPostIndex == 2 {
+                                    NavigationLink {
+                                        if let postUser = postUser {
+                                            OtherUserProfileView(buttonOnOff: $postOwnerButtonOnOff,
+                                                                 user: postUser)
+                                        }
+                                    } label: {
+                                        Text("@\(post.ownerUid)")
+                                            .font(.title)
+                                            .fontWeight(.bold)
+                                    }
+                                    
+                                    Circle()
+                                        .foregroundStyle(.clear)
+                                        .frame(width: 10)
+                                        .overlay {
+                                            Image("bronzemedal")
+                                                .offset(x: 14, y: 6)
+                                        }
+                                } else {
+                                    NavigationLink {
+                                        if let postUser = postUser {
+                                            OtherUserProfileView(buttonOnOff: $postOwnerButtonOnOff,
+                                                                 user: postUser)
+                                        }
+                                    } label: {
+                                        Text("@\(post.ownerUid)")
+                                            .font(.title)
+                                            .fontWeight(.bold)
+                                    }
+                                }
+                            }
                             
                             HStack(alignment: .center, spacing: 8) {
                                 Text("\(post.surferUid)님에게 받은 파도")
@@ -208,8 +290,13 @@ struct FeedCell: View {
                         }
                         .padding(.bottom, 5)
                         
-                        Text("\(post.title)")
-                            .font(.system(size: 16))
+                        if post.title.isEmpty {
+                            Text(" ")
+                                .font(.system(size: 16))
+                        } else {
+                            Text("\(post.title)")
+                                .font(.system(size: 16))
+                        }
                     }
                     .foregroundStyle(.white)
                     .padding(.bottom, 14)
@@ -272,22 +359,28 @@ struct FeedCell: View {
                             .padding(.bottom, 15)
                             
                             // MARK: - 서퍼
-                            VStack(spacing: 10) {
+                            NavigationLink {
                                 if let surferUser = surferUser {
-                                    Circle()
-                                        .foregroundStyle(.white)
-                                        .frame(width: 39)
-                                        .overlay {
-                                            CircularImageView(size: .small,
-                                                              user: surferUser)
-                                        }
+                                    OtherUserProfileView(buttonOnOff: $postSurferButtonOnOff,
+                                                         user: surferUser)
                                 }
+                            } label: {
+                                VStack(spacing: 10) {
+                                    if let surferUser = surferUser {
+                                        Circle()
+                                            .foregroundStyle(.white)
+                                            .frame(width: 39)
+                                            .overlay {
+                                                CircularImageView(size: .small,
+                                                                  user: surferUser)
+                                            }
+                                    }
+                                }
+                                .padding(.bottom, 10)
+                                
                             }
-                            .padding(.bottom, 10)
-                            
                             // MARK: - 하트
                             VStack(spacing: 10) {
-                                
                                 if isHeartCheck {
                                     Button {
                                         if !heartLoading {
@@ -404,6 +497,8 @@ struct FeedCell: View {
                     await fetchHeartCommentCounts(documentID: postID)
                     isHeartCheck = await updateHeartData.checkHeartExists(documentID: postID)
                 }
+                self.postOwnerButtonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: post.ownerUid)
+                self.postSurferButtonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: post.surferUid)
             }
         }
     }

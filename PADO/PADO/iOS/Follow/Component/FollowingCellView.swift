@@ -17,7 +17,6 @@ struct FollowingCellView: View {
     @State var buttonActive: Bool = false
     
     let cellUserId: String
-    let updateFollowData: UpdateFollowData
     
     // MARK: - BODY
     var body: some View {
@@ -26,7 +25,6 @@ struct FollowingCellView: View {
                 NavigationLink {
                     if let user = profileUser {
                         OtherUserProfileView(buttonOnOff: $buttonActive,
-                                             updateFollowData: updateFollowData,
                                              user: user)
                     }
                 } label: {
@@ -73,8 +71,7 @@ struct FollowingCellView: View {
                                activeText: "팔로우",
                                unActiveText: "팔로우 취소",
                                widthValue: 85,
-                               heightValue: 28,
-                               updateFollowData: updateFollowData)
+                               heightValue: 28)
                 .padding(.horizontal)
             }
             

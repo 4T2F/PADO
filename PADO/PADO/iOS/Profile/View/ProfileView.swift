@@ -17,12 +17,9 @@ struct ProfileView: View {
     @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var postitVM: PostitViewModel
     @StateObject var surfingVM = SurfingViewModel()
-    let updateFollowData = UpdateFollowData()
     
     @Namespace var animation
     @State private var buttonActive: Bool = false
-    @State private var settingButtonActive: Bool = false
-    @State private var profileEditButtonActive: Bool = false
     @State private var followerActive: Bool = false
     @State private var followingActive: Bool = false
     
@@ -30,8 +27,6 @@ struct ProfileView: View {
     @State private var isShowingSendDetail: Bool = false
     @State private var isShowingHightlight: Bool = false
     @State private var isShowingMessageView: Bool = false
-    
-    @State private var selectedPostID: String?
     
     let user: User
     
@@ -87,15 +82,11 @@ struct ProfileView: View {
                                 }
                             }
                             
-                            Button {
-                                settingButtonActive.toggle()
+                            NavigationLink {
+                                SettingView()
                             } label: {
                                 Image("more")
                                     .foregroundStyle(.white)
-                            }
-                            .sheet(isPresented: $settingButtonActive) {
-                                SettingView()
-                                    .presentationDragIndicator(.visible)
                             }
                         }
                     }
@@ -110,6 +101,9 @@ struct ProfileView: View {
             }
             .coordinateSpace(name: "SCROLL")
             .ignoresSafeArea(.container, edges: .vertical)
+            .navigationDestination(isPresented: $viewModel.showingProfileView) {
+                SettingProfileView()
+            }
         }
     }
     
@@ -183,7 +177,7 @@ struct ProfileView: View {
                                 Spacer()
                                 
                                 Button {
-                                    profileEditButtonActive = true
+                                    viewModel.showingProfileView = true
                                 } label: {
                                     ZStack {
                                         RoundedRectangle(cornerRadius: 4)
@@ -194,13 +188,6 @@ struct ProfileView: View {
                                             .fontWeight(.medium)
                                             .foregroundStyle(.white)
                                     }
-                                }
-                                .sheet(isPresented: $profileEditButtonActive) {
-                                    SettingProfileView()
-                                        .presentationDragIndicator(.visible)
-                                        .onDisappear {
-                                            profileEditButtonActive = false
-                                        }
                                 }
                             }
                             
@@ -228,7 +215,7 @@ struct ProfileView: View {
                                         .font(.callout)
                                     }
                                     .sheet(isPresented: $followerActive) {
-                                        FollowMainView(currentType: "팔로워", followVM: followVM, updateFollowData: updateFollowData, user: user)
+                                        FollowMainView(currentType: "팔로워", followVM: followVM, user: user)
                                             .presentationDetents([.large])
                                             .presentationDragIndicator(.visible)
                                             .onDisappear {
@@ -252,7 +239,6 @@ struct ProfileView: View {
                                     .sheet(isPresented: $followingActive) {
                                         FollowMainView(currentType: "팔로잉",
                                                        followVM: followVM,
-                                                       updateFollowData: updateFollowData,
                                                        user: user)
                                         .presentationDetents([.large])
                                         .presentationDragIndicator(.visible)
@@ -344,7 +330,9 @@ struct ProfileView: View {
                             if let image = URL(string: post.imageUrl) {
                                 Button {
                                     isShowingReceiveDetail.toggle()
-                                    self.selectedPostID = post.id
+                                    if let postID = post.id {
+                                        profileVM.selectedPostID = postID
+                                    }
                                 } label: {
                                     KFImage(image)
                                         .resizable()
@@ -355,8 +343,7 @@ struct ProfileView: View {
                                 .sheet(isPresented: $isShowingReceiveDetail) {
                                     SelectPostView(profileVM: profileVM, feedVM: feedVM,
                                                    viewType: PostViewType.receive,
-                                                   isShowingDetail: $isShowingReceiveDetail,
-                                                   selectedPostID: selectedPostID ?? "")
+                                                   isShowingDetail: $isShowingReceiveDetail)
                                     .presentationDragIndicator(.visible)
                                     .onDisappear {
                                         feedVM.currentPadoRideIndex = nil
@@ -391,7 +378,9 @@ struct ProfileView: View {
                             if let image = URL(string: post.imageUrl) {
                                 Button {
                                     isShowingSendDetail.toggle()
-                                    self.selectedPostID = post.id
+                                    if let postID = post.id {
+                                        profileVM.selectedPostID = postID
+                                    }
                                 } label: {
                                     KFImage(image)
                                         .resizable()
@@ -402,8 +391,7 @@ struct ProfileView: View {
                                 .sheet(isPresented: $isShowingSendDetail) {
                                     SelectPostView(profileVM: profileVM, feedVM: feedVM,
                                                    viewType: PostViewType.send,
-                                                   isShowingDetail: $isShowingSendDetail,
-                                                   selectedPostID: selectedPostID ?? "")
+                                                   isShowingDetail: $isShowingSendDetail)
                                     .presentationDragIndicator(.visible)
                                     .onDisappear {
                                         feedVM.currentPadoRideIndex = nil
@@ -438,7 +426,9 @@ struct ProfileView: View {
                             if let image = URL(string: post.imageUrl) {
                                 Button {
                                     isShowingHightlight.toggle()
-                                    self.selectedPostID = post.id
+                                    if let postID = post.id {
+                                        profileVM.selectedPostID = postID
+                                    }
                                 } label: {
                                     KFImage(image)
                                         .resizable()
@@ -449,8 +439,7 @@ struct ProfileView: View {
                                 .sheet(isPresented: $isShowingHightlight) {
                                     SelectPostView(profileVM: profileVM, feedVM: feedVM,
                                                    viewType: PostViewType.highlight,
-                                                   isShowingDetail: $isShowingHightlight,
-                                                   selectedPostID: selectedPostID ?? "")
+                                                   isShowingDetail: $isShowingHightlight)
                                     .presentationDragIndicator(.visible)
                                     .onDisappear {
                                         feedVM.currentPadoRideIndex = nil
