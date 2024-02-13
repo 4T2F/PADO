@@ -43,12 +43,9 @@
 		4173D5242B7B5BD3000D197A /* FeedGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4173D5232B7B5BD3000D197A /* FeedGuideView.swift */; };
 		417568642B47999E003AA8C0 /* PhoneumberTFFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417568632B47999E003AA8C0 /* PhoneumberTFFormat.swift */; };
 		417CD6652B68C3F8001D9EC0 /* UpdateFollowData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417CD6642B68C3F8001D9EC0 /* UpdateFollowData.swift */; };
-		417D188A2B5CFEE400545A5E /* LoginPhoneNumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417D18892B5CFEE400545A5E /* LoginPhoneNumberView.swift */; };
-		417D188C2B5CFEF100545A5E /* LoginCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417D188B2B5CFEF100545A5E /* LoginCodeView.swift */; };
 		41853B142B6C6DAA004F601D /* RecordSearchCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41853B132B6C6DAA004F601D /* RecordSearchCellView.swift */; };
 		418743212B5C32CF00D93CBE /* CircularImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4187431C2B5C32CF00D93CBE /* CircularImageView.swift */; };
 		418743272B5C42A300D93CBE /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418743262B5C42A300D93CBE /* SignUpView.swift */; };
-		418743292B5C42AB00D93CBE /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418743282B5C42AB00D93CBE /* LoginView.swift */; };
 		41898FB82B7874BE00F33F03 /* SelectCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41898FB72B7874BE00F33F03 /* SelectCommentView.swift */; };
 		41898FBA2B78D48800F33F03 /* PostitCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41898FB92B78D48800F33F03 /* PostitCell.swift */; };
 		418ACDC12B76181B003DD9E7 /* Wave.json in Resources */ = {isa = PBXBuildFile; fileRef = 418ACDC02B76181B003DD9E7 /* Wave.json */; };
@@ -277,12 +274,9 @@
 		4173D5232B7B5BD3000D197A /* FeedGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedGuideView.swift; sourceTree = "<group>"; };
 		417568632B47999E003AA8C0 /* PhoneumberTFFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneumberTFFormat.swift; sourceTree = "<group>"; };
 		417CD6642B68C3F8001D9EC0 /* UpdateFollowData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateFollowData.swift; sourceTree = "<group>"; };
-		417D18892B5CFEE400545A5E /* LoginPhoneNumberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPhoneNumberView.swift; sourceTree = "<group>"; };
-		417D188B2B5CFEF100545A5E /* LoginCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCodeView.swift; sourceTree = "<group>"; };
 		41853B132B6C6DAA004F601D /* RecordSearchCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordSearchCellView.swift; sourceTree = "<group>"; };
 		4187431C2B5C32CF00D93CBE /* CircularImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircularImageView.swift; sourceTree = "<group>"; };
 		418743262B5C42A300D93CBE /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
-		418743282B5C42AB00D93CBE /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		41898FB72B7874BE00F33F03 /* SelectCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCommentView.swift; sourceTree = "<group>"; };
 		41898FB92B78D48800F33F03 /* PostitCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostitCell.swift; sourceTree = "<group>"; };
 		418ACDC02B76181B003DD9E7 /* Wave.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Wave.json; sourceTree = "<group>"; };
@@ -570,7 +564,6 @@
 			isa = PBXGroup;
 			children = (
 				63824C402B558B2400D1D653 /* StartView.swift */,
-				418743282B5C42AB00D93CBE /* LoginView.swift */,
 				418743262B5C42A300D93CBE /* SignUpView.swift */,
 				4173D5212B7B4550000D197A /* LoginGuideView.swift */,
 			);
@@ -580,8 +573,6 @@
 		418B6C872B5E5C6B00E8289D /* Component */ = {
 			isa = PBXGroup;
 			children = (
-				417D18892B5CFEE400545A5E /* LoginPhoneNumberView.swift */,
-				417D188B2B5CFEF100545A5E /* LoginCodeView.swift */,
 				63C8BA4C2B56241200025422 /* TextAnimation.swift */,
 				63824C3F2B558B2400D1D653 /* PhoneNumberView.swift */,
 				63824C3E2B558B2400D1D653 /* CodeView.swift */,
@@ -1413,7 +1404,6 @@
 				418ACDC92B766633003DD9E7 /* MessageBubbleView.swift in Sources */,
 				B102FE802B56D34C0005C310 /* VerificationPostView.swift in Sources */,
 				049598902B68014E0075EEF9 /* SettingAskButton.swift in Sources */,
-				417D188A2B5CFEE400545A5E /* LoginPhoneNumberView.swift in Sources */,
 				648963E92B6D38550080050D /* SurfingSelectCell.swift in Sources */,
 				63824C452B558B2400D1D653 /* StartView.swift in Sources */,
 				63283DB92B73BDF700A42C0F /* SelectPostView.swift in Sources */,
@@ -1515,7 +1505,6 @@
 				B1999ED92B6E1A6F005B37BA /* UpdatePushNotiData.swift in Sources */,
 				64392B7C2B76852D0047BA12 /* PadoRide.swift in Sources */,
 				63C20BED2B56CFAF00911F64 /* AdvancedSettingsCell.swift in Sources */,
-				417D188C2B5CFEF100545A5E /* LoginCodeView.swift in Sources */,
 				4197420F2B55900D0055F2AB /* MainView.swift in Sources */,
 				64392B6F2B73803E0047BA12 /* SufferInfoCell.swift in Sources */,
 				419742102B55900D0055F2AB /* ContentView.swift in Sources */,
@@ -1544,7 +1533,6 @@
 				B1D7CDEC2B5669B80090544B /* SettingDivider.swift in Sources */,
 				41711F442B719C0A00F0A1A7 /* UpdateHeartData.swift in Sources */,
 				B1A91D142B55928D00FE7F62 /* SettingAskView.swift in Sources */,
-				418743292B5C42AB00D93CBE /* LoginView.swift in Sources */,
 				63A779A22B6BD45A0068BE98 /* FollowerModalAlert.swift in Sources */,
 				41FD99F62B43D5EC0028D38E /* PADOApp.swift in Sources */,
 				41A102982B6262B20070AB8D /* PhotoPicker.swift in Sources */,

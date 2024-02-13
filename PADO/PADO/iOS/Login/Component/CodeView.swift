@@ -39,7 +39,6 @@ struct CodeView: View {
                                 otpVerificationFailed = false
                             }
                         }
-                    
                     if otpVerificationFailed {
                         Text("인증 번호가 틀렸습니다")
                             .font(.system(size: 14))

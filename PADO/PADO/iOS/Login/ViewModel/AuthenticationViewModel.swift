@@ -168,6 +168,7 @@ class AuthenticationViewModel: ObservableObject {
         do {
             try await Firestore.firestore().collection("users").document(nameID).setData(data)
             
+            userNameID = nameID
             currentUser = User(
                 id: userId,
                 username: "",
@@ -180,7 +181,7 @@ class AuthenticationViewModel: ObservableObject {
                 instaAddress: "",
                 tiktokAddress: ""
             )
-            userNameID = nameID
+           
         } catch {
             print("Error saving user data: \(error.localizedDescription)")
         }
