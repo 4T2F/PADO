@@ -123,24 +123,12 @@ class PadoRideViewModel: ObservableObject {
             Task {
                 let testdecoUIImage = try await cropWhiteBackground.processImage(inputImage: selectedUIImage ?? UIImage())
                 
-                let ratioTest = await resizeImage(testdecoUIImage, toSize: CGSize(width: 900, height: 1500))
+                let ratioTest = await ImageRatioResize.shared.resizeImage(testdecoUIImage, toSize: CGSize(width: 900, height: 1500))
                 
                 decoUIImage = ratioTest
             }
             
         }
-    }
-    
-    func resizeImage(_ originalImage: UIImage, toSize newSize: CGSize) async -> UIImage {
-        let format = UIGraphicsImageRendererFormat()
-        format.scale = 1 // 픽셀 기반 크기 조정을 위해 scale을 1로 설정합니다.
-        let renderer = UIGraphicsImageRenderer(size: newSize, format: format)
-        
-        let resizedImage = renderer.image { context in
-            originalImage.draw(in: CGRect(origin: .zero, size: newSize))
-        }
-        
-        return resizedImage
     }
     
     func sendPostAtFirebase() async {
