@@ -122,7 +122,10 @@ class PadoRideViewModel: ObservableObject {
             
             Task {
                 let testdecoUIImage = try await cropWhiteBackground.processImage(inputImage: selectedUIImage ?? UIImage())
-                decoUIImage = testdecoUIImage
+                
+                let ratioTest = await ImageRatioResize.shared.resizeImage(testdecoUIImage, toSize: CGSize(width: 900, height: 1500))
+                
+                decoUIImage = ratioTest
             }
             
         }

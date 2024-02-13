@@ -2,7 +2,7 @@
 //  CropWhiteBackground.swift
 //  PADO
 //
-//  Created by 황성진 on 2/11/24.
+//  Created by 김튜나
 //
 
 import SwiftUI
@@ -27,7 +27,7 @@ class CropWhiteBackground {
         // Declaration of cropping frame size
         scaleFactor = inputImage.scale
         processedImageWidth = (inputImage.size.width * scaleFactor)
-        processedImageHeight = (inputImage.size.height * scaleFactor) - (125 * scaleFactor)
+        processedImageHeight = (inputImage.size.height * scaleFactor) - (36 * scaleFactor)
         
         // Declaration of frame for cropping
         croppingFrame = CGRect(x: 0, y: 0, width: processedImageWidth, height: processedImageHeight)
