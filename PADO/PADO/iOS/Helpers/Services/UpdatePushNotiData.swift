@@ -25,6 +25,8 @@ enum NotiType {
 class UpdatePushNotiData {
     static let shared = UpdatePushNotiData()
     
+    // private init() { }
+    
     let db = Firestore.firestore()
     // 포스트의 정보가 포함된 경우 알람(하위컬렉션 이름을 포스트이름으로 하기 위함)
     func pushPostNoti(targetPostID: String, receiveUser: User, type: PostNotiType, message: String) async { // 이미지도 포함하게 될 푸시 알람들
@@ -37,7 +39,8 @@ class UpdatePushNotiData {
                 PushNotificationManager.shared.sendPushNotification(
                     toFCMToken: receiveUser.fcmToken,
                     title: "PADO",
-                    body: "\(userNameID)님이 회원님의 파도에 댓글을 남겼습니다: \"\(message)\""
+                    body: "\(userNameID)님이 회원님의 파도에 댓글을 남겼습니다: \"\(message)\"",
+                    categoryIdentifier: "comment"
                 )
             }
         case .facemoji:
@@ -48,7 +51,8 @@ class UpdatePushNotiData {
                 PushNotificationManager.shared.sendPushNotification(
                     toFCMToken: receiveUser.fcmToken,
                     title: "PADO",
-                    body: "\(userNameID)님이 회원님의 파도에 페이스모지를 남겼습니다"
+                    body: "\(userNameID)님이 회원님의 파도에 페이스모지를 남겼습니다",
+                    categoryIdentifier: "facemoji"
                 )
             }
         case .heart:
@@ -59,7 +63,8 @@ class UpdatePushNotiData {
                 PushNotificationManager.shared.sendPushNotification(
                     toFCMToken: receiveUser.fcmToken,
                     title: "PADO",
-                    body: "\(userNameID)님이 회원님의 파도에 ❤️로 공감했습니다"
+                    body: "\(userNameID)님이 회원님의 파도에 ❤️로 공감했습니다",
+                    categoryIdentifier: "heart"
                 )
             }
         case .requestSurfing:
@@ -68,7 +73,8 @@ class UpdatePushNotiData {
                 PushNotificationManager.shared.sendPushNotification(
                     toFCMToken: receiveUser.fcmToken,
                     title: "PADO",
-                    body: "\(userNameID)님이 회원님에게 파도를 보내고싶어합니다🌊 확인해주세요"
+                    body: "\(userNameID)님이 회원님에게 파도를 보냈습니다",
+                    categoryIdentifier: "requestSurfing"
                 )
             }
         }
@@ -83,7 +89,8 @@ class UpdatePushNotiData {
                 PushNotificationManager.shared.sendPushNotification(
                     toFCMToken: receiveUser.fcmToken,
                     title: "PADO",
-                    body: "\(userNameID)님이 회원님을 팔로우 하기 시작했습니다"
+                    body: "\(userNameID)님이 회원님을 팔로우 하기 시작했습니다",
+                    categoryIdentifier: "follow"
                 )
             }
         case .surfer:
@@ -92,7 +99,8 @@ class UpdatePushNotiData {
                 PushNotificationManager.shared.sendPushNotification(
                     toFCMToken: receiveUser.fcmToken,
                     title: "PADO",
-                    body: "\(userNameID)님이 회원님을 서퍼🏄🏼‍♀️로 지정했습니다"
+                    body: "\(userNameID)님이 회원님을 서퍼🏄🏼‍♀️로 지정했습니다",
+                    categoryIdentifier: "surfer"
                 )
             }
         case .postit:
@@ -103,7 +111,8 @@ class UpdatePushNotiData {
                 PushNotificationManager.shared.sendPushNotification(
                     toFCMToken: receiveUser.fcmToken,
                     title: "PADO",
-                    body: "\(userNameID)님이 회원님의 방명록에 글을 남겼습니다"
+                    body: "\(userNameID)님이 회원님의 방명록에 글을 남겼습니다",
+                    categoryIdentifier: "postit"
                 )
             }
         }

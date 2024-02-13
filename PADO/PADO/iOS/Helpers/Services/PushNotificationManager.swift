@@ -14,7 +14,7 @@ final class PushNotificationManager {
     private init() { }
     
     // FCM 푸시 알림을 보내는 함수
-    func sendPushNotification(toFCMToken token: String?, title: String, body: String) {
+    func sendPushNotification(toFCMToken token: String?, title: String, body: String, categoryIdentifier: String) {
         let serverKey: String = Bundle.main.object(forInfoDictionaryKey: "firebase_Push_Api_Key") as? String ?? "1"
         
         guard let token else {
@@ -27,8 +27,8 @@ final class PushNotificationManager {
             "notification": [
                 "title": title,
                 "body": body,
-                "badge": "1",
-                "sound": "default"
+                "sound": "default",
+                "click_action": categoryIdentifier
             ]
         ]
         

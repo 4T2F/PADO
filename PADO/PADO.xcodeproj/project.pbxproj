@@ -976,12 +976,9 @@
 		63C8BA502B56618B00025422 /* Notification */ = {
 			isa = PBXGroup;
 			children = (
+				B1D23C8B2B7BBAC200E6491E /* ViewModel */,
+				B1D23C8A2B7BBAB600E6491E /* View */,
 				63C20BF22B56F0BA00911F64 /* Cell */,
-				63C8BA512B5661A500025422 /* NotificationView.swift */,
-				B10765532B73E9210023B686 /* NotificationCellView.swift */,
-				63C20BEA2B56CEDB00911F64 /* AdvancedSettingsView.swift */,
-				B102FE7F2B56D34C0005C310 /* VerificationPostView.swift */,
-				B10765512B73E5400023B686 /* NotificationViewModel.swift */,
 			);
 			path = Notification;
 			sourceTree = "<group>";
@@ -1122,6 +1119,25 @@
 				0495988F2B68014E0075EEF9 /* SettingAskButton.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		B1D23C8A2B7BBAB600E6491E /* View */ = {
+			isa = PBXGroup;
+			children = (
+				63C8BA512B5661A500025422 /* NotificationView.swift */,
+				B10765532B73E9210023B686 /* NotificationCellView.swift */,
+				63C20BEA2B56CEDB00911F64 /* AdvancedSettingsView.swift */,
+				B102FE7F2B56D34C0005C310 /* VerificationPostView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		B1D23C8B2B7BBAC200E6491E /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				B10765512B73E5400023B686 /* NotificationViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		B1D7CDE52B5668970090544B /* Components */ = {
