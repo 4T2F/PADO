@@ -16,6 +16,7 @@ class UpdateHeartData {
     
     func addHeart(documentID: String) async {
         // 햅틱 피드백 생성
+        guard !userNameID.isEmpty else { return }
         
         do {
             try await db.collection("users").document(userNameID).collection("highlight").document(documentID).setData(["documentID": documentID,
@@ -51,6 +52,8 @@ class UpdateHeartData {
     }
     
     func deleteHeart(documentID: String) async {
+        guard !userNameID.isEmpty else { return }
+        
         do {
             try await db.collection("users").document(userNameID).collection("highlight").document(documentID).delete()
             

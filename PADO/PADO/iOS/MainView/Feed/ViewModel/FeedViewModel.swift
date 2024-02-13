@@ -47,6 +47,8 @@ class FeedViewModel:Identifiable ,ObservableObject {
     }
     
     func findFollowingUsers() {
+        guard !userNameID.isEmpty else { return }
+        
         followingUsers.removeAll()
         listener = db.collection("users").document(userNameID).collection("following").addSnapshotListener { [weak self] (querySnapshot, error) in
             guard let self = self, let documents = querySnapshot?.documents else {

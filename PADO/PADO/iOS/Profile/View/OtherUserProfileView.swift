@@ -217,7 +217,22 @@ struct OtherUserProfileView: View {
                                         }
                                     }
                                 } else {
-                                    if buttonOnOff {
+                                    if userNameID.isEmpty {
+                                        Button {
+                                            // 가입 모달 띄우기
+                                        } label: {
+                                            ZStack {
+                                                RoundedRectangle(cornerRadius:6)
+                                                    .stroke(.white, lineWidth: 1)
+                                                    .frame(width: 85, height: 28)
+                                                Text("팔로우")
+                                                    .font(.system(size: 12))
+                                                    .fontWeight(.medium)
+                                                    .foregroundStyle(.white)
+                                            }
+                                            
+                                        }
+                                    } else if buttonOnOff {
                                         Button {
                                             Task {
                                                 await UpdateFollowData.shared.directUnfollowUser(id: user.nameID)

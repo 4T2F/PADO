@@ -56,32 +56,62 @@ struct ContentView: View {
             }
             .onAppear { viewModel.showTab = 1 }
             .tag(1)
-            SurfingView(surfingVM: surfingVM,
-                        feedVM: feedVM, profileVM:
-                            profileVM, followVM:
-                            followVM)
-            .tabItem {
-                Text("")
-                
-                Image(viewModel.showTab == 2 ? "tab_added" : "tab_add")
-            }
-            .onAppear { viewModel.showTab = 2 }
-            .tag(2)
-            PadoRideView(followVM: followVM, padorideVM: padorideVM)
-                .tabItem {
-                    Image(viewModel.showTab == 3 ? "today_light" : "today_gray")
-                    
-                    Text("파도타기")
-                }
-                .onAppear { viewModel.showTab = 3 }
-                .tag(3)
             
             if let user = viewModel.currentUser {
+                SurfingView(surfingVM: surfingVM,
+                            feedVM: feedVM, profileVM:
+                                profileVM, followVM:
+                                followVM)
+                .tabItem {
+                    Text("")
+                    
+                    Image(viewModel.showTab == 2 ? "tab_added" : "tab_add")
+                }
+                .onAppear { viewModel.showTab = 2 }
+                .tag(2)
+                
+                PadoRideView(followVM: followVM, padorideVM: padorideVM)
+                    .tabItem {
+                        Image(viewModel.showTab == 3 ? "today_light" : "today_gray")
+                        
+                        Text("파도타기")
+                    }
+                    .onAppear { viewModel.showTab = 3 }
+                    .tag(3)
+                
+                
                 ProfileView(profileVM: profileVM,
                             followVM: followVM,
                             feedVM: feedVM,
                             postitVM: postitVM,
                             user: user)
+                .tabItem {
+                    Image(viewModel.showTab == 4 ? "profile_light" : "profile_gray")
+                    
+                    Text("프로필")
+                }
+                .onAppear { viewModel.showTab = 4 }
+                .tag(4)
+            } else {
+                LoginGuideView()
+                    .tabItem {
+                        Text("")
+                        
+                        Image(viewModel.showTab == 2 ? "tab_added" : "tab_add")
+                    }
+                    .onAppear {viewModel.showTab = 2 }
+                    .tag(2)
+                    
+                LoginGuideView()
+                    .tabItem {
+                        Image(viewModel.showTab == 3 ? "today_light" : "today_gray")
+                        
+                        Text("파도타기")
+                    }
+                    .onAppear { viewModel.showTab = 3 }
+                    .tag(3)
+                
+                LoginGuideView()
                     .tabItem {
                         Image(viewModel.showTab == 4 ? "profile_light" : "profile_gray")
                         
@@ -94,11 +124,15 @@ struct ContentView: View {
         .tint(.white)
         .onAppear {
             Task {
-                followVM.profileFollowId = userNameID
-                followVM.initializeFollowFetch()
-                await profileVM.fetchPostID(id: userNameID)
-                await notiVM.fetchNotifications()
-                await postitVM.getMessageDocument(ownerID: userNameID)
+                if !userNameID.isEmpty {
+                    followVM.profileFollowId = userNameID
+                    followVM.initializeFollowFetch()
+                    await profileVM.fetchPostID(id: userNameID)
+                    await notiVM.fetchNotifications()
+                    await postitVM.getMessageDocument(ownerID: userNameID)
+                } else {
+                    selectedFilter = .today
+                }
             }
         }
     }

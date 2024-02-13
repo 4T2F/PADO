@@ -65,10 +65,14 @@ struct PostitView: View {
                         
                         if !postitVM.inputcomment.isEmpty {
                             Button {
-                                Task {
-                                    await postitVM.writeMessage(ownerID: postitVM.ownerID,
-                                                                imageUrl: viewModel.currentUser?.profileImageUrl ?? "",
-                                                                inputcomment: postitVM.inputcomment)
+                                if !userNameID.isEmpty {
+                                    Task {
+                                        await postitVM.writeMessage(ownerID: postitVM.ownerID,
+                                                                    imageUrl: viewModel.currentUser?.profileImageUrl ?? "",
+                                                                    inputcomment: postitVM.inputcomment)
+                                    }
+                                } else {
+                                    // 로그인 모달 띄우기
                                 }
                             } label: {
                                 ZStack {

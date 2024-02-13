@@ -63,7 +63,6 @@ struct FollowingCellView: View {
                 }
             }
             
-            Spacer()
             
             if cellUserId != userNameID {
                 BlueButtonView(cellUserId: cellUserId,

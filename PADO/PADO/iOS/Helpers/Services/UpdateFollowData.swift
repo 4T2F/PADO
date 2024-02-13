@@ -14,6 +14,8 @@ class UpdateFollowData {
     let db = Firestore.firestore()
     
     func followUser(id: String) async {
+        guard !userNameID.isEmpty else { return }
+        
         do {
             try await db.collection("users").document(userNameID).collection("following").document(id).setData(["followingID": id, 
                                                                                                                 "status": true,
@@ -25,6 +27,7 @@ class UpdateFollowData {
     }
     
     func unfollowUser(id: String) async {
+        guard !userNameID.isEmpty else { return }
         do {
             try await db.collection("users").document(userNameID).collection("following").document(id).updateData(["status": false])
             try await db.collection("users").document(id).collection("follower").document(userNameID).delete()
@@ -35,6 +38,7 @@ class UpdateFollowData {
     }
     
     func removeFollower(id: String) async {
+        guard !userNameID.isEmpty else { return }
         do {
             try await db.collection("users").document(userNameID).collection("follower").document(id).delete()
             try await db.collection("users").document(id).collection("following").document(userNameID).delete()
@@ -44,6 +48,7 @@ class UpdateFollowData {
     }
     
     func directUnfollowUser(id: String) async {
+        guard !userNameID.isEmpty else { return }
         do {
             try await db.collection("users").document(userNameID).collection("following").document(id).delete()
             try await db.collection("users").document(id).collection("follower").document(userNameID).delete()
@@ -54,6 +59,7 @@ class UpdateFollowData {
     }
     
     func registerSurfer(id: String) async {
+        guard !userNameID.isEmpty else { return }
         do {
             try await db.collection("users").document(userNameID).collection("follower").document(id).delete()
             try await db.collection("users").document(userNameID).collection("surfer").document(id).setData(["surferID": id])
@@ -64,6 +70,7 @@ class UpdateFollowData {
     }
     
     func removeSurfer(id: String) async {
+        guard !userNameID.isEmpty else { return }
         do {
             try await db.collection("users").document(userNameID).collection("surfer").document(id).delete()
             try await db.collection("users").document(id).collection("surfing").document(userNameID).delete()

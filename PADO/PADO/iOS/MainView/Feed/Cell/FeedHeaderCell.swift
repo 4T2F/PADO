@@ -73,8 +73,13 @@ struct FeedHeaderCell: View {
             
             Spacer()
             
-            NavigationLink(destination: NotificationView(notiVM: notiVM)) {
-                Image(notiVM.hasNewNotifications ? "Bell_pin_light" : "Bell_light") // 조건부 아이콘 변경
+            if !userNameID.isEmpty {
+                NavigationLink(destination: NotificationView(notiVM: notiVM)) {
+                    Image(notiVM.hasNewNotifications ? "Bell_pin_light" : "Bell_light") // 조건부 아이콘 변경
+                }
+            } else {
+               Image("Bell_light")
+                    .foregroundStyle(.clear)
             }
         }
         .padding(.horizontal)

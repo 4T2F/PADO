@@ -38,6 +38,8 @@
 		41711F402B716E4E00F0A1A7 /* UpdateCommentData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41711F3F2B716E4E00F0A1A7 /* UpdateCommentData.swift */; };
 		41711F442B719C0A00F0A1A7 /* UpdateHeartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41711F432B719C0A00F0A1A7 /* UpdateHeartData.swift */; };
 		41711F462B72281D00F0A1A7 /* UpdatePhotomojiData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41711F452B72281D00F0A1A7 /* UpdatePhotomojiData.swift */; };
+		4173D5202B7B427F000D197A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4173D51F2B7B427F000D197A /* GoogleService-Info.plist */; };
+		4173D5222B7B4550000D197A /* LoginGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4173D5212B7B4550000D197A /* LoginGuideView.swift */; };
 		417568642B47999E003AA8C0 /* PhoneumberTFFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417568632B47999E003AA8C0 /* PhoneumberTFFormat.swift */; };
 		417CD6652B68C3F8001D9EC0 /* UpdateFollowData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417CD6642B68C3F8001D9EC0 /* UpdateFollowData.swift */; };
 		417D188A2B5CFEE400545A5E /* LoginPhoneNumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417D18892B5CFEE400545A5E /* LoginPhoneNumberView.swift */; };
@@ -114,7 +116,6 @@
 		638C716A2B6E05B000DB0A70 /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638C71692B6E05B000DB0A70 /* CommentView.swift */; };
 		63A7799E2B6B8FBA0068BE98 /* FollowMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A7799D2B6B8FBA0068BE98 /* FollowMainView.swift */; };
 		63A779A22B6BD45A0068BE98 /* FollowerModalAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A779A12B6BD45A0068BE98 /* FollowerModalAlert.swift */; };
-		63AA03532B68F14E00431332 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 63AA03512B68F14E00431332 /* GoogleService-Info.plist */; };
 		63AA03542B68F14E00431332 /* ApiKeys.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 63AA03522B68F14E00431332 /* ApiKeys.xcconfig */; };
 		63AA03592B68F1BE00431332 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AA03572B68F1BE00431332 /* ProfileView.swift */; };
 		63AA035A2B68F1BE00431332 /* OffsetModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AA03582B68F1BE00431332 /* OffsetModifier.swift */; };
@@ -267,6 +268,8 @@
 		41711F3F2B716E4E00F0A1A7 /* UpdateCommentData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateCommentData.swift; sourceTree = "<group>"; };
 		41711F432B719C0A00F0A1A7 /* UpdateHeartData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateHeartData.swift; sourceTree = "<group>"; };
 		41711F452B72281D00F0A1A7 /* UpdatePhotomojiData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePhotomojiData.swift; sourceTree = "<group>"; };
+		4173D51F2B7B427F000D197A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		4173D5212B7B4550000D197A /* LoginGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginGuideView.swift; sourceTree = "<group>"; };
 		417568632B47999E003AA8C0 /* PhoneumberTFFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneumberTFFormat.swift; sourceTree = "<group>"; };
 		417CD6642B68C3F8001D9EC0 /* UpdateFollowData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateFollowData.swift; sourceTree = "<group>"; };
 		417D18892B5CFEE400545A5E /* LoginPhoneNumberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPhoneNumberView.swift; sourceTree = "<group>"; };
@@ -345,7 +348,6 @@
 		638C71692B6E05B000DB0A70 /* CommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
 		63A7799D2B6B8FBA0068BE98 /* FollowMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowMainView.swift; sourceTree = "<group>"; };
 		63A779A12B6BD45A0068BE98 /* FollowerModalAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerModalAlert.swift; sourceTree = "<group>"; };
-		63AA03512B68F14E00431332 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		63AA03522B68F14E00431332 /* ApiKeys.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ApiKeys.xcconfig; sourceTree = "<group>"; };
 		63AA03572B68F1BE00431332 /* ProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		63AA03582B68F1BE00431332 /* OffsetModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OffsetModifier.swift; sourceTree = "<group>"; };
@@ -562,6 +564,7 @@
 				63824C402B558B2400D1D653 /* StartView.swift */,
 				418743282B5C42AB00D93CBE /* LoginView.swift */,
 				418743262B5C42A300D93CBE /* SignUpView.swift */,
+				4173D5212B7B4550000D197A /* LoginGuideView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -756,7 +759,7 @@
 		41FD99F42B43D5EC0028D38E /* PADO */ = {
 			isa = PBXGroup;
 			children = (
-				63AA03512B68F14E00431332 /* GoogleService-Info.plist */,
+				4173D51F2B7B427F000D197A /* GoogleService-Info.plist */,
 				63AA03522B68F14E00431332 /* ApiKeys.xcconfig */,
 				412B3AA42B44F6EC00C2C7CD /* Info.plist */,
 				412B3AA32B44F67100C2C7CD /* PADO.entitlements */,
@@ -1314,9 +1317,9 @@
 				418ACDC32B761AE6003DD9E7 /* nonePostit.json in Resources */,
 				419981D32B7439F400EEA06E /* Loading.json in Resources */,
 				637323462B6FBFDF00C02A32 /* Heart.json in Resources */,
-				63AA03532B68F14E00431332 /* GoogleService-Info.plist in Resources */,
 				41FD99FD2B43D5ED0028D38E /* Preview Assets.xcassets in Resources */,
 				41FD99FA2B43D5ED0028D38E /* Assets.xcassets in Resources */,
+				4173D5202B7B427F000D197A /* GoogleService-Info.plist in Resources */,
 				637323402B6EA09200C02A32 /* button.json in Resources */,
 				418D45BF2B756AAD007F6633 /* Postit.json in Resources */,
 			);
@@ -1441,6 +1444,7 @@
 				63C8BA492B561DC200025422 /* SignUpButton.swift in Sources */,
 				64392B712B73804B0047BA12 /* SufferPostCell.swift in Sources */,
 				63824C462B558B2400D1D653 /* IdView.swift in Sources */,
+				4173D5222B7B4550000D197A /* LoginGuideView.swift in Sources */,
 				64392B812B77F9B10047BA12 /* CropWhiteBackground.swift in Sources */,
 				040914F72B561A18001B549B /* ReportSelectView.swift in Sources */,
 				648963E12B6BEF890080050D /* Facemoji.swift in Sources */,
@@ -1776,12 +1780,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PADO/PADO.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PADO/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = UAG934M4Q7;
+				DEVELOPMENT_TEAM = UAG934M4Q7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PADO/Info.plist;
@@ -1802,7 +1804,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.4T2F.PADO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "PADO Debug";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1818,12 +1819,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PADO/PADO.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PADO/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = UAG934M4Q7;
+				DEVELOPMENT_TEAM = UAG934M4Q7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PADO/Info.plist;
@@ -1844,7 +1843,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.4T2F.PADO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "PADO Debug";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

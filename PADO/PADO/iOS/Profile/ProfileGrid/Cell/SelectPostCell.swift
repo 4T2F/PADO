@@ -317,7 +317,7 @@ struct SelectPostCell: View {
                                     }
                                 } else {
                                     Button {
-                                        if !heartLoading {
+                                        if !userNameID.isEmpty && !heartLoading {
                                             Task {
                                                 heartLoading = true
                                                 if let postID = post.id, let postUser = postUser {
@@ -329,6 +329,8 @@ struct SelectPostCell: View {
                                                 await profileVM.fetchHighlihts(id: userNameID)
                                                 
                                             }
+                                        } else {
+                                            // 로그인 모달
                                         }
                                     } label: {
                                         Image("heart")
@@ -369,7 +371,11 @@ struct SelectPostCell: View {
                             // MARK: - 신고하기
                             VStack(spacing: 10) {
                                 Button {
-                                    isShowingReportView.toggle()
+                                    if !userNameID.isEmpty {
+                                        isShowingReportView.toggle()
+                                    } else {
+                                        // 로그인 모달 띄우기
+                                    }
                                 } label: {
                                     VStack {
                                         Text("...")

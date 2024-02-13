@@ -22,12 +22,15 @@ struct BlueButtonView: View {
                 Task {
                     await UpdateFollowData.shared.unfollowUser(id: cellUserId)
                 }
-            } else {
+                buttonActive.toggle()
+            } else if !userNameID.isEmpty {
                 Task {
                     await UpdateFollowData.shared.followUser(id: cellUserId)
                 }
+                buttonActive.toggle()
+            } else {
+                // 가입 모달 띄우기
             }
-            buttonActive.toggle()
         }) {
             ZStack {
                 RoundedRectangle(cornerRadius: 6)

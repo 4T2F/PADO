@@ -31,7 +31,11 @@ struct FaceMojiView: View {
                             }
                     }
                     Button {
-                        surfingVM.isShowingFaceMojiModal = true
+                        if !userNameID.isEmpty {
+                            surfingVM.isShowingFaceMojiModal = true
+                        } else {
+                            // 로그인 모달 띄우기
+                        }
                     } label: {
                         VStack {
                             Image("face.dashed")

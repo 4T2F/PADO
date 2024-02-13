@@ -243,6 +243,8 @@ class AuthenticationViewModel: ObservableObject {
             isExisted = false
             currentUser = nil
             
+            showTab = 0
+            
             print("dd")
             print(String(describing: Auth.auth().currentUser?.uid))
             print("dd")
@@ -299,6 +301,7 @@ class AuthenticationViewModel: ObservableObject {
         showAlert = false
         isExisted = false
         currentUser = nil
+        showTab = 0
     }
     
     // MARK: - Firestore 쿼리 처리
@@ -322,13 +325,14 @@ class AuthenticationViewModel: ObservableObject {
     
     func fetchUser() async {
         // 사용자 데이터 불러오기
+        
         do {
-            try await Firestore.firestore().collection("users").document(userNameID).updateData([
+            try await Firestore.firestore().collection("users").document(nameID).updateData([
                 "fcmToken": userToken,
             ])
             
-            let snapshot = try await Firestore.firestore().collection("users").document(userNameID).getDocument()
-            print("nameID: \(userNameID)")
+            let snapshot = try await Firestore.firestore().collection("users").document(nameID).getDocument()
+            print("nameID: \(nameID)")
             print("Snapshot: \(String(describing: snapshot.data()))")
             
             guard let user = try? snapshot.data(as: User.self) else {

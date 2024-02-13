@@ -84,7 +84,11 @@ struct CommentView: View {
                     let generator = UIImpactFeedbackGenerator(style: .medium)
                     generator.impactOccurred()
                     
-                    isShowingComment.toggle()
+                    if !userNameID.isEmpty {
+                        isShowingComment.toggle()
+                    } else {
+                        // 로그인 모달 띄우기
+                    }
                 } label: {
                     HStack(spacing: 6) {
                         CircularImageView(size: .xxxSmall, user: postUser)

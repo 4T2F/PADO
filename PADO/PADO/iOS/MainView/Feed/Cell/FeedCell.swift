@@ -391,7 +391,9 @@ struct FeedCell: View {
                                                     isHeartCheck = await updateHeartData.checkHeartExists(documentID: postID)
                                                     heartLoading = false
                                                 }
-                                                await profileVM.fetchHighlihts(id: userNameID)
+                                                if !userNameID.isEmpty {
+                                                    await profileVM.fetchHighlihts(id: userNameID)
+                                                }
                                             }
                                         }
                                     } label: {
@@ -408,7 +410,7 @@ struct FeedCell: View {
                                     }
                                 } else {
                                     Button {
-                                        if !heartLoading {
+                                        if !userNameID.isEmpty && !heartLoading {
                                             Task {
                                                 let generator = UIImpactFeedbackGenerator(style: .light)
                                                 generator.impactOccurred()
@@ -420,9 +422,11 @@ struct FeedCell: View {
                                                     heartLoading = false
                                                     await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID, receiveUser: postUser, type: .heart, message: "")
                                                 }
-                                                await profileVM.fetchHighlihts(id: userNameID)
                                                 
+                                                await profileVM.fetchHighlihts(id: userNameID)
                                             }
+                                        } else {
+                                            // 로그인 모달 띄우기
                                         }
                                     } label: {
                                         Image("heart")
@@ -464,7 +468,11 @@ struct FeedCell: View {
                             // MARK: - 신고하기
                             VStack(spacing: 10) {
                                 Button {
-                                    isShowingReportView.toggle()
+                                    if !userNameID.isEmpty {
+                                        isShowingReportView.toggle()
+                                    } else {
+                                        // 로그인 모달띄우기
+                                    }
                                 } label: {
                                     VStack {
                                         Text("...")
