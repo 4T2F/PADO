@@ -64,13 +64,13 @@ struct StartView: View {
                     
                     HStack(spacing: 20) {
                         NavigationLink {
-                            SignUpView()
+                            SignUpView(loginSignUpType: LoginSignUpType.signUp)
                         } label: {
                             SignUpButton(text: "회원가입")
                         }
 
                         NavigationLink {
-                            SignUpView()
+                            SignUpView(loginSignUpType: LoginSignUpType.login)
                         } label: {
                             EnjoyButton(text: "로그인")
                         }

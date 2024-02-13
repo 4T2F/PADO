@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct BlueButtonView: View {
+struct FollowButtonView: View {
     
     let cellUserId: String
     @Binding var buttonActive: Bool

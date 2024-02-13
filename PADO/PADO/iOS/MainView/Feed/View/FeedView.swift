@@ -9,7 +9,6 @@ import SwiftUI
 
 struct FeedView: View {
     @State private var isLoading = true
-    @Binding var selectedFilter: FeedFilter
     
     @EnvironmentObject var authenticationViewModel: AuthenticationViewModel
     
@@ -28,8 +27,8 @@ struct FeedView: View {
                 CustomRefreshView(showsIndicator: false,
                                   lottieFileName: "Wave",
                                   scrollDelegate: scrollDelegate) {
-                    if selectedFilter == .following {
-                        if feedVM.followingPosts.isEmpty {
+                    if authenticationViewModel.selectedFilter == .following {
+                        if feedVM.followingPosts.isEmpty || userNameID.isEmpty {
                             FeedGuideView()
                         } else {
                             LazyVStack(spacing: 0) {
@@ -69,7 +68,7 @@ struct FeedView: View {
                     }
                 } onRefresh: {
                     try? await Task.sleep(nanoseconds: 1_500_000_000)
-                    if selectedFilter == FeedFilter.following {
+                    if authenticationViewModel.selectedFilter == FeedFilter.following {
                         feedVM.findFollowingUsers()
                     } else {
                         Task{
@@ -83,7 +82,7 @@ struct FeedView: View {
                 VStack {
                     if !feedVM.isShowingPadoRide {
                         if scrollDelegate.scrollOffset < 5 {
-                            FeedHeaderCell(selectedFilter: $selectedFilter, notiVM: notiVM)
+                            FeedHeaderCell(notiVM: notiVM)
                                 .transition(.opacity.combined(with: .scale))
                         } else if !scrollDelegate.isEligible {
                             FeedRefreshHeaderCell()

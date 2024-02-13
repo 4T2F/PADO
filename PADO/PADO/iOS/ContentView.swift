@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ContentView: View {
     @State var width = UIScreen.main.bounds.width
-    @State var selectedFilter: FeedFilter = .following
     
     @EnvironmentObject var viewModel: AuthenticationViewModel
     
@@ -32,8 +31,7 @@ struct ContentView: View {
     
     var body: some View {
         TabView(selection: $viewModel.showTab) {
-            FeedView(selectedFilter: $selectedFilter,         
-                     feedVM: feedVM,
+            FeedView(feedVM: feedVM,
                      surfingVM: surfingVM,
                      profileVM: profileVM,
                      followVM: followVM,
@@ -127,11 +125,10 @@ struct ContentView: View {
                 if !userNameID.isEmpty {
                     followVM.profileFollowId = userNameID
                     followVM.initializeFollowFetch()
+                    viewModel.selectedFilter = .following
                     await profileVM.fetchPostID(id: userNameID)
                     await notiVM.fetchNotifications()
                     await postitVM.getMessageDocument(ownerID: userNameID)
-                } else {
-                    selectedFilter = .today
                 }
             }
         }

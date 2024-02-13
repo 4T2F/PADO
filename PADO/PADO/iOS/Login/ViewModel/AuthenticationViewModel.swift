@@ -42,6 +42,7 @@ class AuthenticationViewModel: ObservableObject {
     @Published var backimagePick: Bool = false
     @Published var changedValue: Bool = false
     @Published var showProfileModal: Bool = false
+    @Published var selectedFilter: FeedFilter = .today
     
     // MARK: - SettingNoti
     @Published var alertAccept = ""
@@ -242,7 +243,8 @@ class AuthenticationViewModel: ObservableObject {
             showAlert = false
             isExisted = false
             currentUser = nil
-            
+            selectedFilter = .today
+            userFollowingIDs.removeAll()
             showTab = 0
             
             print("dd")
@@ -301,6 +303,8 @@ class AuthenticationViewModel: ObservableObject {
         showAlert = false
         isExisted = false
         currentUser = nil
+        selectedFilter = .today
+        userFollowingIDs.removeAll()
         showTab = 0
     }
     

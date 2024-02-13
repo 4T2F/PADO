@@ -46,7 +46,7 @@ struct FollowNotificationCell: View {
             
             Spacer()
             
-            BlueButtonView(cellUserId: notification.sendUser,
+            FollowButtonView(cellUserId: notification.sendUser,
                            buttonActive: $buttonActive,
                            activeText: "팔로우",
                            unActiveText: "팔로잉",

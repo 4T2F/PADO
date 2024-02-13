@@ -13,6 +13,7 @@ struct CodeView: View {
     @State private var buttonActive: Bool = false
     @State private var otpVerificationFailed = false
     
+    @Binding var loginSignUpType: LoginSignUpType
     @Binding var currentStep: SignUpStep
     
     var dismissAction: () -> Void
@@ -45,28 +46,48 @@ struct CodeView: View {
                             .fontWeight(.semibold)
                             .foregroundStyle(.red)
                             .padding(.horizontal, 20)
-                        
                     }
                 }
                 
                 Spacer()
                 
                 Button {
-                    if buttonActive {
-                        Task {
-                            let verificationResult = await viewModel.verifyOtp()
-                            if verificationResult {
-                                let isUserExisted = await viewModel.checkPhoneNumberExists(phoneNumber: "+82\(viewModel.phoneNumber)")
-                                if isUserExisted {
-                                    showUseID.toggle()
+                    switch loginSignUpType {
+                    case .login:
+                        if buttonActive {
+                            Task {
+                                let verificationResult = await viewModel.verifyOtp()
+                                if verificationResult {
+                                    let isUserExisted = await viewModel.checkPhoneNumberExists(phoneNumber: "+82\(viewModel.phoneNumber)")
+                                    if isUserExisted {
+                                        await viewModel.fetchUIDByPhoneNumber(phoneNumber: "+82\(viewModel.phoneNumber)")
+                                        await viewModel.fetchUser()
+                                    } else {
+                                        showUseID.toggle()
+                                    }
                                 } else {
-                                    currentStep = .id
+                                    otpVerificationFailed = true
                                 }
-                            } else {
-                                otpVerificationFailed = true
+                            }
+                        }
+                    case .signUp:
+                        if buttonActive {
+                            Task {
+                                let verificationResult = await viewModel.verifyOtp()
+                                if verificationResult {
+                                    let isUserExisted = await viewModel.checkPhoneNumberExists(phoneNumber: "+82\(viewModel.phoneNumber)")
+                                    if isUserExisted {
+                                        showUseID.toggle()
+                                    } else {
+                                        currentStep = .id
+                                    }
+                                } else {
+                                    otpVerificationFailed = true
+                                }
                             }
                         }
                     }
+                    
                 } label: {
                     WhiteButtonView(buttonActive: $buttonActive, text: "다음으로")
                 }
@@ -75,6 +96,8 @@ struct CodeView: View {
             .padding(.top, 150)
             .sheet(isPresented: $showUseID, content: {
                 UseIDModalView(showUseID: $showUseID,
+                               loginSignUpType: $loginSignUpType,
+                               currentStep: $currentStep,
                                dismissSignUpView: dismissAction)
                     .presentationDetents([.height(250)])
                     .presentationCornerRadius(30)
