@@ -151,6 +151,7 @@
 		64392B7A2B74B66D0047BA12 /* SendPadoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B792B74B66D0047BA12 /* SendPadoView.swift */; };
 		64392B7C2B76852D0047BA12 /* PadoRide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B7B2B76852D0047BA12 /* PadoRide.swift */; };
 		64392B812B77F9B10047BA12 /* CropWhiteBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B802B77F9B10047BA12 /* CropWhiteBackground.swift */; };
+		643A45402B7A673E005F163D /* ImageRatioResize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 643A453F2B7A673E005F163D /* ImageRatioResize.swift */; };
 		647E7EFD2B63775100A5487E /* UpdateImageUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647E7EFC2B63775100A5487E /* UpdateImageUrl.swift */; };
 		648963DB2B6A9E960080050D /* PostCropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648963DA2B6A9E960080050D /* PostCropView.swift */; };
 		648963DD2B6AA2310080050D /* Corp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648963DC2B6AA2310080050D /* Corp.swift */; };
@@ -382,6 +383,7 @@
 		64392B792B74B66D0047BA12 /* SendPadoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendPadoView.swift; sourceTree = "<group>"; };
 		64392B7B2B76852D0047BA12 /* PadoRide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadoRide.swift; sourceTree = "<group>"; };
 		64392B802B77F9B10047BA12 /* CropWhiteBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropWhiteBackground.swift; sourceTree = "<group>"; };
+		643A453F2B7A673E005F163D /* ImageRatioResize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRatioResize.swift; sourceTree = "<group>"; };
 		647E7EFC2B63775100A5487E /* UpdateImageUrl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateImageUrl.swift; sourceTree = "<group>"; };
 		648963DA2B6A9E960080050D /* PostCropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCropView.swift; sourceTree = "<group>"; };
 		648963DC2B6AA2310080050D /* Corp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Corp.swift; sourceTree = "<group>"; };
@@ -711,6 +713,7 @@
 				41711F432B719C0A00F0A1A7 /* UpdateHeartData.swift */,
 				64392B772B74567C0047BA12 /* GetPostData.swift */,
 				64392B802B77F9B10047BA12 /* CropWhiteBackground.swift */,
+				643A453F2B7A673E005F163D /* ImageRatioResize.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1471,6 +1474,7 @@
 				B1A91D112B55928D00FE7F62 /* SettingNotificationView.swift in Sources */,
 				B1749A672B5E41AA00BCC6BA /* Post.swift in Sources */,
 				B1A91D162B55928D00FE7F62 /* SettingInfoView.swift in Sources */,
+				643A45402B7A673E005F163D /* ImageRatioResize.swift in Sources */,
 				418743272B5C42A300D93CBE /* SignUpView.swift in Sources */,
 				63824C442B558B2400D1D653 /* PhoneNumberView.swift in Sources */,
 				648963E32B6CE5270080050D /* SurfingSelectView.swift in Sources */,

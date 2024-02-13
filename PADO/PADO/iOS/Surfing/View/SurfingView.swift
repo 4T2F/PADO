@@ -84,7 +84,7 @@ struct SurfingView: View {
                 PhotoPicker(pickerResult: $surfingVM.pickerResult,
                             selectedImage: $surfingVM.selectedImage,
                             selectedSwiftUIImage: $surfingVM.selectedUIImage)
-                    .frame(height: 300)
+                    .frame(height: 400)
                 
             } //: VSTACK
             .onAppear {
