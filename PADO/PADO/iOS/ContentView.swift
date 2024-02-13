@@ -121,15 +121,23 @@ struct ContentView: View {
         }
         .tint(.white)
         .onAppear {
-            Task {
-                if !userNameID.isEmpty {
-                    followVM.profileFollowId = userNameID
-                    followVM.initializeFollowFetch()
-                    viewModel.selectedFilter = .following
-                    await profileVM.fetchPostID(id: userNameID)
-                    await notiVM.fetchNotifications()
-                    await postitVM.getMessageDocument(ownerID: userNameID)
-                }
+            fetchData()
+        }
+        .onChange(of: viewModel.needsDataFetch) { _, newValue in
+            fetchData()
+        }
+    }
+    
+    func fetchData() {
+        Task {
+            if !userNameID.isEmpty {
+                followVM.profileFollowId = userNameID
+                followVM.initializeFollowFetch()
+                viewModel.selectedFilter = .following
+                viewModel.showTab = 0
+                await profileVM.fetchPostID(id: userNameID)
+                await notiVM.fetchNotifications()
+                await postitVM.getMessageDocument(ownerID: userNameID)
             }
         }
     }
