@@ -58,6 +58,7 @@ struct PostCropView: View {
                         } else {
                             onCrop(nil, false)
                         }
+                        surfingVM.postImageItem = nil
                     } label: {
                         Text("다음")
                             .font(.system(size: 16, weight: .semibold))
@@ -68,6 +69,7 @@ struct PostCropView: View {
                     Button {
                         surfingVM.resetImage()
                         dismiss()
+                        surfingVM.postImageItem = nil
                     } label: {
                         Image("dismissArrow")
                     }
