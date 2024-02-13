@@ -65,6 +65,14 @@ struct FeedCell: View {
                                     .containerRelativeFrame([.horizontal,.vertical])
                             }
                             .overlay {
+                                if isTodayPadoPost && todayPadoPostIndex == 0 {
+                                    LottieView(animation: .named("pokjuk2"))
+                                        .resizable()
+                                        .playing()
+                                        .offset(y: -20)
+                                }
+                            }
+                            .overlay {
                                 if feedVM.isHeaderVisible {
                                     LinearGradient(colors: [.black.opacity(0.5),
                                                             .black.opacity(0.4),
