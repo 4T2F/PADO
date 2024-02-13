@@ -19,6 +19,7 @@ class SurfingViewModel: ObservableObject, Searchable  {
     @Published var selectedUIImage: Image = Image(systemName: "photo")
     
     @Published var showPostView: Bool = false
+    @Published var isShowingPhoto: Bool = false
     @Published var isShownCamera: Bool = false
     @Published var sourceType: UIImagePickerController.SourceType = .camera
     @Published var cameraDevice: UIImagePickerController.CameraDevice = .rear
@@ -36,6 +37,7 @@ class SurfingViewModel: ObservableObject, Searchable  {
     @Published var faceMojiUIImage: UIImage = UIImage()
     @Published var faceMojiImage: Image = Image(systemName: "photo")
     @Published var isShowingFaceMojiModal: Bool = false
+    
     @MainActor
     @Published var faceMojiItem: PhotosPickerItem? {
         didSet {
@@ -44,6 +46,21 @@ class SurfingViewModel: ObservableObject, Searchable  {
                     let (loadedUIImage, loadedSwiftUIImage) = try await UpdateImageUrl.shared.loadImage(selectedItem: faceMojiItem)
                     self.faceMojiUIImage = loadedUIImage
                     self.faceMojiImage = loadedSwiftUIImage
+                } catch {
+                    print("이미지 로드 중 오류 발생: \(error)")
+                }
+            }
+        }
+    }
+    
+    @MainActor
+    @Published var postImageItem: PhotosPickerItem? {
+        didSet {
+            Task {
+                do {
+                    let (loadedUIImage, loadedSwiftUIImage) = try await UpdateImageUrl.shared.loadImage(selectedItem: postImageItem)
+                    self.selectedImage = loadedUIImage
+                    self.selectedUIImage = loadedSwiftUIImage
                 } catch {
                     print("이미지 로드 중 오류 발생: \(error)")
                 }

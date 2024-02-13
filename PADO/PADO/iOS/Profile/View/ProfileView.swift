@@ -20,8 +20,6 @@ struct ProfileView: View {
     
     @Namespace var animation
     @State private var buttonActive: Bool = false
-    @State private var settingButtonActive: Bool = false
-    @State private var profileEditButtonActive: Bool = false
     @State private var followerActive: Bool = false
     @State private var followingActive: Bool = false
     
@@ -84,15 +82,11 @@ struct ProfileView: View {
                                 }
                             }
                             
-                            Button {
-                                settingButtonActive.toggle()
+                            NavigationLink {
+                                SettingView()
                             } label: {
                                 Image("more")
                                     .foregroundStyle(.white)
-                            }
-                            .sheet(isPresented: $settingButtonActive) {
-                                SettingView()
-                                    .presentationDragIndicator(.visible)
                             }
                         }
                     }
@@ -107,6 +101,9 @@ struct ProfileView: View {
             }
             .coordinateSpace(name: "SCROLL")
             .ignoresSafeArea(.container, edges: .vertical)
+            .navigationDestination(isPresented: $viewModel.showingProfileView) {
+                SettingProfileView()
+            }
         }
     }
     
@@ -179,8 +176,8 @@ struct ProfileView: View {
                                 
                                 Spacer()
                                 
-                                NavigationLink {
-                                    SettingProfileView()
+                                Button {
+                                    viewModel.showingProfileView = true
                                 } label: {
                                     ZStack {
                                         RoundedRectangle(cornerRadius: 4)
@@ -344,10 +341,15 @@ struct ProfileView: View {
                                         .clipped()
                                 }
                                 .sheet(isPresented: $isShowingReceiveDetail) {
-                                    SelectPostView(profileVM: profileVM,
+                                    SelectPostView(profileVM: profileVM, feedVM: feedVM,
                                                    viewType: PostViewType.receive,
                                                    isShowingDetail: $isShowingReceiveDetail)
                                     .presentationDragIndicator(.visible)
+                                    .onDisappear {
+                                        feedVM.currentPadoRideIndex = nil
+                                        feedVM.isShowingPadoRide = false
+                                        feedVM.padoRidePosts = []
+                                    }
                                 }
                             }
                         }
@@ -387,10 +389,15 @@ struct ProfileView: View {
                                         .clipped()
                                 }
                                 .sheet(isPresented: $isShowingSendDetail) {
-                                    SelectPostView(profileVM: profileVM,
+                                    SelectPostView(profileVM: profileVM, feedVM: feedVM,
                                                    viewType: PostViewType.send,
                                                    isShowingDetail: $isShowingSendDetail)
                                     .presentationDragIndicator(.visible)
+                                    .onDisappear {
+                                        feedVM.currentPadoRideIndex = nil
+                                        feedVM.isShowingPadoRide = false
+                                        feedVM.padoRidePosts = []
+                                    }
                                 }
                             }
                         }
@@ -430,10 +437,15 @@ struct ProfileView: View {
                                         .clipped()
                                 }
                                 .sheet(isPresented: $isShowingHightlight) {
-                                    SelectPostView(profileVM: profileVM,
+                                    SelectPostView(profileVM: profileVM, feedVM: feedVM,
                                                    viewType: PostViewType.highlight,
                                                    isShowingDetail: $isShowingHightlight)
                                     .presentationDragIndicator(.visible)
+                                    .onDisappear {
+                                        feedVM.currentPadoRideIndex = nil
+                                        feedVM.isShowingPadoRide = false
+                                        feedVM.padoRidePosts = []
+                                    }
                                 }
                             }
                         }

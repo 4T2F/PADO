@@ -15,6 +15,7 @@ struct OtherUserProfileView: View {
     @StateObject var profileVM = ProfileViewModel()
     @StateObject var followVM = FollowViewModel()
     @StateObject var postitVM = PostitViewModel()
+    @StateObject var feedVM = FeedViewModel()
     @Namespace var animation
     
     @Environment(\.dismiss) var dismiss
@@ -94,16 +95,25 @@ struct OtherUserProfileView: View {
                             }
                         }
                         
-                        Button {
-                            isShowingUserReport.toggle()
-                        } label: {
-                            Image(systemName: "ellipsis")
-                        }
-                        .sheet(isPresented: $isShowingUserReport) {
-                            ReprotProfileModalView()
-                                .presentationDetents([.fraction(0.33)])
-                                .presentationDragIndicator(.visible)
-                                .presentationCornerRadius(30)
+                        if user.nameID == userNameID {
+                            NavigationLink {
+                                SettingView()
+                            } label: {
+                                Image("more")
+                                    .foregroundStyle(.white)
+                            }
+                        } else {
+                            Button {
+                                isShowingUserReport.toggle()
+                            } label: {
+                                Image(systemName: "ellipsis")
+                            }
+                            .sheet(isPresented: $isShowingUserReport) {
+                                ReprotProfileModalView()
+                                    .presentationDetents([.fraction(0.33)])
+                                    .presentationDragIndicator(.visible)
+                                    .presentationCornerRadius(30)
+                            }
                         }
                     }
                 }
@@ -400,9 +410,15 @@ struct OtherUserProfileView: View {
                                 }
                                 .sheet(isPresented: $isShowingReceiveDetail) {
                                     SelectPostView(profileVM: profileVM,
-                                                        viewType: PostViewType.receive,
-                                                        isShowingDetail: $isShowingReceiveDetail)
+                                                   feedVM: feedVM,
+                                                   viewType: PostViewType.receive,
+                                                   isShowingDetail: $isShowingReceiveDetail)
                                     .presentationDragIndicator(.visible)
+                                    .onDisappear {
+                                        feedVM.currentPadoRideIndex = nil
+                                        feedVM.isShowingPadoRide = false
+                                        feedVM.padoRidePosts = []
+                                    }
                                 }
                                 
                             }
@@ -445,9 +461,15 @@ struct OtherUserProfileView: View {
                                 }
                                 .sheet(isPresented: $isShowingSendDetail) {
                                     SelectPostView(profileVM: profileVM,
-                                                        viewType: PostViewType.send,
-                                                        isShowingDetail: $isShowingSendDetail)
+                                                   feedVM: feedVM,
+                                                   viewType: PostViewType.send,
+                                                   isShowingDetail: $isShowingSendDetail)
                                     .presentationDragIndicator(.visible)
+                                    .onDisappear {
+                                        feedVM.currentPadoRideIndex = nil
+                                        feedVM.isShowingPadoRide = false
+                                        feedVM.padoRidePosts = []
+                                    }
                                 }
                             }
                         }
@@ -488,9 +510,15 @@ struct OtherUserProfileView: View {
                                 }
                                 .sheet(isPresented: $isShowingHightlight) {
                                     SelectPostView(profileVM: profileVM,
-                                                        viewType: PostViewType.highlight,
-                                                        isShowingDetail: $isShowingHightlight)
+                                                   feedVM: feedVM,
+                                                   viewType: PostViewType.highlight,
+                                                   isShowingDetail: $isShowingHightlight)
                                     .presentationDragIndicator(.visible)
+                                    .onDisappear {
+                                        feedVM.currentPadoRideIndex = nil
+                                        feedVM.isShowingPadoRide = false
+                                        feedVM.padoRidePosts = []
+                                    }
                                 }
                             }
                         }

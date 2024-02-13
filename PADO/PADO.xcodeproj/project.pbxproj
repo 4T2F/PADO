@@ -123,6 +123,9 @@
 		63AB41192B45D38F007B37DC /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 63AB41182B45D38F007B37DC /* FirebaseStorageCombine-Community */; };
 		63AB411D2B468C25007B37DC /* NavigationViewStyleHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AB411C2B468C25007B37DC /* NavigationViewStyleHelper.swift */; };
 		63B563FF2B44656600AEC5E7 /* Year.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B563FE2B44656600AEC5E7 /* Year.swift */; };
+		63B7B98D2B7AF68D00707C2F /* pokjuk.json in Resources */ = {isa = PBXBuildFile; fileRef = 63B7B98C2B7AF68D00707C2F /* pokjuk.json */; };
+		63B7B98F2B7AF88900707C2F /* pokjuk1.json in Resources */ = {isa = PBXBuildFile; fileRef = 63B7B98E2B7AF88900707C2F /* pokjuk1.json */; };
+		63B7B9912B7AFA0600707C2F /* pokjuk2.json in Resources */ = {isa = PBXBuildFile; fileRef = 63B7B9902B7AFA0600707C2F /* pokjuk2.json */; };
 		63C20BEB2B56CEDC00911F64 /* AdvancedSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C20BEA2B56CEDB00911F64 /* AdvancedSettingsView.swift */; };
 		63C20BED2B56CFAF00911F64 /* AdvancedSettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C20BEC2B56CFAF00911F64 /* AdvancedSettingsCell.swift */; };
 		63C8BA492B561DC200025422 /* SignUpButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA482B561DC200025422 /* SignUpButton.swift */; };
@@ -151,6 +154,7 @@
 		64392B7A2B74B66D0047BA12 /* SendPadoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B792B74B66D0047BA12 /* SendPadoView.swift */; };
 		64392B7C2B76852D0047BA12 /* PadoRide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B7B2B76852D0047BA12 /* PadoRide.swift */; };
 		64392B812B77F9B10047BA12 /* CropWhiteBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B802B77F9B10047BA12 /* CropWhiteBackground.swift */; };
+		643A45402B7A673E005F163D /* ImageRatioResize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 643A453F2B7A673E005F163D /* ImageRatioResize.swift */; };
 		647E7EFD2B63775100A5487E /* UpdateImageUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647E7EFC2B63775100A5487E /* UpdateImageUrl.swift */; };
 		648963DB2B6A9E960080050D /* PostCropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648963DA2B6A9E960080050D /* PostCropView.swift */; };
 		648963DD2B6AA2310080050D /* Corp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648963DC2B6AA2310080050D /* Corp.swift */; };
@@ -353,6 +357,9 @@
 		63AA03602B6A173F00431332 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		63AB411C2B468C25007B37DC /* NavigationViewStyleHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewStyleHelper.swift; sourceTree = "<group>"; };
 		63B563FE2B44656600AEC5E7 /* Year.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Year.swift; sourceTree = "<group>"; };
+		63B7B98C2B7AF68D00707C2F /* pokjuk.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = pokjuk.json; sourceTree = "<group>"; };
+		63B7B98E2B7AF88900707C2F /* pokjuk1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = pokjuk1.json; sourceTree = "<group>"; };
+		63B7B9902B7AFA0600707C2F /* pokjuk2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = pokjuk2.json; sourceTree = "<group>"; };
 		63C20BEA2B56CEDB00911F64 /* AdvancedSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSettingsView.swift; sourceTree = "<group>"; };
 		63C20BEC2B56CFAF00911F64 /* AdvancedSettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSettingsCell.swift; sourceTree = "<group>"; };
 		63C8BA482B561DC200025422 /* SignUpButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpButton.swift; sourceTree = "<group>"; };
@@ -383,6 +390,7 @@
 		64392B792B74B66D0047BA12 /* SendPadoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendPadoView.swift; sourceTree = "<group>"; };
 		64392B7B2B76852D0047BA12 /* PadoRide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadoRide.swift; sourceTree = "<group>"; };
 		64392B802B77F9B10047BA12 /* CropWhiteBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropWhiteBackground.swift; sourceTree = "<group>"; };
+		643A453F2B7A673E005F163D /* ImageRatioResize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRatioResize.swift; sourceTree = "<group>"; };
 		647E7EFC2B63775100A5487E /* UpdateImageUrl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateImageUrl.swift; sourceTree = "<group>"; };
 		648963DA2B6A9E960080050D /* PostCropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCropView.swift; sourceTree = "<group>"; };
 		648963DC2B6AA2310080050D /* Corp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Corp.swift; sourceTree = "<group>"; };
@@ -713,6 +721,7 @@
 				41711F432B719C0A00F0A1A7 /* UpdateHeartData.swift */,
 				64392B772B74567C0047BA12 /* GetPostData.swift */,
 				64392B802B77F9B10047BA12 /* CropWhiteBackground.swift */,
+				643A453F2B7A673E005F163D /* ImageRatioResize.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -848,7 +857,10 @@
 		6346F7DA2B6606D7009C752A /* Lottie */ = {
 			isa = PBXGroup;
 			children = (
+				63B7B98E2B7AF88900707C2F /* pokjuk1.json */,
+				63B7B9902B7AFA0600707C2F /* pokjuk2.json */,
 				418ACDC02B76181B003DD9E7 /* Wave.json */,
+				63B7B98C2B7AF68D00707C2F /* pokjuk.json */,
 				418D45BE2B756AAD007F6633 /* Postit.json */,
 				418ACDC22B761AE5003DD9E7 /* nonePostit.json */,
 				419981D22B7439F400EEA06E /* Loading.json */,
@@ -1326,7 +1338,10 @@
 			files = (
 				418ACDC12B76181B003DD9E7 /* Wave.json in Resources */,
 				63AA03542B68F14E00431332 /* ApiKeys.xcconfig in Resources */,
+				63B7B9912B7AFA0600707C2F /* pokjuk2.json in Resources */,
 				41FD9A212B43D94A0028D38E /* .swiftlint.yml in Resources */,
+				63B7B98D2B7AF68D00707C2F /* pokjuk.json in Resources */,
+				63B7B98F2B7AF88900707C2F /* pokjuk1.json in Resources */,
 				418ACDC32B761AE6003DD9E7 /* nonePostit.json in Resources */,
 				419981D32B7439F400EEA06E /* Loading.json in Resources */,
 				637323462B6FBFDF00C02A32 /* Heart.json in Resources */,
@@ -1490,6 +1505,7 @@
 				B1A91D112B55928D00FE7F62 /* SettingNotificationView.swift in Sources */,
 				B1749A672B5E41AA00BCC6BA /* Post.swift in Sources */,
 				B1A91D162B55928D00FE7F62 /* SettingInfoView.swift in Sources */,
+				643A45402B7A673E005F163D /* ImageRatioResize.swift in Sources */,
 				418743272B5C42A300D93CBE /* SignUpView.swift in Sources */,
 				63824C442B558B2400D1D653 /* PhoneNumberView.swift in Sources */,
 				648963E32B6CE5270080050D /* SurfingSelectView.swift in Sources */,

@@ -339,7 +339,7 @@ extension Timestamp {
         case 1...:
             // 1시간 이상, 1일 미만
             return "\(hoursAgo)시간 전"
-
+            
         default:
             // 1시간 미만
             if minutesAgo >= 1 {
@@ -358,7 +358,6 @@ extension Timestamp {
         return dateString
     }
 }
-
 
 extension Date {
     func toFormattedString() -> String {

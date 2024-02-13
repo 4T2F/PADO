@@ -29,13 +29,15 @@ struct FeedView: View {
                                   lottieFileName: "Wave",
                                   scrollDelegate: scrollDelegate) {
                     if selectedFilter == .following {
-                        LazyVStack(spacing:0) {
+                        LazyVStack(spacing: 0) {
                             ForEach(feedVM.followingPosts.indices, id: \.self) { index in
                                 FeedCell(feedVM: feedVM,
                                          surfingVM: surfingVM,
                                          profileVM: profileVM,
                                          updateHeartData: updateHeartData,
-                                         post: $feedVM.followingPosts[index])
+                                         post: $feedVM.followingPosts[index], 
+                                         isTodayPadoPost: false, 
+                                         todayPadoPostIndex: index)
                                 .id(index)
                                 .onAppear {
                                     if index == feedVM.followingPosts.count - 1{
@@ -48,13 +50,15 @@ struct FeedView: View {
                             .scrollTargetLayout()
                         }
                     } else {
-                        LazyVStack(spacing:0) {
+                        LazyVStack(spacing: 0) {
                             ForEach(feedVM.todayPadoPosts.indices, id: \.self) { index in
                                 FeedCell(feedVM: feedVM,
                                          surfingVM: surfingVM,
                                          profileVM: profileVM,
                                          updateHeartData: updateHeartData,
-                                         post: $feedVM.todayPadoPosts[index])
+                                         post: $feedVM.todayPadoPosts[index], 
+                                         isTodayPadoPost: true,
+                                         todayPadoPostIndex: index)
                                 .id(index)
                             }
                         }

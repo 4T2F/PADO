@@ -19,7 +19,6 @@ struct ReportSelectCellView: View {
                     .frame(width: UIScreen.main.bounds.width * 0.95, height: 45)
                     .foregroundStyle(.modalCell)
                 HStack {
-                    
                     Text(text)
                         .foregroundStyle(.white)
                         .font(.system(size: 14))
