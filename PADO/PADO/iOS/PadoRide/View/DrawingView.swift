@@ -102,7 +102,7 @@ struct DrawingView: View {
                 }
             }
             
-            ToolbarItem(placement: .navigationBarTrailing) {
+            ToolbarItem(placement: .topBarTrailing) {
                 Button{
                     padorideVM.showingModal = true
                     padorideVM.saveImage()
