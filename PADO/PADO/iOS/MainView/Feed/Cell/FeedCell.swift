@@ -117,8 +117,9 @@ struct FeedCell: View {
                 // PadoRide 이미지 표시
                 let padoRide = feedVM.padoRidePosts[currentIndex]
                 
-                Rectangle()
-                    .foregroundStyle(.black)
+                KFImage.url(URL(string:padoRide.imageUrl))
+                    .resizable()
+                    .blur(radius: 150)
                     .containerRelativeFrame([.horizontal,.vertical])
                     .overlay {
                         // MARK: - 사진
@@ -138,7 +139,9 @@ struct FeedCell: View {
                                         // 로딩 중
                                         isLoading = true
                                     }
-                                    .scaledToFill()
+                                    .frame(width: UIScreen.main.bounds.width * 0.8, height: UIScreen.main.bounds.height * 0.65)
+                                    .cornerRadius(15)
+                                    .scaledToFit()
                                     .containerRelativeFrame([.horizontal,.vertical])
                             }
                             .overlay {
@@ -184,8 +187,8 @@ struct FeedCell: View {
                     HStack {
                         Text("\(feedVM.padoRidePosts[currentIndex].id ?? "") 님이 꾸민 파도")
                             .font(.headline)
-                            .padding(.top, UIScreen.main.bounds.height * 0.06)
-                            .padding(.leading, 15)
+                            .padding(.top, UIScreen.main.bounds.height * 0.09)
+                            .padding(.leading, 20)
                         Spacer()
                     }
                     Spacer()
