@@ -29,25 +29,29 @@ struct FeedView: View {
                                   lottieFileName: "Wave",
                                   scrollDelegate: scrollDelegate) {
                     if selectedFilter == .following {
-                        LazyVStack(spacing: 0) {
-                            ForEach(feedVM.followingPosts.indices, id: \.self) { index in
-                                FeedCell(feedVM: feedVM,
-                                         surfingVM: surfingVM,
-                                         profileVM: profileVM,
-                                         updateHeartData: updateHeartData,
-                                         post: $feedVM.followingPosts[index], 
-                                         isTodayPadoPost: false, 
-                                         todayPadoPostIndex: index)
-                                .id(index)
-                                .onAppear {
-                                    if index == feedVM.followingPosts.count - 1{
-                                        Task {
-                                            await feedVM.fetchFollowMorePosts()
+                        if feedVM.followingPosts.isEmpty {
+                            FeedGuideView()
+                        } else {
+                            LazyVStack(spacing: 0) {
+                                ForEach(feedVM.followingPosts.indices, id: \.self) { index in
+                                    FeedCell(feedVM: feedVM,
+                                             surfingVM: surfingVM,
+                                             profileVM: profileVM,
+                                             updateHeartData: updateHeartData,
+                                             post: $feedVM.followingPosts[index],
+                                             isTodayPadoPost: false, 
+                                             todayPadoPostIndex: index)
+                                    .id(index)
+                                    .onAppear {
+                                        if index == feedVM.followingPosts.count - 1{
+                                            Task {
+                                                await feedVM.fetchFollowMorePosts()
+                                            }
                                         }
                                     }
                                 }
+                                .scrollTargetLayout()
                             }
-                            .scrollTargetLayout()
                         }
                     } else {
                         LazyVStack(spacing: 0) {
