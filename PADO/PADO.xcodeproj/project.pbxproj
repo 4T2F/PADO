@@ -123,6 +123,9 @@
 		63AB41192B45D38F007B37DC /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 63AB41182B45D38F007B37DC /* FirebaseStorageCombine-Community */; };
 		63AB411D2B468C25007B37DC /* NavigationViewStyleHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AB411C2B468C25007B37DC /* NavigationViewStyleHelper.swift */; };
 		63B563FF2B44656600AEC5E7 /* Year.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B563FE2B44656600AEC5E7 /* Year.swift */; };
+		63B7B98D2B7AF68D00707C2F /* pokjuk.json in Resources */ = {isa = PBXBuildFile; fileRef = 63B7B98C2B7AF68D00707C2F /* pokjuk.json */; };
+		63B7B98F2B7AF88900707C2F /* pokjuk1.json in Resources */ = {isa = PBXBuildFile; fileRef = 63B7B98E2B7AF88900707C2F /* pokjuk1.json */; };
+		63B7B9912B7AFA0600707C2F /* pokjuk2.json in Resources */ = {isa = PBXBuildFile; fileRef = 63B7B9902B7AFA0600707C2F /* pokjuk2.json */; };
 		63C20BEB2B56CEDC00911F64 /* AdvancedSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C20BEA2B56CEDB00911F64 /* AdvancedSettingsView.swift */; };
 		63C20BED2B56CFAF00911F64 /* AdvancedSettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C20BEC2B56CFAF00911F64 /* AdvancedSettingsCell.swift */; };
 		63C8BA492B561DC200025422 /* SignUpButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA482B561DC200025422 /* SignUpButton.swift */; };
@@ -352,6 +355,9 @@
 		63AA03602B6A173F00431332 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		63AB411C2B468C25007B37DC /* NavigationViewStyleHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewStyleHelper.swift; sourceTree = "<group>"; };
 		63B563FE2B44656600AEC5E7 /* Year.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Year.swift; sourceTree = "<group>"; };
+		63B7B98C2B7AF68D00707C2F /* pokjuk.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = pokjuk.json; sourceTree = "<group>"; };
+		63B7B98E2B7AF88900707C2F /* pokjuk1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = pokjuk1.json; sourceTree = "<group>"; };
+		63B7B9902B7AFA0600707C2F /* pokjuk2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = pokjuk2.json; sourceTree = "<group>"; };
 		63C20BEA2B56CEDB00911F64 /* AdvancedSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSettingsView.swift; sourceTree = "<group>"; };
 		63C20BEC2B56CFAF00911F64 /* AdvancedSettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSettingsCell.swift; sourceTree = "<group>"; };
 		63C8BA482B561DC200025422 /* SignUpButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpButton.swift; sourceTree = "<group>"; };
@@ -846,7 +852,10 @@
 		6346F7DA2B6606D7009C752A /* Lottie */ = {
 			isa = PBXGroup;
 			children = (
+				63B7B98E2B7AF88900707C2F /* pokjuk1.json */,
+				63B7B9902B7AFA0600707C2F /* pokjuk2.json */,
 				418ACDC02B76181B003DD9E7 /* Wave.json */,
+				63B7B98C2B7AF68D00707C2F /* pokjuk.json */,
 				418D45BE2B756AAD007F6633 /* Postit.json */,
 				418ACDC22B761AE5003DD9E7 /* nonePostit.json */,
 				419981D22B7439F400EEA06E /* Loading.json */,
@@ -1307,7 +1316,10 @@
 			files = (
 				418ACDC12B76181B003DD9E7 /* Wave.json in Resources */,
 				63AA03542B68F14E00431332 /* ApiKeys.xcconfig in Resources */,
+				63B7B9912B7AFA0600707C2F /* pokjuk2.json in Resources */,
 				41FD9A212B43D94A0028D38E /* .swiftlint.yml in Resources */,
+				63B7B98D2B7AF68D00707C2F /* pokjuk.json in Resources */,
+				63B7B98F2B7AF88900707C2F /* pokjuk1.json in Resources */,
 				418ACDC32B761AE6003DD9E7 /* nonePostit.json in Resources */,
 				419981D32B7439F400EEA06E /* Loading.json in Resources */,
 				637323462B6FBFDF00C02A32 /* Heart.json in Resources */,
