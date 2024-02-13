@@ -80,6 +80,7 @@ struct FeedHeaderCell: View {
             } else {
                Image("Bell_light")
                     .foregroundStyle(.clear)
+                    .opacity(0)
             }
         }
         .padding(.horizontal)
