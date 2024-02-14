@@ -142,6 +142,8 @@ class PadoRideViewModel: ObservableObject {
                     .fontWeight(box.isBold ? .bold : .none)
                     .foregroundColor(box.textColor)
                     .offset(box.offset)
+                    .rotationEffect(box.rotation)
+                    .scaleEffect(box.scale)
             }
         }
         
