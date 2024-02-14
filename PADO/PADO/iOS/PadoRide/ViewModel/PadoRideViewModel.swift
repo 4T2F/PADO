@@ -27,6 +27,7 @@ class PadoRideViewModel: ObservableObject {
     @Published var selectedPickerUIImage: UIImage = UIImage()
     
     @Published var pickerImageItem: PhotosPickerItem?
+    @Published var pickerImageSize: CGRect = .zero
     
     // Pencil킷 관련 변수들
     @Published var canvas = PKCanvasView()
@@ -94,9 +95,11 @@ class PadoRideViewModel: ObservableObject {
                 // 메인 스레드에서 UI 업데이트
                 await MainActor.run {
                     // 이미지 데이터를 사용하여 ImageBox 생성 및 업데이트
+                    pickerImageSize = ImageRatioResize.shared.resizedImageRect(for: uiImage, targetSize: CGSize(width: 300, height: 500))
                     let newImageBox = ImageBox(image: Image(uiImage: uiImage))
                     self.imageBoxes.append(newImageBox)
                     self.currentImageIndex = self.imageBoxes.count - 1
+                    imageBoxes[currentImageIndex].size = pickerImageSize
                 }
             }
         } catch {
@@ -149,7 +152,7 @@ class PadoRideViewModel: ObservableObject {
             ForEach(imageBoxes){ box in
                 box.image
                     .resizable()
-                    .frame(width: 100, height: 100)
+                    .frame(width: box.size.width, height: box.size.height)
                     .offset(box.offset)
                     .rotationEffect(box.rotation)
                     .scaleEffect(box.scale)

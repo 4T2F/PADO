@@ -11,7 +11,8 @@ struct ImageBox: Identifiable {
 
     var id = UUID().uuidString
     var image = Image(systemName: "bolt")
-    var uiimage = UIImage()
+    
+    var size: CGRect = .zero
   
     var offset: CGSize = .zero
     var lastOffset: CGSize = .zero

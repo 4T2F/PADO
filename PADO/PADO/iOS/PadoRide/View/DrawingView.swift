@@ -100,7 +100,7 @@ struct DrawingView: View {
                             
                             box.image
                                 .resizable()
-                                .frame(width: 100, height: 100)
+                                .frame(width: box.size.width, height: box.size.height)
                                 .offset(box.offset)
                                 .rotationEffect(box.rotation)
                                 .scaleEffect(box.scale)
