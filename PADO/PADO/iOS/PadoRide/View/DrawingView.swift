@@ -43,18 +43,39 @@ struct DrawingView: View {
                                 .fontWeight(box.isBold ? .bold : .none)
                                 .foregroundColor(box.textColor)
                                 .offset(box.offset)
-                                .gesture(DragGesture().onChanged({ (value) in
-                                    
-                                    let current = value.translation
-                                    let lastOffset = box.lastOffset
-                                    let newTranslation = CGSize(width: lastOffset.width + current.width, height: lastOffset.height + current.height)
-                                    
-                                    padorideVM.textBoxes[getTextIndex(textBox: box)].offset = newTranslation
-                                    
-                                }).onEnded({ (value) in
-                                    padorideVM.textBoxes[getTextIndex(textBox: box)].lastOffset = padorideVM.textBoxes[getTextIndex(textBox: box)].offset
-                                    
-                                }))
+                                .rotationEffect(box.rotation)
+                                .scaleEffect(box.scale)
+                                .gesture(
+                                    DragGesture()
+                                        .onChanged({ value in
+                                            let currentTranslation = value.translation
+                                            // 크기 조정을 고려한 이동 값 조정
+                                            let scale = padorideVM.textBoxes[getTextIndex(textBox: box)].scale // 현재 상자의 scale 값 가져오기
+                                            let adjustedTranslation = CGSize(
+                                                width: (currentTranslation.width + box.lastOffset.width) / scale, // scale에 따라 조정
+                                                height: (currentTranslation.height + box.lastOffset.height) / scale // scale에 따라 조정
+                                            )
+                                            padorideVM.textBoxes[getTextIndex(textBox: box)].offset = adjustedTranslation
+                                        })
+                                        .simultaneously(with:
+                                            MagnificationGesture()
+                                                .onChanged({ value in
+                                                    padorideVM.textBoxes[getTextIndex(textBox: box)].scale = box.lastScale * value
+                                                })
+                                                .onEnded({ value in
+                                                    padorideVM.textBoxes[getTextIndex(textBox: box)].lastScale = padorideVM.textBoxes[getTextIndex(textBox: box)].scale
+                                                })
+                                                .simultaneously(with:
+                                                    RotationGesture()
+                                                        .onChanged({ value in
+                                                            padorideVM.textBoxes[getTextIndex(textBox: box)].rotation = box.lastRotation + value
+                                                        })
+                                                        .onEnded({ value in
+                                                            padorideVM.textBoxes[getTextIndex(textBox: box)].lastRotation = padorideVM.textBoxes[getTextIndex(textBox: box)].rotation
+                                                        })
+                                                )
+                                        )
+                                )
                                 .onLongPressGesture {
                                     padorideVM.toolPicker.setVisible(false, forFirstResponder: padorideVM.canvas)
                                     padorideVM.canvas.resignFirstResponder()
