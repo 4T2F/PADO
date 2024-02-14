@@ -45,10 +45,9 @@ struct PadoRideEditView: View {
                     Button {
                         Task {
                             await padorideVM.cancelTextView()
-                            padorideVM.pickerImageItem = nil
                         }
                     } label: {
-                        Text("취소")
+                        Text("삭제")
                             .fontWeight(.heavy)
                             .foregroundColor(.white)
                             .padding()

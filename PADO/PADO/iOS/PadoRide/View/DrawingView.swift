@@ -101,18 +101,29 @@ struct DrawingView: View {
                             box.image
                                 .resizable()
                                 .frame(width: 100, height: 100)
+                                .offset(box.offset)
                                 .rotationEffect(box.rotation)
                                 .scaleEffect(box.scale)
-                                .offset(box.offset)
                                 .gesture(
                                     DragGesture()
                                         .onChanged({ value in
-                                            let current = value.translation
-                                            let newTranslation = CGSize(width: box.lastOffset.width + current.width, height: box.lastOffset.height + current.height)
-                                            padorideVM.imageBoxes[getImageIndex(imageBox: box)].offset = newTranslation
-                                        })
-                                        .onEnded({ value in
-                                            padorideVM.imageBoxes[getImageIndex(imageBox: box)].lastOffset = padorideVM.imageBoxes[getImageIndex(imageBox: box)].offset
+                                            // 현재 드래그 변위
+                                            let currentTranslation = value.translation
+                                            
+                                            // 회전 각도 고려하여 드래그 변위 조정
+                                            let rotatedTranslation = CGPoint(
+                                                x: currentTranslation.width * cos(-box.rotation.radians) - currentTranslation.height * sin(-box.rotation.radians),
+                                                y: currentTranslation.width * sin(-box.rotation.radians) + currentTranslation.height * cos(-box.rotation.radians)
+                                            )
+                                            
+                                            // 확대/축소를 고려한 최종 변위 적용
+                                            let adjustedTranslation = CGSize(
+                                                width: (rotatedTranslation.x + box.lastOffset.width) / box.scale,
+                                                height: (rotatedTranslation.y + box.lastOffset.height) / box.scale
+                                            )
+                                            
+                                            // 변위 적용
+                                            padorideVM.imageBoxes[getImageIndex(imageBox: box)].offset = adjustedTranslation
                                         })
                                         .simultaneously(with:
                                                             MagnificationGesture()
@@ -196,6 +207,7 @@ struct DrawingView: View {
                 Button{
                     padorideVM.showingModal = true
                     padorideVM.saveImage()
+                    padorideVM.pickerImageItem = nil
                 } label: {
                     Text("다음")
                         .foregroundStyle(.white)

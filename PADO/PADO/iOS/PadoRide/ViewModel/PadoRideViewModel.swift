@@ -85,7 +85,7 @@ class PadoRideViewModel: ObservableObject {
     // PhotosPickerItem에서 이미지 로드 및 처리
     func loadImageFromPickerItem(_ pickerItem: PhotosPickerItem?) async {
         guard let pickerItem = pickerItem else { return }
-
+        
         do {
             // 선택한 항목에서 이미지 데이터 로드
             guard let imageData = try await pickerItem.loadTransferable(type: Data.self) else { return }
@@ -141,6 +141,15 @@ class PadoRideViewModel: ObservableObject {
                     .font(.system(size: 30))
                     .fontWeight(box.isBold ? .bold : .none)
                     .foregroundColor(box.textColor)
+                    .offset(box.offset)
+                    .rotationEffect(box.rotation)
+                    .scaleEffect(box.scale)
+            }
+            
+            ForEach(imageBoxes){ box in
+                box.image
+                    .resizable()
+                    .frame(width: 100, height: 100)
                     .offset(box.offset)
                     .rotationEffect(box.rotation)
                     .scaleEffect(box.scale)
