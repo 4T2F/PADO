@@ -22,31 +22,7 @@ struct SurfingView: View {
             VStack {
                 HStack {
                     Spacer()
-                    
-                    // 사진 라이브러리 접근 버튼
-                    PhotosPicker(selection: $surfingVM.postImageItem) {
-                        Image(systemName: "photo")
-                            .resizable()
-                            .frame(width: 25, height: 20)
-                    }
-                    .padding(.trailing, 20)
-                    
-                    // 카메라 접근 버튼
-                    Button {
-                        surfingVM.checkCameraPermission {
-                            surfingVM.isShownCamera.toggle()
-                            surfingVM.sourceType = .camera
-                            surfingVM.pickerResult = []
-                            surfingVM.selectedImage = nil
-                            surfingVM.selectedUIImage = Image(systemName: "photo")
-                        }
-                    } label: {
-                        Image("Camera")
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                    }
-                    .padding(.trailing, 20)
-                    
+ 
                     if surfingVM.cameraImage != Image(systemName: "photo") || surfingVM.selectedUIImage != Image(systemName: "photo") {
                         // 변경될 수 있음
                         Button("다음") {
@@ -60,6 +36,7 @@ struct SurfingView: View {
                             surfingVM.showCropView.toggle()
                         }
                         .padding(.trailing, 20)
+                        .padding(.top, 15)
                         .font(.system(size: 16, weight: .semibold))
                     } else {
                         Button {
@@ -68,6 +45,7 @@ struct SurfingView: View {
                             Text("다음")
                                 .font(.system(size: 16, weight: .semibold))
                                 .foregroundStyle(.gray)
+                                .padding(.top, 15)
                                 .padding(.trailing, 20)
                         }
                     }
@@ -75,22 +53,26 @@ struct SurfingView: View {
                 
                 Spacer()
                 
-                // 이미 선택된 이미지를 표시하는 영역
-                if surfingVM.selectedUIImage != Image(systemName: "photo") {
-                    surfingVM.selectedUIImage
-                        .resizable()
-                        .scaledToFit()
-                    
-                } else if surfingVM.cameraImage != Image(systemName: "photo") {
-                    surfingVM.cameraImage
-                        .resizable()
-                        .scaledToFit()
-                } else {
-                    Text("이미지를 선택하세요.")
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .background(Color.gray)
+                Button {
+                    surfingVM.isShowingPhotoModal.toggle()
+                } label: {
+                    // 이미 선택된 이미지를 표시하는 영역
+                    if surfingVM.selectedUIImage != Image(systemName: "photo") {
+                        surfingVM.selectedUIImage
+                            .resizable()
+                            .scaledToFit()
+                        
+                    } else if surfingVM.cameraImage != Image(systemName: "photo") {
+                        surfingVM.cameraImage
+                            .resizable()
+                            .scaledToFit()
+                    } else {
+                        Text("이미지를 선택하세요.")
+                            .frame(maxWidth: .infinity, maxHeight: UIScreen.main.bounds.height * 0.75)
+                            .background(Color.gray)
+                    }
                 }
-                
+
                 Spacer()
                 
             } //: VSTACK
@@ -107,11 +89,14 @@ struct SurfingView: View {
                                  mysourceType: $surfingVM.sourceType,
                                  mycameraDevice: $surfingVM.cameraDevice)
             }
-            .sheet(isPresented: $surfingVM.isShowingPhoto) {
-                PhotoPicker(pickerResult: $surfingVM.pickerResult,
-                            selectedImage: $surfingVM.selectedImage,
-                            selectedSwiftUIImage: $surfingVM.selectedUIImage)
+            .onDisappear {
+                surfingVM.isShownCamera = false
             }
+            .sheet(isPresented: $surfingVM.isShowingPhotoModal, content: {
+                PhotoTypeModal(surfingVM: surfingVM, feedVM: feedVM, profileVM: profileVM, followVM: followVM)
+                    .presentationDetents([.fraction(0.25)])
+                    
+            })
             .navigationDestination(isPresented: $surfingVM.showCropView) {
                 PostCropView(surfingVM: surfingVM,
                              feedVM: feedVM,

@@ -4,8 +4,6 @@
 //
 //  Created by 최동호 on 1/25/24.
 //
-
-
 import Photos
 import PhotosUI
 import SwiftUI
@@ -15,7 +13,7 @@ struct PhotoPicker: UIViewControllerRepresentable {
     @Binding var pickerResult: [PHPickerResult]
     @Binding var selectedImage: UIImage?
     // Image 타입으로 변환된 이미지를 위한 새로운 바인딩
-    @Binding var selectedSwiftUIImage: Image
+    @Binding var selectedUIImage: Image
     
     func makeUIViewController(context: Context) -> PHPickerViewController {
         var config = PHPickerConfiguration(photoLibrary: .shared())
@@ -57,7 +55,7 @@ struct PhotoPicker: UIViewControllerRepresentable {
                         if let image = image as? UIImage {
                             self.parent.selectedImage = image
                             // UIImage를 Image로 변환
-                            self.parent.selectedSwiftUIImage = Image(uiImage: image)
+                            self.parent.selectedUIImage = Image(uiImage: image)
                         }
                     }
                 }

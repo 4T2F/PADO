@@ -26,7 +26,7 @@ struct SettingAskButton: View {
             .sheet(isPresented: $viewModel.showPhotoPicker) {
                 PhotoPicker(pickerResult: $viewModel.pickerResult,
                             selectedImage: $viewModel.selectedImage,
-                            selectedSwiftUIImage: $viewModel.selectedUIImage)
+                            selectedUIImage: $viewModel.selectedUIImage)
                 .presentationDetents([.medium])
                 .onDisappear {
                     askSeletedImage = viewModel.selectedUIImage
