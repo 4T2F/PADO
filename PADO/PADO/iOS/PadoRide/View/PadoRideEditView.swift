@@ -18,8 +18,6 @@ struct PadoRideEditView: View {
             NavigationView {
                 VStack {
                     DrawingView(padorideVM: padorideVM)
-                        .navigationTitle("편집")
-                        .navigationBarTitleDisplayMode(.inline)
                         .toolbar {
                             ToolbarItem(placement: .navigationBarLeading) {
                                 Button {

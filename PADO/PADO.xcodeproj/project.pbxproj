@@ -15,6 +15,7 @@
 		048A343E2B748DB60085CE8B /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048A343D2B748DB60085CE8B /* CanvasView.swift */; };
 		048A34402B748DDF0085CE8B /* PadoRideEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048A343F2B748DDF0085CE8B /* PadoRideEditView.swift */; };
 		048A34452B7491950085CE8B /* TextBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048A34442B7491950085CE8B /* TextBox.swift */; };
+		048A34472B7C53660085CE8B /* ImageBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048A34462B7C53660085CE8B /* ImageBox.swift */; };
 		04A785E32B5FB1C800BFCB9D /* SearchCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A785E22B5FB1C800BFCB9D /* SearchCellView.swift */; };
 		04A785E72B5FB1ED00BFCB9D /* SurfingSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A785E52B5FB1ED00BFCB9D /* SurfingSearchView.swift */; };
 		04AD70EC2B6CB80F00437134 /* KeyboardHide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AD70EB2B6CB80F00437134 /* KeyboardHide.swift */; };
@@ -248,6 +249,7 @@
 		048A343D2B748DB60085CE8B /* CanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
 		048A343F2B748DDF0085CE8B /* PadoRideEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadoRideEditView.swift; sourceTree = "<group>"; };
 		048A34442B7491950085CE8B /* TextBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextBox.swift; sourceTree = "<group>"; };
+		048A34462B7C53660085CE8B /* ImageBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageBox.swift; sourceTree = "<group>"; };
 		04A785E22B5FB1C800BFCB9D /* SearchCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchCellView.swift; sourceTree = "<group>"; };
 		04A785E52B5FB1ED00BFCB9D /* SurfingSearchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SurfingSearchView.swift; sourceTree = "<group>"; };
 		04AD70EB2B6CB80F00437134 /* KeyboardHide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHide.swift; sourceTree = "<group>"; };
@@ -491,6 +493,7 @@
 			isa = PBXGroup;
 			children = (
 				048A34442B7491950085CE8B /* TextBox.swift */,
+				048A34462B7C53660085CE8B /* ImageBox.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1451,6 +1454,7 @@
 				648963E12B6BEF890080050D /* Facemoji.swift in Sources */,
 				63B563FF2B44656600AEC5E7 /* Year.swift in Sources */,
 				B1A91D0F2B55928D00FE7F62 /* SettingView.swift in Sources */,
+				048A34472B7C53660085CE8B /* ImageBox.swift in Sources */,
 				64392B602B7074CD0047BA12 /* SettingProfileModal.swift in Sources */,
 				63824C4C2B558B5500D1D653 /* ModalBlackButton.swift in Sources */,
 				B1A91D122B55928D00FE7F62 /* SettingOthersView.swift in Sources */,

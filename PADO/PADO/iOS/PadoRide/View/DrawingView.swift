@@ -5,6 +5,7 @@
 //  Created by 김명현 on 2/8/24.
 //
 
+import PhotosUI
 import SwiftUI
 
 struct DrawingView: View {
@@ -85,6 +86,15 @@ struct DrawingView: View {
                 }
 
             }
+            
+            ToolbarItem(placement: .topBarTrailing) {
+                PhotosPicker(selection: $padorideVM.pickerImageItem) {
+                    Image(systemName: "photo")
+                        .resizable()
+                        .frame(width: 25, height: 20)
+                }
+            }
+            
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button{
                     padorideVM.textBoxes.append(TextBox())
@@ -97,7 +107,7 @@ struct DrawingView: View {
                     padorideVM.toolPicker.setVisible(false, forFirstResponder: padorideVM.canvas)
                     padorideVM.canvas.resignFirstResponder()
                 } label: {
-                    Image(systemName: "plus")
+                    Image(systemName: "t.square")
                         .foregroundStyle(.white)
                 }
             }

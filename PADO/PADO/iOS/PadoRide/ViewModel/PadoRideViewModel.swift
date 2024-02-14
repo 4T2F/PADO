@@ -10,6 +10,7 @@ import FirebaseFirestore
 import FirebaseStorage
 import Kingfisher
 import PencilKit
+import PhotosUI
 import SwiftUI
 
 class PadoRideViewModel: ObservableObject {
@@ -22,6 +23,23 @@ class PadoRideViewModel: ObservableObject {
     @Published var isShowingEditView: Bool = false
     @Published var isShowingDrawingView: Bool = false
     @Published var showingModal: Bool = false
+    @Published var selectedPickerImage: Image = Image("")
+    @Published var selectedPickerUIImage: UIImage = UIImage()
+    
+    @MainActor
+    @Published var pickerImageItem: PhotosPickerItem? {
+        didSet {
+            Task {
+                do {
+                    let (loadedUIImage, loadedSwiftUIImage) = try await UpdateImageUrl.shared.loadImage(selectedItem: pickerImageItem)
+                    self.selectedPickerUIImage = loadedUIImage
+                    self.selectedPickerImage = loadedSwiftUIImage
+                } catch {
+                    print("이미지 로드 중 오류 발생: \(error)")
+                }
+            }
+        }
+    }
     
     // Pencil킷 관련 변수들
     @Published var canvas = PKCanvasView()
