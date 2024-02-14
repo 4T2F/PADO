@@ -10,6 +10,7 @@ import FirebaseFirestore
 import FirebaseStorage
 import Kingfisher
 import PencilKit
+import PhotosUI
 import SwiftUI
 
 class PadoRideViewModel: ObservableObject {
@@ -22,13 +23,20 @@ class PadoRideViewModel: ObservableObject {
     @Published var isShowingEditView: Bool = false
     @Published var isShowingDrawingView: Bool = false
     @Published var showingModal: Bool = false
+    @Published var selectedPickerImage: Image = Image("")
+    @Published var selectedPickerUIImage: UIImage = UIImage()
+    
+    @Published var pickerImageItem: PhotosPickerItem?
+    @Published var pickerImageSize: CGRect = .zero
     
     // Pencil킷 관련 변수들
     @Published var canvas = PKCanvasView()
     @Published var toolPicker = PKToolPicker()
     @Published var textBoxes: [TextBox] = []
+    @Published var imageBoxes: [ImageBox] = []
     @Published var addNewBox = false
-    @Published var currentIndex: Int = 0
+    @Published var currentTextIndex: Int = 0
+    @Published var currentImageIndex: Int = 0
     @Published var rect: CGRect = .zero
     @Published var decoUIImage: UIImage = UIImage()
     
@@ -55,12 +63,50 @@ class PadoRideViewModel: ObservableObject {
     func cancelImageEditing() {
         selectedUIImage = nil
         selectedImage = ""
+        selectedPickerUIImage = UIImage()
+        selectedPickerImage = Image("")
         decoUIImage = UIImage()
         canvas = PKCanvasView()
         toolPicker = PKToolPicker()
         textBoxes.removeAll()
-        currentIndex = 0
+        imageBoxes.removeAll()
+        currentTextIndex = 0
+        currentImageIndex = 0
         addNewBox = false
+    }
+    
+    func calculateTextSize(text: String, font: UIFont, maxWidth: CGFloat) -> CGSize {
+        let attributes = [NSAttributedString.Key.font: font]
+        let size = CGSize(width: maxWidth, height: .greatestFiniteMagnitude)
+        let options: NSStringDrawingOptions = [.usesLineFragmentOrigin, .usesFontLeading]
+        let rect = text.boundingRect(with: size, options: options, attributes: attributes, context: nil)
+        return rect.size
+    }
+    
+    // PhotosPickerItem에서 이미지 로드 및 처리
+    func loadImageFromPickerItem(_ pickerItem: PhotosPickerItem?) async {
+        guard let pickerItem = pickerItem else { return }
+        
+        do {
+            // 선택한 항목에서 이미지 데이터 로드
+            guard let imageData = try await pickerItem.loadTransferable(type: Data.self) else { return }
+            
+            if let uiImage = UIImage(data: imageData) {
+                // 메인 스레드에서 UI 업데이트
+                await MainActor.run {
+                    // 이미지 데이터를 사용하여 ImageBox 생성 및 업데이트
+                    pickerImageSize = ImageRatioResize.shared.resizedImageRect(for: uiImage, targetSize: CGSize(width: 300, height: 500))
+                    let newImageBox = ImageBox(image: Image(uiImage: uiImage))
+                    self.imageBoxes.append(newImageBox)
+                    self.currentImageIndex = self.imageBoxes.count - 1
+                    imageBoxes[currentImageIndex].size = pickerImageSize
+                    imageBoxes[currentImageIndex].isAdded = true
+                }
+            }
+        } catch {
+            // 오류 처리
+            print("이미지 로딩 실패: \(error.localizedDescription)")
+        }
     }
     
     @MainActor
@@ -73,8 +119,18 @@ class PadoRideViewModel: ObservableObject {
             addNewBox = false
         }
         
-        if textBoxes[currentIndex].isAdded {
-            textBoxes.removeLast()
+        if textBoxes[currentTextIndex].isAdded {
+            textBoxes.remove(at: currentTextIndex)
+        }
+    }
+    
+    @MainActor
+    func deleteImage() async {
+        self.toolPicker.setVisible(true, forFirstResponder: self.canvas)
+        self.canvas.becomeFirstResponder()
+        
+        if imageBoxes[currentImageIndex].isAdded {
+            imageBoxes.remove(at: currentImageIndex)
         }
     }
     
@@ -95,11 +151,22 @@ class PadoRideViewModel: ObservableObject {
         
         let makeUIView = ZStack {
             ForEach(textBoxes){[self] box in
-                Text(textBoxes[currentIndex].id == box.id && addNewBox ? "" : box.text)
+                Text(textBoxes[currentTextIndex].id == box.id && addNewBox ? "" : box.text)
                     .font(.system(size: 30))
                     .fontWeight(box.isBold ? .bold : .none)
                     .foregroundColor(box.textColor)
                     .offset(box.offset)
+                    .rotationEffect(box.rotation)
+                    .scaleEffect(box.scale)
+            }
+            
+            ForEach(imageBoxes){ box in
+                box.image
+                    .resizable()
+                    .frame(width: box.size.width, height: box.size.height)
+                    .offset(box.offset)
+                    .rotationEffect(box.rotation)
+                    .scaleEffect(box.scale)
             }
         }
         
@@ -117,7 +184,6 @@ class PadoRideViewModel: ObservableObject {
         
         if let image = generatedImage?.pngData(){
             
-            UIImageWriteToSavedPhotosAlbum(UIImage(data: image)!, nil, nil, nil)
             selectedUIImage = UIImage(data: image) ?? UIImage()
             
             Task {
@@ -126,6 +192,8 @@ class PadoRideViewModel: ObservableObject {
                 let ratioTest = await ImageRatioResize.shared.resizeImage(testdecoUIImage, toSize: CGSize(width: 900, height: 1500))
                 
                 decoUIImage = ratioTest
+                
+                UIImageWriteToSavedPhotosAlbum(decoUIImage, nil, nil, nil)
             }
             
         }
