@@ -10,7 +10,8 @@ import SwiftUI
 struct ImageBox: Identifiable {
 
     var id = UUID().uuidString
-    var image = Image("")
+    var image = Image(systemName: "bolt")
+    var uiimage = UIImage()
   
     var offset: CGSize = .zero
     var lastOffset: CGSize = .zero

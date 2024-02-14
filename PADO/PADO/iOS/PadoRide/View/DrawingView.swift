@@ -38,7 +38,7 @@ struct DrawingView: View {
                         
                         ForEach(padorideVM.textBoxes) { box in
                             
-                            Text(padorideVM.textBoxes[padorideVM.currentIndex].id == box.id && padorideVM.addNewBox ? "" : box.text)
+                            Text(padorideVM.textBoxes[padorideVM.currentTextIndex].id == box.id && padorideVM.addNewBox ? "" : box.text)
                                 .font(.system(size: 30))
                                 .fontWeight(box.isBold ? .bold : .none)
                                 .foregroundColor(box.textColor)
@@ -48,20 +48,45 @@ struct DrawingView: View {
                                     let current = value.translation
                                     let lastOffset = box.lastOffset
                                     let newTranslation = CGSize(width: lastOffset.width + current.width, height: lastOffset.height + current.height)
-                                    
-                                    padorideVM.textBoxes[getIndex(textBox: box)].offset = newTranslation
+
+                                    padorideVM.textBoxes[getTextIndex(textBox: box)].offset = newTranslation
                                     
                                 }).onEnded({ (value) in
-                                    padorideVM.textBoxes[getIndex(textBox: box)].lastOffset = padorideVM.textBoxes[getIndex(textBox: box)].offset
+                                    padorideVM.textBoxes[getTextIndex(textBox: box)].lastOffset = padorideVM.textBoxes[getTextIndex(textBox: box)].offset
                                     
                                 }))
                                 .onLongPressGesture {
                                     padorideVM.toolPicker.setVisible(false, forFirstResponder: padorideVM.canvas)
                                     padorideVM.canvas.resignFirstResponder()
-                                    padorideVM.currentIndex = getIndex(textBox: box)
+                                    padorideVM.currentTextIndex = getTextIndex(textBox: box)
                                     withAnimation{
                                         padorideVM.addNewBox = true
                                     }
+                                }
+                        }
+                        
+                        ForEach(padorideVM.imageBoxes) { box in
+                            
+                            box.image
+                                .resizable()
+                                .frame(width: 100, height: 100)
+                                .offset(box.offset)
+                                .gesture(DragGesture().onChanged({ (value) in
+                                    
+                                    let current = value.translation
+                                    let lastOffset = box.lastOffset
+                                    let newTranslation = CGSize(width: lastOffset.width + current.width, height: lastOffset.height + current.height)
+
+                                    padorideVM.imageBoxes[getImageIndex(imageBox: box)].offset = newTranslation
+                                    
+                                }).onEnded({ (value) in
+                                    padorideVM.imageBoxes[getImageIndex(imageBox: box)].lastOffset = padorideVM.imageBoxes[getImageIndex(imageBox: box)].offset
+                                    
+                                }))
+                                .onLongPressGesture {
+                                    padorideVM.toolPicker.setVisible(false, forFirstResponder: padorideVM.canvas)
+                                    padorideVM.canvas.resignFirstResponder()
+                                    padorideVM.currentImageIndex = getImageIndex(imageBox: box)
                                 }
                         }
                     }
@@ -93,13 +118,16 @@ struct DrawingView: View {
                         .resizable()
                         .frame(width: 25, height: 20)
                 }
+                .onChange(of: padorideVM.pickerImageItem) { _, _ in
+                    padorideVM.loadImageFromPickerItem(padorideVM.pickerImageItem)
+                }
             }
             
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button{
                     padorideVM.textBoxes.append(TextBox())
                     
-                    padorideVM.currentIndex = padorideVM.textBoxes.count - 1
+                    padorideVM.currentTextIndex = padorideVM.textBoxes.count - 1
                     
                     withAnimation{
                         padorideVM.addNewBox.toggle()
@@ -128,10 +156,19 @@ struct DrawingView: View {
         }
     }
     
-    func getIndex(textBox: TextBox) -> Int{
+    func getTextIndex(textBox: TextBox) -> Int {
         
         let index = padorideVM.textBoxes.firstIndex { (box) -> Bool in
             return textBox.id == box.id
+        } ?? 0
+        
+        return index
+    }
+    
+    func getImageIndex(imageBox: ImageBox) -> Int {
+        
+        let index = padorideVM.imageBoxes.firstIndex { (box) -> Bool in
+            return imageBox.id == box.id
         } ?? 0
         
         return index

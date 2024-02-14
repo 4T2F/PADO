@@ -35,16 +35,17 @@ struct PadoRideEditView: View {
                 Color.black.opacity(0.75)
                     .ignoresSafeArea()
                 
-                TextField("여기에 입력하세요", text: $padorideVM.textBoxes[padorideVM.currentIndex].text)
-                    .font(.system(size: 35, weight: padorideVM.textBoxes[padorideVM.currentIndex].isBold ? .bold : .regular))
+                TextField("여기에 입력하세요", text: $padorideVM.textBoxes[padorideVM.currentTextIndex].text)
+                    .font(.system(size: 35, weight: padorideVM.textBoxes[padorideVM.currentTextIndex].isBold ? .bold : .regular))
                     .colorScheme(.dark)
-                    .foregroundColor(padorideVM.textBoxes[padorideVM.currentIndex].textColor)
+                    .foregroundColor(padorideVM.textBoxes[padorideVM.currentTextIndex].textColor)
                     .padding()
                 
                 HStack {
                     Button {
                         Task {
                             await padorideVM.cancelTextView()
+                            padorideVM.pickerImageItem = nil
                         }
                     } label: {
                         Text("취소")
@@ -56,7 +57,7 @@ struct PadoRideEditView: View {
                     Spacer()
                     
                     Button {
-                        padorideVM.textBoxes[padorideVM.currentIndex].isAdded = true
+                        padorideVM.textBoxes[padorideVM.currentTextIndex].isAdded = true
                         Task {
                             padorideVM.toolPicker.setVisible(true, forFirstResponder: padorideVM.canvas)
                             padorideVM.canvas.becomeFirstResponder()
@@ -73,13 +74,13 @@ struct PadoRideEditView: View {
                 }
                 .overlay(
                     HStack(spacing: 15){
-                        ColorPicker("", selection: $padorideVM.textBoxes[padorideVM.currentIndex].textColor)
+                        ColorPicker("", selection: $padorideVM.textBoxes[padorideVM.currentTextIndex].textColor)
                             .labelsHidden()
                         
                         Button {
-                            padorideVM.textBoxes[padorideVM.currentIndex].isBold.toggle()
+                            padorideVM.textBoxes[padorideVM.currentTextIndex].isBold.toggle()
                         } label: {
-                            Text(padorideVM.textBoxes[padorideVM.currentIndex].isBold ? "Normal" : "Bold")
+                            Text(padorideVM.textBoxes[padorideVM.currentTextIndex].isBold ? "Normal" : "Bold")
                                 .fontWeight(.bold)
                                 .foregroundColor(.white)
                         }

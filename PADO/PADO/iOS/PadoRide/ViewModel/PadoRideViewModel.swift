@@ -45,8 +45,10 @@ class PadoRideViewModel: ObservableObject {
     @Published var canvas = PKCanvasView()
     @Published var toolPicker = PKToolPicker()
     @Published var textBoxes: [TextBox] = []
+    @Published var imageBoxes: [ImageBox] = []
     @Published var addNewBox = false
-    @Published var currentIndex: Int = 0
+    @Published var currentTextIndex: Int = 0
+    @Published var currentImageIndex: Int = 0
     @Published var rect: CGRect = .zero
     @Published var decoUIImage: UIImage = UIImage()
     
@@ -73,12 +75,47 @@ class PadoRideViewModel: ObservableObject {
     func cancelImageEditing() {
         selectedUIImage = nil
         selectedImage = ""
+        selectedPickerUIImage = UIImage()
+        selectedPickerImage = Image("")
         decoUIImage = UIImage()
         canvas = PKCanvasView()
         toolPicker = PKToolPicker()
         textBoxes.removeAll()
-        currentIndex = 0
+        imageBoxes.removeAll()
+        currentTextIndex = 0
+        currentImageIndex = 0
         addNewBox = false
+    }
+    
+    func calculateTextSize(text: String, font: UIFont, maxWidth: CGFloat) -> CGSize {
+        let attributes = [NSAttributedString.Key.font: font]
+        let size = CGSize(width: maxWidth, height: .greatestFiniteMagnitude)
+        let options: NSStringDrawingOptions = [.usesLineFragmentOrigin, .usesFontLeading]
+        let rect = text.boundingRect(with: size, options: options, attributes: attributes, context: nil)
+        return rect.size
+    }
+    
+    // PhotosPickerItem에서 이미지 로드 및 처리
+    func loadImageFromPickerItem(_ pickerItem: PhotosPickerItem?) {
+        guard let pickerItem = pickerItem else { return }
+
+        // 선택한 항목에서 이미지 데이터 로드
+        pickerItem.loadTransferable(type: Data.self) { [weak self] result in
+            switch result {
+            case .success(let imageData):
+                if let imageData = imageData, let uiImage = UIImage(data: imageData) {
+                    DispatchQueue.main.async {
+                        // 이미지 데이터를 사용하여 ImageBox 생성 및 업데이트
+                        let newImageBox = ImageBox(image: Image(uiImage: uiImage))
+                        self?.imageBoxes.append(newImageBox)
+                        self?.currentImageIndex = (self?.imageBoxes.count ?? 0) - 1
+                    }
+                }
+            case .failure(let error):
+                // 오류 처리
+                print("이미지 로딩 실패: \(error.localizedDescription)")
+            }
+        }
     }
     
     @MainActor
@@ -91,7 +128,7 @@ class PadoRideViewModel: ObservableObject {
             addNewBox = false
         }
         
-        if textBoxes[currentIndex].isAdded {
+        if textBoxes[currentTextIndex].isAdded {
             textBoxes.removeLast()
         }
     }
@@ -113,7 +150,7 @@ class PadoRideViewModel: ObservableObject {
         
         let makeUIView = ZStack {
             ForEach(textBoxes){[self] box in
-                Text(textBoxes[currentIndex].id == box.id && addNewBox ? "" : box.text)
+                Text(textBoxes[currentTextIndex].id == box.id && addNewBox ? "" : box.text)
                     .font(.system(size: 30))
                     .fontWeight(box.isBold ? .bold : .none)
                     .foregroundColor(box.textColor)
