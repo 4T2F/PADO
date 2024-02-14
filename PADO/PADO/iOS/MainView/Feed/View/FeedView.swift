@@ -30,6 +30,7 @@ struct FeedView: View {
                     if authenticationViewModel.selectedFilter == .following {
                         if feedVM.followingPosts.isEmpty || userNameID.isEmpty {
                             FeedGuideView()
+                                .offset(y: 170)
                         } else {
                             LazyVStack(spacing: 0) {
                                 ForEach(feedVM.followingPosts.indices, id: \.self) { index in
