@@ -23,5 +23,3 @@ var tripCards: [SuggestionModel] = [
     .init(title: "힁성진", subTitle: "hingsung", image: "Pic1"),
     .init(title: "김차남", subTitle: "chanam", image: "Pic4")
 ]
-
-

@@ -58,10 +58,10 @@ class FollowViewModel: ObservableObject, Searchable {
     
 
     func initializeFollowFetch(id: String) {
-        fetchIDs(id: userNameID, collectionType: CollectionType.follower)
-        fetchIDs(id: userNameID, collectionType: CollectionType.following)
-        fetchIDs(id: userNameID, collectionType: CollectionType.surfer)
-        fetchIDs(id: userNameID, collectionType: CollectionType.surfing)
+        fetchIDs(id: id, collectionType: CollectionType.follower)
+        fetchIDs(id: id, collectionType: CollectionType.following)
+        fetchIDs(id: id, collectionType: CollectionType.surfer)
+        fetchIDs(id: id, collectionType: CollectionType.surfing)
     }
     
     //  파라미터로 넣은 id값을 가진 문서 내용들 불러오는 스냅샷
