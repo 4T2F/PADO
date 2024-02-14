@@ -13,7 +13,6 @@ import SwiftUI
 class SurfingViewModel: ObservableObject, Searchable  {
     
     @Published var selectedImage: UIImage?
-    @Published var pickerResult: [PHPickerResult] = []
     @Published var showPhotoPicker = false
     @Published var showingPermissionAlert = false
     @Published var selectedUIImage: Image = Image(systemName: "photo")
@@ -148,8 +147,6 @@ class SurfingViewModel: ObservableObject, Searchable  {
     // MARK: - 이미지 관련 초기화
     func resetImage() {
         selectedImage = nil
-        pickerResult = []
-        showPhotoPicker = false
         showingPermissionAlert = false
         selectedUIImage = Image(systemName: "photo")
         

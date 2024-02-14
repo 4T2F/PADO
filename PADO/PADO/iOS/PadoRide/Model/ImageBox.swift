@@ -1,21 +1,21 @@
 //
-//  TextBox.swift
+//  ImageBox.swift
 //  PADO
 //
-//  Created by 김명현 on 2/8/24.
+//  Created by 김명현 on 2/14/24.
 //
 
 import SwiftUI
 
-struct TextBox: Identifiable {
+struct ImageBox: Identifiable {
 
     var id = UUID().uuidString
-    var text: String = ""
-    var isBold: Bool = false
+    var image = Image(systemName: "bolt")
+    
+    var size: CGRect = .zero
   
     var offset: CGSize = .zero
     var lastOffset: CGSize = .zero
-    var textColor: Color = .white
     var scale: CGFloat = 1.0
     var lastScale: CGFloat = 1.0
     var rotation: Angle = .zero
@@ -23,3 +23,4 @@ struct TextBox: Identifiable {
  
     var isAdded: Bool = false
 }
+
