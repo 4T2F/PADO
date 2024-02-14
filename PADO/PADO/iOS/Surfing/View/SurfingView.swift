@@ -36,7 +36,6 @@ struct SurfingView: View {
                         surfingVM.checkCameraPermission {
                             surfingVM.isShownCamera.toggle()
                             surfingVM.sourceType = .camera
-                            surfingVM.pickerResult = []
                             surfingVM.selectedImage = nil
                             surfingVM.selectedUIImage = Image(systemName: "photo")
                         }
@@ -106,11 +105,6 @@ struct SurfingView: View {
                                  myUIImage: $surfingVM.cameraUIImage,
                                  mysourceType: $surfingVM.sourceType,
                                  mycameraDevice: $surfingVM.cameraDevice)
-            }
-            .sheet(isPresented: $surfingVM.isShowingPhoto) {
-                PhotoPicker(pickerResult: $surfingVM.pickerResult,
-                            selectedImage: $surfingVM.selectedImage,
-                            selectedSwiftUIImage: $surfingVM.selectedUIImage)
             }
             .navigationDestination(isPresented: $surfingVM.showCropView) {
                 PostCropView(surfingVM: surfingVM,
