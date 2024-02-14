@@ -124,6 +124,7 @@ struct ContentView: View {
             fetchData()
         }
         .onChange(of: viewModel.needsDataFetch) { _, newValue in
+            feedVM.findFollowingUsers()
             fetchData()
         }
     }
@@ -131,8 +132,7 @@ struct ContentView: View {
     func fetchData() {
         Task {
             if !userNameID.isEmpty {
-                followVM.profileFollowId = userNameID
-                followVM.initializeFollowFetch()
+                followVM.initializeFollowFetch(id: userNameID)
                 viewModel.selectedFilter = .following
                 viewModel.showTab = 0
                 await profileVM.fetchPostID(id: userNameID)

@@ -130,8 +130,7 @@ struct OtherUserProfileView: View {
         .ignoresSafeArea(.container, edges: .vertical)
         .onAppear {
             Task {
-                followVM.profileFollowId = user.nameID
-                followVM.initializeFollowFetch()
+                followVM.initializeFollowFetch(id: user.nameID)
                 await profileVM.fetchPostID(id: user.nameID)
                 await postitVM.getMessageDocument(ownerID: user.nameID)
             }
