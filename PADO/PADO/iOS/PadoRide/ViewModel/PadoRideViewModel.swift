@@ -184,7 +184,6 @@ class PadoRideViewModel: ObservableObject {
         
         if let image = generatedImage?.pngData(){
             
-            UIImageWriteToSavedPhotosAlbum(UIImage(data: image)!, nil, nil, nil)
             selectedUIImage = UIImage(data: image) ?? UIImage()
             
             Task {
@@ -193,6 +192,8 @@ class PadoRideViewModel: ObservableObject {
                 let ratioTest = await ImageRatioResize.shared.resizeImage(testdecoUIImage, toSize: CGSize(width: 900, height: 1500))
                 
                 decoUIImage = ratioTest
+                
+                UIImageWriteToSavedPhotosAlbum(decoUIImage, nil, nil, nil)
             }
             
         }
