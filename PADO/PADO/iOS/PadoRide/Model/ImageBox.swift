@@ -15,6 +15,11 @@ struct ImageBox: Identifiable {
   
     var offset: CGSize = .zero
     var lastOffset: CGSize = .zero
+    
+    var scale: CGFloat = 1.0
+    var lastScale: CGFloat = 1.0
+    var rotation: Angle = .zero
+    var lastRotation: Angle = .zero
  
     var isAdded: Bool = false
 }

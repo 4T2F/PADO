@@ -48,7 +48,7 @@ struct DrawingView: View {
                                     let current = value.translation
                                     let lastOffset = box.lastOffset
                                     let newTranslation = CGSize(width: lastOffset.width + current.width, height: lastOffset.height + current.height)
-
+                                    
                                     padorideVM.textBoxes[getTextIndex(textBox: box)].offset = newTranslation
                                     
                                 }).onEnded({ (value) in
@@ -70,19 +70,38 @@ struct DrawingView: View {
                             box.image
                                 .resizable()
                                 .frame(width: 100, height: 100)
+                                .rotationEffect(box.rotation)
+                                .scaleEffect(box.scale)
                                 .offset(box.offset)
-                                .gesture(DragGesture().onChanged({ (value) in
-                                    
-                                    let current = value.translation
-                                    let lastOffset = box.lastOffset
-                                    let newTranslation = CGSize(width: lastOffset.width + current.width, height: lastOffset.height + current.height)
-
-                                    padorideVM.imageBoxes[getImageIndex(imageBox: box)].offset = newTranslation
-                                    
-                                }).onEnded({ (value) in
-                                    padorideVM.imageBoxes[getImageIndex(imageBox: box)].lastOffset = padorideVM.imageBoxes[getImageIndex(imageBox: box)].offset
-                                    
-                                }))
+                                .gesture(
+                                    DragGesture()
+                                        .onChanged({ value in
+                                            let current = value.translation
+                                            let newTranslation = CGSize(width: box.lastOffset.width + current.width, height: box.lastOffset.height + current.height)
+                                            padorideVM.imageBoxes[getImageIndex(imageBox: box)].offset = newTranslation
+                                        })
+                                        .onEnded({ value in
+                                            padorideVM.imageBoxes[getImageIndex(imageBox: box)].lastOffset = padorideVM.imageBoxes[getImageIndex(imageBox: box)].offset
+                                        })
+                                        .simultaneously(with:
+                                            MagnificationGesture()
+                                                .onChanged({ value in
+                                                    padorideVM.imageBoxes[getImageIndex(imageBox: box)].scale = box.lastScale * value
+                                                })
+                                                .onEnded({ value in
+                                                    padorideVM.imageBoxes[getImageIndex(imageBox: box)].lastScale = padorideVM.imageBoxes[getImageIndex(imageBox: box)].scale
+                                                })
+                                                .simultaneously(with:
+                                                    RotationGesture()
+                                                        .onChanged({ value in
+                                                            padorideVM.imageBoxes[getImageIndex(imageBox: box)].rotation = box.lastRotation + value
+                                                        })
+                                                        .onEnded({ value in
+                                                            padorideVM.imageBoxes[getImageIndex(imageBox: box)].lastRotation = padorideVM.imageBoxes[getImageIndex(imageBox: box)].rotation
+                                                        })
+                                                )
+                                        )
+                                )
                                 .onLongPressGesture {
                                     padorideVM.toolPicker.setVisible(false, forFirstResponder: padorideVM.canvas)
                                     padorideVM.canvas.resignFirstResponder()
@@ -109,7 +128,7 @@ struct DrawingView: View {
                     Image(systemName: "scribble")
                         .foregroundStyle(.white)
                 }
-
+                
             }
             
             ToolbarItem(placement: .topBarTrailing) {
@@ -119,7 +138,9 @@ struct DrawingView: View {
                         .frame(width: 25, height: 20)
                 }
                 .onChange(of: padorideVM.pickerImageItem) { _, _ in
-                    padorideVM.loadImageFromPickerItem(padorideVM.pickerImageItem)
+                    Task {
+                        await padorideVM.loadImageFromPickerItem(padorideVM.pickerImageItem)
+                    }
                 }
             }
             

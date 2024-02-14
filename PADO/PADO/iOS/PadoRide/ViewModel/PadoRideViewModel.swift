@@ -26,20 +26,7 @@ class PadoRideViewModel: ObservableObject {
     @Published var selectedPickerImage: Image = Image("")
     @Published var selectedPickerUIImage: UIImage = UIImage()
     
-    @MainActor
-    @Published var pickerImageItem: PhotosPickerItem? {
-        didSet {
-            Task {
-                do {
-                    let (loadedUIImage, loadedSwiftUIImage) = try await UpdateImageUrl.shared.loadImage(selectedItem: pickerImageItem)
-                    self.selectedPickerUIImage = loadedUIImage
-                    self.selectedPickerImage = loadedSwiftUIImage
-                } catch {
-                    print("이미지 로드 중 오류 발생: \(error)")
-                }
-            }
-        }
-    }
+    @Published var pickerImageItem: PhotosPickerItem?
     
     // Pencil킷 관련 변수들
     @Published var canvas = PKCanvasView()
@@ -96,25 +83,25 @@ class PadoRideViewModel: ObservableObject {
     }
     
     // PhotosPickerItem에서 이미지 로드 및 처리
-    func loadImageFromPickerItem(_ pickerItem: PhotosPickerItem?) {
+    func loadImageFromPickerItem(_ pickerItem: PhotosPickerItem?) async {
         guard let pickerItem = pickerItem else { return }
 
-        // 선택한 항목에서 이미지 데이터 로드
-        pickerItem.loadTransferable(type: Data.self) { [weak self] result in
-            switch result {
-            case .success(let imageData):
-                if let imageData = imageData, let uiImage = UIImage(data: imageData) {
-                    DispatchQueue.main.async {
-                        // 이미지 데이터를 사용하여 ImageBox 생성 및 업데이트
-                        let newImageBox = ImageBox(image: Image(uiImage: uiImage))
-                        self?.imageBoxes.append(newImageBox)
-                        self?.currentImageIndex = (self?.imageBoxes.count ?? 0) - 1
-                    }
+        do {
+            // 선택한 항목에서 이미지 데이터 로드
+            guard let imageData = try await pickerItem.loadTransferable(type: Data.self) else { return }
+            
+            if let uiImage = UIImage(data: imageData) {
+                // 메인 스레드에서 UI 업데이트
+                await MainActor.run {
+                    // 이미지 데이터를 사용하여 ImageBox 생성 및 업데이트
+                    let newImageBox = ImageBox(image: Image(uiImage: uiImage))
+                    self.imageBoxes.append(newImageBox)
+                    self.currentImageIndex = self.imageBoxes.count - 1
                 }
-            case .failure(let error):
-                // 오류 처리
-                print("이미지 로딩 실패: \(error.localizedDescription)")
             }
+        } catch {
+            // 오류 처리
+            print("이미지 로딩 실패: \(error.localizedDescription)")
         }
     }
     
