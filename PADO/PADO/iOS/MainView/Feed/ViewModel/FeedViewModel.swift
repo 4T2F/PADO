@@ -10,6 +10,8 @@ import FirebaseFirestoreSwift
 import FirebaseStorage
 import SwiftUI
 
+let developerIDs: [String] = ["pado", "hanami", "legendboy", "goat", "king"]
+
 @MainActor
 class FeedViewModel:Identifiable ,ObservableObject {
 
@@ -21,6 +23,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
     @Published var followingPosts: [Post] = []
     @Published var todayPadoPosts: [Post] = []
     @Published var watchedPostIDs: Set<String> = []
+    @Published var popularUsers: [User]?
     
     @Published var selectedFeedCheckHeart: Bool = false
     @Published var postFetchLoading: Bool = false
@@ -64,6 +67,35 @@ class FeedViewModel:Identifiable ,ObservableObject {
                 await self.fetchFollowingPosts()
                 self.postFetchLoading = false
             }
+        }
+    }
+    
+    func getPopularUser() async {
+        let querySnapshot = db.collection("users")
+            .whereField("profileImageUrl", isNotEqualTo: NSNull())
+            .limit(to: 20)
+        
+        let developerSnapshot = db.collection("users")
+            .whereField("nameID", in: developerIDs)
+        
+        do {
+            let documents = try await getDocumentsAsync(collection: db.collection("users"), query: querySnapshot)
+            let developerDocuments = try await getDocumentsAsync(collection: db.collection("users"), query: developerSnapshot)
+            
+            self.popularUsers = documents.compactMap { document in
+                try? document.data(as: User.self)
+            }
+            
+            let developerUsers = developerDocuments.compactMap { document in
+                try? document.data(as: User.self)
+            }
+            
+            self.popularUsers?.append(contentsOf: developerUsers)
+            
+            self.popularUsers?.shuffle()
+
+        } catch {
+            print("포스트 가져오기 오류: \(error.localizedDescription)")
         }
     }
     
