@@ -35,8 +35,8 @@ struct SurfingView: View {
                             }
                             surfingVM.showCropView.toggle()
                         }
-                        .padding(.trailing, 17)
-                        .padding(.top, 12)
+                        .padding(.trailing, 16)
+                        .padding(.top, 7)
                         .font(.system(size: 16, weight: .semibold))
                     } else {
                         Button {
@@ -45,8 +45,8 @@ struct SurfingView: View {
                             Text("다음")
                                 .font(.system(size: 16, weight: .semibold))
                                 .foregroundStyle(.gray)
-                                .padding(.top, 12)
-                                .padding(.trailing, 17)
+                                .padding(.top, 7)
+                                .padding(.trailing, 16)
                         }
                     }
                 }
