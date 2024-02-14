@@ -5,9 +5,9 @@
 //  Created by 김명현 on 2/8/24.
 //
 
+import CoreGraphics
 import PhotosUI
 import SwiftUI
-import CoreGraphics
 
 struct DrawingView: View {
     @ObservedObject var padorideVM: PadoRideViewModel
