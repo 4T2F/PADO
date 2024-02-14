@@ -38,7 +38,6 @@ struct DrawingView: View {
                         }
                         
                         ForEach(padorideVM.textBoxes) { box in
-                            
                             Text(padorideVM.textBoxes[padorideVM.currentTextIndex].id == box.id && padorideVM.addNewBox ? "" : box.text)
                                 .font(.system(size: 30))
                                 .fontWeight(box.isBold ? .bold : .none)
@@ -49,6 +48,9 @@ struct DrawingView: View {
                                 .gesture(
                                     DragGesture()
                                         .onChanged({ value in
+                                            // 드래그 시작 시점의 offset 임시 저장
+                                            let startOffset = box.lastOffset
+
                                             // 현재 드래그 변위
                                             let currentTranslation = value.translation
                                             
@@ -60,31 +62,35 @@ struct DrawingView: View {
                                             
                                             // 확대/축소를 고려한 최종 변위 적용
                                             let adjustedTranslation = CGSize(
-                                                width: (rotatedTranslation.x + box.lastOffset.width) / box.scale,
-                                                height: (rotatedTranslation.y + box.lastOffset.height) / box.scale
+                                                width: startOffset.width + (rotatedTranslation.x / box.scale),
+                                                height: startOffset.height + (rotatedTranslation.y / box.scale)
                                             )
                                             
                                             // 변위 적용
                                             padorideVM.textBoxes[getTextIndex(textBox: box)].offset = adjustedTranslation
                                         })
+                                        .onEnded({ value in
+                                            // 드래그가 끝났을 때 lastOffset 업데이트
+                                            padorideVM.textBoxes[getTextIndex(textBox: box)].lastOffset = padorideVM.textBoxes[getTextIndex(textBox: box)].offset
+                                        })
                                         .simultaneously(with:
-                                                            MagnificationGesture()
-                                            .onChanged({ value in
-                                                padorideVM.textBoxes[getTextIndex(textBox: box)].scale = box.lastScale * value
-                                            })
+                                            MagnificationGesture()
+                                                .onChanged({ value in
+                                                    padorideVM.textBoxes[getTextIndex(textBox: box)].scale = box.lastScale * value
+                                                })
                                                 .onEnded({ value in
                                                     padorideVM.textBoxes[getTextIndex(textBox: box)].lastScale = padorideVM.textBoxes[getTextIndex(textBox: box)].scale
                                                 })
-                                                    .simultaneously(with:
-                                                                        RotationGesture()
+                                                .simultaneously(with:
+                                                    RotationGesture()
                                                         .onChanged({ value in
                                                             padorideVM.textBoxes[getTextIndex(textBox: box)].rotation = box.lastRotation + value
                                                         })
-                                                            .onEnded({ value in
-                                                                padorideVM.textBoxes[getTextIndex(textBox: box)].lastRotation = padorideVM.textBoxes[getTextIndex(textBox: box)].rotation
-                                                            })
-                                                                   )
-                                                       )
+                                                        .onEnded({ value in
+                                                            padorideVM.textBoxes[getTextIndex(textBox: box)].lastRotation = padorideVM.textBoxes[getTextIndex(textBox: box)].rotation
+                                                        })
+                                                )
+                                        )
                                 )
                                 .onLongPressGesture {
                                     padorideVM.toolPicker.setVisible(false, forFirstResponder: padorideVM.canvas)
@@ -97,7 +103,6 @@ struct DrawingView: View {
                         }
                         
                         ForEach(padorideVM.imageBoxes) { box in
-                            
                             box.image
                                 .resizable()
                                 .frame(width: box.size.width, height: box.size.height)
@@ -107,6 +112,9 @@ struct DrawingView: View {
                                 .gesture(
                                     DragGesture()
                                         .onChanged({ value in
+                                            // 드래그 시작 시점의 offset 임시 저장
+                                            let startOffset = box.lastOffset
+
                                             // 현재 드래그 변위
                                             let currentTranslation = value.translation
                                             
@@ -118,31 +126,35 @@ struct DrawingView: View {
                                             
                                             // 확대/축소를 고려한 최종 변위 적용
                                             let adjustedTranslation = CGSize(
-                                                width: (rotatedTranslation.x + box.lastOffset.width) / box.scale,
-                                                height: (rotatedTranslation.y + box.lastOffset.height) / box.scale
+                                                width: startOffset.width + (rotatedTranslation.x / box.scale),
+                                                height: startOffset.height + (rotatedTranslation.y / box.scale)
                                             )
                                             
                                             // 변위 적용
                                             padorideVM.imageBoxes[getImageIndex(imageBox: box)].offset = adjustedTranslation
                                         })
+                                        .onEnded({ value in
+                                            // 드래그가 끝났을 때 lastOffset 업데이트
+                                            padorideVM.imageBoxes[getImageIndex(imageBox: box)].lastOffset = padorideVM.imageBoxes[getImageIndex(imageBox: box)].offset
+                                        })
                                         .simultaneously(with:
-                                                            MagnificationGesture()
-                                            .onChanged({ value in
-                                                padorideVM.imageBoxes[getImageIndex(imageBox: box)].scale = box.lastScale * value
-                                            })
+                                            MagnificationGesture()
+                                                .onChanged({ value in
+                                                    padorideVM.imageBoxes[getImageIndex(imageBox: box)].scale = box.lastScale * value
+                                                })
                                                 .onEnded({ value in
                                                     padorideVM.imageBoxes[getImageIndex(imageBox: box)].lastScale = padorideVM.imageBoxes[getImageIndex(imageBox: box)].scale
                                                 })
-                                                    .simultaneously(with:
-                                                                        RotationGesture()
+                                                .simultaneously(with:
+                                                    RotationGesture()
                                                         .onChanged({ value in
                                                             padorideVM.imageBoxes[getImageIndex(imageBox: box)].rotation = box.lastRotation + value
                                                         })
-                                                            .onEnded({ value in
-                                                                padorideVM.imageBoxes[getImageIndex(imageBox: box)].lastRotation = padorideVM.imageBoxes[getImageIndex(imageBox: box)].rotation
-                                                            })
-                                                                   )
-                                                       )
+                                                        .onEnded({ value in
+                                                            padorideVM.imageBoxes[getImageIndex(imageBox: box)].lastRotation = padorideVM.imageBoxes[getImageIndex(imageBox: box)].rotation
+                                                        })
+                                                )
+                                        )
                                 )
                                 .onLongPressGesture {
                                     padorideVM.toolPicker.setVisible(false, forFirstResponder: padorideVM.canvas)
