@@ -20,7 +20,6 @@ class FeedViewModel:Identifiable ,ObservableObject {
   
     @Published var followingPosts: [Post] = []
     @Published var todayPadoPosts: [Post] = []
-    @Published var followingUsers: [String] = []
     @Published var watchedPostIDs: Set<String> = []
     
     @Published var selectedFeedCheckHeart: Bool = false
@@ -49,7 +48,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
     func findFollowingUsers() {
         guard !userNameID.isEmpty else { return }
         
-        followingUsers.removeAll()
+        userFollowingIDs.removeAll()
         listener = db.collection("users").document(userNameID).collection("following").addSnapshotListener { [weak self] (querySnapshot, error) in
             guard let self = self, let documents = querySnapshot?.documents else {
                 print("Error fetching following users: \(error?.localizedDescription ?? "Unknown error")")
@@ -57,9 +56,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
                 
             }
             
-            self.followingUsers = documents.compactMap { $0.data()["followingID"] as? String }
-
-            self.followingUsers.append(userNameID)
+            userFollowingIDs = documents.compactMap { $0.data()["followingID"] as? String }
             
             Task {
                 self.postFetchLoading = true
@@ -89,13 +86,15 @@ class FeedViewModel:Identifiable ,ObservableObject {
     private func fetchFollowingPosts() async {
         followingPosts.removeAll()
         lastFollowFetchedDocument = nil
+        guard !userFollowingIDs.isEmpty else { return }
+        
         // 현재 날짜로부터 2일 전의 날짜를 계산
         let twoDaysAgo = Calendar.current.date(byAdding: .day, value: -7, to: Date()) ?? Date()
            // Date 객체를 Timestamp로 변환
         let twoDaysAgoTimestamp = Timestamp(date: twoDaysAgo)
         
         let query = db.collection("post")
-            .whereField("ownerUid", in: followingUsers)
+            .whereField("ownerUid", in: userFollowingIDs)
             .whereField("created_Time", isGreaterThanOrEqualTo: twoDaysAgoTimestamp)
             .order(by: "created_Time", descending: true)
             .limit(to: 5)
@@ -184,7 +183,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
                 try? document.data(as: Post.self)
             }
             .filter { post in
-                followingUsers.contains(where: { $0 == post.ownerUid })
+                userFollowingIDs.contains(where: { $0 == post.ownerUid })
             }
       
             for documentData in documentsData {

@@ -37,6 +37,7 @@ struct FeedView: View {
                                     FeedCell(feedVM: feedVM,
                                              surfingVM: surfingVM,
                                              profileVM: profileVM,
+                                             feedCellType: FeedFilter.following,
                                              updateHeartData: updateHeartData,
                                              post: $feedVM.followingPosts[index],
                                              isTodayPadoPost: false, 
@@ -59,8 +60,9 @@ struct FeedView: View {
                                 FeedCell(feedVM: feedVM,
                                          surfingVM: surfingVM,
                                          profileVM: profileVM,
+                                         feedCellType: FeedFilter.today,
                                          updateHeartData: updateHeartData,
-                                         post: $feedVM.todayPadoPosts[index], 
+                                         post: $feedVM.todayPadoPosts[index],
                                          isTodayPadoPost: true,
                                          todayPadoPostIndex: index)
                                 .id(index)

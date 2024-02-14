@@ -11,6 +11,7 @@ import Kingfisher
 import Lottie
 import SwiftUI
 
+
 struct FeedCell: View {
     @State var heartLoading: Bool = false
     @State var isLoading: Bool = false
@@ -19,10 +20,7 @@ struct FeedCell: View {
     @State var surferUser: User? = nil
     @State var postOwnerButtonOnOff: Bool = false
     @State var postSurferButtonOnOff: Bool = false
-    @State var postIndex: Int = -1
     
-    @State private var heartCounts: Int = 0
-    @State private var commentCounts: Int = 0
     @State private var isShowingReportView: Bool = false
     @State private var isShowingCommentView: Bool = false
     @State private var isShowingLoginPage: Bool = false
@@ -32,6 +30,7 @@ struct FeedCell: View {
     @ObservedObject var profileVM: ProfileViewModel
     
     
+    let feedCellType: FeedFilter
     let updateHeartData: UpdateHeartData
     @Binding var post: Post
     
@@ -447,7 +446,7 @@ struct FeedCell: View {
                                 }
                                 
                                 // MARK: - 하트 숫자
-                                Text("\(heartCounts)")
+                                Text("\(post.heartsCount)")
                                     .font(.system(size: 10))
                                     .fontWeight(.semibold)
                                     .shadow(radius: 1, y: 1)
@@ -472,7 +471,7 @@ struct FeedCell: View {
                                 .presentationDetents([.large])
                                 
                                 // MARK: - 댓글 숫자
-                                Text("\(commentCounts)")
+                                Text("\(post.commentCount)")
                                     .font(.system(size: 10))
                                     .fontWeight(.semibold)
                                     .shadow(radius: 1, y: 1)
@@ -516,32 +515,27 @@ struct FeedCell: View {
         }
         .onAppear {
             Task {
-                self.postUser = await UpdateUserData.shared.getOthersProfileDatas(id: post.ownerUid)
-                self.surferUser = await UpdateUserData.shared.getOthersProfileDatas(id: post.surferUid)
-                if let postID = post.id {
-                    await fetchHeartCommentCounts(documentID: postID)
-                    isHeartCheck = await updateHeartData.checkHeartExists(documentID: postID)
+                switch feedCellType {
+                case .following:
+                    guard feedVM.followingPosts.contains(where: { $0.id == post.id }) else { return }
+                    await fetchPostData()
+                case .today:
+                    guard feedVM.todayPadoPosts.contains(where: { $0.id == post.id }) else { return }
+                    await fetchPostData()
                 }
-                self.postOwnerButtonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: post.ownerUid)
-                self.postSurferButtonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: post.surferUid)
             }
         }
     }
     
-    func fetchHeartCommentCounts(documentID: String) async {
-        let db = Firestore.firestore()
-        db.collection("post").document(documentID).addSnapshotListener { documentSnapshot, error in
-            guard let document = documentSnapshot else {
-                print("Error fetching document: \(error!)")
-                return
-            }
-            guard let data = document.data() else {
-                print("Document data was empty.")
-                return
-            }
-            print("Current data: \(data)")
-            self.heartCounts = data["heartsCount"] as? Int ?? 0
-            self.commentCounts = data["commentCount"] as? Int ?? 0
+    func fetchPostData() async {
+        self.postUser = await UpdateUserData.shared.getOthersProfileDatas(id: post.ownerUid)
+        self.surferUser = await UpdateUserData.shared.getOthersProfileDatas(id: post.surferUid)
+        if let postID = post.id {
+            isHeartCheck = await updateHeartData.checkHeartExists(documentID: postID)
         }
+        self.postOwnerButtonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: post.ownerUid)
+        self.postSurferButtonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: post.surferUid)
     }
+    
+   
 }

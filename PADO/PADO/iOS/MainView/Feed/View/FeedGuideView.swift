@@ -15,7 +15,7 @@ struct FeedGuideView: View {
                 .fontWeight(.bold)
                 
             VStack {
-                Text("계정을 팔로우하여 최신 동영상을")
+                Text("계정을 팔로우하여 최신 게시물을")
                     
                 Text("여기서 확인하세요.")
             }
@@ -43,7 +43,7 @@ struct FeedGuideView: View {
                                 .offset(x: -minX)
                                 .frame(width: cardSize.width, height: cardSize.height)
                                 .overlay {
-                                    OverlayView(card)
+                                    overlayView(card)
                                 }
                                 .clipShape(.rect(cornerRadius: 15))
                                 .shadow(color: .black.opacity(0.25), radius: 8, x: 5, y: 10)
@@ -69,7 +69,7 @@ struct FeedGuideView: View {
     }
     
     @ViewBuilder
-    func OverlayView(_ card: SuggestionModel) -> some View {
+    func overlayView(_ card: SuggestionModel) -> some View {
         ZStack(alignment: .bottomLeading, content: {
             LinearGradient(colors: [
                 .clear,
