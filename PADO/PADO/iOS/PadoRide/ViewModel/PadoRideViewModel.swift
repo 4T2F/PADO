@@ -100,6 +100,7 @@ class PadoRideViewModel: ObservableObject {
                     self.imageBoxes.append(newImageBox)
                     self.currentImageIndex = self.imageBoxes.count - 1
                     imageBoxes[currentImageIndex].size = pickerImageSize
+                    imageBoxes[currentImageIndex].isAdded = true
                 }
             }
         } catch {
@@ -119,7 +120,17 @@ class PadoRideViewModel: ObservableObject {
         }
         
         if textBoxes[currentTextIndex].isAdded {
-            textBoxes.removeLast()
+            textBoxes.remove(at: currentTextIndex)
+        }
+    }
+    
+    @MainActor
+    func deleteImage() async {
+        self.toolPicker.setVisible(true, forFirstResponder: self.canvas)
+        self.canvas.becomeFirstResponder()
+        
+        if imageBoxes[currentImageIndex].isAdded {
+            imageBoxes.remove(at: currentImageIndex)
         }
     }
     

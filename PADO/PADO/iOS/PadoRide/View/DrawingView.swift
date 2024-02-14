@@ -148,6 +148,9 @@ struct DrawingView: View {
                                     padorideVM.toolPicker.setVisible(false, forFirstResponder: padorideVM.canvas)
                                     padorideVM.canvas.resignFirstResponder()
                                     padorideVM.currentImageIndex = getImageIndex(imageBox: box)
+                                    Task {
+                                        await padorideVM.deleteImage()
+                                    }
                                 }
                         }
                     }
