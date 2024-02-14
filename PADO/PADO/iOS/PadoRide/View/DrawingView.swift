@@ -7,6 +7,7 @@
 
 import PhotosUI
 import SwiftUI
+import CoreGraphics
 
 struct DrawingView: View {
     @ObservedObject var padorideVM: PadoRideViewModel
@@ -48,33 +49,42 @@ struct DrawingView: View {
                                 .gesture(
                                     DragGesture()
                                         .onChanged({ value in
+                                            // 현재 드래그 변위
                                             let currentTranslation = value.translation
-                                            // 크기 조정을 고려한 이동 값 조정
-                                            let scale = padorideVM.textBoxes[getTextIndex(textBox: box)].scale // 현재 상자의 scale 값 가져오기
-                                            let adjustedTranslation = CGSize(
-                                                width: (currentTranslation.width + box.lastOffset.width) / scale, // scale에 따라 조정
-                                                height: (currentTranslation.height + box.lastOffset.height) / scale // scale에 따라 조정
+                                            
+                                            // 회전 각도 고려하여 드래그 변위 조정
+                                            let rotatedTranslation = CGPoint(
+                                                x: currentTranslation.width * cos(-box.rotation.radians) - currentTranslation.height * sin(-box.rotation.radians),
+                                                y: currentTranslation.width * sin(-box.rotation.radians) + currentTranslation.height * cos(-box.rotation.radians)
                                             )
+                                            
+                                            // 확대/축소를 고려한 최종 변위 적용
+                                            let adjustedTranslation = CGSize(
+                                                width: (rotatedTranslation.x + box.lastOffset.width) / box.scale,
+                                                height: (rotatedTranslation.y + box.lastOffset.height) / box.scale
+                                            )
+                                            
+                                            // 변위 적용
                                             padorideVM.textBoxes[getTextIndex(textBox: box)].offset = adjustedTranslation
                                         })
                                         .simultaneously(with:
-                                            MagnificationGesture()
-                                                .onChanged({ value in
-                                                    padorideVM.textBoxes[getTextIndex(textBox: box)].scale = box.lastScale * value
-                                                })
+                                                            MagnificationGesture()
+                                            .onChanged({ value in
+                                                padorideVM.textBoxes[getTextIndex(textBox: box)].scale = box.lastScale * value
+                                            })
                                                 .onEnded({ value in
                                                     padorideVM.textBoxes[getTextIndex(textBox: box)].lastScale = padorideVM.textBoxes[getTextIndex(textBox: box)].scale
                                                 })
-                                                .simultaneously(with:
-                                                    RotationGesture()
+                                                    .simultaneously(with:
+                                                                        RotationGesture()
                                                         .onChanged({ value in
                                                             padorideVM.textBoxes[getTextIndex(textBox: box)].rotation = box.lastRotation + value
                                                         })
-                                                        .onEnded({ value in
-                                                            padorideVM.textBoxes[getTextIndex(textBox: box)].lastRotation = padorideVM.textBoxes[getTextIndex(textBox: box)].rotation
-                                                        })
-                                                )
-                                        )
+                                                            .onEnded({ value in
+                                                                padorideVM.textBoxes[getTextIndex(textBox: box)].lastRotation = padorideVM.textBoxes[getTextIndex(textBox: box)].rotation
+                                                            })
+                                                                   )
+                                                       )
                                 )
                                 .onLongPressGesture {
                                     padorideVM.toolPicker.setVisible(false, forFirstResponder: padorideVM.canvas)
@@ -105,23 +115,23 @@ struct DrawingView: View {
                                             padorideVM.imageBoxes[getImageIndex(imageBox: box)].lastOffset = padorideVM.imageBoxes[getImageIndex(imageBox: box)].offset
                                         })
                                         .simultaneously(with:
-                                            MagnificationGesture()
-                                                .onChanged({ value in
-                                                    padorideVM.imageBoxes[getImageIndex(imageBox: box)].scale = box.lastScale * value
-                                                })
+                                                            MagnificationGesture()
+                                            .onChanged({ value in
+                                                padorideVM.imageBoxes[getImageIndex(imageBox: box)].scale = box.lastScale * value
+                                            })
                                                 .onEnded({ value in
                                                     padorideVM.imageBoxes[getImageIndex(imageBox: box)].lastScale = padorideVM.imageBoxes[getImageIndex(imageBox: box)].scale
                                                 })
-                                                .simultaneously(with:
-                                                    RotationGesture()
+                                                    .simultaneously(with:
+                                                                        RotationGesture()
                                                         .onChanged({ value in
                                                             padorideVM.imageBoxes[getImageIndex(imageBox: box)].rotation = box.lastRotation + value
                                                         })
-                                                        .onEnded({ value in
-                                                            padorideVM.imageBoxes[getImageIndex(imageBox: box)].lastRotation = padorideVM.imageBoxes[getImageIndex(imageBox: box)].rotation
-                                                        })
-                                                )
-                                        )
+                                                            .onEnded({ value in
+                                                                padorideVM.imageBoxes[getImageIndex(imageBox: box)].lastRotation = padorideVM.imageBoxes[getImageIndex(imageBox: box)].rotation
+                                                            })
+                                                                   )
+                                                       )
                                 )
                                 .onLongPressGesture {
                                     padorideVM.toolPicker.setVisible(false, forFirstResponder: padorideVM.canvas)

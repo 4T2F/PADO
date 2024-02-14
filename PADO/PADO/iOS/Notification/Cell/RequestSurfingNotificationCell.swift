@@ -59,7 +59,7 @@ struct RequestSurfingNotificationCell: View {
                 
                 if let sendPost = await
                     UpdatePostData.shared.fetchPostById(postId: notification.postID ?? "") {
-                    self.sendPostUrl = sendPost.imageUrl 
+                    self.sendPostUrl = sendPost.imageUrl
                 }
             }
         }
