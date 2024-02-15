@@ -14,10 +14,12 @@ class SurfingViewModel: ObservableObject, Searchable  {
     
     @Published var selectedImage: UIImage?
     @Published var showPhotoPicker = false
+    @Published var pickerResult: [PHPickerResult] = []
     @Published var showingPermissionAlert = false
     @Published var selectedUIImage: Image = Image(systemName: "photo")
     
     @Published var showPostView: Bool = false
+    @Published var isShowingPhotoModal = false
     @Published var isShowingPhoto: Bool = false
     @Published var isShownCamera: Bool = false
     @Published var sourceType: UIImagePickerController.SourceType = .camera
