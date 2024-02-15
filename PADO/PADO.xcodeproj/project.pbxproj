@@ -183,6 +183,7 @@
 		B107655D2B7698FE0023B686 /* FollowNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA532B56623500025422 /* FollowNotificationCell.swift */; };
 		B107655E2B7699050023B686 /* RequestSurfingNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA552B56644600025422 /* RequestSurfingNotificationCell.swift */; };
 		B10765602B7A41C20023B686 /* PostitNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B107655F2B7A41C20023B686 /* PostitNotificationCell.swift */; };
+		B13BD2C52B7D4B61007D2DA3 /* OnePostModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13BD2C42B7D4B61007D2DA3 /* OnePostModalView.swift */; };
 		B1749A652B5D755700BCC6BA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1749A642B5D755700BCC6BA /* AppDelegate.swift */; };
 		B1749A672B5E41AA00BCC6BA /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1749A662B5E41AA00BCC6BA /* Post.swift */; };
 		B198BBA02B5639D500EAA6C0 /* ModalAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B198BB9F2B5639D500EAA6C0 /* ModalAlertView.swift */; };
@@ -415,6 +416,7 @@
 		B10765592B7410C50023B686 /* FacemojiNotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacemojiNotificationCell.swift; sourceTree = "<group>"; };
 		B107655B2B7421390023B686 /* UpdatePostData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePostData.swift; sourceTree = "<group>"; };
 		B107655F2B7A41C20023B686 /* PostitNotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostitNotificationCell.swift; sourceTree = "<group>"; };
+		B13BD2C42B7D4B61007D2DA3 /* OnePostModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnePostModalView.swift; sourceTree = "<group>"; };
 		B1749A642B5D755700BCC6BA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B1749A662B5E41AA00BCC6BA /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		B198BB9F2B5639D500EAA6C0 /* ModalAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalAlertView.swift; sourceTree = "<group>"; };
@@ -770,6 +772,7 @@
 				412B3AA32B44F67100C2C7CD /* PADO.entitlements */,
 				41FD99F52B43D5EC0028D38E /* PADOApp.swift */,
 				B1749A642B5D755700BCC6BA /* AppDelegate.swift */,
+				B13BD2C42B7D4B61007D2DA3 /* OnePostModalView.swift */,
 				64D0E7472B55053500060A73 /* iOS */,
 				41FD99F92B43D5ED0028D38E /* Assets.xcassets */,
 				41FD99FB2B43D5ED0028D38E /* Preview Content */,
@@ -1533,6 +1536,7 @@
 				419742102B55900D0055F2AB /* ContentView.swift in Sources */,
 				6408FEE82B6E98E000BF0DDF /* DeleteCommentView.swift in Sources */,
 				04E9509A2B71B7860091F660 /* FaceMojiModalView.swift in Sources */,
+				B13BD2C52B7D4B61007D2DA3 /* OnePostModalView.swift in Sources */,
 				63283DBB2B73BE0100A42C0F /* SelectPostCell.swift in Sources */,
 				B1D7CDE72B5668CD0090544B /* RoundedEdge.swift in Sources */,
 				63AA035A2B68F1BE00431332 /* OffsetModifier.swift in Sources */,
