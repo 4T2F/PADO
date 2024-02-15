@@ -20,6 +20,7 @@ struct PadoRideEditView: View {
                         .toolbar {
                             ToolbarItem(placement: .navigationBarLeading) {
                                 Button {
+                                    padorideVM.toolPicker.setVisible(false, forFirstResponder: padorideVM.canvas)
                                     padorideVM.cancelImageEditing()
                                     dismiss()
                                 } label: {

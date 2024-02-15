@@ -44,7 +44,7 @@ struct PadoRideView: View {
                     }
                 }
             }
-            .navigationDestination(isPresented: $padorideVM.isShowingEditView) {
+            .fullScreenCover(isPresented: $padorideVM.isShowingEditView) {
                 PadoRideEditView(padorideVM: padorideVM)
             }
             
