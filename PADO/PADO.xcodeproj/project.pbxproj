@@ -15,9 +15,9 @@
 		048A343E2B748DB60085CE8B /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048A343D2B748DB60085CE8B /* CanvasView.swift */; };
 		048A34402B748DDF0085CE8B /* PadoRideEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048A343F2B748DDF0085CE8B /* PadoRideEditView.swift */; };
 		048A34452B7491950085CE8B /* TextBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048A34442B7491950085CE8B /* TextBox.swift */; };
-		048A344B2B7CAF490085CE8B /* PhotoTypeModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048A344A2B7CAF490085CE8B /* PhotoTypeModal.swift */; };
-		049598902B68014E0075EEF9 /* SettingAskButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0495988F2B68014E0075EEF9 /* SettingAskButton.swift */; };
 		048A34472B7C53660085CE8B /* ImageBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048A34462B7C53660085CE8B /* ImageBox.swift */; };
+		048A344B2B7CAF490085CE8B /* PhotoTypeModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048A344A2B7CAF490085CE8B /* PhotoTypeModal.swift */; };
+		048A344D2B7E07FC0085CE8B /* ToolModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048A344C2B7E07FC0085CE8B /* ToolModal.swift */; };
 		04A785E32B5FB1C800BFCB9D /* SearchCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A785E22B5FB1C800BFCB9D /* SearchCellView.swift */; };
 		04A785E72B5FB1ED00BFCB9D /* SurfingSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A785E52B5FB1ED00BFCB9D /* SurfingSearchView.swift */; };
 		04AD70EC2B6CB80F00437134 /* KeyboardHide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AD70EB2B6CB80F00437134 /* KeyboardHide.swift */; };
@@ -251,9 +251,9 @@
 		048A343D2B748DB60085CE8B /* CanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
 		048A343F2B748DDF0085CE8B /* PadoRideEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadoRideEditView.swift; sourceTree = "<group>"; };
 		048A34442B7491950085CE8B /* TextBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextBox.swift; sourceTree = "<group>"; };
-		048A344A2B7CAF490085CE8B /* PhotoTypeModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoTypeModal.swift; sourceTree = "<group>"; };
-		0495988F2B68014E0075EEF9 /* SettingAskButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingAskButton.swift; sourceTree = "<group>"; };
 		048A34462B7C53660085CE8B /* ImageBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageBox.swift; sourceTree = "<group>"; };
+		048A344A2B7CAF490085CE8B /* PhotoTypeModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoTypeModal.swift; sourceTree = "<group>"; };
+		048A344C2B7E07FC0085CE8B /* ToolModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolModal.swift; sourceTree = "<group>"; };
 		04A785E22B5FB1C800BFCB9D /* SearchCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchCellView.swift; sourceTree = "<group>"; };
 		04A785E52B5FB1ED00BFCB9D /* SurfingSearchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SurfingSearchView.swift; sourceTree = "<group>"; };
 		04AD70EB2B6CB80F00437134 /* KeyboardHide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHide.swift; sourceTree = "<group>"; };
@@ -1042,6 +1042,7 @@
 				048A343B2B748D960085CE8B /* DrawingView.swift */,
 				048A343D2B748DB60085CE8B /* CanvasView.swift */,
 				64392B792B74B66D0047BA12 /* SendPadoView.swift */,
+				048A344C2B7E07FC0085CE8B /* ToolModal.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1397,6 +1398,7 @@
 				635B094A2B4500CB009E60A9 /* User.swift in Sources */,
 				63C20BEB2B56CEDC00911F64 /* AdvancedSettingsView.swift in Sources */,
 				64392B6D2B737F080047BA12 /* PadoRideView.swift in Sources */,
+				048A344D2B7E07FC0085CE8B /* ToolModal.swift in Sources */,
 				64392B662B71D2C70047BA12 /* FeedHeaderCell.swift in Sources */,
 				64392B7A2B74B66D0047BA12 /* SendPadoView.swift in Sources */,
 				41898FB82B7874BE00F33F03 /* SelectCommentView.swift in Sources */,

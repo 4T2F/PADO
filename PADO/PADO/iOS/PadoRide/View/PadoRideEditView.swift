@@ -47,7 +47,7 @@ struct PadoRideEditView: View {
                             await padorideVM.cancelTextView()
                         }
                     } label: {
-                        Text("삭제")
+                        Text("취소")
                             .fontWeight(.heavy)
                             .foregroundColor(.white)
                             .padding()

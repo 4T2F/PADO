@@ -92,14 +92,14 @@ struct DrawingView: View {
                                                 )
                                         )
                                 )
-                                .onLongPressGesture {
-                                    padorideVM.toolPicker.setVisible(false, forFirstResponder: padorideVM.canvas)
-                                    padorideVM.canvas.resignFirstResponder()
-                                    padorideVM.currentTextIndex = getTextIndex(textBox: box)
-                                    withAnimation{
-                                        padorideVM.addNewBox = true
-                                    }
-                                }
+//                                .onLongPressGesture {
+//                                    padorideVM.toolPicker.setVisible(false, forFirstResponder: padorideVM.canvas)
+//                                    padorideVM.canvas.resignFirstResponder()
+//                                    padorideVM.currentTextIndex = getTextIndex(textBox: box)
+//                                    withAnimation{
+//                                        padorideVM.addNewBox = true
+//                                    }
+//                                }
                         }
                         
                         ForEach(padorideVM.imageBoxes) { box in
@@ -156,21 +156,32 @@ struct DrawingView: View {
                                                 )
                                         )
                                 )
-                                .onLongPressGesture {
-                                    padorideVM.toolPicker.setVisible(false, forFirstResponder: padorideVM.canvas)
-                                    padorideVM.canvas.resignFirstResponder()
-                                    padorideVM.currentImageIndex = getImageIndex(imageBox: box)
-                                    Task {
-                                        await padorideVM.deleteImage()
-                                    }
-                                }
+//                                .onLongPressGesture {
+//                                    padorideVM.toolPicker.setVisible(false, forFirstResponder: padorideVM.canvas)
+//                                    padorideVM.canvas.resignFirstResponder()
+//                                    padorideVM.currentImageIndex = getImageIndex(imageBox: box)
+//                                    Task {
+//                                        await padorideVM.deleteImage()
+//                                    }
+//                                }
                         }
                     }
                 )
             }
         }
         .toolbar {
+            Button {
+                
+            } label: {
+                Image(systemName: "plus")
+                    .resizable()
+                    .frame(width: 20, height: 20)
+            }
+
+        }
+        .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
+                // 그리기 버튼
                 Button {
                     if padorideVM.toolPicker.isVisible {
                         padorideVM.toolPicker.setVisible(false, forFirstResponder: padorideVM.canvas)
@@ -189,6 +200,7 @@ struct DrawingView: View {
             }
             
             ToolbarItem(placement: .topBarTrailing) {
+                // 사진앨범 버튼
                 PhotosPicker(selection: $padorideVM.pickerImageItem) {
                     Image(systemName: "photo")
                         .resizable()
@@ -202,6 +214,7 @@ struct DrawingView: View {
             }
             
             ToolbarItem(placement: .navigationBarTrailing) {
+                // 텍스트 박스
                 Button{
                     padorideVM.textBoxes.append(TextBox())
                     

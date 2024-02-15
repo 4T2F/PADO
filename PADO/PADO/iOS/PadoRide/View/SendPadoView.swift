@@ -12,6 +12,7 @@ struct SendPadoView: View {
     // MARK: - PROPERTY
     @ObservedObject var padorideVM: PadoRideViewModel
     @State private var surfingUser: User?
+    @State private var postLoading = false
     
     @Environment (\.dismiss) var dismiss
     
@@ -27,12 +28,15 @@ struct SendPadoView: View {
             .padding()
             
             Button {
-                padorideVM.showingModal = false
-                Task {
-                    await padorideVM.sendPostAtFirebase()
-                    padorideVM.cancelImageEditing()
-                    
-                    padorideVM.isShowingEditView = false
+                if !postLoading {
+                    postLoading = true
+                    Task {
+                        await padorideVM.sendPostAtFirebase()
+                        padorideVM.showingModal = false
+                        padorideVM.cancelImageEditing()
+                        postLoading = false
+                        padorideVM.isShowingEditView = false
+                    }
                 }
             } label: {
                 ZStack {
@@ -40,10 +44,16 @@ struct SendPadoView: View {
                         .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
                         .foregroundStyle(.blueButton)
                     
-                    Text("보내기")
-                        .font(.system(size: 16))
-                        .fontWeight(.medium)
-                        .foregroundStyle(.white)
+                    if postLoading {
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                            .scaleEffect(1.5)
+                    } else {
+                        Text("보내기")
+                            .font(.system(size: 16))
+                            .fontWeight(.medium)
+                            .foregroundStyle(.white)
+                    }
                 }
             }
         }
