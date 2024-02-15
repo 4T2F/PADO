@@ -63,15 +63,15 @@ struct FollowingCellView: View {
                 }
             }
             
-            Spacer()
             
             if cellUserId != userNameID {
-                BlueButtonView(cellUserId: cellUserId,
+                FollowButtonView(cellUserId: cellUserId,
                                buttonActive: $buttonActive,
                                activeText: "팔로우",
                                unActiveText: "팔로우 취소",
                                widthValue: 85,
-                               heightValue: 28)
+                                 heightValue: 28,
+                                 buttonType: ButtonType.unDirect)
                 .padding(.horizontal)
             }
             

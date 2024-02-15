@@ -71,6 +71,7 @@ struct CustomRefreshView<Content: View>: View {
                 }
             }
         }
+        .background(.main, ignoresSafeAreaEdges: .all)
         .scrollTargetLayout()
         .padding(.bottom, 3)
         .scrollTargetBehavior(.paging)

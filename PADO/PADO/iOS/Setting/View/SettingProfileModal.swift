@@ -45,6 +45,3 @@ struct SettingProfileModal: View {
     }
 }
 
-#Preview {
-    SettingProfileModal()
-}
