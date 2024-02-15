@@ -16,8 +16,8 @@ struct CommentView: View {
     @State private var commentText: String = ""
     @State private var isShowingComment: Bool = false
     @State var postUser: User
+    @State var post: Post
     
-    let post: Post
     let postID: String
     
     var body: some View {
@@ -30,7 +30,7 @@ struct CommentView: View {
                         if let postID = post.id {
                             FaceMojiView(commentVM: commentVM,
                                          postOwner: $postUser,
-                                         post: post,
+                                         post: $post,
                                          postID: postID)
                             .padding(2)
                         }

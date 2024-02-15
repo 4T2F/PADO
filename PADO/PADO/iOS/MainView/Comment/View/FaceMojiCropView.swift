@@ -24,6 +24,7 @@ struct FaceMojiCropView: View {
 
     
     @Binding var postOwner: User
+    @Binding var post: Post
     
     var crop: Crop = .circle
     let postID: String
@@ -46,6 +47,7 @@ struct FaceMojiCropView: View {
             .navigationDestination(isPresented: $commentVM.showEmojiView) {
                 SelectEmojiView(commentVM: commentVM,
                                 postOwner: $postOwner,
+                                post: $post, 
                                 postID: postID)
             }
             .toolbar {

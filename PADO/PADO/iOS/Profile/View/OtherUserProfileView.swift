@@ -32,8 +32,6 @@ struct OtherUserProfileView: View {
     @State private var isShowingMessageView: Bool = false
     @State private var isShowingUserReport: Bool = false
     
-    let updatePushNotiData = UpdatePushNotiData()
-    
     let user: User
     
     let columns = [GridItem(.flexible(), spacing: 1), GridItem(.flexible(), spacing: 1), GridItem(.flexible())]
@@ -238,7 +236,9 @@ struct OtherUserProfileView: View {
                                         Button {
                                             Task {
                                                 await UpdateFollowData.shared.followUser(id: user.nameID)
-                                                await updatePushNotiData.pushNoti(receiveUser: user, type: .follow)
+                                                if let currentUser = viewModel.currentUser {
+                                                    await UpdatePushNotiData.shared.pushNoti(receiveUser: user, type: .follow, sendUser: currentUser)
+                                                }
                                                 buttonOnOff.toggle()
                                             }
                                         } label: {

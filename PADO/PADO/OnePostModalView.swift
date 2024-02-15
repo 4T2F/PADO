@@ -1,8 +1,8 @@
 //
-//  GridCell.swift
+//  OnePostModalView.swift
 //  PADO
 //
-//  Created by 강치우 on 2/7/24.
+//  Created by 황민채 on 2/15/24.
 //
 
 import Firebase
@@ -11,7 +11,7 @@ import Kingfisher
 import Lottie
 import SwiftUI
 
-struct SelectPostCell: View {
+struct OnePostModalView: View {
     @ObservedObject var profileVM: ProfileViewModel
     @ObservedObject var feedVM: FeedViewModel
     
@@ -30,8 +30,7 @@ struct SelectPostCell: View {
     @State private var isShowingCommentView: Bool = false
     
     let updateHeartData: UpdateHeartData
-    @Binding var post: Post
-    let cellType: PostViewType
+    let post: Post
     
     var body: some View {
         ZStack {
@@ -404,7 +403,7 @@ struct SelectPostCell: View {
                 self.surferUser = await UpdateUserData.shared.getOthersProfileDatas(id: post.surferUid)
                 if let postID = post.id {
                     isHeartCheck = await updateHeartData.checkHeartExists(documentID: postID)
-                } 
+                }
                 self.postOwnerButtonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: post.ownerUid)
                 self.postSurferButtonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: post.surferUid)
             }

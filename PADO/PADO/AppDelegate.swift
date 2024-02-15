@@ -6,32 +6,31 @@
 //
 
 import FirebaseCore
+import FirebaseFirestore
 import FirebaseMessaging
 import Foundation
 import SwiftUI
+import UserNotifications // 푸쉬 알림 탭했을 때 특정 페이지로 이동하기 위함
 
 class AppDelegate: NSObject, UIApplicationDelegate {
+    // @EnvironmentObject var viewModel: AuthenticationViewModel
     
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         FirebaseApp.configure()
         
-        // MARK: - 사용자에게 알림 권한을 요청하고, 알림 타입(알림, 배지, 소리)을 설정
-        
-        // For iOS 10 display notification (sent via APNS)
         UNUserNotificationCenter.current().delegate = self
         
         let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
         UNUserNotificationCenter.current().requestAuthorization(
             options: authOptions,
-            completionHandler: { granted, _ in
-                
-            })
+            completionHandler: { granted, _ in }
+        )
         
         DispatchQueue.main.async {
             application.registerForRemoteNotifications()
             
-            // MARK: - firebase Messaging Delegate 설정
+            // firebase Messaging Delegate 설정
             Messaging.messaging().delegate = self // Firebase 메시징 서비스의 대리자(delegate)를 현재의 AppDelegate 객체로 설정
             
             UNUserNotificationCenter.current().delegate = self
@@ -39,12 +38,13 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         return true
     }
     
-    // MARK: - 디바이스 토큰 등록(APNS로부터 디바이스 토큰을 받고, Firebase 메시징 서비스에 등록)
-    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+    // 디바이스 토큰 등록(APNS로부터 디바이스 토큰을 받고, Firebase 메시징 서비스에 등록)
+    func application(_ application: UIApplication,
+                     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Messaging.messaging().apnsToken = deviceToken
     }
     
-    // MARK: - 앱 활성화시 기존 뱃지 카운트 0으로 변경
+    // 앱 활성화시 기존 뱃지 카운트 0으로 변경
     func applicationDidBecomeActive(_ application: UIApplication) {
         if #available(iOS 17, *) {
             UNUserNotificationCenter.current().setBadgeCount(0)
@@ -54,9 +54,11 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     }
 }
 
-// MARK: - Firebase 메시징 토큰을 받았을 때 호출, 이 토큰은 Firebase를 통해 특정 디바이스로 푸시 알림을 보낼 때 사용
+// Firebase 메시징 토큰을 받았을 때 호출, 이 토큰은 Firebase를 통해 특정 디바이스로 푸시 알림을 보낼 때 사용
 extension AppDelegate: MessagingDelegate {
-    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+    
+    func messaging(_ messaging: Messaging,
+                   didReceiveRegistrationToken fcmToken: String?) {
         
         guard let token = fcmToken else { return }
         
@@ -72,37 +74,103 @@ extension AppDelegate: MessagingDelegate {
     }
 }
 
-// MARK: - 앱이 실행 중일 때 알림이 도착했을 때 호출
+// 앱이 실행 중일 때 알림이 도착했을 때 호출
 extension AppDelegate : UNUserNotificationCenterDelegate {
+    
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         
-        let userInfo = notification.request.content.userInfo
-        
-        print("willPresent: userInfo: ", userInfo)
-        
         completionHandler([.banner, .sound, .badge])
         
-        // Notification 분기처리
-        if userInfo[AnyHashable("PADO")] as? String == "project" {
-            print("It is PADO")
-        } else {
-            print("NOTHING")
-        }
+        HapticHelper.shared.impact(style: .medium) // 햅틱알림
     }
     
-    // MARK: - 사용자가 알림에 응답했을 때 호출, 예를 들어 사용자가 알림을 탭했을 때 이 메소드가 실행
+    // 포그/백그 사용자가 푸쉬알림을 탭했을 때 이 메소드가 실행
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
+        
+        let application = UIApplication.shared
         let userInfo = response.notification.request.content.userInfo
-        print("didReceive: userInfo: ", userInfo)
+        let categoryIdentifier = response.notification.request.content.categoryIdentifier
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss" // ISO 8601 형식
+        formatter.timeZone = TimeZone(secondsFromGMT: 0) // UTC로 설정
+        
+        // 푸쉬알림 탭 분기처리
+        // 1.앱 활성화 || 2.앱 비활성화 || 3.앱 백그라운드
+        if application.applicationState == .active || application.applicationState == .inactive {
+            // 푸쉬 알람 종류 분기
+            print("푸쉬알림 탭(앱 포그/백그)")
+            switch categoryIdentifier {
+            case "profile":
+                let user = User(
+                    id: userInfo["User_id"] as? String,
+                    username: userInfo["User_username"] as? String ?? "",
+                    lowercasedName: userInfo["User_lowercasedName"] as? String ?? "",
+                    nameID: userInfo["User_nameID"] as? String ?? "",
+                    profileImageUrl: userInfo["User_profileImageUrl"] as? String,
+                    backProfileImageUrl: userInfo["User_backProfileImageUrl"] as? String,
+                    date: userInfo["User_date"] as? String ?? "",
+                    bio: userInfo["User_bio"] as? String,
+                    location: userInfo["User_location"] as? String,
+                    phoneNumber: userInfo["User_phoneNumber"] as? String ?? "",
+                    fcmToken: userInfo["User_fcmToken"] as? String ?? "",
+                    alertAccept: userInfo["User_alertAccept"] as? String ?? "",
+                    instaAddress: userInfo["User_instaAddress"] as? String ?? "",
+                    tiktokAddress: userInfo["User_tiktokAddress"] as? String ?? ""
+                )
+                NotificationCenter.default.post(name: Notification.Name("ProfileNotification"), object: user)
+                
+            case "post":
+                if let createTimeString = userInfo["Post_created_Time"] as? String,
+                   let createTime = formatter.date(from: createTimeString){
+                    let createdTimestamp = Timestamp(date: createTime)
+                    
+                    let post = Post(
+                        id: userInfo["Post_id"] as? String,
+                        ownerUid: userInfo["Post_ownerUid"] as? String ?? "",
+                        surferUid: userInfo["Post_surferUid"] as? String ?? "",
+                        imageUrl: userInfo["Post_imageUrl"] as? String ?? "",
+                        title: userInfo["Post_title"] as? String ?? "",
+                        heartsCount: Int(userInfo["Post_heartsCount"] as? String ?? "") ?? 0,
+                        commentCount: Int(userInfo["Post_commentCount"] as? String ?? "") ?? 0,
+                        hearts: nil,
+                        comments: nil,
+                        created_Time: createdTimestamp,
+                        modified_Time: nil
+                    )
+                    NotificationCenter.default.post(name: Notification.Name("PostNotification"), object: post)
+                }
+            default:
+                print("categoryIdentifier error")
+            }
+        }
         completionHandler()
     }
     
-    // MARK: - 원격 알림 수신 처리
+    // 원격 알림 수신 처리
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) async -> UIBackgroundFetchResult {
         return .noData
+    }
+}
+
+// 포그라운드에서 푸시 알림이 올 때 햅틱이 오는 기능
+class HapticHelper {
+    
+    static let shared = HapticHelper()
+    
+    private init() { }
+    
+    func notification(type: UINotificationFeedbackGenerator.FeedbackType) {
+        let generator = UINotificationFeedbackGenerator()
+        generator.notificationOccurred(type)
+    }
+    
+    func impact(style: UIImpactFeedbackGenerator.FeedbackStyle) {
+        let generator = UIImpactFeedbackGenerator(style: style)
+        generator.impactOccurred()
     }
 }

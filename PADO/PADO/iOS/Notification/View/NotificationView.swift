@@ -21,13 +21,12 @@ struct NotificationView: View {
                             .padding(.horizontal, 10)
                             .padding(.vertical, 4)
                     }
-                    .padding(.top)
                 }
             }
         }
         .background(.main, ignoresSafeAreaEdges: .all)
         .navigationBarBackButtonHidden()
-        .navigationTitle("문의하기")
+        .navigationTitle("알림")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
