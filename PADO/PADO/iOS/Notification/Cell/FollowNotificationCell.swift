@@ -56,7 +56,7 @@ struct FollowNotificationCell: View {
             FollowButtonView(cellUserId: notification.sendUser,
                            buttonActive: $buttonActive,
                            activeText: "팔로우",
-                           unActiveText: "팔로잉",
+                           unActiveText: "팔로우 취소",
                            widthValue: 85,
                              heightValue: 30, 
                              buttonType: ButtonType.direct)

@@ -15,8 +15,6 @@ struct FaceMojiView: View {
     @Binding var post: Post
     
     @State private var isShowingLoginPage: Bool = false
-    
-    let post: Post
     let postID: String
     
     var body: some View {
