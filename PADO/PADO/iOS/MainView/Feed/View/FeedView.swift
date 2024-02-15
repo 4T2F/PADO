@@ -19,8 +19,6 @@ struct FeedView: View {
     @ObservedObject var notiVM: NotificationViewModel
     @StateObject var scrollDelegate: ScrollViewModel = .init()
     
-    let updateHeartData = UpdateHeartData()
-    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -28,45 +26,38 @@ struct FeedView: View {
                                   lottieFileName: "Wave",
                                   scrollDelegate: scrollDelegate) {
                     if authenticationViewModel.selectedFilter == .following {
-                        if feedVM.followingPosts.isEmpty || userNameID.isEmpty {
-                            FeedGuideView()
-                                .offset(y: 170)
-                        } else {
-                            LazyVStack(spacing: 0) {
-                                ForEach(feedVM.followingPosts.indices, id: \.self) { index in
-                                    FeedCell(feedVM: feedVM,
-                                             surfingVM: surfingVM,
-                                             profileVM: profileVM,
-                                             feedCellType: FeedFilter.following,
-                                             updateHeartData: updateHeartData,
-                                             post: $feedVM.followingPosts[index],
-                                             isTodayPadoPost: false, 
-                                             todayPadoPostIndex: index)
-                                    .id(index)
-                                    .onAppear {
-                                        if index == feedVM.followingPosts.count - 1{
+                        ScrollViewReader { value in
+                            ForEach(feedVM.followingPosts.indices, id: \.self) { index in
+                                FeedCell(feedVM: feedVM,
+                                         surfingVM: surfingVM,
+                                         profileVM: profileVM,
+                                         feedCellType: FeedFilter.following,
+                                         post: $feedVM.followingPosts[index],
+                                         index: index)
+                                .id(index)
+                                
+                                if index == feedVM.feedItems.indices.last {
+                                    Color.clear
+                                        .onAppear {
+                                            // 스크롤 뷰의 끝에 도달했을 때 실행될 코드
                                             Task {
                                                 await feedVM.fetchFollowMorePosts()
                                             }
                                         }
-                                    }
                                 }
-                                .scrollTargetLayout()
                             }
+                            .scrollTargetLayout()
                         }
+                        
                     } else {
-                        LazyVStack(spacing: 0) {
-                            ForEach(feedVM.todayPadoPosts.indices, id: \.self) { index in
-                                FeedCell(feedVM: feedVM,
-                                         surfingVM: surfingVM,
-                                         profileVM: profileVM,
-                                         feedCellType: FeedFilter.today,
-                                         updateHeartData: updateHeartData,
-                                         post: $feedVM.todayPadoPosts[index],
-                                         isTodayPadoPost: true,
-                                         todayPadoPostIndex: index)
-                                .id(index)
-                            }
+                        ForEach(feedVM.todayPadoPosts.indices, id: \.self) { index in
+                            FeedCell(feedVM: feedVM,
+                                     surfingVM: surfingVM,
+                                     profileVM: profileVM,
+                                     feedCellType: FeedFilter.today,
+                                     post: $feedVM.todayPadoPosts[index],
+                                     index: index)
+                            .id(index)
                         }
                     }
                 } onRefresh: {

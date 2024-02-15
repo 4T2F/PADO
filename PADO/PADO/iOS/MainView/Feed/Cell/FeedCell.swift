@@ -11,7 +11,6 @@ import Kingfisher
 import Lottie
 import SwiftUI
 
-
 struct FeedCell: View {
     @State var heartLoading: Bool = false
     @State var isLoading: Bool = false
@@ -29,14 +28,10 @@ struct FeedCell: View {
     @ObservedObject var surfingVM: SurfingViewModel
     @ObservedObject var profileVM: ProfileViewModel
     
-    
     let feedCellType: FeedFilter
-    let updateHeartData: UpdateHeartData
     @Binding var post: Post
-    
-    var isTodayPadoPost: Bool
-    var todayPadoPostIndex: Int
-    
+    var index: Int
+
     var body: some View {
         ZStack {
             if feedVM.currentPadoRideIndex == nil || feedVM.padoRidePosts.isEmpty {
@@ -65,7 +60,7 @@ struct FeedCell: View {
                                     .containerRelativeFrame([.horizontal,.vertical])
                             }
                             .overlay {
-                                if isTodayPadoPost && todayPadoPostIndex == 0 {
+                                if feedCellType == .today && index == 0 {
                                     LottieView(animation: .named("pokjuk2"))
                                         .resizable()
                                         .playing()
@@ -113,7 +108,8 @@ struct FeedCell: View {
                             }
                         }
                     }
-            } else if let currentIndex = feedVM.currentPadoRideIndex, feedVM.padoRidePosts.indices.contains(currentIndex) {
+            } else if let currentIndex = feedVM.currentPadoRideIndex, 
+                        feedVM.padoRidePosts.indices.contains(currentIndex) {
                 // PadoRide 이미지 표시
                 let padoRide = feedVM.padoRidePosts[currentIndex]
                 
@@ -214,18 +210,20 @@ struct FeedCell: View {
                         }
                         VStack(alignment: .leading, spacing: 4) {
                             HStack(spacing: 4) {
-                                if isTodayPadoPost && todayPadoPostIndex == 0 {
-                                    NavigationLink {
-                                        if let postUser = postUser {
-                                            OtherUserProfileView(buttonOnOff: $postOwnerButtonOnOff,
-                                                                 user: postUser)
-                                        }
-                                    } label: {
-                                        Text("@\(post.ownerUid)")
-                                            .font(.title)
-                                            .fontWeight(.bold)
+                                
+                                NavigationLink {
+                                    if let postUser = postUser {
+                                        OtherUserProfileView(buttonOnOff: $postOwnerButtonOnOff,
+                                                             user: postUser)
                                     }
+                                } label: {
+                                    Text("@\(post.ownerUid)")
+                                        .font(.title)
+                                        .fontWeight(.bold)
                                     
+                                    
+                                }
+                                if feedCellType == .today && index == 0 {
                                     Circle()
                                         .foregroundStyle(.clear)
                                         .frame(width: 10)
@@ -233,18 +231,7 @@ struct FeedCell: View {
                                             Image("goldmedal")
                                                 .offset(x: 14, y: 6)
                                         }
-                                    
-                                } else if isTodayPadoPost && todayPadoPostIndex == 1 {
-                                    NavigationLink {
-                                        if let postUser = postUser {
-                                            OtherUserProfileView(buttonOnOff: $postOwnerButtonOnOff,
-                                                                 user: postUser)
-                                        }
-                                    } label: {
-                                        Text("@\(post.ownerUid)")
-                                            .font(.title)
-                                            .fontWeight(.bold)
-                                    }
+                                } else if feedCellType == .today && index == 1 {
                                     
                                     Circle()
                                         .foregroundStyle(.clear)
@@ -253,18 +240,7 @@ struct FeedCell: View {
                                             Image("silvermedal")
                                                 .offset(x: 14, y: 6)
                                         }
-                                } else if isTodayPadoPost && todayPadoPostIndex == 2 {
-                                    NavigationLink {
-                                        if let postUser = postUser {
-                                            OtherUserProfileView(buttonOnOff: $postOwnerButtonOnOff,
-                                                                 user: postUser)
-                                        }
-                                    } label: {
-                                        Text("@\(post.ownerUid)")
-                                            .font(.title)
-                                            .fontWeight(.bold)
-                                    }
-                                    
+                                } else if feedCellType == .today && index == 2 {
                                     Circle()
                                         .foregroundStyle(.clear)
                                         .frame(width: 10)
@@ -272,18 +248,8 @@ struct FeedCell: View {
                                             Image("bronzemedal")
                                                 .offset(x: 14, y: 6)
                                         }
-                                } else {
-                                    NavigationLink {
-                                        if let postUser = postUser {
-                                            OtherUserProfileView(buttonOnOff: $postOwnerButtonOnOff,
-                                                                 user: postUser)
-                                        }
-                                    } label: {
-                                        Text("@\(post.ownerUid)")
-                                            .font(.title)
-                                            .fontWeight(.bold)
-                                    }
                                 }
+                                
                             }
                             
                             HStack(alignment: .center, spacing: 8) {
@@ -395,8 +361,8 @@ struct FeedCell: View {
                                             Task {
                                                 heartLoading = true
                                                 if let postID = post.id {
-                                                    await updateHeartData.deleteHeart(documentID: postID)
-                                                    isHeartCheck = await updateHeartData.checkHeartExists(documentID: postID)
+                                                    await UpdateHeartData.shared.deleteHeart(documentID: postID)
+                                                    isHeartCheck = await UpdateHeartData.shared.checkHeartExists(documentID: postID)
                                                     heartLoading = false
                                                 }
                                                 if !userNameID.isEmpty {
@@ -425,8 +391,8 @@ struct FeedCell: View {
                                                 
                                                 heartLoading = true
                                                 if let postID = post.id, let postUser = postUser {
-                                                    await updateHeartData.addHeart(documentID: postID)
-                                                    isHeartCheck = await updateHeartData.checkHeartExists(documentID: postID)
+                                                    await UpdateHeartData.shared.addHeart(documentID: postID)
+                                                    isHeartCheck = await UpdateHeartData.shared.checkHeartExists(documentID: postID)
                                                     heartLoading = false
                                                     await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID, receiveUser: postUser, type: .heart, message: "")
                                                 }
@@ -518,24 +484,22 @@ struct FeedCell: View {
                 switch feedCellType {
                 case .following:
                     guard feedVM.followingPosts.contains(where: { $0.id == post.id }) else { return }
-                    await fetchPostData()
+                    await fetchPostData(post: post)
                 case .today:
                     guard feedVM.todayPadoPosts.contains(where: { $0.id == post.id }) else { return }
-                    await fetchPostData()
+                    await fetchPostData(post: post)
                 }
             }
         }
     }
     
-    func fetchPostData() async {
+    func fetchPostData(post: Post) async {
         self.postUser = await UpdateUserData.shared.getOthersProfileDatas(id: post.ownerUid)
         self.surferUser = await UpdateUserData.shared.getOthersProfileDatas(id: post.surferUid)
         if let postID = post.id {
-            isHeartCheck = await updateHeartData.checkHeartExists(documentID: postID)
+            isHeartCheck = await UpdateHeartData.shared.checkHeartExists(documentID: postID)
         }
         self.postOwnerButtonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: post.ownerUid)
         self.postSurferButtonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: post.surferUid)
     }
-    
-   
 }

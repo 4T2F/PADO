@@ -30,7 +30,6 @@ struct SelectPostCell: View {
     @State private var isShowingCommentView: Bool = false
     @State private var isShowingLoginPage: Bool = false
     
-    let updateHeartData: UpdateHeartData
     @Binding var post: Post
     let cellType: PostViewType
     
@@ -297,8 +296,8 @@ struct SelectPostCell: View {
                                             Task {
                                                 heartLoading = true
                                                 if let postID = post.id {
-                                                    await updateHeartData.deleteHeart(documentID: postID)
-                                                    isHeartCheck = await updateHeartData.checkHeartExists(documentID: postID)
+                                                    await UpdateHeartData.shared.deleteHeart(documentID: postID)
+                                                    isHeartCheck = await UpdateHeartData.shared.checkHeartExists(documentID: postID)
                                                     heartLoading = false
                                                 }
                                                 await profileVM.fetchHighlihts(id: userNameID)
@@ -322,8 +321,8 @@ struct SelectPostCell: View {
                                             Task {
                                                 heartLoading = true
                                                 if let postID = post.id, let postUser = postUser {
-                                                    await updateHeartData.addHeart(documentID: postID)
-                                                    isHeartCheck = await updateHeartData.checkHeartExists(documentID: postID)
+                                                    await UpdateHeartData.shared.addHeart(documentID: postID)
+                                                    isHeartCheck = await UpdateHeartData.shared.checkHeartExists(documentID: postID)
                                                     heartLoading = false
                                                     await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID, receiveUser: postUser, type: .heart, message: "")
                                                 }
@@ -413,7 +412,7 @@ struct SelectPostCell: View {
                 self.postUser = await UpdateUserData.shared.getOthersProfileDatas(id: post.ownerUid)
                 self.surferUser = await UpdateUserData.shared.getOthersProfileDatas(id: post.surferUid)
                 if let postID = post.id {
-                    isHeartCheck = await updateHeartData.checkHeartExists(documentID: postID)
+                    isHeartCheck = await UpdateHeartData.shared.checkHeartExists(documentID: postID)
                 } 
                 self.postOwnerButtonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: post.ownerUid)
                 self.postSurferButtonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: post.surferUid)

@@ -51,7 +51,8 @@ struct FollowNotificationCell: View {
                            activeText: "팔로우",
                            unActiveText: "팔로잉",
                            widthValue: 85,
-                           heightValue: 30)
+                             heightValue: 30, 
+                             buttonType: ButtonType.direct)
         }
         .onAppear {
             Task {

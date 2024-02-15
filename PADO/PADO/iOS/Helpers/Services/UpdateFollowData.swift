@@ -17,7 +17,7 @@ class UpdateFollowData {
         guard !userNameID.isEmpty else { return }
         
         do {
-            try await db.collection("users").document(userNameID).collection("following").document(id).setData(["followingID": id, 
+            try await db.collection("users").document(userNameID).collection("following").document(id).setData(["followingID": id,
                                                                                                                 "status": true,
                                                                                                                 "followTime": Timestamp()])
             try await db.collection("users").document(id).collection("follower").document(userNameID).setData(["followerID": userNameID])
@@ -30,8 +30,7 @@ class UpdateFollowData {
         guard !userNameID.isEmpty else { return }
         do {
             try await db.collection("users").document(userNameID).collection("following").document(id).updateData(["status": false])
-            try await db.collection("users").document(id).collection("follower").document(userNameID).delete()
-            try await db.collection("users").document(id).collection("surfer").document(userNameID).delete()
+           
         } catch {
             print("Error removing document: \(error.localizedDescription)")
         }
@@ -51,6 +50,8 @@ class UpdateFollowData {
         guard !userNameID.isEmpty else { return }
         do {
             try await db.collection("users").document(userNameID).collection("following").document(id).delete()
+            try await db.collection("users").document(userNameID).collection("surfing").document(id).delete()
+            
             try await db.collection("users").document(id).collection("follower").document(userNameID).delete()
             try await db.collection("users").document(id).collection("surfer").document(userNameID).delete()
         } catch {
@@ -63,7 +64,8 @@ class UpdateFollowData {
         do {
             try await db.collection("users").document(userNameID).collection("follower").document(id).delete()
             try await db.collection("users").document(userNameID).collection("surfer").document(id).setData(["surferID": id])
-            try await db.collection("users").document(id).collection("surfing").document(userNameID).setData(["surfingID": userNameID])
+            try await db.collection("users").document(id).collection("surfing").document(userNameID).setData(["surfingID": userNameID,
+                                                                                                              "status": true])
         } catch {
             print("Error removing document: \(error.localizedDescription)")
         }
@@ -80,28 +82,28 @@ class UpdateFollowData {
         }
     }
     
-    func fetchFollowStatusData() {
+    func fetchFollowStatusData() async {
         
         guard !userNameID.isEmpty else { return }
         
-        db.collection("users").document(userNameID).collection("following")
+        let querySnapshot = db.collection("users").document(userNameID).collection("following")
             .whereField("status", isEqualTo: false)
-            .getDocuments { (querySnapshot, err) in
-                if let err = err {
-                    print("Error getting documents: \(err)")
-                } else {
-                    for document in querySnapshot!.documents {
-                        // 각 문서에 대해 삭제 연산을 수행합니다.
-                        document.reference.delete { err in
-                            if let err = err {
-                                print("Error removing document: \(err)")
-                            } else {
-                                print("Document successfully removed!")
-                            }
-                        }
-                    }
-                }
+        
+        do {
+            let snapshot = try await querySnapshot.getDocuments()
+            
+            for document in snapshot.documents {
+                let selectID = document.data()["followingID"] as! String
+                try await db.collection("users").document(selectID).collection("follower").document(userNameID).delete()
+                try await db.collection("users").document(selectID).collection("surfer").document(userNameID).delete()
+                try await db.collection("users").document(userNameID).collection("surfing").document(selectID).delete()
+                
+                try await document.reference.delete()
             }
+        } catch {
+            print("Error removing document: \(error.localizedDescription)")
+        }
+        
     }
     
     func checkFollowingStatus(id: String) -> Bool {

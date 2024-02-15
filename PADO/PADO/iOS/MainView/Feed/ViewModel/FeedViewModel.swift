@@ -12,6 +12,11 @@ import SwiftUI
 
 let developerIDs: [String] = ["pado", "hanami", "legendboy", "goat", "king"]
 
+protocol FeedItem {}
+
+extension Post: FeedItem {}
+extension User: FeedItem {}
+
 @MainActor
 class FeedViewModel:Identifiable ,ObservableObject {
 
@@ -23,7 +28,10 @@ class FeedViewModel:Identifiable ,ObservableObject {
     @Published var followingPosts: [Post] = []
     @Published var todayPadoPosts: [Post] = []
     @Published var watchedPostIDs: Set<String> = []
-    @Published var popularUsers: [User]?
+    @Published private var popularUsersSet: Set<User> = []
+    @Published var popularUsers: [User] = []
+    
+    @Published var feedItems: [FeedItem] = []
     
     @Published var selectedFeedCheckHeart: Bool = false
     @Published var postFetchLoading: Bool = false
@@ -63,7 +71,6 @@ class FeedViewModel:Identifiable ,ObservableObject {
             
             Task {
                 self.postFetchLoading = true
-                await self.cacheWatchedData()
                 await self.fetchFollowingPosts()
                 self.postFetchLoading = false
             }
@@ -77,12 +84,13 @@ class FeedViewModel:Identifiable ,ObservableObject {
         
         let developerSnapshot = db.collection("users")
             .whereField("nameID", in: developerIDs)
-        
+       
         do {
             let documents = try await getDocumentsAsync(collection: db.collection("users"), query: querySnapshot)
+                
             let developerDocuments = try await getDocumentsAsync(collection: db.collection("users"), query: developerSnapshot)
             
-            self.popularUsers = documents.compactMap { document in
+            let newUsers = documents.compactMap { document in
                 try? document.data(as: User.self)
             }
             
@@ -90,10 +98,16 @@ class FeedViewModel:Identifiable ,ObservableObject {
                 try? document.data(as: User.self)
             }
             
-            self.popularUsers?.append(contentsOf: developerUsers)
+            // Set을 사용하여 popularUsers 업데이트
+            self.popularUsersSet = self.popularUsersSet.union(newUsers)
+            self.popularUsersSet = self.popularUsersSet.union(developerUsers)
             
-            self.popularUsers?.shuffle()
-
+            let usersSet = self.popularUsersSet.filter {
+                $0.nameID != userNameID
+            }
+            
+            self.popularUsers = Array(Array(usersSet).prefix(5))
+            
         } catch {
             print("포스트 가져오기 오류: \(error.localizedDescription)")
         }
@@ -117,6 +131,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
     // 팔로잉 중인 사용자들로부터 포스트 가져오기 (비동기적으로)
     private func fetchFollowingPosts() async {
         followingPosts.removeAll()
+        feedItems.removeAll()
         lastFollowFetchedDocument = nil
         guard !userFollowingIDs.isEmpty else { return }
         
@@ -129,7 +144,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
             .whereField("ownerUid", in: userFollowingIDs)
             .whereField("created_Time", isGreaterThanOrEqualTo: twoDaysAgoTimestamp)
             .order(by: "created_Time", descending: true)
-            .limit(to: 5)
+            .limit(to: 6)
         
         do {
             let documents = try await getDocumentsAsync(collection: db.collection("post"), query: query)
@@ -145,23 +160,24 @@ class FeedViewModel:Identifiable ,ObservableObject {
             self.lastFollowFetchedDocument = filteredDocuments.last
             
             let fetchedFollowingPosts = filteredDocuments.compactMap { document in
-                   try? document.data(as: Post.self)
-               }
+                try? document.data(as: Post.self)
+            }
             
             self.followingPosts = fetchedFollowingPosts.sorted {
                 $0.created_Time.dateValue() > $1.created_Time.dateValue()
             }
+            
+            for document in filteredDocuments {
+                guard let post = try? document.data(as: Post.self) else { continue }
+                setupSnapshotFollowingListener(for: post)
+            }
+            
+            await getPopularUser()
 
-               for document in filteredDocuments {
-                   guard let post = try? document.data(as: Post.self) else { continue }
-                   setupSnapshotFollowingListener(for: post)
-               }
-           } catch {
+        } catch {
             print("포스트 가져오기 오류: \(error.localizedDescription)")
         }
-        self.followingPosts.sort {
-            !self.watchedPostIDs.contains($0.id ?? "") && self.watchedPostIDs.contains($1.id ?? "")
-        }
+        
     }
     
     // 오늘 파도 포스트 가져오기
@@ -220,9 +236,9 @@ class FeedViewModel:Identifiable ,ObservableObject {
       
             for documentData in documentsData {
                 setupSnapshotFollowingListener(for: documentData)
-                self.followingPosts.append(documentData)
+                feedItems.append(documentData)
             }
-
+            
         } catch {
             print("포스트 가져오기 오류: \(error.localizedDescription)")
         }

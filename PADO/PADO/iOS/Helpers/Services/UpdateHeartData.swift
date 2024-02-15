@@ -12,6 +12,8 @@ import SwiftUI
 
 class UpdateHeartData {
     
+    static let shared = UpdateHeartData()
+    
     let db = Firestore.firestore()
     
     func addHeart(documentID: String) async {

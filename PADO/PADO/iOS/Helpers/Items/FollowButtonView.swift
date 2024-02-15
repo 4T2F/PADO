@@ -7,6 +7,11 @@
 
 import SwiftUI
 
+enum ButtonType {
+    case direct
+    case unDirect
+}
+
 struct FollowButtonView: View {
     
     let cellUserId: String
@@ -15,12 +20,18 @@ struct FollowButtonView: View {
     let unActiveText: String
     let widthValue: CGFloat
     let heightValue: CGFloat
+    let buttonType: ButtonType
     
     var body: some View {
         Button(action: {
             if buttonActive {
                 Task {
-                    await UpdateFollowData.shared.unfollowUser(id: cellUserId)
+                    switch buttonType {
+                    case .direct:
+                        await UpdateFollowData.shared.directUnfollowUser(id: cellUserId)
+                    case .unDirect:
+                        await UpdateFollowData.shared.unfollowUser(id: cellUserId)
+                    }
                 }
                 buttonActive.toggle()
             } else if !userNameID.isEmpty {

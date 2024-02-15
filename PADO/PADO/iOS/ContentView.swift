@@ -122,9 +122,7 @@ struct ContentView: View {
         .tint(.white)
         .onAppear {
             fetchData()
-            Task {
-                await feedVM.getPopularUser()
-            }
+           
         }
         .onChange(of: viewModel.needsDataFetch) { _, newValue in
             feedVM.findFollowingUsers()

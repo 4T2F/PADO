@@ -33,6 +33,7 @@
 		412B3A9C2B44F65100C2C7CD /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 412B3A9B2B44F65100C2C7CD /* FirebaseFirestoreSwift */; };
 		412B3A9E2B44F65100C2C7CD /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 412B3A9D2B44F65100C2C7CD /* FirebaseMessaging */; };
 		412B3AA02B44F65100C2C7CD /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 412B3A9F2B44F65100C2C7CD /* FirebaseStorage */; };
+		416F61F82B7DF50B00F81093 /* FeedGuideCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416F61F72B7DF50B00F81093 /* FeedGuideCell.swift */; };
 		41711EF22B70AA0A00F0A1A7 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41711EF12B70AA0A00F0A1A7 /* NotificationService.swift */; };
 		41711EF62B70AA0A00F0A1A7 /* NotificationService.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 41711EEF2B70AA0A00F0A1A7 /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		41711F402B716E4E00F0A1A7 /* UpdateCommentData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41711F3F2B716E4E00F0A1A7 /* UpdateCommentData.swift */; };
@@ -263,6 +264,7 @@
 		41101B3C2B6C28F3002E8C64 /* FollowerOtherUserCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerOtherUserCellView.swift; sourceTree = "<group>"; };
 		412B3AA32B44F67100C2C7CD /* PADO.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PADO.entitlements; sourceTree = "<group>"; };
 		412B3AA42B44F6EC00C2C7CD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		416F61F72B7DF50B00F81093 /* FeedGuideCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedGuideCell.swift; sourceTree = "<group>"; };
 		41711EEF2B70AA0A00F0A1A7 /* NotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		41711EF12B70AA0A00F0A1A7 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		41711EF32B70AA0A00F0A1A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -823,6 +825,7 @@
 			children = (
 				6373235D2B71552D00C02A32 /* FeedCell.swift */,
 				64392B652B71D2C70047BA12 /* FeedHeaderCell.swift */,
+				416F61F72B7DF50B00F81093 /* FeedGuideCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -1508,6 +1511,7 @@
 				B1999ED92B6E1A6F005B37BA /* UpdatePushNotiData.swift in Sources */,
 				64392B7C2B76852D0047BA12 /* PadoRide.swift in Sources */,
 				63C20BED2B56CFAF00911F64 /* AdvancedSettingsCell.swift in Sources */,
+				416F61F82B7DF50B00F81093 /* FeedGuideCell.swift in Sources */,
 				4197420F2B55900D0055F2AB /* MainView.swift in Sources */,
 				64392B6F2B73803E0047BA12 /* SufferInfoCell.swift in Sources */,
 				419742102B55900D0055F2AB /* ContentView.swift in Sources */,
