@@ -29,8 +29,8 @@ struct PadoRideView: View {
                     } label: {
                         Text("다음")
                             .foregroundStyle(.gray)
-                            .font(.system(size: 14, weight: .semibold))
-                            .padding(.trailing, 10)
+                            .font(.system(size: 16, weight: .semibold))
+                            .padding(.trailing, 18)
                     }
                 } else {
                     Button {
@@ -39,8 +39,8 @@ struct PadoRideView: View {
                     } label: {
                         Text("다음")
                             .foregroundStyle(.white)
-                            .font(.system(size: 14, weight: .semibold))
-                            .padding(.trailing, 10)
+                            .font(.system(size: 16, weight: .semibold))
+                            .padding(.trailing, 18)
                     }
                 }
             }

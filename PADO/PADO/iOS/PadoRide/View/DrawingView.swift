@@ -30,12 +30,7 @@ struct DrawingView: View {
                                    canvas: $padorideVM.canvas,
                                    toolPicker: $padorideVM.toolPicker,
                                    rect: size.size)
-                        .onTapGesture {
-                            Task {
-                                padorideVM.toolPicker.setVisible(true, forFirstResponder: padorideVM.canvas)
-                                padorideVM.canvas.becomeFirstResponder()
-                            }
-                        }
+                        
                         
                         ForEach(padorideVM.textBoxes) { box in
                             Text(padorideVM.textBoxes[padorideVM.currentTextIndex].id == box.id && padorideVM.addNewBox ? "" : box.text)
@@ -170,16 +165,6 @@ struct DrawingView: View {
             }
         }
         .toolbar {
-            Button {
-                
-            } label: {
-                Image(systemName: "plus")
-                    .resizable()
-                    .frame(width: 20, height: 20)
-            }
-
-        }
-        .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 // 그리기 버튼
                 Button {
@@ -239,6 +224,7 @@ struct DrawingView: View {
                 } label: {
                     Text("다음")
                         .foregroundStyle(.white)
+                        .font(.system(size:16, weight: .semibold))
                 }
             }
         }

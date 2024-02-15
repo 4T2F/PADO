@@ -5,7 +5,6 @@
 //  Created by 김명현 on 2/8/24.
 //
 
-import PencilKit
 import SwiftUI
 
 struct PadoRideEditView: View {
