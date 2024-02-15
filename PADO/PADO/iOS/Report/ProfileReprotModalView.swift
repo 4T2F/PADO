@@ -8,7 +8,10 @@
 import SwiftUI
 
 struct ReprotProfileModalView: View {
+    @ObservedObject var profileVM: ProfileViewModel
     @State private var isShowingReportView: Bool = false
+    
+    let user: User
     
     var body: some View {
         ZStack {
@@ -38,10 +41,20 @@ struct ReprotProfileModalView: View {
                 
                 VStack {
                     Button {
-                        //
+                        Task {
+                            if profileVM.isUserBlocked {
+                                // 차단 해제 로직
+                                await profileVM.unblockUser(userID: userNameID, toUnblockID: user.nameID)
+                                profileVM.isUserBlocked = false
+                            } else {
+                                // 차단 로직
+                                await profileVM.blockUser(userID: userNameID, toBlockID: user.nameID)
+                                profileVM.isUserBlocked = true
+                            }
+                        }
                     } label: {
                         HStack {
-                            Text("차단")
+                            Text(profileVM.isUserBlocked ? "차단 해제" : "차단")
                                 .font(.system(size: 14))
                                 .fontWeight(.bold)
                                 .foregroundStyle(.red)
@@ -52,6 +65,12 @@ struct ReprotProfileModalView: View {
                                 .foregroundStyle(.red)
                                 .font(.system(size: 14))
                                 .fontWeight(.bold)
+                        }
+                    }
+                    .onAppear {
+                        profileVM.isUserBlocked = profileVM.blockedUsersIDs.contains(user.nameID)
+                        Task {
+                            await profileVM.fetchBlockedUsers(for: userNameID, targetUserID: user.nameID)
                         }
                     }
                     

@@ -97,7 +97,7 @@ struct OtherUserProfileView: View {
                         
                         if user.nameID == userNameID {
                             NavigationLink {
-                                SettingView()
+                                SettingView(profileVM: profileVM)
                             } label: {
                                 Image("more")
                                     .foregroundStyle(.white)
@@ -109,7 +109,7 @@ struct OtherUserProfileView: View {
                                 Image(systemName: "ellipsis")
                             }
                             .sheet(isPresented: $isShowingUserReport) {
-                                ReprotProfileModalView()
+                                ReprotProfileModalView(profileVM: profileVM, user: user)
                                     .presentationDetents([.fraction(0.33)])
                                     .presentationDragIndicator(.visible)
                                     .presentationCornerRadius(30)

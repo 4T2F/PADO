@@ -83,7 +83,7 @@ struct ProfileView: View {
                             }
                             
                             NavigationLink {
-                                SettingView()
+                                SettingView(profileVM: profileVM)
                             } label: {
                                 Image("more")
                                     .foregroundStyle(.white)

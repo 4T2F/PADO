@@ -21,8 +21,91 @@ class ProfileViewModel: ObservableObject {
     @Published var highlights: [Post] = []
     @Published var headerOffsets: (CGFloat, CGFloat) = (0, 0)
     @Published var selectedPostID: String = ""
+    @Published var blockedUsersIDs: [String] = []
+    @Published var blockedUsers: [BlockedUser] = []
+    @Published var isUserBlocked: Bool = false
     
     private var db = Firestore.firestore()
+    
+    @MainActor
+    func fetchBlockedUsersDetail(userID: String) async {
+        blockedUsers.removeAll()
+        do {
+            // 차단된 사용자의 문서 ID를 가져옵니다.
+            let blockedSnapshot = try await db.collection("users").document(userID).collection("blockedUsers").getDocuments()
+            
+            // 차단된 각 사용자의 상세 정보를 조회합니다.
+            for document in blockedSnapshot.documents {
+                let blockedUserID = document.documentID
+                
+                // 각 차단된 사용자의 사용자 문서에서 이름을 조회합니다.
+                let userDoc = try await db.collection("users").document(blockedUserID).getDocument()
+                if let userName = userDoc.data()?["name"] as? String {
+                    let user = BlockedUser(id: blockedUserID, name: userName)
+                    blockedUsers.append(user)
+                }
+            }
+        } catch {
+            print("Error fetching blocked users detail: \(error)")
+        }
+    }
+    
+    // Firestore에서 userID에 해당하는 사용자의 차단 목록 불러오기
+    @MainActor
+    func fetchBlockedUsers(for userID: String, targetUserID: String) async {
+        do {
+            let snapshot = try await db.collection("users").document(userID).collection("blockedUsers").getDocuments()
+            self.blockedUsersIDs = snapshot.documents.map { $0.documentID }
+            self.isUserBlocked = self.blockedUsersIDs.contains(targetUserID)
+        } catch let error {
+            print("Error loading blocked users: \(error.localizedDescription)")
+        }
+    }
+    
+    @MainActor
+    func blockUser(userID: String, toBlockID: String) async {
+        let blockedRef = db.collection("users").document(userID).collection("blockedUsers").document(toBlockID)
+        do {
+            try await blockedRef.setData([
+                "name": toBlockID,
+                "blockedAt": Timestamp()
+            ])
+            if !self.blockedUsersIDs.contains(toBlockID) {
+                self.blockedUsersIDs.append(toBlockID)
+            }
+        } catch {
+            print("Error blocking user: \(error.localizedDescription)")
+        }
+    }
+    
+    @MainActor
+    func unblockUser(userID: String, toUnblockID: String) async {
+        guard !userID.isEmpty, !toUnblockID.isEmpty else { return }
+        
+        let unblockRef = db.collection("users").document(userID).collection("blockedUsers").document(toUnblockID)
+        
+        do {
+            try await unblockRef.delete()
+            if let index = self.blockedUsersIDs.firstIndex(of: toUnblockID) {
+                self.blockedUsersIDs.remove(at: index)
+            }
+        } catch let error {
+            print("Error unblocking user: \(error.localizedDescription)")
+        }
+    }
+    
+    @MainActor
+    func fetchPadoPosts(id: String, blockedUsers: [String]) async {
+        padoPosts.removeAll()
+        do {
+            let padoQuerySnapshot = try await db.collection("users").document(id).collection("mypost").whereField("userID", notIn: blockedUsers).order(by: "created_Time", descending: true).getDocuments()
+            for document in padoQuerySnapshot.documents {
+                await fetchPostData(documentID: document.documentID, inputType: InputPostType.pado)
+            }
+        } catch {
+            print("Error fetching posts: \(error.localizedDescription)")
+        }
+    }
     
     // URL Scheme을 사용하여 앱 열기 시도, 앱이 설치 되지 않았다면 대체 웹 URL로 이동
     func openSocialMediaApp(urlScheme: String, fallbackURL: String) {
@@ -85,12 +168,12 @@ class ProfileViewModel: ObservableObject {
         do {
             let docRef = db.collection("post").document(documentID)
             let querySnapshot = try await docRef.getDocument()
-
+            
             guard var post = try? querySnapshot.data(as: Post.self) else {
                 print("\(documentID)는 삭제된 게시글입니다")
                 return
             }
-
+            
             // 스냅샷 리스너 설정
             docRef.addSnapshotListener { documentSnapshot, error in
                 guard let document = documentSnapshot, let data = document.data() else {
@@ -105,12 +188,12 @@ class ProfileViewModel: ObservableObject {
                 self.updatePostArray(post: post, inputType: inputType)
             }
             
-
+            
         } catch {
             print("Error fetching user: \(error.localizedDescription)")
         }
     }
-
+    
     private func updatePostArray(post: Post, inputType: InputPostType) {
         switch inputType {
         case .pado:
@@ -133,5 +216,5 @@ class ProfileViewModel: ObservableObject {
             }
         }
     }
-
+    
 }
