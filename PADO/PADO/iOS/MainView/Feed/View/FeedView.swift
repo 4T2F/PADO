@@ -35,8 +35,8 @@ struct FeedView: View {
                                          surfingVM: surfingVM,
                                          profileVM: profileVM,
                                          updateHeartData: updateHeartData,
-                                         post: $feedVM.followingPosts[index], 
-                                         isTodayPadoPost: false, 
+                                         post: $feedVM.followingPosts[index],
+                                         isTodayPadoPost: false,
                                          todayPadoPostIndex: index)
                                 .id(index)
                                 .onAppear {
@@ -56,7 +56,7 @@ struct FeedView: View {
                                          surfingVM: surfingVM,
                                          profileVM: profileVM,
                                          updateHeartData: updateHeartData,
-                                         post: $feedVM.todayPadoPosts[index], 
+                                         post: $feedVM.todayPadoPosts[index],
                                          isTodayPadoPost: true,
                                          todayPadoPostIndex: index)
                                 .id(index)
@@ -75,7 +75,7 @@ struct FeedView: View {
                     }
                 }
                 .scrollDisabled(feedVM.isShowingPadoRide)
-               
+                
                 VStack {
                     if !feedVM.isShowingPadoRide {
                         if scrollDelegate.scrollOffset < 5 {

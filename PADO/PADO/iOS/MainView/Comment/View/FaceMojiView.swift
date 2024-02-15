@@ -12,8 +12,8 @@ struct FaceMojiView: View {
     @StateObject var surfingVM = SurfingViewModel()
     
     @Binding var postOwner: User
+    @Binding var post: Post
     
-    let post: Post
     let postID: String
     
     var body: some View {
@@ -70,7 +70,9 @@ struct FaceMojiView: View {
                     .navigationDestination(isPresented: $commentVM.showCropFaceMoji) {
                         FaceMojiCropView(commentVM: commentVM,
                                          postOwner: $postOwner,
-                                         postID: postID) { croppedImage, status in
+                                         post: $post,
+                                         postID: postID)
+                        { croppedImage, status in
                             if let croppedImage {
                                 commentVM.cropMojiUIImage = croppedImage
                             }

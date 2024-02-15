@@ -114,7 +114,8 @@ struct CommentWriteView: View {
                                     await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID,
                                                                                  receiveUser: postUser,
                                                                                  type: .comment,
-                                                                                 message: commentText)
+                                                                                 message: commentText, 
+                                                                                 post: post)
                                     await commentVM.updateCommentData.writeComment(documentID: postID,
                                                                                    imageUrl: viewModel.currentUser?.profileImageUrl ?? "",
                                                                                    inputcomment: commentText)
