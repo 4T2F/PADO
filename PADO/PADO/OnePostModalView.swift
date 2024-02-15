@@ -1,8 +1,8 @@
 //
-//  GridCell.swift
+//  OnePostModalView.swift
 //  PADO
 //
-//  Created by 강치우 on 2/7/24.
+//  Created by 황민채 on 2/15/24.
 //
 
 import Firebase
@@ -11,7 +11,7 @@ import Kingfisher
 import Lottie
 import SwiftUI
 
-struct SelectPostCell: View {
+struct OnePostModalView: View {
     @ObservedObject var profileVM: ProfileViewModel
     @ObservedObject var feedVM: FeedViewModel
     
@@ -28,10 +28,9 @@ struct SelectPostCell: View {
     @State private var commentCounts: Int = 0
     @State private var isShowingReportView: Bool = false
     @State private var isShowingCommentView: Bool = false
-    @State private var isShowingLoginPage: Bool = false
     
-    @Binding var post: Post
-    let cellType: PostViewType
+    let updateHeartData: UpdateHeartData
+    let post: Post
     
     var body: some View {
         ZStack {
@@ -296,8 +295,8 @@ struct SelectPostCell: View {
                                             Task {
                                                 heartLoading = true
                                                 if let postID = post.id {
-                                                    await UpdateHeartData.shared.deleteHeart(documentID: postID)
-                                                    isHeartCheck = await UpdateHeartData.shared.checkHeartExists(documentID: postID)
+                                                    await updateHeartData.deleteHeart(documentID: postID)
+                                                    isHeartCheck = await updateHeartData.checkHeartExists(documentID: postID)
                                                     heartLoading = false
                                                 }
                                                 await profileVM.fetchHighlihts(id: userNameID)
@@ -317,12 +316,12 @@ struct SelectPostCell: View {
                                     }
                                 } else {
                                     Button {
-                                        if !userNameID.isEmpty && !heartLoading {
+                                        if !heartLoading {
                                             Task {
                                                 heartLoading = true
                                                 if let postID = post.id, let postUser = postUser {
-                                                    await UpdateHeartData.shared.addHeart(documentID: postID)
-                                                    isHeartCheck = await UpdateHeartData.shared.checkHeartExists(documentID: postID)
+                                                    await updateHeartData.addHeart(documentID: postID)
+                                                    isHeartCheck = await updateHeartData.checkHeartExists(documentID: postID)
                                                     heartLoading = false
                                                     await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID,
                                                                                                  receiveUser: postUser,
@@ -333,15 +332,10 @@ struct SelectPostCell: View {
                                                 await profileVM.fetchHighlihts(id: userNameID)
                                                 
                                             }
-                                        } else {
-                                            isShowingLoginPage = true
                                         }
                                     } label: {
                                         Image("heart")
                                     }
-                                    .sheet(isPresented: $isShowingLoginPage, content: {
-                                        StartView()
-                                    })
                                 }
                                 
                                 // MARK: - 하트 숫자
@@ -378,11 +372,7 @@ struct SelectPostCell: View {
                             // MARK: - 신고하기
                             VStack(spacing: 10) {
                                 Button {
-                                    if !userNameID.isEmpty {
-                                        isShowingReportView.toggle()
-                                    } else {
-                                        isShowingLoginPage = true
-                                    }
+                                    isShowingReportView.toggle()
                                 } label: {
                                     VStack {
                                         Text("...")
@@ -398,10 +388,6 @@ struct SelectPostCell: View {
                                         .presentationDetents([.medium, .fraction(0.8)]) // 모달높이 조절
                                         .presentationDragIndicator(.visible)
                                 }
-                                .sheet(isPresented: $isShowingLoginPage, content: {
-                                    StartView()
-                                        .presentationDragIndicator(.visible)
-                                })
                             }
                             .padding(.top, -15)
                         }
@@ -416,8 +402,8 @@ struct SelectPostCell: View {
                 self.postUser = await UpdateUserData.shared.getOthersProfileDatas(id: post.ownerUid)
                 self.surferUser = await UpdateUserData.shared.getOthersProfileDatas(id: post.surferUid)
                 if let postID = post.id {
-                    isHeartCheck = await UpdateHeartData.shared.checkHeartExists(documentID: postID)
-                } 
+                    isHeartCheck = await updateHeartData.checkHeartExists(documentID: postID)
+                }
                 self.postOwnerButtonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: post.ownerUid)
                 self.postSurferButtonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: post.surferUid)
             }

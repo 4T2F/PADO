@@ -9,6 +9,7 @@ import Kingfisher
 import SwiftUI
 
 struct FollowerUserCellView: View {
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     @ObservedObject var followVM: FollowViewModel
     
     @State private var followerUsername: String = ""
@@ -104,7 +105,9 @@ struct FollowerUserCellView: View {
                 Button {
                     Task {
                         await UpdateFollowData.shared.registerSurfer(id: cellUserId)
-                        await UpdatePushNotiData().pushNoti(receiveUser: profileUser!, type: .surfer)
+                        if let currentUser = viewModel.currentUser {
+                            await UpdatePushNotiData.shared.pushNoti(receiveUser: profileUser!, type: .surfer, sendUser: currentUser)
+                        }
                     }
                 } label: {
                     ZStack {

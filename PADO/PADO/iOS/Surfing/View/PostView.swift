@@ -147,7 +147,14 @@ struct PostView: View {
                                                             surfingID: followVM.selectSurfingID)
             
                                 postOwner = await UpdateUserData.shared.getOthersProfileDatas(id: followVM.selectSurfingID)
-                                await UpdatePushNotiData.shared.pushPostNoti(targetPostID: formattedPostingTitle, receiveUser: postOwner!, type: .requestSurfing, message: "\($surfingVM.postingTitle)") // 예시 postID 넣어둠
+                                
+                                if let post = surfingVM.post?.last {
+                                    await UpdatePushNotiData.shared.pushPostNoti(targetPostID: formattedPostingTitle,
+                                                                                 receiveUser: postOwner!,
+                                                                                 type: .requestSurfing,
+                                                                                 message: surfingVM.postingTitle,
+                                                                                 post: post)
+                                }
                                 
                                 surfingVM.resetImage()
                                 
@@ -170,7 +177,7 @@ struct PostView: View {
                         .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
                         .foregroundStyle(.blueButton)
                     
-                    Text("게시요청")
+                    Text("게시하기")
                         .font(.system(size: 16))
                         .fontWeight(.medium)
                         .foregroundStyle(.white)

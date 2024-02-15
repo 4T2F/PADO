@@ -72,7 +72,7 @@ struct FeedView: View {
                     }
                 }
                 .scrollDisabled(feedVM.isShowingPadoRide)
-               
+                
                 VStack {
                     if !feedVM.isShowingPadoRide {
                         if scrollDelegate.scrollOffset < 5 {

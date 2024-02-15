@@ -20,6 +20,7 @@ struct SelectEmojiView: View {
     @ObservedObject var commentVM: CommentViewModel
     
     @Binding var postOwner: User
+    @Binding var post: Post
     
     let postID: String
     let emojis = ["None", "👍", "🥰", "🤣", "😡", "😢"]
@@ -88,7 +89,11 @@ struct SelectEmojiView: View {
                                                                        selectedEmoji: commentVM.selectedEmoji)
                 }
                 commentVM.facemojies = try await commentVM.updateFacemojiData.getFaceMoji(documentID: postID) ?? []
-                await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID, receiveUser: postOwner, type: .facemoji, message: "")
+                await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID, 
+                                                             receiveUser: postOwner,
+                                                             type: .facemoji,
+                                                             message: "",
+                                                             post: post)
             }
             commentVM.showEmojiView = false
             commentVM.showCropFaceMoji = false

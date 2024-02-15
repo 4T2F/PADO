@@ -71,6 +71,9 @@ struct PostitView: View {
                                         await postitVM.writeMessage(ownerID: postitVM.ownerID,
                                                                     imageUrl: viewModel.currentUser?.profileImageUrl ?? "",
                                                                     inputcomment: postitVM.inputcomment)
+                                        if let user = postitVM.messageUsers[postitVM.ownerID], let currentUser = viewModel.currentUser {
+                                            await UpdatePushNotiData.shared.pushNoti(receiveUser: user, type: .postit, sendUser: currentUser)
+                                        }
                                     }
                                 } else {
                                     isShowingLoginPage = true

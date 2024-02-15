@@ -46,7 +46,6 @@ struct SelectCommentView: View {
                                 commentVM.showselectModal = false
                             }
                         }
-                        
                         commentVM.showselectModal = false
                     } label: {
                         ZStack {

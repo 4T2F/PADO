@@ -1,14 +1,14 @@
 //
-//  CreateFeedCell.swift
+//  PostitNotificationCell.swift
 //  PADO
 //
-//  Created by 강치우 on 1/16/24.
+//  Created by 황민채 on 2/12/24.
 //
 
 import Kingfisher
 import SwiftUI
 
-struct RequestSurfingNotificationCell: View {
+struct PostitNotificationCell: View {
     @State var sendUserProfileUrl: String = ""
     @State var sendPostUrl: String = ""
     
@@ -32,7 +32,7 @@ struct RequestSurfingNotificationCell: View {
             
             VStack(alignment: .leading, spacing: 4) {
                 HStack {
-                    Text("\(notification.sendUser)님이 회원님에게 파도를 보냈어요. 확인해주세요! ")
+                    Text("\(notification.sendUser)님이 회원님의 방명록에 글을 남겼습니다. ")
                         .font(.system(size: 14))
                         .fontWeight(.medium)
                     +
@@ -55,11 +55,6 @@ struct RequestSurfingNotificationCell: View {
             Task {
                 if let sendUserProfile = await UpdateUserData.shared.getOthersProfileDatas(id: notification.sendUser) {
                     self.sendUserProfileUrl = sendUserProfile.profileImageUrl ?? ""
-                }
-                
-                if let sendPost = await
-                    UpdatePostData.shared.fetchPostById(postId: notification.postID ?? "") {
-                    self.sendPostUrl = sendPost.imageUrl
                 }
             }
         }
