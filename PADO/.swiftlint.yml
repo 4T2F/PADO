@@ -32,6 +32,7 @@ disabled_rules:
   - void_function_in_ternary
   - closure_end_indentation
   - closing_brace
+  - force_cast
   
 # 옵트 인 룰
 opt_in_rules:
