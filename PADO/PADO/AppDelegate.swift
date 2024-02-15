@@ -13,13 +13,12 @@ import SwiftUI
 import UserNotifications // 푸쉬 알림 탭했을 때 특정 페이지로 이동하기 위함
 
 class AppDelegate: NSObject, UIApplicationDelegate {
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    // @EnvironmentObject var viewModel: AuthenticationViewModel
     
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         FirebaseApp.configure()
-
-        // For iOS 10 display notification (sent via APNS)
+        
         UNUserNotificationCenter.current().delegate = self
         
         let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
@@ -40,7 +39,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     }
     
     // 디바이스 토큰 등록(APNS로부터 디바이스 토큰을 받고, Firebase 메시징 서비스에 등록)
-    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+    func application(_ application: UIApplication,
+                     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Messaging.messaging().apnsToken = deviceToken
     }
     
@@ -56,7 +56,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
 // Firebase 메시징 토큰을 받았을 때 호출, 이 토큰은 Firebase를 통해 특정 디바이스로 푸시 알림을 보낼 때 사용
 extension AppDelegate: MessagingDelegate {
-    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+    
+    func messaging(_ messaging: Messaging,
+                   didReceiveRegistrationToken fcmToken: String?) {
         
         guard let token = fcmToken else { return }
         
@@ -98,10 +100,10 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         formatter.timeZone = TimeZone(secondsFromGMT: 0) // UTC로 설정
         
         // 푸쉬알림 탭 분기처리
-        // 1.앱 켜져있음
-        if application.applicationState == .active {
+        // 1.앱 활성화 || 2.앱 비활성화 || 3.앱 백그라운드
+        if application.applicationState == .active || application.applicationState == .inactive {
             // 푸쉬 알람 종류 분기
-            print("푸쉬알림 탭(앱 켜져있음)")
+            print("푸쉬알림 탭(앱 포그/백그)")
             switch categoryIdentifier {
             case "profile":
                 let user = User(
@@ -123,11 +125,9 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                 NotificationCenter.default.post(name: Notification.Name("ProfileNotification"), object: user)
                 
             case "post":
-                print("여기 사람있어요1~~")
                 if let createTimeString = userInfo["Post_created_Time"] as? String,
                    let createTime = formatter.date(from: createTimeString){
                     let createdTimestamp = Timestamp(date: createTime)
-                    print("하하하")
                     
                     let post = Post(
                         id: userInfo["Post_id"] as? String,
@@ -143,57 +143,6 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                         modified_Time: nil
                     )
                     NotificationCenter.default.post(name: Notification.Name("PostNotification"), object: post)
-                    print("여기 사람있어요2~~\(post.heartsCount)")
-                }
-            default:
-                print("categoryIdentifier error")
-            }
-        }
-        // 2.앱 꺼져있음
-        if application.applicationState == .inactive {
-            print("푸쉬알림 탭(앱 꺼져있음)")
-            switch categoryIdentifier {
-            case "profile":
-                let user = User(
-                    id: userInfo["User_id"] as? String,
-                    username: userInfo["User_username"] as? String ?? "",
-                    lowercasedName: userInfo["User_lowercasedName"] as? String ?? "",
-                    nameID: userInfo["User_nameID"] as? String ?? "",
-                    profileImageUrl: userInfo["User_profileImageUrl"] as? String,
-                    backProfileImageUrl: userInfo["User_backProfileImageUrl"] as? String,
-                    date: userInfo["User_date"] as? String ?? "",
-                    bio: userInfo["User_bio"] as? String,
-                    location: userInfo["User_location"] as? String,
-                    phoneNumber: userInfo["User_phoneNumber"] as? String ?? "",
-                    fcmToken: userInfo["User_fcmToken"] as? String ?? "",
-                    alertAccept: userInfo["User_alertAccept"] as? String ?? "",
-                    instaAddress: userInfo["User_instaAddress"] as? String ?? "",
-                    tiktokAddress: userInfo["User_tiktokAddress"] as? String ?? ""
-                )
-                NotificationCenter.default.post(name: Notification.Name("ProfileNotification"), object: user)
-                
-            case "post":
-                print("여기 사람있어요1~~")
-                if let createTimeString = userInfo["Post_created_Time"] as? String,
-                   let createTime = formatter.date(from: createTimeString){
-                    let createdTimestamp = Timestamp(date: createTime)
-                    print("하하하")
-                    
-                    let post = Post(
-                        id: userInfo["Post_id"] as? String,
-                        ownerUid: userInfo["Post_ownerUid"] as? String ?? "",
-                        surferUid: userInfo["Post_surferUid"] as? String ?? "",
-                        imageUrl: userInfo["Post_imageUrl"] as? String ?? "",
-                        title: userInfo["Post_title"] as? String ?? "",
-                        heartsCount: Int(userInfo["Post_heartsCount"] as? String ?? "") ?? 0,
-                        commentCount: Int(userInfo["Post_commentCount"] as? String ?? "") ?? 0,
-                        hearts: nil,
-                        comments: nil,
-                        created_Time: createdTimestamp,
-                        modified_Time: nil
-                    )
-                    NotificationCenter.default.post(name: Notification.Name("PostNotification"), object: post)
-                    print("여기 사람있어요2~~\(post.heartsCount)")
                 }
             default:
                 print("categoryIdentifier error")
