@@ -12,9 +12,8 @@ class ImageRatioResize {
     static let shared = ImageRatioResize()
     
     private init() { }
-    
-    // 추후 삭제 예정
-    
+        
+    // 이미지 비율을 반영해서 원하는 사이즈로 설정해주는 함수
     func resizedImageRect(for originalImage: UIImage, targetSize: CGSize) -> CGRect {
         let widthRatio = targetSize.width / originalImage.size.width
         let heightRatio = targetSize.height / originalImage.size.height
@@ -28,6 +27,7 @@ class ImageRatioResize {
         return rect
     }
     
+    // 이미지를 원하는 크기로 변경해주는 함수
     func resizeImage(_ originalImage: UIImage, toSize newSize: CGSize) async -> UIImage {
         let format = UIGraphicsImageRendererFormat()
         format.scale = 1 // 픽셀 기반 크기 조정을 위해 scale을 1로 설정합니다.
