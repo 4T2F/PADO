@@ -5,6 +5,8 @@
 //  Created by 김명현 on 2/8/24.
 //
 
+import CoreGraphics
+import PhotosUI
 import SwiftUI
 
 struct DrawingView: View {
@@ -18,7 +20,7 @@ struct DrawingView: View {
                 
                 DispatchQueue.main.async {
                     if padorideVM.rect == .zero {
-                        padorideVM.rect = ImageRatioResize.shared.resizedImageRect(for: padorideVM.selectedUIImage ?? UIImage(), targetSize: CGSize(width: 300, height: 500))
+                        padorideVM.rect = size
                     }
                 }
                 
@@ -36,30 +38,130 @@ struct DrawingView: View {
                         }
                         
                         ForEach(padorideVM.textBoxes) { box in
-                            
-                            Text(padorideVM.textBoxes[padorideVM.currentIndex].id == box.id && padorideVM.addNewBox ? "" : box.text)
+                            Text(padorideVM.textBoxes[padorideVM.currentTextIndex].id == box.id && padorideVM.addNewBox ? "" : box.text)
                                 .font(.system(size: 30))
                                 .fontWeight(box.isBold ? .bold : .none)
                                 .foregroundColor(box.textColor)
                                 .offset(box.offset)
-                                .gesture(DragGesture().onChanged({ (value) in
-                                    
-                                    let current = value.translation
-                                    let lastOffset = box.lastOffset
-                                    let newTranslation = CGSize(width: lastOffset.width + current.width, height: lastOffset.height + current.height)
-                                    
-                                    padorideVM.textBoxes[getIndex(textBox: box)].offset = newTranslation
-                                    
-                                }).onEnded({ (value) in
-                                    padorideVM.textBoxes[getIndex(textBox: box)].lastOffset = padorideVM.textBoxes[getIndex(textBox: box)].offset
-                                    
-                                }))
+                                .rotationEffect(box.rotation)
+                                .scaleEffect(box.scale)
+                                .gesture(
+                                    DragGesture()
+                                        .onChanged({ value in
+                                            // 드래그 시작 시점의 offset 임시 저장
+                                            let startOffset = box.lastOffset
+
+                                            // 현재 드래그 변위
+                                            let currentTranslation = value.translation
+                                            
+                                            // 회전 각도 고려하여 드래그 변위 조정
+                                            let rotatedTranslation = CGPoint(
+                                                x: currentTranslation.width * cos(-box.rotation.radians) - currentTranslation.height * sin(-box.rotation.radians),
+                                                y: currentTranslation.width * sin(-box.rotation.radians) + currentTranslation.height * cos(-box.rotation.radians)
+                                            )
+                                            
+                                            // 확대/축소를 고려한 최종 변위 적용
+                                            let adjustedTranslation = CGSize(
+                                                width: startOffset.width + (rotatedTranslation.x / box.scale),
+                                                height: startOffset.height + (rotatedTranslation.y / box.scale)
+                                            )
+                                            
+                                            // 변위 적용
+                                            padorideVM.textBoxes[getTextIndex(textBox: box)].offset = adjustedTranslation
+                                        })
+                                        .onEnded({ value in
+                                            // 드래그가 끝났을 때 lastOffset 업데이트
+                                            padorideVM.textBoxes[getTextIndex(textBox: box)].lastOffset = padorideVM.textBoxes[getTextIndex(textBox: box)].offset
+                                        })
+                                        .simultaneously(with:
+                                            MagnificationGesture()
+                                                .onChanged({ value in
+                                                    padorideVM.textBoxes[getTextIndex(textBox: box)].scale = box.lastScale * value
+                                                })
+                                                .onEnded({ value in
+                                                    padorideVM.textBoxes[getTextIndex(textBox: box)].lastScale = padorideVM.textBoxes[getTextIndex(textBox: box)].scale
+                                                })
+                                                .simultaneously(with:
+                                                    RotationGesture()
+                                                        .onChanged({ value in
+                                                            padorideVM.textBoxes[getTextIndex(textBox: box)].rotation = box.lastRotation + value
+                                                        })
+                                                        .onEnded({ value in
+                                                            padorideVM.textBoxes[getTextIndex(textBox: box)].lastRotation = padorideVM.textBoxes[getTextIndex(textBox: box)].rotation
+                                                        })
+                                                )
+                                        )
+                                )
                                 .onLongPressGesture {
                                     padorideVM.toolPicker.setVisible(false, forFirstResponder: padorideVM.canvas)
                                     padorideVM.canvas.resignFirstResponder()
-                                    padorideVM.currentIndex = getIndex(textBox: box)
+                                    padorideVM.currentTextIndex = getTextIndex(textBox: box)
                                     withAnimation{
                                         padorideVM.addNewBox = true
+                                    }
+                                }
+                        }
+                        
+                        ForEach(padorideVM.imageBoxes) { box in
+                            box.image
+                                .resizable()
+                                .frame(width: box.size.width, height: box.size.height)
+                                .offset(box.offset)
+                                .rotationEffect(box.rotation)
+                                .scaleEffect(box.scale)
+                                .gesture(
+                                    DragGesture()
+                                        .onChanged({ value in
+                                            // 드래그 시작 시점의 offset 임시 저장
+                                            let startOffset = box.lastOffset
+
+                                            // 현재 드래그 변위
+                                            let currentTranslation = value.translation
+                                            
+                                            // 회전 각도 고려하여 드래그 변위 조정
+                                            let rotatedTranslation = CGPoint(
+                                                x: currentTranslation.width * cos(-box.rotation.radians) - currentTranslation.height * sin(-box.rotation.radians),
+                                                y: currentTranslation.width * sin(-box.rotation.radians) + currentTranslation.height * cos(-box.rotation.radians)
+                                            )
+                                            
+                                            // 확대/축소를 고려한 최종 변위 적용
+                                            let adjustedTranslation = CGSize(
+                                                width: startOffset.width + (rotatedTranslation.x / box.scale),
+                                                height: startOffset.height + (rotatedTranslation.y / box.scale)
+                                            )
+                                            
+                                            // 변위 적용
+                                            padorideVM.imageBoxes[getImageIndex(imageBox: box)].offset = adjustedTranslation
+                                        })
+                                        .onEnded({ value in
+                                            // 드래그가 끝났을 때 lastOffset 업데이트
+                                            padorideVM.imageBoxes[getImageIndex(imageBox: box)].lastOffset = padorideVM.imageBoxes[getImageIndex(imageBox: box)].offset
+                                        })
+                                        .simultaneously(with:
+                                            MagnificationGesture()
+                                                .onChanged({ value in
+                                                    padorideVM.imageBoxes[getImageIndex(imageBox: box)].scale = box.lastScale * value
+                                                })
+                                                .onEnded({ value in
+                                                    padorideVM.imageBoxes[getImageIndex(imageBox: box)].lastScale = padorideVM.imageBoxes[getImageIndex(imageBox: box)].scale
+                                                })
+                                                .simultaneously(with:
+                                                    RotationGesture()
+                                                        .onChanged({ value in
+                                                            padorideVM.imageBoxes[getImageIndex(imageBox: box)].rotation = box.lastRotation + value
+                                                        })
+                                                        .onEnded({ value in
+                                                            padorideVM.imageBoxes[getImageIndex(imageBox: box)].lastRotation = padorideVM.imageBoxes[getImageIndex(imageBox: box)].rotation
+                                                        })
+                                                )
+                                        )
+                                )
+                                .onLongPressGesture {
+                                    padorideVM.toolPicker.setVisible(false, forFirstResponder: padorideVM.canvas)
+                                    padorideVM.canvas.resignFirstResponder()
+                                    padorideVM.currentImageIndex = getImageIndex(imageBox: box)
+                                    Task {
+                                        await padorideVM.deleteImage()
                                     }
                                 }
                         }
@@ -83,13 +185,27 @@ struct DrawingView: View {
                     Image(systemName: "scribble")
                         .foregroundStyle(.white)
                 }
-
+                
             }
+            
+            ToolbarItem(placement: .topBarTrailing) {
+                PhotosPicker(selection: $padorideVM.pickerImageItem) {
+                    Image(systemName: "photo")
+                        .resizable()
+                        .frame(width: 25, height: 20)
+                }
+                .onChange(of: padorideVM.pickerImageItem) { _, _ in
+                    Task {
+                        await padorideVM.loadImageFromPickerItem(padorideVM.pickerImageItem)
+                    }
+                }
+            }
+            
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button{
                     padorideVM.textBoxes.append(TextBox())
                     
-                    padorideVM.currentIndex = padorideVM.textBoxes.count - 1
+                    padorideVM.currentTextIndex = padorideVM.textBoxes.count - 1
                     
                     withAnimation{
                         padorideVM.addNewBox.toggle()
@@ -97,7 +213,7 @@ struct DrawingView: View {
                     padorideVM.toolPicker.setVisible(false, forFirstResponder: padorideVM.canvas)
                     padorideVM.canvas.resignFirstResponder()
                 } label: {
-                    Image(systemName: "plus")
+                    Image(systemName: "t.square")
                         .foregroundStyle(.white)
                 }
             }
@@ -106,6 +222,7 @@ struct DrawingView: View {
                 Button{
                     padorideVM.showingModal = true
                     padorideVM.saveImage()
+                    padorideVM.pickerImageItem = nil
                 } label: {
                     Text("다음")
                         .foregroundStyle(.white)
@@ -118,10 +235,19 @@ struct DrawingView: View {
         }
     }
     
-    func getIndex(textBox: TextBox) -> Int{
+    func getTextIndex(textBox: TextBox) -> Int {
         
         let index = padorideVM.textBoxes.firstIndex { (box) -> Bool in
             return textBox.id == box.id
+        } ?? 0
+        
+        return index
+    }
+    
+    func getImageIndex(imageBox: ImageBox) -> Int {
+        
+        let index = padorideVM.imageBoxes.firstIndex { (box) -> Bool in
+            return imageBox.id == box.id
         } ?? 0
         
         return index

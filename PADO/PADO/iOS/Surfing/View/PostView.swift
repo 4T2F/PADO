@@ -177,7 +177,7 @@ struct PostView: View {
                         .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
                         .foregroundStyle(.blueButton)
                     
-                    Text("게시요청")
+                    Text("게시하기")
                         .font(.system(size: 16))
                         .fontWeight(.medium)
                         .foregroundStyle(.white)
