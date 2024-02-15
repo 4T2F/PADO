@@ -426,7 +426,7 @@ struct FeedCell: View {
                                                     await updateHeartData.addHeart(documentID: postID)
                                                     isHeartCheck = await updateHeartData.checkHeartExists(documentID: postID)
                                                     heartLoading = false
-                                                    await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID, receiveUser: postUser, type: .heart, message: "")
+                                                    await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID, receiveUser: postUser, type: .heart, message: "", post: post)
                                                 }
                                                 await profileVM.fetchHighlihts(id: userNameID)
                                                 

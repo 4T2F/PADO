@@ -22,6 +22,14 @@ struct ContentView: View {
     @StateObject var postitVM = PostitViewModel()
     @StateObject var padorideVM = PadoRideViewModel()
     
+    @State private var showPushProfile = false
+    @State private var pushUser: User?
+    
+    @State private var showPushPost = false
+    @State private var pushPost: Post?
+    
+    let updateHeartData = UpdateHeartData()
+    
     init() {
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
@@ -32,7 +40,7 @@ struct ContentView: View {
     
     var body: some View {
         TabView(selection: $viewModel.showTab) {
-            FeedView(selectedFilter: $selectedFilter,         
+            FeedView(selectedFilter: $selectedFilter,
                      feedVM: feedVM,
                      surfingVM: surfingVM,
                      profileVM: profileVM,
@@ -82,13 +90,29 @@ struct ContentView: View {
                             feedVM: feedVM,
                             postitVM: postitVM,
                             user: user)
-                    .tabItem {
-                        Image(viewModel.showTab == 4 ? "profile_light" : "profile_gray")
-                        
-                        Text("프로필")
-                    }
-                    .onAppear { viewModel.showTab = 4 }
-                    .tag(4)
+                .tabItem {
+                    Image(viewModel.showTab == 4 ? "profile_light" : "profile_gray")
+                    
+                    Text("프로필")
+                }
+                .onAppear { viewModel.showTab = 4 }
+                .tag(4)
+            }
+        }
+        // 상대방 프로필로 전환 이벤트(팔로우, 서퍼지정, 방명록 글)
+        .sheet(isPresented: $showPushProfile) {
+            if let user = pushUser {
+                NavigationStack {
+                    OtherUserProfileView(buttonOnOff: .constant(true), user: user)
+                }
+            }
+        }
+        .sheet(isPresented: $showPushPost) {
+            if let post = pushPost {
+                OnePostModalView(profileVM: profileVM,
+                                 feedVM: feedVM,
+                                 updateHeartData: updateHeartData,
+                                 post: post)
             }
         }
         .tint(.white)
@@ -100,6 +124,33 @@ struct ContentView: View {
                 await notiVM.fetchNotifications()
                 await postitVM.getMessageDocument(ownerID: userNameID)
             }
+            NotificationCenter.default.addObserver(forName: Notification.Name("ProfileNotification"), object: nil, queue: .main) { notification in
+                // 알림을 받았을 때 수행할 작업
+                print(notification.object ?? "")
+                Task {
+                    await handleProfileNotification(userInfo: notification.object as! User)
+                }
+            }
+            NotificationCenter.default.addObserver(forName: Notification.Name("PostNotification"), object: nil, queue: .main) { notification in
+                // 알림을 받았을 때 수행할 작업
+                viewModel.showTab = 4
+                print(notification.object ?? "")
+                Task {
+                    print("거쳐가따 ~~")
+                    await handlePostNotification(postInfo: notification.object as! Post)
+                }
+            }
         }
+    }
+    @MainActor
+    private func handleProfileNotification(userInfo: User) async {
+        self.pushUser = userInfo
+        self.showPushProfile = true
+    }
+    @MainActor
+    private func handlePostNotification(postInfo: Post) async {
+        self.pushPost = postInfo
+        self.showPushPost = true
+        print("여ㅣ기도 사람있다 ~~")
     }
 }

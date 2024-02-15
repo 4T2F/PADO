@@ -14,7 +14,7 @@ final class PushNotificationManager {
     private init() { }
     
     // FCM 푸시 알림을 보내는 함수
-    func sendPushNotification(toFCMToken token: String?, title: String, body: String) {
+    func sendPushNotification(toFCMToken token: String?, title: String, body: String, categoryIdentifier: String, user: User) {
         let serverKey: String = Bundle.main.object(forInfoDictionaryKey: "firebase_Push_Api_Key") as? String ?? "1"
         
         guard let token else {
@@ -27,8 +27,24 @@ final class PushNotificationManager {
             "notification": [
                 "title": title,
                 "body": body,
-                "badge": "1",
-                "sound": "default"
+                "sound": "default",
+                "click_action": categoryIdentifier
+            ],
+            "data": [
+                "User_id": user.id ?? "",
+                "User_username": user.username,
+                "User_lowercasedName": user.lowercasedName,
+                "User_nameID": user.nameID,
+                "User_profileImageUrl": user.profileImageUrl ?? "",
+                "User_backProfileImageUrl": user.backProfileImageUrl ?? "",
+                "User_date": user.date,
+                "User_bio": user.bio ?? "",
+                "User_location": user.location ?? "",
+                "User_phoneNumber": user.phoneNumber,
+                "User_fcmToken": user.fcmToken,
+                "User_alertAccept": user.alertAccept,
+                "User_instaAddress": user.instaAddress,
+                "User_tiktokAddress": user.tiktokAddress
             ]
         ]
         
@@ -58,28 +74,53 @@ final class PushNotificationManager {
         task.resume()
     }
     
-    func sendPushNotificationWithImage(toFCMToken token: String?, title: String, body: String, imageUrl: String) {
+    func sendPushNotificationWithPost(toFCMToken token: String?, title: String, body: String, categoryIdentifier: String, post: Post) {
         let serverKey: String = Bundle.main.object(forInfoDictionaryKey: "firebase_Push_Api_Key") as? String ?? "1"
         
-        guard let token else {
+        guard let token = token else {
             print("⚠️ FCM 토큰이 비어있습니다.")
             return
         }
         
-        let message: [String: Any] = [
+        var message: [String: Any] = [:]
+        
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        
+        // DateFormatter 설정
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss" // 원하는 날짜/시간 형식 지정
+        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0) // 필요한 경우 타임존 설정
+        
+        encoder.dateEncodingStrategy = .formatted(dateFormatter) // encoder에 날짜 형식 지정
+        
+        let createdDateString = dateFormatter.string(from: post.created_Time.dateValue())
+        let modifiedDateString = post.modified_Time.map { dateFormatter.string(from: $0.dateValue()) } ?? "N/A"
+        
+        message = [
             "to": token,
             "notification": [
                 "title": title,
                 "body": body,
-                "badge": "1",
-                "sound": "default"
+                "sound": "default",
+                "click_action": categoryIdentifier
             ],
-            "mutable-content": 1, // 알림이 수정 가능함을 나타냄
-            "fcm_options": ["image": imageUrl] // 이미지 URL을 포함
+            "data": [
+                "Post_id": post.id ?? "",
+                "Post_ownerUid": post.ownerUid,
+                "Post_surferUid": post.surferUid,
+                "Post_imageUrl": post.imageUrl,
+                "Post_title": post.title,
+                "Post_heartsCount": post.heartsCount,
+                "Post_commentCount": post.commentCount,
+                "Post_hearts": "",
+                "Post_comments": "",
+                "Post_created_Time": createdDateString,
+                "Post_modified_Time": modifiedDateString
+            ]
         ]
         
-        let urlString = "https://fcm.googleapis.com/fcm/send"
-        guard let url = URL(string: urlString) else { return }
+        guard let url = URL(string: "https://fcm.googleapis.com/fcm/send") else { return }
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
