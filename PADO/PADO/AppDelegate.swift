@@ -76,7 +76,7 @@ extension AppDelegate: MessagingDelegate {
 
 // 앱이 실행 중일 때 알림이 도착했을 때 호출
 extension AppDelegate : UNUserNotificationCenterDelegate {
-    
+    // foreground 상태에서 푸시알림을 받았을 때 호출되는 함수
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
@@ -86,7 +86,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         HapticHelper.shared.impact(style: .medium) // 햅틱알림
     }
     
-    // 포그/백그 사용자가 푸쉬알림을 탭했을 때 이 메소드가 실행
+    // 푸쉬알림을 탭했을 때 호출되는 함수
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
@@ -147,6 +147,8 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             default:
                 print("categoryIdentifier error")
             }
+        } else if application.applicationState == .background {
+            print("-------------------------------------------------")
         }
         completionHandler()
     }

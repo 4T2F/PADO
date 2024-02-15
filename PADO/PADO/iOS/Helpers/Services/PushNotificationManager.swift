@@ -28,7 +28,8 @@ final class PushNotificationManager {
                 "title": title,
                 "body": body,
                 "sound": "default",
-                "click_action": categoryIdentifier
+                "click_action": categoryIdentifier,
+                "content-available" : 1
             ],
             "data": [
                 "User_id": user.id ?? "",
@@ -103,7 +104,8 @@ final class PushNotificationManager {
                 "title": title,
                 "body": body,
                 "sound": "default",
-                "click_action": categoryIdentifier
+                "click_action": categoryIdentifier,
+                "content-available" : 1
             ],
             "data": [
                 "Post_id": post.id ?? "",
