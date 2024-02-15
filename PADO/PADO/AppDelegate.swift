@@ -6,29 +6,27 @@
 //
 
 import FirebaseCore
+import FirebaseFirestore
 import FirebaseMessaging
 import Foundation
 import SwiftUI
 import UserNotifications // 푸쉬 알림 탭했을 때 특정 페이지로 이동하기 위함
 
 class AppDelegate: NSObject, UIApplicationDelegate {
-    let viewModel = AuthenticationViewModel()
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         FirebaseApp.configure()
-        
-        // 사용자에게 알림 권한을 요청하고, 알림 타입(알림, 배지, 소리)을 설정
-        
+
         // For iOS 10 display notification (sent via APNS)
         UNUserNotificationCenter.current().delegate = self
         
         let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
         UNUserNotificationCenter.current().requestAuthorization(
             options: authOptions,
-            completionHandler: { granted, _ in
-                
-            })
+            completionHandler: { granted, _ in }
+        )
         
         DispatchQueue.main.async {
             application.registerForRemoteNotifications()
@@ -81,43 +79,127 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         
-        let userInfo = notification.request.content.userInfo
-        
         completionHandler([.banner, .sound, .badge])
         
         HapticHelper.shared.impact(style: .medium) // 햅틱알림
-        // Notification 분기처리
-        if userInfo[AnyHashable("PADO")] as? String == "project" {
-            print("It is PADO")
-        } else {
-            print("NOTHING")
-        }
     }
     
     // 포그/백그 사용자가 푸쉬알림을 탭했을 때 이 메소드가 실행
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
+        
         let application = UIApplication.shared
-        completionHandler()
         let userInfo = response.notification.request.content.userInfo
+        let categoryIdentifier = response.notification.request.content.categoryIdentifier
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss" // ISO 8601 형식
+        formatter.timeZone = TimeZone(secondsFromGMT: 0) // UTC로 설정
+        
         // 푸쉬알림 탭 분기처리
         // 1.앱 켜져있음
         if application.applicationState == .active {
+            // 푸쉬 알람 종류 분기
             print("푸쉬알림 탭(앱 켜져있음)")
-            // 이제 여기서 알림의 종류를 분기시켜주면 됨
-            print("\(response.notification.request.content)")
-            if response.notification.request.content.categoryIdentifier == "follow" {
-               // NotificationCenter.default.post(name: Notification.Name("showPage"), object: nil, userInfo: ["index":1])
-                viewModel.s = true
-                print("하이ㅏㅁ러;ㅣㅏ")
+            switch categoryIdentifier {
+            case "profile":
+                let user = User(
+                    id: userInfo["User_id"] as? String,
+                    username: userInfo["User_username"] as? String ?? "",
+                    lowercasedName: userInfo["User_lowercasedName"] as? String ?? "",
+                    nameID: userInfo["User_nameID"] as? String ?? "",
+                    profileImageUrl: userInfo["User_profileImageUrl"] as? String,
+                    backProfileImageUrl: userInfo["User_backProfileImageUrl"] as? String,
+                    date: userInfo["User_date"] as? String ?? "",
+                    bio: userInfo["User_bio"] as? String,
+                    location: userInfo["User_location"] as? String,
+                    phoneNumber: userInfo["User_phoneNumber"] as? String ?? "",
+                    fcmToken: userInfo["User_fcmToken"] as? String ?? "",
+                    alertAccept: userInfo["User_alertAccept"] as? String ?? "",
+                    instaAddress: userInfo["User_instaAddress"] as? String ?? "",
+                    tiktokAddress: userInfo["User_tiktokAddress"] as? String ?? ""
+                )
+                NotificationCenter.default.post(name: Notification.Name("ProfileNotification"), object: user)
+                
+            case "post":
+                print("여기 사람있어요1~~")
+                if let createTimeString = userInfo["Post_created_Time"] as? String,
+                   let createTime = formatter.date(from: createTimeString){
+                    let createdTimestamp = Timestamp(date: createTime)
+                    print("하하하")
+                    
+                    let post = Post(
+                        id: userInfo["Post_id"] as? String,
+                        ownerUid: userInfo["Post_ownerUid"] as? String ?? "",
+                        surferUid: userInfo["Post_surferUid"] as? String ?? "",
+                        imageUrl: userInfo["Post_imageUrl"] as? String ?? "",
+                        title: userInfo["Post_title"] as? String ?? "",
+                        heartsCount: Int(userInfo["Post_heartsCount"] as? String ?? "") ?? 0,
+                        commentCount: Int(userInfo["Post_commentCount"] as? String ?? "") ?? 0,
+                        hearts: nil,
+                        comments: nil,
+                        created_Time: createdTimestamp,
+                        modified_Time: nil
+                    )
+                    NotificationCenter.default.post(name: Notification.Name("PostNotification"), object: post)
+                    print("여기 사람있어요2~~\(post.heartsCount)")
+                }
+            default:
+                print("categoryIdentifier error")
             }
         }
         // 2.앱 꺼져있음
         if application.applicationState == .inactive {
             print("푸쉬알림 탭(앱 꺼져있음)")
+            switch categoryIdentifier {
+            case "profile":
+                let user = User(
+                    id: userInfo["User_id"] as? String,
+                    username: userInfo["User_username"] as? String ?? "",
+                    lowercasedName: userInfo["User_lowercasedName"] as? String ?? "",
+                    nameID: userInfo["User_nameID"] as? String ?? "",
+                    profileImageUrl: userInfo["User_profileImageUrl"] as? String,
+                    backProfileImageUrl: userInfo["User_backProfileImageUrl"] as? String,
+                    date: userInfo["User_date"] as? String ?? "",
+                    bio: userInfo["User_bio"] as? String,
+                    location: userInfo["User_location"] as? String,
+                    phoneNumber: userInfo["User_phoneNumber"] as? String ?? "",
+                    fcmToken: userInfo["User_fcmToken"] as? String ?? "",
+                    alertAccept: userInfo["User_alertAccept"] as? String ?? "",
+                    instaAddress: userInfo["User_instaAddress"] as? String ?? "",
+                    tiktokAddress: userInfo["User_tiktokAddress"] as? String ?? ""
+                )
+                NotificationCenter.default.post(name: Notification.Name("ProfileNotification"), object: user)
+                
+            case "post":
+                print("여기 사람있어요1~~")
+                if let createTimeString = userInfo["Post_created_Time"] as? String,
+                   let createTime = formatter.date(from: createTimeString){
+                    let createdTimestamp = Timestamp(date: createTime)
+                    print("하하하")
+                    
+                    let post = Post(
+                        id: userInfo["Post_id"] as? String,
+                        ownerUid: userInfo["Post_ownerUid"] as? String ?? "",
+                        surferUid: userInfo["Post_surferUid"] as? String ?? "",
+                        imageUrl: userInfo["Post_imageUrl"] as? String ?? "",
+                        title: userInfo["Post_title"] as? String ?? "",
+                        heartsCount: Int(userInfo["Post_heartsCount"] as? String ?? "") ?? 0,
+                        commentCount: Int(userInfo["Post_commentCount"] as? String ?? "") ?? 0,
+                        hearts: nil,
+                        comments: nil,
+                        created_Time: createdTimestamp,
+                        modified_Time: nil
+                    )
+                    NotificationCenter.default.post(name: Notification.Name("PostNotification"), object: post)
+                    print("여기 사람있어요2~~\(post.heartsCount)")
+                }
+            default:
+                print("categoryIdentifier error")
+            }
         }
-        
+        completionHandler()
     }
     
     // 원격 알림 수신 처리
