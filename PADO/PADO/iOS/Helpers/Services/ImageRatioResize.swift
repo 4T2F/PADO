@@ -13,6 +13,8 @@ class ImageRatioResize {
     
     private init() { }
     
+    // 추후 삭제 예정
+    
     func resizedImageRect(for originalImage: UIImage, targetSize: CGSize) -> CGRect {
         let widthRatio = targetSize.width / originalImage.size.width
         let heightRatio = targetSize.height / originalImage.size.height

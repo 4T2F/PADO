@@ -20,7 +20,7 @@ struct DrawingView: View {
                 
                 DispatchQueue.main.async {
                     if padorideVM.rect == .zero {
-                        padorideVM.rect = ImageRatioResize.shared.resizedImageRect(for: padorideVM.selectedUIImage ?? UIImage(), targetSize: CGSize(width: 300, height: 500))
+                        padorideVM.rect = size
                     }
                 }
                 
