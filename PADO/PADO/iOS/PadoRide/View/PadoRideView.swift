@@ -9,59 +9,93 @@ import SwiftUI
 
 struct PadoRideView: View {
     // MARK: - PROPERTY
+    @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var followVM: FollowViewModel
     @ObservedObject var padorideVM: PadoRideViewModel
+    @ObservedObject var postitVM: PostitViewModel
     
     // MARK: - BODY
     var body: some View {
         NavigationStack {
-            HStack {
-                Spacer()
-                
-                Text("파도타기")
-                    .font(.system(size: 16, weight: .bold))
-                    .padding(.leading, 40)
-                
-                Spacer()
-                
-                if padorideVM.selectedImage.isEmpty {
-                    Button {
-                    } label: {
-                        Text("다음")
-                            .foregroundStyle(.gray)
-                            .font(.system(size: 14, weight: .semibold))
-                            .padding(.trailing, 10)
+            ZStack {
+                VStack {
+                    HStack {
+                        Spacer()
+                        
+                        Text("파도타기")
+                            .font(.system(size: 16, weight: .bold))
+                            .padding(.leading, 40)
+                        
+                        Spacer()
+                        
+                        if padorideVM.selectedImage.isEmpty {
+                            Button {
+                            } label: {
+                                Text("다음")
+                                    .foregroundStyle(.gray)
+                                    .font(.system(size: 14, weight: .semibold))
+                                    .padding(.trailing, 10)
+                            }
+                        } else {
+                            Button {
+                                padorideVM.downloadSelectedImage()
+                                padorideVM.isShowingEditView = true
+                            } label: {
+                                Text("다음")
+                                    .foregroundStyle(.white)
+                                    .font(.system(size: 14, weight: .semibold))
+                                    .padding(.trailing, 10)
+                            }
+                        }
                     }
-                } else {
-                    Button {
-                        padorideVM.downloadSelectedImage()
-                        padorideVM.isShowingEditView = true
-                    } label: {
-                        Text("다음")
-                            .foregroundStyle(.white)
-                            .font(.system(size: 14, weight: .semibold))
-                            .padding(.trailing, 10)
+                    
+                    Spacer()
+                    
+                    if !padorideVM.postsData.isEmpty {
+                        ScrollView(.vertical, showsIndicators: false) {
+                            LazyVStack {
+                                ForEach(followVM.surfingIDs, id: \.self) { surfingID in
+                                    SufferInfoCell(surfingID: surfingID)
+                                    
+                                    if padorideVM.postsData[surfingID] != [] {
+                                        ScrollView(.horizontal, showsIndicators: false) {
+                                            LazyHStack {
+                                                SufferPostCell(padorideVM: padorideVM,
+                                                               suffingPost: padorideVM.postsData[surfingID],
+                                                               surfingID: surfingID)
+                                            }
+                                        }
+                                    } else {
+                                        HStack {
+                                            Text("해당 유저는 아직 꾸밀 파도가 없어요")
+                                                .font(.system(size: 16, weight: .bold))
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        if followVM.followingIDs.isEmpty {
+                            Spacer()
+                            
+                            Text("내가 팔로잉한 사람이 없어요")
+                                .font(.system(size: 16, weight: .bold))
+                            
+                            FeedGuideView(feedVM: feedVM)
+                            
+                            Spacer()
+                        } else if followVM.surfingIDs.isEmpty {
+                            Spacer()
+                            
+                            SurfingGuideView(postitVM: postitVM)
+                            
+                            Spacer()
+                        }
                     }
                 }
             }
             .navigationDestination(isPresented: $padorideVM.isShowingEditView) {
                 PadoRideEditView(padorideVM: padorideVM)
-            }
-            
-            ScrollView(.vertical, showsIndicators: false) {
-                LazyVStack {
-                    ForEach(followVM.surfingIDs, id: \.self) { surfingID in
-                        SufferInfoCell(surfingID: surfingID)
-                        
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            LazyHStack {
-                                SufferPostCell(padorideVM: padorideVM,
-                                               suffingPost: padorideVM.postsData[surfingID],
-                                               surfingID: surfingID)
-                            }
-                        }
-                    }
-                }
             }
         }
         .onAppear {
