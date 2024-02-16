@@ -161,7 +161,7 @@ struct PostView: View {
                                 followVM.selectSurfingUsername = ""
                                 followVM.selectSurfingProfileUrl = ""
                                 viewModel.showTab = 0
-                                feedVM.findFollowingUsers()
+                                await feedVM.fetchFollowingPosts()
                                 postLoading = false
                             } catch {
                                 print("파베 전송 오류 발생: (error.localizedDescription)")
