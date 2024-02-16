@@ -18,7 +18,7 @@ class UpdateFacemojiData {
             let facemojies = querySnapshot.documents.compactMap { document in
                 try? document.data(as: Facemoji.self)
             }
-            return facemojies
+            return filterBlockedFaceMoji(facemojies: facemojies)
         } catch {
             print("Error fetching comments: \(error)")
         }
@@ -73,4 +73,14 @@ class UpdateFacemojiData {
         ])
     }
     
+}
+
+extension UpdateFacemojiData {
+    private func filterBlockedFaceMoji(facemojies: [Facemoji]) -> [Facemoji] {
+        let blockedUserIDs = Set(blockingUser.map { $0.blockUserID } + blockedUser.map { $0.blockUserID })
+        
+        return facemojies.filter { facemoji in
+            !blockedUserIDs.contains(facemoji.userID)
+        }
+    }
 }

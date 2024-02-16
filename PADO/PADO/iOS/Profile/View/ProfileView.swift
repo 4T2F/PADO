@@ -17,7 +17,6 @@ struct ProfileView: View {
     @ObservedObject var followVM: FollowViewModel
     @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var postitVM: PostitViewModel
-    @StateObject var surfingVM = SurfingViewModel()
     
     @Namespace var animation
     @State private var buttonActive: Bool = false
@@ -86,7 +85,7 @@ struct ProfileView: View {
                             }
                             
                             NavigationLink {
-                                SettingView()
+                                SettingView(profileVM: profileVM)
                             } label: {
                                 Image("more")
                                     .foregroundStyle(.white)
