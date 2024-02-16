@@ -146,10 +146,8 @@ struct ContentView: View {
         .tint(.white)
         .onAppear {
             fetchData()
-           
         }
         .onChange(of: viewModel.needsDataFetch) { _, newValue in
-            feedVM.findFollowingUsers()
             fetchData()
         }
     }
@@ -157,29 +155,33 @@ struct ContentView: View {
     func fetchData() {
         Task {
             if !userNameID.isEmpty {
-                followVM.initializeFollowFetch(id: userNameID)
                 viewModel.selectedFilter = .following
                 viewModel.showTab = 0
+                feedVM.postFetchLoading = true
+                await profileVM.fetchBlockUsers()
+                followVM.initializeFollowFetch(id: userNameID)
+                await feedVM.fetchFollowingPosts()
+                await feedVM.fetchTodayPadoPosts()
+                feedVM.postFetchLoading = false
                 await profileVM.fetchPostID(id: userNameID)
                 await notiVM.fetchNotifications()
                 await postitVM.getMessageDocument(ownerID: userNameID)
             }
-            NotificationCenter.default.addObserver(forName: Notification.Name("ProfileNotification"), object: nil, queue: .main) { notification in
-                // 알림을 받았을 때 수행할 작업
-                print(notification.object ?? "")
-                Task {
-                    await handleProfileNotification(userInfo: notification.object as! User)
-                }
-            }
-            NotificationCenter.default.addObserver(forName: Notification.Name("PostNotification"), object: nil, queue: .main) { notification in
-                // 알림을 받았을 때 수행할 작업
-                viewModel.showTab = 4
-                print(notification.object ?? "")
-                Task {
-                    print("거쳐가따 ~~")
-                    await handlePostNotification(postInfo: notification.object as! Post)
-                }
-            }
+//            NotificationCenter.default.addObserver(forName: Notification.Name("ProfileNotification"), object: nil, queue: .main) { notification in
+//                // 알림을 받았을 때 수행할 작업
+//                print(notification.object ?? "")
+//                Task {
+//                    await handleProfileNotification(userInfo: notification.object as! User)
+//                }
+//            }
+//            NotificationCenter.default.addObserver(forName: Notification.Name("PostNotification"), object: nil, queue: .main) { notification in
+//                // 알림을 받았을 때 수행할 작업
+//                
+//                print(notification.object ?? "")
+//                Task {
+//                    await handlePostNotification(postInfo: notification.object as! Post)
+//                }
+//            }
         }
     }
     @MainActor
@@ -189,8 +191,9 @@ struct ContentView: View {
     }
     @MainActor
     private func handlePostNotification(postInfo: Post) async {
+        viewModel.showTab = 4
         self.pushPost = postInfo
         self.showPushPost = true
-        print("여ㅣ기도 사람있다 ~~")
+
     }
 }

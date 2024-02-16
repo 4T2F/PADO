@@ -23,62 +23,80 @@ class ProfileViewModel: ObservableObject {
     @Published var selectedPostID: String = ""
     
     // 사용자 차단 로직
-    @Published var blockedUsers = [BlockedUser]()
     @Published var isUserBlocked: Bool = false
     
     private var db = Firestore.firestore()
     
     // 차단된 사용자들 정보 불러오기
     @MainActor
-    func fetchBlockedUsers() async {
-        let collectionRef = db.collection("users").document(userNameID).collection("blockUsers")
+    func fetchBlockUsers() async {
+        
+        let blockingCollectionRef = db.collection("users").document(userNameID).collection("blockingUsers")
+        
+        let blockedCollectionRef =            db.collection("users").document(userNameID).collection("blockedUsers")
         
         do {
-            let snapshot = try await collectionRef.getDocuments()
-            self.blockedUsers = snapshot.documents.compactMap { document -> BlockedUser? in
-                try? document.data(as: BlockedUser.self)
+            let blockingSnapshot = try await blockingCollectionRef.getDocuments()
+            blockingUser = blockingSnapshot.documents.compactMap { document -> BlockUser? in
+                try? document.data(as: BlockUser.self)
             }
-            // 사용자 목록이 업데이트된 후에 차단 여부를 다시 확인
-            checkIfUserIsBlocked(targetUserID: "여기에 확인하고 싶은 사용자의 nameID 입력")
+            
+            let blockedSnapshot = try await blockedCollectionRef.getDocuments()
+            blockedUser = blockedSnapshot.documents.compactMap { document -> BlockUser? in
+                try? document.data(as: BlockUser.self)
+            }
+            
         } catch {
             print("Error fetching blocked users: \(error.localizedDescription)")
         }
     }
     
-    // 특정 사용자가 차단된 사용자 목록에 있는지 확인
-    @MainActor
-    func checkIfUserIsBlocked(targetUserID: String) {
-        isUserBlocked = blockedUsers.contains { $0.blockedUserID == targetUserID }
-    }
-    
     // 사용자 차단
     @MainActor
-    func blockUser(blockedUserID: String) {
-        let blockUserRef = db.collection("users").document(userNameID).collection("blockUsers").document(blockedUserID)
+    func blockUser(blockingUser: User, user: User) async {
+
+        let blockingUserRef = db.collection("users").document(user.nameID).collection("blockingUsers").document(blockingUser.nameID)
         
-        blockUserRef.setData([
-            "blockedUserID": blockedUserID,
-            "blockTime": Timestamp(date: Date())
-        ]) { error in
-            if let error = error {
-                print("Error blocking user: \(error.localizedDescription)")
-            } else {
-                print("User successfully blocked")
-            }
+        let blockedUserRef = db.collection("users").document(blockingUser.nameID).collection("blockedUsers").document(user.nameID)
+        
+        do {
+            try await blockingUserRef.setData([
+                "blockUserID": blockingUser.nameID,
+                "blockUserProfileImage": blockingUser.profileImageUrl ?? "",
+                "blockTime": Timestamp(date: Date())
+            ])
+            
+            try await blockedUserRef.setData([
+                "blockUserID": user.nameID,
+                "blockUserProfileImage": user.profileImageUrl ?? "",
+                "blockTime": Timestamp(date: Date())
+            ])
+            
+            await UpdateFollowData.shared.directUnfollowUser(id: blockingUser.nameID)
+           
+            await fetchBlockUsers()
         }
+        catch {
+            print("Error blocking user: \(error.localizedDescription)")
+        }
+        
+        
     }
     
     // 사용자 차단 해제
     @MainActor
-    func unblockUser(blockedUserID: String) {
-        let blockUserRef = db.collection("users").document(userNameID).collection("blockUsers").document(blockedUserID)
+    func unblockUser(blockingUser: User, user: User) async {
+        let blockingUserRef = db.collection("users").document(user.nameID).collection("blockingUsers").document(blockingUser.nameID)
         
-        blockUserRef.delete() { error in
-            if let error = error {
-                print("Error unblocking user: \(error.localizedDescription)")
-            } else {
-                print("User successfully unblocked")
-            }
+        let blockedUserRef = db.collection("users").document(blockingUser.nameID).collection("blockedUsers").document(user.nameID)
+        
+        do {
+            try await blockingUserRef.delete()
+            try await blockedUserRef.delete()
+            
+            await fetchBlockUsers()
+        } catch {
+            print("Error unblocking user: \(error.localizedDescription)")
         }
     }
     

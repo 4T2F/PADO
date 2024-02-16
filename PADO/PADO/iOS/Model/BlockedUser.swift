@@ -9,9 +9,10 @@ import Firebase
 import FirebaseFirestore
 import Foundation
 
-struct BlockedUser: Identifiable, Codable {
+struct BlockUser: Identifiable, Codable {
     @DocumentID var id: String?
     
-    var blockedUserID: String
+    var blockUserID: String
+    var blockUserProfileImage: String
     var blockTime: Timestamp
 }

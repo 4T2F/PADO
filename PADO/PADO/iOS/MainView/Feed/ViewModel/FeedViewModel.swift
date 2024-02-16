@@ -48,34 +48,6 @@ class FeedViewModel:Identifiable ,ObservableObject {
     @Published var currentPadoRideIndex: Int? = nil
     @Published var isShowingPadoRide: Bool = false
     
-    init() {
-        // Firestore의 `post` 컬렉션에 대한 실시간 리스너 설정
-        Task {
-            findFollowingUsers()
-            await fetchTodayPadoPosts()
-        }
-    }
-    
-    func findFollowingUsers() {
-        guard !userNameID.isEmpty else { return }
-        
-        userFollowingIDs.removeAll()
-        listener = db.collection("users").document(userNameID).collection("following").addSnapshotListener { [weak self] (querySnapshot, error) in
-            guard let self = self, let documents = querySnapshot?.documents else {
-                print("Error fetching following users: \(error?.localizedDescription ?? "Unknown error")")
-                return
-                
-            }
-            
-            userFollowingIDs = documents.compactMap { $0.data()["followingID"] as? String }
-            
-            Task {
-                self.postFetchLoading = true
-                await self.fetchFollowingPosts()
-                self.postFetchLoading = false
-            }
-        }
-    }
     
     func getPopularUser() async {
         let querySnapshot = db.collection("users")
@@ -129,7 +101,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
     }
     
     // 팔로잉 중인 사용자들로부터 포스트 가져오기 (비동기적으로)
-    private func fetchFollowingPosts() async {
+    func fetchFollowingPosts() async {
         followingPosts.removeAll()
         feedItems.removeAll()
         lastFollowFetchedDocument = nil

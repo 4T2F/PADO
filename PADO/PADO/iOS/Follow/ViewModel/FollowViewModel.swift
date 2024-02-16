@@ -88,6 +88,9 @@ class FollowViewModel: ObservableObject, Searchable {
                     self.followerIDs = ids
                 case .following:
                     self.followingIDs = ids
+                    if id == userNameID {
+                        userFollowingIDs = ids
+                    }
                 case .surfer:
                     self.surferIDs = ids
                 case .surfing:

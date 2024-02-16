@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ReprotProfileModalView: View {
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     @ObservedObject var profileVM: ProfileViewModel
     @State private var isShowingReportView: Bool = false
     
@@ -44,12 +45,18 @@ struct ReprotProfileModalView: View {
                         Task {
                             if profileVM.isUserBlocked {
                                 // 차단 해제 로직
-                                profileVM.unblockUser(blockedUserID: user.nameID)
-                                profileVM.isUserBlocked = false
+                                if let currentUser = viewModel.currentUser {
+                                    await profileVM.unblockUser(blockingUser: user,
+                                                          user: currentUser)
+                                    profileVM.isUserBlocked = false
+                                }
                             } else {
                                 // 차단 로직
-                                profileVM.blockUser(blockedUserID: user.nameID)
-                                profileVM.isUserBlocked = true
+                                if let currentUser = viewModel.currentUser {
+                                    await profileVM.blockUser(blockingUser: user,
+                                                        user: currentUser)
+                                    profileVM.isUserBlocked = true
+                                }
                             }
                         }
                     } label: {
@@ -68,9 +75,8 @@ struct ReprotProfileModalView: View {
                         }
                     }
                     .onAppear {
-                        profileVM.checkIfUserIsBlocked(targetUserID: user.nameID)
                         Task {
-                            await profileVM.fetchBlockedUsers()
+                            await profileVM.fetchBlockUsers()
                         }
                     }
                     

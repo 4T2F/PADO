@@ -14,15 +14,15 @@ struct SettingBlockUserView: View {
     
     var body: some View {
         ScrollView(showsIndicators: false) {
-            ForEach(profileVM.blockedUsers) { user in
-                Text(user.blockedUserID)
+            ForEach(blockingUser) { user in
+                Text(user.blockUserID)
                         .foregroundStyle(.white)
                         .font(.system(size: 14))
             }
         }
         .onAppear {
             Task {
-                await profileVM.fetchBlockedUsers()
+                await profileVM.fetchBlockUsers()
             }
         }
         .background(.main, ignoresSafeAreaEdges: .all)
