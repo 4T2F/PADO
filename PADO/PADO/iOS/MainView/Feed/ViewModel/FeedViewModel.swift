@@ -64,7 +64,6 @@ class FeedViewModel:Identifiable ,ObservableObject {
             guard let self = self, let documents = querySnapshot?.documents else {
                 print("Error fetching following users: \(error?.localizedDescription ?? "Unknown error")")
                 return
-                
             }
             
             userFollowingIDs = documents.compactMap { $0.data()["followingID"] as? String }
