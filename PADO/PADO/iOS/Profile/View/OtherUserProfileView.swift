@@ -7,6 +7,7 @@
 
 import Kingfisher
 import Lottie
+import PopupView
 import SwiftUI
 
 struct OtherUserProfileView: View {
@@ -31,6 +32,8 @@ struct OtherUserProfileView: View {
     @State private var isShowingHightlight: Bool = false
     @State private var isShowingMessageView: Bool = false
     @State private var isShowingUserReport: Bool = false
+    @State private var touchProfileImage: Bool = false
+    @State private var touchBackImage: Bool = false
     
     let user: User
     
@@ -133,6 +136,26 @@ struct OtherUserProfileView: View {
                 await postitVM.getMessageDocument(ownerID: user.nameID)
             }
         }
+        .popup(isPresented: $touchBackImage) {
+            TouchBackImageView(user: user)
+        } customize: {
+            $0
+                .type(.floater())
+                .position(.center)
+                .animation(.spring())
+                .closeOnTapOutside(true)
+                .backgroundColor(.black.opacity(0.5))
+        }
+        .popup(isPresented: $touchProfileImage) {
+            TouchProfileView(user: user)
+        } customize: {
+            $0
+                .type(.floater())
+                .position(.center)
+                .animation(.spring())
+                .closeOnTapOutside(true)
+                .backgroundColor(.black.opacity(0.5))
+        }
     }
     
     @ViewBuilder
@@ -157,6 +180,9 @@ struct OtherUserProfileView: View {
                         VStack(alignment: .leading, spacing: 10) {
                             CircularImageView(size: .xxLarge, user: user)
                                 .offset(y: 5)
+                                .onTapGesture {
+                                    touchProfileImage = true
+                                }
                                 .overlay {
                                     Button {
                                         isShowingMessageView = true
@@ -339,6 +365,9 @@ struct OtherUserProfileView: View {
                 }
                 .cornerRadius(0)
                 .offset(y: -minY)
+                .onTapGesture {
+                    touchBackImage = true
+                }
         }
         .frame(height: 300)
     }
