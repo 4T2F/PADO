@@ -21,76 +21,64 @@ class ProfileViewModel: ObservableObject {
     @Published var highlights: [Post] = []
     @Published var headerOffsets: (CGFloat, CGFloat) = (0, 0)
     @Published var selectedPostID: String = ""
-    @Published var blockedUsersIDs: [String] = []
-    @Published var blockedUsers: [BlockedUser] = []
+    
+    // 사용자 차단 로직
+    @Published var blockedUsers = [BlockedUser]()
     @Published var isUserBlocked: Bool = false
     
     private var db = Firestore.firestore()
     
+    // 차단된 사용자들 정보 불러오기
     @MainActor
-    func fetchBlockedUsersDetail(userID: String) async {
-        blockedUsers.removeAll()
-        do {
-            // 차단된 사용자의 문서 ID를 가져옵니다.
-            let blockedSnapshot = try await db.collection("users").document(userID).collection("blockedUsers").getDocuments()
-            
-            // 차단된 각 사용자의 상세 정보를 조회합니다.
-            for document in blockedSnapshot.documents {
-                let blockedUserID = document.documentID
-                
-                // 각 차단된 사용자의 사용자 문서에서 이름을 조회합니다.
-                let userDoc = try await db.collection("users").document(blockedUserID).getDocument()
-                if let userName = userDoc.data()?["name"] as? String {
-                    let user = BlockedUser(id: blockedUserID, name: userName)
-                    blockedUsers.append(user)
-                }
-            }
-        } catch {
-            print("Error fetching blocked users detail: \(error)")
-        }
-    }
-    
-    // Firestore에서 userID에 해당하는 사용자의 차단 목록 불러오기
-    @MainActor
-    func fetchBlockedUsers(for userID: String, targetUserID: String) async {
-        do {
-            let snapshot = try await db.collection("users").document(userID).collection("blockedUsers").getDocuments()
-            self.blockedUsersIDs = snapshot.documents.map { $0.documentID }
-            self.isUserBlocked = self.blockedUsersIDs.contains(targetUserID)
-        } catch let error {
-            print("Error loading blocked users: \(error.localizedDescription)")
-        }
-    }
-    
-    @MainActor
-    func blockUser(userID: String, toBlockID: String) async {
-        let blockedRef = db.collection("users").document(userID).collection("blockedUsers").document(toBlockID)
-        do {
-            try await blockedRef.setData([
-                "name": toBlockID,
-                "blockedAt": Timestamp()
-            ])
-            if !self.blockedUsersIDs.contains(toBlockID) {
-                self.blockedUsersIDs.append(toBlockID)
-            }
-        } catch {
-            print("Error blocking user: \(error.localizedDescription)")
-        }
-    }
-    
-    @MainActor
-    func unblockUser(userID: String, toUnblockID: String) async {
-        guard !userID.isEmpty, !toUnblockID.isEmpty else { return }
-        
-        let unblockRef = db.collection("users").document(userID).collection("blockedUsers").document(toUnblockID)
+    func fetchBlockedUsers() async {
+        let collectionRef = db.collection("users").document(userNameID).collection("blockUsers")
         
         do {
-            try await unblockRef.delete()
-            if let index = self.blockedUsersIDs.firstIndex(of: toUnblockID) {
-                self.blockedUsersIDs.remove(at: index)
+            let snapshot = try await collectionRef.getDocuments()
+            self.blockedUsers = snapshot.documents.compactMap { document -> BlockedUser? in
+                try? document.data(as: BlockedUser.self)
             }
-        } catch let error {
-            print("Error unblocking user: \(error.localizedDescription)")
+            // 사용자 목록이 업데이트된 후에 차단 여부를 다시 확인
+            checkIfUserIsBlocked(targetUserID: "여기에 확인하고 싶은 사용자의 nameID 입력")
+        } catch {
+            print("Error fetching blocked users: \(error.localizedDescription)")
+        }
+    }
+    
+    // 특정 사용자가 차단된 사용자 목록에 있는지 확인
+    @MainActor
+    func checkIfUserIsBlocked(targetUserID: String) {
+        isUserBlocked = blockedUsers.contains { $0.blockedUserID == targetUserID }
+    }
+    
+    // 사용자 차단
+    @MainActor
+    func blockUser(blockedUserID: String) {
+        let blockUserRef = db.collection("users").document(userNameID).collection("blockUsers").document(blockedUserID)
+        
+        blockUserRef.setData([
+            "blockedUserID": blockedUserID,
+            "blockTime": Timestamp(date: Date())
+        ]) { error in
+            if let error = error {
+                print("Error blocking user: \(error.localizedDescription)")
+            } else {
+                print("User successfully blocked")
+            }
+        }
+    }
+    
+    // 사용자 차단 해제
+    @MainActor
+    func unblockUser(blockedUserID: String) {
+        let blockUserRef = db.collection("users").document(userNameID).collection("blockUsers").document(blockedUserID)
+        
+        blockUserRef.delete() { error in
+            if let error = error {
+                print("Error unblocking user: \(error.localizedDescription)")
+            } else {
+                print("User successfully unblocked")
+            }
         }
     }
     

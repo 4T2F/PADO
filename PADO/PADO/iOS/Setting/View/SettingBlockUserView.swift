@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SettingBlockUser: View {
+struct SettingBlockUserView: View {
     @ObservedObject var profileVM: ProfileViewModel
     
     @Environment(\.dismiss) var dismiss
@@ -15,14 +15,14 @@ struct SettingBlockUser: View {
     var body: some View {
         ScrollView(showsIndicators: false) {
             ForEach(profileVM.blockedUsers) { user in
-                Text(user.name)
+                Text(user.blockedUserID)
                         .foregroundStyle(.white)
                         .font(.system(size: 14))
             }
-            .onAppear {
-                Task {
-                    await profileVM.fetchBlockedUsersDetail(userID: userNameID)
-                }
+        }
+        .onAppear {
+            Task {
+                await profileVM.fetchBlockedUsers()
             }
         }
         .background(.main, ignoresSafeAreaEdges: .all)

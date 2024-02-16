@@ -38,7 +38,7 @@ struct SettingView: View {
                     
                     SettingDivider()
                     
-                    NavigationLink(destination: SettingBlockUser(profileVM: profileVM)) {
+                    NavigationLink(destination: SettingBlockUserView(profileVM: profileVM)) {
                         SettingViewCell(settingTittle: "차단 목록")
                     }
                    

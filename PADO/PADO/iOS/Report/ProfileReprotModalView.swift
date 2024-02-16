@@ -44,11 +44,11 @@ struct ReprotProfileModalView: View {
                         Task {
                             if profileVM.isUserBlocked {
                                 // 차단 해제 로직
-                                await profileVM.unblockUser(userID: userNameID, toUnblockID: user.nameID)
+                                profileVM.unblockUser(blockedUserID: user.nameID)
                                 profileVM.isUserBlocked = false
                             } else {
                                 // 차단 로직
-                                await profileVM.blockUser(userID: userNameID, toBlockID: user.nameID)
+                                profileVM.blockUser(blockedUserID: user.nameID)
                                 profileVM.isUserBlocked = true
                             }
                         }
@@ -58,7 +58,7 @@ struct ReprotProfileModalView: View {
                                 .font(.system(size: 14))
                                 .fontWeight(.bold)
                                 .foregroundStyle(.red)
-                            
+                             
                             Spacer()
                             
                             Image(systemName: "person.slash")
@@ -68,9 +68,9 @@ struct ReprotProfileModalView: View {
                         }
                     }
                     .onAppear {
-                        profileVM.isUserBlocked = profileVM.blockedUsersIDs.contains(user.nameID)
+                        profileVM.checkIfUserIsBlocked(targetUserID: user.nameID)
                         Task {
-                            await profileVM.fetchBlockedUsers(for: userNameID, targetUserID: user.nameID)
+                            await profileVM.fetchBlockedUsers()
                         }
                     }
                     

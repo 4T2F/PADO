@@ -5,9 +5,13 @@
 //  Created by 강치우 on 2/16/24.
 //
 
-import SwiftUI
+import Firebase
+import FirebaseFirestore
+import Foundation
 
 struct BlockedUser: Identifiable, Codable {
-    var id: String
-    var name: String
+    @DocumentID var id: String?
+    
+    var blockedUserID: String
+    var blockTime: Timestamp
 }
