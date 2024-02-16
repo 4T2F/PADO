@@ -31,7 +31,7 @@ struct FeedCell: View {
     let feedCellType: FeedFilter
     @Binding var post: Post
     var index: Int
-
+    
     var body: some View {
         ZStack {
             if feedVM.currentPadoRideIndex == nil || feedVM.padoRidePosts.isEmpty {
@@ -108,7 +108,7 @@ struct FeedCell: View {
                             }
                         }
                     }
-            } else if let currentIndex = feedVM.currentPadoRideIndex, 
+            } else if let currentIndex = feedVM.currentPadoRideIndex,
                         feedVM.padoRidePosts.indices.contains(currentIndex) {
                 // PadoRide 이미지 표시
                 let padoRide = feedVM.padoRidePosts[currentIndex]
@@ -446,10 +446,31 @@ struct FeedCell: View {
                             // MARK: - 신고하기
                             VStack(spacing: 10) {
                                 Button {
-                                    if !userNameID.isEmpty {
-                                        isShowingReportView.toggle()
+                                    if post.ownerUid == userNameID {
+                                        // 내가 받은 게시물 삭제 로직
+                                    } else if post.ownerUid == userNameID &&
+                                                feedVM.padoRidePosts[feedVM.currentPadoRideIndex ?? 0].id == userNameID {
+                                        // 내가 받은 게시물의 멍게 삭제 로직
+                                        // post.ownerUid == userNameID && 포스트 - 파도라이드 - 오너아이디 == userNameID
+                                        // 파도라이드 서브 컬렉션에 post ownner uid 추가 필요
+                                    } else if feedVM.padoRidePosts[feedVM.currentPadoRideIndex ?? 0].id == userNameID {
+                                        // 내가 보낸 멍게의 삭제 로직
+                                        // 포스트 - 파도라이드 - 다큐먼트 네임 == userNameID
+                                        let fileName = feedVM.padoRidePosts[feedVM.currentPadoRideIndex ?? 0].storageFileName
+                                        
+                                        Task {
+                                            try await DeletePost.shared.deletePadoridePost(postID: post.id ?? "",
+                                                                                           storageFileName: fileName)
+                                        }
+                                    } else if post.surferUid == userNameID {
+                                        // 내가 보낸 게시물 삭제 로직
+                                        print("1")
                                     } else {
-                                        isShowingLoginPage = true
+                                        if !userNameID.isEmpty {
+                                            isShowingReportView.toggle()
+                                        } else {
+                                            isShowingLoginPage = true
+                                        }
                                     }
                                 } label: {
                                     VStack {
