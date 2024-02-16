@@ -18,7 +18,6 @@ struct SelectPostView: View {
     @ObservedObject var profileVM: ProfileViewModel
     @ObservedObject var feedVM: FeedViewModel
 
-    let updateHeartData = UpdateHeartData()
     var viewType: PostViewType
     
     @Binding var isShowingDetail: Bool
@@ -36,7 +35,6 @@ struct SelectPostView: View {
                                 ForEach(profileVM.padoPosts.indices, id: \.self) { index in
                                     SelectPostCell(profileVM: profileVM,
                                                    feedVM: feedVM,
-                                                   updateHeartData: updateHeartData,
                                                    post: $profileVM.padoPosts[index],
                                                    cellType: PostViewType.receive)
                                     .id(profileVM.padoPosts[index].id)
@@ -46,7 +44,6 @@ struct SelectPostView: View {
                                 ForEach(profileVM.sendPadoPosts.indices, id: \.self) { index in
                                     SelectPostCell(profileVM: profileVM,
                                                    feedVM: feedVM,
-                                                   updateHeartData: updateHeartData,
                                                    post: $profileVM.sendPadoPosts[index],
                                                    cellType: PostViewType.send)
                                     .id(profileVM.sendPadoPosts[index].id)
@@ -55,7 +52,6 @@ struct SelectPostView: View {
                                 ForEach(profileVM.highlights.indices, id: \.self) { index in
                                     SelectPostCell(profileVM: profileVM,
                                                    feedVM: feedVM,
-                                                   updateHeartData: updateHeartData,
                                                    post: $profileVM.highlights[index],
                                                    cellType: PostViewType.highlight)
                                     .id(profileVM.highlights[index].id)

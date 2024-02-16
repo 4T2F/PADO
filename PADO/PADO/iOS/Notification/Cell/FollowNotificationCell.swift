@@ -9,58 +9,68 @@ import Kingfisher
 import SwiftUI
 
 struct FollowNotificationCell: View {
-    @State var sendUserProfileUrl: String = ""
-    @State var buttonActive: Bool = false
-    @State var name = ""
+    @State private var buttonActive: Bool = false
+    @State private var targetUser: User? = nil
+    @State private var buttonOnOff: Bool = false
     
     var notification: Noti
     
     var body: some View {
-        HStack(spacing: 0) {
-            if let image = URL(string: sendUserProfileUrl) {
-                KFImage(image)
-                    .resizable()
-                    .frame(width: 40, height: 40)
-                    .cornerRadius(40)
-                    .padding(.trailing)
-            } else {
-                Image("defaultProfile")
-                    .resizable()
-                    .frame(width: 40, height: 40)
-                    .cornerRadius(40)
-                    .padding(.trailing)
+        NavigationLink {
+            if let targetUser = targetUser {
+                OtherUserProfileView(buttonOnOff: $buttonOnOff,
+                                     user: targetUser)
             }
-            
-            VStack(alignment: .leading, spacing: 4) {
-                HStack {
-                    Text("\(notification.sendUser)님이 회원님을 팔로우 하기 시작했습니다. ")
-                        .font(.system(size: 14))
-                        .fontWeight(.medium)
-                    +
-                    Text(notification.createdAt.formatDate(notification.createdAt))
-                        .font(.system(size: 12))
-                        .foregroundStyle(Color(.systemGray))
+        } label: {
+            HStack(spacing: 0) {
+                if let image = URL(string: targetUser?.profileImageUrl ?? "") {
+                    KFImage(image)
+                        .resizable()
+                        .frame(width: 40, height: 40)
+                        .cornerRadius(40)
+                        .padding(.trailing)
+                } else {
+                    Image("defaultProfile")
+                        .resizable()
+                        .frame(width: 40, height: 40)
+                        .cornerRadius(40)
+                        .padding(.trailing)
                 }
-                .lineSpacing(4)
-            }
-            
+                
+                VStack(alignment: .leading, spacing: 4) {
+                    HStack {
+                        Text("\(notification.sendUser)님이 회원님을 팔로우 하기 시작했습니다. ")
+                            .font(.system(size: 14))
+                            .fontWeight(.medium)
+                        +
+                        Text(notification.createdAt.formatDate(notification.createdAt))
+                            .font(.system(size: 12))
+                            .foregroundStyle(Color(.systemGray))
+                    }
+                    .lineSpacing(4)
+                }
+                
+  
             Spacer()
             
-            BlueButtonView(cellUserId: notification.sendUser,
+            FollowButtonView(cellUserId: notification.sendUser,
                            buttonActive: $buttonActive,
                            activeText: "팔로우",
-                           unActiveText: "팔로잉",
+                           unActiveText: "팔로우 취소",
                            widthValue: 85,
-                           heightValue: 30)
+                             heightValue: 30, 
+                             buttonType: ButtonType.direct)
         }
-        .onAppear {
-            Task {
-                if let sendUserProfile = await UpdateUserData.shared.getOthersProfileDatas(id: notification.sendUser) {
-                    self.sendUserProfileUrl = sendUserProfile.profileImageUrl ?? ""
+ 
+            .onAppear {
+                Task {
+                    if let targetUser = await UpdateUserData.shared.getOthersProfileDatas(id: notification.sendUser) {
+                        self.targetUser = targetUser
+                    }
+                    self.buttonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: notification.sendUser)
+
                 }
             }
         }
     }
 }
-// 아래 로직 추가해야함
-// self.buttonOnOff = await updateFollowData.checkFollowStatus(id: searchCellID)

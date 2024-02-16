@@ -32,8 +32,6 @@ struct OtherUserProfileView: View {
     @State private var isShowingMessageView: Bool = false
     @State private var isShowingUserReport: Bool = false
     
-    let updatePushNotiData = UpdatePushNotiData()
-    
     let user: User
     
     let columns = [GridItem(.flexible(), spacing: 1), GridItem(.flexible(), spacing: 1), GridItem(.flexible())]
@@ -130,8 +128,7 @@ struct OtherUserProfileView: View {
         .ignoresSafeArea(.container, edges: .vertical)
         .onAppear {
             Task {
-                followVM.profileFollowId = user.nameID
-                followVM.initializeFollowFetch()
+                followVM.initializeFollowFetch(id: user.nameID)
                 await profileVM.fetchPostID(id: user.nameID)
                 await postitVM.getMessageDocument(ownerID: user.nameID)
             }
@@ -217,7 +214,22 @@ struct OtherUserProfileView: View {
                                         }
                                     }
                                 } else {
-                                    if buttonOnOff {
+                                    if userNameID.isEmpty {
+                                        Button {
+                                            // 가입 모달 띄우기
+                                        } label: {
+                                            ZStack {
+                                                RoundedRectangle(cornerRadius:6)
+                                                    .stroke(.white, lineWidth: 1)
+                                                    .frame(width: 85, height: 28)
+                                                Text("팔로우")
+                                                    .font(.system(size: 12))
+                                                    .fontWeight(.medium)
+                                                    .foregroundStyle(.white)
+                                            }
+                                            
+                                        }
+                                    } else if buttonOnOff {
                                         Button {
                                             Task {
                                                 await UpdateFollowData.shared.directUnfollowUser(id: user.nameID)
@@ -238,7 +250,9 @@ struct OtherUserProfileView: View {
                                         Button {
                                             Task {
                                                 await UpdateFollowData.shared.followUser(id: user.nameID)
-                                                await updatePushNotiData.pushNoti(receiveUser: user, type: .follow)
+                                                if let currentUser = viewModel.currentUser {
+                                                    await UpdatePushNotiData.shared.pushNoti(receiveUser: user, type: .follow, sendUser: currentUser)
+                                                }
                                                 buttonOnOff.toggle()
                                             }
                                         } label: {

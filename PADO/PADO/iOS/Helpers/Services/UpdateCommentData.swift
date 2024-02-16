@@ -32,6 +32,8 @@ class UpdateCommentData {
     //  댓글 작성 및 프로필 이미지 URL 반환
     func writeComment(documentID: String, imageUrl: String, inputcomment: String) async {
         
+        guard !userNameID.isEmpty else { return }
+        
         let initialPostData : [String: Any] = [
             "userID": userNameID,
             "content": inputcomment,

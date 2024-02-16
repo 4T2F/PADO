@@ -25,6 +25,7 @@ class AuthenticationViewModel: ObservableObject {
     @Published var errorMessage = ""
     @Published var showAlert = false
     @Published var isExisted = false
+    @Published var needsDataFetch = false
     
     // 탭바 이동관련 변수
     @Published var showTab: Int = 0
@@ -42,6 +43,7 @@ class AuthenticationViewModel: ObservableObject {
     @Published var backimagePick: Bool = false
     @Published var changedValue: Bool = false
     @Published var showProfileModal: Bool = false
+    @Published var selectedFilter: FeedFilter = .today
     
     // MARK: - SettingNoti
     @Published var alertAccept = ""
@@ -167,6 +169,7 @@ class AuthenticationViewModel: ObservableObject {
         do {
             try await Firestore.firestore().collection("users").document(nameID).setData(data)
             
+            userNameID = nameID
             currentUser = User(
                 id: userId,
                 username: "",
@@ -179,7 +182,7 @@ class AuthenticationViewModel: ObservableObject {
                 instaAddress: "",
                 tiktokAddress: ""
             )
-            userNameID = nameID
+           
         } catch {
             print("Error saving user data: \(error.localizedDescription)")
         }
@@ -242,6 +245,9 @@ class AuthenticationViewModel: ObservableObject {
             showAlert = false
             isExisted = false
             currentUser = nil
+            selectedFilter = .today
+            userFollowingIDs.removeAll()
+            showTab = 0
             
             print("dd")
             print(String(describing: Auth.auth().currentUser?.uid))
@@ -299,6 +305,9 @@ class AuthenticationViewModel: ObservableObject {
         showAlert = false
         isExisted = false
         currentUser = nil
+        selectedFilter = .today
+        userFollowingIDs.removeAll()
+        showTab = 0
     }
     
     // MARK: - Firestore 쿼리 처리
@@ -322,13 +331,14 @@ class AuthenticationViewModel: ObservableObject {
     
     func fetchUser() async {
         // 사용자 데이터 불러오기
+        
         do {
-            try await Firestore.firestore().collection("users").document(userNameID).updateData([
+            try await Firestore.firestore().collection("users").document(nameID).updateData([
                 "fcmToken": userToken,
             ])
             
-            let snapshot = try await Firestore.firestore().collection("users").document(userNameID).getDocument()
-            print("nameID: \(userNameID)")
+            let snapshot = try await Firestore.firestore().collection("users").document(nameID).getDocument()
+            print("nameID: \(nameID)")
             print("Snapshot: \(String(describing: snapshot.data()))")
             
             guard let user = try? snapshot.data(as: User.self) else {
