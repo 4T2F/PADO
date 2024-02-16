@@ -90,6 +90,7 @@ class UpdateImageUrl {
         
         // 파이어베이스 스토리지에 이미지를 업로드하는 메서드
         func uploadImageToStorage(image: UIImage, storageTypeInput: StorageTypeInput, imageQuality: ImageQuality) async throws -> String? {
+            guard !userNameID.isEmpty else { return nil }
             let filename = userNameID
             
             let dateFormatter = DateFormatter()
@@ -149,6 +150,9 @@ class UpdateImageUrl {
         
         // 전달받은 imageUrl의 값을 파이어스토어 모델에 올리고 뷰모델에 넣어줌
         func updateImageToStore(withImageUrl imageUrl: String, storageTypeInput: StorageTypeInput, documentid: String, surfingID: String) async throws -> String {
+            
+            guard !userNameID.isEmpty else { return "" }
+            
             switch storageTypeInput {
                 
             case .user:

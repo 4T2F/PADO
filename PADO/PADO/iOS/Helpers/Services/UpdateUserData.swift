@@ -16,6 +16,7 @@ class UpdateUserData {
     let db = Firestore.firestore()
     
     func updateUserData(initialUserData: [String: Any]) async throws {
+        guard !userNameID.isEmpty else { return }
                 
         let updatedb = db.collection("users").document(userNameID)
         

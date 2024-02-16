@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ContentView: View {
     @State var width = UIScreen.main.bounds.width
-    @State var selectedFilter: FeedFilter = .following
     
     @EnvironmentObject var viewModel: AuthenticationViewModel
     
@@ -40,8 +39,7 @@ struct ContentView: View {
     
     var body: some View {
         TabView(selection: $viewModel.showTab) {
-            FeedView(selectedFilter: $selectedFilter,
-                     feedVM: feedVM,
+            FeedView(feedVM: feedVM,
                      surfingVM: surfingVM,
                      profileVM: profileVM,
                      followVM: followVM,
@@ -64,27 +62,30 @@ struct ContentView: View {
             }
             .onAppear { viewModel.showTab = 1 }
             .tag(1)
-            SurfingView(surfingVM: surfingVM,
-                        feedVM: feedVM, profileVM:
-                            profileVM, followVM:
-                            followVM)
-            .tabItem {
-                Text("")
-                
-                Image(viewModel.showTab == 2 ? "tab_added" : "tab_add")
-            }
-            .onAppear { viewModel.showTab = 2 }
-            .tag(2)
-            PadoRideView(followVM: followVM, padorideVM: padorideVM)
-                .tabItem {
-                    Image(viewModel.showTab == 3 ? "today_light" : "today_gray")
-                    
-                    Text("파도타기")
-                }
-                .onAppear { viewModel.showTab = 3 }
-                .tag(3)
             
             if let user = viewModel.currentUser {
+                SurfingView(surfingVM: surfingVM,
+                            feedVM: feedVM, profileVM:
+                                profileVM, followVM:
+                                followVM)
+                .tabItem {
+                    Text("")
+                    
+                    Image(viewModel.showTab == 2 ? "tab_added" : "tab_add")
+                }
+                .onAppear { viewModel.showTab = 2 }
+                .tag(2)
+                
+                PadoRideView(followVM: followVM, padorideVM: padorideVM)
+                    .tabItem {
+                        Image(viewModel.showTab == 3 ? "today_light" : "today_gray")
+                        
+                        Text("파도타기")
+                    }
+                    .onAppear { viewModel.showTab = 3 }
+                    .tag(3)
+                
+                
                 ProfileView(profileVM: profileVM,
                             followVM: followVM,
                             feedVM: feedVM,
@@ -97,6 +98,33 @@ struct ContentView: View {
                 }
                 .onAppear { viewModel.showTab = 4 }
                 .tag(4)
+            } else {
+                LoginAlert()
+                    .tabItem {
+                        Text("")
+                        
+                        Image(viewModel.showTab == 2 ? "tab_added" : "tab_add")
+                    }
+                    .onAppear {viewModel.showTab = 2 }
+                    .tag(2)
+                    
+                LoginAlert()
+                    .tabItem {
+                        Image(viewModel.showTab == 3 ? "today_light" : "today_gray")
+                        
+                        Text("파도타기")
+                    }
+                    .onAppear { viewModel.showTab = 3 }
+                    .tag(3)
+                
+                LoginAlert()
+                    .tabItem {
+                        Image(viewModel.showTab == 4 ? "profile_light" : "profile_gray")
+                        
+                        Text("프로필")
+                    }
+                    .onAppear { viewModel.showTab = 4 }
+                    .tag(4)
             }
         }
         // 상대방 프로필로 전환 이벤트(팔로우, 서퍼지정, 방명록 글)
@@ -117,9 +145,21 @@ struct ContentView: View {
         }
         .tint(.white)
         .onAppear {
-            Task {
-                followVM.profileFollowId = userNameID
-                followVM.initializeFollowFetch()
+            fetchData()
+           
+        }
+        .onChange(of: viewModel.needsDataFetch) { _, newValue in
+            feedVM.findFollowingUsers()
+            fetchData()
+        }
+    }
+    
+    func fetchData() {
+        Task {
+            if !userNameID.isEmpty {
+                followVM.initializeFollowFetch(id: userNameID)
+                viewModel.selectedFilter = .following
+                viewModel.showTab = 0
                 await profileVM.fetchPostID(id: userNameID)
                 await notiVM.fetchNotifications()
                 await postitVM.getMessageDocument(ownerID: userNameID)

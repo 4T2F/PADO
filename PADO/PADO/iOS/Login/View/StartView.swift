@@ -33,8 +33,15 @@ struct StartView: View {
                     LinearGradient(colors: [.clear, .black.opacity(0.5), .black], startPoint: .top, endPoint: .bottom)
                 }
                 .ignoresSafeArea()
-
+                
                 VStack(spacing: 20) {
+                    Text("PADO에 로그인")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .padding(.top, 40)
+                    
+                    Spacer()
+                    
                     VStack {
                         HStack(spacing: 0) {
                             ForEach(titleText) { text in
@@ -54,16 +61,18 @@ struct StartView: View {
                             .padding(.top, 5)
                     }
                     .padding(.bottom, 80)
-
+                    
                     HStack(spacing: 20) {
-                        NavigationLink(destination: SignUpView()) {
+                        NavigationLink {
+                            SignUpView(loginSignUpType: LoginSignUpType.signUp)
+                        } label: {
                             SignUpButton(text: "회원가입")
                         }
 
-                        Button {
-                            // 로그인 뷰 이동 링크 달아야함
+                        NavigationLink {
+                            SignUpView(loginSignUpType: LoginSignUpType.login)
                         } label: {
-                            EnjoyButton(text: "둘러보기")
+                            EnjoyButton(text: "로그인")
                         }
                     }
                 }

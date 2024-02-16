@@ -82,7 +82,9 @@ struct FollowingView: View {
             } //: VSTACK
         } //: ZSTACK
         .onDisappear {
-            UpdateFollowData.shared.fetchFollowStatusData()
+            Task {
+                await UpdateFollowData.shared.fetchFollowStatusData()
+            }
         }
     }
 }

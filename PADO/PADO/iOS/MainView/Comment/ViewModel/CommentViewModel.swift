@@ -40,7 +40,9 @@ class CommentViewModel: ObservableObject {
     func removeDuplicateUserIDs(from comments: [Comment])  {
         let userIDs = comments.map { $0.userID }
         var uniqueUserIDs = Set(userIDs)
-        uniqueUserIDs.insert(userNameID)
+        if !userNameID.isEmpty {
+            uniqueUserIDs.insert(userNameID)
+        }
         self.commentUserIDs = Array(uniqueUserIDs)
     }
     
