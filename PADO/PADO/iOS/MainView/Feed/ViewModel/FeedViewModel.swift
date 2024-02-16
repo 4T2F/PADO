@@ -105,7 +105,12 @@ class FeedViewModel:Identifiable ,ObservableObject {
         followingPosts.removeAll()
         feedItems.removeAll()
         lastFollowFetchedDocument = nil
-        guard !userFollowingIDs.isEmpty else { return }
+        guard !userFollowingIDs.isEmpty else {
+            Task {
+                await getPopularUser()
+            }
+            return
+        }
         
         // 현재 날짜로부터 2일 전의 날짜를 계산
         let twoDaysAgo = Calendar.current.date(byAdding: .day, value: -7, to: Date()) ?? Date()

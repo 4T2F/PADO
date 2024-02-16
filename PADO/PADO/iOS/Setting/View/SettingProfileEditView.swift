@@ -170,7 +170,7 @@ struct SettingProfileEditView: View {
                 })
         )
         .frame(cropSize)
-        .clipShape(RoundedRectangle(cornerRadius: crop == .circle ? cropSize.height / 2 : 0))
+        .clipShape(RoundedRectangle(cornerRadius: 0))
     }
     // 격자 뷰를 구성하는 함수
     @ViewBuilder
@@ -193,6 +193,10 @@ struct SettingProfileEditView: View {
                         .frame(maxHeight: .infinity)
                 }
             }
+            
+            RoundedRectangle(cornerRadius: crop == .circle ? 300 / 2 : 0)
+                .stroke(.white, lineWidth: 2)
+                .foregroundStyle(.clear)
         }
     }
 }
