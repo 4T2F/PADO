@@ -30,8 +30,14 @@ struct SendPadoView: View {
                 padorideVM.showingModal = false
                 Task {
                     await padorideVM.sendPostAtFirebase()
+                    if let selectedPost = padorideVM.selectedPost, let surfingUser = surfingUser {
+                        await UpdatePushNotiData.shared.pushPostNoti(targetPostID: selectedPost.id ?? "",
+                                                                     receiveUser: surfingUser,
+                                                                     type: .padoRide,
+                                                                     message: "",
+                                                                     post: selectedPost)
+                    }
                     padorideVM.cancelImageEditing()
-                    
                     padorideVM.isShowingEditView = false
                 }
             } label: {
