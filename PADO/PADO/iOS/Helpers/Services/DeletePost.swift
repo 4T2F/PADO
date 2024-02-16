@@ -20,8 +20,8 @@ class DeletePost {
         
     }
     
-    func deletePadoridePost(postID: String, storageFileName: String) async throws {
-        try await db.collection("post").document(postID).collection("padoride").document(userNameID).delete()
+    func deletePadoridePost(postID: String, storageFileName: String, subID: String) async throws {
+        try await db.collection("post").document(postID).collection("padoride").document(subID).delete()
         
         let imagesRef = storageRef.child("pado_ride")
         try await imagesRef.child(storageFileName).delete()
