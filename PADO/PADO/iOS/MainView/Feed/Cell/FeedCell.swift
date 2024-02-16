@@ -273,6 +273,62 @@ struct FeedCell: View {
                             }
                         }
                         .foregroundStyle(.white)
+                    } else {
+                        HStack(spacing: 12) {
+                            NavigationLink {
+                                if let postUser = postUser {
+                                    OtherUserProfileView(buttonOnOff: $postOwnerButtonOnOff,
+                                                         user: postUser)
+                                }
+                            } label: {
+                                if let postUser = postUser {
+                                    CircularImageView(size: .small,
+                                                      user: postUser)
+                                }
+                            }
+                            NavigationLink {
+                                if let postUser = postUser {
+                                    OtherUserProfileView(buttonOnOff: $postOwnerButtonOnOff,
+                                                         user: postUser)
+                                }
+                            } label: {
+                                HStack {
+                                    if let user = postUser {
+                                        if !user.username.isEmpty {
+                                            VStack(alignment: .leading, spacing: 4) {
+                                                Text("\(user.username)님의 프로필")
+                                                    .font(.system(size: 12))
+                                                    .fontWeight(.medium)
+                                                
+                                                Text("@\(post.ownerUid)")
+                                                    .font(.system(size: 10))
+                                                    .fontWeight(.medium)
+                                                    .foregroundStyle(.gray)
+                                            }
+                                        } else {
+                                            VStack(alignment: .leading, spacing: 4) {
+                                                Text("\(post.ownerUid)님의 프로필")
+                                                    .font(.system(size: 12))
+                                                    .fontWeight(.medium)
+                                                
+                                                Text("@\(post.ownerUid)")
+                                                    .font(.system(size: 10))
+                                                    .fontWeight(.medium)
+                                                    .foregroundStyle(.gray)
+                                            }
+                                        }
+                                    }
+                                    Image(systemName: "chevron.right")
+                                        .font(.system(size: 12))
+                                        .foregroundStyle(.white)
+                                        .padding(.leading, 90)
+                                }
+                                .padding(10)
+                                .background(Color(.systemGray4).opacity(0.5))
+                                .clipShape(RoundedRectangle(cornerRadius: 4))
+                            }
+                        }
+                        .foregroundStyle(.white)
                     }
                     
                     Spacer()
@@ -286,33 +342,38 @@ struct FeedCell: View {
                                         // 햅틱 피드백 생성
                                         let generator = UIImpactFeedbackGenerator(style: .light)
                                         generator.impactOccurred()
-                                    }
-                                    
-                                    if let currentIndex = feedVM.currentPadoRideIndex {
-                                        // 다음 이미지로 이동
-                                        let nextIndex = currentIndex + 1
-                                        if nextIndex < feedVM.padoRidePosts.count {
-                                            feedVM.currentPadoRideIndex = nextIndex
-                                        } else {
-                                            // 모든 PadoRide 이미지를 보여준 후, 원래 포스트로 돌아감
-                                            feedVM.currentPadoRideIndex = nil
-                                            feedVM.isShowingPadoRide = false
-                                            feedVM.padoRidePosts = []
-                                        }
-                                    } else {
-                                        // 최초로 PadoRide 이미지 보여주기
-                                        // PadoRidePosts가 이미 로드되었는지 확인
-                                        if feedVM.padoRidePosts.isEmpty {
-                                            Task {
-                                                await feedVM.fetchPadoRides(postID: post.id ?? "")
-                                                if !feedVM.padoRidePosts.isEmpty {
-                                                    feedVM.isShowingPadoRide = true
-                                                    feedVM.currentPadoRideIndex = 0
-                                                }
+                                        
+                                        
+                                        if let currentIndex = feedVM.currentPadoRideIndex {
+                                            // 다음 이미지로 이동
+                                            let nextIndex = currentIndex + 1
+                                            if nextIndex < feedVM.padoRidePosts.count {
+                                                feedVM.currentPadoRideIndex = nextIndex
+                                            } else {
+                                                // 모든 PadoRide 이미지를 보여준 후, 원래 포스트로 돌아감
+                                                feedVM.currentPadoRideIndex = nil
+                                                feedVM.isHeaderVisible = true
+                                                feedVM.isShowingPadoRide = false
+                                                feedVM.padoRidePosts = []
                                             }
                                         } else {
-                                            feedVM.isShowingPadoRide = false
-                                            feedVM.currentPadoRideIndex = 0
+                                            // 최초로 PadoRide 이미지 보여주기
+                                            // PadoRidePosts가 이미 로드되었는지 확인
+                                            if feedVM.padoRidePosts.isEmpty {
+                                                Task {
+                                                    await feedVM.fetchPadoRides(postID: post.id ?? "")
+                                                    if !feedVM.padoRidePosts.isEmpty {
+                                                        
+                                                        feedVM.isHeaderVisible = false
+                                                        feedVM.isShowingPadoRide = true
+                                                        feedVM.currentPadoRideIndex = 0
+                                                    }
+                                                }
+                                            } else {
+                                                feedVM.isHeaderVisible = true
+                                                feedVM.isShowingPadoRide = false
+                                                feedVM.currentPadoRideIndex = 0
+                                            }
                                         }
                                     }
                                 } label: {
