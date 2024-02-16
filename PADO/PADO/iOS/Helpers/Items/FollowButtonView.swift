@@ -22,6 +22,8 @@ struct FollowButtonView: View {
     let heightValue: CGFloat
     let buttonType: ButtonType
     
+    @State private var isShowingLoginPage: Bool = false
+    
     var body: some View {
         Button(action: {
             if buttonActive {
@@ -40,7 +42,7 @@ struct FollowButtonView: View {
                 }
                 buttonActive.toggle()
             } else {
-                // 가입 모달 띄우기
+                isShowingLoginPage = true
             }
         }) {
             ZStack {
@@ -64,6 +66,10 @@ struct FollowButtonView: View {
                 .padding(.horizontal)
             }
         }
+        .sheet(isPresented: $isShowingLoginPage, content: {
+            StartView()
+                .presentationDragIndicator(.visible)
+        })
         .onAppear {
             Task {
                 self.buttonActive = UpdateFollowData.shared.checkFollowingStatus(id: cellUserId)
