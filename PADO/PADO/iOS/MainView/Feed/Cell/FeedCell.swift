@@ -2,7 +2,7 @@
 //  FeedCell.swift
 //  PADO
 //
-//  Created by 최동호, 황민채 on 2/6/24.
+//  Created by 강치우 on 2/6/24.
 //
 
 import Firebase
@@ -86,11 +86,6 @@ struct FeedCell: View {
                                                             .clear, .clear,
                                                             .clear, .clear,
                                                             .black.opacity(0.1),
-                                                            .black.opacity(0.1),
-                                                            .black.opacity(0.1),
-                                                            .black.opacity(0.1),
-                                                            .black.opacity(0.2),
-                                                            .black.opacity(0.2),
                                                             .black.opacity(0.2),
                                                             .black.opacity(0.3),
                                                             .black.opacity(0.4),
@@ -109,7 +104,7 @@ struct FeedCell: View {
                         }
                     }
             } else if let currentIndex = feedVM.currentPadoRideIndex,
-                        feedVM.padoRidePosts.indices.contains(currentIndex) {
+                      feedVM.padoRidePosts.indices.contains(currentIndex) {
                 // PadoRide 이미지 표시
                 let padoRide = feedVM.padoRidePosts[currentIndex]
                 
@@ -159,8 +154,6 @@ struct FeedCell: View {
                                                             .clear, .clear,
                                                             .clear, .clear,
                                                             .black.opacity(0.1),
-                                                            .black.opacity(0.1),
-                                                            .black.opacity(0.1),
                                                             .black.opacity(0.2),
                                                             .black.opacity(0.3),
                                                             .black.opacity(0.4),
@@ -196,84 +189,91 @@ struct FeedCell: View {
                 
                 HStack(alignment: .bottom) {
                     // MARK: - 아이디 및 타이틀
-                    VStack(alignment: .leading, spacing: 8) {
-                        NavigationLink {
-                            if let postUser = postUser {
-                                OtherUserProfileView(buttonOnOff: $postOwnerButtonOnOff,
-                                                     user: postUser)
+                    if feedVM.isHeaderVisible {
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text("\(post.title)")
+                                .font(.system(size: 18))
+                                .fontWeight(.bold)
+                            
+                            // MARK: - 서퍼
+                            if let surferUser = surferUser {
+                                NavigationLink {
+                                    OtherUserProfileView(buttonOnOff: $postSurferButtonOnOff,
+                                                         user: surferUser)
+                                    
+                                } label: {
+                                    if !surferUser.username.isEmpty {
+                                        Text("feat. \(surferUser.username)")
+                                    } else {
+                                        Text("feat. @\(post.surferUid)")
+                                    }
+                                }
+                                .font(.system(size: 14))
+                                .fontWeight(.bold)
+                                .foregroundStyle(.white)
+                                .padding(8)
+                                .background(.modal.opacity(0.8))
+                                .clipShape(RoundedRectangle(cornerRadius: 3))
+                                .padding(.bottom, 4)
                             }
-                        } label: {
-                            if let postUser = postUser {
-                                CircularImageView(size: .xLarge,
-                                                  user: postUser)
-                            }
-                        }
-                        VStack(alignment: .leading, spacing: 4) {
-                            HStack(spacing: 4) {
-                                
+                            
+                            HStack(spacing: 12) {
                                 NavigationLink {
                                     if let postUser = postUser {
                                         OtherUserProfileView(buttonOnOff: $postOwnerButtonOnOff,
                                                              user: postUser)
                                     }
                                 } label: {
-                                    Text("@\(post.ownerUid)")
-                                        .font(.title)
-                                        .fontWeight(.bold)
-                                    
-                                    
+                                    if let postUser = postUser {
+                                        CircularImageView(size: .small,
+                                                          user: postUser)
+                                    }
                                 }
-                                if feedCellType == .today && index == 0 {
-                                    Circle()
-                                        .foregroundStyle(.clear)
-                                        .frame(width: 10)
-                                        .overlay {
-                                            Image("goldmedal")
-                                                .offset(x: 14, y: 6)
+                                NavigationLink {
+                                    if let postUser = postUser {
+                                        OtherUserProfileView(buttonOnOff: $postOwnerButtonOnOff,
+                                                             user: postUser)
+                                    }
+                                } label: {
+                                    HStack {
+                                        if let user = postUser {
+                                            if !user.username.isEmpty {
+                                                VStack(alignment: .leading, spacing: 4) {
+                                                    Text("\(user.username)님의 프로필")
+                                                        .font(.system(size: 12))
+                                                        .fontWeight(.medium)
+                                                    
+                                                    Text("@\(post.ownerUid)")
+                                                        .font(.system(size: 10))
+                                                        .fontWeight(.medium)
+                                                        .foregroundStyle(.gray)
+                                                }
+                                            } else {
+                                                VStack(alignment: .leading, spacing: 4) {
+                                                    Text("\(post.ownerUid)님의 프로필")
+                                                        .font(.system(size: 12))
+                                                        .fontWeight(.medium)
+                                                    
+                                                    Text("@\(post.ownerUid)")
+                                                        .font(.system(size: 10))
+                                                        .fontWeight(.medium)
+                                                        .foregroundStyle(.gray)
+                                                }
+                                            }
                                         }
-                                } else if feedCellType == .today && index == 1 {
-                                    
-                                    Circle()
-                                        .foregroundStyle(.clear)
-                                        .frame(width: 10)
-                                        .overlay {
-                                            Image("silvermedal")
-                                                .offset(x: 14, y: 6)
-                                        }
-                                } else if feedCellType == .today && index == 2 {
-                                    Circle()
-                                        .foregroundStyle(.clear)
-                                        .frame(width: 10)
-                                        .overlay {
-                                            Image("bronzemedal")
-                                                .offset(x: 14, y: 6)
-                                        }
+                                        Image(systemName: "chevron.right")
+                                            .font(.system(size: 12))
+                                            .foregroundStyle(.white)
+                                            .padding(.leading, 90)
+                                    }
+                                    .padding(10)
+                                    .background(Color(.systemGray4).opacity(0.5))
+                                    .clipShape(RoundedRectangle(cornerRadius: 4))
                                 }
-                                
-                            }
-                            
-                            HStack(alignment: .center, spacing: 8) {
-                                Text("\(post.surferUid)님에게 받은 파도")
-                                    .font(.system(size: 16))
-                                    .fontWeight(.medium)
-                                
-                                Text("\(post.created_Time.formatDate(post.created_Time))")
-                                    .font(.system(size: 14))
-                                    .foregroundStyle(.white.opacity(0.7))
                             }
                         }
-                        .padding(.bottom, 5)
-                        
-                        if post.title.isEmpty {
-                            Text(" ")
-                                .font(.system(size: 16))
-                        } else {
-                            Text("\(post.title)")
-                                .font(.system(size: 16))
-                        }
+                        .foregroundStyle(.white)
                     }
-                    .foregroundStyle(.white)
-                    .padding(.bottom, 14)
                     
                     Spacer()
                     
@@ -286,7 +286,6 @@ struct FeedCell: View {
                                         // 햅틱 피드백 생성
                                         let generator = UIImpactFeedbackGenerator(style: .light)
                                         generator.impactOccurred()
-                                        // feedVM.isHeaderVisible.toggle()
                                     }
                                     
                                     if let currentIndex = feedVM.currentPadoRideIndex {
@@ -294,7 +293,6 @@ struct FeedCell: View {
                                         let nextIndex = currentIndex + 1
                                         if nextIndex < feedVM.padoRidePosts.count {
                                             feedVM.currentPadoRideIndex = nextIndex
-                                            feedVM.isShowingPadoRide = true
                                         } else {
                                             // 모든 PadoRide 이미지를 보여준 후, 원래 포스트로 돌아감
                                             feedVM.currentPadoRideIndex = nil
@@ -332,29 +330,8 @@ struct FeedCell: View {
                             }
                             .padding(.bottom, 15)
                             
-                            // MARK: - 서퍼
-                            NavigationLink {
-                                if let surferUser = surferUser {
-                                    OtherUserProfileView(buttonOnOff: $postSurferButtonOnOff,
-                                                         user: surferUser)
-                                }
-                            } label: {
-                                VStack(spacing: 10) {
-                                    if let surferUser = surferUser {
-                                        Circle()
-                                            .foregroundStyle(.white)
-                                            .frame(width: 39)
-                                            .overlay {
-                                                CircularImageView(size: .small,
-                                                                  user: surferUser)
-                                            }
-                                    }
-                                }
-                                .padding(.bottom, 10)
-                                
-                            }
                             // MARK: - 하트
-                            VStack(spacing: 10) {
+                            VStack(spacing: 8) {
                                 if isHeartCheck {
                                     Button {
                                         if !heartLoading {
@@ -419,7 +396,7 @@ struct FeedCell: View {
                             }
                             
                             // MARK: - 댓글
-                            VStack(spacing: 10) {
+                            VStack(spacing: 8) {
                                 Button {
                                     isShowingCommentView = true
                                 } label: {
@@ -446,40 +423,10 @@ struct FeedCell: View {
                             // MARK: - 신고하기
                             VStack(spacing: 10) {
                                 Button {
-                                    if let padoRideIndex = feedVM.currentPadoRideIndex {
-                                        if post.ownerUid == userNameID {
-                                            // 내가 받은 게시물의 멍게 삭제 로직
-                                            // post.ownerUid == userNameID && 포스트 - 파도라이드 - 오너아이디 == userNameID
-                                            // 파도라이드 서브 컬렉션에 post ownner uid 추가 필요
-                                            print("2")
-                                            
-                                        } else if feedVM.padoRidePosts[padoRideIndex].id == userNameID {
-                                            // 내가 보낸 멍게의 삭제 로직
-                                            // 포스트 - 파도라이드 - 다큐먼트 네임 == userNameID
-                                            // 완료
-                                            print("3")
-                                            let fileName = feedVM.padoRidePosts[padoRideIndex].storageFileName
-                                            
-                                            Task {
-                                                try await DeletePost.shared.deletePadoridePost(postID: post.id ?? "",
-                                                                                               storageFileName: fileName, 
-                                                                                               subID: userNameID)
-                                            }
-                                        }
-                                    }
-                                    if post.ownerUid == userNameID {
-                                        // 내가 받은 게시물 삭제 로직
-                                        print("1")
-                                    } else if post.surferUid == userNameID {
-                                        print("================")
-                                        // 내가 보낸 게시물 삭제 로직
-                                        print("4")
+                                    if !userNameID.isEmpty {
+                                        isShowingReportView.toggle()
                                     } else {
-                                        if !userNameID.isEmpty {
-                                            isShowingReportView.toggle()
-                                        } else {
-                                            isShowingLoginPage = true
-                                        }
+                                        isShowingLoginPage = true
                                     }
                                 } label: {
                                     VStack {
@@ -504,7 +451,6 @@ struct FeedCell: View {
                             .padding(.top, -15)
                         }
                     }
-                    .padding(.bottom, 28)
                 }
             }
             .padding()
