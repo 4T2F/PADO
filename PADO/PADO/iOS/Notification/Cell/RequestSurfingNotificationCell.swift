@@ -40,6 +40,7 @@ struct RequestSurfingNotificationCell: View {
                         .font(.system(size: 12))
                         .foregroundStyle(Color(.systemGray))
                 }
+                .multilineTextAlignment(.leading)
                 .lineSpacing(4)
             }
             
@@ -49,6 +50,7 @@ struct RequestSurfingNotificationCell: View {
                 KFImage(image)
                     .resizable()
                     .frame(width: 40, height: 50)
+                    .clipShape(RoundedRectangle(cornerRadius: 5))
             }
         }
         .onAppear {

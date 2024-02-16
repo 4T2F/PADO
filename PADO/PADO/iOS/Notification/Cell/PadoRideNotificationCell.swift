@@ -1,15 +1,16 @@
 //
-//  HeartNotificationCell.swift
+//  PadoRideNotificationCell.swift
 //  PADO
 //
-//  Created by 황민채 on 2/8/24.
+//  Created by 황민채 on 2/17/24.
 //
 
 import Kingfisher
 import SwiftUI
 
-struct HeartNotificationCell: View {
+struct PadoRideNotificationCell: View {
     @State var sendUserProfileUrl: String = ""
+    @State var sendPostUrl: String = ""
     
     var notification: Noti
     
@@ -31,10 +32,9 @@ struct HeartNotificationCell: View {
             
             VStack(alignment: .leading, spacing: 4) {
                 HStack {
-                    Text("\(notification.sendUser)님이 회원님의 파도에 ❤️로 공감했습니다. ")
+                    Text("\(notification.sendUser)님이 회원님을 파도탔어요! ")
                         .font(.system(size: 14))
                         .fontWeight(.medium)
-                    
                     +
                     Text(notification.createdAt.formatDate(notification.createdAt))
                         .font(.system(size: 12))
@@ -43,13 +43,25 @@ struct HeartNotificationCell: View {
                 .multilineTextAlignment(.leading)
                 .lineSpacing(4)
             }
+            
             Spacer()
             
+            if let image = URL(string: sendPostUrl) {
+                KFImage(image)
+                    .resizable()
+                    .frame(width: 40, height: 50)
+                    .clipShape(RoundedRectangle(cornerRadius: 5))
+            }
         }
         .onAppear {
             Task {
                 if let sendUserProfile = await UpdateUserData.shared.getOthersProfileDatas(id: notification.sendUser) {
                     self.sendUserProfileUrl = sendUserProfile.profileImageUrl ?? ""
+                }
+                
+                if let sendPost = await
+                    UpdatePostData.shared.fetchPostById(postId: notification.postID ?? "") {
+                    self.sendPostUrl = sendPost.imageUrl
                 }
             }
         }

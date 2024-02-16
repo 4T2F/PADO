@@ -26,6 +26,8 @@ struct NotificationCell: View {
             SurferNotificationCell(notification: notification)
         case "postit":
             PostitNotificationCell(notification: notification)
+        case "padoRide":
+            PadoRideNotificationCell(notification: notification)
         default:
             Text(notification.message ?? "") // 기본 전체 알람시 보여줄 셀
         }

@@ -45,4 +45,26 @@ class NotificationViewModel: ObservableObject {
         // 모든 알림을 읽음으로 표시한 후 notifications 배열 업데이트
         await fetchNotifications()
     }
+    
+    func deleteAllNotifications() async {
+        guard !userNameID.isEmpty else { return }
+        let notificationsRef = db.collection("users").document(userNameID).collection("notifications")
+        
+        do {
+            // notifications 서브콜렉션의 모든 문서를 가져옴
+            let snapshot = try await notificationsRef.getDocuments()
+            let batch = db.batch()
+            snapshot.documents.forEach { document in
+                batch.deleteDocument(document.reference)
+            }
+            
+            // batch 작업으로 모든 문서 삭제 실행
+            try await batch.commit()
+            
+            // 알림 목록 업데이트
+            await fetchNotifications()
+        } catch {
+            print("Error deleting all notifications: \(error)")
+        }
+    }
 }

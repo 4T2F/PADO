@@ -40,6 +40,7 @@ struct PostitNotificationCell: View {
                         .font(.system(size: 12))
                         .foregroundStyle(Color(.systemGray))
                 }
+                .multilineTextAlignment(.leading)
                 .lineSpacing(4)
             }
             
