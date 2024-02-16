@@ -53,8 +53,7 @@ struct ContentView: View {
             .tag(0)
             
             MainSearchView(searchVM: searchVM,
-                           profileVM: profileVM,
-                           followVM: followVM)
+                           profileVM: profileVM)
             .tabItem {
                 Image(viewModel.showTab == 1 ? "search_light" : "search_gray")
                 
@@ -65,9 +64,9 @@ struct ContentView: View {
             
             if let user = viewModel.currentUser {
                 SurfingView(surfingVM: surfingVM,
-                            feedVM: feedVM, profileVM:
-                                profileVM, followVM:
-                                followVM)
+                            feedVM: feedVM,
+                            profileVM: profileVM,
+                            followVM: followVM)
                 .tabItem {
                     Text("")
                     
@@ -76,7 +75,8 @@ struct ContentView: View {
                 .onAppear { viewModel.showTab = 2 }
                 .tag(2)
                 
-                PadoRideView(followVM: followVM, padorideVM: padorideVM)
+                PadoRideView(followVM: followVM,
+                             padorideVM: padorideVM)
                     .tabItem {
                         Image(viewModel.showTab == 3 ? "today_light" : "today_gray")
                         
@@ -159,9 +159,9 @@ struct ContentView: View {
                 viewModel.showTab = 0
                 feedVM.postFetchLoading = true
                 await profileVM.fetchBlockUsers()
-                followVM.initializeFollowFetch(id: userNameID)
-                await feedVM.fetchFollowingPosts()
+                await followVM.initializeFollowFetch(id: userNameID)
                 await feedVM.fetchTodayPadoPosts()
+                await feedVM.fetchFollowingPosts()
                 feedVM.postFetchLoading = false
                 await profileVM.fetchPostID(id: userNameID)
                 await notiVM.fetchNotifications()

@@ -139,6 +139,8 @@ class FeedViewModel:Identifiable ,ObservableObject {
                 $0.created_Time.dateValue() > $1.created_Time.dateValue()
             }
             
+            self.followingPosts = filterBlockedPosts(posts: self.followingPosts)
+            
             for document in filteredDocuments {
                 guard let post = try? document.data(as: Post.self) else { continue }
                 setupSnapshotFollowingListener(for: post)
@@ -173,9 +175,9 @@ class FeedViewModel:Identifiable ,ObservableObject {
                 setupSnapshotTodayPadoListener(for: post)
             }
 
-            // 인덱스 20개 초과 시 0~19번 인덱스까지만 포함
-            self.todayPadoPosts = Array(filteredPosts.prefix(20))
-
+            // 인덱스 20개 초과 시 0~24번 인덱스까지만 포함
+            self.todayPadoPosts = Array(filteredPosts.prefix(25))
+            self.todayPadoPosts = filterBlockedPosts(posts: self.todayPadoPosts)
         } catch {
             print("포스트 가져오기 오류: \(error.localizedDescription)")
         }
@@ -199,12 +201,14 @@ class FeedViewModel:Identifiable ,ObservableObject {
             let documents = try await getDocumentsAsync(collection: db.collection("post"), query: query)
             
             self.lastFollowFetchedDocument = documents.last
-            let documentsData = documents.compactMap { document in
+            var documentsData = documents.compactMap { document in
                 try? document.data(as: Post.self)
             }
             .filter { post in
                 userFollowingIDs.contains(where: { $0 == post.ownerUid })
             }
+            
+            documentsData = filterBlockedPosts(posts: documentsData)
       
             for documentData in documentsData {
                 setupSnapshotFollowingListener(for: documentData)
@@ -332,7 +336,6 @@ extension FeedViewModel {
                 return
             }
             if let index = self.todayPadoPosts.firstIndex(where: { $0.id == postID }) {
-                
                 self.todayPadoPosts[index].heartsCount = data["heartsCount"] as? Int ?? 0
                 self.todayPadoPosts[index].commentCount = data["commentCount"] as? Int ?? 0
             }
@@ -377,6 +380,17 @@ extension Timestamp {
         dateFormatter.dateFormat = "yyyy-MM-dd-HH:mm:ss.sssZ" // 원하는 날짜 형식 설정
         let dateString = dateFormatter.string(from: date) // Date를 String으로 변환
         return dateString
+    }
+}
+
+// 차단된 사용자의 게시물 필터링
+extension FeedViewModel {
+    private func filterBlockedPosts(posts: [Post]) -> [Post] {
+        let blockedUserIDs = Set(blockingUser.map { $0.blockUserID } + blockedUser.map { $0.blockUserID })
+        
+        return posts.filter { post in
+            !blockedUserIDs.contains(post.ownerUid) && !blockedUserIDs.contains(post.surferUid)
+        }
     }
 }
 

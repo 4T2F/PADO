@@ -125,9 +125,9 @@
 		63B7B98D2B7AF68D00707C2F /* pokjuk.json in Resources */ = {isa = PBXBuildFile; fileRef = 63B7B98C2B7AF68D00707C2F /* pokjuk.json */; };
 		63B7B98F2B7AF88900707C2F /* pokjuk1.json in Resources */ = {isa = PBXBuildFile; fileRef = 63B7B98E2B7AF88900707C2F /* pokjuk1.json */; };
 		63B7B9912B7AFA0600707C2F /* pokjuk2.json in Resources */ = {isa = PBXBuildFile; fileRef = 63B7B9902B7AFA0600707C2F /* pokjuk2.json */; };
-		63B7B99D2B7E7ED500707C2F /* SettingBlockUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B7B99C2B7E7ED500707C2F /* SettingBlockUserView.swift */; };
-		63B7B9A12B7E8ACB00707C2F /* BlockedUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B7B9A02B7E8ACB00707C2F /* BlockedUser.swift */; };
 		63B7B9992B7C996C00707C2F /* FeedGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B7B9982B7C996C00707C2F /* FeedGuideView.swift */; };
+		63B7B99D2B7E7ED500707C2F /* SettingBlockUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B7B99C2B7E7ED500707C2F /* SettingBlockUserView.swift */; };
+		63B7B9A12B7E8ACB00707C2F /* BlockUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B7B9A02B7E8ACB00707C2F /* BlockUser.swift */; };
 		63C20BEB2B56CEDC00911F64 /* AdvancedSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C20BEA2B56CEDB00911F64 /* AdvancedSettingsView.swift */; };
 		63C20BED2B56CFAF00911F64 /* AdvancedSettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C20BEC2B56CFAF00911F64 /* AdvancedSettingsCell.swift */; };
 		63C8BA492B561DC200025422 /* SignUpButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA482B561DC200025422 /* SignUpButton.swift */; };
@@ -362,9 +362,9 @@
 		63B7B98C2B7AF68D00707C2F /* pokjuk.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = pokjuk.json; sourceTree = "<group>"; };
 		63B7B98E2B7AF88900707C2F /* pokjuk1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = pokjuk1.json; sourceTree = "<group>"; };
 		63B7B9902B7AFA0600707C2F /* pokjuk2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = pokjuk2.json; sourceTree = "<group>"; };
-		63B7B99C2B7E7ED500707C2F /* SettingBlockUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingBlockUserView.swift; sourceTree = "<group>"; };
-		63B7B9A02B7E8ACB00707C2F /* BlockedUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedUser.swift; sourceTree = "<group>"; };
 		63B7B9982B7C996C00707C2F /* FeedGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedGuideView.swift; sourceTree = "<group>"; };
+		63B7B99C2B7E7ED500707C2F /* SettingBlockUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingBlockUserView.swift; sourceTree = "<group>"; };
+		63B7B9A02B7E8ACB00707C2F /* BlockUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockUser.swift; sourceTree = "<group>"; };
 		63C20BEA2B56CEDB00911F64 /* AdvancedSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSettingsView.swift; sourceTree = "<group>"; };
 		63C20BEC2B56CFAF00911F64 /* AdvancedSettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSettingsCell.swift; sourceTree = "<group>"; };
 		63C8BA482B561DC200025422 /* SignUpButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpButton.swift; sourceTree = "<group>"; };
@@ -547,7 +547,7 @@
 				648963E02B6BEF890080050D /* Facemoji.swift */,
 				B1999EDA2B6E205D005B37BA /* Noti.swift */,
 				64392B7B2B76852D0047BA12 /* PadoRide.swift */,
-				63B7B9A02B7E8ACB00707C2F /* BlockedUser.swift */,
+				63B7B9A02B7E8ACB00707C2F /* BlockUser.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -565,7 +565,6 @@
 		416F61F92B7EA1CB00F81093 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
-				0495988F2B68014E0075EEF9 /* SettingAskButton.swift */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -1564,7 +1563,7 @@
 				6373235C2B7140E800C02A32 /* FeedView.swift in Sources */,
 				B102FE822B56DB5B0005C310 /* PostButtonView.swift in Sources */,
 				048A34452B7491950085CE8B /* TextBox.swift in Sources */,
-				63B7B9A12B7E8ACB00707C2F /* BlockedUser.swift in Sources */,
+				63B7B9A12B7E8ACB00707C2F /* BlockUser.swift in Sources */,
 				419D086A2B5FA9CA00E61A6F /* LoadingCircleView.swift in Sources */,
 				63C8BA4B2B561FA900025422 /* EnjoyButton.swift in Sources */,
 				B1749A652B5D755700BCC6BA /* AppDelegate.swift in Sources */,

@@ -93,7 +93,9 @@ struct SurfingView: View {
                 surfingVM.isShownCamera = false
             }
             .sheet(isPresented: $surfingVM.isShowingPhotoModal, content: {
-                PhotoTypeModal(surfingVM: surfingVM, feedVM: feedVM, profileVM: profileVM, followVM: followVM)
+                PhotoTypeModal(surfingVM: surfingVM,
+                               feedVM: feedVM,
+                               profileVM: profileVM)
                     .presentationDetents([.fraction(0.25)])
                     
             })

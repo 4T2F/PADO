@@ -73,13 +73,14 @@ class ProfileViewModel: ObservableObject {
             ])
             
             await UpdateFollowData.shared.directUnfollowUser(id: blockingUser.nameID)
+            
+            await UpdateFollowData.shared.userUnfollowMe(id: blockingUser.nameID)
            
             await fetchBlockUsers()
         }
         catch {
             print("Error blocking user: \(error.localizedDescription)")
         }
-        
         
     }
     
@@ -100,18 +101,7 @@ class ProfileViewModel: ObservableObject {
         }
     }
     
-    @MainActor
-    func fetchPadoPosts(id: String, blockedUsers: [String]) async {
-        padoPosts.removeAll()
-        do {
-            let padoQuerySnapshot = try await db.collection("users").document(id).collection("mypost").whereField("userID", notIn: blockedUsers).order(by: "created_Time", descending: true).getDocuments()
-            for document in padoQuerySnapshot.documents {
-                await fetchPostData(documentID: document.documentID, inputType: InputPostType.pado)
-            }
-        } catch {
-            print("Error fetching posts: \(error.localizedDescription)")
-        }
-    }
+
     
     // URL Scheme을 사용하여 앱 열기 시도, 앱이 설치 되지 않았다면 대체 웹 URL로 이동
     func openSocialMediaApp(urlScheme: String, fallbackURL: String) {
@@ -129,16 +119,25 @@ class ProfileViewModel: ObservableObject {
         await fetchHighlihts(id: id)
     }
     
+
+    
     @MainActor
     func fetchPadoPosts(id: String) async {
         padoPosts.removeAll()
         do {
             let padoQuerySnapshot = try await db.collection("users").document(id).collection("mypost").order(by: "created_Time", descending: true).getDocuments()
-            for document in padoQuerySnapshot.documents {
-                await fetchPostData(documentID: document.documentID, inputType: InputPostType.pado)
+            
+            let snapshotDocuments = padoQuerySnapshot.documents.compactMap { document in
+                try? document.data(as: Post.self)
+            }
+
+            for document in filterBlockedPosts(posts: snapshotDocuments) {
+                if let documentID = document.id {
+                    await fetchPostData(documentID: documentID, inputType: InputPostType.pado)
+                }
             }
         } catch {
-            print("Error fetching user: \(error.localizedDescription)")
+            print("Error fetching posts: \(error.localizedDescription)")
         }
     }
     
@@ -147,8 +146,15 @@ class ProfileViewModel: ObservableObject {
         sendPadoPosts.removeAll()
         do {
             let padoQuerySnapshot = try await db.collection("users").document(id).collection("sendpost").order(by: "created_Time", descending: true).getDocuments()
-            for document in padoQuerySnapshot.documents {
-                await fetchPostData(documentID: document.documentID, inputType: InputPostType.sendPado)
+            
+            let snapshotDocuments = padoQuerySnapshot.documents.compactMap { document in
+                try? document.data(as: Post.self)
+            }
+
+            for document in filterBlockedPosts(posts: snapshotDocuments) {
+                if let documentID = document.id {
+                    await fetchPostData(documentID: documentID, inputType: InputPostType.sendPado)
+                }
             }
         } catch {
             print("Error fetching user: \(error.localizedDescription)")
@@ -160,8 +166,15 @@ class ProfileViewModel: ObservableObject {
         highlights.removeAll()
         do {
             let padoQuerySnapshot = try await db.collection("users").document(id).collection("highlight").order(by: "sendHeartTime", descending: true).getDocuments()
-            for document in padoQuerySnapshot.documents {
-                await fetchPostData(documentID: document.documentID, inputType: InputPostType.highlight)
+            
+            let snapshotDocuments = padoQuerySnapshot.documents.compactMap { document in
+                try? document.data(as: Post.self)
+            }
+
+            for document in filterBlockedPosts(posts: snapshotDocuments) {
+                if let documentID = document.id {
+                    await fetchPostData(documentID: documentID, inputType: InputPostType.highlight)
+                }
             }
         } catch {
             print("Error fetching user: \(error.localizedDescription)")
@@ -193,8 +206,6 @@ class ProfileViewModel: ObservableObject {
                 // 배열 업데이트
                 self.updatePostArray(post: post, inputType: inputType)
             }
-            
-            
         } catch {
             print("Error fetching user: \(error.localizedDescription)")
         }
@@ -223,4 +234,15 @@ class ProfileViewModel: ObservableObject {
         }
     }
     
+}
+
+
+extension ProfileViewModel {
+    private func filterBlockedPosts(posts: [Post]) -> [Post] {
+        let blockedUserIDs = Set(blockingUser.map { $0.blockUserID } + blockedUser.map { $0.blockUserID })
+        
+        return posts.filter { post in
+            !blockedUserIDs.contains(post.ownerUid) && !blockedUserIDs.contains(post.surferUid)
+        }
+    }
 }

@@ -64,7 +64,7 @@ struct FeedView: View {
                     try? await Task.sleep(nanoseconds: 1_500_000_000)
                     if authenticationViewModel.selectedFilter == FeedFilter.following {
                         await profileVM.fetchBlockUsers()
-                        followVM.fetchIDs(id: userNameID, collectionType: CollectionType.following)
+                        await followVM.fetchIDs(id: userNameID, collectionType: CollectionType.following)
                         await feedVM.fetchFollowingPosts()
                     } else {
                         Task{

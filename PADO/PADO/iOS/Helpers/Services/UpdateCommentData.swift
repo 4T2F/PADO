@@ -21,7 +21,7 @@ class UpdateCommentData {
                 try? document.data(as: Comment.self)
             }
             print(comments)
-            return comments
+            return filterBlockedComments(comments: comments)
         } catch {
             print("Error fetching comments: \(error)")
         }
@@ -114,6 +114,16 @@ class UpdateCommentData {
             print("댓글이 성공적으로 삭제되었습니다.")
         } catch {
             print("댓글 삭제 중 오류 발생: \(error.localizedDescription)")
+        }
+    }
+}
+
+extension UpdateCommentData {
+    private func filterBlockedComments(comments: [Comment]) -> [Comment] {
+        let blockedUserIDs = Set(blockingUser.map { $0.blockUserID } + blockedUser.map { $0.blockUserID })
+        
+        return comments.filter { comment in
+            !blockedUserIDs.contains(comment.userID)
         }
     }
 }
