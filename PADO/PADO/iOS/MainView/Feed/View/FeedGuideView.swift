@@ -33,12 +33,13 @@ struct FeedGuideView: View {
             
             GeometryReader(content: { geometry in
                 let size = geometry.size
+                let frameWidth = max(size.width - 80, 0)
                 
                 ScrollView(.horizontal) {
                     HStack(spacing: 5) {
                         ForEach(feedVM.popularUsers) { user in
                             FeedGuideCell(user: user)
-                                .frame(width: size.width - 80, height: size.height - 0)
+                                .frame(width: frameWidth, height: size.height - 0)
                                 .scrollTransition(.interactive, axis: .horizontal) {
                                     view, phase in
                                     view
@@ -57,7 +58,6 @@ struct FeedGuideView: View {
             .padding(.top, 10)
             Spacer()
         }
-        .containerRelativeFrame([.horizontal,.vertical])
     }
     
 }

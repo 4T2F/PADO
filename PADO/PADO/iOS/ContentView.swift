@@ -65,9 +65,10 @@ struct ContentView: View {
             
             if let user = viewModel.currentUser {
                 SurfingView(surfingVM: surfingVM,
-                            feedVM: feedVM, profileVM:
-                                profileVM, followVM:
-                                followVM)
+                            feedVM: feedVM,
+                            profileVM: profileVM,
+                            followVM: followVM,
+                            postitVM: postitVM)
                 .tabItem {
                     Text("")
                     
@@ -76,14 +77,17 @@ struct ContentView: View {
                 .onAppear { viewModel.showTab = 2 }
                 .tag(2)
                 
-                PadoRideView(followVM: followVM, padorideVM: padorideVM)
-                    .tabItem {
-                        Image(viewModel.showTab == 3 ? "today_light" : "today_gray")
-                        
-                        Text("파도타기")
-                    }
-                    .onAppear { viewModel.showTab = 3 }
-                    .tag(3)
+                PadoRideView(feedVM: feedVM,
+                             followVM: followVM,
+                             padorideVM: padorideVM,
+                             postitVM: postitVM)
+                .tabItem {
+                    Image(viewModel.showTab == 3 ? "today_light" : "today_gray")
+                    
+                    Text("파도타기")
+                }
+                .onAppear { viewModel.showTab = 3 }
+                .tag(3)
                 
                 
                 ProfileView(profileVM: profileVM,
@@ -107,7 +111,7 @@ struct ContentView: View {
                     }
                     .onAppear {viewModel.showTab = 2 }
                     .tag(2)
-                    
+                
                 LoginAlert()
                     .tabItem {
                         Image(viewModel.showTab == 3 ? "today_light" : "today_gray")
@@ -146,7 +150,7 @@ struct ContentView: View {
         .tint(.white)
         .onAppear {
             fetchData()
-           
+            
         }
         .onChange(of: viewModel.needsDataFetch) { _, newValue in
             feedVM.findFollowingUsers()

@@ -157,13 +157,11 @@ struct PostView: View {
                                 }
                                 
                                 surfingVM.resetImage()
-                                
-//                                feedVM.findFollowingUsers()
-                                
                                 followVM.selectSurfingID = ""
                                 followVM.selectSurfingUsername = ""
                                 followVM.selectSurfingProfileUrl = ""
                                 viewModel.showTab = 0
+                                feedVM.findFollowingUsers()
                                 postLoading = false
                             } catch {
                                 print("파베 전송 오류 발생: (error.localizedDescription)")

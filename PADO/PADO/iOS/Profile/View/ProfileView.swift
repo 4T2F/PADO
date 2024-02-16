@@ -7,6 +7,7 @@
 
 import Kingfisher
 import Lottie
+import PopupView
 import SwiftUI
 
 struct ProfileView: View {
@@ -27,6 +28,8 @@ struct ProfileView: View {
     @State private var isShowingSendDetail: Bool = false
     @State private var isShowingHightlight: Bool = false
     @State private var isShowingMessageView: Bool = false
+    @State private var touchProfileImage: Bool = false
+    @State private var touchBackImage: Bool = false
     
     let user: User
     
@@ -104,6 +107,26 @@ struct ProfileView: View {
             .navigationDestination(isPresented: $viewModel.showingProfileView) {
                 SettingProfileView()
             }
+            .popup(isPresented: $touchBackImage) {
+                TouchBackImageView(user: user)
+            } customize: {
+                $0
+                    .type(.floater())
+                    .position(.center)
+                    .animation(.spring())
+                    .closeOnTapOutside(true)
+                    .backgroundColor(.black.opacity(0.5))
+            }
+            .popup(isPresented: $touchProfileImage) {
+                TouchProfileView(user: user)
+            } customize: {
+                $0
+                    .type(.floater())
+                    .position(.center)
+                    .animation(.spring())
+                    .closeOnTapOutside(true)
+                    .backgroundColor(.black.opacity(0.5))
+            }
         }
     }
     
@@ -131,6 +154,9 @@ struct ProfileView: View {
                                 
                                 CircularImageView(size: .xxLarge, user: user)
                                     .offset(y: 5)
+                                    .onTapGesture {
+                                        touchProfileImage = true
+                                    }
                                     .overlay {
                                         Button {
                                             isShowingMessageView = true
@@ -257,6 +283,9 @@ struct ProfileView: View {
                 }
                 .cornerRadius(0)
                 .offset(y: -minY)
+                .onTapGesture {
+                    touchBackImage = true
+                }
         }
         .frame(height: 300)
     }
@@ -318,10 +347,7 @@ struct ProfileView: View {
     func postView() -> some View {
         VStack(spacing: 25) {
             if profileVM.padoPosts.isEmpty {
-                Text("아직 받은 게시물이 없습니다")
-                    .foregroundColor(.gray)
-                    .font(.system(size: 16,
-                                  weight: .semibold))
+                NoItemView(itemName: "아직 받은 게시물이 없어요")
                     .padding(.top, 150)
             } else {
                 LazyVGrid(columns: columns, spacing: 2) {
@@ -366,10 +392,7 @@ struct ProfileView: View {
     func writtenPostsView() -> some View {
         VStack(spacing: 25) {
             if profileVM.sendPadoPosts.isEmpty {
-                Text("아직 보낸 게시물이 없습니다")
-                    .foregroundColor(.gray)
-                    .font(.system(size: 16,
-                                  weight: .semibold))
+                NoItemView(itemName: "아직 보낸 게시물이 없어요")
                     .padding(.top, 150)
             } else {
                 LazyVGrid(columns: columns, spacing: 2) {
@@ -414,10 +437,7 @@ struct ProfileView: View {
     func highlightsView() -> some View {
         VStack(spacing: 25) {
             if profileVM.highlights.isEmpty {
-                Text("아직 좋아요를 표시한 게시물이 없습니다")
-                    .foregroundColor(.gray)
-                    .font(.system(size: 16,
-                                  weight: .semibold))
+                NoItemView(itemName: "아직 좋아요를 표시한 게시물이 없어요")
                     .padding(.top, 150)
             } else {
                 LazyVGrid(columns: columns, spacing: 2) {
