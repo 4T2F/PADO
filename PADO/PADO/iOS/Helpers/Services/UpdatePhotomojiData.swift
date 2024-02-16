@@ -30,6 +30,7 @@ class UpdateFacemojiData {
         let storage = Storage.storage()
         let storageRef = storage.reference().child("facemoji/\(storagefileName)")
         
+        guard !userNameID.isEmpty else { return }
         do {
             try await db.collection("post").document(documentID).collection("facemoji").document(userNameID).delete()
             
@@ -40,6 +41,8 @@ class UpdateFacemojiData {
     }
     
     func updateEmoji(documentID: String, emoji: String) async {
+        guard !userNameID.isEmpty else { return }
+        
         do {
             try await db.collection("post").document(documentID).collection("facemoji").document(userNameID).updateData([
                 "emoji" : emoji
@@ -50,6 +53,8 @@ class UpdateFacemojiData {
     }
     
     func updateFaceMoji(cropMojiUIImage: UIImage, documentID: String, selectedEmoji: String) async throws {
+        guard !userNameID.isEmpty else { return }
+        
         let imageData = try await UpdateImageUrl.shared.updateImageUserData(
             uiImage: cropMojiUIImage,
             storageTypeInput: .facemoji,

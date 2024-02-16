@@ -15,19 +15,20 @@ enum SignUpStep {
 }
 
 struct SignUpView: View {
-    
+
     @EnvironmentObject var viewModel: AuthenticationViewModel
     @Environment(\.dismiss) var dismiss
     @State var currentStep: SignUpStep = .phoneNumber
-    
+    @State var loginSignUpType: LoginSignUpType
     var body: some View {
-        
         ZStack {
             switch currentStep {
             case .phoneNumber:
-                PhoneNumberView(currentStep: $currentStep)
+                PhoneNumberView(loginSignUpType: $loginSignUpType,
+                                currentStep: $currentStep)
             case .code:
-                CodeView(currentStep: $currentStep,
+                CodeView(loginSignUpType: $loginSignUpType,
+                         currentStep: $currentStep,
                          dismissAction: { dismiss() })
             case .id:
                 IdView(currentStep: $currentStep)

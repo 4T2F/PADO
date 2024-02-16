@@ -10,6 +10,13 @@ import FirebaseFirestoreSwift
 import FirebaseStorage
 import SwiftUI
 
+let developerIDs: [String] = ["pado", "hanami", "legendboy", "goat", "king"]
+
+protocol FeedItem {}
+
+extension Post: FeedItem {}
+extension User: FeedItem {}
+
 @MainActor
 class FeedViewModel:Identifiable ,ObservableObject {
 
@@ -20,8 +27,11 @@ class FeedViewModel:Identifiable ,ObservableObject {
   
     @Published var followingPosts: [Post] = []
     @Published var todayPadoPosts: [Post] = []
-    @Published var followingUsers: [String] = []
     @Published var watchedPostIDs: Set<String> = []
+    @Published private var popularUsersSet: Set<User> = []
+    @Published var popularUsers: [User] = []
+    
+    @Published var feedItems: [FeedItem] = []
     
     @Published var selectedFeedCheckHeart: Bool = false
     @Published var postFetchLoading: Bool = false
@@ -47,7 +57,9 @@ class FeedViewModel:Identifiable ,ObservableObject {
     }
     
     func findFollowingUsers() {
-        followingUsers.removeAll()
+        guard !userNameID.isEmpty else { return }
+        
+        userFollowingIDs.removeAll()
         listener = db.collection("users").document(userNameID).collection("following").addSnapshotListener { [weak self] (querySnapshot, error) in
             guard let self = self, let documents = querySnapshot?.documents else {
                 print("Error fetching following users: \(error?.localizedDescription ?? "Unknown error")")
@@ -55,16 +67,49 @@ class FeedViewModel:Identifiable ,ObservableObject {
                 
             }
             
-            self.followingUsers = documents.compactMap { $0.data()["followingID"] as? String }
-
-            self.followingUsers.append(userNameID)
+            userFollowingIDs = documents.compactMap { $0.data()["followingID"] as? String }
             
             Task {
                 self.postFetchLoading = true
-                await self.cacheWatchedData()
                 await self.fetchFollowingPosts()
                 self.postFetchLoading = false
             }
+        }
+    }
+    
+    func getPopularUser() async {
+        let querySnapshot = db.collection("users")
+            .whereField("profileImageUrl", isNotEqualTo: NSNull())
+            .limit(to: 20)
+        
+        let developerSnapshot = db.collection("users")
+            .whereField("nameID", in: developerIDs)
+       
+        do {
+            let documents = try await getDocumentsAsync(collection: db.collection("users"), query: querySnapshot)
+                
+            let developerDocuments = try await getDocumentsAsync(collection: db.collection("users"), query: developerSnapshot)
+            
+            let newUsers = documents.compactMap { document in
+                try? document.data(as: User.self)
+            }
+            
+            let developerUsers = developerDocuments.compactMap { document in
+                try? document.data(as: User.self)
+            }
+            
+            // Set을 사용하여 popularUsers 업데이트
+            self.popularUsersSet = self.popularUsersSet.union(newUsers)
+            self.popularUsersSet = self.popularUsersSet.union(developerUsers)
+            
+            let usersSet = self.popularUsersSet.filter {
+                $0.nameID != userNameID
+            }
+            
+            self.popularUsers = Array(Array(usersSet).prefix(5))
+            
+        } catch {
+            print("포스트 가져오기 오류: \(error.localizedDescription)")
         }
     }
     
@@ -86,17 +131,20 @@ class FeedViewModel:Identifiable ,ObservableObject {
     // 팔로잉 중인 사용자들로부터 포스트 가져오기 (비동기적으로)
     private func fetchFollowingPosts() async {
         followingPosts.removeAll()
+        feedItems.removeAll()
         lastFollowFetchedDocument = nil
+        guard !userFollowingIDs.isEmpty else { return }
+        
         // 현재 날짜로부터 2일 전의 날짜를 계산
         let twoDaysAgo = Calendar.current.date(byAdding: .day, value: -7, to: Date()) ?? Date()
            // Date 객체를 Timestamp로 변환
         let twoDaysAgoTimestamp = Timestamp(date: twoDaysAgo)
         
         let query = db.collection("post")
-            .whereField("ownerUid", in: followingUsers)
+            .whereField("ownerUid", in: userFollowingIDs)
             .whereField("created_Time", isGreaterThanOrEqualTo: twoDaysAgoTimestamp)
             .order(by: "created_Time", descending: true)
-            .limit(to: 5)
+            .limit(to: 6)
         
         do {
             let documents = try await getDocumentsAsync(collection: db.collection("post"), query: query)
@@ -112,23 +160,24 @@ class FeedViewModel:Identifiable ,ObservableObject {
             self.lastFollowFetchedDocument = filteredDocuments.last
             
             let fetchedFollowingPosts = filteredDocuments.compactMap { document in
-                   try? document.data(as: Post.self)
-               }
+                try? document.data(as: Post.self)
+            }
             
             self.followingPosts = fetchedFollowingPosts.sorted {
                 $0.created_Time.dateValue() > $1.created_Time.dateValue()
             }
+            
+            for document in filteredDocuments {
+                guard let post = try? document.data(as: Post.self) else { continue }
+                setupSnapshotFollowingListener(for: post)
+            }
+            
+            await getPopularUser()
 
-               for document in filteredDocuments {
-                   guard let post = try? document.data(as: Post.self) else { continue }
-                   setupSnapshotFollowingListener(for: post)
-               }
-           } catch {
+        } catch {
             print("포스트 가져오기 오류: \(error.localizedDescription)")
         }
-        self.followingPosts.sort {
-            !self.watchedPostIDs.contains($0.id ?? "") && self.watchedPostIDs.contains($1.id ?? "")
-        }
+        
     }
     
     // 오늘 파도 포스트 가져오기
@@ -182,14 +231,14 @@ class FeedViewModel:Identifiable ,ObservableObject {
                 try? document.data(as: Post.self)
             }
             .filter { post in
-                followingUsers.contains(where: { $0 == post.ownerUid })
+                userFollowingIDs.contains(where: { $0 == post.ownerUid })
             }
       
             for documentData in documentsData {
                 setupSnapshotFollowingListener(for: documentData)
-                self.followingPosts.append(documentData)
+                feedItems.append(documentData)
             }
-
+            
         } catch {
             print("포스트 가져오기 오류: \(error.localizedDescription)")
         }

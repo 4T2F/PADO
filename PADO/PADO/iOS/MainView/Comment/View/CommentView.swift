@@ -15,6 +15,7 @@ struct CommentView: View {
     
     @State private var commentText: String = ""
     @State private var isShowingComment: Bool = false
+    @State private var isShowingLoginPage: Bool = false
     @State var postUser: User
     @State var post: Post
     
@@ -84,7 +85,11 @@ struct CommentView: View {
                     let generator = UIImpactFeedbackGenerator(style: .medium)
                     generator.impactOccurred()
                     
-                    isShowingComment.toggle()
+                    if !userNameID.isEmpty {
+                        isShowingComment.toggle()
+                    } else {
+                        isShowingLoginPage = true
+                    }
                 } label: {
                     HStack(spacing: 6) {
                         CircularImageView(size: .xxxSmall, user: postUser)
@@ -113,6 +118,10 @@ struct CommentView: View {
                     CommentWriteView(commentVM: commentVM, isShowingComment: $isShowingComment, postUser: postUser, post: post)
                         .presentationDragIndicator(.visible)
                 })
+                .sheet(isPresented: $isShowingLoginPage) {
+                    StartView()
+                        .presentationDragIndicator(.visible)
+                }
             }
             .background(.main, ignoresSafeAreaEdges: .all)
             .navigationBarBackButtonHidden()

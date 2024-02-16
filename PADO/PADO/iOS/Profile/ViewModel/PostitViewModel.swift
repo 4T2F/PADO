@@ -81,7 +81,9 @@ class PostitViewModel: ObservableObject {
     func removeDuplicateUserIDs(from messages: [PostitMessage]) -> [String] {
         let userIDs = messages.map { $0.messageUserID }
         var uniqueUserIDs = Set(userIDs)
-        uniqueUserIDs.insert(userNameID)
+        if !userNameID.isEmpty {
+            uniqueUserIDs.insert(userNameID)
+        }
         return Array(uniqueUserIDs)
     }
     
