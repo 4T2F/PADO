@@ -97,7 +97,7 @@ struct FollowerView: View {
                                         }
                                     }
                                 } else {
-                                    NoItemView(itemName: "팔로워가 없어요")
+                                    NoItemView(itemName: "아직 팔로워가 없어요")
                                         .padding(.top, 150)
                                 }
                             } //: SCROLL
