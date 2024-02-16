@@ -31,6 +31,7 @@ struct OtherUserProfileView: View {
     @State private var isShowingHightlight: Bool = false
     @State private var isShowingMessageView: Bool = false
     @State private var isShowingUserReport: Bool = false
+    @State private var isShowingLoginPage: Bool = false
     
     let user: User
     
@@ -216,7 +217,7 @@ struct OtherUserProfileView: View {
                                 } else {
                                     if userNameID.isEmpty {
                                         Button {
-                                            // 가입 모달 띄우기
+                                            isShowingLoginPage = true
                                         } label: {
                                             ZStack {
                                                 RoundedRectangle(cornerRadius:6)
@@ -227,8 +228,11 @@ struct OtherUserProfileView: View {
                                                     .fontWeight(.medium)
                                                     .foregroundStyle(.white)
                                             }
-                                            
                                         }
+                                        .sheet(isPresented: $isShowingLoginPage, content: {
+                                            StartView()
+                                                .scrollIndicators(.visible)
+                                        })
                                     } else if buttonOnOff {
                                         Button {
                                             Task {
