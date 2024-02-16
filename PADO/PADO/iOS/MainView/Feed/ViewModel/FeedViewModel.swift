@@ -48,34 +48,6 @@ class FeedViewModel:Identifiable ,ObservableObject {
     @Published var currentPadoRideIndex: Int? = nil
     @Published var isShowingPadoRide: Bool = false
     
-    init() {
-        // Firestore의 `post` 컬렉션에 대한 실시간 리스너 설정
-        Task {
-            findFollowingUsers()
-            await fetchTodayPadoPosts()
-        }
-    }
-    
-    func findFollowingUsers() {
-        guard !userNameID.isEmpty else { return }
-        
-        userFollowingIDs.removeAll()
-        listener = db.collection("users").document(userNameID).collection("following").addSnapshotListener { [weak self] (querySnapshot, error) in
-            guard let self = self, let documents = querySnapshot?.documents else {
-                print("Error fetching following users: \(error?.localizedDescription ?? "Unknown error")")
-                return
-                
-            }
-            
-            userFollowingIDs = documents.compactMap { $0.data()["followingID"] as? String }
-            
-            Task {
-                self.postFetchLoading = true
-                await self.fetchFollowingPosts()
-                self.postFetchLoading = false
-            }
-        }
-    }
     
     func getPopularUser() async {
         let querySnapshot = db.collection("users")
@@ -129,7 +101,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
     }
     
     // 팔로잉 중인 사용자들로부터 포스트 가져오기 (비동기적으로)
-    private func fetchFollowingPosts() async {
+    func fetchFollowingPosts() async {
         followingPosts.removeAll()
         feedItems.removeAll()
         lastFollowFetchedDocument = nil
@@ -139,14 +111,15 @@ class FeedViewModel:Identifiable ,ObservableObject {
             }
             return
         }
-        
+        var getFollowingPostIDs = userFollowingIDs
+        getFollowingPostIDs.append(userNameID)
         // 현재 날짜로부터 2일 전의 날짜를 계산
         let twoDaysAgo = Calendar.current.date(byAdding: .day, value: -7, to: Date()) ?? Date()
            // Date 객체를 Timestamp로 변환
         let twoDaysAgoTimestamp = Timestamp(date: twoDaysAgo)
         
         let query = db.collection("post")
-            .whereField("ownerUid", in: userFollowingIDs)
+            .whereField("ownerUid", in: getFollowingPostIDs)
             .whereField("created_Time", isGreaterThanOrEqualTo: twoDaysAgoTimestamp)
             .order(by: "created_Time", descending: true)
             .limit(to: 6)
@@ -172,6 +145,8 @@ class FeedViewModel:Identifiable ,ObservableObject {
                 $0.created_Time.dateValue() > $1.created_Time.dateValue()
             }
             
+            self.followingPosts = filterBlockedPosts(posts: self.followingPosts)
+            
             for document in filteredDocuments {
                 guard let post = try? document.data(as: Post.self) else { continue }
                 setupSnapshotFollowingListener(for: post)
@@ -194,6 +169,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
 
         let query = db.collection("post")
             .whereField("created_Time", isGreaterThanOrEqualTo: threeDaysAgoTimestamp)
+        
         do {
             let documents = try await getDocumentsAsync(collection: db.collection("post"), query: query)
             var filteredPosts = documents.compactMap { document in
@@ -206,9 +182,9 @@ class FeedViewModel:Identifiable ,ObservableObject {
                 setupSnapshotTodayPadoListener(for: post)
             }
 
-            // 인덱스 20개 초과 시 0~19번 인덱스까지만 포함
-            self.todayPadoPosts = Array(filteredPosts.prefix(20))
-
+            // 인덱스 20개 초과 시 0~24번 인덱스까지만 포함
+            self.todayPadoPosts = Array(filteredPosts.prefix(25))
+            self.todayPadoPosts = filterBlockedPosts(posts: self.todayPadoPosts)
         } catch {
             print("포스트 가져오기 오류: \(error.localizedDescription)")
         }
@@ -221,10 +197,13 @@ class FeedViewModel:Identifiable ,ObservableObject {
         let twoDaysAgo = Calendar.current.date(byAdding: .day, value: -7, to: Date()) ?? Date()
         let twoDaysAgoTimestamp = Timestamp(date: twoDaysAgo)
         
+        var getFollowingPostIDs = userFollowingIDs
+        getFollowingPostIDs.append(userNameID)
+        
         let query = db.collection("post")
+            .whereField("ownerUid", in: getFollowingPostIDs)
             .whereField("created_Time", isGreaterThanOrEqualTo: twoDaysAgoTimestamp)
             .order(by: "created_Time", descending: true)
-            .order(by: "heartsCount", descending: true)
             .start(afterDocument: lastDocument)
             .limit(to: 3)
             
@@ -232,12 +211,14 @@ class FeedViewModel:Identifiable ,ObservableObject {
             let documents = try await getDocumentsAsync(collection: db.collection("post"), query: query)
             
             self.lastFollowFetchedDocument = documents.last
-            let documentsData = documents.compactMap { document in
+            var documentsData = documents.compactMap { document in
                 try? document.data(as: Post.self)
             }
             .filter { post in
                 userFollowingIDs.contains(where: { $0 == post.ownerUid })
             }
+            
+            documentsData = filterBlockedPosts(posts: documentsData)
       
             for documentData in documentsData {
                 setupSnapshotFollowingListener(for: documentData)
@@ -249,31 +230,6 @@ class FeedViewModel:Identifiable ,ObservableObject {
         }
     }
     
-//    func fetchTodayPadoMorePosts() async {
-//        guard let lastDocument = lastTodayPadoFetchedDocument else { return }
-//    
-//        let sevenDaysAgo = Calendar.current.date(byAdding: .day, value: -7, to: Date()) ?? Date()
-//           // Date 객체를 Timestamp로 변환
-//        let sevenDaysAgoTimestamp = Timestamp(date: sevenDaysAgo)
-//        
-//        let query = db.collection("post")
-//            .whereField("created_Time", isGreaterThanOrEqualTo: sevenDaysAgoTimestamp)
-//            .start(afterDocument: lastDocument)
-//            .limit(to: 3)
-//        
-//        do {
-//            let documents = try await getDocumentsAsync(collection: db.collection("post"), query: query)
-//            let documentsData = documents.compactMap { document in
-//                try? document.data(as: Post.self)
-//            }
-//            self.lastTodayPadoFetchedDocument = documents.last
-//            for documentData in documentsData {
-//                self.todayPadoPosts.append(documentData)
-//            }
-//        } catch {
-//            print("포스트 가져오기 오류: \(error.localizedDescription)")
-//        }
-//    }
     
     private func cacheWatchedData() async {
         do {
@@ -365,7 +321,6 @@ extension FeedViewModel {
                 return
             }
             if let index = self.todayPadoPosts.firstIndex(where: { $0.id == postID }) {
-                
                 self.todayPadoPosts[index].heartsCount = data["heartsCount"] as? Int ?? 0
                 self.todayPadoPosts[index].commentCount = data["commentCount"] as? Int ?? 0
             }
@@ -410,6 +365,17 @@ extension Timestamp {
         dateFormatter.dateFormat = "yyyy-MM-dd-HH:mm:ss.sssZ" // 원하는 날짜 형식 설정
         let dateString = dateFormatter.string(from: date) // Date를 String으로 변환
         return dateString
+    }
+}
+
+// 차단된 사용자의 게시물 필터링
+extension FeedViewModel {
+    private func filterBlockedPosts(posts: [Post]) -> [Post] {
+        let blockedUserIDs = Set(blockingUser.map { $0.blockUserID } + blockedUser.map { $0.blockUserID })
+        
+        return posts.filter { post in
+            !blockedUserIDs.contains(post.ownerUid) && !blockedUserIDs.contains(post.surferUid)
+        }
     }
 }
 

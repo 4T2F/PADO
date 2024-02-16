@@ -22,6 +22,9 @@ class ProfileViewModel: ObservableObject {
     @Published var headerOffsets: (CGFloat, CGFloat) = (0, 0)
     @Published var selectedPostID: String = ""
     
+    // 사용자 차단 로직
+    @Published var isUserBlocked: Bool = false
+    
     private var db = Firestore.firestore()
     
     // URL Scheme을 사용하여 앱 열기 시도, 앱이 설치 되지 않았다면 대체 웹 URL로 이동
@@ -40,16 +43,19 @@ class ProfileViewModel: ObservableObject {
         await fetchHighlihts(id: id)
     }
     
+    
     @MainActor
     func fetchPadoPosts(id: String) async {
         padoPosts.removeAll()
         do {
             let padoQuerySnapshot = try await db.collection("users").document(id).collection("mypost").order(by: "created_Time", descending: true).getDocuments()
+            
             for document in padoQuerySnapshot.documents {
-                await fetchPostData(documentID: document.documentID, inputType: InputPostType.pado)
+                await fetchPostData(documentID: document.documentID,
+                                    inputType: InputPostType.pado)
             }
         } catch {
-            print("Error fetching user: \(error.localizedDescription)")
+            print("Error fetching posts: \(error.localizedDescription)")
         }
     }
     
@@ -58,8 +64,10 @@ class ProfileViewModel: ObservableObject {
         sendPadoPosts.removeAll()
         do {
             let padoQuerySnapshot = try await db.collection("users").document(id).collection("sendpost").order(by: "created_Time", descending: true).getDocuments()
+            
             for document in padoQuerySnapshot.documents {
-                await fetchPostData(documentID: document.documentID, inputType: InputPostType.sendPado)
+                await fetchPostData(documentID: document.documentID,
+                                    inputType: InputPostType.sendPado)
             }
         } catch {
             print("Error fetching user: \(error.localizedDescription)")
@@ -71,8 +79,11 @@ class ProfileViewModel: ObservableObject {
         highlights.removeAll()
         do {
             let padoQuerySnapshot = try await db.collection("users").document(id).collection("highlight").order(by: "sendHeartTime", descending: true).getDocuments()
+            
+            
             for document in padoQuerySnapshot.documents {
-                await fetchPostData(documentID: document.documentID, inputType: InputPostType.highlight)
+                await fetchPostData(documentID: document.documentID,
+                                    inputType: InputPostType.highlight)
             }
         } catch {
             print("Error fetching user: \(error.localizedDescription)")
@@ -85,12 +96,17 @@ class ProfileViewModel: ObservableObject {
         do {
             let docRef = db.collection("post").document(documentID)
             let querySnapshot = try await docRef.getDocument()
-
+            
             guard var post = try? querySnapshot.data(as: Post.self) else {
                 print("\(documentID)는 삭제된 게시글입니다")
                 return
             }
-
+            
+            guard filterBlockedPost(post: post) else {
+                print("\(documentID)는 차단된 사람의 글입니다")
+                return
+            }
+            
             // 스냅샷 리스너 설정
             docRef.addSnapshotListener { documentSnapshot, error in
                 guard let document = documentSnapshot, let data = document.data() else {
@@ -104,13 +120,11 @@ class ProfileViewModel: ObservableObject {
                 // 배열 업데이트
                 self.updatePostArray(post: post, inputType: inputType)
             }
-            
-
         } catch {
             print("Error fetching user: \(error.localizedDescription)")
         }
     }
-
+    
     private func updatePostArray(post: Post, inputType: InputPostType) {
         switch inputType {
         case .pado:
@@ -133,5 +147,93 @@ class ProfileViewModel: ObservableObject {
             }
         }
     }
+    
+}
 
+
+extension ProfileViewModel {
+    // 차단된 사용자들 정보 불러오기
+    @MainActor
+    func fetchBlockUsers() async {
+        
+        let blockingCollectionRef = db.collection("users").document(userNameID).collection("blockingUsers")
+        
+        let blockedCollectionRef =            db.collection("users").document(userNameID).collection("blockedUsers")
+        
+        do {
+            let blockingSnapshot = try await blockingCollectionRef.getDocuments()
+            blockingUser = blockingSnapshot.documents.compactMap { document -> BlockUser? in
+                try? document.data(as: BlockUser.self)
+            }
+            
+            let blockedSnapshot = try await blockedCollectionRef.getDocuments()
+            blockedUser = blockedSnapshot.documents.compactMap { document -> BlockUser? in
+                try? document.data(as: BlockUser.self)
+            }
+            
+        } catch {
+            print("Error fetching blocked users: \(error.localizedDescription)")
+        }
+    }
+    
+    // 사용자 차단
+    @MainActor
+    func blockUser(blockingUser: User, user: User) async {
+        
+        let blockingUserRef = db.collection("users").document(user.nameID).collection("blockingUsers").document(blockingUser.nameID)
+        
+        let blockedUserRef = db.collection("users").document(blockingUser.nameID).collection("blockedUsers").document(user.nameID)
+        
+        do {
+            try await blockingUserRef.setData([
+                "blockUserID": blockingUser.nameID,
+                "blockUserProfileImage": blockingUser.profileImageUrl ?? "",
+                "blockTime": Timestamp(date: Date())
+            ])
+            
+            try await blockedUserRef.setData([
+                "blockUserID": user.nameID,
+                "blockUserProfileImage": user.profileImageUrl ?? "",
+                "blockTime": Timestamp(date: Date())
+            ])
+            
+            await UpdateFollowData.shared.directUnfollowUser(id: blockingUser.nameID)
+            
+            await UpdateFollowData.shared.userUnfollowMe(id: blockingUser.nameID)
+            
+            await fetchBlockUsers()
+        }
+        catch {
+            print("Error blocking user: \(error.localizedDescription)")
+        }
+        
+    }
+    
+    // 사용자 차단 해제
+    @MainActor
+    func unblockUser(blockingUser: User, user: User) async {
+        let blockingUserRef = db.collection("users").document(user.nameID).collection("blockingUsers").document(blockingUser.nameID)
+        
+        let blockedUserRef = db.collection("users").document(blockingUser.nameID).collection("blockedUsers").document(user.nameID)
+        
+        do {
+            try await blockingUserRef.delete()
+            try await blockedUserRef.delete()
+            
+            await fetchBlockUsers()
+        } catch {
+            print("Error unblocking user: \(error.localizedDescription)")
+        }
+    }
+    
+    
+    private func filterBlockedPost(post: Post) -> Bool {
+        let blockedUserIDs = Set(blockingUser.map { $0.blockUserID } + blockedUser.map { $0.blockUserID })
+        
+        if blockedUserIDs.contains(post.ownerUid) || blockedUserIDs.contains(post.surferUid) {
+            return false
+        } else {
+            return true
+        }
+    }
 }

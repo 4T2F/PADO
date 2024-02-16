@@ -59,6 +59,19 @@ class UpdateFollowData {
         }
     }
     
+    func userUnfollowMe(id: String) async {
+        guard !userNameID.isEmpty else { return }
+        do {
+            try await db.collection("users").document(id).collection("following").document(userNameID).delete()
+            try await db.collection("users").document(id).collection("surfing").document(userNameID).delete()
+            
+            try await db.collection("users").document(userNameID).collection("follower").document(id).delete()
+            try await db.collection("users").document(userNameID).collection("surfer").document(id).delete()
+        } catch {
+            print("Error removing document: \(error.localizedDescription)")
+        }
+    }
+    
     func registerSurfer(id: String) async {
         guard !userNameID.isEmpty else { return }
         do {
@@ -109,5 +122,4 @@ class UpdateFollowData {
     func checkFollowingStatus(id: String) -> Bool {
         return userFollowingIDs.contains(id)
     }
-    
 }

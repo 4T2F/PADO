@@ -126,6 +126,8 @@
 		63B7B98F2B7AF88900707C2F /* pokjuk1.json in Resources */ = {isa = PBXBuildFile; fileRef = 63B7B98E2B7AF88900707C2F /* pokjuk1.json */; };
 		63B7B9912B7AFA0600707C2F /* pokjuk2.json in Resources */ = {isa = PBXBuildFile; fileRef = 63B7B9902B7AFA0600707C2F /* pokjuk2.json */; };
 		63B7B9992B7C996C00707C2F /* FeedGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B7B9982B7C996C00707C2F /* FeedGuideView.swift */; };
+		63B7B99D2B7E7ED500707C2F /* SettingBlockUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B7B99C2B7E7ED500707C2F /* SettingBlockUserView.swift */; };
+		63B7B9A12B7E8ACB00707C2F /* BlockUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B7B9A02B7E8ACB00707C2F /* BlockUser.swift */; };
 		63C20BEB2B56CEDC00911F64 /* AdvancedSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C20BEA2B56CEDB00911F64 /* AdvancedSettingsView.swift */; };
 		63C20BED2B56CFAF00911F64 /* AdvancedSettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C20BEC2B56CFAF00911F64 /* AdvancedSettingsCell.swift */; };
 		63C8BA492B561DC200025422 /* SignUpButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA482B561DC200025422 /* SignUpButton.swift */; };
@@ -262,7 +264,6 @@
 		048A34442B7491950085CE8B /* TextBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextBox.swift; sourceTree = "<group>"; };
 		048A34462B7C53660085CE8B /* ImageBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageBox.swift; sourceTree = "<group>"; };
 		048A344A2B7CAF490085CE8B /* PhotoTypeModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoTypeModal.swift; sourceTree = "<group>"; };
-		0495988F2B68014E0075EEF9 /* SettingAskButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingAskButton.swift; sourceTree = "<group>"; };
 		04A785E22B5FB1C800BFCB9D /* SearchCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchCellView.swift; sourceTree = "<group>"; };
 		04A785E52B5FB1ED00BFCB9D /* SurfingSearchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SurfingSearchView.swift; sourceTree = "<group>"; };
 		04AD70EB2B6CB80F00437134 /* KeyboardHide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHide.swift; sourceTree = "<group>"; };
@@ -370,6 +371,8 @@
 		63B7B98E2B7AF88900707C2F /* pokjuk1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = pokjuk1.json; sourceTree = "<group>"; };
 		63B7B9902B7AFA0600707C2F /* pokjuk2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = pokjuk2.json; sourceTree = "<group>"; };
 		63B7B9982B7C996C00707C2F /* FeedGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedGuideView.swift; sourceTree = "<group>"; };
+		63B7B99C2B7E7ED500707C2F /* SettingBlockUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingBlockUserView.swift; sourceTree = "<group>"; };
+		63B7B9A02B7E8ACB00707C2F /* BlockUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockUser.swift; sourceTree = "<group>"; };
 		63C20BEA2B56CEDB00911F64 /* AdvancedSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSettingsView.swift; sourceTree = "<group>"; };
 		63C20BEC2B56CFAF00911F64 /* AdvancedSettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSettingsCell.swift; sourceTree = "<group>"; };
 		63C8BA482B561DC200025422 /* SignUpButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpButton.swift; sourceTree = "<group>"; };
@@ -560,6 +563,7 @@
 				648963E02B6BEF890080050D /* Facemoji.swift */,
 				B1999EDA2B6E205D005B37BA /* Noti.swift */,
 				64392B7B2B76852D0047BA12 /* PadoRide.swift */,
+				63B7B9A02B7E8ACB00707C2F /* BlockUser.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -577,7 +581,6 @@
 		416F61F92B7EA1CB00F81093 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
-				0495988F2B68014E0075EEF9 /* SettingAskButton.swift */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -1164,6 +1167,7 @@
 				648963DE2B6B6BE50080050D /* SettingProfileEditView.swift */,
 				B1A91D092B55928D00FE7F62 /* SettingOthersView.swift */,
 				B1A91D062B55928D00FE7F62 /* SettingView.swift */,
+				63B7B99C2B7E7ED500707C2F /* SettingBlockUserView.swift */,
 				B198BB9F2B5639D500EAA6C0 /* ModalAlertView.swift */,
 			);
 			path = View;
@@ -1452,6 +1456,7 @@
 				418B6C932B5EC61600E8289D /* SurfingViewModel.swift in Sources */,
 				635B094A2B4500CB009E60A9 /* User.swift in Sources */,
 				63C20BEB2B56CEDC00911F64 /* AdvancedSettingsView.swift in Sources */,
+				63B7B99D2B7E7ED500707C2F /* SettingBlockUserView.swift in Sources */,
 				64392B6D2B737F080047BA12 /* PadoRideView.swift in Sources */,
 				64392B662B71D2C70047BA12 /* FeedHeaderCell.swift in Sources */,
 				64392B7A2B74B66D0047BA12 /* SendPadoView.swift in Sources */,
@@ -1588,6 +1593,7 @@
 				6373235C2B7140E800C02A32 /* FeedView.swift in Sources */,
 				B102FE822B56DB5B0005C310 /* PostButtonView.swift in Sources */,
 				048A34452B7491950085CE8B /* TextBox.swift in Sources */,
+				63B7B9A12B7E8ACB00707C2F /* BlockUser.swift in Sources */,
 				419D086A2B5FA9CA00E61A6F /* LoadingCircleView.swift in Sources */,
 				63C8BA4B2B561FA900025422 /* EnjoyButton.swift in Sources */,
 				B1749A652B5D755700BCC6BA /* AppDelegate.swift in Sources */,

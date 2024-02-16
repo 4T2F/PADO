@@ -53,8 +53,7 @@ struct ContentView: View {
             .tag(0)
             
             MainSearchView(searchVM: searchVM,
-                           profileVM: profileVM,
-                           followVM: followVM)
+                           profileVM: profileVM)
             .tabItem {
                 Image(viewModel.showTab == 1 ? "search_light" : "search_gray")
                 
@@ -67,8 +66,7 @@ struct ContentView: View {
                 SurfingView(surfingVM: surfingVM,
                             feedVM: feedVM,
                             profileVM: profileVM,
-                            followVM: followVM,
-                            postitVM: postitVM)
+                            followVM: followVM)
                 .tabItem {
                     Text("")
                     
@@ -79,8 +77,7 @@ struct ContentView: View {
                 
                 PadoRideView(feedVM: feedVM,
                              followVM: followVM,
-                             padorideVM: padorideVM,
-                             postitVM: postitVM)
+                             padorideVM: padorideVM)
                 .tabItem {
                     Image(viewModel.showTab == 3 ? "today_light" : "today_gray")
                     
@@ -150,38 +147,41 @@ struct ContentView: View {
         .tint(.white)
         .onAppear {
             fetchData()
-            
         }
         .onChange(of: viewModel.needsDataFetch) { _, newValue in
-            feedVM.findFollowingUsers()
             fetchData()
         }
     }
     
     func fetchData() {
+        guard !userNameID.isEmpty else { return }
+        
         Task {
-            if !userNameID.isEmpty {
-                followVM.initializeFollowFetch(id: userNameID)
-                viewModel.selectedFilter = .following
-                viewModel.showTab = 0
-                await profileVM.fetchPostID(id: userNameID)
-                await notiVM.fetchNotifications()
-                await postitVM.getMessageDocument(ownerID: userNameID)
-            }
+            viewModel.selectedFilter = .following
+            viewModel.showTab = 0
+            feedVM.postFetchLoading = true
+            await profileVM.fetchBlockUsers()
+            await followVM.initializeFollowFetch(id: userNameID)
+            await feedVM.fetchTodayPadoPosts()
+            await feedVM.fetchFollowingPosts()
+            await notiVM.fetchNotifications()
+            await profileVM.fetchPostID(id: userNameID)
+            await postitVM.getMessageDocument(ownerID: userNameID)
+            feedVM.postFetchLoading = false
+            
             NotificationCenter.default.addObserver(forName: Notification.Name("ProfileNotification"), object: nil, queue: .main) { notification in
                 // 알림을 받았을 때 수행할 작업
-                print(notification.object ?? "")
+                guard let userInfo = notification.object as? User else { return }
                 Task {
-                    await handleProfileNotification(userInfo: notification.object as! User)
+                    await handleProfileNotification(userInfo: userInfo)
                 }
             }
             NotificationCenter.default.addObserver(forName: Notification.Name("PostNotification"), object: nil, queue: .main) { notification in
                 // 알림을 받았을 때 수행할 작업
-                viewModel.showTab = 4
-                print(notification.object ?? "")
+                
+                guard let postInfo = notification.object as? Post else { return }
                 Task {
-                    print("거쳐가따 ~~")
-                    await handlePostNotification(postInfo: notification.object as! Post)
+                    await handlePostNotification(postInfo: postInfo)
                 }
             }
         }
@@ -193,8 +193,9 @@ struct ContentView: View {
     }
     @MainActor
     private func handlePostNotification(postInfo: Post) async {
+        viewModel.showTab = 4
         self.pushPost = postInfo
         self.showPushPost = true
-        print("여ㅣ기도 사람있다 ~~")
+
     }
 }

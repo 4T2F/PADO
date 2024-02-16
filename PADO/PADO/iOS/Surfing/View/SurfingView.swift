@@ -15,7 +15,6 @@ struct SurfingView: View {
     @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var profileVM: ProfileViewModel
     @ObservedObject var followVM: FollowViewModel
-    @ObservedObject var postitVM: PostitViewModel
     
     // MARK: - BODY
     var body: some View {
@@ -32,7 +31,7 @@ struct SurfingView: View {
             } else if followVM.surfingIDs.isEmpty {
                 Spacer()
                 
-                SurfingGuideView(postitVM: postitVM)
+                SurfingGuideView()
                 
                 Spacer()
             } else {
@@ -110,7 +109,9 @@ struct SurfingView: View {
                     surfingVM.isShownCamera = false
                 }
                 .sheet(isPresented: $surfingVM.isShowingPhotoModal, content: {
-                    PhotoTypeModal(surfingVM: surfingVM, feedVM: feedVM, profileVM: profileVM, followVM: followVM)
+                    PhotoTypeModal(surfingVM: surfingVM, 
+                                   feedVM: feedVM,
+                                   profileVM: profileVM)
                         .presentationDetents([.fraction(0.25)])
                     
                 })

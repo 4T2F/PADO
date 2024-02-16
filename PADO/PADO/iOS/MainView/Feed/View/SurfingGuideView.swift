@@ -9,7 +9,6 @@ import Kingfisher
 import SwiftUI
 
 struct SurfingGuideView: View {
-    @ObservedObject var postitVM: PostitViewModel
     
     @State private var surfingUser: [User] = []
     @State private var surfingID: String = ""
@@ -41,7 +40,7 @@ struct SurfingGuideView: View {
                 ScrollView(.horizontal) {
                     HStack(spacing: 5) {
                         ForEach(surfingUser) { user in
-                            SurfingGuideCell(postitVM: postitVM, user: user)
+                            SurfingGuideCell(user: user)
                                 .frame(width: frameWidth, height: size.height - 0)
                                 .scrollTransition(.interactive, axis: .horizontal) {
                                     view, phase in

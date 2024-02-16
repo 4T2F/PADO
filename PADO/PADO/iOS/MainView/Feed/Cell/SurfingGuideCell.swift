@@ -11,8 +11,6 @@ import SwiftUI
 
 struct SurfingGuideCell: View {
     
-    @ObservedObject var postitVM: PostitViewModel
-    
     @State var buttonActive: Bool = false
     @State private var isShowingMessageView: Bool = false
     

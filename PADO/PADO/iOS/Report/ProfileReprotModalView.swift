@@ -8,7 +8,11 @@
 import SwiftUI
 
 struct ReprotProfileModalView: View {
+    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @ObservedObject var profileVM: ProfileViewModel
     @State private var isShowingReportView: Bool = false
+    
+    let user: User
     
     var body: some View {
         ZStack {
@@ -38,20 +42,41 @@ struct ReprotProfileModalView: View {
                 
                 VStack {
                     Button {
-                        //
+                        Task {
+                            if profileVM.isUserBlocked {
+                                // 차단 해제 로직
+                                if let currentUser = viewModel.currentUser {
+                                    await profileVM.unblockUser(blockingUser: user,
+                                                          user: currentUser)
+                                    profileVM.isUserBlocked = false
+                                }
+                            } else {
+                                // 차단 로직
+                                if let currentUser = viewModel.currentUser {
+                                    await profileVM.blockUser(blockingUser: user,
+                                                        user: currentUser)
+                                    profileVM.isUserBlocked = true
+                                }
+                            }
+                        }
                     } label: {
                         HStack {
-                            Text("차단")
+                            Text(profileVM.isUserBlocked ? "차단 해제" : "차단")
                                 .font(.system(size: 14))
                                 .fontWeight(.bold)
                                 .foregroundStyle(.red)
-                            
+                             
                             Spacer()
                             
                             Image(systemName: "person.slash")
                                 .foregroundStyle(.red)
                                 .font(.system(size: 14))
                                 .fontWeight(.bold)
+                        }
+                    }
+                    .onAppear {
+                        Task {
+                            await profileVM.fetchBlockUsers()
                         }
                     }
                     
