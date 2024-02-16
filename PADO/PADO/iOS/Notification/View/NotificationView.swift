@@ -29,7 +29,6 @@ struct NotificationView: View {
                     .padding(.horizontal, 10)
                 }
                 .frame(width: UIScreen.main.bounds.width)
-                // 나중에 ForEach로 만들어야함(?) -> 이뤄드림
                 ForEach(notiVM.notifications) { notification in
                     NotificationCell(notification: notification)
                         .padding(.horizontal, 10)

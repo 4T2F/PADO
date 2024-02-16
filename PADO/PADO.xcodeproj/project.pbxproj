@@ -994,8 +994,8 @@
 				B10765552B740FFC0023B686 /* CommentNotificationCell.swift */,
 				B10765572B7410470023B686 /* HeartNotificationCell.swift */,
 				B10765592B7410C50023B686 /* FacemojiNotificationCell.swift */,
-				63C20BEC2B56CFAF00911F64 /* AdvancedSettingsCell.swift */,
 				B107655F2B7A41C20023B686 /* PostitNotificationCell.swift */,
+				63C20BEC2B56CFAF00911F64 /* AdvancedSettingsCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";

@@ -68,14 +68,16 @@ struct FollowerOtherUserCellView: View {
             Spacer()
             
             if cellUserId != userNameID {
-                FollowButtonView(cellUserId: cellUserId,
-                               buttonActive: $buttonOnOff,
-                               activeText: "팔로우",
-                               unActiveText: "팔로우 취소",
-                               widthValue: 85,
-                                 heightValue: 28,
-                                 buttonType: ButtonType.unDirect)
-                .padding(.horizontal)
+                if let cellUser = profileUser {
+                    FollowButtonView(cellUser: cellUser,
+                                     buttonActive: $buttonOnOff,
+                                     activeText: "팔로우",
+                                     unActiveText: "팔로우 취소",
+                                     widthValue: 85,
+                                     heightValue: 28,
+                                     buttonType: ButtonType.unDirect)
+                    .padding(.horizontal)
+                }
             }
             
         } // :HSTACK

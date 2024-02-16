@@ -13,8 +13,8 @@ enum ButtonType {
 }
 
 struct FollowButtonView: View {
-    
-    let cellUserId: String
+    @EnvironmentObject var viewModel: AuthenticationViewModel
+    let cellUser: User
     @Binding var buttonActive: Bool
     let activeText: String
     let unActiveText: String
@@ -28,15 +28,18 @@ struct FollowButtonView: View {
                 Task {
                     switch buttonType {
                     case .direct:
-                        await UpdateFollowData.shared.directUnfollowUser(id: cellUserId)
+                        await UpdateFollowData.shared.directUnfollowUser(id: cellUser.nameID)
                     case .unDirect:
-                        await UpdateFollowData.shared.unfollowUser(id: cellUserId)
+                        await UpdateFollowData.shared.unfollowUser(id: cellUser.nameID)
+                    }
+                    if let currentUser = viewModel.currentUser {
+                        await UpdatePushNotiData.shared.pushNoti(receiveUser: cellUser, type: .follow, sendUser: currentUser)
                     }
                 }
                 buttonActive.toggle()
             } else if !userNameID.isEmpty {
                 Task {
-                    await UpdateFollowData.shared.followUser(id: cellUserId)
+                    await UpdateFollowData.shared.followUser(id: cellUser.nameID)
                 }
                 buttonActive.toggle()
             } else {
@@ -66,7 +69,7 @@ struct FollowButtonView: View {
         }
         .onAppear {
             Task {
-                self.buttonActive = UpdateFollowData.shared.checkFollowingStatus(id: cellUserId)
+                self.buttonActive = UpdateFollowData.shared.checkFollowingStatus(id: cellUser.nameID)
             }
         }
     }

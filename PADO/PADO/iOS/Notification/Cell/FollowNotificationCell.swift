@@ -9,8 +9,8 @@ import Kingfisher
 import SwiftUI
 
 struct FollowNotificationCell: View {
-    @State private var buttonActive: Bool = false
     @State private var targetUser: User? = nil
+    @State private var buttonActive: Bool = false
     @State private var buttonOnOff: Bool = false
     
     var notification: Noti
@@ -51,25 +51,24 @@ struct FollowNotificationCell: View {
                     .lineSpacing(4)
                 }
                 
-  
-            Spacer()
-            
-            FollowButtonView(cellUserId: notification.sendUser,
-                           buttonActive: $buttonActive,
-                           activeText: "팔로우",
-                           unActiveText: "팔로우 취소",
-                           widthValue: 85,
-                             heightValue: 30, 
-                             buttonType: ButtonType.direct)
-        }
- 
+                
+                Spacer()
+                if let targetUser = targetUser {
+                    FollowButtonView(cellUser: targetUser,
+                                     buttonActive: $buttonActive,
+                                     activeText: "팔로우",
+                                     unActiveText: "팔로우 취소",
+                                     widthValue: 85,
+                                     heightValue: 30,
+                                     buttonType: ButtonType.direct)
+                }
+            }
             .onAppear {
                 Task {
                     if let targetUser = await UpdateUserData.shared.getOthersProfileDatas(id: notification.sendUser) {
                         self.targetUser = targetUser
                     }
                     self.buttonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: notification.sendUser)
-
                 }
             }
         }
