@@ -67,8 +67,7 @@ struct PadoRideView: View {
                                         }
                                     } else {
                                         HStack {
-                                            Text("해당 유저는 아직 꾸밀 파도가 없어요")
-                                                .font(.system(size: 16, weight: .bold))
+                                            NoItemView(itemName: "해당 유저는 아직 꾸밀 파도가 없어요")
                                         }
                                     }
                                 }

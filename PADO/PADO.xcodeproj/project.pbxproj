@@ -173,6 +173,7 @@
 		64B4C8EA2B62532100D405DE /* UpdateUserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B4C8E92B62532000D405DE /* UpdateUserData.swift */; };
 		64E761C32B7F5F3600882D29 /* SurfingGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E761C22B7F5F3600882D29 /* SurfingGuideView.swift */; };
 		64E761C52B7F5F4E00882D29 /* SurfingGuideCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E761C42B7F5F4E00882D29 /* SurfingGuideCell.swift */; };
+		64E761C72B7FBC4A00882D29 /* NoItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E761C62B7FBC4A00882D29 /* NoItemView.swift */; };
 		64F210D12B58B25900E2064A /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 64F210D02B58B25900E2064A /* Kingfisher */; };
 		64F210D32B58B26F00E2064A /* MainSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F210D22B58B26F00E2064A /* MainSearchView.swift */; };
 		B102FE802B56D34C0005C310 /* VerificationPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B102FE7F2B56D34C0005C310 /* VerificationPostView.swift */; };
@@ -416,6 +417,7 @@
 		64B4C8E92B62532000D405DE /* UpdateUserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateUserData.swift; sourceTree = "<group>"; };
 		64E761C22B7F5F3600882D29 /* SurfingGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurfingGuideView.swift; sourceTree = "<group>"; };
 		64E761C42B7F5F4E00882D29 /* SurfingGuideCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurfingGuideCell.swift; sourceTree = "<group>"; };
+		64E761C62B7FBC4A00882D29 /* NoItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoItemView.swift; sourceTree = "<group>"; };
 		64F210D22B58B26F00E2064A /* MainSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSearchView.swift; sourceTree = "<group>"; };
 		B102FE7F2B56D34C0005C310 /* VerificationPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationPostView.swift; sourceTree = "<group>"; };
 		B102FE812B56DB5B0005C310 /* PostButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostButtonView.swift; sourceTree = "<group>"; };
@@ -924,6 +926,7 @@
 				419D086C2B5FB31C00E61A6F /* LaunchSTA.swift */,
 				63AA035D2B6A044300431332 /* SNSButton.swift */,
 				419981CE2B7412A700EEA06E /* CustomRefreshView.swift */,
+				64E761C62B7FBC4A00882D29 /* NoItemView.swift */,
 			);
 			path = Items;
 			sourceTree = "<group>";
@@ -1462,6 +1465,7 @@
 				63283DB92B73BDF700A42C0F /* SelectPostView.swift in Sources */,
 				B1D7CDEF2B566A2F0090544B /* ViewExtension.swift in Sources */,
 				418ACDCB2B767CB3003DD9E7 /* DeleteMessageView.swift in Sources */,
+				64E761C72B7FBC4A00882D29 /* NoItemView.swift in Sources */,
 				41A102932B624CCB0070AB8D /* Comment.swift in Sources */,
 				649372F42B5612E700BCDA71 /* FollowingView.swift in Sources */,
 				418B6C8C2B5EBC6000E8289D /* ActivityIndicator.swift in Sources */,

@@ -429,10 +429,7 @@ struct OtherUserProfileView: View {
     func postView() -> some View {
         VStack(spacing: 25) {
             if profileVM.padoPosts.isEmpty {
-                Text("아직 받은 게시물이 없어요")
-                    .foregroundColor(.gray)
-                    .font(.system(size: 16,
-                                  weight: .semibold))
+                NoItemView(itemName: "아직 받은 게시물이 없어요")
                     .padding(.top, 150)
             } else {
                 LazyVGrid(columns: columns, spacing: 2) {
@@ -480,10 +477,7 @@ struct OtherUserProfileView: View {
     func writtenPostsView() -> some View {
         VStack(spacing: 25) {
             if profileVM.sendPadoPosts.isEmpty {
-                Text("아직 보낸 게시물이 없어요")
-                    .foregroundColor(.gray)
-                    .font(.system(size: 16,
-                                  weight: .semibold))
+                NoItemView(itemName: "아직 보낸 게시물이 없어요")
                     .padding(.top, 150)
             } else {
                 LazyVGrid(columns: columns, spacing: 2) {
@@ -529,10 +523,7 @@ struct OtherUserProfileView: View {
     func highlightsView() -> some View {
         VStack(spacing: 25) {
             if profileVM.highlights.isEmpty {
-                Text("아직 좋아요를 표시한 게시물이 없어요")
-                    .foregroundColor(.gray)
-                    .font(.system(size: 16,
-                                  weight: .semibold))
+                NoItemView(itemName: "아직 좋아요를 표시한 게시물이 없어요")
                     .padding(.top, 150)
             } else {
                 LazyVGrid(columns: columns, spacing: 2) {
