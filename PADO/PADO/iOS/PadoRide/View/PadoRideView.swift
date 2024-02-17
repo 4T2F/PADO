@@ -12,7 +12,6 @@ struct PadoRideView: View {
     @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var followVM: FollowViewModel
     @ObservedObject var padorideVM: PadoRideViewModel
-    @ObservedObject var postitVM: PostitViewModel
     
     // MARK: - BODY
     var body: some View {
@@ -86,7 +85,7 @@ struct PadoRideView: View {
                         } else if followVM.surfingIDs.isEmpty {
                             Spacer()
                             
-                            SurfingGuideView(postitVM: postitVM)
+                            SurfingGuideView()
                             
                             Spacer()
                         }

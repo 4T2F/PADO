@@ -15,7 +15,6 @@ struct PhotoTypeModal: View {
     @ObservedObject var surfingVM: SurfingViewModel
     @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var profileVM: ProfileViewModel
-    @ObservedObject var followVM: FollowViewModel
     
     var body: some View {
         VStack {
