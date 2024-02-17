@@ -55,9 +55,8 @@ struct MessageBubbleView: View {
             }
         }
         .sheet(isPresented: $postitVM.showdeleteModal) {
-            DeleteMessageView(messageID: postitVM.longpressedID,
-                              text: postitVM.longpressedMessage,
-                              postitVM: postitVM)
+            DeleteMessageView(postitVM: postitVM, messageID: postitVM.longpressedID,
+                              text: postitVM.longpressedMessage)
                 .presentationDetents([.fraction(0.4)])
         }
     }
