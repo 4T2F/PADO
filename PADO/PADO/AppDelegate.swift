@@ -16,7 +16,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     // @EnvironmentObject var viewModel: AuthenticationViewModel
     
     func application(_ application: UIApplication,
-                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
+                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
         
         UNUserNotificationCenter.current().delegate = self
@@ -81,7 +81,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         
-        completionHandler([.banner, .sound, .badge])
+        completionHandler([.banner, .sound, .badge]) // UNNotificationPresentationOptions
         
         HapticHelper.shared.impact(style: .medium) // 햅틱알림
     }
@@ -99,64 +99,59 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss" // ISO 8601 형식
         formatter.timeZone = TimeZone(secondsFromGMT: 0) // UTC로 설정
         
-        // 푸쉬알림 탭 분기처리
-        // 1.앱 활성화 || 2.앱 비활성화 || 3.앱 백그라운드
-        if application.applicationState == .active || application.applicationState == .inactive {
-            // 푸쉬 알람 종류 분기
-            print("푸쉬알림 탭(앱 포그/백그)")
-            switch categoryIdentifier {
-            case "profile":
-                let user = User(
-                    id: userInfo["User_id"] as? String,
-                    username: userInfo["User_username"] as? String ?? "",
-                    lowercasedName: userInfo["User_lowercasedName"] as? String ?? "",
-                    nameID: userInfo["User_nameID"] as? String ?? "",
-                    profileImageUrl: userInfo["User_profileImageUrl"] as? String,
-                    backProfileImageUrl: userInfo["User_backProfileImageUrl"] as? String,
-                    date: userInfo["User_date"] as? String ?? "",
-                    bio: userInfo["User_bio"] as? String,
-                    location: userInfo["User_location"] as? String,
-                    phoneNumber: userInfo["User_phoneNumber"] as? String ?? "",
-                    fcmToken: userInfo["User_fcmToken"] as? String ?? "",
-                    alertAccept: userInfo["User_alertAccept"] as? String ?? "",
-                    instaAddress: userInfo["User_instaAddress"] as? String ?? "",
-                    tiktokAddress: userInfo["User_tiktokAddress"] as? String ?? ""
-                )
-                NotificationCenter.default.post(name: Notification.Name("ProfileNotification"), object: user)
+        switch categoryIdentifier {
+        case "profile":
+            let user = User(
+                id: userInfo["User_id"] as? String,
+                username: userInfo["User_username"] as? String ?? "",
+                lowercasedName: userInfo["User_lowercasedName"] as? String ?? "",
+                nameID: userInfo["User_nameID"] as? String ?? "",
+                profileImageUrl: userInfo["User_profileImageUrl"] as? String,
+                backProfileImageUrl: userInfo["User_backProfileImageUrl"] as? String,
+                date: userInfo["User_date"] as? String ?? "",
+                bio: userInfo["User_bio"] as? String,
+                location: userInfo["User_location"] as? String,
+                phoneNumber: userInfo["User_phoneNumber"] as? String ?? "",
+                fcmToken: userInfo["User_fcmToken"] as? String ?? "",
+                alertAccept: userInfo["User_alertAccept"] as? String ?? "",
+                instaAddress: userInfo["User_instaAddress"] as? String ?? "",
+                tiktokAddress: userInfo["User_tiktokAddress"] as? String ?? ""
+            )
+            NotificationCenter.default.post(name: Notification.Name("ProfileNotification"), object: user)
+            
+        case "post":
+            if let createTimeString = userInfo["Post_created_Time"] as? String,
+               let createTime = formatter.date(from: createTimeString){
+                let createdTimestamp = Timestamp(date: createTime)
                 
-            case "post":
-                if let createTimeString = userInfo["Post_created_Time"] as? String,
-                   let createTime = formatter.date(from: createTimeString){
-                    let createdTimestamp = Timestamp(date: createTime)
-                    
-                    let post = Post(
-                        id: userInfo["Post_id"] as? String,
-                        ownerUid: userInfo["Post_ownerUid"] as? String ?? "",
-                        surferUid: userInfo["Post_surferUid"] as? String ?? "",
-                        imageUrl: userInfo["Post_imageUrl"] as? String ?? "",
-                        title: userInfo["Post_title"] as? String ?? "",
-                        heartsCount: Int(userInfo["Post_heartsCount"] as? String ?? "") ?? 0,
-                        commentCount: Int(userInfo["Post_commentCount"] as? String ?? "") ?? 0,
-                        hearts: nil,
-                        comments: nil,
-                        created_Time: createdTimestamp,
-                        modified_Time: nil
-                    )
-                    NotificationCenter.default.post(name: Notification.Name("PostNotification"), object: post)
-                }
-            default:
-                print("categoryIdentifier error")
+                let post = Post(
+                    id: userInfo["Post_id"] as? String,
+                    ownerUid: userInfo["Post_ownerUid"] as? String ?? "",
+                    surferUid: userInfo["Post_surferUid"] as? String ?? "",
+                    imageUrl: userInfo["Post_imageUrl"] as? String ?? "",
+                    title: userInfo["Post_title"] as? String ?? "",
+                    heartsCount: Int(userInfo["Post_heartsCount"] as? String ?? "") ?? 0,
+                    commentCount: Int(userInfo["Post_commentCount"] as? String ?? "") ?? 0,
+                    hearts: nil,
+                    comments: nil,
+                    created_Time: createdTimestamp,
+                    modified_Time: nil
+                )
+                NotificationCenter.default.post(name: Notification.Name("PostNotification"), object: post)
             }
-        } else if application.applicationState == .background {
-            print("-------------------------------------------------")
+        default:
+            print("categoryIdentifier error")
         }
+        HapticHelper.shared.impact(style: .medium) // 햅틱알림
         completionHandler()
     }
     
     // 원격 알림 수신 처리
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) async -> UIBackgroundFetchResult {
-        return .noData
-    }
+    //    func application(_ application: UIApplication,
+    //                     didReceiveRemoteNotification userInfo: [AnyHashable: Any]) async -> UIBackgroundFetchResult {
+    //        return .newData
+    //    }
+    
 }
 
 // 포그라운드에서 푸시 알림이 올 때 햅틱이 오는 기능
