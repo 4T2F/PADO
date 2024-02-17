@@ -25,6 +25,11 @@ struct FeedCell: View {
     @State private var isShowingCommentView: Bool = false
     @State private var isShowingLoginPage: Bool = false
     
+    @State private var deleteMyPadoride: Bool = false
+    @State private var deleteSendPadoride: Bool = false
+    @State private var deleteMyPost: Bool = false
+    @State private var deleteSendPost: Bool = false
+    
     @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var surfingVM: SurfingViewModel
     @ObservedObject var profileVM: ProfileViewModel
@@ -110,7 +115,7 @@ struct FeedCell: View {
                         }
                     }
             } else if let currentIndex = feedVM.currentPadoRideIndex,
-                        feedVM.padoRidePosts.indices.contains(currentIndex) {
+                      feedVM.padoRidePosts.indices.contains(currentIndex) {
                 // PadoRide 이미지 표시
                 let padoRide = feedVM.padoRidePosts[currentIndex]
                 
@@ -450,40 +455,24 @@ struct FeedCell: View {
                                     if let padoRideIndex = feedVM.currentPadoRideIndex {
                                         if post.ownerUid == userNameID {
                                             // 내가 받은 게시물의 멍게 삭제 로직
-                                            let fileName = feedVM.padoRidePosts[padoRideIndex].storageFileName
-                                            let subID = feedVM.padoRidePosts[padoRideIndex].id
-                                            
-                                            Task {
-                                                try await DeletePost.shared.deletePadoridePost(postID: post.id ?? "",
-                                                                                               storageFileName: fileName,
-                                                                                               subID: subID ?? "")
-                                            }
-                                            
+                                            deleteMyPadoride = true
                                         } else if feedVM.padoRidePosts[padoRideIndex].id == userNameID {
                                             // 내가 보낸 멍게의 삭제 로직
-                                            let fileName = feedVM.padoRidePosts[padoRideIndex].storageFileName
-                                            
-                                            Task {
-                                                try await DeletePost.shared.deletePadoridePost(postID: post.id ?? "",
-                                                                                               storageFileName: fileName,
-                                                                                               subID: userNameID)
+                                            deleteSendPadoride = true
+                                        } else {
+                                            if !userNameID.isEmpty {
+                                                isShowingReportView.toggle()
+                                            } else {
+                                                isShowingLoginPage = true
                                             }
                                         }
                                     } else {
                                         if post.ownerUid == userNameID {
                                             // 내가 받은 게시물 삭제 로직
-                                            Task {
-                                                try await DeletePost.shared.deletePost(postID: post.id ?? "",
-                                                                                       postOwnerID: post.ownerUid,
-                                                                                       sufferID: post.surferUid)
-                                            }
+                                            deleteMyPost = true
                                         } else if post.surferUid == userNameID {
                                             // 내가 보낸 게시물 삭제 로직
-                                            Task {
-                                                try await DeletePost.shared.deletePost(postID: post.id ?? "",
-                                                                                       postOwnerID: post.ownerUid,
-                                                                                       sufferID: post.surferUid)
-                                            }
+                                            deleteSendPost = true
                                         } else {
                                             if !userNameID.isEmpty {
                                                 isShowingReportView.toggle()
@@ -532,6 +521,165 @@ struct FeedCell: View {
                 }
             }
         }
+        .popup(isPresented: $deleteMyPadoride) {
+            // 내가 받은 게시글의 파도타기를 삭제
+            VStack {
+                Text("해당 파도타기를 삭제하시겠습니까?")
+                    .font(.system(size: 16, weight: .semibold))
+                
+                Button {
+                    let fileName = feedVM.padoRidePosts[feedVM.currentPadoRideIndex ?? 0].storageFileName
+                    let subID = feedVM.padoRidePosts[feedVM.currentPadoRideIndex ?? 0].id
+                    
+                    Task {
+                        try await DeletePost.shared.deletePadoridePost(postID: post.id ?? "",
+                                                                       storageFileName: fileName,
+                                                                       subID: subID ?? "")
+                        deleteMyPadoride = false
+                    }
+                } label: {
+                    Text("삭제")
+                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 40)
+                        .foregroundStyle(.red)
+                        .background(.grayButton)
+                }
+                
+                Button {
+                    deleteMyPadoride = false
+                } label: {
+                    Text("취소")
+                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 40)
+                        .foregroundStyle(.red)
+                        .background(.grayButton)
+                        .cornerRadius(10)
+                }
+            }
+        } customize: {
+            $0
+                .type(.floater())
+                .position(.bottom)
+                .animation(.spring())
+                .closeOnTapOutside(true)
+                .backgroundColor(.black.opacity(0.5))
+        }
+        .popup(isPresented: $deleteSendPadoride) {
+            // 상대방 게시글의 내가 보낸 파도타기를 삭제
+            VStack {
+                Text("해당 파도타기를 삭제하시겠습니까?")
+                    .font(.system(size: 16, weight: .semibold))
+                
+                Button {
+                    let fileName = feedVM.padoRidePosts[feedVM.currentPadoRideIndex ?? 0].storageFileName
+                    
+                    Task {
+                        try await DeletePost.shared.deletePadoridePost(postID: post.id ?? "",
+                                                                       storageFileName: fileName,
+                                                                       subID: userNameID)
+                        deleteSendPadoride = false
+                    }
+                } label: {
+                    Text("삭제")
+                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 40)
+                        .foregroundStyle(.red)
+                        .background(.grayButton)
+                        .cornerRadius(10)
+                }
+                
+                Button {
+                    deleteSendPadoride = false
+                } label: {
+                    Text("취소")
+                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 40)
+                        .background(.grayButton)
+                        .cornerRadius(10)
+                }
+            }
+        } customize: {
+            $0
+                .type(.floater())
+                .position(.bottom)
+                .animation(.spring())
+                .closeOnTapOutside(true)
+                .backgroundColor(.black.opacity(0.5))
+        }
+        .popup(isPresented: $deleteMyPost) {
+            // 내가 받은 파도를 삭제
+            VStack {
+                Text("해당 파도를 삭제하시겠습니까?")
+                    .font(.system(size: 16, weight: .semibold))
+                
+                Button {
+                    Task {
+                        try await DeletePost.shared.deletePost(postID: post.id ?? "",
+                                                               postOwnerID: post.ownerUid,
+                                                               sufferID: post.surferUid)
+                        deleteMyPost = false
+                    }
+                } label: {
+                    Text("삭제")
+                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 40)
+                        .foregroundStyle(.red)
+                        .background(.grayButton)
+                        .cornerRadius(10)
+                }
+                
+                Button {
+                    deleteMyPost = false
+                } label: {
+                    Text("취소")
+                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 40)
+                        .background(.grayButton)
+                        .cornerRadius(10)
+                }
+            }
+        } customize: {
+            $0
+                .type(.floater())
+                .position(.bottom)
+                .animation(.spring())
+                .closeOnTapOutside(true)
+                .backgroundColor(.black.opacity(0.5))
+        }
+
+        .popup(isPresented: $deleteSendPost) {
+            // 내가 보낸 파도를 삭제
+            VStack {
+                Text("해당 파도를 삭제하시겠습니까?")
+                    .font(.system(size: 16, weight: .semibold))
+                
+                Button {
+                    Task {
+                        try await DeletePost.shared.deletePost(postID: post.id ?? "",
+                                                               postOwnerID: post.ownerUid,
+                                                               sufferID: post.surferUid)
+                        deleteSendPost = false
+                    }
+                } label: {
+                    Text("삭제")
+                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 40)
+                        .foregroundStyle(.red)
+                        .background(.grayButton)
+                        .cornerRadius(10)
+                }
+                
+                Button {
+                    deleteSendPost = false
+                } label: {
+                    Text("취소")
+                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 40)
+                        .background(.grayButton)
+                        .cornerRadius(10)
+                }
+            }
+        } customize: {
+            $0
+                .type(.floater())
+                .position(.bottom)
+                .animation(.spring())
+                .closeOnTapOutside(true)
+                .backgroundColor(.black.opacity(0.5))
+        }
+
     }
     
     func fetchPostData(post: Post) async {
