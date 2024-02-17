@@ -36,6 +36,8 @@ struct ReprotProfileModalView: View {
                                                         user: currentUser)
                                     profileVM.isUserBlocked = true
                                     searchVM.removeBlockUser()
+                                    await DeletePost.shared.deleteForBlock(blockUserId: user.nameID)
+                                    await profileVM.fetchPostID(id: user.nameID)
                                 }
                             }
                         }

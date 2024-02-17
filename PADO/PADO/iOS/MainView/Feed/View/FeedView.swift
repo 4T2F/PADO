@@ -64,10 +64,14 @@ struct FeedView: View {
                             await profileVM.fetchBlockUsers()
                             await followVM.fetchIDs(id: userNameID, collectionType: CollectionType.following)
                             await feedVM.fetchFollowingPosts()
+                            await notiVM.fetchNotifications()
+                            await profileVM.fetchPostID(id: userNameID)
                         } else {
                             Task{
+                                await profileVM.fetchBlockUsers()
                                 await feedVM.fetchTodayPadoPosts()
                                 await notiVM.fetchNotifications()
+                                await profileVM.fetchPostID(id: userNameID)
                             }
                         }
                     }
