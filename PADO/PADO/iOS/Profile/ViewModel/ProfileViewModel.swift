@@ -21,6 +21,7 @@ class ProfileViewModel: ObservableObject {
     @Published var highlights: [Post] = []
     @Published var headerOffsets: (CGFloat, CGFloat) = (0, 0)
     @Published var selectedPostID: String = ""
+    @Published var blockUser: [BlockUser] = []
     
     // 사용자 차단 로직
     @Published var isUserBlocked: Bool = false
@@ -165,7 +166,9 @@ extension ProfileViewModel {
             blockingUser = blockingSnapshot.documents.compactMap { document -> BlockUser? in
                 try? document.data(as: BlockUser.self)
             }
-            
+            blockUser = blockingSnapshot.documents.compactMap { document -> BlockUser? in
+                try? document.data(as: BlockUser.self)
+            }
             let blockedSnapshot = try await blockedCollectionRef.getDocuments()
             blockedUser = blockedSnapshot.documents.compactMap { document -> BlockUser? in
                 try? document.data(as: BlockUser.self)
