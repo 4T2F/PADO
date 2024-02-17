@@ -227,11 +227,7 @@ struct FeedCell: View {
                                                              user: surferUser)
                                         
                                     } label: {
-                                        if !surferUser.username.isEmpty {
-                                            Text("surf. \(surferUser.username)")
-                                        } else {
-                                            Text("surf. @\(post.surferUid)")
-                                        }
+                                        Text("surf. @\(post.surferUid)")
                                     }
                                     .font(.system(size: 14))
                                     .fontWeight(.heavy)
@@ -250,11 +246,7 @@ struct FeedCell: View {
                                                              user: surferUser)
                                         
                                     } label: {
-                                        if !surferUser.username.isEmpty {
-                                            Text("surf. \(surferUser.username)")
-                                        } else {
-                                            Text("surf. @\(post.surferUid)")
-                                        }
+                                        Text("surf. @\(post.surferUid)")
                                     }
                                     .font(.system(size: 14))
                                     .fontWeight(.heavy)

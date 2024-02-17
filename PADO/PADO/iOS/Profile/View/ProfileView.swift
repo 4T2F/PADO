@@ -217,27 +217,29 @@ struct ProfileView: View {
                             }
                             
                             HStack {
-                                Label {
-                                    Text("파도")
-                                        .foregroundStyle(.white.opacity(0.9))
-                                } icon: {
+                                HStack(spacing: 2) {
                                     Text("\(profileVM.padoPosts.count + profileVM.sendPadoPosts.count)")
-                                        .foregroundStyle(.white.opacity(0.9))
+                                    
+                                    Text("wave")
                                 }
                                 .font(.callout)
+                                .foregroundStyle(.white.opacity(0.9))
+                                .fontWeight(.bold)
+                                .fontDesign(.rounded)
                                 
                                 if let user = viewModel.currentUser {
                                     Button {
                                         followerActive = true
                                     } label: {
-                                        Label {
-                                            Text("팔로워")
-                                                .foregroundStyle(.white.opacity(0.9))
-                                        } icon: {
+                                        HStack(spacing: 2) {
                                             Text("\(followVM.followerIDs.count + followVM.surferIDs.count)")
-                                                .foregroundStyle(.white.opacity(0.9))
+                                            
+                                            Text("follower")
                                         }
                                         .font(.callout)
+                                        .foregroundStyle(.white.opacity(0.9))
+                                        .fontWeight(.bold)
+                                        .fontDesign(.rounded)
                                     }
                                     .sheet(isPresented: $followerActive) {
                                         FollowMainView(currentType: "팔로워", followVM: followVM, user: user)
@@ -251,14 +253,15 @@ struct ProfileView: View {
                                     Button {
                                         followingActive = true
                                     } label: {
-                                        Label {
-                                            Text("팔로잉")
-                                                .foregroundStyle(.white.opacity(0.9))
-                                        } icon: {
+                                        HStack(spacing: 2) {
                                             Text("\(followVM.followingIDs.count)")
-                                                .foregroundStyle(.white.opacity(0.9))
+                                            
+                                            Text("following")
                                         }
                                         .font(.callout)
+                                        .foregroundStyle(.white.opacity(0.9))
+                                        .fontWeight(.bold)
+                                        .fontDesign(.rounded)
                                     }
                                     
                                     .sheet(isPresented: $followingActive) {
@@ -296,7 +299,8 @@ struct ProfileView: View {
             ForEach(types, id: \.self) { type in
                 VStack(spacing: 12) {
                     Text(type)
-                        .fontWeight(.semibold)
+                        .font(.system(size: 16))
+                        .fontWeight(.bold)
                         .foregroundStyle(profileVM.currentType == type ? .white : .gray)
                     
                     ZStack {
@@ -384,7 +388,7 @@ struct ProfileView: View {
             }
         }
         .padding(.bottom, 500)
-        .offset(y: -6)
+        .offset(y: -4)
     }
     
     @ViewBuilder
@@ -429,7 +433,7 @@ struct ProfileView: View {
             }
         }
         .padding(.bottom, 500)
-        .offset(y: -6)
+        .offset(y: -4)
     }
     
     @ViewBuilder
@@ -474,6 +478,6 @@ struct ProfileView: View {
             }
         }
         .padding(.bottom, 500)
-        .offset(y: -6)
+        .offset(y: -4)
     }
 }
