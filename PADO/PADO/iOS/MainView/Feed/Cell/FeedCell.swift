@@ -640,7 +640,6 @@ struct FeedCell: View {
                 .closeOnTapOutside(true)
                 .backgroundColor(.black.opacity(0.5))
         }
-
         .popup(isPresented: $deleteSendPost) {
             // 내가 보낸 파도를 삭제
             VStack {
