@@ -80,11 +80,13 @@ struct ModalAlertView: View {
                     case .account:
                         Task {
                             await viewModel.deleteAccount()
+                            viewModel.needsDataFetch.toggle()
                         }
                         dismiss()
                         
                     case .signOut:
                         viewModel.signOut()
+                        viewModel.needsDataFetch.toggle()
                         dismiss()
                     }
                 } label: {

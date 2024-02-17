@@ -17,40 +17,42 @@ struct PadoRideView: View {
     var body: some View {
         NavigationStack {
             ZStack {
+                Color.main.ignoresSafeArea()
                 VStack {
-                    HStack {
-                        Spacer()
-                        
-                        Text("파도타기")
-                            .font(.system(size: 16, weight: .bold))
-                            .padding(.leading, 40)
-                        
-                        Spacer()
-                        
-                        if padorideVM.selectedImage.isEmpty {
-                            Button {
-                            } label: {
-                                Text("다음")
-                                    .foregroundStyle(.gray)
-                                    .font(.system(size: 16, weight: .semibold))
-                                    .padding(.trailing, 18)
-                            }
-                        } else {
-                            Button {
-                                padorideVM.downloadSelectedImage()
-                                padorideVM.isShowingEditView = true
-                            } label: {
-                                Text("다음")
-                                    .foregroundStyle(.white)
-                                    .font(.system(size: 16, weight: .semibold))
-                                    .padding(.trailing, 18)
+                    if !padorideVM.postsData.isEmpty {
+                        HStack {
+                            Spacer()
+                            
+                            Text("파도타기")
+                                .font(.system(size: 16, weight: .bold))
+                                .padding(.leading, 40)
+                            
+                            Spacer()
+                            
+                            if padorideVM.selectedImage.isEmpty {
+                                Button {
+                                } label: {
+                                    Text("다음")
+                                        .foregroundStyle(.gray)
+                                        .font(.system(size: 16, weight: .semibold))
+                                        .padding(.trailing, 18)
+                                }
+                            } else {
+                                Button {
+                                    padorideVM.downloadSelectedImage()
+                                    padorideVM.isShowingEditView = true
+                                } label: {
+                                    Text("다음")
+                                        .foregroundStyle(.white)
+                                        .font(.system(size: 16, weight: .semibold))
+                                        .padding(.trailing, 18)
+                                }
                             }
                         }
-                    }
-                    
-                    Spacer()
-                    
-                    if !padorideVM.postsData.isEmpty {
+                        .padding(.top, 10)
+                        
+                        Spacer()
+                        
                         ScrollView(.vertical, showsIndicators: false) {
                             LazyVStack {
                                 ForEach(followVM.surfingIDs, id: \.self) { surfingID in
@@ -66,7 +68,7 @@ struct PadoRideView: View {
                                         }
                                     } else {
                                         HStack {
-                                            NoItemView(itemName: "파도타기 할 수 있는 유저가 없습니다")
+                                            NoItemView(itemName: "파도타기 할 수 있는 포스트가 없어요")
                                         }
                                     }
                                 }
@@ -76,14 +78,17 @@ struct PadoRideView: View {
                         if followVM.followingIDs.isEmpty {
                             Spacer()
                             
-                            Text("팔로잉한 사람이 없습니다")
+                            Text("팔로잉한 사람이 없어요")
                                 .font(.system(size: 16, weight: .bold))
                             
                             FeedGuideView(feedVM: feedVM)
                             
                             Spacer()
                         } else if followVM.surfingIDs.isEmpty {
+                            
                             Spacer()
+                            Text("서퍼로 지정해준 사람이 없어요")
+                                .font(.system(size: 16, weight: .bold))
                             
                             SurfingGuideView()
                             

@@ -12,13 +12,12 @@ struct ReprotProfileModalView: View {
     @Environment (\.dismiss) var dismiss
     @ObservedObject var profileVM: ProfileViewModel
     @State private var isShowingReportView: Bool = false
-    let searchVM = SearchViewModel.shared
+    
     let user: User
     
     var body: some View {
         ZStack {
             Color.modal.ignoresSafeArea()
-            
             VStack {
                 VStack {
                     Button {
@@ -36,7 +35,6 @@ struct ReprotProfileModalView: View {
                                     await profileVM.blockUser(blockingUser: user,
                                                         user: currentUser)
                                     profileVM.isUserBlocked = true
-                                    searchVM.removeBlockUser()
                                 }
                             }
                         }

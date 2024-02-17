@@ -14,6 +14,7 @@ struct DrawingView: View {
     
     var body: some View {
         ZStack {
+            Color.main.ignoresSafeArea()
             GeometryReader { proxy -> AnyView in
                 
                 let size = proxy.frame(in: .global)

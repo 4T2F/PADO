@@ -13,6 +13,7 @@ struct FeedGuideView: View {
     
     var body: some View {
         VStack {
+            Spacer()
             VStack(alignment: .center, spacing: 8) {
                 Text("인기 팔로워")
                     .foregroundColor(.white)

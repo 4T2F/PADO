@@ -12,7 +12,6 @@ struct PadoRideEditView: View {
     @Environment (\.dismiss) var dismiss
     
     var body: some View {
-        
         ZStack {
             NavigationView {
                 VStack {

@@ -71,6 +71,3 @@ struct SettingInfoView: View {
     }
 }
 
-#Preview {
-    SettingInfoView()
-}
