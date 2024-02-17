@@ -21,24 +21,35 @@ struct PostitView: View {
         NavigationStack {
             VStack(spacing: 0) {
                 Divider()
-                ScrollView {
-                    VStack {
-                        if !postitVM.messages.isEmpty {
-                            ForEach(postitVM.messages) { message in
-                                PostitCell(postitVM: postitVM,
-                                           message: message)
+                ScrollViewReader { proxy in
+                    ScrollView {
+                        VStack {
+                            if !postitVM.messages.isEmpty {
+                                ForEach(postitVM.messages) { message in
+                                    PostitCell(postitVM: postitVM,
+                                               message: message)
+                                    .id(message.id)
+                                }
+                                .onAppear {
+                                    
+                                    if let lastMessageID = postitVM.messages.last?.id {
+                                        withAnimation {
+                                            proxy.scrollTo(lastMessageID, anchor: .bottom)
+                                        }
+                                    }
+                                }
+                            } else {
+                                Text("아직 방명록에 글이 없습니다")
+                                    .foregroundColor(Color.gray)
+                                    .font(.system(size: 15))
+                                    .fontWeight(.semibold)
+                                    .padding(.top, 150)
                             }
-                        } else {
-                            Text("아직 방명록에 글이 없어요")
-                                .foregroundColor(Color.gray)
-                                .font(.system(size: 15))
-                                .fontWeight(.semibold)
-                                .padding(.top, 150)
                         }
+                        .padding(.top)
                     }
-                    .padding(.top)
+                   
                 }
-                
                 Divider()
                 
                 HStack {
@@ -66,7 +77,9 @@ struct PostitView: View {
                         
                         if !postitVM.inputcomment.isEmpty {
                             Button {
-                                if !userNameID.isEmpty {
+                                if userNameID.isEmpty{
+                                    isShowingLoginPage = true
+                                } else if !blockPostit(id: postitVM.ownerID) {
                                     Task {
                                         await postitVM.writeMessage(ownerID: postitVM.ownerID,
                                                                     imageUrl: viewModel.currentUser?.profileImageUrl ?? "",
@@ -75,8 +88,6 @@ struct PostitView: View {
                                             await UpdatePushNotiData.shared.pushNoti(receiveUser: user, type: .postit, sendUser: currentUser)
                                         }
                                     }
-                                } else {
-                                    isShowingLoginPage = true
                                 }
                             } label: {
                                 ZStack {
@@ -134,6 +145,11 @@ struct PostitView: View {
             }
             .toolbarBackground(Color(.main), for: .navigationBar)
         }
+    }
+    private func blockPostit(id: String) -> Bool {
+        let blockedUserIDs = Set(blockingUser.map { $0.blockUserID } + blockedUser.map { $0.blockUserID })
+        
+        return blockedUserIDs.contains(id)
     }
 }
 

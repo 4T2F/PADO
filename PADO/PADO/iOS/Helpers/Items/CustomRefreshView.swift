@@ -8,12 +8,10 @@
 import Lottie
 import SwiftUI
 
-// MARK: Custom View Builder
 struct CustomRefreshView<Content: View>: View {
     var content: Content
     var showsIndicator: Bool
     var lottieFileName: String
-    // MARK: Async Call Back
     var onRefresh: () async -> Void
     
     @ObservedObject var scrollDelegate: ScrollViewModel
@@ -34,6 +32,7 @@ struct CustomRefreshView<Content: View>: View {
         ScrollView(.vertical, showsIndicators: showsIndicator) {
             VStack(spacing: 0){
                 GeometryReader { proxy in
+                    // 확장 가능한 Lottie 뷰
                     ResizbaleLottieView(fileName: lottieFileName, isPlaying: $scrollDelegate.isRefreshing)
                         .scaleEffect(scrollDelegate.isEligible ? 1 : 0.001)
                         .animation(.easeInOut(duration: 0.2), value: scrollDelegate.isEligible)
@@ -52,10 +51,10 @@ struct CustomRefreshView<Content: View>: View {
                     .offset(y: scrollDelegate.progress * 150)
             }
             .offset(coordinateSpace: "SCROLL") { offset in
-                // MARK: Storing Content Offset
+                // 내용 오프셋 저장
                 scrollDelegate.contentOffset = offset
                 
-                // MARK: Stopping The Progress When Its Elgible For Refresh
+                // 새로고침 가능할 때 진행률 멈춤
                 if !scrollDelegate.isEligible{
                     var progress = offset / 150
                     progress = (progress < 0 ? 0 : progress)
@@ -63,7 +62,7 @@ struct CustomRefreshView<Content: View>: View {
                     scrollDelegate.scrollOffset = offset
                     scrollDelegate.progress = progress
                 }
-                
+                // 새로고침 상태 체크 및 햅틱 피드백
                 if scrollDelegate.isEligible && !scrollDelegate.isRefreshing {
                     scrollDelegate.isRefreshing = true
                     // MARK: Haptic Feedback
@@ -80,11 +79,10 @@ struct CustomRefreshView<Content: View>: View {
         .onAppear(perform: scrollDelegate.addGesture)
         .onDisappear(perform: scrollDelegate.removeGesture)
         .onChange(of: scrollDelegate.isRefreshing) { _, newValue in
-            // MARK: Calling Async Method
+            // 새로고침 후 속성 재설정
             if newValue{
                 Task{
                     await onRefresh()
-                    // MARK: After Refresh Done Resetting Properties
                     withAnimation(.easeInOut(duration: 0.25)){
                         scrollDelegate.progress = 0
                         scrollDelegate.isEligible = false
@@ -99,27 +97,26 @@ struct CustomRefreshView<Content: View>: View {
 
 
 
-// MARK: For Simultanous Pan Gesture
+// MARK: 동시성 제스처를 위한 클래스
 class ScrollViewModel: NSObject,ObservableObject,UIGestureRecognizerDelegate {
-    // MARK: Properties
+    // 속성
     @Published var isEligible: Bool = false
     @Published var isRefreshing: Bool = false
-    // MARK: Offsets and Progress
+    // 오프셋 및 진행률
     @Published var scrollOffset: CGFloat = 0
     @Published var contentOffset: CGFloat = 0
     @Published var progress: CGFloat = 0
     let gestureID: String = UUID().uuidString
     
-    // MARK: Since We need to Know when the user Left the Screen to Start Refresh
-    // Adding Pan Gesture To UI Main Application Window
-    // With Simultaneous Gesture Desture
-    // Thus it Wont disturb SwiftUI Scroll's And Gesture's
+    // 유저가 화면을 떠날 때 새로고침 시작을 알기 위해
+    // UI 메인 애플리케이션 창에 팬 제스처 추가
+    // SwiftUI 스크롤 및 제스처 방해하지 않음
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
                            shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
     
-    // MARK: Adding Gesture
+    // 제스처 추가
     func addGesture() {
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(onGestureChange(gesture:)))
         panGesture.delegate = self
@@ -127,14 +124,14 @@ class ScrollViewModel: NSObject,ObservableObject,UIGestureRecognizerDelegate {
         rootController().view.addGestureRecognizer(panGesture)
     }
     
-    // MARK: Removing When Leaving The View
+    // 뷰 떠날 때 제스처 제거
     func removeGesture() {
         rootController().view.gestureRecognizers?.removeAll(where: { gesture in
             gesture.name == gestureID
         })
     }
     
-    // MARK: Finding Root Controller
+    // 루트 컨트롤러 찾기
     func rootController() -> UIViewController {
         guard let screen = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
             return .init()
@@ -147,6 +144,7 @@ class ScrollViewModel: NSObject,ObservableObject,UIGestureRecognizerDelegate {
         return root
     }
     
+    // 제스처 변화 감지
     @objc
     func onGestureChange(gesture: UIPanGestureRecognizer) {
         if gesture.state == .cancelled || gesture.state == .ended {
@@ -205,7 +203,6 @@ struct ResizbaleLottieView: UIViewRepresentable {
     
     func updateUIView(_ uiView: UIView, context: Context) {
         uiView.subviews.forEach { view in
-            // MARK: Finding View with Tag 1009
             if view.tag == 1009, let lottieView = view as? LottieAnimationView {
                 if isPlaying{
                     lottieView.play()
@@ -221,7 +218,7 @@ struct ResizbaleLottieView: UIViewRepresentable {
         let lottieView = LottieAnimationView(name: fileName,
                                              bundle: .main)
         lottieView.backgroundColor = .clear
-        // MARK: For Finding It in Subview and Used for Animating
+        // 서브뷰에서 찾기 및 애니메이션 사용을 위한 태그 설정
         lottieView.tag = 1009
         lottieView.translatesAutoresizingMaskIntoConstraints = false
         

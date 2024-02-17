@@ -13,7 +13,7 @@ struct BirthAlertModal: View {
         ZStack {
             Color.modal.ignoresSafeArea()
             VStack(alignment: .leading, content: {
-                Text("회원가입이 불가능해요")
+                Text("회원가입이 불가능합니다")
                     .font(.system(size: 26))
                     .fontWeight(.heavy)
                     .foregroundStyle(Color(.systemRed))

@@ -17,8 +17,8 @@ enum FeedFilter: Int, CaseIterable, Identifiable {
     
     var title: String {
         switch self {
-        case .following: return "팔로잉"
-        case .today: return "인기"
+        case .following: return "Following"
+        case .today: return "Today"
         }
     }
     var id: Int { return self.rawValue }
@@ -33,7 +33,7 @@ struct FeedHeaderCell: View {
     
     private var filterBarWidth: CGFloat {
         let count = CGFloat(FeedFilter.allCases.count)
-        return UIScreen.main.bounds.width / count - 160
+        return UIScreen.main.bounds.width / count - 140
     }
     
     // MARK: - BODY
@@ -41,23 +41,23 @@ struct FeedHeaderCell: View {
         HStack {
             Spacer()
             VStack {
-                HStack(spacing: 22) {
+                HStack(spacing: 16) {
                     ForEach(FeedFilter.allCases) { filter in
                         VStack(spacing: 4) {
                             Text(filter.title)
                                 .font(.system(size: 18))
-                                .fontWeight(viewModel.selectedFilter == filter ? .semibold : .medium)
+                                .fontWeight(.bold)
                                 .foregroundStyle(viewModel.selectedFilter == filter ? .white : .white.opacity(0.6))
                             
                             if viewModel.selectedFilter == filter {
                                 RoundedRectangle(cornerRadius: 8)
                                     .foregroundStyle(.white)
-                                    .frame(width: filterBarWidth, height: 1.5)
+                                    .frame(width: filterBarWidth, height: 2.5)
                                     .matchedGeometryEffect(id: "item", in: animation)
                             } else {
                                 RoundedRectangle(cornerRadius: 8)
                                     .foregroundStyle(.clear)
-                                    .frame(width: filterBarWidth, height: 1.5)
+                                    .frame(width: filterBarWidth, height: 2.5)
                             }
                         } //: VSTACK
                         .onTapGesture {

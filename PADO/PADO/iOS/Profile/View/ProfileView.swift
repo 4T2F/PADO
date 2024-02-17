@@ -210,34 +210,36 @@ struct ProfileView: View {
                                             .frame(width: 80, height: 28)
                                         Text("프로필 편집")
                                             .font(.system(size: 12))
-                                            .fontWeight(.medium)
+                                            .fontWeight(.semibold)
                                             .foregroundStyle(.white)
                                     }
                                 }
                             }
                             
                             HStack {
-                                Label {
-                                    Text("파도")
-                                        .foregroundStyle(.white.opacity(0.9))
-                                } icon: {
+                                HStack(spacing: 2) {
                                     Text("\(profileVM.padoPosts.count + profileVM.sendPadoPosts.count)")
-                                        .foregroundStyle(.white.opacity(0.9))
+                                    
+                                    Text("wave")
                                 }
-                                .font(.callout)
+                                .font(.system(size: 16))
+                                .foregroundStyle(.white)
+                                .fontWeight(.medium)
+                                .fontDesign(.rounded)
                                 
                                 if let user = viewModel.currentUser {
                                     Button {
                                         followerActive = true
                                     } label: {
-                                        Label {
-                                            Text("팔로워")
-                                                .foregroundStyle(.white.opacity(0.9))
-                                        } icon: {
+                                        HStack(spacing: 2) {
                                             Text("\(followVM.followerIDs.count + followVM.surferIDs.count)")
-                                                .foregroundStyle(.white.opacity(0.9))
+                                            
+                                            Text("follower")
                                         }
-                                        .font(.callout)
+                                        .font(.system(size: 16))
+                                        .foregroundStyle(.white)
+                                        .fontWeight(.medium)
+                                        .fontDesign(.rounded)
                                     }
                                     .sheet(isPresented: $followerActive) {
                                         FollowMainView(currentType: "팔로워", followVM: followVM, user: user)
@@ -251,14 +253,15 @@ struct ProfileView: View {
                                     Button {
                                         followingActive = true
                                     } label: {
-                                        Label {
-                                            Text("팔로잉")
-                                                .foregroundStyle(.white.opacity(0.9))
-                                        } icon: {
+                                        HStack(spacing: 2) {
                                             Text("\(followVM.followingIDs.count)")
-                                                .foregroundStyle(.white.opacity(0.9))
+                                            
+                                            Text("following")
                                         }
-                                        .font(.callout)
+                                        .font(.system(size: 16))
+                                        .foregroundStyle(.white)
+                                        .fontWeight(.medium)
+                                        .fontDesign(.rounded)
                                     }
                                     
                                     .sheet(isPresented: $followingActive) {
@@ -296,7 +299,8 @@ struct ProfileView: View {
             ForEach(types, id: \.self) { type in
                 VStack(spacing: 12) {
                     Text(type)
-                        .fontWeight(.semibold)
+                        .font(.system(size: 16))
+                        .fontWeight(.bold)
                         .foregroundStyle(profileVM.currentType == type ? .white : .gray)
                     
                     ZStack {
@@ -346,7 +350,7 @@ struct ProfileView: View {
     func postView() -> some View {
         VStack(spacing: 25) {
             if profileVM.padoPosts.isEmpty {
-                NoItemView(itemName: "아직 받은 게시물이 없어요")
+                NoItemView(itemName: "아직 받은 게시물이 없습니다")
                     .padding(.top, 150)
             } else {
                 LazyVGrid(columns: columns, spacing: 2) {
@@ -384,14 +388,14 @@ struct ProfileView: View {
             }
         }
         .padding(.bottom, 500)
-        .offset(y: -6)
+        .offset(y: -4)
     }
     
     @ViewBuilder
     func writtenPostsView() -> some View {
         VStack(spacing: 25) {
             if profileVM.sendPadoPosts.isEmpty {
-                NoItemView(itemName: "아직 보낸 게시물이 없어요")
+                NoItemView(itemName: "아직 보낸 게시물이 없습니다")
                     .padding(.top, 150)
             } else {
                 LazyVGrid(columns: columns, spacing: 2) {
@@ -429,14 +433,14 @@ struct ProfileView: View {
             }
         }
         .padding(.bottom, 500)
-        .offset(y: -6)
+        .offset(y: -4)
     }
     
     @ViewBuilder
     func highlightsView() -> some View {
         VStack(spacing: 25) {
             if profileVM.highlights.isEmpty {
-                NoItemView(itemName: "아직 좋아요를 표시한 게시물이 없어요")
+                NoItemView(itemName: "아직 좋아요를 표시한 게시물이 없습니다")
                     .padding(.top, 150)
             } else {
                 LazyVGrid(columns: columns, spacing: 2) {
@@ -474,6 +478,6 @@ struct ProfileView: View {
             }
         }
         .padding(.bottom, 500)
-        .offset(y: -6)
+        .offset(y: -4)
     }
 }

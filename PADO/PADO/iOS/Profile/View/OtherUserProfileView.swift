@@ -235,113 +235,66 @@ struct OtherUserProfileView: View {
                                                 .frame(width: 80, height: 28)
                                             Text("프로필 편집")
                                                 .font(.system(size: 12))
-                                                .fontWeight(.medium)
+                                                .fontWeight(.semibold)
                                                 .foregroundStyle(.white)
                                         }
                                     }
                                 } else {
-                                    if userNameID.isEmpty {
-                                        Button {
-                                            // 가입 모달 띄우기
-                                        } label: {
-                                            ZStack {
-                                                RoundedRectangle(cornerRadius:6)
-                                                    .stroke(.white, lineWidth: 1)
-                                                    .frame(width: 85, height: 28)
-                                                Text("팔로우")
-                                                    .font(.system(size: 12))
-                                                    .fontWeight(.medium)
-                                                    .foregroundStyle(.white)
-                                            }
-                                            
-                                        }
-                                    } else if buttonOnOff {
-                                        Button {
-                                            Task {
-                                                await UpdateFollowData.shared.directUnfollowUser(id: user.nameID)
-                                                buttonOnOff.toggle()
-                                            }
-                                        } label: {
-                                            ZStack {
-                                                RoundedRectangle(cornerRadius:6)
-                                                    .stroke(.gray, lineWidth: 1)
-                                                    .frame(width: 85, height: 28)
-                                                Text("팔로우 취소")
-                                                    .font(.system(size: 12))
-                                                    .fontWeight(.medium)
-                                                    .foregroundStyle(.gray)
-                                            }
-                                        }
-                                    } else {
-                                        Button {
-                                            Task {
-                                                await UpdateFollowData.shared.followUser(id: user.nameID)
-                                                if let currentUser = viewModel.currentUser {
-                                                    await UpdatePushNotiData.shared.pushNoti(receiveUser: user, type: .follow, sendUser: currentUser)
-                                                }
-                                                buttonOnOff.toggle()
-                                            }
-                                        } label: {
-                                            ZStack {
-                                                RoundedRectangle(cornerRadius:6)
-                                                    .stroke(.white, lineWidth: 1)
-                                                    .frame(width: 85, height: 28)
-                                                Text("팔로우")
-                                                    .font(.system(size: 12))
-                                                    .fontWeight(.medium)
-                                                    .foregroundStyle(.white)
-                                            }
-                                            
-                                        }
-                                    }
+                                    FollowButtonView(cellUserId: user.nameID,
+                                                     buttonActive: $buttonOnOff,
+                                                     activeText: "팔로우",
+                                                     unActiveText: "팔로우 취소",
+                                                     widthValue: 85,
+                                                     heightValue: 28,
+                                                     buttonType: ButtonType.direct)
                                 }
                             }
                             
                             HStack {
-                                Label {
-                                    Text("파도")
-                                        .foregroundStyle(.white.opacity(0.9))
-                                } icon: {
+                                HStack(spacing: 2) {
                                     Text("\(profileVM.padoPosts.count + profileVM.sendPadoPosts.count)")
-                                        .foregroundStyle(.white.opacity(0.9))
+                                    
+                                    Text("wave")
                                 }
-                                .font(.callout)
-                                
+                                .font(.system(size: 16))
+                                .foregroundStyle(.white)
+                                .fontWeight(.medium)
+                                .fontDesign(.rounded)
                                 
                                 Button {
                                     followerActive = true
                                 } label: {
-                                    Label {
-                                        Text("팔로워")
-                                            .foregroundStyle(.white.opacity(0.9))
-                                    } icon: {
+                                    HStack(spacing: 2) {
                                         Text("\(followVM.followerIDs.count + followVM.surferIDs.count)")
-                                            .foregroundStyle(.white.opacity(0.9))
+                                        
+                                        Text("follower")
                                     }
-                                    .font(.callout)
+                                    .font(.system(size: 16))
+                                    .foregroundStyle(.white)
+                                    .fontWeight(.medium)
+                                    .fontDesign(.rounded)
                                 }
                                 .sheet(isPresented: $followerActive) {
-                                    FollowMainView(currentType: "팔로워",
-                                                   followVM: followVM,
-                                                   user: user)
-                                    .presentationDetents([.large])
-                                    .presentationDragIndicator(.visible)
-                                    .onDisappear {
-                                        followerActive = false
-                                    }
+                                    FollowMainView(currentType: "팔로워", followVM: followVM, user: user)
+                                        .presentationDetents([.large])
+                                        .presentationDragIndicator(.visible)
+                                        .onDisappear {
+                                            followerActive = false
+                                        }
                                 }
                                 
                                 Button {
                                     followingActive = true
                                 } label: {
-                                    Label {
-                                        Text("팔로잉")
-                                            .foregroundStyle(.white.opacity(0.9))
-                                    } icon: {
+                                    HStack(spacing: 2) {
                                         Text("\(followVM.followingIDs.count)")
-                                            .foregroundStyle(.white.opacity(0.9))
+                                        
+                                        Text("following")
                                     }
-                                    .font(.callout)
+                                    .font(.system(size: 16))
+                                    .foregroundStyle(.white)
+                                    .fontWeight(.medium)
+                                    .fontDesign(.rounded)
                                 }
                                 
                                 .sheet(isPresented: $followingActive) {
@@ -354,7 +307,6 @@ struct OtherUserProfileView: View {
                                         followingActive = false
                                     }
                                 }
-                                
                             }
                             .padding(.leading, 2)
                         }
@@ -379,7 +331,8 @@ struct OtherUserProfileView: View {
             ForEach(types, id: \.self) { type in
                 VStack(spacing: 12) {
                     Text(type)
-                        .fontWeight(.semibold)
+                        .font(.system(size: 16))
+                        .fontWeight(.bold)
                         .foregroundStyle(profileVM.currentType == type ? .white : .gray)
                     
                     ZStack {
@@ -407,8 +360,8 @@ struct OtherUserProfileView: View {
                 }
             }
         }
-        .padding(.horizontal)
         .padding(.top, 15)
+        .padding(.horizontal)
     }
     
     @ViewBuilder
@@ -429,7 +382,7 @@ struct OtherUserProfileView: View {
     func postView() -> some View {
         VStack(spacing: 25) {
             if profileVM.padoPosts.isEmpty {
-                NoItemView(itemName: "아직 받은 게시물이 없어요")
+                NoItemView(itemName: "아직 받은 게시물이 없습니다")
                     .padding(.top, 150)
             } else {
                 LazyVGrid(columns: columns, spacing: 2) {
@@ -470,14 +423,14 @@ struct OtherUserProfileView: View {
             }
         }
         .padding(.bottom, 500)
-        .offset(y: -6)
+        .offset(y: -4)
     }
     
     @ViewBuilder
     func writtenPostsView() -> some View {
         VStack(spacing: 25) {
             if profileVM.sendPadoPosts.isEmpty {
-                NoItemView(itemName: "아직 보낸 게시물이 없어요")
+                NoItemView(itemName: "아직 보낸 게시물이 없습니다")
                     .padding(.top, 150)
             } else {
                 LazyVGrid(columns: columns, spacing: 2) {
@@ -516,14 +469,14 @@ struct OtherUserProfileView: View {
             }
         }
         .padding(.bottom, 500)
-        .offset(y: -6)
+        .offset(y: -4)
     }
     
     @ViewBuilder
     func highlightsView() -> some View {
         VStack(spacing: 25) {
             if profileVM.highlights.isEmpty {
-                NoItemView(itemName: "아직 좋아요를 표시한 게시물이 없어요")
+                NoItemView(itemName: "아직 좋아요를 표시한 게시물이 없습니다")
                     .padding(.top, 150)
             } else {
                 LazyVGrid(columns: columns, spacing: 2) {
@@ -562,6 +515,6 @@ struct OtherUserProfileView: View {
             }
         }
         .padding(.bottom, 500)
-        .offset(y: -6)
+        .offset(y: -4)
     }
 }

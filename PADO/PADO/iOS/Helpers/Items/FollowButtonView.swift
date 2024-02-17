@@ -21,26 +21,29 @@ struct FollowButtonView: View {
     let widthValue: CGFloat
     let heightValue: CGFloat
     let buttonType: ButtonType
+    @State private var isShowingLoginPage = false
     
     var body: some View {
         Button(action: {
-            if buttonActive {
-                Task {
-                    switch buttonType {
-                    case .direct:
-                        await UpdateFollowData.shared.directUnfollowUser(id: cellUserId)
-                    case .unDirect:
-                        await UpdateFollowData.shared.unfollowUser(id: cellUserId)
+            if !blockFollow(id: cellUserId) {
+                if buttonActive {
+                    Task {
+                        switch buttonType {
+                        case .direct:
+                            await UpdateFollowData.shared.directUnfollowUser(id: cellUserId)
+                        case .unDirect:
+                            await UpdateFollowData.shared.unfollowUser(id: cellUserId)
+                        }
                     }
+                    buttonActive.toggle()
+                } else if userNameID.isEmpty {
+                    isShowingLoginPage = true
+                } else {
+                    Task {
+                        await UpdateFollowData.shared.followUser(id: cellUserId)
+                    }
+                    buttonActive.toggle()
                 }
-                buttonActive.toggle()
-            } else if !userNameID.isEmpty {
-                Task {
-                    await UpdateFollowData.shared.followUser(id: cellUserId)
-                }
-                buttonActive.toggle()
-            } else {
-                // 가입 모달 띄우기
             }
         }) {
             ZStack {
@@ -63,12 +66,25 @@ struct FollowButtonView: View {
                 }
                 .padding(.horizontal)
             }
+        
         }
+        .sheet(isPresented: $isShowingLoginPage,
+               content: {
+            StartView()
+                .presentationDragIndicator(.visible)
+        })
         .onAppear {
             Task {
                 self.buttonActive = UpdateFollowData.shared.checkFollowingStatus(id: cellUserId)
             }
         }
     }
+    
+    private func blockFollow(id: String) -> Bool {
+        let blockedUserIDs = Set(blockingUser.map { $0.blockUserID } + blockedUser.map { $0.blockUserID })
+        
+        return blockedUserIDs.contains(id)
+    }
+    
 }
 

@@ -11,7 +11,7 @@ struct ReprotProfileModalView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
     @ObservedObject var profileVM: ProfileViewModel
     @State private var isShowingReportView: Bool = false
-    
+    let searchVM = SearchViewModel.shared
     let user: User
     
     var body: some View {
@@ -19,27 +19,6 @@ struct ReprotProfileModalView: View {
             Color.modal.ignoresSafeArea()
             
             VStack {
-                Button {
-                    //
-                } label: {
-                    HStack {
-                        Text("숨기기")
-                            .font(.system(size: 14))
-                            .fontWeight(.bold)
-                        
-                        Spacer()
-                        
-                        Image(systemName: "eye.slash")
-                            .foregroundStyle(.white)
-                            .font(.system(size: 12))
-                            .fontWeight(.semibold)
-                    }
-                }
-                .padding()
-                .background(.modalCell)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
-                .padding(.bottom, 8)
-                
                 VStack {
                     Button {
                         Task {
@@ -56,6 +35,7 @@ struct ReprotProfileModalView: View {
                                     await profileVM.blockUser(blockingUser: user,
                                                         user: currentUser)
                                     profileVM.isUserBlocked = true
+                                    searchVM.removeBlockUser()
                                 }
                             }
                         }
