@@ -19,6 +19,7 @@ class PadoRideViewModel: ObservableObject {
     @Published var postsData: [String: [Post]] = [:]
     
     @Published var selectedPost: Post?
+    @Published var showTab: Int = 0
     
     @Published var isShowingEditView: Bool = false
     @Published var isShowingDrawingView: Bool = false

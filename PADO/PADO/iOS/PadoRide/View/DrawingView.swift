@@ -30,12 +30,7 @@ struct DrawingView: View {
                                    canvas: $padorideVM.canvas,
                                    toolPicker: $padorideVM.toolPicker,
                                    rect: size.size)
-                        .onTapGesture {
-                            Task {
-                                padorideVM.toolPicker.setVisible(true, forFirstResponder: padorideVM.canvas)
-                                padorideVM.canvas.becomeFirstResponder()
-                            }
-                        }
+                        
                         
                         ForEach(padorideVM.textBoxes) { box in
                             Text(padorideVM.textBoxes[padorideVM.currentTextIndex].id == box.id && padorideVM.addNewBox ? "" : box.text)
@@ -92,14 +87,14 @@ struct DrawingView: View {
                                                 )
                                         )
                                 )
-                                .onLongPressGesture {
-                                    padorideVM.toolPicker.setVisible(false, forFirstResponder: padorideVM.canvas)
-                                    padorideVM.canvas.resignFirstResponder()
-                                    padorideVM.currentTextIndex = getTextIndex(textBox: box)
-                                    withAnimation{
-                                        padorideVM.addNewBox = true
-                                    }
-                                }
+//                                .onLongPressGesture {
+//                                    padorideVM.toolPicker.setVisible(false, forFirstResponder: padorideVM.canvas)
+//                                    padorideVM.canvas.resignFirstResponder()
+//                                    padorideVM.currentTextIndex = getTextIndex(textBox: box)
+//                                    withAnimation{
+//                                        padorideVM.addNewBox = true
+//                                    }
+//                                }
                         }
                         
                         ForEach(padorideVM.imageBoxes) { box in
@@ -156,14 +151,14 @@ struct DrawingView: View {
                                                 )
                                         )
                                 )
-                                .onLongPressGesture {
-                                    padorideVM.toolPicker.setVisible(false, forFirstResponder: padorideVM.canvas)
-                                    padorideVM.canvas.resignFirstResponder()
-                                    padorideVM.currentImageIndex = getImageIndex(imageBox: box)
-                                    Task {
-                                        await padorideVM.deleteImage()
-                                    }
-                                }
+//                                .onLongPressGesture {
+//                                    padorideVM.toolPicker.setVisible(false, forFirstResponder: padorideVM.canvas)
+//                                    padorideVM.canvas.resignFirstResponder()
+//                                    padorideVM.currentImageIndex = getImageIndex(imageBox: box)
+//                                    Task {
+//                                        await padorideVM.deleteImage()
+//                                    }
+//                                }
                         }
                     }
                 )
@@ -171,6 +166,7 @@ struct DrawingView: View {
         }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
+                // 그리기 버튼
                 Button {
                     if padorideVM.toolPicker.isVisible {
                         padorideVM.toolPicker.setVisible(false, forFirstResponder: padorideVM.canvas)
@@ -189,6 +185,7 @@ struct DrawingView: View {
             }
             
             ToolbarItem(placement: .topBarTrailing) {
+                // 사진앨범 버튼
                 PhotosPicker(selection: $padorideVM.pickerImageItem) {
                     Image(systemName: "photo")
                         .resizable()
@@ -202,6 +199,7 @@ struct DrawingView: View {
             }
             
             ToolbarItem(placement: .navigationBarTrailing) {
+                // 텍스트 박스
                 Button{
                     padorideVM.textBoxes.append(TextBox())
                     
@@ -226,12 +224,13 @@ struct DrawingView: View {
                 } label: {
                     Text("다음")
                         .foregroundStyle(.white)
+                        .font(.system(size:16, weight: .semibold))
                 }
             }
         }
         .sheet(isPresented: $padorideVM.showingModal) {
             SendPadoView(padorideVM: padorideVM)
-                .presentationDetents([.fraction(0.2)])
+                .presentationDetents([.fraction(0.22)])
         }
     }
     
