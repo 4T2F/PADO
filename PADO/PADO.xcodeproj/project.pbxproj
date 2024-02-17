@@ -196,7 +196,6 @@
 		B10765602B7A41C20023B686 /* PostitNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B107655F2B7A41C20023B686 /* PostitNotificationCell.swift */; };
 		B13BD2C52B7D4B61007D2DA3 /* OnePostModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13BD2C42B7D4B61007D2DA3 /* OnePostModalView.swift */; };
 		B13BD2FF2B7FC309007D2DA3 /* PadoRideNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13BD2FE2B7FC309007D2DA3 /* PadoRideNotificationCell.swift */; };
-		B169F8D52B810F7700BF7DE6 /* PostModalCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B169F8D42B810F7700BF7DE6 /* PostModalCellView.swift */; };
 		B1749A652B5D755700BCC6BA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1749A642B5D755700BCC6BA /* AppDelegate.swift */; };
 		B1749A672B5E41AA00BCC6BA /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1749A662B5E41AA00BCC6BA /* Post.swift */; };
 		B198BBA02B5639D500EAA6C0 /* ModalAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B198BB9F2B5639D500EAA6C0 /* ModalAlertView.swift */; };
@@ -441,7 +440,6 @@
 		B107655F2B7A41C20023B686 /* PostitNotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostitNotificationCell.swift; sourceTree = "<group>"; };
 		B13BD2C42B7D4B61007D2DA3 /* OnePostModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnePostModalView.swift; sourceTree = "<group>"; };
 		B13BD2FE2B7FC309007D2DA3 /* PadoRideNotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadoRideNotificationCell.swift; sourceTree = "<group>"; };
-		B169F8D42B810F7700BF7DE6 /* PostModalCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModalCellView.swift; sourceTree = "<group>"; };
 		B1749A642B5D755700BCC6BA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B1749A662B5E41AA00BCC6BA /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		B198BB9F2B5639D500EAA6C0 /* ModalAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalAlertView.swift; sourceTree = "<group>"; };
@@ -858,7 +856,6 @@
 				6373235B2B7140E800C02A32 /* FeedView.swift */,
 				63B7B9982B7C996C00707C2F /* FeedGuideView.swift */,
 				64E761C22B7F5F3600882D29 /* SurfingGuideView.swift */,
-				B169F8D42B810F7700BF7DE6 /* PostModalCellView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1499,7 +1496,6 @@
 				418B6C982B5EC75F00E8289D /* SearchViewModel.swift in Sources */,
 				B1A91D132B55928D00FE7F62 /* SettingToggleCell.swift in Sources */,
 				41A102962B62628E0070AB8D /* CameraAccessView.swift in Sources */,
-				B169F8D52B810F7700BF7DE6 /* PostModalCellView.swift in Sources */,
 				63ECDCBB2B76BADA00D71E88 /* CommentWriteView.swift in Sources */,
 				048A344B2B7CAF490085CE8B /* PhotoTypeModal.swift in Sources */,
 				63A7799E2B6B8FBA0068BE98 /* FollowMainView.swift in Sources */,
