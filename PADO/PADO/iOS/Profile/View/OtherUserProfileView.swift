@@ -111,7 +111,7 @@ struct OtherUserProfileView: View {
                             }
                             .sheet(isPresented: $isShowingUserReport) {
                                 ReprotProfileModalView(profileVM: profileVM, user: user)
-                                    .presentationDetents([.fraction(0.2)])
+                                    .presentationDetents([.fraction(0.3)])
                                     .presentationDragIndicator(.visible)
                                     .presentationCornerRadius(30)
                             }

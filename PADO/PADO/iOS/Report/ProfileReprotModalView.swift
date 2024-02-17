@@ -18,29 +18,7 @@ struct ReprotProfileModalView: View {
     var body: some View {
         ZStack {
             Color.modal.ignoresSafeArea()
-            
             VStack {
-                Button {
-                    //
-                } label: {
-                    HStack {
-                        Text("숨기기")
-                            .font(.system(size: 14))
-                            .fontWeight(.bold)
-                        
-                        Spacer()
-                        
-                        Image(systemName: "eye.slash")
-                            .foregroundStyle(.white)
-                            .font(.system(size: 12))
-                            .fontWeight(.semibold)
-                    }
-                }
-                .padding()
-                .background(.modalCell)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
-                .padding(.bottom, 8)
-                
                 VStack {
                     Button {
                         Task {
