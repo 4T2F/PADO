@@ -66,7 +66,7 @@ struct PadoRideView: View {
                                         }
                                     } else {
                                         HStack {
-                                            NoItemView(itemName: "해당 유저는 아직 꾸밀 파도가 없어요")
+                                            NoItemView(itemName: "파도타기 할 수 있는 유저가 없습니다")
                                         }
                                     }
                                 }
@@ -76,7 +76,7 @@ struct PadoRideView: View {
                         if followVM.followingIDs.isEmpty {
                             Spacer()
                             
-                            Text("내가 팔로잉한 사람이 없어요")
+                            Text("팔로잉한 사람이 없습니다")
                                 .font(.system(size: 16, weight: .bold))
                             
                             FeedGuideView(feedVM: feedVM)

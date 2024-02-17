@@ -210,7 +210,7 @@ struct ProfileView: View {
                                             .frame(width: 80, height: 28)
                                         Text("프로필 편집")
                                             .font(.system(size: 12))
-                                            .fontWeight(.medium)
+                                            .fontWeight(.semibold)
                                             .foregroundStyle(.white)
                                     }
                                 }
@@ -222,9 +222,9 @@ struct ProfileView: View {
                                     
                                     Text("wave")
                                 }
-                                .font(.callout)
-                                .foregroundStyle(.white.opacity(0.9))
-                                .fontWeight(.bold)
+                                .font(.system(size: 16))
+                                .foregroundStyle(.white)
+                                .fontWeight(.medium)
                                 .fontDesign(.rounded)
                                 
                                 if let user = viewModel.currentUser {
@@ -236,9 +236,9 @@ struct ProfileView: View {
                                             
                                             Text("follower")
                                         }
-                                        .font(.callout)
-                                        .foregroundStyle(.white.opacity(0.9))
-                                        .fontWeight(.bold)
+                                        .font(.system(size: 16))
+                                        .foregroundStyle(.white)
+                                        .fontWeight(.medium)
                                         .fontDesign(.rounded)
                                     }
                                     .sheet(isPresented: $followerActive) {
@@ -258,9 +258,9 @@ struct ProfileView: View {
                                             
                                             Text("following")
                                         }
-                                        .font(.callout)
-                                        .foregroundStyle(.white.opacity(0.9))
-                                        .fontWeight(.bold)
+                                        .font(.system(size: 16))
+                                        .foregroundStyle(.white)
+                                        .fontWeight(.medium)
                                         .fontDesign(.rounded)
                                     }
                                     
@@ -350,7 +350,7 @@ struct ProfileView: View {
     func postView() -> some View {
         VStack(spacing: 25) {
             if profileVM.padoPosts.isEmpty {
-                NoItemView(itemName: "아직 받은 게시물이 없어요")
+                NoItemView(itemName: "아직 받은 게시물이 없습니다")
                     .padding(.top, 150)
             } else {
                 LazyVGrid(columns: columns, spacing: 2) {
@@ -395,7 +395,7 @@ struct ProfileView: View {
     func writtenPostsView() -> some View {
         VStack(spacing: 25) {
             if profileVM.sendPadoPosts.isEmpty {
-                NoItemView(itemName: "아직 보낸 게시물이 없어요")
+                NoItemView(itemName: "아직 보낸 게시물이 없습니다")
                     .padding(.top, 150)
             } else {
                 LazyVGrid(columns: columns, spacing: 2) {
@@ -440,7 +440,7 @@ struct ProfileView: View {
     func highlightsView() -> some View {
         VStack(spacing: 25) {
             if profileVM.highlights.isEmpty {
-                NoItemView(itemName: "아직 좋아요를 표시한 게시물이 없어요")
+                NoItemView(itemName: "아직 좋아요를 표시한 게시물이 없습니다")
                     .padding(.top, 150)
             } else {
                 LazyVGrid(columns: columns, spacing: 2) {

@@ -22,7 +22,7 @@ struct SurfingView: View {
             if followVM.followingIDs.isEmpty {
                 Spacer()
                 
-                Text("내가 팔로잉한 사람이 없어요")
+                Text("팔로잉한 사람이 없습니다")
                     .font(.system(size: 16, weight: .bold))
                 
                 FeedGuideView(feedVM: feedVM)

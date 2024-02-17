@@ -149,7 +149,7 @@ struct SelectPostCell: View {
                 
                 VStack(alignment: .leading) {
                     HStack {
-                        Text("\(feedVM.padoRidePosts[currentIndex].id ?? "") 님이 꾸민 파도")
+                        Text("\(feedVM.padoRidePosts[currentIndex].id ?? "")님의 파도타기")
                             .font(.headline)
                             .padding(.top, UIScreen.main.bounds.height * 0.09)
                             .padding(.leading, 20)
