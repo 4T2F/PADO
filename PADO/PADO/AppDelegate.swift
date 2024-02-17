@@ -44,14 +44,14 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         Messaging.messaging().apnsToken = deviceToken
     }
     
-    // 앱 활성화시 기존 뱃지 카운트 0으로 변경
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        if #available(iOS 17, *) {
-            UNUserNotificationCenter.current().setBadgeCount(0)
-        } else {
-            UIApplication.shared.applicationIconBadgeNumber = 0
-        }
-    }
+//    // 앱 활성화시 기존 뱃지 카운트 0으로 변경
+//    func applicationDidBecomeActive(_ application: UIApplication) {
+//        if #available(iOS 17, *) {
+//            UNUserNotificationCenter.current().setBadgeCount(0)
+//        } else {
+//            UIApplication.shared.applicationIconBadgeNumber = 0
+//        }
+//    }
 }
 
 // Firebase 메시징 토큰을 받았을 때 호출, 이 토큰은 Firebase를 통해 특정 디바이스로 푸시 알림을 보낼 때 사용
@@ -82,7 +82,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         
         completionHandler([.banner, .sound, .badge]) // UNNotificationPresentationOptions
-        
+        UNUserNotificationCenter.current().setBadgeCount(0)
         HapticHelper.shared.impact(style: .medium) // 햅틱알림
     }
     
