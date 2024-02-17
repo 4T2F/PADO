@@ -29,7 +29,8 @@ final class PushNotificationManager {
                 "body": body,
                 "sound": "default",
                 "click_action": categoryIdentifier,
-                "content-available" : 1
+                "content-available" : 1,
+                "mutable-content": 1,
             ],
             "data": [
                 "User_id": user.id ?? "",
