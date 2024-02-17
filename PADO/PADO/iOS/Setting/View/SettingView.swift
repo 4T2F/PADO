@@ -11,7 +11,7 @@ struct SettingView: View {
     @State private var showingSignOutModal: Bool = false
     @Environment (\.dismiss) var dismiss
     @StateObject var surfingVM = SurfingViewModel()
-    
+    @StateObject var profileVM = ProfileViewModel()
     
     var name: String = "PADO"
     var nickName: String = "pado"
@@ -36,6 +36,12 @@ struct SettingView: View {
                         SettingViewCell(settingTittle: "다른 설정들")
                     }
                     
+                    SettingDivider()
+                    
+                    NavigationLink(destination: SettingBlockUserView(profileVM: profileVM)) {
+                        SettingViewCell(settingTittle: "차단 목록")
+                    }
+                   
                     SettingDivider()
                         .padding(.bottom, 30)
                     

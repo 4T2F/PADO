@@ -9,6 +9,7 @@ import Firebase
 import FirebaseFirestoreSwift
 import Kingfisher
 import Lottie
+import PopupView
 import SwiftUI
 
 struct SelectPostCell: View {
@@ -29,6 +30,13 @@ struct SelectPostCell: View {
     @State private var isShowingReportView: Bool = false
     @State private var isShowingCommentView: Bool = false
     @State private var isShowingLoginPage: Bool = false
+    @State private var isShowingMoreText: Bool = false
+    @State private var textColor: Color = .white
+    
+    @State private var deleteMyPadoride: Bool = false
+    @State private var deleteSendPadoride: Bool = false
+    @State private var deleteMyPost: Bool = false
+    @State private var deleteSendPost: Bool = false
     
     @Binding var post: Post
     let cellType: PostViewType
@@ -45,6 +53,15 @@ struct SelectPostCell: View {
                             ZStack {
                                 KFImage.url(imageUrl)
                                     .resizable()
+                                    .onSuccess { result in
+                                        let uiImage = result.image
+                                        
+                                        if let averageColor = uiImage.averageColor(), averageColor.isLight() {
+                                            textColor = .black
+                                        } else {
+                                            textColor = .white
+                                        }
+                                    }
                                     .scaledToFill()
                                     .containerRelativeFrame([.horizontal,.vertical])
                             }
@@ -67,11 +84,6 @@ struct SelectPostCell: View {
                                                             .clear, .clear,
                                                             .clear, .clear,
                                                             .black.opacity(0.1),
-                                                            .black.opacity(0.1),
-                                                            .black.opacity(0.1),
-                                                            .black.opacity(0.1),
-                                                            .black.opacity(0.2),
-                                                            .black.opacity(0.2),
                                                             .black.opacity(0.2),
                                                             .black.opacity(0.3),
                                                             .black.opacity(0.4),
@@ -122,8 +134,6 @@ struct SelectPostCell: View {
                                                             .clear, .clear,
                                                             .clear, .clear,
                                                             .black.opacity(0.1),
-                                                            .black.opacity(0.1),
-                                                            .black.opacity(0.1),
                                                             .black.opacity(0.2),
                                                             .black.opacity(0.3),
                                                             .black.opacity(0.4),
@@ -139,7 +149,7 @@ struct SelectPostCell: View {
                 
                 VStack(alignment: .leading) {
                     HStack {
-                        Text("\(feedVM.padoRidePosts[currentIndex].id ?? "") 님이 꾸민 파도")
+                        Text("\(feedVM.padoRidePosts[currentIndex].id ?? "")님의 파도타기")
                             .font(.headline)
                             .padding(.top, UIScreen.main.bounds.height * 0.09)
                             .padding(.leading, 20)
@@ -153,61 +163,119 @@ struct SelectPostCell: View {
                 Spacer()
                 
                 HStack(alignment: .bottom) {
-                    
-                    VStack(alignment: .leading, spacing: 4) {
-                        NavigationLink {
-                            if let postUser = postUser {
-                                OtherUserProfileView(buttonOnOff: $postOwnerButtonOnOff,
-                                                     user: postUser)
+                    // MARK: - 아이디 및 타이틀
+                    VStack(alignment: .leading, spacing: 12) {
+                        if !post.title.isEmpty {
+                            Button {
+                                isShowingMoreText.toggle()
+                            } label: {
+                                if isShowingMoreText {
+                                    Text("\(post.title)")
+                                        .multilineTextAlignment(.leading)
+                                } else {
+                                    Text("\(post.title)")
+                                        .lineLimit(1)
+                                }
                             }
-                        } label: {
-                            if let postUser = postUser {
-                                CircularImageView(size: .xLarge,
-                                                  user: postUser)
+                            .font(.system(size: 16))
+                            .foregroundStyle(textColor)
+                            .lineSpacing(1)
+                            .fontWeight(.bold)
+                            .padding(.trailing, 20)
+                            
+                            // MARK: - 서퍼
+                            if let surferUser = surferUser {
+                                NavigationLink {
+                                    OtherUserProfileView(buttonOnOff: $postSurferButtonOnOff,
+                                                         user: surferUser)
+                                } label: {
+                                    Text("surf. @\(post.surferUid)")
+                                }
+                                .font(.system(size: 14))
+                                .fontWeight(.heavy)
+                                .foregroundStyle(.white)
+                                .padding(8)
+                                .background(.modal.opacity(0.8))
+                                .clipShape(RoundedRectangle(cornerRadius: 3))
+                                .padding(.bottom, 4)
+                                .padding(.trailing, 24)
+                            }
+                        } else {
+                            if let surferUser = surferUser {
+                                NavigationLink {
+                                    OtherUserProfileView(buttonOnOff: $postSurferButtonOnOff,
+                                                         user: surferUser)
+                                } label: {
+                                    Text("surf. @\(post.surferUid)")
+                                }
+                                .font(.system(size: 14))
+                                .fontWeight(.heavy)
+                                .foregroundStyle(.white)
+                                .padding(8)
+                                .background(.modal.opacity(0.8))
+                                .clipShape(RoundedRectangle(cornerRadius: 3))
+                                .padding(.bottom, 4)
+                                .padding(.trailing, 24)
                             }
                         }
                         
-                        VStack(alignment: .leading, spacing: 4) {
+                        HStack(spacing: 12) {
                             NavigationLink {
                                 if let postUser = postUser {
                                     OtherUserProfileView(buttonOnOff: $postOwnerButtonOnOff,
                                                          user: postUser)
                                 }
                             } label: {
-                                Text("@\(post.ownerUid)")
-                                    .font(.title)
-                                    .fontWeight(.bold)
+                                if let postUser = postUser {
+                                    CircularImageView(size: .small,
+                                                      user: postUser)
+                                }
                             }
+                            NavigationLink {
+                                if let postUser = postUser {
+                                    OtherUserProfileView(buttonOnOff: $postOwnerButtonOnOff,
+                                                         user: postUser)
+                                }
+                            } label: {
+                                HStack {
+                                    if let user = postUser {
+                                        if !user.username.isEmpty {
+                                            VStack(alignment: .leading, spacing: 4) {
+                                                Text("\(user.username)님의 프로필")
+                                                    .font(.system(size: 12))
+                                                    .fontWeight(.medium)
+                                                
+                                                Text("@\(post.ownerUid)")
+                                                    .font(.system(size: 10))
+                                                    .fontWeight(.medium)
+                                                    .foregroundStyle(.gray)
+                                            }
+                                        } else {
+                                            VStack(alignment: .leading, spacing: 4) {
+                                                Text("\(post.ownerUid)님의 프로필")
+                                                    .font(.system(size: 12))
+                                                    .fontWeight(.medium)
+                                                
+                                                Text("@\(post.ownerUid)")
+                                                    .font(.system(size: 10))
+                                                    .fontWeight(.medium)
+                                                    .foregroundStyle(.gray)
+                                            }
+                                        }
+                                    }
                             
-                            if post.title.isEmpty {
-                                HStack(alignment: .center, spacing: 8) {
-                                    Text("\(post.surferUid)님에게 받은 파도")
-                                        .font(.system(size: 16))
-                                        .fontWeight(.medium)
-                                    
-                                    Text("\(post.created_Time.formatDate(post.created_Time))")
-                                        .font(.system(size: 14))
-                                        .foregroundStyle(.white.opacity(0.7))
+                                    Image(systemName: "chevron.right")
+                                        .font(.system(size: 12))
+                                        .foregroundStyle(.white)
+                                        .padding(.leading, 90)
                                 }
-                            } else {
-                                HStack(alignment: .center, spacing: 8) {
-                                    Text("\(post.surferUid)님에게 받은 파도")
-                                        .font(.system(size: 16))
-                                        .fontWeight(.medium)
-                                    
-                                    Text("\(post.created_Time.formatDate(post.created_Time))")
-                                        .font(.system(size: 14))
-                                        .foregroundStyle(.white.opacity(0.7))
-                                }
-                                .padding(.bottom, 5)
-                                
-                                Text("\(post.title)")
-                                    .font(.system(size: 16))
+                                .padding(10)
+                                .background(Color(.systemGray4).opacity(0.5))
+                                .clipShape(RoundedRectangle(cornerRadius: 4))
                             }
                         }
                     }
                     .foregroundStyle(.white)
-                    .padding(.bottom, 14)
                     
                     Spacer()
                     
@@ -266,33 +334,12 @@ struct SelectPostCell: View {
                             }
                             .padding(.bottom, 15)
                             
-                            // MARK: - 서퍼
-                            NavigationLink {
-                                if let surferUser = surferUser {
-                                    OtherUserProfileView(buttonOnOff: $postSurferButtonOnOff,
-                                                         user: surferUser)
-                                }
-                            } label: {
-                                VStack(spacing: 10) {
-                                    if let surferUser = surferUser {
-                                        Circle()
-                                            .foregroundStyle(.white)
-                                            .frame(width: 39)
-                                            .overlay {
-                                                CircularImageView(size: .small,
-                                                                  user: surferUser)
-                                            }
-                                    }
-                                }
-                                .padding(.bottom, 10)
-                                
-                            }
-                            
                             // MARK: - 하트
                             VStack(spacing: 10) {
                                 if isHeartCheck {
                                     Button {
-                                        if !heartLoading {
+                                        
+                                        if !heartLoading && !blockPost(post: post) {
                                             Task {
                                                 heartLoading = true
                                                 if let postID = post.id {
@@ -317,7 +364,9 @@ struct SelectPostCell: View {
                                     }
                                 } else {
                                     Button {
-                                        if !userNameID.isEmpty && !heartLoading {
+                                        if userNameID.isEmpty {
+                                            isShowingLoginPage = true
+                                        } else if !heartLoading && !blockPost(post: post) {
                                             Task {
                                                 heartLoading = true
                                                 if let postID = post.id, let postUser = postUser {
@@ -333,8 +382,6 @@ struct SelectPostCell: View {
                                                 await profileVM.fetchHighlihts(id: userNameID)
                                                 
                                             }
-                                        } else {
-                                            isShowingLoginPage = true
                                         }
                                     } label: {
                                         Image("heart")
@@ -354,7 +401,9 @@ struct SelectPostCell: View {
                             // MARK: - 댓글
                             VStack(spacing: 10) {
                                 Button {
-                                    isShowingCommentView = true
+                                    if !blockPost(post: post) {
+                                        isShowingCommentView = true
+                                    }
                                 } label: {
                                     Image("chat")
                                 }
@@ -378,10 +427,34 @@ struct SelectPostCell: View {
                             // MARK: - 신고하기
                             VStack(spacing: 10) {
                                 Button {
-                                    if !userNameID.isEmpty {
-                                        isShowingReportView.toggle()
+                                    if let padoRideIndex = feedVM.currentPadoRideIndex {
+                                        if post.ownerUid == userNameID {
+                                            // 내가 받은 게시물의 멍게 삭제 로직
+                                            deleteMyPadoride = true
+                                        } else if feedVM.padoRidePosts[padoRideIndex].id == userNameID {
+                                            // 내가 보낸 멍게의 삭제 로직
+                                            deleteSendPadoride = true
+                                        } else {
+                                            if !userNameID.isEmpty {
+                                                isShowingReportView.toggle()
+                                            } else {
+                                                isShowingLoginPage = true
+                                            }
+                                        }
                                     } else {
-                                        isShowingLoginPage = true
+                                        if post.ownerUid == userNameID {
+                                            // 내가 받은 게시물 삭제 로직
+                                            deleteMyPost = true
+                                        } else if post.surferUid == userNameID {
+                                            // 내가 보낸 게시물 삭제 로직
+                                            deleteSendPost = true
+                                        } else {
+                                            if !userNameID.isEmpty {
+                                                isShowingReportView.toggle()
+                                            } else {
+                                                isShowingLoginPage = true
+                                            }
+                                        }
                                     }
                                 } label: {
                                     VStack {
@@ -417,21 +490,143 @@ struct SelectPostCell: View {
                 self.surferUser = await UpdateUserData.shared.getOthersProfileDatas(id: post.surferUid)
                 if let postID = post.id {
                     isHeartCheck = await UpdateHeartData.shared.checkHeartExists(documentID: postID)
-                } 
+                }
                 self.postOwnerButtonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: post.ownerUid)
                 self.postSurferButtonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: post.surferUid)
             }
         }
+        .popup(isPresented: $deleteSendPadoride) {
+            // 상대방 게시글의 내가 보낸 파도타기를 삭제
+            VStack {
+                Text("해당 파도타기를 삭제하시겠습니까?")
+                    .font(.system(size: 16, weight: .semibold))
+                
+                Button {
+                    let fileName = feedVM.padoRidePosts[feedVM.currentPadoRideIndex ?? 0].storageFileName
+                    
+                    Task {
+                        try await DeletePost.shared.deletePadoridePost(postID: post.id ?? "",
+                                                                       storageFileName: fileName,
+                                                                       subID: userNameID)
+                        deleteSendPadoride = false
+                    }
+                } label: {
+                    Text("삭제")
+                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 40)
+                        .foregroundStyle(.red)
+                        .background(.grayButton)
+                        .cornerRadius(10)
+                }
+                
+                Button {
+                    deleteSendPadoride = false
+                } label: {
+                    Text("취소")
+                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 40)
+                        .background(.grayButton)
+                        .cornerRadius(10)
+                }
+            }
+        } customize: {
+            $0
+                .type(.floater())
+                .position(.bottom)
+                .animation(.spring())
+                .closeOnTapOutside(true)
+                .backgroundColor(.black.opacity(0.5))
+        }
+        .popup(isPresented: $deleteMyPost) {
+            // 내가 받은 파도를 삭제
+            VStack {
+                Text("해당 파도를 삭제하시겠습니까?")
+                    .font(.system(size: 16, weight: .semibold))
+                
+                Button {
+                    Task {
+                        try await DeletePost.shared.deletePost(postID: post.id ?? "",
+                                                               postOwnerID: post.ownerUid,
+                                                               sufferID: post.surferUid)
+                        deleteMyPost = false
+                    }
+                } label: {
+                    Text("삭제")
+                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 40)
+                        .foregroundStyle(.red)
+                        .background(.grayButton)
+                        .cornerRadius(10)
+                }
+                
+                Button {
+                    deleteMyPost = false
+                } label: {
+                    Text("취소")
+                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 40)
+                        .background(.grayButton)
+                        .cornerRadius(10)
+                }
+            }
+        } customize: {
+            $0
+                .type(.floater())
+                .position(.bottom)
+                .animation(.spring())
+                .closeOnTapOutside(true)
+                .backgroundColor(.black.opacity(0.5))
+        }
+        .popup(isPresented: $deleteSendPost) {
+            // 내가 보낸 파도를 삭제
+            VStack {
+                Text("해당 파도를 삭제하시겠습니까?")
+                    .font(.system(size: 16, weight: .semibold))
+                
+                Button {
+                    Task {
+                        try await DeletePost.shared.deletePost(postID: post.id ?? "",
+                                                               postOwnerID: post.ownerUid,
+                                                               sufferID: post.surferUid)
+                        deleteSendPost = false
+                    }
+                } label: {
+                    Text("삭제")
+                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 40)
+                        .foregroundStyle(.red)
+                        .background(.grayButton)
+                        .cornerRadius(10)
+                }
+                
+                Button {
+                    deleteSendPost = false
+                } label: {
+                    Text("취소")
+                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 40)
+                        .background(.grayButton)
+                        .cornerRadius(10)
+                }
+            }
+        } customize: {
+            $0
+                .type(.floater())
+                .position(.bottom)
+                .animation(.spring())
+                .closeOnTapOutside(true)
+                .backgroundColor(.black.opacity(0.5))
+        }
     }
     
     private func descriptionForType(_ type: PostViewType) -> String {
-           switch type {
-           case .receive:
-               return "\(post.surferUid)님에게 받은 파도"
-           case .send:
-               return "\(post.ownerUid)님에게 보낸 파도"
-           case .highlight:
-               return "\(post.ownerUid)님의 파도"
-           }
-       }
+        switch type {
+        case .receive:
+            return "\(post.surferUid)님에게 받은 파도"
+        case .send:
+            return "\(post.ownerUid)님에게 보낸 파도"
+        case .highlight:
+            return "\(post.ownerUid)님의 파도"
+        }
+    }
+    
+    private func blockPost(post: Post) -> Bool {
+        let blockedUserIDs = Set(blockingUser.map { $0.blockUserID } + blockedUser.map { $0.blockUserID })
+        
+        return blockedUserIDs.contains(post.ownerUid) || blockedUserIDs.contains(post.surferUid)
+    }
 }

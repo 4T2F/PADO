@@ -11,7 +11,7 @@ import SwiftUI
 struct SettingProfileView: View {
     // MARK: - PROPERTY
     @State var width = UIScreen.main.bounds.width
-    @State private var isActive: Bool = false
+    @State var isActive: Bool = false
     @EnvironmentObject var viewModel: AuthenticationViewModel
     @Environment (\.dismiss) var dismiss
     
@@ -86,8 +86,8 @@ struct SettingProfileView: View {
                                             .offset(x: 45, y: 45)
                                         }
                                         .sheet(isPresented: $viewModel.showProfileModal) {
-                                            SettingProfileModal()
-                                                .presentationDetents([.fraction(0.3)])
+                                            SettingProfileModal(isActive: $isActive)
+                                                .presentationDetents([.fraction(0.4)])
                                         }
                                 } else {
                                     if let user = viewModel.currentUser {
@@ -147,8 +147,8 @@ struct SettingProfileView: View {
                                                 .offset(x: 45, y: 45)
                                             }
                                             .sheet(isPresented: $viewModel.showProfileModal) {
-                                                SettingProfileModal()
-                                                    .presentationDetents([.fraction(0.3)])
+                                                SettingProfileModal(isActive: $isActive)
+                                                    .presentationDetents([.fraction(0.4)])
                                             }
                                     }
                                 }

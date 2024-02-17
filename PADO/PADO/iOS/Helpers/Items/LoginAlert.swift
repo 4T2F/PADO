@@ -22,13 +22,13 @@ struct LoginAlert: View {
                 HStack {
                     Spacer()
                 }
-                Text("로그인하고 이용하기")
+                Text("로그인이 필요한 서비스 입니다")
                     .foregroundStyle(.white)
-                    .font(.system(size: 20))
-                    .fontWeight(.bold)
+                    .font(.system(size: 18))
+                    .fontWeight(.semibold)
                     .padding(.bottom, 8)
                 
-                Text("이 기능은, 로그인을 해야 이용할 수 있어요!")
+                Text("이 기능은 로그인 후 이용할 수 있습니다.")
                     .foregroundStyle(.white)
                     .font(.system(size: 14))
                     .fontWeight(.medium)

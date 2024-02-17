@@ -5,7 +5,6 @@
 //  Created by 김명현 on 2/8/24.
 //
 
-import PencilKit
 import SwiftUI
 
 struct PadoRideEditView: View {
@@ -21,6 +20,7 @@ struct PadoRideEditView: View {
                         .toolbar {
                             ToolbarItem(placement: .navigationBarLeading) {
                                 Button {
+                                    padorideVM.toolPicker.setVisible(false, forFirstResponder: padorideVM.canvas)
                                     padorideVM.cancelImageEditing()
                                     dismiss()
                                 } label: {
@@ -47,7 +47,7 @@ struct PadoRideEditView: View {
                             await padorideVM.cancelTextView()
                         }
                     } label: {
-                        Text("삭제")
+                        Text("취소")
                             .fontWeight(.heavy)
                             .foregroundColor(.white)
                             .padding()

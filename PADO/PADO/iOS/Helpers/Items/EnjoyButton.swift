@@ -24,12 +24,10 @@ struct EnjoyButton: View {
                 Text(text)
                     .foregroundStyle(.white)
                     .font(.system(size: 16))
-                    .fontWeight(.regular)
+                    .fontWeight(.medium)
                     .padding(.trailing, 80)
                 
                 Image("Arrow_right_light")
-                    .font(.system(size: 16))
-                    .fontWeight(.regular)
             }
             .frame(height: 30)
         }

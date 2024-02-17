@@ -11,6 +11,8 @@ import SwiftUI
 
 class SearchViewModel: ObservableObject, Searchable {
     
+    static let shared = SearchViewModel()
+    
     @Published var searchDatas: [String] = []
     
     @Published var isLoading: Bool = false
@@ -22,7 +24,7 @@ class SearchViewModel: ObservableObject, Searchable {
         
     let db = Firestore.firestore()
     
-    init() {
+    private init() {
         loadSearchData()
     }
     
@@ -72,7 +74,7 @@ class SearchViewModel: ObservableObject, Searchable {
             // 두 결과의 합집합을 구하고 중복 제거
             let combinedResults = Array(Set(nameIDUsers + usernameUsers))
 
-            self.searchResults = combinedResults
+            self.searchResults =  filterBlockedUser(userResults: combinedResults)
             viewState = searchResults.isEmpty ? .empty : .ready
         } catch {
             print("Error getting documents: \(error)")
@@ -101,5 +103,25 @@ class SearchViewModel: ObservableObject, Searchable {
     func clearSearchData() {
         searchDatas = []
         UserDefaults.standard.set([], forKey: "searchData")
+    }
+}
+
+extension SearchViewModel {
+    private func filterBlockedUser(userResults: [User]) -> [User] {
+        let blockedUserIDs = Set(blockingUser.map { $0.blockUserID } + blockedUser.map { $0.blockUserID })
+        
+        return searchResults.filter { user in
+            !blockedUserIDs.contains(user.nameID)
+        }
+    }
+    
+    func removeBlockUser() {
+        let blockedUserIDs = Set(blockingUser.map { $0.blockUserID } + blockedUser.map { $0.blockUserID })
+        
+        for searchData in searchDatas {
+            if blockedUserIDs.contains(searchData) {
+                removeSearchData(searchData)
+            }
+        }
     }
 }

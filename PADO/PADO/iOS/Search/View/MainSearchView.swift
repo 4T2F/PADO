@@ -10,12 +10,8 @@ import SwiftUI
 struct MainSearchView: View {
     // MARK: - PROPERTY
     @State var mainSearch: String = ""
-    
-    @ObservedObject var searchVM: SearchViewModel
     @ObservedObject var profileVM: ProfileViewModel
-    @ObservedObject var followVM: FollowViewModel
-    
-    @FocusState private var isTextFieldFocused: Bool
+    @StateObject var searchVM = SearchViewModel.shared
     
     // MARK: - BODY
     var body: some View {
@@ -40,10 +36,6 @@ struct MainSearchView: View {
                 VStack(alignment: .center, spacing: 0) {
                     SearchBar(text: searchTextBinding,
                               isLoading: $searchVM.isLoading)
-                    .focused($isTextFieldFocused)
-                    .onAppear {
-                        isTextFieldFocused = true
-                    }
                     .padding(.horizontal)
                     
                     if mainSearch.isEmpty {
@@ -67,7 +59,7 @@ struct MainSearchView: View {
                             ScrollView(showsIndicators: false) {
                                 ForEach(searchVM.searchDatas.reversed(), id: \.self) { searchData in
                                     RecordSearchCellView(profileVM: profileVM,
-                                                         followVM: followVM,
+
                                                          searchVM: searchVM,
                                                          searchCellID: searchData)
                                     .padding(.vertical, 3)
@@ -88,7 +80,6 @@ struct MainSearchView: View {
                         ScrollView(showsIndicators: false) {
                             ForEach(searchVM.searchResults) { result in
                                 SearchCellView(profileVM: profileVM,
-                                               followVM: followVM,
                                                searchVM: searchVM,
                                                user: result)
                                 .padding(.vertical, 3)

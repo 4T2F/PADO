@@ -35,11 +35,6 @@ struct StartView: View {
                 .ignoresSafeArea()
                 
                 VStack(spacing: 20) {
-                    Text("PADO에 로그인")
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .padding(.top, 40)
-                    
                     Spacer()
                     
                     VStack {

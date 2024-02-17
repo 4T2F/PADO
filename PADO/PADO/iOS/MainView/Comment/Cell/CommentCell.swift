@@ -33,7 +33,11 @@ struct CommentCell: View {
                         KFImage(URL(string: imageUrl))
                             .fade(duration: 0.5)
                             .placeholder{
-                                ProgressView()
+                                Image("defaultProfile")
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 38, height: 38)
+                                    .clipShape(Circle())
                             }
                             .resizable()
                             .scaledToFill()
