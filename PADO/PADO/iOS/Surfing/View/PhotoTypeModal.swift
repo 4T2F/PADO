@@ -18,43 +18,127 @@ struct PhotoTypeModal: View {
     
     var body: some View {
         VStack {
+            VStack {
+                Button {
+                    surfingVM.isShowingPhotoModal = false
+                } label: {
+                    HStack {
+                        PhotosPicker(selection: $surfingVM.postImageItem) {
+                            Text("사진앨범")
+                                .font(.system(size: 14))
+                                .fontWeight(.bold)
+                            
+                            Spacer()
+                            
+                            Image(systemName: "photo")
+                                .font(.system(size: 14))
+                                .fontWeight(.bold)
+                        }
+                    }
+                }
+                
+                Divider()
+                    .padding(.vertical, 6)
+                
+                Button {
+                    surfingVM.checkCameraPermission {
+                        surfingVM.isShowingPhotoModal = false
+                        surfingVM.isShownCamera.toggle()
+                        surfingVM.sourceType = .camera
+                        surfingVM.pickerResult = []
+                        surfingVM.selectedImage = nil
+                        surfingVM.selectedUIImage = Image(systemName: "photo")
+                    }
+                } label: {
+                    HStack {
+                        Text("카메라")
+                            .font(.system(size: 14))
+                            .fontWeight(.bold)
+                        
+                        Spacer()
+                        
+                        Image(systemName: "camera")
+                            .font(.system(size: 14))
+                            .fontWeight(.semibold)
+                    }
+                }
+            }
+            .padding()
+            .background(.modalCell)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .padding(15)
+            .onAppear {
+                surfingVM.checkPhotoLibraryPermission()
+            }
+            
             Button {
                 surfingVM.isShowingPhotoModal = false
             } label: {
-                PhotosPicker(selection: $surfingVM.postImageItem) {
-                    Text("사진앨범")
-                        .font(.system(size: 16, weight: .semibold))
-                        .foregroundStyle(Color.white)
-                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
-                        .background(.grayButton)
-                        .cornerRadius(10)
-                }
-                .onChange(of: surfingVM.postImageItem) { _, _ in
-                    surfingVM.isShowingPhotoModal = false
+                HStack {
+                    Spacer()
+                    
+                    Text("취소")
+                        .font(.system(size: 14))
+                        .fontWeight(.bold)
+                     
+                    Spacer()
                 }
             }
-            .padding(.vertical, 15)
-            
-            Button {
-                surfingVM.checkCameraPermission {
-                    surfingVM.isShowingPhotoModal = false
-                    surfingVM.isShownCamera.toggle()
-                    surfingVM.sourceType = .camera
-                    surfingVM.pickerResult = []
-                    surfingVM.selectedImage = nil
-                    surfingVM.selectedUIImage = Image(systemName: "photo")
-                }
-            } label: {
-                Text("카메라")
-                    .font(.system(size: 16, weight: .semibold))
-                    .foregroundStyle(Color.white)
-                    .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
-                    .background(.grayButton)
-                    .cornerRadius(10)
-            }
+            .padding()
+            .background(.modalCell)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .padding(.horizontal, 15)
         }
-        .onAppear {
-            surfingVM.checkPhotoLibraryPermission()
-        }
+        
+        
+//        VStack {
+//            Button {
+//                surfingVM.isShowingPhotoModal = false
+//            } label: {
+//                PhotosPicker(selection: $surfingVM.postImageItem) {
+//                    HStack {
+//                        Spacer()
+//                        
+//                        Text("사진앨범")
+//                            .font(.system(size: 14))
+//                            .fontWeight(.bold)
+//                        
+//                        Spacer()
+//                    }
+//                }
+//                .padding()
+//                .background(.modalCell)
+//                .clipShape(RoundedRectangle(cornerRadius: 12))
+//                .onChange(of: surfingVM.postImageItem) { _, _ in
+//                    surfingVM.isShowingPhotoModal = false
+//                }
+//            }
+//            .padding(15)
+//            
+//            Button {
+//                surfingVM.checkCameraPermission {
+//                    surfingVM.isShowingPhotoModal = false
+//                    surfingVM.isShownCamera.toggle()
+//                    surfingVM.sourceType = .camera
+//                    surfingVM.pickerResult = []
+//                    surfingVM.selectedImage = nil
+//                    surfingVM.selectedUIImage = Image(systemName: "photo")
+//                }
+//            } label: {
+//                Spacer()
+//                
+//                Text("카메라")
+//                    .font(.system(size: 14))
+//                    .fontWeight(.bold)
+//                    .padding()
+//                
+//                Spacer()
+//            }
+//            .background(.modalCell)
+//            .clipShape(RoundedRectangle(cornerRadius: 12))
+//            .padding(.horizontal, 15)
+//        }
+        
+        
     }
 }
