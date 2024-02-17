@@ -73,7 +73,7 @@ class SurfingViewModel: ObservableObject, Searchable  {
     @State var progress: Double = 0
     
     @Published var searchResults: [User] = []
-    @Published var post: [Post]?
+    @Published var post: Post?
     @Published var viewState: ViewState = ViewState.empty
     
     @Published var moveTab: Int = 0
@@ -123,6 +123,7 @@ class SurfingViewModel: ObservableObject, Searchable  {
     }
     
     // MARK: - 게시글 요청
+    @MainActor
     func postRequest(imageURL: String, surfingID: String) async {
         // 게시 요청 관련 로직 추가
         let initialPostData : [String: Any] = [
@@ -133,14 +134,22 @@ class SurfingViewModel: ObservableObject, Searchable  {
             "heartsCount": 0,
             "commentCount": 0,
             "created_Time": Timestamp()
-       ]
+        ]
         await createPostData(titleName: formattedPostingTitle, data: initialPostData)
+        post?.ownerUid = surfingID
+        post?.surferUid = userNameID
+        post?.imageUrl = imageURL
+        post?.title = postingTitle
+        post?.heartsCount = 0
+        post?.commentCount = 0
+        post?.created_Time = Timestamp()
     }
     
+    @MainActor
     func createPostData(titleName: String, data: [String: Any]) async {
         do {
             try await Firestore.firestore().collection("post").document(titleName).setData(data)
-           
+            
         } catch {
             print("Error saving post data: \(error.localizedDescription)")
         }

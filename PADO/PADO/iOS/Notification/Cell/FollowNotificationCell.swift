@@ -51,8 +51,8 @@ struct FollowNotificationCell: View {
                     .lineSpacing(4)
                 }
                 
-                
                 Spacer()
+                
                 if let targetUser = targetUser {
                     FollowButtonView(cellUser: targetUser,
                                      buttonActive: $buttonActive,

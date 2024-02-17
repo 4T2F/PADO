@@ -76,7 +76,9 @@ struct FeedView: View {
                 VStack {
                     if !feedVM.isShowingPadoRide {
                         if scrollDelegate.scrollOffset < 5 {
-                            FeedHeaderCell(notiVM: notiVM)
+                            FeedHeaderCell(notiVM: notiVM,
+                                           profileVM: profileVM,
+                                           feedVM: feedVM)
                                 .transition(.opacity.combined(with: .scale))
                         } else if !scrollDelegate.isEligible {
                             FeedRefreshHeaderCell()

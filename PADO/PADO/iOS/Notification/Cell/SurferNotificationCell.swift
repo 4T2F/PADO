@@ -52,6 +52,7 @@ struct SurferNotificationCell: View {
                 }
                 
                 Spacer()
+                
                 if let targetUser = targetUser {
                     FollowButtonView(cellUser: targetUser,
                                      buttonActive: $buttonActive,

@@ -9,48 +9,68 @@ import Kingfisher
 import SwiftUI
 
 struct PadoRideNotificationCell: View {
+    @ObservedObject var profileVM: ProfileViewModel
+    @ObservedObject var feedVM: FeedViewModel
+    
     @State var sendUserProfileUrl: String = ""
     @State var sendPostUrl: String = ""
+    @State var sendPost: Post? = nil
+    
+    @State private var showPost = false
     
     var notification: Noti
     
     var body: some View {
-        HStack(spacing: 0) {
-            if let image = URL(string: sendUserProfileUrl) {
-                KFImage(image)
-                    .resizable()
-                    .frame(width: 40, height: 40)
-                    .cornerRadius(40)
-                    .padding(.trailing)
-            } else {
-                Image("defaultProfile")
-                    .resizable()
-                    .frame(width: 40, height: 40)
-                    .cornerRadius(40)
-                    .padding(.trailing)
+        Button {
+            if sendPost != nil {
+                showPost = true
             }
-            
-            VStack(alignment: .leading, spacing: 4) {
-                HStack {
-                    Text("\(notification.sendUser)님이 회원님을 파도탔어요! ")
-                        .font(.system(size: 14))
-                        .fontWeight(.medium)
-                    +
-                    Text(notification.createdAt.formatDate(notification.createdAt))
-                        .font(.system(size: 12))
-                        .foregroundStyle(Color(.systemGray))
+        } label: {
+            HStack(spacing: 0) {
+                if let image = URL(string: sendUserProfileUrl) {
+                    KFImage(image)
+                        .resizable()
+                        .frame(width: 40, height: 40)
+                        .cornerRadius(40)
+                        .padding(.trailing)
+                } else {
+                    Image("defaultProfile")
+                        .resizable()
+                        .frame(width: 40, height: 40)
+                        .cornerRadius(40)
+                        .padding(.trailing)
                 }
-                .multilineTextAlignment(.leading)
-                .lineSpacing(4)
+                
+                VStack(alignment: .leading, spacing: 4) {
+                    HStack {
+                        Text("\(notification.sendUser)님이 회원님을 파도탔어요! ")
+                            .font(.system(size: 14))
+                            .fontWeight(.medium)
+                        +
+                        Text(notification.createdAt.formatDate(notification.createdAt))
+                            .font(.system(size: 12))
+                            .foregroundStyle(Color(.systemGray))
+                    }
+                    .multilineTextAlignment(.leading)
+                    .lineSpacing(4)
+                }
+                
+                Spacer()
+                
+                if let image = URL(string: sendPostUrl) {
+                    KFImage(image)
+                        .resizable()
+                        .frame(width: 40, height: 40)
+                        .clipShape(RoundedRectangle(cornerRadius: 5))
+                }
             }
-            
-            Spacer()
-            
-            if let image = URL(string: sendPostUrl) {
-                KFImage(image)
-                    .resizable()
-                    .frame(width: 40, height: 50)
-                    .clipShape(RoundedRectangle(cornerRadius: 5))
+        }
+        .sheet(isPresented: $showPost) {
+            if let post = sendPost {
+                OnePostModalView(profileVM: profileVM,
+                                 feedVM: feedVM,
+                                 updateHeartData: UpdateHeartData(),
+                                 post: post)
             }
         }
         .onAppear {
@@ -62,6 +82,7 @@ struct PadoRideNotificationCell: View {
                 if let sendPost = await
                     UpdatePostData.shared.fetchPostById(postId: notification.postID ?? "") {
                     self.sendPostUrl = sendPost.imageUrl
+                    self.sendPost = sendPost
                 }
             }
         }

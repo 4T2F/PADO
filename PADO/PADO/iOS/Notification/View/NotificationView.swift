@@ -8,7 +8,10 @@
 import SwiftUI
 // TODO: 알림 없으면 noItemView
 struct NotificationView: View {
+    @ObservedObject var profileVM: ProfileViewModel
+    @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var notiVM: NotificationViewModel
+    
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -29,8 +32,10 @@ struct NotificationView: View {
                     .padding(.horizontal, 10)
                 }
                 .frame(width: UIScreen.main.bounds.width)
-                ForEach(notiVM.notifications) { notification in
-                    NotificationCell(notification: notification)
+                ForEach(notiVM.notifications.filter { !$0.sendUser.isEmpty }) { notification in
+                    NotificationCell(profileVM: profileVM,
+                                     feedVM: feedVM,
+                                     notification: notification)
                         .padding(.horizontal, 10)
                         .padding(.vertical, 4)
                 }
