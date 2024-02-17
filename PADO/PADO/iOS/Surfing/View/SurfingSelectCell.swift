@@ -31,7 +31,11 @@ struct SurfingSelectCell: View {
                     KFImage(URL(string: imageUrl))
                         .fade(duration: 0.5)
                         .placeholder{
-                            ProgressView()
+                            Image("defaultProfile")
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 50, height: 50)
+                                .clipShape(Circle())
                         }
                         .resizable()
                         .scaledToFill()
