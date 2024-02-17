@@ -9,6 +9,7 @@ import Firebase
 import FirebaseFirestoreSwift
 import Kingfisher
 import Lottie
+import PopupView
 import SwiftUI
 
 struct FeedCell: View {
@@ -449,36 +450,46 @@ struct FeedCell: View {
                                     if let padoRideIndex = feedVM.currentPadoRideIndex {
                                         if post.ownerUid == userNameID {
                                             // 내가 받은 게시물의 멍게 삭제 로직
-                                            // post.ownerUid == userNameID && 포스트 - 파도라이드 - 오너아이디 == userNameID
-                                            // 파도라이드 서브 컬렉션에 post ownner uid 추가 필요
-                                            print("2")
+                                            let fileName = feedVM.padoRidePosts[padoRideIndex].storageFileName
+                                            let subID = feedVM.padoRidePosts[padoRideIndex].id
+                                            
+                                            Task {
+                                                try await DeletePost.shared.deletePadoridePost(postID: post.id ?? "",
+                                                                                               storageFileName: fileName,
+                                                                                               subID: subID ?? "")
+                                            }
                                             
                                         } else if feedVM.padoRidePosts[padoRideIndex].id == userNameID {
                                             // 내가 보낸 멍게의 삭제 로직
-                                            // 포스트 - 파도라이드 - 다큐먼트 네임 == userNameID
-                                            // 완료
-                                            print("3")
                                             let fileName = feedVM.padoRidePosts[padoRideIndex].storageFileName
                                             
                                             Task {
                                                 try await DeletePost.shared.deletePadoridePost(postID: post.id ?? "",
-                                                                                               storageFileName: fileName, 
+                                                                                               storageFileName: fileName,
                                                                                                subID: userNameID)
                                             }
                                         }
-                                    }
-                                    if post.ownerUid == userNameID {
-                                        // 내가 받은 게시물 삭제 로직
-                                        print("1")
-                                    } else if post.surferUid == userNameID {
-                                        print("================")
-                                        // 내가 보낸 게시물 삭제 로직
-                                        print("4")
                                     } else {
-                                        if !userNameID.isEmpty {
-                                            isShowingReportView.toggle()
+                                        if post.ownerUid == userNameID {
+                                            // 내가 받은 게시물 삭제 로직
+                                            Task {
+                                                try await DeletePost.shared.deletePost(postID: post.id ?? "",
+                                                                                       postOwnerID: post.ownerUid,
+                                                                                       sufferID: post.surferUid)
+                                            }
+                                        } else if post.surferUid == userNameID {
+                                            // 내가 보낸 게시물 삭제 로직
+                                            Task {
+                                                try await DeletePost.shared.deletePost(postID: post.id ?? "",
+                                                                                       postOwnerID: post.ownerUid,
+                                                                                       sufferID: post.surferUid)
+                                            }
                                         } else {
-                                            isShowingLoginPage = true
+                                            if !userNameID.isEmpty {
+                                                isShowingReportView.toggle()
+                                            } else {
+                                                isShowingLoginPage = true
+                                            }
                                         }
                                     }
                                 } label: {
