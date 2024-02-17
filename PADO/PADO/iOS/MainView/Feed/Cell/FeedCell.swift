@@ -205,8 +205,9 @@ struct FeedCell: View {
                 
                 HStack(alignment: .bottom) {
                     // MARK: - 아이디 및 타이틀
-                    if feedVM.isHeaderVisible {
-                        VStack(alignment: .leading, spacing: 12) {
+                    
+                    VStack(alignment: .leading, spacing: 12) {
+                        if feedVM.isHeaderVisible {
                             if !post.title.isEmpty {
                                 Button {
                                     isShowingMoreText.toggle()
@@ -264,64 +265,7 @@ struct FeedCell: View {
                                     .padding(.trailing, 24)
                                 }
                             }
-                            
-                            HStack(spacing: 12) {
-                                NavigationLink {
-                                    if let postUser = postUser {
-                                        OtherUserProfileView(buttonOnOff: $postOwnerButtonOnOff,
-                                                             user: postUser)
-                                    }
-                                } label: {
-                                    if let postUser = postUser {
-                                        CircularImageView(size: .small,
-                                                          user: postUser)
-                                    }
-                                }
-                                NavigationLink {
-                                    if let postUser = postUser {
-                                        OtherUserProfileView(buttonOnOff: $postOwnerButtonOnOff,
-                                                             user: postUser)
-                                    }
-                                } label: {
-                                    HStack {
-                                        if let user = postUser {
-                                            if !user.username.isEmpty {
-                                                VStack(alignment: .leading, spacing: 4) {
-                                                    Text("\(user.username)님의 프로필")
-                                                        .font(.system(size: 12))
-                                                        .fontWeight(.medium)
-                                                    
-                                                    Text("@\(post.ownerUid)")
-                                                        .font(.system(size: 10))
-                                                        .fontWeight(.medium)
-                                                        .foregroundStyle(.gray)
-                                                }
-                                            } else {
-                                                VStack(alignment: .leading, spacing: 4) {
-                                                    Text("\(post.ownerUid)님의 프로필")
-                                                        .font(.system(size: 12))
-                                                        .fontWeight(.medium)
-                                                    
-                                                    Text("@\(post.ownerUid)")
-                                                        .font(.system(size: 10))
-                                                        .fontWeight(.medium)
-                                                        .foregroundStyle(.gray)
-                                                }
-                                            }
-                                        }
-                                        Image(systemName: "chevron.right")
-                                            .font(.system(size: 12))
-                                            .foregroundStyle(.white)
-                                            .padding(.leading, 90)
-                                    }
-                                    .padding(10)
-                                    .background(Color(.systemGray4).opacity(0.5))
-                                    .clipShape(RoundedRectangle(cornerRadius: 4))
-                                }
-                            }
                         }
-                        .foregroundStyle(.white)
-                    } else {
                         HStack(spacing: 12) {
                             NavigationLink {
                                 if let postUser = postUser {
@@ -376,8 +320,9 @@ struct FeedCell: View {
                                 .clipShape(RoundedRectangle(cornerRadius: 4))
                             }
                         }
-                        .foregroundStyle(.white)
                     }
+                    .foregroundStyle(.white)
+                    
                     
                     Spacer()
                     
@@ -444,19 +389,19 @@ struct FeedCell: View {
                                 
                                 if isHeartCheck {
                                     Button {
-                                            if !heartLoading && !blockPost(post: post) {
-                                                Task {
-                                                    heartLoading = true
-                                                    if let postID = post.id {
-                                                        await UpdateHeartData.shared.deleteHeart(documentID: postID)
-                                                        isHeartCheck = await UpdateHeartData.shared.checkHeartExists(documentID: postID)
-                                                        heartLoading = false
-                                                    }
-                                                    if !userNameID.isEmpty {
-                                                        await profileVM.fetchHighlihts(id: userNameID)
-                                                    }
+                                        if !heartLoading && !blockPost(post: post) {
+                                            Task {
+                                                heartLoading = true
+                                                if let postID = post.id {
+                                                    await UpdateHeartData.shared.deleteHeart(documentID: postID)
+                                                    isHeartCheck = await UpdateHeartData.shared.checkHeartExists(documentID: postID)
+                                                    heartLoading = false
+                                                }
+                                                if !userNameID.isEmpty {
+                                                    await profileVM.fetchHighlihts(id: userNameID)
                                                 }
                                             }
+                                        }
                                     } label: {
                                         Circle()
                                             .frame(width: 24)
@@ -760,7 +705,6 @@ struct FeedCell: View {
                 .closeOnTapOutside(true)
                 .backgroundColor(.black.opacity(0.5))
         }
-
     }
     
     func fetchPostData(post: Post) async {

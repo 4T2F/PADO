@@ -152,7 +152,12 @@ struct ContentView: View {
     }
     
     func fetchData() {
-        guard !userNameID.isEmpty else { return }
+        guard !userNameID.isEmpty else {
+            Task {
+                await feedVM.fetchTodayPadoPosts()
+            }
+            return
+        }
         
         Task {
             viewModel.selectedFilter = .following

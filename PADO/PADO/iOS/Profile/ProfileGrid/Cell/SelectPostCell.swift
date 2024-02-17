@@ -25,8 +25,6 @@ struct SelectPostCell: View {
     @State var postSurferButtonOnOff: Bool = false
     
     @State private var isHeaderVisible: Bool = true
-    @State private var heartCounts: Int = 0
-    @State private var commentCounts: Int = 0
     @State private var isShowingReportView: Bool = false
     @State private var isShowingCommentView: Bool = false
     @State private var isShowingLoginPage: Bool = false
@@ -39,7 +37,6 @@ struct SelectPostCell: View {
     @State private var deleteSendPost: Bool = false
     
     @Binding var post: Post
-    let cellType: PostViewType
     
     var body: some View {
         ZStack {
@@ -164,58 +161,61 @@ struct SelectPostCell: View {
                 
                 HStack(alignment: .bottom) {
                     // MARK: - 아이디 및 타이틀
+                    
                     VStack(alignment: .leading, spacing: 12) {
-                        if !post.title.isEmpty {
-                            Button {
-                                isShowingMoreText.toggle()
-                            } label: {
-                                if isShowingMoreText {
-                                    Text("\(post.title)")
-                                        .multilineTextAlignment(.leading)
-                                } else {
-                                    Text("\(post.title)")
-                                        .lineLimit(1)
-                                }
-                            }
-                            .font(.system(size: 16))
-                            .foregroundStyle(textColor)
-                            .lineSpacing(1)
-                            .fontWeight(.bold)
-                            .padding(.trailing, 20)
-                            
-                            // MARK: - 서퍼
-                            if let surferUser = surferUser {
-                                NavigationLink {
-                                    OtherUserProfileView(buttonOnOff: $postSurferButtonOnOff,
-                                                         user: surferUser)
+                        if feedVM.isHeaderVisible {
+                            if !post.title.isEmpty {
+                                Button {
+                                    isShowingMoreText.toggle()
                                 } label: {
-                                    Text("surf. @\(post.surferUid)")
+                                    if isShowingMoreText {
+                                        Text("\(post.title)")
+                                            .multilineTextAlignment(.leading)
+                                    } else {
+                                        Text("\(post.title)")
+                                            .lineLimit(1)
+                                    }
                                 }
-                                .font(.system(size: 14))
-                                .fontWeight(.heavy)
-                                .foregroundStyle(.white)
-                                .padding(8)
-                                .background(.modal.opacity(0.8))
-                                .clipShape(RoundedRectangle(cornerRadius: 3))
-                                .padding(.bottom, 4)
-                                .padding(.trailing, 24)
-                            }
-                        } else {
-                            if let surferUser = surferUser {
-                                NavigationLink {
-                                    OtherUserProfileView(buttonOnOff: $postSurferButtonOnOff,
-                                                         user: surferUser)
-                                } label: {
-                                    Text("surf. @\(post.surferUid)")
+                                .font(.system(size: 16))
+                                .foregroundStyle(textColor)
+                                .lineSpacing(1)
+                                .fontWeight(.bold)
+                                .padding(.trailing, 20)
+                                
+                                // MARK: - 서퍼
+                                if let surferUser = surferUser {
+                                    NavigationLink {
+                                        OtherUserProfileView(buttonOnOff: $postSurferButtonOnOff,
+                                                             user: surferUser)
+                                    } label: {
+                                        Text("surf. @\(post.surferUid)")
+                                    }
+                                    .font(.system(size: 14))
+                                    .fontWeight(.heavy)
+                                    .foregroundStyle(.white)
+                                    .padding(8)
+                                    .background(.modal.opacity(0.8))
+                                    .clipShape(RoundedRectangle(cornerRadius: 3))
+                                    .padding(.bottom, 4)
+                                    .padding(.trailing, 24)
                                 }
-                                .font(.system(size: 14))
-                                .fontWeight(.heavy)
-                                .foregroundStyle(.white)
-                                .padding(8)
-                                .background(.modal.opacity(0.8))
-                                .clipShape(RoundedRectangle(cornerRadius: 3))
-                                .padding(.bottom, 4)
-                                .padding(.trailing, 24)
+                            } else {
+                                if let surferUser = surferUser {
+                                    NavigationLink {
+                                        OtherUserProfileView(buttonOnOff: $postSurferButtonOnOff,
+                                                             user: surferUser)
+                                    } label: {
+                                        Text("surf. @\(post.surferUid)")
+                                    }
+                                    .font(.system(size: 14))
+                                    .fontWeight(.heavy)
+                                    .foregroundStyle(.white)
+                                    .padding(8)
+                                    .background(.modal.opacity(0.8))
+                                    .clipShape(RoundedRectangle(cornerRadius: 3))
+                                    .padding(.bottom, 4)
+                                    .padding(.trailing, 24)
+                                }
                             }
                         }
                         
@@ -263,7 +263,7 @@ struct SelectPostCell: View {
                                             }
                                         }
                                     }
-                            
+                                    
                                     Image(systemName: "chevron.right")
                                         .font(.system(size: 12))
                                         .foregroundStyle(.white)
@@ -300,6 +300,7 @@ struct SelectPostCell: View {
                                         } else {
                                             // 모든 PadoRide 이미지를 보여준 후, 원래 포스트로 돌아감
                                             feedVM.currentPadoRideIndex = nil
+                                            feedVM.isHeaderVisible = true
                                             feedVM.isShowingPadoRide = false
                                             feedVM.padoRidePosts = []
                                         }
@@ -310,11 +311,13 @@ struct SelectPostCell: View {
                                             Task {
                                                 await feedVM.fetchPadoRides(postID: post.id ?? "")
                                                 if !feedVM.padoRidePosts.isEmpty {
+                                                    feedVM.isHeaderVisible = false
                                                     feedVM.isShowingPadoRide = true
                                                     feedVM.currentPadoRideIndex = 0
                                                 }
                                             }
                                         } else {
+                                            feedVM.isHeaderVisible = true
                                             feedVM.isShowingPadoRide = false
                                             feedVM.currentPadoRideIndex = 0
                                         }
@@ -610,17 +613,6 @@ struct SelectPostCell: View {
                 .animation(.spring())
                 .closeOnTapOutside(true)
                 .backgroundColor(.black.opacity(0.5))
-        }
-    }
-    
-    private func descriptionForType(_ type: PostViewType) -> String {
-        switch type {
-        case .receive:
-            return "\(post.surferUid)님에게 받은 파도"
-        case .send:
-            return "\(post.ownerUid)님에게 보낸 파도"
-        case .highlight:
-            return "\(post.ownerUid)님의 파도"
         }
     }
     
