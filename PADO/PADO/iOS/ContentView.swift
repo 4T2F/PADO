@@ -15,7 +15,6 @@ struct ContentView: View {
     @StateObject var surfingVM = SurfingViewModel()
     @StateObject var feedVM = FeedViewModel()
     @StateObject var followVM = FollowViewModel()
-    @StateObject var searchVM = SearchViewModel()
     @StateObject var profileVM = ProfileViewModel()
     @StateObject var notiVM = NotificationViewModel()
     @StateObject var postitVM = PostitViewModel()
@@ -52,8 +51,7 @@ struct ContentView: View {
             .onAppear { viewModel.showTab = 0 }
             .tag(0)
             
-            MainSearchView(searchVM: searchVM,
-                           profileVM: profileVM)
+            MainSearchView(profileVM: profileVM)
             .tabItem {
                 Image(viewModel.showTab == 1 ? "search_light" : "search_gray")
                 
@@ -106,7 +104,7 @@ struct ContentView: View {
                         
                         Image(viewModel.showTab == 2 ? "tab_added" : "tab_add")
                     }
-                    .onAppear {viewModel.showTab = 2 }
+                    .onAppear { viewModel.showTab = 2 }
                     .tag(2)
                 
                 LoginAlert()

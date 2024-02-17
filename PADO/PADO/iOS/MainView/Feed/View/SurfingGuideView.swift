@@ -21,7 +21,7 @@ struct SurfingGuideView: View {
                     .fontWeight(.bold)
                 
                 VStack {
-                    Text("내가 팔로잉한 사람들에게")
+                    Text("팔로잉한 사람들에게")
                     
                     Text("방명록에서 서퍼 지정을 요청해보세요.")
                 }

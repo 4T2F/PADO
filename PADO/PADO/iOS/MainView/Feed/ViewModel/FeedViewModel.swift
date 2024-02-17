@@ -128,6 +128,8 @@ class FeedViewModel:Identifiable ,ObservableObject {
         do {
             let documents = try await getDocumentsAsync(collection: db.collection("post"), query: query)
             
+            self.lastFollowFetchedDocument = documents.last
+            
             let filteredDocuments = documents.compactMap { document -> DocumentSnapshot? in
                 if (try? document.data(as: Post.self)) != nil {
                     return document
@@ -135,9 +137,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
                     return nil
                 }
             }
-            
-            self.lastFollowFetchedDocument = filteredDocuments.last
-            
+ 
             let fetchedFollowingPosts = filteredDocuments.compactMap { document in
                 try? document.data(as: Post.self)
             }
@@ -206,12 +206,13 @@ class FeedViewModel:Identifiable ,ObservableObject {
             .whereField("created_Time", isGreaterThanOrEqualTo: twoDaysAgoTimestamp)
             .order(by: "created_Time", descending: true)
             .start(afterDocument: lastDocument)
-            .limit(to: 3)
+            .limit(to: 4)
             
         do {
             let documents = try await getDocumentsAsync(collection: db.collection("post"), query: query)
             
             self.lastFollowFetchedDocument = documents.last
+            
             var documentsData = documents.compactMap { document in
                 try? document.data(as: Post.self)
             }
@@ -223,7 +224,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
       
             for documentData in documentsData {
                 setupSnapshotFollowingListener(for: documentData)
-                feedItems.append(documentData)
+                followingPosts.append(documentData)
             }
             
         } catch {

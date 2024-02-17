@@ -60,7 +60,7 @@ struct CommentWriteView: View {
                                     .id(comment.id)
                                     .padding(.horizontal, 10)
                                     .padding(.bottom, 20)
-                                    .id(comment.id)
+                            
                             }
                             .onAppear {
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
@@ -85,7 +85,6 @@ struct CommentWriteView: View {
                     }
                     .padding(.top)
                 }
-                
             }
             
             Divider()

@@ -50,9 +50,7 @@ struct PostView: View {
             .padding(.horizontal)
             
         } //: VSTACK
-        .onDisappear {
-            surfingVM.postingImage = Image(systemName: "photo")
-        }
+        
         
         VStack {
             surfingVM.postingImage
@@ -126,7 +124,7 @@ struct PostView: View {
                 .padding(.trailing)
             } //: HSTACK
             .padding(20)
-                        
+            
             Button {
                 // 게시요청 로직
                 if followVM.selectSurfingID.isEmpty {
@@ -134,18 +132,18 @@ struct PostView: View {
                     showAlert = true
                 } else {
                     if !postLoading {
+                        postLoading = true
                         Task {
                             do {
                                 // 이미지 업로드 시 이전 입력 데이터 초기화
-                                postLoading = true
                                 let uploadedImageUrl = try await updateImageUrl.updateImageUserData(uiImage: surfingVM.postingUIImage,
                                                                                                     storageTypeInput: .post,
                                                                                                     documentid: feedVM.documentID,
-                                                                                                    imageQuality: .highforPost, 
+                                                                                                    imageQuality: .highforPost,
                                                                                                     surfingID: followVM.selectSurfingID)
                                 await surfingVM.postRequest(imageURL: uploadedImageUrl,
                                                             surfingID: followVM.selectSurfingID)
-            
+                                
                                 postOwner = await UpdateUserData.shared.getOthersProfileDatas(id: followVM.selectSurfingID)
                                 
                                 if let post = surfingVM.post?.last {
@@ -175,13 +173,19 @@ struct PostView: View {
                         .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
                         .foregroundStyle(.blueButton)
                     
-                    Text("게시하기")
-                        .font(.system(size: 16))
-                        .fontWeight(.medium)
-                        .foregroundStyle(.white)
+                    if postLoading {
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                            .scaleEffect(1.5)
+                    } else {
+                        Text("게시하기")
+                            .font(.system(size: 16))
+                            .fontWeight(.medium)
+                            .foregroundStyle(.white)
+                    }
                 }
-            } 
-            .alert("서핑할 친구를 선택해주세요", isPresented: $showAlert) {
+            }
+            .alert("서핑할 유저를 선택해주세요", isPresented: $showAlert) {
                 Button("확인", role: .cancel) { }
             }
             .padding(.bottom, 20)

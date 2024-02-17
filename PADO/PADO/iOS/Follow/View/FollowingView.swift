@@ -50,14 +50,14 @@ struct FollowingView: View {
                                         }
                                     }
                                 } else {
-                                    NoItemView(itemName: "아직 팔로잉한 사람이 없어요")
+                                    NoItemView(itemName: "아직 팔로잉한 사람이 없습니다")
                                         .padding(.top, 150)
                                 }
                             }
                             .padding(.bottom)
                         }
                     } else if followVM.viewState == .empty {
-                        Text("검색 결과가 없어요")
+                        Text("검색 결과가 없습니다")
                             .foregroundColor(.gray)
                             .font(.system(size: 16,
                                           weight: .semibold))
