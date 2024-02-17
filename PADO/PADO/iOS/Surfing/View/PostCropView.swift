@@ -29,17 +29,16 @@ struct PostCropView: View {
     var onCrop: (UIImage?, Bool) -> Void
     
     var body: some View {
-        
         imageView()
             .navigationTitle("편집")
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()
             .toolbarBackground(.visible, for: .navigationBar)
-            .toolbarBackground(Color.black, for: .navigationBar)
+            .toolbarBackground(Color.main, for: .navigationBar)
             .toolbarColorScheme(.dark, for: .navigationBar)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background {
-                Color.black
+                Color.main
                     .ignoresSafeArea()
             }
             .toolbar {

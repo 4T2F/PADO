@@ -17,6 +17,7 @@ struct PadoRideView: View {
     var body: some View {
         NavigationStack {
             ZStack {
+                Color.main.ignoresSafeArea()
                 VStack {
                     if !padorideVM.postsData.isEmpty {
                         HStack {
