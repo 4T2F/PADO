@@ -15,29 +15,31 @@ struct NotificationView: View {
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
-        VStack {
-            ScrollView(showsIndicators: false) {
-                HStack {
-                    Spacer()
-                    
-                    Button {
-                        Task {
-                            await notiVM.deleteAllNotifications()
+        NavigationStack {
+            VStack {
+                ScrollView(showsIndicators: false) {
+                    HStack {
+                        Spacer()
+                        
+                        Button {
+                            Task {
+                                await notiVM.deleteAllNotifications()
+                            }
+                        } label: {
+                            Text("알림 전체삭제")
+                                .font(.system(size: 12))
+                                .foregroundStyle(Color(.systemGray))
                         }
-                    } label: {
-                        Text("알림 전체삭제")
-                            .font(.system(size: 12))
-                            .foregroundStyle(Color(.systemGray))
-                    }
-                    .padding(.horizontal, 10)
-                }
-                .frame(width: UIScreen.main.bounds.width)
-                ForEach(notiVM.notifications.filter { !$0.sendUser.isEmpty }) { notification in
-                    NotificationCell(profileVM: profileVM,
-                                     feedVM: feedVM,
-                                     notification: notification)
                         .padding(.horizontal, 10)
-                        .padding(.vertical, 4)
+                    }
+                    .frame(width: UIScreen.main.bounds.width)
+                    ForEach(notiVM.notifications.filter { !$0.sendUser.isEmpty }) { notification in
+                        NotificationCell(profileVM: profileVM,
+                                         feedVM: feedVM,
+                                         notification: notification)
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 8)
+                    }
                 }
             }
         }
