@@ -43,7 +43,7 @@ struct PadoRideNotificationCell: View {
                 
                 VStack(alignment: .leading, spacing: 4) {
                     HStack {
-                        Text("\(notification.sendUser)님이 회원님을 파도탔어요! ")
+                        Text("\(notification.sendUser)님에게 새로운 파도타기가 도착했어요 ")
                             .font(.system(size: 14))
                             .fontWeight(.medium)
                         +
@@ -67,10 +67,11 @@ struct PadoRideNotificationCell: View {
         }
         .sheet(isPresented: $showPost) {
             if let post = sendPost {
-                OnePostModalView(profileVM: profileVM,
-                                 feedVM: feedVM,
-                                 updateHeartData: UpdateHeartData(),
+                OnePostModalView(feedVM: feedVM,
+                                 profileVM: profileVM,
+                                 feedCellType: .following,
                                  post: post)
+                .presentationDragIndicator(.visible)
             }
         }
         .onAppear {
