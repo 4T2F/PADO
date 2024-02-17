@@ -43,6 +43,7 @@
 		4173D5202B7B427F000D197A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4173D51F2B7B427F000D197A /* GoogleService-Info.plist */; };
 		4173D5222B7B4550000D197A /* LoginGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4173D5212B7B4550000D197A /* LoginGuideView.swift */; };
 		417568642B47999E003AA8C0 /* PhoneumberTFFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417568632B47999E003AA8C0 /* PhoneumberTFFormat.swift */; };
+		41787D512B814D9900D48CEA /* PostSelectModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41787D502B814D9900D48CEA /* PostSelectModalView.swift */; };
 		417CD6652B68C3F8001D9EC0 /* UpdateFollowData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417CD6642B68C3F8001D9EC0 /* UpdateFollowData.swift */; };
 		41853B142B6C6DAA004F601D /* RecordSearchCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41853B132B6C6DAA004F601D /* RecordSearchCellView.swift */; };
 		418743212B5C32CF00D93CBE /* CircularImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4187431C2B5C32CF00D93CBE /* CircularImageView.swift */; };
@@ -289,6 +290,7 @@
 		4173D51F2B7B427F000D197A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4173D5212B7B4550000D197A /* LoginGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginGuideView.swift; sourceTree = "<group>"; };
 		417568632B47999E003AA8C0 /* PhoneumberTFFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneumberTFFormat.swift; sourceTree = "<group>"; };
+		41787D502B814D9900D48CEA /* PostSelectModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSelectModalView.swift; sourceTree = "<group>"; };
 		417CD6642B68C3F8001D9EC0 /* UpdateFollowData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateFollowData.swift; sourceTree = "<group>"; };
 		41853B132B6C6DAA004F601D /* RecordSearchCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordSearchCellView.swift; sourceTree = "<group>"; };
 		4187431C2B5C32CF00D93CBE /* CircularImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircularImageView.swift; sourceTree = "<group>"; };
@@ -938,6 +940,7 @@
 				63AA035D2B6A044300431332 /* SNSButton.swift */,
 				419981CE2B7412A700EEA06E /* CustomRefreshView.swift */,
 				64E761C62B7FBC4A00882D29 /* NoItemView.swift */,
+				41787D502B814D9900D48CEA /* PostSelectModalView.swift */,
 			);
 			path = Items;
 			sourceTree = "<group>";
@@ -1574,6 +1577,7 @@
 				41101B3D2B6C28F3002E8C64 /* FollowerOtherUserCellView.swift in Sources */,
 				417568642B47999E003AA8C0 /* PhoneumberTFFormat.swift in Sources */,
 				419D086D2B5FB31C00E61A6F /* AnimatedTitleView.swift in Sources */,
+				41787D512B814D9900D48CEA /* PostSelectModalView.swift in Sources */,
 				63824C4E2B558B5500D1D653 /* CustomTF.swift in Sources */,
 				63C8BA522B5661A500025422 /* NotificationView.swift in Sources */,
 				63AA03612B6A173F00431332 /* ProfileViewModel.swift in Sources */,

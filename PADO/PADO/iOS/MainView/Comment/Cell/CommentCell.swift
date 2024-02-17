@@ -16,7 +16,7 @@ struct CommentCell: View {
     @ObservedObject var commentVM: CommentViewModel
     
     @State var buttonOnOff: Bool = false
-    
+    @State var isShowingReportView: Bool = false
     let post: Post
     let postID: String
     
@@ -32,7 +32,7 @@ struct CommentCell: View {
                     if let imageUrl = user.profileImageUrl {
                         KFImage(URL(string: imageUrl))
                             .fade(duration: 0.5)
-                            .placeholder{
+                            .placeholder {
                                 Image("defaultProfile")
                                     .resizable()
                                     .scaledToFill()
@@ -49,7 +49,7 @@ struct CommentCell: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 38, height: 38)
-                        .padding(.trailing, 6)
+                        .clipShape(Circle())
                 }
                     
             }
@@ -124,12 +124,12 @@ struct CommentCell: View {
         .sheet(isPresented: $commentVM.showselectModal) {
             SelectCommentView(commentVM: commentVM,
                               postID: postID)
-            .presentationDetents([.medium])
+            .presentationDetents([.fraction(0.25)])
             .presentationDragIndicator(.visible)
                 
         }
         .sheet(isPresented: $commentVM.showreportModal) {
-            ReportCommentView(isShowingReportView: $commentVM.showreportModal)
+            ReportCommentView(isShowingReportView: $isShowingReportView)
                 .presentationDetents([.medium])
                 .presentationDragIndicator(.visible)
         }

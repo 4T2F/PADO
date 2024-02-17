@@ -21,29 +21,33 @@ struct ReportUserView: View {
                     Text("신고하기")
                         .font(.system(size: 16))
                         .fontWeight(.semibold)
+                        .padding(.top, 30)
                     
                     Divider()
                         .padding(.bottom, 10)
                     
                     VStack(alignment: .leading) {
-                        VStack(alignment: .leading) {
-                            Text("이 계정을 신고하는 이유가 무엇인가요?")
-                                .font(.system(size: 14))
-                                .fontWeight(.semibold)
-                                .padding(.bottom, 3)
-                            
-                            VStack(alignment: .leading, spacing: 3) {
-                                Text("지식재산권 침해를 신고하는 경우를 제외하고 회원님의 신고는")
-                                
-                                Text("익명으로 처리됩니다.")
-                            }
+                        
+                        Text("이 계정을 신고하는 이유가 무엇인가요?")
+                            .font(.system(size: 14))
+                            .fontWeight(.semibold)
+                            .padding(.bottom, 3)
+                            .padding(.horizontal)
+                        
+                        Text("지식재산권 침해를 신고하는 경우를 제외하고 회원님의 신고는")
+                            .font(.system(size: 12))
+                            .fontWeight(.semibold)
+                            .foregroundStyle(.gray)
+                            .padding(.horizontal)
+                            .lineSpacing(3)
+                        
+                        Text("익명으로 처리됩니다.")
                             .font(.system(size: 12))
                             .fontWeight(.semibold)
                             .foregroundStyle(.gray)
                             .lineSpacing(3)
-                        }
-                        .padding(.bottom)
-                        .padding(.leading)
+                            .padding(.horizontal)
+                            .padding(.bottom)
                         
                         VStack {
                             ForEach(reportArray, id: \.self) { reportReason in
@@ -52,6 +56,7 @@ struct ReportUserView: View {
                             }
                         }
                     }
+                    Spacer()
                 }
             }
             .background(.modal, ignoresSafeAreaEdges: .all)

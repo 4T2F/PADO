@@ -34,7 +34,3 @@ struct ReportSelectCellView: View {
         }
     }
 }
-
-#Preview {
-    ReportSelectCellView(isShowingReportView: .constant(false), text: "신고하기")
-}
