@@ -105,13 +105,13 @@ struct OtherUserProfileView: View {
                             }
                         } else {
                             Button {
-                                isShowingUserReport.toggle()
+                                isShowingUserReport = true
                             } label: {
                                 Image(systemName: "ellipsis")
                             }
                             .sheet(isPresented: $isShowingUserReport) {
                                 ReprotProfileModalView(profileVM: profileVM, user: user)
-                                    .presentationDetents([.fraction(0.33)])
+                                    .presentationDetents([.fraction(0.35)])
                                     .presentationDragIndicator(.visible)
                                     .presentationCornerRadius(30)
                             }
