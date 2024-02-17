@@ -8,59 +8,65 @@
 import SwiftUI
 
 struct DeleteMessageView: View {
+    @Environment (\.dismiss) var dismiss
+    @ObservedObject var postitVM: PostitViewModel
+    
     let messageID: String
     let text: String
+    var width = UIScreen.main.bounds.width
     
-    @ObservedObject var postitVM: PostitViewModel
     var body: some View {
         VStack {
-            Text("방명록 글 삭제")
-                .font(.system(size: 16))
-                .fontWeight(.semibold)
-                .padding(.top, 20)
-            
-            VStack {
-                Text("\(text) 를")
-                    .font(.system(size: 16))
-                    .lineLimit(2)
-                    .padding()
+            VStack(alignment: .center) {
+                VStack(spacing: 10) {
+                    
+                    Text("방명록 글 삭제")
+                        .font(.system(size: 16))
+                        .fontWeight(.semibold)
+                    
+                    Text("작성한 글을 삭제 할까요?")
+                }
+                .foregroundStyle(Color.white)
+                .font(.system(size: 14))
+                .fontWeight(.medium)
+                .padding()
                 
-                Text("삭제 하시겠습니까?")
-                    .font(.system(size: 16))
-                    .padding()
+                Divider()
                 
                 Button {
                     Task {
                         await postitVM.removeMessageData(ownerID: postitVM.ownerID,
-                                                            messageID: messageID)
+                                                         messageID: messageID)
                         postitVM.showdeleteModal = false
                     }
-                   
                 } label: {
                     Text("삭제")
-                        .font(.system(size: 16, weight: .semibold))
-                        .foregroundStyle(.white)
-                        .background(
-                            RoundedRectangle(cornerRadius: 10)
-                                .foregroundStyle(.red)
-                                .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
-                        )
+                        .font(.system(size: 16))
+                        .foregroundStyle(Color.red)
+                        .fontWeight(.semibold)
+                        .frame(width: width * 0.9, height: 40)
                 }
-                .padding()
-                
+                .padding(.bottom, 5)
+            }
+            .frame(width: UIScreen.main.bounds.width * 0.9)
+            .background(Color.modal)
+            .clipShape(.rect(cornerRadius: 22))
+            
+            VStack {
                 Button {
-                    postitVM.showdeleteModal = false
+                    dismiss()
                 } label: {
                     Text("취소")
-                        .background(
-                            RoundedRectangle(cornerRadius: 10)
-                                .foregroundStyle(.grayButton)
-                                .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
-                        )
+                        .font(.system(size: 16))
+                        .foregroundStyle(Color.white)
+                        .fontWeight(.semibold)
+                        .frame(width: width * 0.9, height: 40)
                 }
-                .padding()
             }
+            .frame(width: width * 0.9, height: 50)
+            .background(Color.modal)
+            .clipShape(.rect(cornerRadius: 12))
         }
-        .padding()
+        .background(ClearBackground())
     }
 }
