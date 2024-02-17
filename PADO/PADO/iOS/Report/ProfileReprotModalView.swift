@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ReprotProfileModalView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
+    @Environment (\.dismiss) var dismiss
     @ObservedObject var profileVM: ProfileViewModel
     @State private var isShowingReportView: Bool = false
     
@@ -104,6 +105,24 @@ struct ReprotProfileModalView: View {
                                 .presentationDetents([.medium])
                                 .presentationDragIndicator(.visible)
                         }
+                    }
+                }
+                .padding()
+                .background(.modalCell)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .padding(.vertical, 25)
+                
+                Button {
+                    dismiss()
+                } label: {
+                    HStack {
+                        Spacer()
+                        
+                        Text("취소")
+                            .font(.system(size: 14))
+                            .fontWeight(.bold)
+                         
+                        Spacer()
                     }
                 }
                 .padding()

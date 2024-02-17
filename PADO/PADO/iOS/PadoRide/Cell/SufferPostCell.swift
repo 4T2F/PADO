@@ -33,6 +33,7 @@ struct SufferPostCell: View {
                                 .resizable()
                                 .scaledToFill()
                                 .frame(width: 100, height: 150)
+                                .cornerRadius(12)
                             
                             // 선택된 이미지일 경우 체크마크 표시
                             if padorideVM.selectedImage == post.imageUrl {

@@ -105,7 +105,7 @@ struct OtherUserProfileView: View {
                             }
                         } else {
                             Button {
-                                isShowingUserReport.toggle()
+                                isShowingUserReport = true
                             } label: {
                                 Image(systemName: "ellipsis")
                             }

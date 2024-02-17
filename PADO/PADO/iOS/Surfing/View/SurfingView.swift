@@ -73,7 +73,7 @@ struct SurfingView: View {
                     Spacer()
                     
                     Button {
-                        surfingVM.isShowingPhotoModal.toggle()
+                        surfingVM.isShowingPhotoModal = true
                     } label: {
                         // 이미 선택된 이미지를 표시하는 영역
                         if surfingVM.selectedUIImage != Image(systemName: "photo") {
@@ -90,6 +90,9 @@ struct SurfingView: View {
                                 .frame(maxWidth: .infinity, maxHeight: UIScreen.main.bounds.height * 0.75)
                                 .background(Color.gray)
                         }
+                    }
+                    .onChange(of: surfingVM.selectedUIImage) { oldValue, newValue in
+                        surfingVM.isShowingPhotoModal = false
                     }
                     
                     Spacer()
@@ -115,7 +118,8 @@ struct SurfingView: View {
                     PhotoTypeModal(surfingVM: surfingVM, 
                                    feedVM: feedVM,
                                    profileVM: profileVM)
-                        .presentationDetents([.fraction(0.25)])
+                        .presentationDetents([.fraction(0.3)])
+                        .presentationDragIndicator(.visible)
                     
                 })
                 .navigationDestination(isPresented: $surfingVM.showCropView) {

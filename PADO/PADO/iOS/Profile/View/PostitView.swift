@@ -31,7 +31,6 @@ struct PostitView: View {
                                     .id(message.id)
                                 }
                                 .onAppear {
-                                    
                                     if let lastMessageID = postitVM.messages.last?.id {
                                         withAnimation {
                                             proxy.scrollTo(lastMessageID, anchor: .bottom)
@@ -77,7 +76,7 @@ struct PostitView: View {
                         
                         if !postitVM.inputcomment.isEmpty {
                             Button {
-                                if userNameID.isEmpty{
+                                if userNameID.isEmpty {
                                     isShowingLoginPage = true
                                 } else if !blockPostit(id: postitVM.ownerID) {
                                     Task {
@@ -106,7 +105,7 @@ struct PostitView: View {
                             })
                         } else {
                             Button {
-                                //
+
                             } label: {
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 26)
