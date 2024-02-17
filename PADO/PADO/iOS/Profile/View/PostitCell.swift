@@ -16,18 +16,18 @@ struct PostitCell: View {
     let message: PostitMessage
     
     var body: some View {
-        NavigationLink {
-            if let user = postitVM.messageUsers[message.messageUserID] {
-                OtherUserProfileView(buttonOnOff: $buttonOnOff,
-                                     user: user)
-            }
-        } label: {
             HStack {
                 if message.messageUserID == postitVM.ownerID {
+                    
                     if let user = postitVM.messageUsers[message.messageUserID] {
-                        UrlProfileImageView(imageUrl: user.profileImageUrl ?? "",
-                                            size: .medium,
-                                            defaultImageName: "defaultProfile")
+                        NavigationLink {
+                            OtherUserProfileView(buttonOnOff: $buttonOnOff,
+                                                 user: user)
+                        } label: {
+                            UrlProfileImageView(imageUrl: user.profileImageUrl ?? "",
+                                                size: .medium,
+                                                defaultImageName: "defaultProfile")
+                        }
                         if let messageID = message.id {
                             MessageBubbleView(text: message.content,
                                               isUser: true,
@@ -37,6 +37,7 @@ struct PostitCell: View {
                                               postitVM: postitVM)
                         }
                         Spacer()
+                        
                     }
                 } else {
                     Spacer()
@@ -49,15 +50,20 @@ struct PostitCell: View {
                                           postitVM: postitVM)
                     }
                     if let user = postitVM.messageUsers[message.messageUserID] {
-                        UrlProfileImageView(imageUrl: user.profileImageUrl ?? "",
-                                            size: .medium,
-                                            defaultImageName: "defaultProfile")
+                        NavigationLink {
+                            OtherUserProfileView(buttonOnOff: $buttonOnOff,
+                                                 user: user)
+                        } label: {
+                            UrlProfileImageView(imageUrl: user.profileImageUrl ?? "",
+                                                size: .medium,
+                                                defaultImageName: "defaultProfile")
+                        }
                     }
                 }
             }
             .padding(.horizontal, 10)
             .padding(.vertical, 5)
-        }
+     
         .onAppear {
             self.buttonOnOff = UpdateFollowData.shared.checkFollowingStatus(id: message.messageUserID)
         }

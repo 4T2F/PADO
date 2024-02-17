@@ -22,7 +22,7 @@ struct SurfingView: View {
             if followVM.followingIDs.isEmpty {
                 Spacer()
                 
-                Text("팔로잉한 사람이 없습니다")
+                Text("팔로잉한 사람이 없어요")
                     .font(.system(size: 16, weight: .bold))
                 
                 FeedGuideView(feedVM: feedVM)
@@ -30,6 +30,9 @@ struct SurfingView: View {
                 Spacer()
             } else if followVM.surfingIDs.isEmpty {
                 Spacer()
+                
+                Text("서퍼로 지정해준 사람이 없어요")
+                    .font(.system(size: 16, weight: .bold))
                 
                 SurfingGuideView()
                 

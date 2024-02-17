@@ -148,13 +148,19 @@ struct ContentView: View {
         .onAppear {
             fetchData()
         }
-        .onChange(of: viewModel.needsDataFetch) { _, newValue in
+        .onChange(of: viewModel.needsDataFetch) { _, _ in
             fetchData()
         }
     }
     
     func fetchData() {
-        guard !userNameID.isEmpty else { return }
+        guard !userNameID.isEmpty else {
+            Task {
+                await feedVM.getPopularUser()
+                await feedVM.fetchTodayPadoPosts()
+            }
+            return
+        }
         
         Task {
             viewModel.selectedFilter = .following

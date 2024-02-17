@@ -28,23 +28,30 @@ struct FeedView: View {
                                       scrollDelegate: scrollDelegate) {
                         if authenticationViewModel.selectedFilter == .following {
                             LazyVStack(spacing: 0) {
-                                ForEach(feedVM.followingPosts.indices, id: \.self) { index in
-                                    FeedCell(feedVM: feedVM,
-                                             surfingVM: surfingVM,
-                                             profileVM: profileVM,
-                                             feedCellType: FeedFilter.following,
-                                             post: $feedVM.followingPosts[index],
-                                             index: index)
-                                    .id(index)
-                                    .onAppear {
-                                        if index == feedVM.followingPosts.indices.last {
-                                            Task {
-                                                await feedVM.fetchFollowMorePosts()
+                                if feedVM.followingPosts.isEmpty {
+                                    
+                                    FeedGuideView(feedVM: feedVM)
+                                        .containerRelativeFrame([.horizontal,.vertical])
+                                        
+                                } else {
+                                    ForEach(feedVM.followingPosts.indices, id: \.self) { index in
+                                        FeedCell(feedVM: feedVM,
+                                                 surfingVM: surfingVM,
+                                                 profileVM: profileVM,
+                                                 feedCellType: FeedFilter.following,
+                                                 post: $feedVM.followingPosts[index],
+                                                 index: index)
+                                        .id(index)
+                                        .onAppear {
+                                            if index == feedVM.followingPosts.indices.last {
+                                                Task {
+                                                    await feedVM.fetchFollowMorePosts()
+                                                }
                                             }
                                         }
                                     }
+                                    .scrollTargetLayout()
                                 }
-                                .scrollTargetLayout()
                             }
                         } else {
                             LazyVStack(spacing: 0) {
@@ -61,13 +68,25 @@ struct FeedView: View {
                     } onRefresh: {
                         try? await Task.sleep(nanoseconds: 1_500_000_000)
                         if authenticationViewModel.selectedFilter == FeedFilter.following {
+                            guard !userNameID.isEmpty else {
+                                await feedVM.getPopularUser()
+                                return
+                            }
                             await profileVM.fetchBlockUsers()
                             await followVM.fetchIDs(id: userNameID, collectionType: CollectionType.following)
+                            await followVM.fetchIDs(id: userNameID, collectionType: CollectionType.surfing)
                             await feedVM.fetchFollowingPosts()
+                            await notiVM.fetchNotifications()
+                            await profileVM.fetchPostID(id: userNameID)
                         } else {
                             Task{
+                                await profileVM.fetchBlockUsers()
                                 await feedVM.fetchTodayPadoPosts()
+                                guard !userNameID.isEmpty else { return }
                                 await notiVM.fetchNotifications()
+                                await followVM.fetchIDs(id: userNameID, collectionType: CollectionType.following)
+                                await followVM.fetchIDs(id: userNameID, collectionType: CollectionType.surfing)
+                                await profileVM.fetchPostID(id: userNameID)
                             }
                         }
                     }

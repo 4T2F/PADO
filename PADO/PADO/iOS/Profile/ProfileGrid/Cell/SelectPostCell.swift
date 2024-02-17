@@ -25,8 +25,6 @@ struct SelectPostCell: View {
     @State var postSurferButtonOnOff: Bool = false
     
     @State private var isHeaderVisible: Bool = true
-    @State private var heartCounts: Int = 0
-    @State private var commentCounts: Int = 0
     @State private var isShowingReportView: Bool = false
     @State private var isShowingCommentView: Bool = false
     @State private var isShowingLoginPage: Bool = false
@@ -39,7 +37,6 @@ struct SelectPostCell: View {
     @State private var deleteSendPost: Bool = false
     
     @Binding var post: Post
-    let cellType: PostViewType
     
     var body: some View {
         ZStack {
@@ -164,58 +161,61 @@ struct SelectPostCell: View {
                 
                 HStack(alignment: .bottom) {
                     // MARK: - 아이디 및 타이틀
+                    
                     VStack(alignment: .leading, spacing: 12) {
-                        if !post.title.isEmpty {
-                            Button {
-                                isShowingMoreText.toggle()
-                            } label: {
-                                if isShowingMoreText {
-                                    Text("\(post.title)")
-                                        .multilineTextAlignment(.leading)
-                                } else {
-                                    Text("\(post.title)")
-                                        .lineLimit(1)
-                                }
-                            }
-                            .font(.system(size: 16))
-                            .foregroundStyle(textColor)
-                            .lineSpacing(1)
-                            .fontWeight(.bold)
-                            .padding(.trailing, 20)
-                            
-                            // MARK: - 서퍼
-                            if let surferUser = surferUser {
-                                NavigationLink {
-                                    OtherUserProfileView(buttonOnOff: $postSurferButtonOnOff,
-                                                         user: surferUser)
+                        if feedVM.isHeaderVisible {
+                            if !post.title.isEmpty {
+                                Button {
+                                    isShowingMoreText.toggle()
                                 } label: {
-                                    Text("surf. @\(post.surferUid)")
+                                    if isShowingMoreText {
+                                        Text("\(post.title)")
+                                            .multilineTextAlignment(.leading)
+                                    } else {
+                                        Text("\(post.title)")
+                                            .lineLimit(1)
+                                    }
                                 }
-                                .font(.system(size: 14))
-                                .fontWeight(.heavy)
-                                .foregroundStyle(.white)
-                                .padding(8)
-                                .background(.modal.opacity(0.8))
-                                .clipShape(RoundedRectangle(cornerRadius: 3))
-                                .padding(.bottom, 4)
-                                .padding(.trailing, 24)
-                            }
-                        } else {
-                            if let surferUser = surferUser {
-                                NavigationLink {
-                                    OtherUserProfileView(buttonOnOff: $postSurferButtonOnOff,
-                                                         user: surferUser)
-                                } label: {
-                                    Text("surf. @\(post.surferUid)")
+                                .font(.system(size: 16))
+                                .foregroundStyle(textColor)
+                                .lineSpacing(1)
+                                .fontWeight(.bold)
+                                .padding(.trailing, 20)
+                                
+                                // MARK: - 서퍼
+                                if let surferUser = surferUser {
+                                    NavigationLink {
+                                        OtherUserProfileView(buttonOnOff: $postSurferButtonOnOff,
+                                                             user: surferUser)
+                                    } label: {
+                                        Text("surf. @\(post.surferUid)")
+                                    }
+                                    .font(.system(size: 14))
+                                    .fontWeight(.heavy)
+                                    .foregroundStyle(.white)
+                                    .padding(8)
+                                    .background(.modal.opacity(0.8))
+                                    .clipShape(RoundedRectangle(cornerRadius: 3))
+                                    .padding(.bottom, 4)
+                                    .padding(.trailing, 24)
                                 }
-                                .font(.system(size: 14))
-                                .fontWeight(.heavy)
-                                .foregroundStyle(.white)
-                                .padding(8)
-                                .background(.modal.opacity(0.8))
-                                .clipShape(RoundedRectangle(cornerRadius: 3))
-                                .padding(.bottom, 4)
-                                .padding(.trailing, 24)
+                            } else {
+                                if let surferUser = surferUser {
+                                    NavigationLink {
+                                        OtherUserProfileView(buttonOnOff: $postSurferButtonOnOff,
+                                                             user: surferUser)
+                                    } label: {
+                                        Text("surf. @\(post.surferUid)")
+                                    }
+                                    .font(.system(size: 14))
+                                    .fontWeight(.heavy)
+                                    .foregroundStyle(.white)
+                                    .padding(8)
+                                    .background(.modal.opacity(0.8))
+                                    .clipShape(RoundedRectangle(cornerRadius: 3))
+                                    .padding(.bottom, 4)
+                                    .padding(.trailing, 24)
+                                }
                             }
                         }
                         
@@ -263,7 +263,7 @@ struct SelectPostCell: View {
                                             }
                                         }
                                     }
-                            
+                                    
                                     Image(systemName: "chevron.right")
                                         .font(.system(size: 12))
                                         .foregroundStyle(.white)
@@ -300,6 +300,7 @@ struct SelectPostCell: View {
                                         } else {
                                             // 모든 PadoRide 이미지를 보여준 후, 원래 포스트로 돌아감
                                             feedVM.currentPadoRideIndex = nil
+                                            feedVM.isHeaderVisible = true
                                             feedVM.isShowingPadoRide = false
                                             feedVM.padoRidePosts = []
                                         }
@@ -310,11 +311,13 @@ struct SelectPostCell: View {
                                             Task {
                                                 await feedVM.fetchPadoRides(postID: post.id ?? "")
                                                 if !feedVM.padoRidePosts.isEmpty {
+                                                    feedVM.isHeaderVisible = false
                                                     feedVM.isShowingPadoRide = true
                                                     feedVM.currentPadoRideIndex = 0
                                                 }
                                             }
                                         } else {
+                                            feedVM.isHeaderVisible = true
                                             feedVM.isShowingPadoRide = false
                                             feedVM.currentPadoRideIndex = 0
                                         }
@@ -466,6 +469,55 @@ struct SelectPostCell: View {
                                         Text("")
                                     }
                                 }
+                                .sheet(isPresented: $deleteMyPadoride) {
+                                    PostSelectModalView(title: "해당 파도타기를 삭제하시겠습니까?",
+                                                        onTouchButton: {
+                                        let fileName = feedVM.padoRidePosts[feedVM.currentPadoRideIndex ?? 0].storageFileName
+                                        let subID = feedVM.padoRidePosts[feedVM.currentPadoRideIndex ?? 0].id
+                                        Task {
+                                            try await DeletePost.shared.deletePadoridePost(postID: post.id ?? "",
+                                                                                           storageFileName: fileName,
+                                                                                           subID: subID ?? "")
+                                            deleteMyPadoride = false
+                                        }
+                                    })
+                                    .presentationDetents([.fraction(0.4)])
+                                }
+                                .sheet(isPresented: $deleteSendPadoride) {
+                                    PostSelectModalView(title: "해당 파도타기를 삭제하시겠습니까?") {
+                                        let fileName = feedVM.padoRidePosts[feedVM.currentPadoRideIndex ?? 0].storageFileName
+                                        
+                                        Task {
+                                            try await DeletePost.shared.deletePadoridePost(postID: post.id ?? "",
+                                                                                           storageFileName: fileName,
+                                                                                           subID: userNameID)
+                                            deleteSendPadoride = false
+                                        }
+                                    }
+                                    .presentationDetents([.fraction(0.4)])
+                                }
+                                .sheet(isPresented: $deleteMyPost) {
+                                    PostSelectModalView(title: "해당 파도를 삭제하시겠습니까?") {
+                                        Task {
+                                            await DeletePost.shared.deletePost(postID: post.id ?? "",
+                                                                               postOwnerID: post.ownerUid,
+                                                                               sufferID: post.surferUid)
+                                            deleteMyPost = false
+                                        }
+                                    }
+                                    .presentationDetents([.fraction(0.4)])
+                                }
+                                .sheet(isPresented: $deleteSendPost) {
+                                    PostSelectModalView(title: "해당 파도를 삭제하시겠습니까?") {
+                                        Task {
+                                            await DeletePost.shared.deletePost(postID: post.id ?? "",
+                                                                               postOwnerID: post.ownerUid,
+                                                                               sufferID: post.surferUid)
+                                            deleteSendPost = false
+                                        }
+                                    }
+                                    .presentationDetents([.fraction(0.4)])
+                                }
                                 .sheet(isPresented: $isShowingReportView) {
                                     ReportSelectView(isShowingReportView: $isShowingReportView)
                                         .presentationDetents([.medium, .fraction(0.8)]) // 모달높이 조절
@@ -495,132 +547,8 @@ struct SelectPostCell: View {
                 self.postSurferButtonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: post.surferUid)
             }
         }
-        .popup(isPresented: $deleteSendPadoride) {
-            // 상대방 게시글의 내가 보낸 파도타기를 삭제
-            VStack {
-                Text("해당 파도타기를 삭제하시겠습니까?")
-                    .font(.system(size: 16, weight: .semibold))
-                
-                Button {
-                    let fileName = feedVM.padoRidePosts[feedVM.currentPadoRideIndex ?? 0].storageFileName
-                    
-                    Task {
-                        try await DeletePost.shared.deletePadoridePost(postID: post.id ?? "",
-                                                                       storageFileName: fileName,
-                                                                       subID: userNameID)
-                        deleteSendPadoride = false
-                    }
-                } label: {
-                    Text("삭제")
-                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 40)
-                        .foregroundStyle(.red)
-                        .background(.grayButton)
-                        .cornerRadius(10)
-                }
-                
-                Button {
-                    deleteSendPadoride = false
-                } label: {
-                    Text("취소")
-                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 40)
-                        .background(.grayButton)
-                        .cornerRadius(10)
-                }
-            }
-        } customize: {
-            $0
-                .type(.floater())
-                .position(.bottom)
-                .animation(.spring())
-                .closeOnTapOutside(true)
-                .backgroundColor(.black.opacity(0.5))
-        }
-        .popup(isPresented: $deleteMyPost) {
-            // 내가 받은 파도를 삭제
-            VStack {
-                Text("해당 파도를 삭제하시겠습니까?")
-                    .font(.system(size: 16, weight: .semibold))
-                
-                Button {
-                    Task {
-                        try await DeletePost.shared.deletePost(postID: post.id ?? "",
-                                                               postOwnerID: post.ownerUid,
-                                                               sufferID: post.surferUid)
-                        deleteMyPost = false
-                    }
-                } label: {
-                    Text("삭제")
-                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 40)
-                        .foregroundStyle(.red)
-                        .background(.grayButton)
-                        .cornerRadius(10)
-                }
-                
-                Button {
-                    deleteMyPost = false
-                } label: {
-                    Text("취소")
-                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 40)
-                        .background(.grayButton)
-                        .cornerRadius(10)
-                }
-            }
-        } customize: {
-            $0
-                .type(.floater())
-                .position(.bottom)
-                .animation(.spring())
-                .closeOnTapOutside(true)
-                .backgroundColor(.black.opacity(0.5))
-        }
-        .popup(isPresented: $deleteSendPost) {
-            // 내가 보낸 파도를 삭제
-            VStack {
-                Text("해당 파도를 삭제하시겠습니까?")
-                    .font(.system(size: 16, weight: .semibold))
-                
-                Button {
-                    Task {
-                        try await DeletePost.shared.deletePost(postID: post.id ?? "",
-                                                               postOwnerID: post.ownerUid,
-                                                               sufferID: post.surferUid)
-                        deleteSendPost = false
-                    }
-                } label: {
-                    Text("삭제")
-                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 40)
-                        .foregroundStyle(.red)
-                        .background(.grayButton)
-                        .cornerRadius(10)
-                }
-                
-                Button {
-                    deleteSendPost = false
-                } label: {
-                    Text("취소")
-                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 40)
-                        .background(.grayButton)
-                        .cornerRadius(10)
-                }
-            }
-        } customize: {
-            $0
-                .type(.floater())
-                .position(.bottom)
-                .animation(.spring())
-                .closeOnTapOutside(true)
-                .backgroundColor(.black.opacity(0.5))
-        }
-    }
-    
-    private func descriptionForType(_ type: PostViewType) -> String {
-        switch type {
-        case .receive:
-            return "\(post.surferUid)님에게 받은 파도"
-        case .send:
-            return "\(post.ownerUid)님에게 보낸 파도"
-        case .highlight:
-            return "\(post.ownerUid)님의 파도"
+        .onDisappear{
+            feedVM.isHeaderVisible = true
         }
     }
     

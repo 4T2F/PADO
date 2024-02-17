@@ -195,8 +195,9 @@ struct OnePostModalView: View {
                     
                     HStack(alignment: .bottom) {
                         // MARK: - 아이디 및 타이틀
-                        if feedVM.isHeaderVisible {
-                            VStack(alignment: .leading, spacing: 12) {
+                        
+                        VStack(alignment: .leading, spacing: 12) {
+                            if feedVM.isHeaderVisible {
                                 if !post.title.isEmpty {
                                     Button {
                                         isShowingMoreText.toggle()
@@ -254,64 +255,8 @@ struct OnePostModalView: View {
                                         .padding(.trailing, 24)
                                     }
                                 }
-                                
-                                HStack(spacing: 12) {
-                                    NavigationLink {
-                                        if let postUser = postUser {
-                                            OtherUserProfileView(buttonOnOff: $postOwnerButtonOnOff,
-                                                                 user: postUser)
-                                        }
-                                    } label: {
-                                        if let postUser = postUser {
-                                            CircularImageView(size: .small,
-                                                              user: postUser)
-                                        }
-                                    }
-                                    NavigationLink {
-                                        if let postUser = postUser {
-                                            OtherUserProfileView(buttonOnOff: $postOwnerButtonOnOff,
-                                                                 user: postUser)
-                                        }
-                                    } label: {
-                                        HStack {
-                                            if let user = postUser {
-                                                if !user.username.isEmpty {
-                                                    VStack(alignment: .leading, spacing: 4) {
-                                                        Text("\(user.username)님의 프로필")
-                                                            .font(.system(size: 12))
-                                                            .fontWeight(.medium)
-                                                        
-                                                        Text("@\(post.ownerUid)")
-                                                            .font(.system(size: 10))
-                                                            .fontWeight(.medium)
-                                                            .foregroundStyle(.gray)
-                                                    }
-                                                } else {
-                                                    VStack(alignment: .leading, spacing: 4) {
-                                                        Text("\(post.ownerUid)님의 프로필")
-                                                            .font(.system(size: 12))
-                                                            .fontWeight(.medium)
-                                                        
-                                                        Text("@\(post.ownerUid)")
-                                                            .font(.system(size: 10))
-                                                            .fontWeight(.medium)
-                                                            .foregroundStyle(.gray)
-                                                    }
-                                                }
-                                            }
-                                            Image(systemName: "chevron.right")
-                                                .font(.system(size: 12))
-                                                .foregroundStyle(.white)
-                                                .padding(.leading, 90)
-                                        }
-                                        .padding(10)
-                                        .background(Color(.systemGray4).opacity(0.5))
-                                        .clipShape(RoundedRectangle(cornerRadius: 4))
-                                    }
-                                }
                             }
-                            .foregroundStyle(.white)
-                        } else {
+                            
                             HStack(spacing: 12) {
                                 NavigationLink {
                                     if let postUser = postUser {
@@ -368,6 +313,7 @@ struct OnePostModalView: View {
                             }
                             .foregroundStyle(.white)
                         }
+                        
                         
                         Spacer()
                         
@@ -564,6 +510,55 @@ struct OnePostModalView: View {
                                             Text("")
                                         }
                                     }
+                                    .sheet(isPresented: $deleteMyPadoride) {
+                                        PostSelectModalView(title: "해당 파도타기를 삭제하시겠습니까?",
+                                                            onTouchButton: {
+                                            let fileName = feedVM.padoRidePosts[feedVM.currentPadoRideIndex ?? 0].storageFileName
+                                            let subID = feedVM.padoRidePosts[feedVM.currentPadoRideIndex ?? 0].id
+                                            Task {
+                                                try await DeletePost.shared.deletePadoridePost(postID: post.id ?? "",
+                                                                                               storageFileName: fileName,
+                                                                                               subID: subID ?? "")
+                                                deleteMyPadoride = false
+                                            }
+                                        })
+                                        .presentationDetents([.fraction(0.4)])
+                                    }
+                                    .sheet(isPresented: $deleteSendPadoride) {
+                                        PostSelectModalView(title: "해당 파도타기를 삭제하시겠습니까?") {
+                                            let fileName = feedVM.padoRidePosts[feedVM.currentPadoRideIndex ?? 0].storageFileName
+                                            
+                                            Task {
+                                                try await DeletePost.shared.deletePadoridePost(postID: post.id ?? "",
+                                                                                               storageFileName: fileName,
+                                                                                               subID: userNameID)
+                                                deleteSendPadoride = false
+                                            }
+                                        }
+                                        .presentationDetents([.fraction(0.4)])
+                                    }
+                                    .sheet(isPresented: $deleteMyPost) {
+                                        PostSelectModalView(title: "해당 파도를 삭제하시겠습니까?") {
+                                            Task {
+                                                await DeletePost.shared.deletePost(postID: post.id ?? "",
+                                                                                   postOwnerID: post.ownerUid,
+                                                                                   sufferID: post.surferUid)
+                                                deleteMyPost = false
+                                            }
+                                        }
+                                        .presentationDetents([.fraction(0.4)])
+                                    }
+                                    .sheet(isPresented: $deleteSendPost) {
+                                        PostSelectModalView(title: "해당 파도를 삭제하시겠습니까?") {
+                                            Task {
+                                                await DeletePost.shared.deletePost(postID: post.id ?? "",
+                                                                                   postOwnerID: post.ownerUid,
+                                                                                   sufferID: post.surferUid)
+                                                deleteSendPost = false
+                                            }
+                                        }
+                                        .presentationDetents([.fraction(0.4)])
+                                    }
                                     .sheet(isPresented: $isShowingReportView) {
                                         ReportSelectView(isShowingReportView: $isShowingReportView)
                                             .presentationDetents([.medium, .fraction(0.8)]) // 모달높이 조절
@@ -594,164 +589,9 @@ struct OnePostModalView: View {
                 }
             }
         }
-        .popup(isPresented: $deleteMyPadoride) {
-            // 내가 받은 게시글의 파도타기를 삭제
-            VStack {
-                Text("해당 파도타기를 삭제하시겠습니까?")
-                    .font(.system(size: 16, weight: .semibold))
-                
-                Button {
-                    let fileName = feedVM.padoRidePosts[feedVM.currentPadoRideIndex ?? 0].storageFileName
-                    let subID = feedVM.padoRidePosts[feedVM.currentPadoRideIndex ?? 0].id
-                    
-                    Task {
-                        try await DeletePost.shared.deletePadoridePost(postID: post.id ?? "",
-                                                                       storageFileName: fileName,
-                                                                       subID: subID ?? "")
-                        deleteMyPadoride = false
-                    }
-                } label: {
-                    Text("삭제")
-                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 40)
-                        .foregroundStyle(.red)
-                        .background(.grayButton)
-                }
-                
-                Button {
-                    deleteMyPadoride = false
-                } label: {
-                    Text("취소")
-                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 40)
-                        .foregroundStyle(.red)
-                        .background(.grayButton)
-                        .cornerRadius(10)
-                }
-            }
-        } customize: {
-            $0
-                .type(.floater())
-                .position(.bottom)
-                .animation(.spring())
-                .closeOnTapOutside(true)
-                .backgroundColor(.black.opacity(0.5))
+        .onDisappear {
+            feedVM.isHeaderVisible = true
         }
-        .popup(isPresented: $deleteSendPadoride) {
-            // 상대방 게시글의 내가 보낸 파도타기를 삭제
-            VStack {
-                Text("해당 파도타기를 삭제하시겠습니까?")
-                    .font(.system(size: 16, weight: .semibold))
-                
-                Button {
-                    let fileName = feedVM.padoRidePosts[feedVM.currentPadoRideIndex ?? 0].storageFileName
-                    
-                    Task {
-                        try await DeletePost.shared.deletePadoridePost(postID: post.id ?? "",
-                                                                       storageFileName: fileName,
-                                                                       subID: userNameID)
-                        deleteSendPadoride = false
-                    }
-                } label: {
-                    Text("삭제")
-                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 40)
-                        .foregroundStyle(.red)
-                        .background(.grayButton)
-                        .cornerRadius(10)
-                }
-                
-                Button {
-                    deleteSendPadoride = false
-                } label: {
-                    Text("취소")
-                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 40)
-                        .background(.grayButton)
-                        .cornerRadius(10)
-                }
-            }
-        } customize: {
-            $0
-                .type(.floater())
-                .position(.bottom)
-                .animation(.spring())
-                .closeOnTapOutside(true)
-                .backgroundColor(.black.opacity(0.5))
-        }
-        .popup(isPresented: $deleteMyPost) {
-            // 내가 받은 파도를 삭제
-            VStack {
-                Text("해당 파도를 삭제하시겠습니까?")
-                    .font(.system(size: 16, weight: .semibold))
-                
-                Button {
-                    Task {
-                        try await DeletePost.shared.deletePost(postID: post.id ?? "",
-                                                               postOwnerID: post.ownerUid,
-                                                               sufferID: post.surferUid)
-                        deleteMyPost = false
-                    }
-                } label: {
-                    Text("삭제")
-                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 40)
-                        .foregroundStyle(.red)
-                        .background(.grayButton)
-                        .cornerRadius(10)
-                }
-                
-                Button {
-                    deleteMyPost = false
-                } label: {
-                    Text("취소")
-                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 40)
-                        .background(.grayButton)
-                        .cornerRadius(10)
-                }
-            }
-        } customize: {
-            $0
-                .type(.floater())
-                .position(.bottom)
-                .animation(.spring())
-                .closeOnTapOutside(true)
-                .backgroundColor(.black.opacity(0.5))
-        }
-        .popup(isPresented: $deleteSendPost) {
-            // 내가 보낸 파도를 삭제
-            VStack {
-                Text("해당 파도를 삭제하시겠습니까?")
-                    .font(.system(size: 16, weight: .semibold))
-                
-                Button {
-                    Task {
-                        try await DeletePost.shared.deletePost(postID: post.id ?? "",
-                                                               postOwnerID: post.ownerUid,
-                                                               sufferID: post.surferUid)
-                        deleteSendPost = false
-                    }
-                } label: {
-                    Text("삭제")
-                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 40)
-                        .foregroundStyle(.red)
-                        .background(.grayButton)
-                        .cornerRadius(10)
-                }
-                
-                Button {
-                    deleteSendPost = false
-                } label: {
-                    Text("취소")
-                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 40)
-                        .background(.grayButton)
-                        .cornerRadius(10)
-                }
-            }
-        } customize: {
-            $0
-                .type(.floater())
-                .position(.bottom)
-                .animation(.spring())
-                .closeOnTapOutside(true)
-                .backgroundColor(.black.opacity(0.5))
-        }
-
     }
     
     func fetchPostData(post: Post) async {

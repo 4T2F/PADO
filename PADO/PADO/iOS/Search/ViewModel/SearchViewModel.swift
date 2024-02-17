@@ -74,7 +74,10 @@ class SearchViewModel: ObservableObject, Searchable {
             // 두 결과의 합집합을 구하고 중복 제거
             let combinedResults = Array(Set(nameIDUsers + usernameUsers))
 
-            self.searchResults =  filterBlockedUser(userResults: combinedResults)
+            self.searchResults = combinedResults
+
+            self.searchResults = filterBlockedUser(userResults: self.searchResults)
+
             viewState = searchResults.isEmpty ? .empty : .ready
         } catch {
             print("Error getting documents: \(error)")
@@ -101,7 +104,7 @@ class SearchViewModel: ObservableObject, Searchable {
     }
     
     func clearSearchData() {
-        searchDatas = []
+        searchDatas.removeAll()
         UserDefaults.standard.set([], forKey: "searchData")
     }
 }
