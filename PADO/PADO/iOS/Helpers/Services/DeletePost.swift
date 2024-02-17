@@ -16,8 +16,14 @@ class DeletePost {
     let db = Firestore.firestore()
     let storageRef = Storage.storage().reference()
     
-    func deletePost(postID: String) {
+    func deletePost(postID: String, postOwnerID: String, sufferID: String) async throws {
+        try await db.collection("post").document(postID).delete()
+        try await db.collection("users").document(postOwnerID).collection("mypost").document(postID).delete()
+        //postOwnerID 는 오너 아이디가 들어감
+        try await db.collection("users").document(sufferID).collection("sendpost").document(postID).delete()
         
+        let imageRef = storageRef.child("post")
+        try await imageRef.child(postID).delete()
     }
     
     func deletePadoridePost(postID: String, storageFileName: String, subID: String) async throws {
