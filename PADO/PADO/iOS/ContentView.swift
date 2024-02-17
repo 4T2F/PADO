@@ -131,15 +131,17 @@ struct ContentView: View {
             if let user = pushUser {
                 NavigationStack {
                     OtherUserProfileView(buttonOnOff: .constant(true), user: user)
+                        .presentationDragIndicator(.visible)
                 }
             }
         }
         .sheet(isPresented: $showPushPost) {
             if let post = pushPost {
-                OnePostModalView(profileVM: profileVM,
-                                 feedVM: feedVM,
-                                 updateHeartData: updateHeartData,
+                OnePostModalView(feedVM: feedVM,
+                                 profileVM: profileVM,
+                                 feedCellType: .following,
                                  post: post)
+                .presentationDragIndicator(.visible)
             }
         }
         .tint(.white)

@@ -61,10 +61,11 @@ struct HeartNotificationCell: View {
         }
         .sheet(isPresented: $showPost) {
             if let post = sendPost {
-                OnePostModalView(profileVM: profileVM,
-                                 feedVM: feedVM,
-                                 updateHeartData: UpdateHeartData(),
+                OnePostModalView(feedVM: feedVM,
+                                 profileVM: profileVM,
+                                 feedCellType: .following,
                                  post: post)
+                .presentationDragIndicator(.visible)
             }
         }
         .onAppear {
