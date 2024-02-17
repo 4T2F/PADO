@@ -47,6 +47,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
     @Published var padoRidePosts: [PadoRide] = []
     @Published var currentPadoRideIndex: Int? = nil
     @Published var isShowingPadoRide: Bool = false
+    @Published var checkPadoRide: [PadoRide] = []
     
     
     func getPopularUser() async {
@@ -284,6 +285,23 @@ class FeedViewModel:Identifiable ,ObservableObject {
         do {
             let snapshot = try await padoRideCollection.getDocuments()
             self.padoRidePosts = snapshot.documents.compactMap { document in
+                try? document.data(as: PadoRide.self)
+            }
+        } catch {
+            print("PadoRides 가져오기 오류: \(error.localizedDescription)")
+        }
+    }
+    
+    // 파도타기 게시글의 유무 확인
+    func checkForPadorides(postID: String) async {
+        checkPadoRide.removeAll()
+        
+        let postRef = db.collection("post").document(postID)
+        let padoRideCollection = postRef.collection("padoride")
+        
+        do {
+            let snapshot = try await padoRideCollection.getDocuments()
+            self.checkPadoRide = snapshot.documents.compactMap { document in
                 try? document.data(as: PadoRide.self)
             }
         } catch {
