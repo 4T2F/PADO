@@ -56,11 +56,11 @@ struct FollowerView: View {
                                                                      cellUserId: surferId,
                                                                      followerType: FollowerModalType.surfer,
                                                                      sufferset: .removesuffer)
-                                                    .padding(.vertical)
+                                                .padding(.vertical)
                                             } else {
                                                 FollowerOtherUserCellView(followVM: followVM,
                                                                           cellUserId: surferId)
-                                                    .padding(.vertical)
+                                                .padding(.vertical)
                                             }
                                         }
                                     }
@@ -81,19 +81,24 @@ struct FollowerView: View {
                                 } //: HSTACK
                                 .padding(.leading)
                                 
-                                LazyVStack(spacing: 8) {
-                                    ForEach(followVM.followerIDs, id: \.self) { followerId in
-                                        if user.nameID == userNameID {
-                                            FollowerUserCellView(followVM: followVM,
-                                                                 cellUserId: followerId,
-                                                                 followerType: FollowerModalType.follower,
-                                                                 sufferset: .setsuffer)
+                                if !followVM.followerIDs.isEmpty {
+                                    LazyVStack(spacing: 8) {
+                                        ForEach(followVM.followerIDs, id: \.self) { followerId in
+                                            if user.nameID == userNameID {
+                                                FollowerUserCellView(followVM: followVM,
+                                                                     cellUserId: followerId,
+                                                                     followerType: FollowerModalType.follower,
+                                                                     sufferset: .setsuffer)
                                                 .padding(.vertical)
-                                        } else {
-                                            FollowerOtherUserCellView(followVM: followVM, cellUserId: followerId)
-                                                .padding(.vertical)
+                                            } else {
+                                                FollowerOtherUserCellView(followVM: followVM, cellUserId: followerId)
+                                                    .padding(.vertical)
+                                            }
                                         }
                                     }
+                                } else {
+                                    NoItemView(itemName: "아직 팔로워가 없어요")
+                                        .padding(.top, 150)
                                 }
                             } //: SCROLL
                         }
@@ -123,7 +128,7 @@ struct FollowerView: View {
                                                                      cellUserId: surferId,
                                                                      followerType: FollowerModalType.surfer,
                                                                      sufferset: .removesuffer)
-                                                    .padding(.vertical)
+                                                .padding(.vertical)
                                             } else {
                                                 FollowerOtherUserCellView(followVM: followVM, cellUserId: surferId)
                                                     .padding(.vertical)
@@ -153,8 +158,8 @@ struct FollowerView: View {
                                             FollowerUserCellView(followVM: followVM,
                                                                  cellUserId: followerId,
                                                                  followerType: FollowerModalType.follower,
-                                                               sufferset: .setsuffer)
-                                                .padding(.vertical)
+                                                                 sufferset: .setsuffer)
+                                            .padding(.vertical)
                                         } else {
                                             FollowerOtherUserCellView(followVM: followVM, cellUserId: followerId)
                                                 .padding(.vertical)

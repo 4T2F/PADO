@@ -1,36 +1,32 @@
 //
-//  LoginView.swift
+//  NotificationView.swift
 //  PADO
 //
-//  Created by 최동호 on 1/21/24.
+//  Created by 강치우 on 1/16/24.
 //
 
 import SwiftUI
 
-enum LoginStep {
-    case phoneNumber
-    case code
-}
-
-struct LoginView: View {
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+struct NotificationView: View {
+    @ObservedObject var notiVM: NotificationViewModel
     @Environment(\.dismiss) var dismiss
-    @State var currentStep: LoginStep = .phoneNumber
     
     var body: some View {
-        
-        ZStack {
-            switch currentStep {
-            case .phoneNumber:
-                LoginPhoneNumberView(currentStep: $currentStep)
-            case .code:
-                LoginCodeView(currentStep: $currentStep,
-                         dismissAction: { dismiss() })
+        VStack {
+            VStack {
+                ScrollView(showsIndicators: false) {
+                    // 나중에 ForEach로 만들어야함(?) -> 이뤄드림
+                    ForEach(notiVM.notifications) { notification in
+                        NotificationCell(notification: notification)
+                            .padding(.horizontal, 10)
+                            .padding(.vertical, 4)
+                    }
+                }
             }
         }
         .background(.main, ignoresSafeAreaEdges: .all)
         .navigationBarBackButtonHidden()
-        .navigationTitle("PADO")
+        .navigationTitle("알림")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
@@ -46,23 +42,16 @@ struct LoginView: View {
                             .font(.system(size: 16))
                             .fontWeight(.medium)
                     }
-                    .foregroundStyle(.white)
                 }
             }
         }
         .toolbarBackground(Color(.main), for: .navigationBar)
-    }
-    
-    func handleBackButton() {
-        switch currentStep {
-        case .phoneNumber:
-            dismiss()
-            viewModel.phoneNumber = ""
-        case .code:
-            currentStep = .phoneNumber
-            viewModel.phoneNumber = ""
-            viewModel.otpText = ""
-
+        .onAppear {
+            Task {
+                await notiVM.fetchNotifications()
+                await notiVM.markNotificationsAsRead()
+            }
         }
     }
 }
+

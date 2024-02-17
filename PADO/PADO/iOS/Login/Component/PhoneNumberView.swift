@@ -12,8 +12,9 @@ struct PhoneNumberView: View {
     var tfFormat = PhoneumberTFFormat()
     
     @State var buttonActive: Bool = false
+    @Binding var loginSignUpType: LoginSignUpType
     @Binding var currentStep: SignUpStep
-
+    
     @EnvironmentObject var viewModel: AuthenticationViewModel
     @Environment(\.dismiss) var dismiss
     
@@ -36,7 +37,9 @@ struct PhoneNumberView: View {
                         .tint(.white)
                         .keyboardType(.numberPad)
                     
-                    Text("Thank you for Signing up the PADO")
+                    Text(loginSignUpType == .signUp ?
+                         "Thank you for Signing up the PADO" :
+                        "Welcome back to PADO")
                         .font(.system(size: 14))
                         .fontWeight(.semibold)
                 }

@@ -30,6 +30,7 @@ class PostitViewModel: ObservableObject {
             self.messages = querySnapshot.documents.compactMap { document in
                 try? document.data(as: PostitMessage.self)
             }
+            self.messages = filterBlockedMessages(messages: self.messages)
             self.messageUserIDs = removeDuplicateUserIDs(from: messages)
             await fetchMessageUser()
         } catch {
@@ -39,7 +40,6 @@ class PostitViewModel: ObservableObject {
     
     @MainActor
     func writeMessage(ownerID: String, imageUrl: String, inputcomment: String) async {
-        
         let initialMessageData : [String: Any] = [
             "messageUserID": userNameID,
             "imageUrl": imageUrl,
@@ -81,7 +81,9 @@ class PostitViewModel: ObservableObject {
     func removeDuplicateUserIDs(from messages: [PostitMessage]) -> [String] {
         let userIDs = messages.map { $0.messageUserID }
         var uniqueUserIDs = Set(userIDs)
-        uniqueUserIDs.insert(userNameID)
+        if !userNameID.isEmpty {
+            uniqueUserIDs.insert(userNameID)
+        }
         return Array(uniqueUserIDs)
     }
     
@@ -96,6 +98,16 @@ class PostitViewModel: ObservableObject {
             }
         } catch {
             print("Error fetch User: \(error.localizedDescription)")
+        }
+    }
+}
+
+extension PostitViewModel {
+    private func filterBlockedMessages(messages: [PostitMessage]) -> [PostitMessage] {
+        let blockedUserIDs = Set(blockingUser.map { $0.blockUserID } + blockedUser.map { $0.blockUserID })
+        
+        return messages.filter { message in
+            !blockedUserIDs.contains(message.messageUserID)
         }
     }
 }

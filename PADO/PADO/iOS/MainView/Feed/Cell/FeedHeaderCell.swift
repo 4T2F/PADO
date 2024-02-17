@@ -26,7 +26,6 @@ enum FeedFilter: Int, CaseIterable, Identifiable {
 
 struct FeedHeaderCell: View {
     // MARK: - PROPERTY
-    @Binding var selectedFilter: FeedFilter
     @Namespace var animation
     
     @EnvironmentObject var viewModel: AuthenticationViewModel
@@ -47,10 +46,10 @@ struct FeedHeaderCell: View {
                         VStack(spacing: 4) {
                             Text(filter.title)
                                 .font(.system(size: 18))
-                                .fontWeight(selectedFilter == filter ? .semibold : .medium)
-                                .foregroundStyle(selectedFilter == filter ? .white : .white.opacity(0.6))
+                                .fontWeight(viewModel.selectedFilter == filter ? .semibold : .medium)
+                                .foregroundStyle(viewModel.selectedFilter == filter ? .white : .white.opacity(0.6))
                             
-                            if selectedFilter == filter {
+                            if viewModel.selectedFilter == filter {
                                 RoundedRectangle(cornerRadius: 8)
                                     .foregroundStyle(.white)
                                     .frame(width: filterBarWidth, height: 1.5)
@@ -63,7 +62,7 @@ struct FeedHeaderCell: View {
                         } //: VSTACK
                         .onTapGesture {
                             withAnimation(.spring()) {
-                                selectedFilter = filter
+                                viewModel.selectedFilter = filter
                             }
                         }
                     } //: LOOP
@@ -73,8 +72,14 @@ struct FeedHeaderCell: View {
             
             Spacer()
             
-            NavigationLink(destination: NotificationView(notiVM: notiVM)) {
-                Image(notiVM.hasNewNotifications ? "Bell_pin_light" : "Bell_light") // 조건부 아이콘 변경
+            if !userNameID.isEmpty {
+                NavigationLink(destination: NotificationView(notiVM: notiVM)) {
+                    Image(notiVM.hasNewNotifications ? "Bell_pin_light" : "Bell_light") // 조건부 아이콘 변경
+                }
+            } else {
+               Image("Bell_light")
+                    .foregroundStyle(.clear)
+                    .opacity(0)
             }
         }
         .padding(.horizontal)

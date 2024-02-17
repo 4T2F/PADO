@@ -12,8 +12,9 @@ struct FaceMojiView: View {
     @StateObject var surfingVM = SurfingViewModel()
     
     @Binding var postOwner: User
+    @Binding var post: Post
     
-    let post: Post
+    @State private var isShowingLoginPage: Bool = false
     let postID: String
     
     var body: some View {
@@ -31,7 +32,11 @@ struct FaceMojiView: View {
                             }
                     }
                     Button {
-                        surfingVM.isShowingFaceMojiModal = true
+                        if !userNameID.isEmpty {
+                            surfingVM.isShowingFaceMojiModal = true
+                        } else {
+                            isShowingLoginPage = true
+                        }
                     } label: {
                         VStack {
                             Image("face.dashed")
@@ -62,6 +67,10 @@ struct FaceMojiView: View {
                                          mysourceType: $surfingVM.sourceType,
                                          mycameraDevice: $surfingVM.cameraDevice)
                     }
+                    .sheet(isPresented: $isShowingLoginPage, content: {
+                        StartView()
+                            .presentationDragIndicator(.visible)
+                    })
                     .onChange(of: surfingVM.faceMojiUIImage) { _, _ in
                         surfingVM.isShowingFaceMojiModal = false
                         commentVM.faceMojiUIImage = surfingVM.faceMojiUIImage
@@ -70,7 +79,9 @@ struct FaceMojiView: View {
                     .navigationDestination(isPresented: $commentVM.showCropFaceMoji) {
                         FaceMojiCropView(commentVM: commentVM,
                                          postOwner: $postOwner,
-                                         postID: postID) { croppedImage, status in
+                                         post: $post,
+                                         postID: postID)
+                        { croppedImage, status in
                             if let croppedImage {
                                 commentVM.cropMojiUIImage = croppedImage
                             }

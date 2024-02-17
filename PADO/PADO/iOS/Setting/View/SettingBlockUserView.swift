@@ -1,33 +1,33 @@
 //
-//  NotificationView.swift
+//  SettingBlockUser.swift
 //  PADO
 //
-//  Created by 강치우 on 1/16/24.
+//  Created by 강치우 on 2/16/24.
 //
 
 import SwiftUI
 
-struct NotificationView: View {
-    @ObservedObject var notiVM: NotificationViewModel
+struct SettingBlockUserView: View {
+    @ObservedObject var profileVM: ProfileViewModel
+    
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
-        VStack {
-            VStack {
-                ScrollView(showsIndicators: false) {
-                    // 나중에 ForEach로 만들어야함(?) -> 이뤄드림
-                    ForEach(notiVM.notifications) { notification in
-                        NotificationCell(notification: notification)
-                            .padding(.horizontal, 10)
-                            .padding(.vertical, 4)
-                    }
-                    .padding(.top)
-                }
+        ScrollView(showsIndicators: false) {
+            ForEach(blockingUser) { user in
+                Text(user.blockUserID)
+                        .foregroundStyle(.white)
+                        .font(.system(size: 14))
+            }
+        }
+        .onAppear {
+            Task {
+                await profileVM.fetchBlockUsers()
             }
         }
         .background(.main, ignoresSafeAreaEdges: .all)
         .navigationBarBackButtonHidden()
-        .navigationTitle("문의하기")
+        .navigationTitle("차단 목록")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
@@ -47,12 +47,5 @@ struct NotificationView: View {
             }
         }
         .toolbarBackground(Color(.main), for: .navigationBar)
-        .onAppear {
-            Task {
-                await notiVM.fetchNotifications()
-                await notiVM.markNotificationsAsRead()
-            }
-        }
     }
 }
-

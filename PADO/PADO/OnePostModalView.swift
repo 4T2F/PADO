@@ -1,42 +1,36 @@
 //
-//  FeedCell.swift
+//  OnePostModalView.swift
 //  PADO
 //
-//  Created by 최동호, 황민채 on 2/6/24.
+//  Created by 황민채 on 2/15/24.
 //
 
 import Firebase
 import FirebaseFirestoreSwift
 import Kingfisher
 import Lottie
-import PopupView
 import SwiftUI
 
-struct FeedCell: View {
+struct OnePostModalView: View {
+    @ObservedObject var profileVM: ProfileViewModel
+    @ObservedObject var feedVM: FeedViewModel
+    
     @State var heartLoading: Bool = false
-    @State var isLoading: Bool = false
     @State var isHeartCheck: Bool = false
+    
     @State var postUser: User? = nil
     @State var surferUser: User? = nil
     @State var postOwnerButtonOnOff: Bool = false
     @State var postSurferButtonOnOff: Bool = false
     
+    @State private var isHeaderVisible: Bool = true
+    @State private var heartCounts: Int = 0
+    @State private var commentCounts: Int = 0
     @State private var isShowingReportView: Bool = false
     @State private var isShowingCommentView: Bool = false
-    @State private var isShowingLoginPage: Bool = false
     
-    @State private var deleteMyPadoride: Bool = false
-    @State private var deleteSendPadoride: Bool = false
-    @State private var deleteMyPost: Bool = false
-    @State private var deleteSendPost: Bool = false
-    
-    @ObservedObject var feedVM: FeedViewModel
-    @ObservedObject var surfingVM: SurfingViewModel
-    @ObservedObject var profileVM: ProfileViewModel
-    
-    let feedCellType: FeedFilter
-    @Binding var post: Post
-    var index: Int
+    let updateHeartData: UpdateHeartData
+    let post: Post
     
     var body: some View {
         ZStack {
@@ -50,28 +44,8 @@ struct FeedCell: View {
                             ZStack {
                                 KFImage.url(imageUrl)
                                     .resizable()
-                                    .onSuccess { _ in
-                                        // 이미지 로딩 성공 시
-                                        isLoading = false
-                                    }
-                                    .onFailure { _ in
-                                        // 이미지 로딩 실패 시
-                                        isLoading = false
-                                    }
-                                    .onProgress { receivedSize, totalSize in
-                                        // 로딩 중
-                                        isLoading = true
-                                    }
                                     .scaledToFill()
                                     .containerRelativeFrame([.horizontal,.vertical])
-                            }
-                            .overlay {
-                                if feedCellType == .today && index == 0 {
-                                    LottieView(animation: .named("pokjuk2"))
-                                        .resizable()
-                                        .playing()
-                                        .offset(y: -20)
-                                }
                             }
                             .overlay {
                                 if feedVM.isHeaderVisible {
@@ -107,15 +81,9 @@ struct FeedCell: View {
                                     .ignoresSafeArea()
                                 }
                             }
-                            
-                            if isLoading { // feedVM에서 로딩 상태를 관리한다고 가정
-                                ProgressView()
-                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            }
                         }
                     }
-            } else if let currentIndex = feedVM.currentPadoRideIndex,
-                      feedVM.padoRidePosts.indices.contains(currentIndex) {
+            } else if let currentIndex = feedVM.currentPadoRideIndex, feedVM.padoRidePosts.indices.contains(currentIndex) {
                 // PadoRide 이미지 표시
                 let padoRide = feedVM.padoRidePosts[currentIndex]
                 
@@ -129,18 +97,6 @@ struct FeedCell: View {
                             ZStack {
                                 KFImage.url(imageUrl)
                                     .resizable()
-                                    .onSuccess { _ in
-                                        // 이미지 로딩 성공 시
-                                        isLoading = false
-                                    }
-                                    .onFailure { _ in
-                                        // 이미지 로딩 실패 시
-                                        isLoading = false
-                                    }
-                                    .onProgress { receivedSize, totalSize in
-                                        // 로딩 중
-                                        isLoading = true
-                                    }
                                     .frame(width: UIScreen.main.bounds.width * 0.8, height: UIScreen.main.bounds.height * 0.65)
                                     .cornerRadius(15)
                                     .scaledToFit()
@@ -177,11 +133,6 @@ struct FeedCell: View {
                                     .ignoresSafeArea()
                                 }
                             }
-                            
-                            if isLoading { // feedVM에서 로딩 상태를 관리한다고 가정
-                                ProgressView()
-                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            }
                         }
                     }
                 
@@ -201,8 +152,8 @@ struct FeedCell: View {
                 Spacer()
                 
                 HStack(alignment: .bottom) {
-                    // MARK: - 아이디 및 타이틀
-                    VStack(alignment: .leading, spacing: 8) {
+                    
+                    VStack(alignment: .leading, spacing: 4) {
                         NavigationLink {
                             if let postUser = postUser {
                                 OtherUserProfileView(buttonOnOff: $postOwnerButtonOnOff,
@@ -214,68 +165,44 @@ struct FeedCell: View {
                                                   user: postUser)
                             }
                         }
+                        
                         VStack(alignment: .leading, spacing: 4) {
-                            HStack(spacing: 4) {
-                                
-                                NavigationLink {
-                                    if let postUser = postUser {
-                                        OtherUserProfileView(buttonOnOff: $postOwnerButtonOnOff,
-                                                             user: postUser)
-                                    }
-                                } label: {
-                                    Text("@\(post.ownerUid)")
-                                        .font(.title)
-                                        .fontWeight(.bold)
-                                    
-                                    
+                            NavigationLink {
+                                if let postUser = postUser {
+                                    OtherUserProfileView(buttonOnOff: $postOwnerButtonOnOff,
+                                                         user: postUser)
                                 }
-                                if feedCellType == .today && index == 0 {
-                                    Circle()
-                                        .foregroundStyle(.clear)
-                                        .frame(width: 10)
-                                        .overlay {
-                                            Image("goldmedal")
-                                                .offset(x: 14, y: 6)
-                                        }
-                                } else if feedCellType == .today && index == 1 {
-                                    
-                                    Circle()
-                                        .foregroundStyle(.clear)
-                                        .frame(width: 10)
-                                        .overlay {
-                                            Image("silvermedal")
-                                                .offset(x: 14, y: 6)
-                                        }
-                                } else if feedCellType == .today && index == 2 {
-                                    Circle()
-                                        .foregroundStyle(.clear)
-                                        .frame(width: 10)
-                                        .overlay {
-                                            Image("bronzemedal")
-                                                .offset(x: 14, y: 6)
-                                        }
-                                }
-                                
+                            } label: {
+                                Text("@\(post.ownerUid)")
+                                    .font(.title)
+                                    .fontWeight(.bold)
                             }
                             
-                            HStack(alignment: .center, spacing: 8) {
-                                Text("\(post.surferUid)님에게 받은 파도")
-                                    .font(.system(size: 16))
-                                    .fontWeight(.medium)
+                            if post.title.isEmpty {
+                                HStack(alignment: .center, spacing: 8) {
+                                    Text("\(post.surferUid)님에게 받은 파도")
+                                        .font(.system(size: 16))
+                                        .fontWeight(.medium)
+                                    
+                                    Text("\(post.created_Time.formatDate(post.created_Time))")
+                                        .font(.system(size: 14))
+                                        .foregroundStyle(.white.opacity(0.7))
+                                }
+                            } else {
+                                HStack(alignment: .center, spacing: 8) {
+                                    Text("\(post.surferUid)님에게 받은 파도")
+                                        .font(.system(size: 16))
+                                        .fontWeight(.medium)
+                                    
+                                    Text("\(post.created_Time.formatDate(post.created_Time))")
+                                        .font(.system(size: 14))
+                                        .foregroundStyle(.white.opacity(0.7))
+                                }
+                                .padding(.bottom, 5)
                                 
-                                Text("\(post.created_Time.formatDate(post.created_Time))")
-                                    .font(.system(size: 14))
-                                    .foregroundStyle(.white.opacity(0.7))
+                                Text("\(post.title)")
+                                    .font(.system(size: 16))
                             }
-                        }
-                        .padding(.bottom, 5)
-                        
-                        if post.title.isEmpty {
-                            Text(" ")
-                                .font(.system(size: 16))
-                        } else {
-                            Text("\(post.title)")
-                                .font(.system(size: 16))
                         }
                     }
                     .foregroundStyle(.white)
@@ -359,6 +286,7 @@ struct FeedCell: View {
                                 .padding(.bottom, 10)
                                 
                             }
+                            
                             // MARK: - 하트
                             VStack(spacing: 10) {
                                 if isHeartCheck {
@@ -367,13 +295,11 @@ struct FeedCell: View {
                                             Task {
                                                 heartLoading = true
                                                 if let postID = post.id {
-                                                    await UpdateHeartData.shared.deleteHeart(documentID: postID)
-                                                    isHeartCheck = await UpdateHeartData.shared.checkHeartExists(documentID: postID)
+                                                    await updateHeartData.deleteHeart(documentID: postID)
+                                                    isHeartCheck = await updateHeartData.checkHeartExists(documentID: postID)
                                                     heartLoading = false
                                                 }
-                                                if !userNameID.isEmpty {
-                                                    await profileVM.fetchHighlihts(id: userNameID)
-                                                }
+                                                await profileVM.fetchHighlihts(id: userNameID)
                                             }
                                         }
                                     } label: {
@@ -390,31 +316,26 @@ struct FeedCell: View {
                                     }
                                 } else {
                                     Button {
-                                        if !userNameID.isEmpty && !heartLoading {
+                                        if !heartLoading {
                                             Task {
-                                                let generator = UIImpactFeedbackGenerator(style: .light)
-                                                generator.impactOccurred()
-                                                
                                                 heartLoading = true
                                                 if let postID = post.id, let postUser = postUser {
-                                                    await UpdateHeartData.shared.addHeart(documentID: postID)
-                                                    isHeartCheck = await UpdateHeartData.shared.checkHeartExists(documentID: postID)
+                                                    await updateHeartData.addHeart(documentID: postID)
+                                                    isHeartCheck = await updateHeartData.checkHeartExists(documentID: postID)
                                                     heartLoading = false
-                                                    await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID, receiveUser: postUser, type: .heart, message: "", post: post)
+                                                    await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID,
+                                                                                                 receiveUser: postUser,
+                                                                                                 type: .heart,
+                                                                                                 message: "",
+                                                                                                 post: post)
                                                 }
-                                                
                                                 await profileVM.fetchHighlihts(id: userNameID)
+                                                
                                             }
-                                        } else {
-                                            isShowingLoginPage = true
                                         }
                                     } label: {
                                         Image("heart")
                                     }
-                                    .sheet(isPresented: $isShowingLoginPage, content: {
-                                        StartView()
-                                            .presentationDragIndicator(.visible)
-                                    })
                                 }
                                 
                                 // MARK: - 하트 숫자
@@ -437,7 +358,6 @@ struct FeedCell: View {
                                                     postUser: postUser,
                                                     post: post,
                                                     postID: postID)
-                                        .presentationDragIndicator(.visible)
                                     }
                                 }
                                 .presentationDetents([.large])
@@ -452,35 +372,7 @@ struct FeedCell: View {
                             // MARK: - 신고하기
                             VStack(spacing: 10) {
                                 Button {
-                                    if let padoRideIndex = feedVM.currentPadoRideIndex {
-                                        if post.ownerUid == userNameID {
-                                            // 내가 받은 게시물의 멍게 삭제 로직
-                                            deleteMyPadoride = true
-                                        } else if feedVM.padoRidePosts[padoRideIndex].id == userNameID {
-                                            // 내가 보낸 멍게의 삭제 로직
-                                            deleteSendPadoride = true
-                                        } else {
-                                            if !userNameID.isEmpty {
-                                                isShowingReportView.toggle()
-                                            } else {
-                                                isShowingLoginPage = true
-                                            }
-                                        }
-                                    } else {
-                                        if post.ownerUid == userNameID {
-                                            // 내가 받은 게시물 삭제 로직
-                                            deleteMyPost = true
-                                        } else if post.surferUid == userNameID {
-                                            // 내가 보낸 게시물 삭제 로직
-                                            deleteSendPost = true
-                                        } else {
-                                            if !userNameID.isEmpty {
-                                                isShowingReportView.toggle()
-                                            } else {
-                                                isShowingLoginPage = true
-                                            }
-                                        }
-                                    }
+                                    isShowingReportView.toggle()
                                 } label: {
                                     VStack {
                                         Text("...")
@@ -496,198 +388,36 @@ struct FeedCell: View {
                                         .presentationDetents([.medium, .fraction(0.8)]) // 모달높이 조절
                                         .presentationDragIndicator(.visible)
                                 }
-                                .sheet(isPresented: $isShowingLoginPage, content: {
-                                    StartView()
-                                        .presentationDragIndicator(.visible)
-                                })
                             }
                             .padding(.top, -15)
                         }
                     }
-                    .padding(.bottom, 28)
                 }
             }
             .padding()
+            .padding(.bottom)
         }
         .onAppear {
             Task {
-                switch feedCellType {
-                case .following:
-                    guard feedVM.followingPosts.contains(where: { $0.id == post.id }) else { return }
-                    await fetchPostData(post: post)
-                case .today:
-                    guard feedVM.todayPadoPosts.contains(where: { $0.id == post.id }) else { return }
-                    await fetchPostData(post: post)
+                self.postUser = await UpdateUserData.shared.getOthersProfileDatas(id: post.ownerUid)
+                self.surferUser = await UpdateUserData.shared.getOthersProfileDatas(id: post.surferUid)
+                if let postID = post.id {
+                    isHeartCheck = await updateHeartData.checkHeartExists(documentID: postID)
                 }
+                self.postOwnerButtonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: post.ownerUid)
+                self.postSurferButtonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: post.surferUid)
             }
         }
-        .popup(isPresented: $deleteMyPadoride) {
-            // 내가 받은 게시글의 파도타기를 삭제
-            VStack {
-                Text("해당 파도타기를 삭제하시겠습니까?")
-                    .font(.system(size: 16, weight: .semibold))
-                
-                Button {
-                    let fileName = feedVM.padoRidePosts[feedVM.currentPadoRideIndex ?? 0].storageFileName
-                    let subID = feedVM.padoRidePosts[feedVM.currentPadoRideIndex ?? 0].id
-                    
-                    Task {
-                        try await DeletePost.shared.deletePadoridePost(postID: post.id ?? "",
-                                                                       storageFileName: fileName,
-                                                                       subID: subID ?? "")
-                        deleteMyPadoride = false
-                    }
-                } label: {
-                    Text("삭제")
-                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 40)
-                        .foregroundStyle(.red)
-                        .background(.grayButton)
-                }
-                
-                Button {
-                    deleteMyPadoride = false
-                } label: {
-                    Text("취소")
-                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 40)
-                        .foregroundStyle(.red)
-                        .background(.grayButton)
-                        .cornerRadius(10)
-                }
-            }
-        } customize: {
-            $0
-                .type(.floater())
-                .position(.bottom)
-                .animation(.spring())
-                .closeOnTapOutside(true)
-                .backgroundColor(.black.opacity(0.5))
-        }
-        .popup(isPresented: $deleteSendPadoride) {
-            // 상대방 게시글의 내가 보낸 파도타기를 삭제
-            VStack {
-                Text("해당 파도타기를 삭제하시겠습니까?")
-                    .font(.system(size: 16, weight: .semibold))
-                
-                Button {
-                    let fileName = feedVM.padoRidePosts[feedVM.currentPadoRideIndex ?? 0].storageFileName
-                    
-                    Task {
-                        try await DeletePost.shared.deletePadoridePost(postID: post.id ?? "",
-                                                                       storageFileName: fileName,
-                                                                       subID: userNameID)
-                        deleteSendPadoride = false
-                    }
-                } label: {
-                    Text("삭제")
-                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 40)
-                        .foregroundStyle(.red)
-                        .background(.grayButton)
-                        .cornerRadius(10)
-                }
-                
-                Button {
-                    deleteSendPadoride = false
-                } label: {
-                    Text("취소")
-                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 40)
-                        .background(.grayButton)
-                        .cornerRadius(10)
-                }
-            }
-        } customize: {
-            $0
-                .type(.floater())
-                .position(.bottom)
-                .animation(.spring())
-                .closeOnTapOutside(true)
-                .backgroundColor(.black.opacity(0.5))
-        }
-        .popup(isPresented: $deleteMyPost) {
-            // 내가 받은 파도를 삭제
-            VStack {
-                Text("해당 파도를 삭제하시겠습니까?")
-                    .font(.system(size: 16, weight: .semibold))
-                
-                Button {
-                    Task {
-                        try await DeletePost.shared.deletePost(postID: post.id ?? "",
-                                                               postOwnerID: post.ownerUid,
-                                                               sufferID: post.surferUid)
-                        deleteMyPost = false
-                    }
-                } label: {
-                    Text("삭제")
-                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 40)
-                        .foregroundStyle(.red)
-                        .background(.grayButton)
-                        .cornerRadius(10)
-                }
-                
-                Button {
-                    deleteMyPost = false
-                } label: {
-                    Text("취소")
-                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 40)
-                        .background(.grayButton)
-                        .cornerRadius(10)
-                }
-            }
-        } customize: {
-            $0
-                .type(.floater())
-                .position(.bottom)
-                .animation(.spring())
-                .closeOnTapOutside(true)
-                .backgroundColor(.black.opacity(0.5))
-        }
-        .popup(isPresented: $deleteSendPost) {
-            // 내가 보낸 파도를 삭제
-            VStack {
-                Text("해당 파도를 삭제하시겠습니까?")
-                    .font(.system(size: 16, weight: .semibold))
-                
-                Button {
-                    Task {
-                        try await DeletePost.shared.deletePost(postID: post.id ?? "",
-                                                               postOwnerID: post.ownerUid,
-                                                               sufferID: post.surferUid)
-                        deleteSendPost = false
-                    }
-                } label: {
-                    Text("삭제")
-                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 40)
-                        .foregroundStyle(.red)
-                        .background(.grayButton)
-                        .cornerRadius(10)
-                }
-                
-                Button {
-                    deleteSendPost = false
-                } label: {
-                    Text("취소")
-                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 40)
-                        .background(.grayButton)
-                        .cornerRadius(10)
-                }
-            }
-        } customize: {
-            $0
-                .type(.floater())
-                .position(.bottom)
-                .animation(.spring())
-                .closeOnTapOutside(true)
-                .backgroundColor(.black.opacity(0.5))
-        }
-
     }
     
-    func fetchPostData(post: Post) async {
-        self.postUser = await UpdateUserData.shared.getOthersProfileDatas(id: post.ownerUid)
-        self.surferUser = await UpdateUserData.shared.getOthersProfileDatas(id: post.surferUid)
-        if let postID = post.id {
-            isHeartCheck = await UpdateHeartData.shared.checkHeartExists(documentID: postID)
-        }
-        self.postOwnerButtonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: post.ownerUid)
-        self.postSurferButtonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: post.surferUid)
-    }
+    private func descriptionForType(_ type: PostViewType) -> String {
+           switch type {
+           case .receive:
+               return "\(post.surferUid)님에게 받은 파도"
+           case .send:
+               return "\(post.ownerUid)님에게 보낸 파도"
+           case .highlight:
+               return "\(post.ownerUid)님의 파도"
+           }
+       }
 }

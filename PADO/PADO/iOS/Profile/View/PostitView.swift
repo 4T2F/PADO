@@ -15,6 +15,7 @@ struct PostitView: View {
     
     @FocusState private var isTextFieldFocused: Bool
     @State private var isFocused: Bool = false
+    @State private var isShowingLoginPage: Bool = false
     
     var body: some View {
         NavigationStack {
@@ -65,10 +66,17 @@ struct PostitView: View {
                         
                         if !postitVM.inputcomment.isEmpty {
                             Button {
-                                Task {
-                                    await postitVM.writeMessage(ownerID: postitVM.ownerID,
-                                                                imageUrl: viewModel.currentUser?.profileImageUrl ?? "",
-                                                                inputcomment: postitVM.inputcomment)
+                                if !userNameID.isEmpty {
+                                    Task {
+                                        await postitVM.writeMessage(ownerID: postitVM.ownerID,
+                                                                    imageUrl: viewModel.currentUser?.profileImageUrl ?? "",
+                                                                    inputcomment: postitVM.inputcomment)
+                                        if let user = postitVM.messageUsers[postitVM.ownerID], let currentUser = viewModel.currentUser {
+                                            await UpdatePushNotiData.shared.pushNoti(receiveUser: user, type: .postit, sendUser: currentUser)
+                                        }
+                                    }
+                                } else {
+                                    isShowingLoginPage = true
                                 }
                             } label: {
                                 ZStack {
@@ -81,6 +89,10 @@ struct PostitView: View {
                                 }
                             }
                             .padding(.vertical, -5)
+                            .sheet(isPresented: $isShowingLoginPage, content: {
+                                StartView()
+                                    .presentationDragIndicator(.visible)
+                            })
                         } else {
                             Button {
                                 //

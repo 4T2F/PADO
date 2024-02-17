@@ -13,7 +13,6 @@ struct MainSearchView: View {
     
     @ObservedObject var searchVM: SearchViewModel
     @ObservedObject var profileVM: ProfileViewModel
-    @ObservedObject var followVM: FollowViewModel
     
     @FocusState private var isTextFieldFocused: Bool
     
@@ -67,7 +66,7 @@ struct MainSearchView: View {
                             ScrollView(showsIndicators: false) {
                                 ForEach(searchVM.searchDatas.reversed(), id: \.self) { searchData in
                                     RecordSearchCellView(profileVM: profileVM,
-                                                         followVM: followVM,
+
                                                          searchVM: searchVM,
                                                          searchCellID: searchData)
                                     .padding(.vertical, 3)
@@ -88,7 +87,6 @@ struct MainSearchView: View {
                         ScrollView(showsIndicators: false) {
                             ForEach(searchVM.searchResults) { result in
                                 SearchCellView(profileVM: profileVM,
-                                               followVM: followVM,
                                                searchVM: searchVM,
                                                user: result)
                                 .padding(.vertical, 3)

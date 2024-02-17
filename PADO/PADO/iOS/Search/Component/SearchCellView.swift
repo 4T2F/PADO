@@ -15,7 +15,6 @@ struct SearchCellView: View {
     @State var buttonOnOff: Bool = false
     
     @ObservedObject var profileVM: ProfileViewModel
-    @ObservedObject var followVM: FollowViewModel
     @ObservedObject var searchVM: SearchViewModel
     let user: User
 

@@ -67,6 +67,7 @@ struct BirthView: View {
                         if isFourteenOrOlder(birthDate: viewModel.birthDate) {
                             Task{
                                 await viewModel.signUpUser()
+                                viewModel.needsDataFetch = true
                             }
                         } else {
                             showBirthAlert = true

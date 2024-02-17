@@ -29,6 +29,9 @@ var userToken: String {
 
 var userFollowingIDs: [String] = []
 
+var blockingUser: [BlockUser] = []
+var blockedUser: [BlockUser] = []
+
 struct User: Codable, Identifiable, Hashable {
     @DocumentID var id: String?
     var username: String // 유저 닉네임

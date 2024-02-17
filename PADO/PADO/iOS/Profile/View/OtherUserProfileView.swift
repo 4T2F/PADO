@@ -7,6 +7,7 @@
 
 import Kingfisher
 import Lottie
+import PopupView
 import SwiftUI
 
 struct OtherUserProfileView: View {
@@ -31,8 +32,8 @@ struct OtherUserProfileView: View {
     @State private var isShowingHightlight: Bool = false
     @State private var isShowingMessageView: Bool = false
     @State private var isShowingUserReport: Bool = false
-    
-    let updatePushNotiData = UpdatePushNotiData()
+    @State private var touchProfileImage: Bool = false
+    @State private var touchBackImage: Bool = false
     
     let user: User
     
@@ -97,7 +98,7 @@ struct OtherUserProfileView: View {
                         
                         if user.nameID == userNameID {
                             NavigationLink {
-                                SettingView()
+                                SettingView(profileVM: profileVM)
                             } label: {
                                 Image("more")
                                     .foregroundStyle(.white)
@@ -109,7 +110,7 @@ struct OtherUserProfileView: View {
                                 Image(systemName: "ellipsis")
                             }
                             .sheet(isPresented: $isShowingUserReport) {
-                                ReprotProfileModalView()
+                                ReprotProfileModalView(profileVM: profileVM, user: user)
                                     .presentationDetents([.fraction(0.33)])
                                     .presentationDragIndicator(.visible)
                                     .presentationCornerRadius(30)
@@ -130,11 +131,30 @@ struct OtherUserProfileView: View {
         .ignoresSafeArea(.container, edges: .vertical)
         .onAppear {
             Task {
-                followVM.profileFollowId = user.nameID
-                followVM.initializeFollowFetch()
+                await followVM.initializeFollowFetch(id: user.nameID)
                 await profileVM.fetchPostID(id: user.nameID)
                 await postitVM.getMessageDocument(ownerID: user.nameID)
             }
+        }
+        .popup(isPresented: $touchBackImage) {
+            TouchBackImageView(user: user)
+        } customize: {
+            $0
+                .type(.floater())
+                .position(.center)
+                .animation(.spring())
+                .closeOnTapOutside(true)
+                .backgroundColor(.black.opacity(0.5))
+        }
+        .popup(isPresented: $touchProfileImage) {
+            TouchProfileView(user: user)
+        } customize: {
+            $0
+                .type(.floater())
+                .position(.center)
+                .animation(.spring())
+                .closeOnTapOutside(true)
+                .backgroundColor(.black.opacity(0.5))
         }
     }
     
@@ -160,6 +180,9 @@ struct OtherUserProfileView: View {
                         VStack(alignment: .leading, spacing: 10) {
                             CircularImageView(size: .xxLarge, user: user)
                                 .offset(y: 5)
+                                .onTapGesture {
+                                    touchProfileImage = true
+                                }
                                 .overlay {
                                     Button {
                                         isShowingMessageView = true
@@ -217,7 +240,22 @@ struct OtherUserProfileView: View {
                                         }
                                     }
                                 } else {
-                                    if buttonOnOff {
+                                    if userNameID.isEmpty {
+                                        Button {
+                                            // 가입 모달 띄우기
+                                        } label: {
+                                            ZStack {
+                                                RoundedRectangle(cornerRadius:6)
+                                                    .stroke(.white, lineWidth: 1)
+                                                    .frame(width: 85, height: 28)
+                                                Text("팔로우")
+                                                    .font(.system(size: 12))
+                                                    .fontWeight(.medium)
+                                                    .foregroundStyle(.white)
+                                            }
+                                            
+                                        }
+                                    } else if buttonOnOff {
                                         Button {
                                             Task {
                                                 await UpdateFollowData.shared.directUnfollowUser(id: user.nameID)
@@ -238,7 +276,9 @@ struct OtherUserProfileView: View {
                                         Button {
                                             Task {
                                                 await UpdateFollowData.shared.followUser(id: user.nameID)
-                                                await updatePushNotiData.pushNoti(receiveUser: user, type: .follow)
+                                                if let currentUser = viewModel.currentUser {
+                                                    await UpdatePushNotiData.shared.pushNoti(receiveUser: user, type: .follow, sendUser: currentUser)
+                                                }
                                                 buttonOnOff.toggle()
                                             }
                                         } label: {
@@ -325,6 +365,9 @@ struct OtherUserProfileView: View {
                 }
                 .cornerRadius(0)
                 .offset(y: -minY)
+                .onTapGesture {
+                    touchBackImage = true
+                }
         }
         .frame(height: 300)
     }
@@ -386,10 +429,7 @@ struct OtherUserProfileView: View {
     func postView() -> some View {
         VStack(spacing: 25) {
             if profileVM.padoPosts.isEmpty {
-                Text("아직 받은 게시물이 없어요")
-                    .foregroundColor(.gray)
-                    .font(.system(size: 16,
-                                  weight: .semibold))
+                NoItemView(itemName: "아직 받은 게시물이 없어요")
                     .padding(.top, 150)
             } else {
                 LazyVGrid(columns: columns, spacing: 2) {
@@ -437,10 +477,7 @@ struct OtherUserProfileView: View {
     func writtenPostsView() -> some View {
         VStack(spacing: 25) {
             if profileVM.sendPadoPosts.isEmpty {
-                Text("아직 보낸 게시물이 없어요")
-                    .foregroundColor(.gray)
-                    .font(.system(size: 16,
-                                  weight: .semibold))
+                NoItemView(itemName: "아직 보낸 게시물이 없어요")
                     .padding(.top, 150)
             } else {
                 LazyVGrid(columns: columns, spacing: 2) {
@@ -486,10 +523,7 @@ struct OtherUserProfileView: View {
     func highlightsView() -> some View {
         VStack(spacing: 25) {
             if profileVM.highlights.isEmpty {
-                Text("아직 좋아요를 표시한 게시물이 없어요")
-                    .foregroundColor(.gray)
-                    .font(.system(size: 16,
-                                  weight: .semibold))
+                NoItemView(itemName: "아직 좋아요를 표시한 게시물이 없어요")
                     .padding(.top, 150)
             } else {
                 LazyVGrid(columns: columns, spacing: 2) {

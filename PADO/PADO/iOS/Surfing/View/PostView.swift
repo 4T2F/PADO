@@ -145,13 +145,21 @@ struct PostView: View {
                                                             surfingID: followVM.selectSurfingID)
                                 
                                 postOwner = await UpdateUserData.shared.getOthersProfileDatas(id: followVM.selectSurfingID)
-                                await UpdatePushNotiData.shared.pushPostNoti(targetPostID: formattedPostingTitle, receiveUser: postOwner!, type: .requestSurfing, message: "\($surfingVM.postingTitle)")
+                                
+                                if let post = surfingVM.post?.last {
+                                    await UpdatePushNotiData.shared.pushPostNoti(targetPostID: formattedPostingTitle,
+                                                                                 receiveUser: postOwner!,
+                                                                                 type: .requestSurfing,
+                                                                                 message: surfingVM.postingTitle,
+                                                                                 post: post)
+                                }
                                 
                                 surfingVM.resetImage()
                                 followVM.selectSurfingID = ""
                                 followVM.selectSurfingUsername = ""
                                 followVM.selectSurfingProfileUrl = ""
                                 viewModel.showTab = 0
+                                await feedVM.fetchFollowingPosts()
                                 postLoading = false
                             } catch {
                                 print("파베 전송 오류 발생: (error.localizedDescription)")
