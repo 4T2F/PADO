@@ -37,12 +37,12 @@ struct SendPadoView: View {
                         postLoading = false
                         padorideVM.isShowingEditView = false
                         if let selectedPost = padorideVM.selectedPost, let surfingUser = surfingUser {
-                        await UpdatePushNotiData.shared.pushPostNoti(targetPostID: selectedPost.id ?? "",
-                                                                     receiveUser: surfingUser,
-                                                                     type: .padoRide,
-                                                                     message: "",
-                                                                     post: selectedPost)
-                    }
+                            await UpdatePushNotiData.shared.pushPostNoti(targetPostID: selectedPost.id ?? "",
+                                                                         receiveUser: surfingUser,
+                                                                         type: .padoRide,
+                                                                         message: "",
+                                                                         post: selectedPost)
+                        }
                     }
                 }
             } label: {

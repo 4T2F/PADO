@@ -14,6 +14,7 @@ enum ButtonType {
 
 struct FollowButtonView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
+    
     let cellUser: User
     @Binding var buttonActive: Bool
     let activeText: String
@@ -25,35 +26,29 @@ struct FollowButtonView: View {
     
     var body: some View {
         Button(action: {
-            if !blockFollow(id: cellUserId) {
+            if !blockFollow(id: cellUser.nameID) {
                 if buttonActive {
                     Task {
                         switch buttonType {
                         case .direct:
-                            await UpdateFollowData.shared.directUnfollowUser(id: cellUserId)
+                            await UpdateFollowData.shared.directUnfollowUser(id: cellUser.nameID)
                         case .unDirect:
-                            await UpdateFollowData.shared.unfollowUser(id: cellUserId)
+                            await UpdateFollowData.shared.unfollowUser(id: cellUser.nameID)
                         }
-                        if let currentUser = viewModel.currentUser {
-                            await UpdatePushNotiData.shared.pushNoti(receiveUser: cellUser, type: .follow, sendUser: currentUser)
                     }
                     buttonActive.toggle()
                 } else if userNameID.isEmpty {
                     isShowingLoginPage = true
                 } else {
                     Task {
-                        await UpdateFollowData.shared.followUser(id: cellUserId)
+                        await UpdateFollowData.shared.followUser(id: cellUser.nameID)
+                        if let currentUser = viewModel.currentUser {
+                            await UpdatePushNotiData.shared.pushNoti(receiveUser: cellUser, type: .follow, sendUser: currentUser)
+                        }
+                        
                     }
                     buttonActive.toggle()
                 }
-                buttonActive.toggle()
-            } else if !userNameID.isEmpty {
-                Task {
-                    await UpdateFollowData.shared.followUser(id: cellUser.nameID)
-                }
-                buttonActive.toggle()
-            } else {
-                // 가입 모달 띄우기
             }
         }) {
             ZStack {
@@ -76,7 +71,7 @@ struct FollowButtonView: View {
                 }
                 .padding(.horizontal)
             }
-        
+            
         }
         .sheet(isPresented: $isShowingLoginPage,
                content: {
@@ -97,4 +92,6 @@ struct FollowButtonView: View {
     }
     
 }
+
+
 
