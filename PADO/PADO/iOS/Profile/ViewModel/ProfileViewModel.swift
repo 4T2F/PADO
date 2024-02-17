@@ -156,6 +156,7 @@ extension ProfileViewModel {
     // 차단된 사용자들 정보 불러오기
     @MainActor
     func fetchBlockUsers() async {
+        guard !userNameID.isEmpty else { return }
         
         let blockingCollectionRef = db.collection("users").document(userNameID).collection("blockingUsers")
         
@@ -182,6 +183,7 @@ extension ProfileViewModel {
     // 사용자 차단
     @MainActor
     func blockUser(blockingUser: User, user: User) async {
+        
         
         let blockingUserRef = db.collection("users").document(user.nameID).collection("blockingUsers").document(blockingUser.nameID)
         

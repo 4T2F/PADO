@@ -146,7 +146,7 @@ struct ContentView: View {
         .onAppear {
             fetchData()
         }
-        .onChange(of: viewModel.needsDataFetch) { _, newValue in
+        .onChange(of: viewModel.needsDataFetch) { _, _ in
             fetchData()
         }
     }
@@ -154,6 +154,7 @@ struct ContentView: View {
     func fetchData() {
         guard !userNameID.isEmpty else {
             Task {
+                await feedVM.getPopularUser()
                 await feedVM.fetchTodayPadoPosts()
             }
             return

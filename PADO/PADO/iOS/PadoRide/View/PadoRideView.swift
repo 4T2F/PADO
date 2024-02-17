@@ -48,6 +48,7 @@ struct PadoRideView: View {
                                 }
                             }
                         }
+                        .padding(.top, 10)
                         
                         Spacer()
                         

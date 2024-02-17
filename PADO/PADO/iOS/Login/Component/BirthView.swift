@@ -11,9 +11,10 @@ struct BirthView: View {
     @State var showBirthAlert: Bool = false
     @State var buttonActive: Bool = false
     @Binding var currentStep: SignUpStep
-
     @EnvironmentObject var viewModel: AuthenticationViewModel
     
+    let termsLink = "[이용약관](https://notch-galaxy-ab8.notion.site/de9e469fca24427cbcf16ada473c9231?pvs=4)"
+    let personalInfoLink = "[개인정보 정책](https://notch-galaxy-ab8.notion.site/1069395170324617b046f096118cd815)"
     var body: some View {
         ZStack {     
             VStack(alignment: .leading) {
@@ -34,16 +35,29 @@ struct BirthView: View {
                                 }
                             
                             Divider()
+                            
+                            Text("공개여부를 선택할 수 있어요")
+                                .font(.system(size: 14))
+                                .fontWeight(.semibold)
+                                .foregroundStyle(.gray)
+                                .padding(.bottom, 10)
+                            
+                            Group {
+                                Text("가입과 동시에 파도의 ")
+                                +
+                                Text(.init(termsLink))
+                                +
+                                Text("과 ")
+                                +
+                                Text(.init(personalInfoLink))
+                                +
+                                Text("에 동의하는 것으로 간주함니다.")
+                            }
+                            .font(.system(size: 14))
+                            .fontWeight(.semibold)
                         })
                     })
-                    
-                    VStack(alignment: .leading) {
-                        Text("공개여부를 선택할 수 있어요")
-                    }
-                    .font(.system(size: 14))
-                    .fontWeight(.semibold)
-                    .foregroundStyle(.gray)
-                    
+
                 }
                 .padding(.horizontal)
                 
