@@ -10,11 +10,8 @@ import SwiftUI
 struct MainSearchView: View {
     // MARK: - PROPERTY
     @State var mainSearch: String = ""
-    
-    @ObservedObject var searchVM: SearchViewModel
     @ObservedObject var profileVM: ProfileViewModel
-    
-    @FocusState private var isTextFieldFocused: Bool
+    @StateObject var searchVM = SearchViewModel.shared
     
     // MARK: - BODY
     var body: some View {
@@ -39,10 +36,6 @@ struct MainSearchView: View {
                 VStack(alignment: .center, spacing: 0) {
                     SearchBar(text: searchTextBinding,
                               isLoading: $searchVM.isLoading)
-                    .focused($isTextFieldFocused)
-                    .onAppear {
-                        isTextFieldFocused = true
-                    }
                     .padding(.horizontal)
                     
                     if mainSearch.isEmpty {

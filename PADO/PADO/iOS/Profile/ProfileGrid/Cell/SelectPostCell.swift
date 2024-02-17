@@ -292,7 +292,8 @@ struct SelectPostCell: View {
                             VStack(spacing: 10) {
                                 if isHeartCheck {
                                     Button {
-                                        if !heartLoading {
+                                        
+                                        if !heartLoading && !blockPost(post: post) {
                                             Task {
                                                 heartLoading = true
                                                 if let postID = post.id {
@@ -317,7 +318,9 @@ struct SelectPostCell: View {
                                     }
                                 } else {
                                     Button {
-                                        if !userNameID.isEmpty && !heartLoading {
+                                        if userNameID.isEmpty {
+                                            isShowingLoginPage = true
+                                        } else if !heartLoading && !blockPost(post: post) {
                                             Task {
                                                 heartLoading = true
                                                 if let postID = post.id, let postUser = postUser {
@@ -333,8 +336,6 @@ struct SelectPostCell: View {
                                                 await profileVM.fetchHighlihts(id: userNameID)
                                                 
                                             }
-                                        } else {
-                                            isShowingLoginPage = true
                                         }
                                     } label: {
                                         Image("heart")
@@ -354,7 +355,9 @@ struct SelectPostCell: View {
                             // MARK: - 댓글
                             VStack(spacing: 10) {
                                 Button {
-                                    isShowingCommentView = true
+                                    if !blockPost(post: post) {
+                                        isShowingCommentView = true
+                                    }
                                 } label: {
                                     Image("chat")
                                 }
@@ -389,7 +392,7 @@ struct SelectPostCell: View {
                                             
                                             Task {
                                                 try await DeletePost.shared.deletePadoridePost(postID: post.id ?? "",
-                                                                                               storageFileName: fileName, 
+                                                                                               storageFileName: fileName,
                                                                                                subID: subID ?? "")
                                             }
                                             
@@ -403,7 +406,7 @@ struct SelectPostCell: View {
                                             
                                             Task {
                                                 try await DeletePost.shared.deletePadoridePost(postID: post.id ?? "",
-                                                                                               storageFileName: fileName, 
+                                                                                               storageFileName: fileName,
                                                                                                subID: userNameID)
                                             }
                                         }
@@ -457,7 +460,7 @@ struct SelectPostCell: View {
                 self.surferUser = await UpdateUserData.shared.getOthersProfileDatas(id: post.surferUid)
                 if let postID = post.id {
                     isHeartCheck = await UpdateHeartData.shared.checkHeartExists(documentID: postID)
-                } 
+                }
                 self.postOwnerButtonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: post.ownerUid)
                 self.postSurferButtonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: post.surferUid)
             }
@@ -465,13 +468,19 @@ struct SelectPostCell: View {
     }
     
     private func descriptionForType(_ type: PostViewType) -> String {
-           switch type {
-           case .receive:
-               return "\(post.surferUid)님에게 받은 파도"
-           case .send:
-               return "\(post.ownerUid)님에게 보낸 파도"
-           case .highlight:
-               return "\(post.ownerUid)님의 파도"
-           }
-       }
+        switch type {
+        case .receive:
+            return "\(post.surferUid)님에게 받은 파도"
+        case .send:
+            return "\(post.ownerUid)님에게 보낸 파도"
+        case .highlight:
+            return "\(post.ownerUid)님의 파도"
+        }
+    }
+    
+    private func blockPost(post: Post) -> Bool {
+        let blockedUserIDs = Set(blockingUser.map { $0.blockUserID } + blockedUser.map { $0.blockUserID })
+        
+        return blockedUserIDs.contains(post.ownerUid) || blockedUserIDs.contains(post.surferUid)
+    }
 }

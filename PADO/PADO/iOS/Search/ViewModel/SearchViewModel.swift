@@ -11,6 +11,8 @@ import SwiftUI
 
 class SearchViewModel: ObservableObject, Searchable {
     
+    static let shared = SearchViewModel()
+    
     @Published var searchDatas: [String] = []
     
     @Published var isLoading: Bool = false
@@ -22,7 +24,7 @@ class SearchViewModel: ObservableObject, Searchable {
         
     let db = Firestore.firestore()
     
-    init() {
+    private init() {
         loadSearchData()
     }
     
@@ -110,6 +112,16 @@ extension SearchViewModel {
         
         return searchResults.filter { user in
             !blockedUserIDs.contains(user.nameID)
+        }
+    }
+    
+    func removeBlockUser() {
+        let blockedUserIDs = Set(blockingUser.map { $0.blockUserID } + blockedUser.map { $0.blockUserID })
+        
+        for searchData in searchDatas {
+            if blockedUserIDs.contains(searchData) {
+                removeSearchData(searchData)
+            }
         }
     }
 }

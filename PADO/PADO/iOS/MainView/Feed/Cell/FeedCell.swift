@@ -443,21 +443,22 @@ struct FeedCell: View {
                             
                             // MARK: - 하트
                             VStack(spacing: 8) {
+                                
                                 if isHeartCheck {
                                     Button {
-                                        if !heartLoading {
-                                            Task {
-                                                heartLoading = true
-                                                if let postID = post.id {
-                                                    await UpdateHeartData.shared.deleteHeart(documentID: postID)
-                                                    isHeartCheck = await UpdateHeartData.shared.checkHeartExists(documentID: postID)
-                                                    heartLoading = false
-                                                }
-                                                if !userNameID.isEmpty {
-                                                    await profileVM.fetchHighlihts(id: userNameID)
+                                            if !heartLoading && !blockPost(post: post) {
+                                                Task {
+                                                    heartLoading = true
+                                                    if let postID = post.id {
+                                                        await UpdateHeartData.shared.deleteHeart(documentID: postID)
+                                                        isHeartCheck = await UpdateHeartData.shared.checkHeartExists(documentID: postID)
+                                                        heartLoading = false
+                                                    }
+                                                    if !userNameID.isEmpty {
+                                                        await profileVM.fetchHighlihts(id: userNameID)
+                                                    }
                                                 }
                                             }
-                                        }
                                     } label: {
                                         Circle()
                                             .frame(width: 24)
@@ -472,7 +473,9 @@ struct FeedCell: View {
                                     }
                                 } else {
                                     Button {
-                                        if !userNameID.isEmpty && !heartLoading {
+                                        if userNameID.isEmpty {
+                                            isShowingLoginPage = true
+                                        } else if !heartLoading && !blockPost(post: post) {
                                             Task {
                                                 let generator = UIImpactFeedbackGenerator(style: .light)
                                                 generator.impactOccurred()
@@ -487,8 +490,6 @@ struct FeedCell: View {
                                                 
                                                 await profileVM.fetchHighlihts(id: userNameID)
                                             }
-                                        } else {
-                                            isShowingLoginPage = true
                                         }
                                     } label: {
                                         Image("heart")
@@ -509,7 +510,9 @@ struct FeedCell: View {
                             // MARK: - 댓글
                             VStack(spacing: 8) {
                                 Button {
-                                    isShowingCommentView = true
+                                    if !blockPost(post: post) {
+                                        isShowingCommentView = true
+                                    }
                                 } label: {
                                     Image("chat")
                                 }
@@ -588,5 +591,11 @@ struct FeedCell: View {
         }
         self.postOwnerButtonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: post.ownerUid)
         self.postSurferButtonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: post.surferUid)
+    }
+    
+    private func blockPost(post: Post) -> Bool {
+        let blockedUserIDs = Set(blockingUser.map { $0.blockUserID } + blockedUser.map { $0.blockUserID })
+        
+        return blockedUserIDs.contains(post.ownerUid) || blockedUserIDs.contains(post.surferUid)
     }
 }

@@ -240,60 +240,13 @@ struct OtherUserProfileView: View {
                                         }
                                     }
                                 } else {
-                                    if userNameID.isEmpty {
-                                        Button {
-                                            // 가입 모달 띄우기
-                                        } label: {
-                                            ZStack {
-                                                RoundedRectangle(cornerRadius:6)
-                                                    .stroke(.white, lineWidth: 1)
-                                                    .frame(width: 85, height: 28)
-                                                Text("팔로우")
-                                                    .font(.system(size: 12))
-                                                    .fontWeight(.medium)
-                                                    .foregroundStyle(.white)
-                                            }
-                                            
-                                        }
-                                    } else if buttonOnOff {
-                                        Button {
-                                            Task {
-                                                await UpdateFollowData.shared.directUnfollowUser(id: user.nameID)
-                                                buttonOnOff.toggle()
-                                            }
-                                        } label: {
-                                            ZStack {
-                                                RoundedRectangle(cornerRadius:6)
-                                                    .stroke(.gray, lineWidth: 1)
-                                                    .frame(width: 85, height: 28)
-                                                Text("팔로우 취소")
-                                                    .font(.system(size: 12))
-                                                    .fontWeight(.medium)
-                                                    .foregroundStyle(.gray)
-                                            }
-                                        }
-                                    } else {
-                                        Button {
-                                            Task {
-                                                await UpdateFollowData.shared.followUser(id: user.nameID)
-                                                if let currentUser = viewModel.currentUser {
-                                                    await UpdatePushNotiData.shared.pushNoti(receiveUser: user, type: .follow, sendUser: currentUser)
-                                                }
-                                                buttonOnOff.toggle()
-                                            }
-                                        } label: {
-                                            ZStack {
-                                                RoundedRectangle(cornerRadius:6)
-                                                    .stroke(.white, lineWidth: 1)
-                                                    .frame(width: 85, height: 28)
-                                                Text("팔로우")
-                                                    .font(.system(size: 12))
-                                                    .fontWeight(.medium)
-                                                    .foregroundStyle(.white)
-                                            }
-                                            
-                                        }
-                                    }
+                                    FollowButtonView(cellUserId: user.nameID,
+                                                   buttonActive: $buttonOnOff,
+                                                   activeText: "팔로우",
+                                                   unActiveText: "팔로우 취소",
+                                                   widthValue: 85,
+                                                     heightValue: 28,
+                                                     buttonType: ButtonType.direct)
                                 }
                             }
                             
