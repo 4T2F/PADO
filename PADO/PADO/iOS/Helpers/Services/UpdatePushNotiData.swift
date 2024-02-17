@@ -14,7 +14,7 @@ enum PostNotiType {
     case facemoji
     case heart
     case requestSurfing
-    // TODO: 파도라이드 추가
+    case padoRide
 }
 
 enum NotiType {
@@ -79,6 +79,17 @@ class UpdatePushNotiData {
                     toFCMToken: receiveUser.fcmToken,
                     title: "PADO",
                     body: "\(userNameID)님이 회원님에게 파도를 보냈습니다",
+                    categoryIdentifier: "post",
+                    post: post
+                )
+            }
+        case .padoRide:
+            await createPostNoti(userId: receiveUser.nameID, type: "padoRide", postID: targetPostID, message: message)
+            if receiveUser.alertAccept == "yes" {
+                PushNotificationManager.shared.sendPushNotificationWithPost(
+                    toFCMToken: receiveUser.fcmToken,
+                    title: "PADO",
+                    body: "\(userNameID)님이 회원님을 파도탔습니다",
                     categoryIdentifier: "post",
                     post: post
                 )

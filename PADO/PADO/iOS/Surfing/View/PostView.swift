@@ -146,9 +146,11 @@ struct PostView: View {
                                 
                                 postOwner = await UpdateUserData.shared.getOthersProfileDatas(id: followVM.selectSurfingID)
                                 
-                                if let post = surfingVM.post?.last {
+                                surfingVM.post = await UpdatePostData.shared.fetchPostById(postId: formattedPostingTitle)
+                                
+                                if let post = surfingVM.post, let postOwner = postOwner {
                                     await UpdatePushNotiData.shared.pushPostNoti(targetPostID: formattedPostingTitle,
-                                                                                 receiveUser: postOwner!,
+                                                                                 receiveUser: postOwner,
                                                                                  type: .requestSurfing,
                                                                                  message: surfingVM.postingTitle,
                                                                                  post: post)

@@ -1,27 +1,30 @@
 //
-//  PostitNotificationCell.swift
+//  PadoRideNotificationCell.swift
 //  PADO
 //
-//  Created by 황민채 on 2/12/24.
+//  Created by 황민채 on 2/17/24.
 //
 
 import Kingfisher
 import SwiftUI
 
-struct PostitNotificationCell: View {
-    @EnvironmentObject var viewModel: AuthenticationViewModel
-    @Environment(\.dismiss) var dismiss
+struct PadoRideNotificationCell: View {
+    @ObservedObject var profileVM: ProfileViewModel
+    @ObservedObject var feedVM: FeedViewModel
     
-    @State private var sendUserProfileUrl: String = ""
-    @State private var sendPostUrl: String = ""
+    @State var sendUserProfileUrl: String = ""
+    @State var sendPostUrl: String = ""
+    @State var sendPost: Post? = nil
+    
+    @State private var showPost = false
     
     var notification: Noti
     
-    // TODO: 포스트잇 네비게이션 링크
     var body: some View {
         Button {
-            dismiss()
-            viewModel.showTab = 4
+            if sendPost != nil {
+                showPost = true
+            }
         } label: {
             HStack(spacing: 0) {
                 if let image = URL(string: sendUserProfileUrl) {
@@ -40,7 +43,7 @@ struct PostitNotificationCell: View {
                 
                 VStack(alignment: .leading, spacing: 4) {
                     HStack {
-                        Text("\(notification.sendUser)님이 회원님의 방명록에 글을 남겼습니다. ")
+                        Text("\(notification.sendUser)님이 회원님을 파도탔어요! ")
                             .font(.system(size: 14))
                             .fontWeight(.medium)
                         +
@@ -57,14 +60,29 @@ struct PostitNotificationCell: View {
                 if let image = URL(string: sendPostUrl) {
                     KFImage(image)
                         .resizable()
-                        .frame(width: 40, height: 50)
+                        .frame(width: 40, height: 40)
+                        .clipShape(RoundedRectangle(cornerRadius: 5))
                 }
+            }
+        }
+        .sheet(isPresented: $showPost) {
+            if let post = sendPost {
+                OnePostModalView(profileVM: profileVM,
+                                 feedVM: feedVM,
+                                 updateHeartData: UpdateHeartData(),
+                                 post: post)
             }
         }
         .onAppear {
             Task {
                 if let sendUserProfile = await UpdateUserData.shared.getOthersProfileDatas(id: notification.sendUser) {
                     self.sendUserProfileUrl = sendUserProfile.profileImageUrl ?? ""
+                }
+                
+                if let sendPost = await
+                    UpdatePostData.shared.fetchPostById(postId: notification.postID ?? "") {
+                    self.sendPostUrl = sendPost.imageUrl
+                    self.sendPost = sendPost
                 }
             }
         }

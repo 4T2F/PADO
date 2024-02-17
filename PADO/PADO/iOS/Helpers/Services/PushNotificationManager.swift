@@ -27,8 +27,11 @@ final class PushNotificationManager {
             "notification": [
                 "title": title,
                 "body": body,
+                "badge": "1",
                 "sound": "default",
-                "click_action": categoryIdentifier
+                "click_action": categoryIdentifier,
+                "content_available" : true,
+                "mutable_content": true
             ],
             "data": [
                 "User_id": user.id ?? "",
@@ -102,8 +105,11 @@ final class PushNotificationManager {
             "notification": [
                 "title": title,
                 "body": body,
-                "sound": "default",
-                "click_action": categoryIdentifier
+                "badge": "1",
+                "sound": "Tri_tone",
+                "click_action": categoryIdentifier,
+                "content_available" : true,
+                "mutable_content": true
             ],
             "data": [
                 "Post_id": post.id ?? "",

@@ -64,7 +64,7 @@ struct FeedGuideCell: View {
                     .font(.callout)
                     .foregroundStyle(.white.opacity(0.8))
                 
-                FollowButtonView(cellUserId: user.nameID,
+                FollowButtonView(cellUser: user,
                                  buttonActive: $buttonActive,
                                  activeText: "팔로우",
                                  unActiveText: "팔로우 취소",

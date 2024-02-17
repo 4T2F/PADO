@@ -47,10 +47,21 @@ struct SurferNotificationCell: View {
                             .font(.system(size: 12))
                             .foregroundStyle(Color(.systemGray))
                     }
+                    .multilineTextAlignment(.leading)
                     .lineSpacing(4)
                 }
                 
                 Spacer()
+                
+                if let targetUser = targetUser {
+                    FollowButtonView(cellUser: targetUser,
+                                     buttonActive: $buttonActive,
+                                     activeText: "팔로우",
+                                     unActiveText: "팔로우 취소",
+                                     widthValue: 85,
+                                     heightValue: 30,
+                                     buttonType: ButtonType.direct)
+                }
             }
             .onAppear {
                 Task {

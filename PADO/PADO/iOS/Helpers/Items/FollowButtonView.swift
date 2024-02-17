@@ -13,8 +13,9 @@ enum ButtonType {
 }
 
 struct FollowButtonView: View {
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     
-    let cellUserId: String
+    let cellUser: User
     @Binding var buttonActive: Bool
     let activeText: String
     let unActiveText: String
@@ -25,14 +26,14 @@ struct FollowButtonView: View {
     
     var body: some View {
         Button(action: {
-            if !blockFollow(id: cellUserId) {
+            if !blockFollow(id: cellUser.nameID) {
                 if buttonActive {
                     Task {
                         switch buttonType {
                         case .direct:
-                            await UpdateFollowData.shared.directUnfollowUser(id: cellUserId)
+                            await UpdateFollowData.shared.directUnfollowUser(id: cellUser.nameID)
                         case .unDirect:
-                            await UpdateFollowData.shared.unfollowUser(id: cellUserId)
+                            await UpdateFollowData.shared.unfollowUser(id: cellUser.nameID)
                         }
                     }
                     buttonActive.toggle()
@@ -40,7 +41,11 @@ struct FollowButtonView: View {
                     isShowingLoginPage = true
                 } else {
                     Task {
-                        await UpdateFollowData.shared.followUser(id: cellUserId)
+                        await UpdateFollowData.shared.followUser(id: cellUser.nameID)
+                        if let currentUser = viewModel.currentUser {
+                            await UpdatePushNotiData.shared.pushNoti(receiveUser: cellUser, type: .follow, sendUser: currentUser)
+                        }
+                        
                     }
                     buttonActive.toggle()
                 }
@@ -66,7 +71,7 @@ struct FollowButtonView: View {
                 }
                 .padding(.horizontal)
             }
-        
+            
         }
         .sheet(isPresented: $isShowingLoginPage,
                content: {
@@ -75,7 +80,7 @@ struct FollowButtonView: View {
         })
         .onAppear {
             Task {
-                self.buttonActive = UpdateFollowData.shared.checkFollowingStatus(id: cellUserId)
+                self.buttonActive = UpdateFollowData.shared.checkFollowingStatus(id: cellUser.nameID)
             }
         }
     }
@@ -87,4 +92,6 @@ struct FollowButtonView: View {
     }
     
 }
+
+
 

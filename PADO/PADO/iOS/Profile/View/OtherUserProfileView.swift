@@ -240,7 +240,7 @@ struct OtherUserProfileView: View {
                                         }
                                     }
                                 } else {
-                                    FollowButtonView(cellUserId: user.nameID,
+                                    FollowButtonView(cellUser: user,
                                                      buttonActive: $buttonOnOff,
                                                      activeText: "팔로우",
                                                      unActiveText: "팔로우 취소",
