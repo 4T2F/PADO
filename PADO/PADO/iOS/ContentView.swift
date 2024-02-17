@@ -106,7 +106,7 @@ struct ContentView: View {
                         
                         Image(viewModel.showTab == 2 ? "tab_added" : "tab_add")
                     }
-                    .onAppear {viewModel.showTab = 2 }
+                    .onAppear { viewModel.showTab = 2 }
                     .tag(2)
                 
                 LoginAlert()

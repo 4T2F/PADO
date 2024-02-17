@@ -22,11 +22,11 @@ struct FeedView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                CustomRefreshView(showsIndicator: false,
-                                  lottieFileName: "Wave",
-                                  scrollDelegate: scrollDelegate) {
-                    if authenticationViewModel.selectedFilter == .following {
-                        ScrollViewReader { value in
+                ScrollViewReader { proxy in
+                    CustomRefreshView(showsIndicator: false,
+                                      lottieFileName: "Wave",
+                                      scrollDelegate: scrollDelegate) {
+                        if authenticationViewModel.selectedFilter == .following {
                             LazyVStack(spacing: 0) {
                                 ForEach(feedVM.followingPosts.indices, id: \.self) { index in
                                     FeedCell(feedVM: feedVM,
@@ -36,49 +36,48 @@ struct FeedView: View {
                                              post: $feedVM.followingPosts[index],
                                              index: index)
                                     .id(index)
-                                    
-                                    if index == feedVM.feedItems.indices.last {
-                                        Color.clear
-                                            .onAppear {
-                                                // 스크롤 뷰의 끝에 도달했을 때 실행될 코드
-                                                Task {
-                                                    await feedVM.fetchFollowMorePosts()
-                                                }
+                                    .onAppear {
+                                        if index == feedVM.followingPosts.indices.last {
+                                            Task {
+                                                await feedVM.fetchFollowMorePosts()
                                             }
+                                        }
                                     }
                                 }
                                 .scrollTargetLayout()
                             }
+                        } else {
+                            LazyVStack(spacing: 0) {
+                                ForEach(feedVM.todayPadoPosts.indices, id: \.self) { index in
+                                    FeedCell(feedVM: feedVM,
+                                             surfingVM: surfingVM,
+                                             profileVM: profileVM,
+                                             feedCellType: FeedFilter.today,
+                                             post: $feedVM.todayPadoPosts[index],
+                                             index: index)
+                                }
+                            }
                         }
-                        
-                    } else {
-                        LazyVStack(spacing: 0) {
-                            ForEach(feedVM.todayPadoPosts.indices, id: \.self) { index in
-                                FeedCell(feedVM: feedVM,
-                                         surfingVM: surfingVM,
-                                         profileVM: profileVM,
-                                         feedCellType: FeedFilter.today,
-                                         post: $feedVM.todayPadoPosts[index],
-                                         index: index)
-                                .id(index)
+                    } onRefresh: {
+                        try? await Task.sleep(nanoseconds: 1_500_000_000)
+                        if authenticationViewModel.selectedFilter == FeedFilter.following {
+                            await profileVM.fetchBlockUsers()
+                            await followVM.fetchIDs(id: userNameID, collectionType: CollectionType.following)
+                            await feedVM.fetchFollowingPosts()
+                        } else {
+                            Task{
+                                await feedVM.fetchTodayPadoPosts()
+                                await notiVM.fetchNotifications()
                             }
                         }
                     }
-                } onRefresh: {
-                    try? await Task.sleep(nanoseconds: 1_500_000_000)
-                    if authenticationViewModel.selectedFilter == FeedFilter.following {
-                        await profileVM.fetchBlockUsers()
-                        await followVM.fetchIDs(id: userNameID, collectionType: CollectionType.following)
-                        await feedVM.fetchFollowingPosts()
-                    } else {
-                        Task{
-                            await feedVM.fetchTodayPadoPosts()
-                            await notiVM.fetchNotifications()
+                    .scrollDisabled(feedVM.isShowingPadoRide)
+                    .onChange(of: authenticationViewModel.selectedFilter) {
+                        withAnimation {
+                            proxy.scrollTo(0, anchor: .top)
                         }
                     }
                 }
-                .scrollDisabled(feedVM.isShowingPadoRide)
-                
                 VStack {
                     if !feedVM.isShowingPadoRide {
                         if scrollDelegate.scrollOffset < 5 {
