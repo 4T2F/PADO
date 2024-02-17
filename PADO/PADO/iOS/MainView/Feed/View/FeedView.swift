@@ -27,7 +27,7 @@ struct FeedView: View {
                                   scrollDelegate: scrollDelegate) {
                     if authenticationViewModel.selectedFilter == .following {
                         ScrollViewReader { value in
-                            VStack(spacing: 0) {
+                            LazyVStack(spacing: 0) {
                                 ForEach(feedVM.followingPosts.indices, id: \.self) { index in
                                     FeedCell(feedVM: feedVM,
                                              surfingVM: surfingVM,
@@ -52,7 +52,7 @@ struct FeedView: View {
                         }
                         
                     } else {
-                        VStack(spacing: 0) {
+                        LazyVStack(spacing: 0) {
                             ForEach(feedVM.todayPadoPosts.indices, id: \.self) { index in
                                 FeedCell(feedVM: feedVM,
                                          surfingVM: surfingVM,

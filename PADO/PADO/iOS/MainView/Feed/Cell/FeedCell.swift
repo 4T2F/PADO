@@ -23,6 +23,8 @@ struct FeedCell: View {
     @State private var isShowingReportView: Bool = false
     @State private var isShowingCommentView: Bool = false
     @State private var isShowingLoginPage: Bool = false
+    @State private var isShowingMoreText: Bool = false
+    @State private var textColor: Color = .white
     
     @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var surfingVM: SurfingViewModel
@@ -44,9 +46,17 @@ struct FeedCell: View {
                             ZStack {
                                 KFImage.url(imageUrl)
                                     .resizable()
-                                    .onSuccess { _ in
+                                    .onSuccess { result in
                                         // 이미지 로딩 성공 시
                                         isLoading = false
+                                        
+                                        let uiImage = result.image
+                                        
+                                        if let averageColor = uiImage.averageColor(), averageColor.isLight() {
+                                            textColor = .black
+                                        } else {
+                                            textColor = .white
+                                        }
                                     }
                                     .onFailure { _ in
                                         // 이미지 로딩 실패 시
@@ -191,30 +201,70 @@ struct FeedCell: View {
                     // MARK: - 아이디 및 타이틀
                     if feedVM.isHeaderVisible {
                         VStack(alignment: .leading, spacing: 12) {
-                            Text("\(post.title)")
-                                .font(.system(size: 18))
-                                .fontWeight(.bold)
-                            
-                            // MARK: - 서퍼
-                            if let surferUser = surferUser {
-                                NavigationLink {
-                                    OtherUserProfileView(buttonOnOff: $postSurferButtonOnOff,
-                                                         user: surferUser)
-                                    
+                            if !post.title.isEmpty {
+                                Button {
+                                    isShowingMoreText.toggle()
                                 } label: {
-                                    if !surferUser.username.isEmpty {
-                                        Text("feat. \(surferUser.username)")
+                                    if isShowingMoreText {
+                                        Text("\(post.title)")
+                                            .multilineTextAlignment(.leading)
                                     } else {
-                                        Text("feat. @\(post.surferUid)")
+                                        Text("\(post.title)")
+                                            .lineLimit(1)
+                                            .multilineTextAlignment(.leading)
                                     }
                                 }
-                                .font(.system(size: 14))
+                                .font(.system(size: 16))
+                                .foregroundStyle(textColor)
+                                .lineSpacing(1)
                                 .fontWeight(.bold)
-                                .foregroundStyle(.white)
-                                .padding(8)
-                                .background(.modal.opacity(0.8))
-                                .clipShape(RoundedRectangle(cornerRadius: 3))
-                                .padding(.bottom, 4)
+                                .padding(.trailing, 20)
+                                
+                                // MARK: - 서퍼
+                                if let surferUser = surferUser {
+                                    NavigationLink {
+                                        OtherUserProfileView(buttonOnOff: $postSurferButtonOnOff,
+                                                             user: surferUser)
+                                        
+                                    } label: {
+                                        if !surferUser.username.isEmpty {
+                                            Text("surf. \(surferUser.username)")
+                                        } else {
+                                            Text("surf. @\(post.surferUid)")
+                                        }
+                                    }
+                                    .font(.system(size: 14))
+                                    .fontWeight(.heavy)
+                                    .foregroundStyle(.white)
+                                    .padding(8)
+                                    .background(.modal.opacity(0.8))
+                                    .clipShape(RoundedRectangle(cornerRadius: 3))
+                                    .padding(.bottom, 4)
+                                    .padding(.trailing, 24)
+                                    
+                                }
+                            } else {
+                                if let surferUser = surferUser {
+                                    NavigationLink {
+                                        OtherUserProfileView(buttonOnOff: $postSurferButtonOnOff,
+                                                             user: surferUser)
+                                        
+                                    } label: {
+                                        if !surferUser.username.isEmpty {
+                                            Text("surf. \(surferUser.username)")
+                                        } else {
+                                            Text("surf. @\(post.surferUid)")
+                                        }
+                                    }
+                                    .font(.system(size: 14))
+                                    .fontWeight(.heavy)
+                                    .foregroundStyle(.white)
+                                    .padding(8)
+                                    .background(.modal.opacity(0.8))
+                                    .clipShape(RoundedRectangle(cornerRadius: 3))
+                                    .padding(.bottom, 4)
+                                    .padding(.trailing, 24)
+                                }
                             }
                             
                             HStack(spacing: 12) {

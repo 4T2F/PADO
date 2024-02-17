@@ -128,6 +128,7 @@
 		63B7B9992B7C996C00707C2F /* FeedGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B7B9982B7C996C00707C2F /* FeedGuideView.swift */; };
 		63B7B99D2B7E7ED500707C2F /* SettingBlockUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B7B99C2B7E7ED500707C2F /* SettingBlockUserView.swift */; };
 		63B7B9A12B7E8ACB00707C2F /* BlockUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B7B9A02B7E8ACB00707C2F /* BlockUser.swift */; };
+		63B7B9A32B802DC800707C2F /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B7B9A22B802DC800707C2F /* Color+.swift */; };
 		63C20BEB2B56CEDC00911F64 /* AdvancedSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C20BEA2B56CEDB00911F64 /* AdvancedSettingsView.swift */; };
 		63C20BED2B56CFAF00911F64 /* AdvancedSettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C20BEC2B56CFAF00911F64 /* AdvancedSettingsCell.swift */; };
 		63C8BA492B561DC200025422 /* SignUpButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA482B561DC200025422 /* SignUpButton.swift */; };
@@ -373,6 +374,7 @@
 		63B7B9982B7C996C00707C2F /* FeedGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedGuideView.swift; sourceTree = "<group>"; };
 		63B7B99C2B7E7ED500707C2F /* SettingBlockUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingBlockUserView.swift; sourceTree = "<group>"; };
 		63B7B9A02B7E8ACB00707C2F /* BlockUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockUser.swift; sourceTree = "<group>"; };
+		63B7B9A22B802DC800707C2F /* Color+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
 		63C20BEA2B56CEDB00911F64 /* AdvancedSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSettingsView.swift; sourceTree = "<group>"; };
 		63C20BEC2B56CFAF00911F64 /* AdvancedSettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSettingsCell.swift; sourceTree = "<group>"; };
 		63C8BA482B561DC200025422 /* SignUpButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpButton.swift; sourceTree = "<group>"; };
@@ -574,6 +576,7 @@
 				63AB411C2B468C25007B37DC /* NavigationViewStyleHelper.swift */,
 				04AD70EB2B6CB80F00437134 /* KeyboardHide.swift */,
 				B107654D2B712ABE0023B686 /* UserDefaultsExtension.swift */,
+				63B7B9A22B802DC800707C2F /* Color+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1575,6 +1578,7 @@
 				649372FE2B56665200BCDA71 /* FollowerUserCellView.swift in Sources */,
 				04AD70EC2B6CB80F00437134 /* KeyboardHide.swift in Sources */,
 				B1999ED92B6E1A6F005B37BA /* UpdatePushNotiData.swift in Sources */,
+				63B7B9A32B802DC800707C2F /* Color+.swift in Sources */,
 				64392B7C2B76852D0047BA12 /* PadoRide.swift in Sources */,
 				63C20BED2B56CFAF00911F64 /* AdvancedSettingsCell.swift in Sources */,
 				416F61F82B7DF50B00F81093 /* FeedGuideCell.swift in Sources */,
