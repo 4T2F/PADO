@@ -216,6 +216,7 @@
 		B1D7CDE92B5669200090544B /* SettingRedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D7CDE82B5669200090544B /* SettingRedCell.swift */; };
 		B1D7CDEC2B5669B80090544B /* SettingDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D7CDEB2B5669B80090544B /* SettingDivider.swift */; };
 		B1D7CDEF2B566A2F0090544B /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D7CDEE2B566A2F0090544B /* ViewExtension.swift */; };
+		B1EDCAF22B8255D7000B5AEA /* photomoji.json in Resources */ = {isa = PBXBuildFile; fileRef = B1EDCAF12B8255D6000B5AEA /* photomoji.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -461,6 +462,7 @@
 		B1D7CDE82B5669200090544B /* SettingRedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingRedCell.swift; sourceTree = "<group>"; };
 		B1D7CDEB2B5669B80090544B /* SettingDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingDivider.swift; sourceTree = "<group>"; };
 		B1D7CDEE2B566A2F0090544B /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
+		B1EDCAF12B8255D6000B5AEA /* photomoji.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = photomoji.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -905,6 +907,7 @@
 				63B7B9902B7AFA0600707C2F /* pokjuk2.json */,
 				418ACDC02B76181B003DD9E7 /* Wave.json */,
 				63B7B98C2B7AF68D00707C2F /* pokjuk.json */,
+				B1EDCAF12B8255D6000B5AEA /* photomoji.json */,
 				418D45BE2B756AAD007F6633 /* Postit.json */,
 				418ACDC22B761AE5003DD9E7 /* nonePostit.json */,
 				419981D22B7439F400EEA06E /* Loading.json */,
@@ -1394,6 +1397,7 @@
 				63B7B98D2B7AF68D00707C2F /* pokjuk.json in Resources */,
 				63B7B98F2B7AF88900707C2F /* pokjuk1.json in Resources */,
 				418ACDC32B761AE6003DD9E7 /* nonePostit.json in Resources */,
+				B1EDCAF22B8255D7000B5AEA /* photomoji.json in Resources */,
 				419981D32B7439F400EEA06E /* Loading.json in Resources */,
 				637323462B6FBFDF00C02A32 /* Heart.json in Resources */,
 				41FD99FD2B43D5ED0028D38E /* Preview Assets.xcassets in Resources */,
@@ -1872,10 +1876,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PADO/PADO.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PADO/Preview Content\"";
-				DEVELOPMENT_TEAM = UAG934M4Q7;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = UAG934M4Q7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PADO/Info.plist;
@@ -1896,6 +1902,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.4T2F.PADO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "PADO Debug";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1911,10 +1918,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PADO/PADO.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PADO/Preview Content\"";
-				DEVELOPMENT_TEAM = UAG934M4Q7;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = UAG934M4Q7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PADO/Info.plist;
@@ -1935,6 +1944,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.4T2F.PADO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "PADO Debug";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

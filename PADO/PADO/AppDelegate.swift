@@ -82,7 +82,6 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         
         completionHandler([.banner, .sound, .badge]) // UNNotificationPresentationOptions
-        UNUserNotificationCenter.current().setBadgeCount(0)
         HapticHelper.shared.impact(style: .medium) // 햅틱알림
     }
     

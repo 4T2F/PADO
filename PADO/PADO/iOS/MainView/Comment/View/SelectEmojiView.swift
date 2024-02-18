@@ -98,7 +98,7 @@ struct SelectEmojiView: View {
             commentVM.showEmojiView = false
             commentVM.showCropFaceMoji = false
         }) {
-            Text("페이스모지 올리기")
+            Text("포토모지 올리기")
                 .font(.system(size: 16, weight: .semibold))
                 .foregroundColor(.white)
                 .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)

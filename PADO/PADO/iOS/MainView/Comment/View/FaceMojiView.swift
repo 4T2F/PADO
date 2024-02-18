@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Lottie
 
 struct FaceMojiView: View {
     @ObservedObject var commentVM: CommentViewModel
@@ -23,12 +24,12 @@ struct FaceMojiView: View {
                 HStack {
                     ForEach(commentVM.facemojies, id: \.self) { facemoji in
                         FaceMojiCell(facemoji: facemoji, commentVM: commentVM)
-                            .padding(.horizontal, 6)
+                            .padding(6)
                             .sheet(isPresented: $commentVM.deleteFacemojiModal) {
                                 DeleteFaceMojiView(facemoji: commentVM.selectedFacemoji ?? facemoji,
                                                    postID: postID,
                                                    commentVM: commentVM)
-                                    .presentationDetents([.medium])
+                                .presentationDetents([.medium])
                             }
                     }
                     Button {
@@ -39,51 +40,56 @@ struct FaceMojiView: View {
                         }
                     } label: {
                         VStack {
-                            Image("face.dashed")
-                                .resizable()
-                                .foregroundStyle(.white)
-                                .frame(width: 40, height: 40)
-                                .padding(.vertical, 16)
-                            
+                            Circle()
+                                .stroke(Color.white, lineWidth: 1.5)
+                                .foregroundStyle(Color.clear)
+                                .frame(width: 50)
+                                .overlay {
+                                    LottieView(animation: .named("photomoji"))
+                                        .resizable()
+                                        .looping()
+                                        .scaledToFit()
+                                        .frame(width: 80, height: 80)
+                                }
                             Text("")
+                        }
+                        .padding(.horizontal, 6)
+                        .onAppear {
+                            Task {
+                                commentVM.facemojies = try await commentVM.updateFacemojiData.getFaceMoji(documentID: postID) ?? []
+                            }
+                        }
+                        .sheet(isPresented: $surfingVM.isShowingFaceMojiModal) {
+                            FaceMojiModalView(surfingVM: surfingVM)
+                                .presentationDetents([.fraction(0.3)])
+                                .presentationDragIndicator(.visible)
                             
                         }
-                    }
-                    .padding(.horizontal)
-                    .onAppear {
-                        Task {
-                            commentVM.facemojies = try await commentVM.updateFacemojiData.getFaceMoji(documentID: postID) ?? []
+                        .sheet(isPresented: $surfingVM.isShownCamera) {
+                            CameraAccessView(isShown: $surfingVM.isShownCamera,
+                                             myimage: $surfingVM.faceMojiImage,
+                                             myUIImage: $surfingVM.faceMojiUIImage,
+                                             mysourceType: $surfingVM.sourceType,
+                                             mycameraDevice: $surfingVM.cameraDevice)
                         }
-                    }
-                    .sheet(isPresented: $surfingVM.isShowingFaceMojiModal) {
-                        FaceMojiModalView(surfingVM: surfingVM)
-                            .presentationDetents([.fraction(0.3)])
-                        
-                    }
-                    .sheet(isPresented: $surfingVM.isShownCamera) {
-                        CameraAccessView(isShown: $surfingVM.isShownCamera,
-                                         myimage: $surfingVM.faceMojiImage,
-                                         myUIImage: $surfingVM.faceMojiUIImage,
-                                         mysourceType: $surfingVM.sourceType,
-                                         mycameraDevice: $surfingVM.cameraDevice)
-                    }
-                    .sheet(isPresented: $isShowingLoginPage, content: {
-                        StartView()
-                            .presentationDragIndicator(.visible)
-                    })
-                    .onChange(of: surfingVM.faceMojiUIImage) { _, _ in
-                        surfingVM.isShowingFaceMojiModal = false
-                        commentVM.faceMojiUIImage = surfingVM.faceMojiUIImage
-                        commentVM.showCropFaceMoji = true
-                    }
-                    .navigationDestination(isPresented: $commentVM.showCropFaceMoji) {
-                        FaceMojiCropView(commentVM: commentVM,
-                                         postOwner: $postOwner,
-                                         post: $post,
-                                         postID: postID)
-                        { croppedImage, status in
-                            if let croppedImage {
-                                commentVM.cropMojiUIImage = croppedImage
+                        .sheet(isPresented: $isShowingLoginPage, content: {
+                            StartView()
+                                .presentationDragIndicator(.visible)
+                        })
+                        .onChange(of: surfingVM.faceMojiUIImage) { _, _ in
+                            surfingVM.isShowingFaceMojiModal = false
+                            commentVM.faceMojiUIImage = surfingVM.faceMojiUIImage
+                            commentVM.showCropFaceMoji = true
+                        }
+                        .navigationDestination(isPresented: $commentVM.showCropFaceMoji) {
+                            FaceMojiCropView(commentVM: commentVM,
+                                             postOwner: $postOwner,
+                                             post: $post,
+                                             postID: postID)
+                            { croppedImage, status in
+                                if let croppedImage {
+                                    commentVM.cropMojiUIImage = croppedImage
+                                }
                             }
                         }
                     }

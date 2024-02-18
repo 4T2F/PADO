@@ -27,7 +27,7 @@ final class PushNotificationManager {
             "notification": [
                 "title": title,
                 "body": body,
-                "badge": 1,
+                "badge": 0,
                 "sound": "default",
                 "click_action": categoryIdentifier,
                 "content_available" : true,
@@ -105,7 +105,7 @@ final class PushNotificationManager {
             "notification": [
                 "title": title,
                 "body": body,
-                "badge": 1,
+                "badge": 0,
                 "sound": "Tri_tone",
                 "click_action": categoryIdentifier,
                 "content_available" : true,

@@ -37,11 +37,11 @@ struct FaceMojiCropView: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()
             .toolbarBackground(.visible, for: .navigationBar)
-            .toolbarBackground(Color.black, for: .navigationBar)
+            .toolbarBackground(Color.main, for: .navigationBar)
             .toolbarColorScheme(.dark, for: .navigationBar)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background {
-                Color.black
+                Color.main
                     .ignoresSafeArea()
             }
             .navigationDestination(isPresented: $commentVM.showEmojiView) {
