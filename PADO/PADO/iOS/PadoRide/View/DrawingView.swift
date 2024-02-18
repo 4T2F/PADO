@@ -221,6 +221,7 @@ struct DrawingView: View {
                 Button{
                     padorideVM.showingModal = true
                     padorideVM.saveImage()
+                    padorideVM.toolPicker.setVisible(false, forFirstResponder: padorideVM.canvas)
                     padorideVM.pickerImageItem = nil
                 } label: {
                     Text("다음")

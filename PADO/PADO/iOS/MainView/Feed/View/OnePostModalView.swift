@@ -116,7 +116,7 @@ struct OnePostModalView: View {
                     
                     KFImage.url(URL(string: post.imageUrl))
                         .resizable()
-                        .blur(radius: 150)
+                        .blur(radius: 50)
                         .containerRelativeFrame([.horizontal,.vertical])
                         .overlay {
                             // MARK: - 사진
