@@ -51,9 +51,9 @@ struct SettingView: View {
                         .padding(.leading)
                         .padding(.bottom, 20)
                     
-                    SettingViewCell(settingTittle: "PADO 평가하기")
-                    
-                    SettingDivider()
+//                    SettingViewCell(settingTittle: "PADO 평가하기")
+//                    
+//                    SettingDivider()
                     
                     NavigationLink(destination: SettingAskView().environmentObject(surfingVM)) {
                         SettingViewCell(settingTittle: "문의하기")

@@ -16,9 +16,9 @@ class DeletePost {
     let db = Firestore.firestore()
     let storageRef = Storage.storage().reference()
     
-    func deletePost(postID: String, postOwnerID: String, sufferID: String) async{
+    func deletePost(postID: String, postOwnerID: String, sufferID: String) async {
         
-        do{
+        do {
             let commentQuery = try await db.collection("post").document(postID).collection("comment").getDocuments()
             
             let padoRideQuery = try await db.collection("post").document(postID).collection("padoride").getDocuments()

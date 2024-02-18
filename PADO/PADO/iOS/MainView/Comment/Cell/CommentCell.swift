@@ -29,29 +29,9 @@ struct CommentCell: View {
                 }
             } label: {
                 if let user = commentVM.commentUsers[comment.userID] {
-                    if let imageUrl = user.profileImageUrl {
-                        KFImage(URL(string: imageUrl))
-                            .fade(duration: 0.5)
-                            .placeholder {
-                                Image("defaultProfile")
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 38, height: 38)
-                                    .clipShape(Circle())
-                            }
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 38, height: 38)
-                            .clipShape(Circle())
-                    }
-                } else {
-                    Image("defaultProfile")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 38, height: 38)
-                        .clipShape(Circle())
+                    CircularImageView(size: .commentSize,
+                                      user: user)
                 }
-                    
             }
             
             VStack(alignment: .leading, spacing: 4) {

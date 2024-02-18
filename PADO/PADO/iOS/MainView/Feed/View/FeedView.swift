@@ -78,13 +78,13 @@ struct FeedView: View {
                         if authenticationViewModel.selectedFilter == FeedFilter.following {
                             guard !userNameID.isEmpty else {
                                 await feedVM.getPopularUser()
+                                feedVM.followingPosts.removeAll()
                                 return
                             }
                             await profileVM.fetchBlockUsers()
-                            await followVM.fetchIDs(id: userNameID, collectionType: CollectionType.following)
+                            await followVM.initializeFollowFetch(id: userNameID)
                             feedVM.followFetchLoading = true
                             await feedVM.fetchFollowingPosts()
-                            await followVM.fetchIDs(id: userNameID, collectionType: CollectionType.surfing)
                             await profileVM.fetchPostID(id: userNameID)
                             await notiVM.fetchNotifications()
                             feedVM.followFetchLoading = false
@@ -94,8 +94,7 @@ struct FeedView: View {
                                 await feedVM.fetchTodayPadoPosts()
                                 guard !userNameID.isEmpty else { return }
                                 await notiVM.fetchNotifications()
-                                await followVM.fetchIDs(id: userNameID, collectionType: CollectionType.following)
-                                await followVM.fetchIDs(id: userNameID, collectionType: CollectionType.surfing)
+                                await followVM.initializeFollowFetch(id: userNameID)
                                 await profileVM.fetchPostID(id: userNameID)
                             }
                         }

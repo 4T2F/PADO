@@ -30,11 +30,11 @@ struct SettingProfileView: View {
                                         .scaledToFill()
                                         .overlay(
                                             LinearGradient(colors: [.clear,
-                                                                    .black.opacity(0.1),
-                                                                    .black.opacity(0.3),
-                                                                    .black.opacity(0.5),
-                                                                    .black.opacity(0.8),
-                                                                    .black.opacity(1)], startPoint: .top, endPoint: .bottom)
+                                                                    .main.opacity(0.1),
+                                                                    .main.opacity(0.3),
+                                                                    .main.opacity(0.5),
+                                                                    .main.opacity(0.8),
+                                                                    .main.opacity(1)], startPoint: .top, endPoint: .bottom)
                                         )
                                         .onAppear {
                                             viewModel.backimagePick = true
@@ -44,6 +44,7 @@ struct SettingProfileView: View {
                                                 image
                                                     .resizable()
                                                     .scaledToFill()
+                                                    .clipShape(Circle())
                                                     .frame(width: 129, height: 129)
                                                     .onAppear {
                                                         viewModel.imagePick = true
@@ -88,6 +89,7 @@ struct SettingProfileView: View {
                                         .sheet(isPresented: $viewModel.showProfileModal) {
                                             SettingProfileModal(isActive: $isActive)
                                                 .presentationDetents([.fraction(0.4)])
+                                                .presentationDragIndicator(.visible)
                                         }
                                 } else {
                                     if let user = viewModel.currentUser {
@@ -149,6 +151,7 @@ struct SettingProfileView: View {
                                             .sheet(isPresented: $viewModel.showProfileModal) {
                                                 SettingProfileModal(isActive: $isActive)
                                                     .presentationDetents([.fraction(0.4)])
+                                                    .presentationDragIndicator(.visible)
                                             }
                                     }
                                 }

@@ -30,31 +30,32 @@ struct BirthView: View {
                             TextField("생년월일", text: $viewModel.year)
                                 .disabled(true)
                                 .tint(.white)
+                                .multilineTextAlignment(.leading)
                                 .onChange(of: viewModel.year) { _, newValue in
                                     buttonActive = newValue.count > 0
                                 }
                             
                             Divider()
                             
-                            Text("공개여부를 선택할 수 있어요")
-                                .font(.system(size: 14))
-                                .fontWeight(.semibold)
-                                .foregroundStyle(.gray)
-                                .padding(.bottom, 10)
-                            
                             Group {
                                 Text("가입과 동시에 파도의 ")
+                                    .foregroundStyle(.gray)
                                 +
                                 Text(.init(termsLink))
+                                    .foregroundStyle(.blue)
                                 +
                                 Text("과 ")
+                                    .foregroundStyle(.gray)
                                 +
                                 Text(.init(personalInfoLink))
+                                    .foregroundStyle(.blue)
                                 +
                                 Text("에 동의하는 것으로 간주함니다.")
+                                    .foregroundStyle(.gray)
                             }
                             .font(.system(size: 14))
                             .fontWeight(.semibold)
+                       
                         })
                     })
 
@@ -81,7 +82,7 @@ struct BirthView: View {
                         if isFourteenOrOlder(birthDate: viewModel.birthDate) {
                             Task{
                                 await viewModel.signUpUser()
-                                viewModel.needsDataFetch = true
+                                viewModel.needsDataFetch.toggle()
                             }
                         } else {
                             showBirthAlert = true
@@ -109,3 +110,4 @@ struct BirthView: View {
         return birthDate <= fourteenYearsAgo
     }
 }
+

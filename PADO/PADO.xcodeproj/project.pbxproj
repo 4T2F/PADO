@@ -1803,6 +1803,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PADO/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = PADO;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				INFOPLIST_KEY_NSCameraUsageDescription = "이 앱은 포스팅을 위해 사용자의 카메라에 접근합니다.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "게시글을 올리기 위해서 사용자의 앨범에 접근합니다";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "이 앱은 포스팅을 위해 사용자의 앨범에 접근합니다.";
@@ -1842,6 +1844,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PADO/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = PADO;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				INFOPLIST_KEY_NSCameraUsageDescription = "이 앱은 포스팅을 위해 사용자의 카메라에 접근합니다.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "게시글을 올리기 위해서 사용자의 앨범에 접근합니다";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "이 앱은 포스팅을 위해 사용자의 앨범에 접근합니다.";
