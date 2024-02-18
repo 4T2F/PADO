@@ -1,4 +1,4 @@
-![PADO](https://github.com/4T2F/PADO/assets/120264964/205ba15b-75d5-44d1-8b73-e283d57f34e0)
+![Group 9077](https://github.com/4T2F/PADO/assets/103357078/776bc5cd-50bb-4c3c-a6ff-65a20898732b)
 
 <br><br>
 
