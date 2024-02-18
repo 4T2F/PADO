@@ -24,7 +24,7 @@ struct SettingInfoView: View {
                         }
                     }
                     .sheet(isPresented: $showWK) {
-                        WebView(url: "https://notch-galaxy-ab8.notion.site/de9e469fca24427cbcf16ada473c9231?pvs=4")
+                        WebView(url: "https://notch-galaxy-ab8.notion.site/6ff60c61aa104cd6b1471d3ea5102ce3?pvs=4")
                     }
                     
                     Button {
@@ -36,7 +36,7 @@ struct SettingInfoView: View {
                         }
                     }
                     .sheet(isPresented: $showPersonalInfoWK) {
-                        WebView(url: "https://notch-galaxy-ab8.notion.site/1069395170324617b046f096118cd815")
+                        WebView(url: "https://notch-galaxy-ab8.notion.site/3147fcead0ed41cdad6e2078893807b7?pvs=4")
                     }
                     
                     Spacer()
