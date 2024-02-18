@@ -146,11 +146,11 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         completionHandler()
     }
     
-    // 원격 알림 수신 처리
-    //    func application(_ application: UIApplication,
-    //                     didReceiveRemoteNotification userInfo: [AnyHashable: Any]) async -> UIBackgroundFetchResult {
-    //        return .newData
-    //    }
+     // 원격 알림 수신 처리
+        func application(_ application: UIApplication,
+                         didReceiveRemoteNotification userInfo: [AnyHashable: Any]) async -> UIBackgroundFetchResult {
+            return .newData
+        }
     
 }
 

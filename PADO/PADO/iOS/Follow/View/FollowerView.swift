@@ -96,7 +96,7 @@ struct FollowerView: View {
                                             }
                                         }
                                     }
-                                } else {
+                                } else if followVM.surferIDs.isEmpty && followVM.followerIDs.isEmpty {
                                     NoItemView(itemName: "아직 팔로워가 없어요")
                                         .padding(.top, 150)
                                 }

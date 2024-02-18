@@ -165,7 +165,7 @@ struct OtherUserProfileView: View {
             let size = proxy.size
             let height = (size.height + minY)
             
-            RectangleImageView(imageUrl: user.backProfileImageUrl)
+            KFImage(URL(string: user.backProfileImageUrl ?? ""))
                 .scaledToFill()
                 .frame(width: size.width, height: height > 0 ? height : 0, alignment: .top)
                 .overlay {
@@ -175,7 +175,9 @@ struct OtherUserProfileView: View {
                                                 .main.opacity(0.3),
                                                 .main.opacity(0.5),
                                                 .main.opacity(0.8),
-                                                .main.opacity(1)], startPoint: .top, endPoint: .bottom)
+                                                .main.opacity(1)],
+                                       startPoint: .top,
+                                       endPoint: .bottom)
                         
                         VStack(alignment: .leading, spacing: 10) {
                             CircularImageView(size: .xxLarge, user: user)

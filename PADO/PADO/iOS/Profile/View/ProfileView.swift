@@ -146,7 +146,9 @@ struct ProfileView: View {
                                                 .main.opacity(0.3),
                                                 .main.opacity(0.5),
                                                 .main.opacity(0.8),
-                                                .main.opacity(1)], startPoint: .top, endPoint: .bottom)
+                                                .main.opacity(1)],
+                                       startPoint: .top,
+                                       endPoint: .bottom)
                         
                         VStack(alignment: .leading, spacing: 10) {
                             if let user = viewModel.currentUser {
