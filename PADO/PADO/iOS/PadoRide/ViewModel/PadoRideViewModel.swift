@@ -194,8 +194,6 @@ class PadoRideViewModel: ObservableObject {
                 let ratioTest = await ImageRatioResize.shared.resizeImage(testdecoUIImage, toSize: CGSize(width: 900, height: 1500))
                 
                 decoUIImage = ratioTest
-                
-                UIImageWriteToSavedPhotosAlbum(decoUIImage, nil, nil, nil)
             }
             
         }
@@ -209,6 +207,8 @@ class PadoRideViewModel: ObservableObject {
         guard let imageData = decoUIImage.jpegData(compressionQuality: 1.0) else { return }
         
         do {
+            UIImageWriteToSavedPhotosAlbum(decoUIImage, nil, nil, nil)
+            
             _ = try await storageRef.putDataAsync(imageData)
             let url = try await storageRef.downloadURL()
             
