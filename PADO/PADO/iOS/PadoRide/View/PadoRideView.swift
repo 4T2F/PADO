@@ -20,39 +20,6 @@ struct PadoRideView: View {
                 Color.main.ignoresSafeArea()
                 VStack {
                     if !padorideVM.postsData.isEmpty {
-                        HStack {
-                            Spacer()
-                            
-                            Text("파도타기")
-                                .font(.system(size: 16, weight: .bold))
-                                .padding(.leading, 40)
-                            
-                            Spacer()
-                            
-                            if padorideVM.selectedImage.isEmpty {
-                                Button {
-                                } label: {
-                                    Text("다음")
-                                        .foregroundStyle(.gray)
-                                        .font(.system(size: 16, weight: .semibold))
-                                        .padding(.trailing, 18)
-                                }
-                            } else {
-                                Button {
-                                    padorideVM.downloadSelectedImage()
-                                    padorideVM.isShowingEditView = true
-                                } label: {
-                                    Text("다음")
-                                        .foregroundStyle(.white)
-                                        .font(.system(size: 16, weight: .semibold))
-                                        .padding(.trailing, 18)
-                                }
-                            }
-                        }
-                        .padding(.top, 10)
-                        
-                        Spacer()
-                        
                         ScrollView(.vertical, showsIndicators: false) {
                             LazyVStack {
                                 ForEach(followVM.surfingIDs, id: \.self) { surfingID in
@@ -93,6 +60,36 @@ struct PadoRideView: View {
                             SurfingGuideView()
                             
                             Spacer()
+                        }
+                    }
+                }
+                .navigationTitle("파도타기")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbarBackground(.visible, for: .navigationBar)
+                .toolbarBackground(Color.main, for: .navigationBar)
+                .toolbarColorScheme(.dark, for: .navigationBar)
+                .background {
+                    Color.main
+                        .ignoresSafeArea()
+                }
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        if padorideVM.selectedImage.isEmpty {
+                            Button {
+                            } label: {
+                                Text("다음")
+                                    .foregroundStyle(.gray)
+                                    .font(.system(size: 16, weight: .semibold))
+                            }
+                        } else {
+                            Button {
+                                padorideVM.downloadSelectedImage()
+                                padorideVM.isShowingEditView = true
+                            } label: {
+                                Text("다음")
+                                    .foregroundStyle(.white)
+                                    .font(.system(size: 16, weight: .semibold))
+                            }
                         }
                     }
                 }
