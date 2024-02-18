@@ -74,7 +74,6 @@ struct PostCropView: View {
                     }
                 }
             }
-        
             .navigationDestination(isPresented: $surfingVM.showPostView) {
                 PostView(surfingVM: surfingVM, feedVM: feedVM, profileVM: profileVM, followVM: followVM)
             }
