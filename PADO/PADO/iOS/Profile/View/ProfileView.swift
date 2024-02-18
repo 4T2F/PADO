@@ -169,7 +169,7 @@ struct ProfileView: View {
                                     .offset(y: 5)
                                     .zIndex(touchProfileImage ? 1 : 0)
                                     .onTapGesture {
-                                        if (user.profileImageUrl != nil) {
+                                        if user.profileImageUrl != nil {
                                             position = .zero
                                             withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
                                                 touchProfileImage = true
