@@ -18,7 +18,40 @@ struct PadoRideView: View {
         NavigationStack {
             ZStack {
                 Color.main.ignoresSafeArea()
+                
                 VStack {
+                    HStack {
+                        Spacer()
+                        
+                        Text("파도타기")
+                            .font(.system(size: 16, weight: .bold))
+                            .padding(.leading, 40)
+                        
+                        Spacer()
+                        
+                        if padorideVM.selectedImage.isEmpty {
+                            Button {
+                            } label: {
+                                Text("다음")
+                                    .foregroundStyle(.gray)
+                                    .font(.system(size: 16, weight: .semibold))
+                                    .padding(.trailing, 18)
+                            }
+                        } else {
+                            Button {
+                                padorideVM.downloadSelectedImage()
+                                padorideVM.isShowingEditView = true
+                            } label: {
+                                Text("다음")
+                                    .foregroundStyle(.white)
+                                    .font(.system(size: 16, weight: .semibold))
+                                    .padding(.trailing, 18)
+                            }
+                        }
+                    }
+                    
+                    Spacer()
+                    
                     if !padorideVM.postsData.isEmpty {
                         ScrollView(.vertical, showsIndicators: false) {
                             LazyVStack {
@@ -35,7 +68,7 @@ struct PadoRideView: View {
                                         }
                                     } else {
                                         HStack {
-                                            NoItemView(itemName: "파도타기 할 수 있는 포스트가 없어요")
+                                            NoItemView(itemName: "해당 유저는 아직 꾸밀 파도가 없어요")
                                         }
                                     }
                                 }
@@ -45,51 +78,18 @@ struct PadoRideView: View {
                         if followVM.followingIDs.isEmpty {
                             Spacer()
                             
-                            Text("팔로잉한 사람이 없어요")
+                            Text("내가 팔로잉한 사람이 없어요")
                                 .font(.system(size: 16, weight: .bold))
                             
                             FeedGuideView(feedVM: feedVM)
                             
                             Spacer()
                         } else if followVM.surfingIDs.isEmpty {
-                            
                             Spacer()
-                            Text("서퍼로 지정해준 사람이 없어요")
-                                .font(.system(size: 16, weight: .bold))
                             
                             SurfingGuideView()
                             
                             Spacer()
-                        }
-                    }
-                }
-                .navigationTitle("파도타기")
-                .navigationBarTitleDisplayMode(.inline)
-                .toolbarBackground(.visible, for: .navigationBar)
-                .toolbarBackground(Color.main, for: .navigationBar)
-                .toolbarColorScheme(.dark, for: .navigationBar)
-                .background {
-                    Color.main
-                        .ignoresSafeArea()
-                }
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        if padorideVM.selectedImage.isEmpty {
-                            Button {
-                            } label: {
-                                Text("다음")
-                                    .foregroundStyle(.gray)
-                                    .font(.system(size: 16, weight: .semibold))
-                            }
-                        } else {
-                            Button {
-                                padorideVM.downloadSelectedImage()
-                                padorideVM.isShowingEditView = true
-                            } label: {
-                                Text("다음")
-                                    .foregroundStyle(.white)
-                                    .font(.system(size: 16, weight: .semibold))
-                            }
                         }
                     }
                 }
