@@ -31,6 +31,7 @@ var userFollowingIDs: [String] = []
 
 var blockingUser: [BlockUser] = []
 var blockedUser: [BlockUser] = []
+var needsDataFetch: Bool = false
 
 struct User: Codable, Identifiable, Hashable {
     @DocumentID var id: String?

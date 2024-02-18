@@ -34,7 +34,8 @@ struct OnePostModalView: View {
     @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var profileVM: ProfileViewModel
     
-
+    @Environment(\.dismiss) var dismiss
+    
     var post: Post
     
     var body: some View {
@@ -517,6 +518,8 @@ struct OnePostModalView: View {
                                                                                                storageFileName: fileName,
                                                                                                subID: subID ?? "")
                                                 deleteMyPadoride = false
+                                                needsDataFetch.toggle()
+                                                dismiss()
                                             }
                                         })
                                         .presentationDetents([.fraction(0.4)])
@@ -530,6 +533,8 @@ struct OnePostModalView: View {
                                                                                                storageFileName: fileName,
                                                                                                subID: userNameID)
                                                 deleteSendPadoride = false
+                                                needsDataFetch.toggle()
+                                                dismiss()
                                             }
                                         }
                                         .presentationDetents([.fraction(0.4)])
@@ -541,6 +546,8 @@ struct OnePostModalView: View {
                                                                                    postOwnerID: post.ownerUid,
                                                                                    sufferID: post.surferUid)
                                                 deleteMyPost = false
+                                                needsDataFetch.toggle()
+                                                dismiss()
                                             }
                                         }
                                         .presentationDetents([.fraction(0.4)])
@@ -552,6 +559,8 @@ struct OnePostModalView: View {
                                                                                    postOwnerID: post.ownerUid,
                                                                                    sufferID: post.surferUid)
                                                 deleteSendPost = false
+                                                needsDataFetch.toggle()
+                                                dismiss()
                                             }
                                         }
                                         .presentationDetents([.fraction(0.4)])

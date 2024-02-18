@@ -61,7 +61,7 @@ struct CodeView: View {
                                     if isUserExisted {
                                         await viewModel.fetchUIDByPhoneNumber(phoneNumber: "+82\(viewModel.phoneNumber)")
                                         await viewModel.fetchUser()
-                                        viewModel.needsDataFetch.toggle()
+                                        needsDataFetch.toggle()
                                     } else {
                                         showUseID.toggle()
                                     }
