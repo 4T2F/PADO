@@ -29,6 +29,7 @@ struct ProfileView: View {
     @State private var isShowingMessageView: Bool = false
     @State private var touchProfileImage: Bool = false
     @State private var touchBackImage: Bool = false
+    @State private var position = CGSize.zero
     
     let user: User
     
@@ -55,6 +56,8 @@ struct ProfileView: View {
                     }
                 }
                 .background(.main, ignoresSafeAreaEdges: .all)
+                .opacity(touchBackImage ? 0 : 1)
+                .opacity(touchProfileImage ? 0 : 1)
                 .navigationBarBackButtonHidden()
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
@@ -93,6 +96,34 @@ struct ProfileView: View {
                         }
                     }
                 }
+                
+                // 뒷배경 조건문
+                if touchBackImage {
+                    KFImage(URL(string: viewModel.currentUser?.backProfileImageUrl ?? ""))
+                        .resizable()
+                        .scaledToFit()
+                        .zIndex(2)
+                        .onTapGesture {
+                            withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
+                                self.touchBackImage = false
+                            }
+                        }
+                        .offset(position)
+                    }
+                
+                // 프로필 사진 조건문
+                if touchProfileImage {
+                    KFImage(URL(string: viewModel.currentUser?.profileImageUrl ?? ""))
+                        .resizable()
+                        .scaledToFit()
+                        .zIndex(2)
+                        .onTapGesture {
+                            withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
+                                self.touchProfileImage = false
+                            }
+                        }
+                        .offset(position)
+                    }
             }
             .overlay {
                 Rectangle()
@@ -105,26 +136,6 @@ struct ProfileView: View {
             .ignoresSafeArea(.container, edges: .vertical)
             .navigationDestination(isPresented: $viewModel.showingProfileView) {
                 SettingProfileView()
-            }
-            .popup(isPresented: $touchBackImage) {
-                TouchBackImageView(user: user)
-            } customize: {
-                $0
-                    .type(.floater())
-                    .position(.center)
-                    .animation(.spring())
-                    .closeOnTapOutside(true)
-                    .backgroundColor(.black.opacity(0.5))
-            }
-            .popup(isPresented: $touchProfileImage) {
-                TouchProfileView(user: user)
-            } customize: {
-                $0
-                    .type(.floater())
-                    .position(.center)
-                    .animation(.spring())
-                    .closeOnTapOutside(true)
-                    .backgroundColor(.black.opacity(0.5))
             }
         }
     }
@@ -152,11 +163,14 @@ struct ProfileView: View {
                         
                         VStack(alignment: .leading, spacing: 10) {
                             if let user = viewModel.currentUser {
-                                
                                 CircularImageView(size: .xxLarge, user: user)
                                     .offset(y: 5)
+                                    .zIndex(touchProfileImage ? 1 : 0)
                                     .onTapGesture {
-                                        touchProfileImage = true
+                                        position = .zero
+                                        withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
+                                            touchProfileImage = true
+                                        }
                                     }
                                     .overlay {
                                         Button {
@@ -287,8 +301,12 @@ struct ProfileView: View {
                 }
                 .cornerRadius(0)
                 .offset(y: -minY)
+                .zIndex(touchBackImage ? 1 : 0)
                 .onTapGesture {
-                    touchBackImage = true
+                    position = .zero
+                    withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
+                        touchBackImage = true
+                    }
                 }
         }
         .frame(height: 300)
