@@ -9,7 +9,6 @@ import SwiftUI
 
 struct SignUpButton: View {
     
-// @Binding var buttonActive: Bool
     var text: String
     
     var body: some View {
