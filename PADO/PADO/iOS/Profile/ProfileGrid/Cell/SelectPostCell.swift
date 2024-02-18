@@ -477,6 +477,7 @@ struct SelectPostCell: View {
                                                                                            storageFileName: fileName,
                                                                                            subID: subID ?? "")
                                             deleteMyPadoride = false
+                                            needsDataFetch.toggle()
                                         }
                                     })
                                     .presentationDetents([.fraction(0.4)])
@@ -490,6 +491,7 @@ struct SelectPostCell: View {
                                                                                            storageFileName: fileName,
                                                                                            subID: userNameID)
                                             deleteSendPadoride = false
+                                            needsDataFetch.toggle()
                                         }
                                     }
                                     .presentationDetents([.fraction(0.4)])
@@ -501,6 +503,7 @@ struct SelectPostCell: View {
                                                                                postOwnerID: post.ownerUid,
                                                                                sufferID: post.surferUid)
                                             deleteMyPost = false
+                                            needsDataFetch.toggle()
                                         }
                                     }
                                     .presentationDetents([.fraction(0.4)])
@@ -512,6 +515,7 @@ struct SelectPostCell: View {
                                                                                postOwnerID: post.ownerUid,
                                                                                sufferID: post.surferUid)
                                             deleteSendPost = false
+                                            needsDataFetch.toggle()
                                         }
                                     }
                                     .presentationDetents([.fraction(0.4)])

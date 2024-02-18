@@ -147,7 +147,7 @@ struct ContentView: View {
         .onAppear {
             fetchData()
         }
-        .onChange(of: viewModel.needsDataFetch) { _, _ in
+        .onChange(of: needsDataFetch) { _, _ in
             fetchData()
         }
     }
