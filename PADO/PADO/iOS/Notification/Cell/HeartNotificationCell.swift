@@ -63,7 +63,6 @@ struct HeartNotificationCell: View {
             if let post = sendPost {
                 OnePostModalView(feedVM: feedVM,
                                  profileVM: profileVM,
-                                 feedCellType: .following,
                                  post: post)
                 .presentationDragIndicator(.visible)
             }

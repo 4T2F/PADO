@@ -34,7 +34,7 @@ struct OnePostModalView: View {
     @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var profileVM: ProfileViewModel
     
-    let feedCellType: FeedFilter
+
     var post: Post
     
     var body: some View {
@@ -579,14 +579,7 @@ struct OnePostModalView: View {
         }
         .onAppear {
             Task {
-                switch feedCellType {
-                case .following:
-                    guard feedVM.followingPosts.contains(where: { $0.id == post.id }) else { return }
-                    await fetchPostData(post: post)
-                case .today:
-                    guard feedVM.todayPadoPosts.contains(where: { $0.id == post.id }) else { return }
-                    await fetchPostData(post: post)
-                }
+                await fetchPostData(post: post)
             }
         }
         .onDisappear {

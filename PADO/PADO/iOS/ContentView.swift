@@ -139,7 +139,6 @@ struct ContentView: View {
             if let post = pushPost {
                 OnePostModalView(feedVM: feedVM,
                                  profileVM: profileVM,
-                                 feedCellType: .following,
                                  post: post)
                 .presentationDragIndicator(.visible)
             }
