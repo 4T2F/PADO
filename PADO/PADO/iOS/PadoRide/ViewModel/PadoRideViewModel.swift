@@ -102,6 +102,7 @@ class PadoRideViewModel: ObservableObject {
                     self.currentImageIndex = self.imageBoxes.count - 1
                     imageBoxes[currentImageIndex].size = pickerImageSize
                     imageBoxes[currentImageIndex].isAdded = true
+                    pickerImageItem = nil
                 }
             }
         } catch {
