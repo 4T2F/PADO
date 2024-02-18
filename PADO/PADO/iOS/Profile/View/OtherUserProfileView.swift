@@ -34,91 +34,124 @@ struct OtherUserProfileView: View {
     @State private var isShowingUserReport: Bool = false
     @State private var touchProfileImage: Bool = false
     @State private var touchBackImage: Bool = false
+    @State private var position = CGSize.zero
     
     let user: User
     
     let columns = [GridItem(.flexible(), spacing: 1), GridItem(.flexible(), spacing: 1), GridItem(.flexible())]
     
     var body: some View {
-        ScrollView(.vertical, showsIndicators: false) {
-            VStack(spacing: 0) {
-                headerView()
-                
-                LazyVStack(pinnedViews: [.sectionHeaders]) {
-                    Section {
-                        postList()
-                    } header: {
-                        pinnedHeaderView()
-                            .background(Color.main)
-                            .modifier(OffsetModifier(offset: $profileVM.headerOffsets.0, returnFromStart: false))
-                            .modifier(OffsetModifier(offset: $profileVM.headerOffsets.1))
+        ZStack {
+            ScrollView(.vertical, showsIndicators: false) {
+                VStack(spacing: 0) {
+                    headerView()
+                    
+                    LazyVStack(pinnedViews: [.sectionHeaders]) {
+                        Section {
+                            postList()
+                        } header: {
+                            pinnedHeaderView()
+                                .background(Color.main)
+                                .modifier(OffsetModifier(offset: $profileVM.headerOffsets.0, returnFromStart: false))
+                                .modifier(OffsetModifier(offset: $profileVM.headerOffsets.1))
+                        }
                     }
                 }
             }
-        }
-        .background(.main, ignoresSafeAreaEdges: .all)
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationBarBackButtonHidden()
-        .navigationTitle("@\(user.nameID)")
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button {
-                    dismiss()
-                } label: {
-                    HStack(spacing: 2) {
-                        Image(systemName: "chevron.left")
-                            .font(.system(size: 14))
-                            .fontWeight(.medium)
-                        
-                        Text("뒤로")
-                            .font(.system(size: 16))
-                            .fontWeight(.medium)
+            .background(.main, ignoresSafeAreaEdges: .all)
+            .opacity(touchBackImage ? 0 : 1)
+            .opacity(touchProfileImage ? 0 : 1)
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarBackButtonHidden()
+            .navigationTitle("@\(user.nameID)")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        HStack(spacing: 2) {
+                            Image(systemName: "chevron.left")
+                                .font(.system(size: 14))
+                                .fontWeight(.medium)
+                            
+                            Text("뒤로")
+                                .font(.system(size: 16))
+                                .fontWeight(.medium)
+                        }
+                    }
+                }
+                
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    HStack {
+                        HStack(spacing: 0) {
+                            if !user.instaAddress.isEmpty {
+                                Button {
+                                    profileVM.openSocialMediaApp(urlScheme: "instagram://user?username=\(user.instaAddress)", fallbackURL: "https://instagram.com/\(user.instaAddress)")
+                                } label: {
+                                    Image("instagramicon")
+                                }
+                            }
+                            
+                            if !user.tiktokAddress.isEmpty {
+                                Button {
+                                    profileVM.openSocialMediaApp(urlScheme: "tiktok://user?username=\(user.tiktokAddress)", fallbackURL: "https://www.tiktok.com/@\(user.tiktokAddress)")
+                                } label: {
+                                    Image("tiktokicon")
+                                }
+                            }
+                            
+                            if user.nameID == userNameID {
+                                NavigationLink {
+                                    SettingView(profileVM: profileVM)
+                                } label: {
+                                    Image("more")
+                                        .foregroundStyle(.white)
+                                }
+                            } else {
+                                Button {
+                                    isShowingUserReport = true
+                                } label: {
+                                    Image(systemName: "ellipsis")
+                                }
+                                .sheet(isPresented: $isShowingUserReport) {
+                                    ReprotProfileModalView(profileVM: profileVM, user: user)
+                                        .presentationDetents([.fraction(0.3)])
+                                        .presentationDragIndicator(.visible)
+                                        .presentationCornerRadius(30)
+                                }
+                            }
+                        }
                     }
                 }
             }
             
-            ToolbarItem(placement: .navigationBarTrailing) {
-                HStack {
-                    HStack(spacing: 0) {
-                        if !user.instaAddress.isEmpty {
-                            Button {
-                                profileVM.openSocialMediaApp(urlScheme: "instagram://user?username=\(user.instaAddress)", fallbackURL: "https://instagram.com/\(user.instaAddress)")
-                            } label: {
-                                Image("instagramicon")
-                            }
-                        }
-                        
-                        if !user.tiktokAddress.isEmpty {
-                            Button {
-                                profileVM.openSocialMediaApp(urlScheme: "tiktok://user?username=\(user.tiktokAddress)", fallbackURL: "https://www.tiktok.com/@\(user.tiktokAddress)")
-                            } label: {
-                                Image("tiktokicon")
-                            }
-                        }
-                        
-                        if user.nameID == userNameID {
-                            NavigationLink {
-                                SettingView(profileVM: profileVM)
-                            } label: {
-                                Image("more")
-                                    .foregroundStyle(.white)
-                            }
-                        } else {
-                            Button {
-                                isShowingUserReport = true
-                            } label: {
-                                Image(systemName: "ellipsis")
-                            }
-                            .sheet(isPresented: $isShowingUserReport) {
-                                ReprotProfileModalView(profileVM: profileVM, user: user)
-                                    .presentationDetents([.fraction(0.3)])
-                                    .presentationDragIndicator(.visible)
-                                    .presentationCornerRadius(30)
-                            }
+            // 뒷배경 조건문
+            if touchBackImage {
+                KFImage(URL(string: user.backProfileImageUrl ?? ""))
+                    .resizable()
+                    .scaledToFit()
+                    .zIndex(2)
+                    .onTapGesture {
+                        withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
+                            self.touchBackImage = false
                         }
                     }
+                    .offset(position)
                 }
-            }
+            
+            // 프로필 사진 조건문
+            if touchProfileImage {
+                KFImage(URL(string: user.profileImageUrl ?? ""))
+                    .resizable()
+                    .scaledToFit()
+                    .zIndex(2)
+                    .onTapGesture {
+                        withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
+                            self.touchProfileImage = false
+                        }
+                    }
+                    .offset(position)
+                }
         }
         .overlay {
             Rectangle()
@@ -135,26 +168,6 @@ struct OtherUserProfileView: View {
                 await profileVM.fetchPostID(id: user.nameID)
                 await postitVM.getMessageDocument(ownerID: user.nameID)
             }
-        }
-        .popup(isPresented: $touchBackImage) {
-            TouchBackImageView(user: user)
-        } customize: {
-            $0
-                .type(.floater())
-                .position(.center)
-                .animation(.spring())
-                .closeOnTapOutside(true)
-                .backgroundColor(.black.opacity(0.5))
-        }
-        .popup(isPresented: $touchProfileImage) {
-            TouchProfileView(user: user)
-        } customize: {
-            $0
-                .type(.floater())
-                .position(.center)
-                .animation(.spring())
-                .closeOnTapOutside(true)
-                .backgroundColor(.black.opacity(0.5))
         }
     }
     
@@ -182,8 +195,12 @@ struct OtherUserProfileView: View {
                         VStack(alignment: .leading, spacing: 10) {
                             CircularImageView(size: .xxLarge, user: user)
                                 .offset(y: 5)
+                                .zIndex(touchProfileImage ? 1 : 0)
                                 .onTapGesture {
-                                    touchProfileImage = true
+                                    position = .zero
+                                    withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
+                                        touchProfileImage = true
+                                    }
                                 }
                                 .overlay {
                                     Button {
@@ -319,8 +336,12 @@ struct OtherUserProfileView: View {
                 }
                 .cornerRadius(0)
                 .offset(y: -minY)
+                .zIndex(touchBackImage ? 1 : 0)
                 .onTapGesture {
-                    touchBackImage = true
+                    position = .zero
+                    withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
+                        touchBackImage = true
+                    }
                 }
         }
         .frame(height: 300)
