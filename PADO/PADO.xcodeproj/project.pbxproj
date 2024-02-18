@@ -142,8 +142,6 @@
 		63ECDCBF2B7726B300D71E88 /* ReportUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ECDCBE2B7726B300D71E88 /* ReportUserView.swift */; };
 		6401BE9B2B7DFED40084FECD /* DeleteImageUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6401BE9A2B7DFED40084FECD /* DeleteImageUrl.swift */; };
 		6401BEA32B7E76F00084FECD /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 6401BEA22B7E76F00084FECD /* PopupView */; };
-		6401BEA52B7E77340084FECD /* TouchProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6401BEA42B7E77340084FECD /* TouchProfileView.swift */; };
-		6401BEA72B7E77F90084FECD /* TouchBackImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6401BEA62B7E77F90084FECD /* TouchBackImageView.swift */; };
 		6408FEE82B6E98E000BF0DDF /* DeleteCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6408FEE72B6E98E000BF0DDF /* DeleteCommentView.swift */; };
 		6408FEEA2B6E98E800BF0DDF /* ReportCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6408FEE92B6E98E800BF0DDF /* ReportCommentView.swift */; };
 		6408FEEC2B6FB90E00BF0DDF /* DeleteFaceMojiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6408FEEB2B6FB90E00BF0DDF /* DeleteFaceMojiView.swift */; };
@@ -391,8 +389,6 @@
 		63ECDCBC2B771E6100D71E88 /* ProfileReprotModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileReprotModalView.swift; sourceTree = "<group>"; };
 		63ECDCBE2B7726B300D71E88 /* ReportUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportUserView.swift; sourceTree = "<group>"; };
 		6401BE9A2B7DFED40084FECD /* DeleteImageUrl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteImageUrl.swift; sourceTree = "<group>"; };
-		6401BEA42B7E77340084FECD /* TouchProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchProfileView.swift; sourceTree = "<group>"; };
-		6401BEA62B7E77F90084FECD /* TouchBackImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchBackImageView.swift; sourceTree = "<group>"; };
 		6408FEE72B6E98E000BF0DDF /* DeleteCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteCommentView.swift; sourceTree = "<group>"; };
 		6408FEE92B6E98E800BF0DDF /* ReportCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportCommentView.swift; sourceTree = "<group>"; };
 		6408FEEB2B6FB90E00BF0DDF /* DeleteFaceMojiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteFaceMojiView.swift; sourceTree = "<group>"; };
@@ -992,8 +988,6 @@
 				418ACDC82B766633003DD9E7 /* MessageBubbleView.swift */,
 				418ACDCA2B767CB3003DD9E7 /* DeleteMessageView.swift */,
 				63AA03572B68F1BE00431332 /* ProfileView.swift */,
-				6401BEA42B7E77340084FECD /* TouchProfileView.swift */,
-				6401BEA62B7E77F90084FECD /* TouchBackImageView.swift */,
 				41101B3A2B6BF8AF002E8C64 /* OtherUserProfileView.swift */,
 				63AA03582B68F1BE00431332 /* OffsetModifier.swift */,
 				41898FB92B78D48800F33F03 /* PostitCell.swift */,
@@ -1455,7 +1449,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6401BEA52B7E77340084FECD /* TouchProfileView.swift in Sources */,
 				B107655E2B7699050023B686 /* RequestSurfingNotificationCell.swift in Sources */,
 				B107655D2B7698FE0023B686 /* FollowNotificationCell.swift in Sources */,
 				41898FBA2B78D48800F33F03 /* PostitCell.swift in Sources */,
@@ -1512,7 +1505,6 @@
 				64392B642B7099C70047BA12 /* RectangleImageView.swift in Sources */,
 				417CD6652B68C3F8001D9EC0 /* UpdateFollowData.swift in Sources */,
 				6408FEEE2B6FBE0C00BF0DDF /* FaceMojiCropView.swift in Sources */,
-				6401BEA72B7E77F90084FECD /* TouchBackImageView.swift in Sources */,
 				649372F62B5612EE00BCDA71 /* FollowerView.swift in Sources */,
 				04A785E32B5FB1C800BFCB9D /* SearchCellView.swift in Sources */,
 				63824C432B558B2400D1D653 /* CodeView.swift in Sources */,
