@@ -10,7 +10,6 @@ import SwiftUI
 struct CommentView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
     @StateObject var commentVM = CommentViewModel()
-    
     @Binding var isShowingCommentView: Bool
     
     @State private var commentText: String = ""
@@ -43,13 +42,15 @@ struct CommentView: View {
                     VStack(alignment: .leading) {
                         if !commentVM.comments.isEmpty, let postID = post.id {
                             ForEach(commentVM.comments) { comment in
-                                CommentCell(comment: comment,
-                                            commentVM: commentVM,
-                                            post: post,
-                                            postID: postID)
+                                if commentVM.commentUsers.keys.contains(comment.userID) {
+                                    CommentCell(comment: comment,
+                                                commentVM: commentVM,
+                                                post: post,
+                                                postID: postID)
                                     .id(comment.id)
                                     .padding(.horizontal, 10)
                                     .padding(.bottom, 20)
+                                }
                             }
                         } else {
                             VStack {
@@ -76,6 +77,7 @@ struct CommentView: View {
                         }
                         commentVM.removeDuplicateUserIDs(from: commentVM.comments)
                         await commentVM.fetchCommentUser()
+                        commentVM.fetchDeleteUserComments()
                     }
                 }
                 
@@ -125,7 +127,7 @@ struct CommentView: View {
             }
             .background(.main, ignoresSafeAreaEdges: .all)
             .navigationBarBackButtonHidden()
-            .navigationTitle("댓글")
+            .navigationTitle("댓글 \(post.commentCount - commentVM.deleteUserComments)개")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {

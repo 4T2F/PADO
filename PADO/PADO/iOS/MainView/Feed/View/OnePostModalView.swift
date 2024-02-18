@@ -442,7 +442,7 @@ struct OnePostModalView: View {
                                 }
                                 
                                 // MARK: - 댓글
-                                VStack(spacing: 8) {
+                                VStack(spacing: 0) {
                                     Button {
                                         if !blockPost(post: post) {
                                             isShowingCommentView = true
@@ -461,11 +461,8 @@ struct OnePostModalView: View {
                                     }
                                     .presentationDetents([.large])
                                     
-                                    // MARK: - 댓글 숫자
-                                    Text("\(post.commentCount)")
+                                    Text("")
                                         .font(.system(size: 10))
-                                        .fontWeight(.semibold)
-                                        .shadow(radius: 1, y: 1)
                                 }
                                 
                                 // MARK: - 신고하기

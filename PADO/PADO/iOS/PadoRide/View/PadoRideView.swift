@@ -20,39 +20,40 @@ struct PadoRideView: View {
                 Color.main.ignoresSafeArea()
                 
                 VStack {
-                    HStack {
-                        Spacer()
-                        
-                        Text("파도타기")
-                            .font(.system(size: 16, weight: .bold))
-                            .padding(.leading, 40)
-                        
-                        Spacer()
-                        
-                        if padorideVM.selectedImage.isEmpty {
-                            Button {
-                            } label: {
-                                Text("다음")
-                                    .foregroundStyle(.gray)
-                                    .font(.system(size: 16, weight: .semibold))
-                                    .padding(.trailing, 18)
-                            }
-                        } else {
-                            Button {
-                                padorideVM.downloadSelectedImage()
-                                padorideVM.isShowingEditView = true
-                            } label: {
-                                Text("다음")
-                                    .foregroundStyle(.white)
-                                    .font(.system(size: 16, weight: .semibold))
-                                    .padding(.trailing, 18)
+                    if !padorideVM.postsData.isEmpty {
+                        HStack {
+                            
+                            Spacer()
+                            
+                            Text("파도타기")
+                                .font(.system(size: 16, weight: .bold))
+                                .padding(.leading, 40)
+                            
+                            Spacer()
+                            
+                            if padorideVM.selectedImage.isEmpty {
+                                Button {
+                                } label: {
+                                    Text("다음")
+                                        .foregroundStyle(.gray)
+                                        .font(.system(size: 16, weight: .semibold))
+                                        .padding(.trailing, 18)
+                                }
+                            } else {
+                                Button {
+                                    padorideVM.downloadSelectedImage()
+                                    padorideVM.isShowingEditView = true
+                                } label: {
+                                    Text("다음")
+                                        .foregroundStyle(.white)
+                                        .font(.system(size: 16, weight: .semibold))
+                                        .padding(.trailing, 18)
+                                }
                             }
                         }
-                    }
-                    
-                    Spacer()
-                    
-                    if !padorideVM.postsData.isEmpty {
+                        
+                        Spacer()
+                                        
                         ScrollView(.vertical, showsIndicators: false) {
                             LazyVStack {
                                 ForEach(followVM.surfingIDs, id: \.self) { surfingID in
@@ -77,9 +78,6 @@ struct PadoRideView: View {
                     } else {
                         if followVM.followingIDs.isEmpty {
                             Spacer()
-                            
-                            Text("내가 팔로잉한 사람이 없어요")
-                                .font(.system(size: 16, weight: .bold))
                             
                             FeedGuideView(feedVM: feedVM)
                             

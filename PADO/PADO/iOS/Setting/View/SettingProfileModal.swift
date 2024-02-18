@@ -24,12 +24,12 @@ struct SettingProfileModal: View {
                     Text("프로필 사진 변경")
                         .font(.system(size: 16, weight: .semibold))
                         .foregroundStyle(.white)
+                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
+                        .background(.modalCell)
+                        .cornerRadius(10)
+                        .padding(.vertical, 5)
                 }
             }
-            .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
-            .background(.grayButton)
-            .cornerRadius(10)
-            .padding(.vertical, 5)
             
             Button {
                 viewModel.showProfileModal = false
@@ -38,12 +38,12 @@ struct SettingProfileModal: View {
                     Text("배경 사진 변경")
                         .font(.system(size: 16, weight: .semibold))
                         .foregroundStyle(.white)
+                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
+                        .background(.modalCell)
+                        .cornerRadius(10)
+                        .padding(.vertical, 5)
                 }
             }
-            .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
-            .background(.grayButton)
-            .cornerRadius(10)
-            .padding(.vertical, 5)
             
             Button {
                 viewModel.showProfileModal = false
@@ -54,13 +54,13 @@ struct SettingProfileModal: View {
                 }
             } label: {
                 Text("프로필 사진 초기화")
-                    .font(.system(size: 16, weight: .bold))
+                    .font(.system(size: 16, weight: .semibold))
                     .foregroundStyle(.red)
+                    .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
+                    .background(.modalCell)
+                    .cornerRadius(10)
+                    .padding(.vertical, 5)
             }
-            .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
-            .background(.grayButton)
-            .cornerRadius(10)
-            .padding(.vertical, 5)
             
             Button {
                 viewModel.showProfileModal = false
@@ -71,13 +71,13 @@ struct SettingProfileModal: View {
                 }
             } label: {
                 Text("배경 사진 초기화")
-                    .font(.system(size: 16, weight: .bold))
+                    .font(.system(size: 16, weight: .semibold))
                     .foregroundStyle(.red)
+                    .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
+                    .background(.modalCell)
+                    .cornerRadius(10)
+                    .padding(.vertical, 5)
             }
-            .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
-            .background(.grayButton)
-            .cornerRadius(10)
-            .padding(.vertical, 5)
         }
     }
 }

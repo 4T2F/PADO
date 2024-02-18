@@ -51,6 +51,7 @@ struct FaceMojiView: View {
                                         .scaledToFit()
                                         .frame(width: 80, height: 80)
                                 }
+                                .padding(.top, 4)
                             Text("")
                         }
                         .padding(.horizontal, 6)
