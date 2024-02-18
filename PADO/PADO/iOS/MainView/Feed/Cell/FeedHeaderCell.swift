@@ -17,8 +17,8 @@ enum FeedFilter: Int, CaseIterable, Identifiable {
     
     var title: String {
         switch self {
-        case .following: return "Following"
-        case .today: return "Today"
+        case .following: return "팔로우"
+        case .today: return "인기"
         }
     }
     var id: Int { return self.rawValue }

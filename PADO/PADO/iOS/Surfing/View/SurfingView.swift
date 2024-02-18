@@ -24,7 +24,7 @@ struct SurfingView: View {
                 if followVM.followingIDs.isEmpty {
                     Spacer()
                     
-                    Text("팔로잉한 사람이 없어요")
+                    Text("내가 팔로잉한 사람이 없어요")
                         .font(.system(size: 16, weight: .bold))
                     
                     FeedGuideView(feedVM: feedVM)
@@ -33,45 +33,11 @@ struct SurfingView: View {
                 } else if followVM.surfingIDs.isEmpty {
                     Spacer()
                     
-                    Text("서퍼로 지정해준 사람이 없어요")
-                        .font(.system(size: 16, weight: .bold))
-                    
                     SurfingGuideView()
                     
                     Spacer()
                 } else {
                     VStack {
-                        HStack {
-                            Spacer()
-                            
-                            if surfingVM.cameraImage != Image(systemName: "photo") || surfingVM.selectedUIImage != Image(systemName: "photo") {
-                                // 변경될 수 있음
-                                Button("다음") {
-                                    if surfingVM.cameraImage != Image(systemName: "photo") {
-                                        surfingVM.postingImage = surfingVM.cameraImage
-                                        surfingVM.postingUIImage = surfingVM.cameraUIImage
-                                    } else if surfingVM.selectedUIImage != Image(systemName: "photo") {
-                                        surfingVM.postingImage = surfingVM.selectedUIImage
-                                        surfingVM.postingUIImage = surfingVM.selectedImage ?? UIImage()
-                                    }
-                                    surfingVM.showCropView.toggle()
-                                }
-                                .padding(.trailing, 16)
-                                .padding(.top, 7)
-                                .font(.system(size: 16, weight: .semibold))
-                            } else {
-                                Button {
-                                    
-                                } label: {
-                                    Text("다음")
-                                        .font(.system(size: 16, weight: .semibold))
-                                        .foregroundStyle(.gray)
-                                        .padding(.top, 7)
-                                        .padding(.trailing, 16)
-                                }
-                            }
-                        }
-                        
                         Spacer()
                         
                         Button {
@@ -81,25 +47,34 @@ struct SurfingView: View {
                             if surfingVM.selectedUIImage != Image(systemName: "photo") {
                                 surfingVM.selectedUIImage
                                     .resizable()
+                                    .frame(width: UIScreen.main.bounds.width * 0.95, height: UIScreen.main.bounds.height * 0.8)
                                     .scaledToFit()
                                 
                             } else if surfingVM.cameraImage != Image(systemName: "photo") {
                                 surfingVM.cameraImage
                                     .resizable()
+                                    .frame(width: UIScreen.main.bounds.width * 0.95, height: UIScreen.main.bounds.height * 0.8)
                                     .scaledToFit()
                             } else {
                                 Text("이미지를 선택하세요.")
-                                    .frame(maxWidth: .infinity, maxHeight: UIScreen.main.bounds.height * 0.75)
+                                    .padding(.top, 30)
+                                    .frame(width: UIScreen.main.bounds.width * 0.95, height: UIScreen.main.bounds.height * 0.8)
                                     .background(Color.gray)
                             }
                         }
-                        .onChange(of: surfingVM.selectedUIImage) { oldValue, newValue in
-                            surfingVM.isShowingPhotoModal = false
-                        }
-                        
-                        Spacer()
-                        
-                    } //: VSTACK
+                    }
+                    .navigationTitle("서핑하기")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbarBackground(.visible, for: .navigationBar)
+                    .toolbarBackground(Color.main, for: .navigationBar)
+                    .toolbarColorScheme(.dark, for: .navigationBar)
+                    .background {
+                        Color.main
+                            .ignoresSafeArea()
+                    }
+                    .onChange(of: surfingVM.selectedUIImage) { oldValue, newValue in
+                        surfingVM.isShowingPhotoModal = false
+                    }
                     .onAppear {
                         surfingVM.checkPhotoLibraryPermission()
                     }
@@ -131,6 +106,53 @@ struct SurfingView: View {
                                      followVM: followVM) { croppedImage, status in
                             if let croppedImage {
                                 surfingVM.postingUIImage = croppedImage
+                            }
+                        }
+                    }
+                    .toolbar {
+                        // 다음 버튼을 toolbarItem으로 추가
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            if followVM.followingIDs.isEmpty {
+                                Spacer()
+                                
+                                Text("팔로잉한 사람이 없어요")
+                                    .font(.system(size: 16, weight: .bold))
+                                
+                                FeedGuideView(feedVM: feedVM)
+                                
+                                Spacer()
+                            } else if followVM.surfingIDs.isEmpty {
+                                Spacer()
+                                
+                                Text("서퍼로 지정해준 사람이 없어요")
+                                    .font(.system(size: 16, weight: .bold))
+                                
+                                SurfingGuideView()
+                                
+                                Spacer()
+                            } else {
+                                if surfingVM.cameraImage != Image(systemName: "photo") || surfingVM.selectedUIImage != Image(systemName: "photo") {
+                                    // 변경될 수 있음
+                                    Button("다음") {
+                                        if surfingVM.cameraImage != Image(systemName: "photo") {
+                                            surfingVM.postingImage = surfingVM.cameraImage
+                                            surfingVM.postingUIImage = surfingVM.cameraUIImage
+                                        } else if surfingVM.selectedUIImage != Image(systemName: "photo") {
+                                            surfingVM.postingImage = surfingVM.selectedUIImage
+                                            surfingVM.postingUIImage = surfingVM.selectedImage ?? UIImage()
+                                        }
+                                        surfingVM.showCropView.toggle()
+                                    }
+                                    .font(.system(size: 16, weight: .semibold))
+                                } else {
+                                    Button {
+                                        
+                                    } label: {
+                                        Text("다음")
+                                            .font(.system(size: 16, weight: .semibold))
+                                            .foregroundStyle(.gray)
+                                    }
+                                }
                             }
                         }
                     }
