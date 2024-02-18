@@ -114,7 +114,7 @@ struct OnePostModalView: View {
                     // PadoRide 이미지 표시
                     let padoRide = feedVM.padoRidePosts[currentIndex]
                     
-                    KFImage.url(URL(string:padoRide.imageUrl))
+                    KFImage.url(URL(string: post.imageUrl))
                         .resizable()
                         .blur(radius: 150)
                         .containerRelativeFrame([.horizontal,.vertical])
