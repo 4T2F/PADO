@@ -179,9 +179,7 @@
 		64E761C92B7FDBA700882D29 /* DeletePost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E761C82B7FDBA700882D29 /* DeletePost.swift */; };
 		64F210D12B58B25900E2064A /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 64F210D02B58B25900E2064A /* Kingfisher */; };
 		64F210D32B58B26F00E2064A /* MainSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F210D22B58B26F00E2064A /* MainSearchView.swift */; };
-		B102FE802B56D34C0005C310 /* VerificationPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B102FE7F2B56D34C0005C310 /* VerificationPostView.swift */; };
 		B102FE822B56DB5B0005C310 /* PostButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B102FE812B56DB5B0005C310 /* PostButtonView.swift */; };
-		B102FE842B56DC030005C310 /* GrayButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B102FE832B56DC030005C310 /* GrayButtonView.swift */; };
 		B107654E2B712ABE0023B686 /* UserDefaultsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B107654D2B712ABE0023B686 /* UserDefaultsExtension.swift */; };
 		B10765502B712FBF0023B686 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = B107654F2B712FBF0023B686 /* FirebaseMessaging */; };
 		B10765522B73E5400023B686 /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10765512B73E5400023B686 /* NotificationViewModel.swift */; };
@@ -426,9 +424,7 @@
 		64E761C62B7FBC4A00882D29 /* NoItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoItemView.swift; sourceTree = "<group>"; };
 		64E761C82B7FDBA700882D29 /* DeletePost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePost.swift; sourceTree = "<group>"; };
 		64F210D22B58B26F00E2064A /* MainSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSearchView.swift; sourceTree = "<group>"; };
-		B102FE7F2B56D34C0005C310 /* VerificationPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationPostView.swift; sourceTree = "<group>"; };
 		B102FE812B56DB5B0005C310 /* PostButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostButtonView.swift; sourceTree = "<group>"; };
-		B102FE832B56DC030005C310 /* GrayButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrayButtonView.swift; sourceTree = "<group>"; };
 		B107654D2B712ABE0023B686 /* UserDefaultsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsExtension.swift; sourceTree = "<group>"; };
 		B10765512B73E5400023B686 /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
 		B10765532B73E9210023B686 /* NotificationCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCellView.swift; sourceTree = "<group>"; };
@@ -931,7 +927,6 @@
 				419741DF2B558F3A0055F2AB /* FollowButtonView.swift */,
 				63C8BA482B561DC200025422 /* SignUpButton.swift */,
 				63C8BA4A2B561FA900025422 /* EnjoyButton.swift */,
-				B102FE832B56DC030005C310 /* GrayButtonView.swift */,
 				B102FE812B56DB5B0005C310 /* PostButtonView.swift */,
 				419D08692B5FA9CA00E61A6F /* LoadingCircleView.swift */,
 				419D086B2B5FB31C00E61A6F /* AnimatedTitleView.swift */,
@@ -1185,7 +1180,6 @@
 				63C8BA512B5661A500025422 /* NotificationView.swift */,
 				B10765532B73E9210023B686 /* NotificationCellView.swift */,
 				63C20BEA2B56CEDB00911F64 /* AdvancedSettingsView.swift */,
-				B102FE7F2B56D34C0005C310 /* VerificationPostView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1473,7 +1467,6 @@
 				649372F82B561A6F00BCDA71 /* FollowingCellView.swift in Sources */,
 				B10765522B73E5400023B686 /* NotificationViewModel.swift in Sources */,
 				418ACDC92B766633003DD9E7 /* MessageBubbleView.swift in Sources */,
-				B102FE802B56D34C0005C310 /* VerificationPostView.swift in Sources */,
 				648963E92B6D38550080050D /* SurfingSelectCell.swift in Sources */,
 				63824C452B558B2400D1D653 /* StartView.swift in Sources */,
 				63283DB92B73BDF700A42C0F /* SelectPostView.swift in Sources */,
@@ -1548,7 +1541,6 @@
 				648963DF2B6B6BE50080050D /* SettingProfileEditView.swift in Sources */,
 				648963DB2B6A9E960080050D /* PostCropView.swift in Sources */,
 				64E761C32B7F5F3600882D29 /* SurfingGuideView.swift in Sources */,
-				B102FE842B56DC030005C310 /* GrayButtonView.swift in Sources */,
 				64392B742B7387590047BA12 /* PadoRideViewModel.swift in Sources */,
 				048A343E2B748DB60085CE8B /* CanvasView.swift in Sources */,
 				B10765562B740FFC0023B686 /* CommentNotificationCell.swift in Sources */,
@@ -1868,12 +1860,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PADO/PADO.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PADO/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = UAG934M4Q7;
+				DEVELOPMENT_TEAM = UAG934M4Q7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PADO/Info.plist;
@@ -1894,7 +1884,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.4T2F.PADO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "PADO Debug";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1910,12 +1899,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PADO/PADO.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PADO/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = UAG934M4Q7;
+				DEVELOPMENT_TEAM = UAG934M4Q7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PADO/Info.plist;
@@ -1936,7 +1923,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.4T2F.PADO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "PADO Debug";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

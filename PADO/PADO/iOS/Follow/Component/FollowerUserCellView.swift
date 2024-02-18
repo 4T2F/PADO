@@ -112,7 +112,7 @@ struct FollowerUserCellView: View {
                 } label: {
                     ZStack {
                         RoundedRectangle(cornerRadius:6)
-                            .stroke(.gray, lineWidth: 1)
+                            .stroke(.white, lineWidth: 1)
                             .frame(width: 78, height: 28)
                         Text("서퍼 등록")
                             .font(.system(size: 12))

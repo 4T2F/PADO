@@ -35,7 +35,7 @@ struct DrawingView: View {
                         
                         ForEach(padorideVM.textBoxes) { box in
                             Text(padorideVM.textBoxes[padorideVM.currentTextIndex].id == box.id && padorideVM.addNewBox ? "" : box.text)
-                                .font(.system(size: 30))
+                                .font(.system(size: 70))
                                 .fontWeight(box.isBold ? .bold : .none)
                                 .foregroundColor(box.textColor)
                                 .offset(box.offset)
@@ -93,7 +93,7 @@ struct DrawingView: View {
                                     padorideVM.canvas.resignFirstResponder()
                                     padorideVM.currentTextIndex = getTextIndex(textBox: box)
                                     withAnimation{
-                                        padorideVM.addNewBox = true
+                                        padorideVM.modifyBox = true
                                     }
                                 }
                         }

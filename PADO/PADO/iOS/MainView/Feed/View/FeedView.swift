@@ -5,6 +5,7 @@
 //  Created by 강치우 on 2/6/24.
 //
 
+import Lottie
 import SwiftUI
 
 struct FeedView: View {
@@ -28,11 +29,18 @@ struct FeedView: View {
                                       scrollDelegate: scrollDelegate) {
                         if authenticationViewModel.selectedFilter == .following {
                             LazyVStack(spacing: 0) {
-                                if feedVM.followingPosts.isEmpty {
-                                    
+                                if feedVM.postFetchLoading {
+                                    LottieView(animation: .named("Loading"))
+                                        .looping()
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 100, height: 100)
+                                        .containerRelativeFrame([.horizontal,.vertical])
+                                } else if feedVM.followFetchLoading {
+                                    EmptyView()
+                                } else if feedVM.followingPosts.isEmpty {
                                     FeedGuideView(feedVM: feedVM)
                                         .containerRelativeFrame([.horizontal,.vertical])
-                                        
                                 } else {
                                     ForEach(feedVM.followingPosts.indices, id: \.self) { index in
                                         FeedCell(feedVM: feedVM,
@@ -74,10 +82,12 @@ struct FeedView: View {
                             }
                             await profileVM.fetchBlockUsers()
                             await followVM.fetchIDs(id: userNameID, collectionType: CollectionType.following)
-                            await followVM.fetchIDs(id: userNameID, collectionType: CollectionType.surfing)
+                            feedVM.followFetchLoading = true
                             await feedVM.fetchFollowingPosts()
-                            await notiVM.fetchNotifications()
+                            await followVM.fetchIDs(id: userNameID, collectionType: CollectionType.surfing)
                             await profileVM.fetchPostID(id: userNameID)
+                            await notiVM.fetchNotifications()
+                            feedVM.followFetchLoading = false
                         } else {
                             Task{
                                 await profileVM.fetchBlockUsers()
