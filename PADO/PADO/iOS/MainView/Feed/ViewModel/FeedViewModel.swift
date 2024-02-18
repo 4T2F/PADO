@@ -7,58 +7,244 @@
 
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import FirebaseStorage
 import SwiftUI
 
-class FeedViewModel: ObservableObject {
+let developerIDs: [String] = ["pado", "hanami", "legendboy", "goat", "king"]
+
+protocol FeedItem {}
+
+extension Post: FeedItem {}
+extension User: FeedItem {}
+
+@MainActor
+class FeedViewModel:Identifiable ,ObservableObject {
+
+    // MARK: - feed관련
     @Published var isShowingReportView = false
     @Published var isShowingCommentView = false
     @Published var isHeaderVisible = true
-    @Published var textPosition = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
-    @Published var faceMojiPosition = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
+  
+    @Published var followingPosts: [Post] = []
+    @Published var todayPadoPosts: [Post] = []
+    @Published var watchedPostIDs: Set<String> = []
+    @Published private var popularUsersSet: Set<User> = []
+    @Published var popularUsers: [User] = []
     
-    @Published var selectedStoryImage: String? = nil
-    @Published var selectedPostImageUrl: String = ""
-    @Published var post: [Post] = []
-    @Published var stories: [Story] = []
+    @Published var feedItems: [FeedItem] = []
     
-    @Published var feedProfileImageUrl: String = ""
-    @Published var feedProfileID: String = ""
-    @Published var selectedFeedTitle: String = ""
-    @Published var selectedFeedTime: String = ""
-    @Published var selectedFeedHearts: Int = 0
-    
-    @Published var documentID: String = ""
+    @Published var selectedFeedCheckHeart: Bool = false
+    @Published var postFetchLoading: Bool = false
+    @Published var followFetchLoading: Bool = false
     
     private var db = Firestore.firestore()
     private var listener: ListenerRegistration?
+    @Published var documentID: String = ""
     
-    var dragStart: CGPoint?
-    let dragThreshold: CGFloat = 0
+    @Published var lastFollowFetchedDocument: DocumentSnapshot? = nil
+    @Published var lastTodayPadoFetchedDocument: DocumentSnapshot? = nil
     
-    init() {
-        // Firestore의 `post` 컬렉션에 대한 실시간 리스너 설정
-        setupPostsListener()
-    }
+    // MARK: - 파도타기 관련
+    @Published var padoRidePosts: [PadoRide] = []
+    @Published var currentPadoRideIndex: Int? = nil
+    @Published var isShowingPadoRide: Bool = false
+    @Published var checkPadoRide: [PadoRide] = []
     
-    // Firestore의 `post` 컬렉션에 대한 실시간 리스너 설정
-    private func setupPostsListener() {
-        listener = db.collection("post").addSnapshotListener { [weak self] (querySnapshot, error) in
-            guard let self = self, let documents = querySnapshot?.documents else {
-                print("Error listening to changes in 'post' collection: \(error?.localizedDescription ?? "Unknown error")")
-                return
+    
+    func getPopularUser() async {
+        let querySnapshot = db.collection("users")
+            .whereField("profileImageUrl", isNotEqualTo: NSNull())
+            .limit(to: 20)
+        
+        let developerSnapshot = db.collection("users")
+            .whereField("nameID", in: developerIDs)
+       
+        do {
+            let documents = try await getDocumentsAsync(collection: db.collection("users"), query: querySnapshot)
+                
+            let developerDocuments = try await getDocumentsAsync(collection: db.collection("users"), query: developerSnapshot)
+            
+            let newUsers = documents.compactMap { document in
+                try? document.data(as: User.self)
             }
             
-            self.post = documents.compactMap { document in
+            let developerUsers = developerDocuments.compactMap { document in
+                try? document.data(as: User.self)
+            }
+            
+            // Set을 사용하여 popularUsers 업데이트
+            self.popularUsersSet = self.popularUsersSet.union(newUsers)
+            self.popularUsersSet = self.popularUsersSet.union(developerUsers)
+            
+            let usersSet = self.popularUsersSet.filter {
+                $0.nameID != userNameID
+            }
+            
+            self.popularUsers = Array(Array(usersSet).prefix(5))
+            
+        } catch {
+            print("포스트 가져오기 오류: \(error.localizedDescription)")
+        }
+    }
+    
+    // Firestore의 getDocuments에 대한 비동기 래퍼 함수
+    func getDocumentsAsync(collection: CollectionReference, query: Query) async throws -> [QueryDocumentSnapshot] {
+        try await withCheckedThrowingContinuation { continuation in
+            query.getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    continuation.resume(throwing: error)
+                } else if let querySnapshot = querySnapshot {
+                    continuation.resume(returning: querySnapshot.documents)
+                } else {
+                    continuation.resume(throwing: NSError(domain: "DataError", code: 0, userInfo: nil))
+                }
+            }
+        }
+    }
+    
+    // 팔로잉 중인 사용자들로부터 포스트 가져오기 (비동기적으로)
+    func fetchFollowingPosts() async {
+        followingPosts.removeAll()
+        feedItems.removeAll()
+        lastFollowFetchedDocument = nil
+        guard !userFollowingIDs.isEmpty else {
+            Task {
+                await getPopularUser()
+            }
+            return
+        }
+        var getFollowingPostIDs = userFollowingIDs
+        getFollowingPostIDs.append(userNameID)
+        // 현재 날짜로부터 2일 전의 날짜를 계산
+        let twoDaysAgo = Calendar.current.date(byAdding: .day, value: -7, to: Date()) ?? Date()
+           // Date 객체를 Timestamp로 변환
+        let twoDaysAgoTimestamp = Timestamp(date: twoDaysAgo)
+        
+        let query = db.collection("post")
+            .whereField("ownerUid", in: getFollowingPostIDs)
+            .whereField("created_Time", isGreaterThanOrEqualTo: twoDaysAgoTimestamp)
+            .order(by: "created_Time", descending: true)
+            .limit(to: 6)
+        
+        do {
+            let documents = try await getDocumentsAsync(collection: db.collection("post"), query: query)
+            
+            self.lastFollowFetchedDocument = documents.last
+            
+            let filteredDocuments = documents.compactMap { document -> DocumentSnapshot? in
+                if (try? document.data(as: Post.self)) != nil {
+                    return document
+                } else {
+                    return nil
+                }
+            }
+ 
+            let fetchedFollowingPosts = filteredDocuments.compactMap { document in
                 try? document.data(as: Post.self)
             }
             
-            // 새로운 스토리 데이터 생성
-            self.updateStories()
-            self.selectFirstStory()
+            self.followingPosts = fetchedFollowingPosts.sorted {
+                $0.created_Time.dateValue() > $1.created_Time.dateValue()
+            }
+            
+            self.followingPosts = filterBlockedPosts(posts: self.followingPosts)
+            
+            for document in filteredDocuments {
+                guard let post = try? document.data(as: Post.self) else { continue }
+                setupSnapshotFollowingListener(for: post)
+            }
+            
+            await getPopularUser()
+
+        } catch {
+            print("포스트 가져오기 오류: \(error.localizedDescription)")
+        }
+        
+    }
+    
+    // 오늘 파도 포스트 가져오기
+    func fetchTodayPadoPosts() async {
+        todayPadoPosts.removeAll()
+
+        let threeDaysAgo = Calendar.current.date(byAdding: .day, value: -7, to: Date()) ?? Date()
+        let threeDaysAgoTimestamp = Timestamp(date: threeDaysAgo)
+
+        let query = db.collection("post")
+            .whereField("created_Time", isGreaterThanOrEqualTo: threeDaysAgoTimestamp)
+        
+        do {
+            let documents = try await getDocumentsAsync(collection: db.collection("post"), query: query)
+            var filteredPosts = documents.compactMap { document in
+                try? document.data(as: Post.self)
+            }
+
+            filteredPosts.sort { $0.heartsCount > $1.heartsCount }
+
+            for post in filteredPosts.prefix(20) {
+                setupSnapshotTodayPadoListener(for: post)
+            }
+
+            // 인덱스 20개 초과 시 0~24번 인덱스까지만 포함
+            self.todayPadoPosts = Array(filteredPosts.prefix(25))
+            self.todayPadoPosts = filterBlockedPosts(posts: self.todayPadoPosts)
+        } catch {
+            print("포스트 가져오기 오류: \(error.localizedDescription)")
+        }
+    }
+
+    
+    func fetchFollowMorePosts() async {
+        guard let lastDocument = lastFollowFetchedDocument else { return }
+        
+        let twoDaysAgo = Calendar.current.date(byAdding: .day, value: -7, to: Date()) ?? Date()
+        let twoDaysAgoTimestamp = Timestamp(date: twoDaysAgo)
+        
+        var getFollowingPostIDs = userFollowingIDs
+        getFollowingPostIDs.append(userNameID)
+        
+        let query = db.collection("post")
+            .whereField("ownerUid", in: getFollowingPostIDs)
+            .whereField("created_Time", isGreaterThanOrEqualTo: twoDaysAgoTimestamp)
+            .order(by: "created_Time", descending: true)
+            .start(afterDocument: lastDocument)
+            .limit(to: 4)
+            
+        do {
+            let documents = try await getDocumentsAsync(collection: db.collection("post"), query: query)
+            
+            self.lastFollowFetchedDocument = documents.last
+            
+            var documentsData = documents.compactMap { document in
+                try? document.data(as: Post.self)
+            }
+            .filter { post in
+                userFollowingIDs.contains(where: { $0 == post.ownerUid })
+            }
+            
+            documentsData = filterBlockedPosts(posts: documentsData)
+      
+            for documentData in documentsData {
+                setupSnapshotFollowingListener(for: documentData)
+                followingPosts.append(documentData)
+            }
+            
+        } catch {
+            print("포스트 가져오기 오류: \(error.localizedDescription)")
+        }
+    }
+    
+    
+    private func cacheWatchedData() async {
+        do {
+            let documents = try await db.collection("users").document(userNameID).collection("watched").getDocuments()
+            self.watchedPostIDs = Set(documents.documents.compactMap { $0.documentID })
+        } catch {
+            print("Error fetching watched data: \(error.localizedDescription)")
         }
     }
     
     func setupProfileImageURL(id: String) async -> String {
+        guard !id.isEmpty else { return "" }
         do {
             let querySnapshot = try await Firestore.firestore().collection("users").document(id).getDocument()
             
@@ -68,7 +254,7 @@ class FeedViewModel: ObservableObject {
             }
             
             guard let profileImage = user.profileImageUrl else { return "" }
-    
+            
             return profileImage
             
         } catch {
@@ -77,104 +263,147 @@ class FeedViewModel: ObservableObject {
         
         return ""
     }
-    
-    // Firestore의 데이터를 기반으로 스토리 데이터 업데이트
-    private func updateStories() {
-        self.stories = self.post.map { post in
-            Story(postID: post.id ?? "error", name: post.ownerUid, image: post.imageUrl, title: post.title, postTime: post.created_Time, hearts: post.hearts)
+  
+    func watchedPost(_ story: Post) async {
+        do {
+            if let postID = story.id {
+                try await db.collection("users").document(userNameID).collection("watched")
+                    .document(postID).setData(["created_Time": story.created_Time,
+                                               "watchedPost": postID])
+                self.watchedPostIDs.insert(postID)
+            }
+        } catch {
+            print("Error : \(error)")
         }
     }
     
-    // 첫 번째 스토리를 선택하는 함수
-    private func selectFirstStory() {
-        // storyData 배열의 첫 번째 스토리를 가져옴
-        if let firstStory = self.stories.first {
-            // 해당 스토리를 선택
-            selectStory(firstStory)
+    // 파도타기 게시글 불러오기
+    func fetchPadoRides(postID: String) async {
+        padoRidePosts.removeAll()
+
+        let postRef = db.collection("post").document(postID)
+        let padoRideCollection = postRef.collection("padoride")
+
+        do {
+            let snapshot = try await padoRideCollection.getDocuments()
+            self.padoRidePosts = snapshot.documents.compactMap { document in
+                try? document.data(as: PadoRide.self)
+            }
+        } catch {
+            print("PadoRides 가져오기 오류: \(error.localizedDescription)")
         }
     }
     
-    // Firestore에서 게시물을 불러오는 함수, 완료 시 콜백
-    func fetchPosts(completion: @escaping () -> Void = {}) {
-        db.collection("post").getDocuments { [weak self] (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-                completion()
+    // 파도타기 게시글의 유무 확인
+    func checkForPadorides(postID: String) async {
+        checkPadoRide.removeAll()
+        
+        let postRef = db.collection("post").document(postID)
+        let padoRideCollection = postRef.collection("padoride")
+        
+        do {
+            let snapshot = try await padoRideCollection.getDocuments()
+            self.checkPadoRide = snapshot.documents.compactMap { document in
+                try? document.data(as: PadoRide.self)
+            }
+        } catch {
+            print("PadoRides 가져오기 오류: \(error.localizedDescription)")
+        }
+    }
+}
+
+extension FeedViewModel {
+    @MainActor
+    private func setupSnapshotFollowingListener(for post: Post) {
+        guard let postID = post.id else { return }
+
+        let docRef = db.collection("post").document(postID)
+        docRef.addSnapshotListener { documentSnapshot, error in
+            guard let document = documentSnapshot, let data = document.data() else {
+                print("Error fetching document: \(error?.localizedDescription ?? "Unknown error")")
                 return
             }
-            
-            // 불러온 게시물을 post 배열에 할당
-            self?.post = querySnapshot!.documents.compactMap { document in
-                try? document.data(as: Post.self)
-            }
-            
-            print("Fetched posts: \(self?.post ?? [])")
-            // 콜백 함수 호출
-            completion()
-        }
-    }
-    
-    // 스토리 셀이 탭되었을 때 이를 업데이트하는 함수
-    func selectPost(_ post: Post) {
-        selectedPostImageUrl = post.imageUrl
-    }
-    
-    // 스토리 선택 핸들러
-    func selectStory(_ story: Story) {
-        // 스토리의 이름과 게시물의 소유자 UID가 같은 경우 해당 게시물의 이미지 URL을 선택
-        if let matchingPost = post.first(where: { $0.ownerUid == story.name }) {
-            selectedPostImageUrl = matchingPost.imageUrl
-            print("Selected post image URL: \(selectedPostImageUrl)")
-            
-            // 햅틱 피드백 생성
-            let generator = UIImpactFeedbackGenerator(style: .light)
-            generator.impactOccurred()
-        } else {
-            print("No matching post found for story: \(story.name)")
-        }
-    }
-    
-    // 댓글 움직이는 로직
-    func handleDragGestureChange(_ gesture: DragGesture.Value) {
-        if dragStart == nil {
-            dragStart = gesture.startLocation
-        }
-        let dragAmount = CGPoint(x: gesture.translation.width, y: gesture.translation.height)
-        let initialPosition = dragStart ?? CGPoint.zero
-        
-        // 현재 드래그 중인 오브젝트에 따라 위치를 업데이트
-        textPosition = CGPoint(x: initialPosition.x + dragAmount.x, y: initialPosition.y + dragAmount.y)
-    }
-    
-    func handleDragGestureEnd() {
-        dragStart = nil
-    }
-    
-    // faceMoji 드래그 로직
-    func handleFaceMojiDragChange(_ gesture: DragGesture.Value) {
-        if dragStart == nil {
-            dragStart = gesture.startLocation
-        }
-        let dragAmount = CGPoint(x: gesture.translation.width, y: gesture.translation.height)
-        let initialPosition = dragStart ?? CGPoint.zero
-        
-        faceMojiPosition = CGPoint(x: initialPosition.x + dragAmount.x, y: initialPosition.y + dragAmount.y)
-    }
-    
-    // faceMoji 드래그 종료 처리
-    func handleFaceMojiDragEnd() {
-        dragStart = nil
-    }
-    
-    // 위 아래 제스쳐할 때 사라지거나 나타나는 로직
-    func toggleHeaderVisibility(basedOnDragValue value: DragGesture.Value) {
-        withAnimation(.easeInOut(duration: 0.2)) {
-            if value.translation.height > dragThreshold {
-                isHeaderVisible = false
-            } else if -value.translation.height > dragThreshold {
-                isHeaderVisible = true
+            if let index = self.followingPosts.firstIndex(where: { $0.id == postID }) {
+                self.followingPosts[index].heartsCount = data["heartsCount"] as? Int ?? 0
+                self.followingPosts[index].commentCount = data["commentCount"] as? Int ?? 0
             }
         }
     }
+    
+    @MainActor
+    func setupSnapshotTodayPadoListener(for post: Post) {
+        guard let postID = post.id else { return }
 
+        let docRef = db.collection("post").document(postID)
+        docRef.addSnapshotListener { documentSnapshot, error in
+            guard let document = documentSnapshot, let data = document.data() else {
+                print("Error fetching document: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+            if let index = self.todayPadoPosts.firstIndex(where: { $0.id == postID }) {
+                self.todayPadoPosts[index].heartsCount = data["heartsCount"] as? Int ?? 0
+                self.todayPadoPosts[index].commentCount = data["commentCount"] as? Int ?? 0
+            }
+        }
+    }
+}
+
+// Timestamp 형식의 시간을 가져와서 날짜 및 시간 형식으로 변환
+extension Timestamp {
+    func formatDate(_ timestamp: Timestamp) -> String {
+        let currentDate = Date() // 현재 날짜 및 시간
+        let date = timestamp.dateValue() // Timestamp를 Date로 변환
+        let calendar = Calendar.current
+
+        let hoursAgo = calendar.dateComponents([.hour], from: date, to: currentDate).hour ?? 0
+        let minutesAgo = calendar.dateComponents([.minute], from: date, to: currentDate).minute ?? 0
+        let secondsAgo = calendar.dateComponents([.second], from: date, to: currentDate).second ?? 0
+        
+        switch hoursAgo {
+        case 24...:
+            // 1일보다 오래된 경우
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd" // AM/PM을 포함하는 날짜 형식 지정
+            return formatter.string(from: date)
+        case 1...:
+            // 1시간 이상, 1일 미만
+            return "\(hoursAgo)시간 전"
+            
+        default:
+            // 1시간 미만
+            if minutesAgo >= 1 {
+                return "\(minutesAgo)분 전"
+            } else {
+                return "\(secondsAgo)초 전"
+            }
+        }
+    }
+    
+    func convertTimestampToString(timestamp: Timestamp) -> String {
+        let date = timestamp.dateValue() // Timestamp를 Date로 변환
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd-HH:mm:ss.sssZ" // 원하는 날짜 형식 설정
+        let dateString = dateFormatter.string(from: date) // Date를 String으로 변환
+        return dateString
+    }
+}
+
+// 차단된 사용자의 게시물 필터링
+extension FeedViewModel {
+    private func filterBlockedPosts(posts: [Post]) -> [Post] {
+        let blockedUserIDs = Set(blockingUser.map { $0.blockUserID } + blockedUser.map { $0.blockUserID })
+        
+        return posts.filter { post in
+            !blockedUserIDs.contains(post.ownerUid) && !blockedUserIDs.contains(post.surferUid)
+        }
+    }
+}
+
+extension Date {
+    func toFormattedString() -> String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .long
+        formatter.timeStyle = .medium
+        return formatter.string(from: self)
+    }
 }

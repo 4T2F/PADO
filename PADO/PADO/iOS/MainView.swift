@@ -9,36 +9,29 @@ import Firebase
 import FirebaseFirestore
 import SwiftUI
 
-enum ViewStatus {
-    case launchScreen, startView, contentView
-}
 
 struct MainView: View {
-    @State private var viewStatus = ViewStatus.launchScreen
+    @State private var showLaunchScreen = true
     @EnvironmentObject var viewModel: AuthenticationViewModel
     
     var body: some View {
         Group {
-            switch viewStatus {
-            case .launchScreen:
+            if showLaunchScreen {
                 LaunchSTA()
                     .onAppear {
                         Task {
+                            viewModel.nameID = userNameID
                             try? await Task.sleep(nanoseconds: 2 * 1_000_000_000)
-                            if Auth.auth().currentUser?.uid == nil {
-                                viewStatus = .startView
+                            
+                            if viewModel.nameID.isEmpty {
+                                showLaunchScreen = false
                             } else {
-                                if userNameID.isEmpty {
-                                    await viewModel.fetchNameID()
-                                }
                                 await viewModel.initializeUser()
-                                viewStatus = .contentView
+                                showLaunchScreen = false
                             }
                         }
                     }
-            case .startView:
-                StartView()
-            case .contentView:
+            } else {
                 ContentView()
             }
         }

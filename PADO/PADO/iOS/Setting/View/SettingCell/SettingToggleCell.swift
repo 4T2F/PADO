@@ -31,6 +31,7 @@ struct SettingToggleCell: View {
                 Spacer()
                 
                 Toggle("", isOn: $toggle)
+                    .tint(.green)
             }
             .padding(.horizontal, UIScreen.main.bounds.width * 0.04)
             .frame(height: 30)

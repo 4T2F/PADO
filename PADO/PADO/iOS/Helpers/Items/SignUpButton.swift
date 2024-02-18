@@ -9,7 +9,6 @@ import SwiftUI
 
 struct SignUpButton: View {
     
-// @Binding var buttonActive: Bool
     var text: String
     
     var body: some View {
@@ -23,12 +22,10 @@ struct SignUpButton: View {
                 Text(text)
                     .foregroundStyle(.black)
                     .font(.system(size: 16))
-                    .fontWeight(.regular)
+                    .fontWeight(.medium)
                     .padding(.trailing, 6)
                 
                 Image("User")
-                    .font(.system(size: 17))
-                    .fontWeight(.regular)
             }
             .frame(height: 30)
         }

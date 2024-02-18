@@ -8,55 +8,54 @@
 import SwiftUI
 
 struct SettingNotificationView: View {
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     
     @Environment (\.dismiss) var dismiss
-    @State var noti = false
+    @State var noti: Bool = true
     
     var body: some View {
         VStack {
             ZStack {
-                Color.black.ignoresSafeArea()
-                
-                VStack {
-                    ZStack {
-                        Text("알림")
-                            .foregroundStyle(.white)
-                            .font(.system(size: 14))
-                            .fontWeight(.semibold)
-                        
-                        HStack {
-                            Button {
-                                dismiss()
-                            } label: {
-                                Image("dismissArrow")
-                            }
-                            
-                            Spacer()
-                        }
-                    }
-                    .padding(.horizontal)
-                    
-                    Spacer()
-                }
-                .foregroundStyle(.white)
-                
                 VStack {
                     VStack {
                         SettingToggleCell(icon: "square.and.pencil", text: "알림 설정", toggle: $noti)
+                            .onChange(of: noti) { oldValue, newValue in
+                                Task {
+                                    await viewModel.updateAlertAcceptance(newStatus: newValue)
+                                }
+                            }
                     }
-                    Spacer()
                     
+                    Spacer()
                 }
                 .padding(.horizontal)
-                .padding(.top, 50)
             }
         }
         .padding(.top, 10)
-        .navigationBarBackButtonHidden(true)
+        .background(.main, ignoresSafeAreaEdges: .all)
+        .navigationBarBackButtonHidden()
+        .navigationTitle("알림")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    dismiss()
+                } label: {
+                    HStack(spacing: 2) {
+                        Image(systemName: "chevron.left")
+                            .font(.system(size: 14))
+                            .fontWeight(.medium)
+                        
+                        Text("뒤로")
+                            .font(.system(size: 16))
+                            .fontWeight(.medium)
+                    }
+                }
+            }
+        }
+        .toolbarBackground(Color(.main), for: .navigationBar)
+        .onAppear {
+            noti = viewModel.currentUser?.alertAccept == "yes" ? true : false
+        }
     }
-}
-
-
-#Preview {
-    SettingNotificationView()
 }

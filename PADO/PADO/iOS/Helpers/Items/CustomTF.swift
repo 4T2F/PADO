@@ -17,6 +17,7 @@ struct CustomTF: View {
         HStack(alignment: .top, spacing: 8, content: {
             VStack(alignment: .leading, spacing: 8, content: {
                 TextField(hint, text: $value)
+                    .multilineTextAlignment(.leading)
                 
                 Divider()
             })

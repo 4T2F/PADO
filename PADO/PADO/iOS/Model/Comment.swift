@@ -6,10 +6,10 @@
 //
 
 import Firebase
-import FirebaseFirestore
+import FirebaseFirestoreSwift
 import Foundation
 
-struct Comment: Identifiable, Codable {
+struct Comment: Identifiable, Hashable, Codable {
     @DocumentID var id: String?
 
     let userID: String

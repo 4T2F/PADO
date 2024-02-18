@@ -1,147 +1,129 @@
 //
-//  ReMainView.swift
+//  ReFeedView.swift
 //  PADO
 //
-//  Created by 강치우 on 1/20/24.
+//  Created by 강치우 on 2/6/24.
 //
 
-import Kingfisher
+import Lottie
 import SwiftUI
 
 struct FeedView: View {
-    
     @State private var isLoading = true
     
     @EnvironmentObject var authenticationViewModel: AuthenticationViewModel
     
-    @StateObject var feedVM: FeedViewModel
-    @ObservedObject var commentVM: CommentViewModel
-    @StateObject private var mainCommentVM = MainCommentViewModel()
-    @StateObject private var mainFaceMojiVM = MainFaceMojiViewModel()
+    @ObservedObject var feedVM: FeedViewModel
+    @ObservedObject var surfingVM: SurfingViewModel
+    @ObservedObject var profileVM: ProfileViewModel
+    @ObservedObject var followVM: FollowViewModel
+    @ObservedObject var notiVM: NotificationViewModel
+    @StateObject var scrollDelegate: ScrollViewModel = .init()
     
     var body: some View {
         NavigationStack {
             ZStack {
-                if let imageUrl = URL(string: feedVM.selectedPostImageUrl) {
-                    ZStack {
-                        KFImage.url(imageUrl)
-                            .resizable()
-                            .onSuccess { _ in
-                                // 이미지 로딩 성공 시
-                                isLoading = false
-                            }
-                            .onFailure { _ in
-                                // 이미지 로딩 실패 시
-                                isLoading = false
-                            }
-                            .onProgress { receivedSize, totalSize in
-                                // 로딩 중
-                                isLoading = true
-                            }
-                            .scaledToFill()
-                            .ignoresSafeArea()
-                            .frame(height: UIScreen.main.bounds.height * 0.85)
-                        
-                        if isLoading { // feedVM에서 로딩 상태를 관리한다고 가정
-                            ProgressView()
-                                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        }
-                    }
-                }
-                
-                if feedVM.isHeaderVisible {
-                    LinearGradient(colors: [.black.opacity(0.5),
-                                            .black.opacity(0.4),
-                                            .black.opacity(0.4),
-                                            .black.opacity(0.3),
-                                            .black.opacity(0.2),
-                                            .clear, .clear,
-                                            .clear, .clear,
-                                            .clear, .clear,
-                                            .clear, .clear,
-                                            .clear, .clear,
-                                            .clear, .clear,
-                                            .black.opacity(0.2),
-                                            .black.opacity(0.2),
-                                            .black.opacity(0.2),
-                                            .black.opacity(0.2),
-                                            .black.opacity(0.3),
-                                            .black.opacity(0.4)],
-                                   startPoint: .bottom,
-                                   endPoint: .top
-                    )
-                    .ignoresSafeArea()
-                }
-                
-                VStack {
-                    // MARK: - Header
-                    if feedVM.isHeaderVisible {
-                        MainHeaderCell(vm: feedVM)
-                            .frame(width: UIScreen.main.bounds.width)
-                            .padding(.leading, 4)
-                            .padding(.top, 5)
-                    }
-                    
-                    Spacer()
-                    
-                    // MARK: - HeartComment
-                    HeartCommentCell(isShowingReportView: $feedVM.isShowingReportView, isShowingCommentView: $feedVM.isShowingCommentView, feedVM: feedVM, commentVM: commentVM)
-                        .padding(.leading, UIScreen.main.bounds.width)
-                        .padding(.trailing, 60)
-                        .padding(.bottom, 10)
-                    
-                    // MARK: - Story
-                    if feedVM.isHeaderVisible {
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 16) {
-                                ForEach(Array(feedVM.stories.enumerated()), id: \.element) { index, story in
-                                    StoryCell(story: story, storyIndex: index, feedVM: feedVM, commentVM: commentVM) {
-                                        self.feedVM.selectStory(story)
+                ScrollViewReader { proxy in
+                    CustomRefreshView(showsIndicator: false,
+                                      lottieFileName: "Wave",
+                                      scrollDelegate: scrollDelegate) {
+                        if authenticationViewModel.selectedFilter == .following {
+                            LazyVStack(spacing: 0) {
+                                if feedVM.postFetchLoading {
+                                    LottieView(animation: .named("Loading"))
+                                        .looping()
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 100, height: 100)
+                                        .containerRelativeFrame([.horizontal,.vertical])
+                                } else if feedVM.followFetchLoading {
+                                    EmptyView()
+                                } else if feedVM.followingPosts.isEmpty {
+                                    FeedGuideView(feedVM: feedVM)
+                                        .containerRelativeFrame([.horizontal,.vertical])
+                                } else {
+                                    ForEach(feedVM.followingPosts.indices, id: \.self) { index in
+                                        FeedCell(feedVM: feedVM,
+                                                 surfingVM: surfingVM,
+                                                 profileVM: profileVM,
+                                                 feedCellType: FeedFilter.following,
+                                                 post: $feedVM.followingPosts[index],
+                                                 index: index)
+                                        .id(index)
+                                        .onAppear {
+                                            if index == feedVM.followingPosts.indices.last {
+                                                Task {
+                                                    await feedVM.fetchFollowMorePosts()
+                                                }
+                                            }
+                                        }
                                     }
+                                    .scrollTargetLayout()
                                 }
                             }
-                            .padding(.horizontal)
-                        }
-                        .frame(width: UIScreen.main.bounds.width)
-                        .padding()
-                        .transition(.opacity)
-                    }
-                }
-                .overlay {
-                    if !feedVM.isHeaderVisible {
-                        ZStack {
-                            ForEach(mainCommentVM.mainComments.reversed()) { comment in
-                                MainCommentCell(mainComment: comment)
-                                    .position(comment.nameID == authenticationViewModel.currentUser?.nameID ?
-                                              feedVM.textPosition :
-                                                CGPoint(x: CGFloat(comment.commentPositionsX),
-                                                        y: CGFloat(comment.commentPositionsY)))
-                                    .gesture(
-                                        DragGesture()
-                                            .onChanged(feedVM.handleDragGestureChange)
-                                            .onEnded { _ in feedVM.handleDragGestureEnd() }
-                                    )
-                            }
-                            ForEach(mainFaceMojiVM.mainFaceMoji.reversed()) { faceMoji in
-                                MainFaceMojiCell(mainFaceMoji: faceMoji)
-                                    .position(faceMoji.nameID == authenticationViewModel.currentUser?.nameID ?
-                                              feedVM.faceMojiPosition :
-                                                CGPoint(x: CGFloat(faceMoji.faceMojiPositionsX),
-                                                        y: CGFloat(faceMoji.faceMojiPositionsY)))
-                                    .gesture(
-                                        DragGesture()
-                                            .onChanged(feedVM.handleFaceMojiDragChange)
-                                            .onEnded { _ in feedVM.handleFaceMojiDragEnd() }
-                                    )
+                        } else {
+                            LazyVStack(spacing: 0) {
+                                ForEach(feedVM.todayPadoPosts.indices, id: \.self) { index in
+                                    FeedCell(feedVM: feedVM,
+                                             surfingVM: surfingVM,
+                                             profileVM: profileVM,
+                                             feedCellType: FeedFilter.today,
+                                             post: $feedVM.todayPadoPosts[index],
+                                             index: index)
+                                }
                             }
                         }
+                    } onRefresh: {
+                        try? await Task.sleep(nanoseconds: 1_500_000_000)
+                        if authenticationViewModel.selectedFilter == FeedFilter.following {
+                            guard !userNameID.isEmpty else {
+                                await feedVM.getPopularUser()
+                                return
+                            }
+                            await profileVM.fetchBlockUsers()
+                            await followVM.fetchIDs(id: userNameID, collectionType: CollectionType.following)
+                            feedVM.followFetchLoading = true
+                            await feedVM.fetchFollowingPosts()
+                            await followVM.fetchIDs(id: userNameID, collectionType: CollectionType.surfing)
+                            await profileVM.fetchPostID(id: userNameID)
+                            await notiVM.fetchNotifications()
+                            feedVM.followFetchLoading = false
+                        } else {
+                            Task{
+                                await profileVM.fetchBlockUsers()
+                                await feedVM.fetchTodayPadoPosts()
+                                guard !userNameID.isEmpty else { return }
+                                await notiVM.fetchNotifications()
+                                await followVM.fetchIDs(id: userNameID, collectionType: CollectionType.following)
+                                await followVM.fetchIDs(id: userNameID, collectionType: CollectionType.surfing)
+                                await profileVM.fetchPostID(id: userNameID)
+                            }
+                        }
+                    }
+                    .scrollDisabled(feedVM.isShowingPadoRide)
+                    .onChange(of: authenticationViewModel.selectedFilter) {
+                        withAnimation {
+                            proxy.scrollTo(0, anchor: .top)
+                        }
                     }
                 }
+                VStack {
+                    if !feedVM.isShowingPadoRide {
+                        if scrollDelegate.scrollOffset < 5 {
+                            FeedHeaderCell(notiVM: notiVM,
+                                           profileVM: profileVM,
+                                           feedVM: feedVM)
+                                .transition(.opacity.combined(with: .scale))
+                        } else if !scrollDelegate.isEligible {
+                            FeedRefreshHeaderCell()
+                                .transition(.opacity.combined(with: .scale))
+                        }
+                        Spacer()
+                    }
+                }
+                .padding(.top, 10)
+                .animation(.easeInOut, value: scrollDelegate.scrollOffset)
             }
-            .gesture(DragGesture().onEnded(feedVM.toggleHeaderVisibility))
-        }
-        .onAppear {
-            feedVM.fetchPosts()
         }
     }
 }

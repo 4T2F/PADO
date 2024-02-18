@@ -17,31 +17,6 @@ struct SettingOthersView: View {
     var body: some View {
         VStack {
             ZStack {
-                Color.black.ignoresSafeArea()
-                
-                VStack {
-                    ZStack {
-                        Text("다른 설정들")
-                            .foregroundStyle(.white)
-                            .font(.system(size: 14))
-                            .fontWeight(.semibold)
-                        
-                        HStack {
-                            Button {
-                                dismiss()
-                            } label: {
-                                Image("dismissArrow")
-                            }
-                            
-                            Spacer()
-                        }
-                    }
-                    .padding(.horizontal)
-                    
-                    Spacer()
-                }
-                .foregroundStyle(.white)
-                
                 VStack {
                     Button {
                         showingCashModal.toggle()
@@ -62,7 +37,6 @@ struct SettingOthersView: View {
                     
                 }
                 .padding(.horizontal)
-                .padding(.top, 50)
             }
         }
         .padding(.top, 10)
@@ -73,11 +47,32 @@ struct SettingOthersView: View {
         })
         
         .sheet(isPresented: $showingDeleteModal, content: {
-            ModalAlertView(showingCircleImage: false, mainTitle: .account, subTitle: .account, removeMessage: .account)
+            ModalAlertView(showingCircleImage: true, mainTitle: .account, subTitle: .account, removeMessage: .account)
                 .background(Color.clear)
                 .presentationDetents([.fraction(0.4)])
         })
-        .navigationBarBackButtonHidden(true)
+        .background(.main, ignoresSafeAreaEdges: .all)
+        .navigationBarBackButtonHidden()
+        .navigationTitle("다른 설정들")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    dismiss()
+                } label: {
+                    HStack(spacing: 2) {
+                        Image(systemName: "chevron.left")
+                            .font(.system(size: 14))
+                            .fontWeight(.medium)
+                        
+                        Text("뒤로")
+                            .font(.system(size: 16))
+                            .fontWeight(.medium)
+                    }
+                }
+            }
+        }
+        .toolbarBackground(Color(.main), for: .navigationBar)
     }
 }
 

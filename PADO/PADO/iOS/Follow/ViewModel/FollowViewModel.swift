@@ -28,6 +28,11 @@ enum CollectionType {
     }
 }
 
+enum SearchFollowType {
+    case follower
+    case following
+}
+
 class FollowViewModel: ObservableObject, Searchable {
     
     @Published var followerIDs: [String] = []
@@ -35,29 +40,36 @@ class FollowViewModel: ObservableObject, Searchable {
     @Published var surferIDs: [String] = []
     @Published var surfingIDs: [String] = []
     
+    @Published var searchedFollower: [String] = []
+    @Published var searchedSurfer: [String] = []
+    @Published var searchedFollowing: [String] = []
+    
     @Published var isLoading: Bool = false
     @State var progress: Double = 0
     
-    @Published var searchResult: [User] = []
+    // 서퍼지정 관련 변수들
+    @Published var showSurfingList: Bool = false
+    @Published var selectSurfingID: String = ""
+    @Published var selectSurfingUsername: String = ""
+    @Published var selectSurfingProfileUrl: String = ""
+    
+    @Published var searchResults: [User] = []
     @Published var viewState: ViewState = ViewState.empty
     
-    
-    init() {
-        initializeFollowFetch()
+    @MainActor
+    func initializeFollowFetch(id: String) async {
+        await fetchIDs(id: id, collectionType: .following)
+        await fetchIDs(id: id, collectionType: .follower)
+        await fetchIDs(id: id, collectionType: .surfer)
+        await fetchIDs(id: id, collectionType: .surfing)
     }
     
-    private func initializeFollowFetch() {
-        fetchIDs(collectionType: CollectionType.follower)
-        fetchIDs(collectionType: CollectionType.following)
-        fetchIDs(collectionType: CollectionType.surfer)
-        fetchIDs(collectionType: CollectionType.surfing)
-    }
-    
-    //  파라미터로 넣은 id값을 가진 문서 내용들 불러오는 스냅샷
-    func fetchIDs(collectionType: CollectionType) {
+    @MainActor
+    func fetchIDs(id: String, collectionType: CollectionType) async {
         self.isLoading = true
         let db = Firestore.firestore()
-        db.collection("users").document(userNameID).collection(collectionType.collectionName).addSnapshotListener { documentSnapshot, error in
+        
+        db.collection("users").document(id).collection(collectionType.collectionName).addSnapshotListener { documentSnapshot, error in
             guard let documents = documentSnapshot?.documents else {
                 print("Error fetching document: \(error!)")
                 self.isLoading = false
@@ -70,20 +82,51 @@ class FollowViewModel: ObservableObject, Searchable {
                     ids.append(documentId)
                 }
             }
-            
-            DispatchQueue.main.async {
-                switch collectionType {
-                case .follower:
-                    self.followerIDs = ids
-                case .following:
-                    self.followingIDs = ids
-                case .surfer:
-                    self.surferIDs = ids
-                case .surfing:
-                    self.surfingIDs = ids
+
+            switch collectionType {
+            case .follower:
+                self.followerIDs = ids
+                self.followerIDs = self.filterBlockedUserIDs(userIDs: self.followerIDs)
+            case .following:
+                self.followingIDs = ids
+                self.followingIDs = self.filterBlockedUserIDs(userIDs: self.followingIDs)
+                if id == userNameID {
+                    userFollowingIDs = ids
                 }
-                self.isLoading = false
+            case .surfer:
+                self.surferIDs = ids
+                self.surferIDs = self.filterBlockedUserIDs(userIDs: self.surferIDs)
+            case .surfing:
+                self.surfingIDs = ids
+                self.surfingIDs = self.filterBlockedUserIDs(userIDs: self.surfingIDs)
             }
+            self.isLoading = false
+        }
+    }
+
+    func searchFollowers(with str: String, type: SearchFollowType) {
+        setViewState(to: .loading)
+        self.isLoading = true
+        if str.count > 0 {
+            switch type {
+            case .follower:
+                searchedFollower = followerIDs.filter { $0.hasPrefix(str) }
+                searchedSurfer = surferIDs.filter { $0.hasPrefix(str) }
+            case .following:
+                searchedFollowing = followingIDs.filter { $0.hasPrefix(str) }
+            }
+            self.isLoading = false
+            setViewState(to: .ready)
+        }
+    }
+}
+
+extension FollowViewModel {
+    private func filterBlockedUserIDs(userIDs: [String]) -> [String] {
+        let blockedUserIDs = Set(blockingUser.map { $0.blockUserID } + blockedUser.map { $0.blockUserID })
+        
+        return userIDs.filter { userID in
+            !blockedUserIDs.contains(userID)
         }
     }
 }

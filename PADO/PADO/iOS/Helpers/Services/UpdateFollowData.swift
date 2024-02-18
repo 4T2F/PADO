@@ -9,12 +9,17 @@ import FirebaseFirestoreSwift
 import Foundation
 
 class UpdateFollowData {
+    static let shared = UpdateFollowData()
     
     let db = Firestore.firestore()
     
     func followUser(id: String) async {
+        guard !userNameID.isEmpty else { return }
+        
         do {
-            try await db.collection("users").document(userNameID).collection("following").document(id).setData(["followingID": id, "status": true])
+            try await db.collection("users").document(userNameID).collection("following").document(id).setData(["followingID": id,
+                                                                                                                "status": true,
+                                                                                                                "followTime": Timestamp()])
             try await db.collection("users").document(id).collection("follower").document(userNameID).setData(["followerID": userNameID])
         } catch {
             print("Error removing document: \(error.localizedDescription)")
@@ -22,25 +27,65 @@ class UpdateFollowData {
     }
     
     func unfollowUser(id: String) async {
+        guard !userNameID.isEmpty else { return }
         do {
-            try await db.collection("users").document(userNameID).collection("following").document(id).setData(["followingID": id, "status": false])
+            try await db.collection("users").document(userNameID).collection("following").document(id).updateData(["status": false])
+           
+        } catch {
+            print("Error removing document: \(error.localizedDescription)")
+        }
+    }
+    
+    func removeFollower(id: String) async {
+        guard !userNameID.isEmpty else { return }
+        do {
+            try await db.collection("users").document(userNameID).collection("follower").document(id).delete()
+            try await db.collection("users").document(id).collection("following").document(userNameID).delete()
+        } catch {
+            print("Error removing document: \(error.localizedDescription)")
+        }
+    }
+    
+    func directUnfollowUser(id: String) async {
+        guard !userNameID.isEmpty else { return }
+        do {
+            try await db.collection("users").document(userNameID).collection("following").document(id).delete()
+            try await db.collection("users").document(userNameID).collection("surfing").document(id).delete()
+            
             try await db.collection("users").document(id).collection("follower").document(userNameID).delete()
+            try await db.collection("users").document(id).collection("surfer").document(userNameID).delete()
+        } catch {
+            print("Error removing document: \(error.localizedDescription)")
+        }
+    }
+    
+    func userUnfollowMe(id: String) async {
+        guard !userNameID.isEmpty else { return }
+        do {
+            try await db.collection("users").document(id).collection("following").document(userNameID).delete()
+            try await db.collection("users").document(id).collection("surfing").document(userNameID).delete()
+            
+            try await db.collection("users").document(userNameID).collection("follower").document(id).delete()
+            try await db.collection("users").document(userNameID).collection("surfer").document(id).delete()
         } catch {
             print("Error removing document: \(error.localizedDescription)")
         }
     }
     
     func registerSurfer(id: String) async {
+        guard !userNameID.isEmpty else { return }
         do {
             try await db.collection("users").document(userNameID).collection("follower").document(id).delete()
             try await db.collection("users").document(userNameID).collection("surfer").document(id).setData(["surferID": id])
-            try await db.collection("users").document(id).collection("surfer").document(userNameID).setData(["surfingID": userNameID])
+            try await db.collection("users").document(id).collection("surfing").document(userNameID).setData(["surfingID": userNameID,
+                                                                                                              "status": true])
         } catch {
             print("Error removing document: \(error.localizedDescription)")
         }
     }
     
     func removeSurfer(id: String) async {
+        guard !userNameID.isEmpty else { return }
         do {
             try await db.collection("users").document(userNameID).collection("surfer").document(id).delete()
             try await db.collection("users").document(id).collection("surfing").document(userNameID).delete()
@@ -50,42 +95,31 @@ class UpdateFollowData {
         }
     }
     
-    func fetchFollowStatusData() {
-        db.collection("users").document(userNameID).collection("following")
+    func fetchFollowStatusData() async {
+        
+        guard !userNameID.isEmpty else { return }
+        
+        let querySnapshot = db.collection("users").document(userNameID).collection("following")
             .whereField("status", isEqualTo: false)
-            .getDocuments { (querySnapshot, err) in
-                if let err = err {
-                    print("Error getting documents: \(err)")
-                } else {
-                    for document in querySnapshot!.documents {
-                        // 각 문서에 대해 삭제 연산을 수행합니다.
-                        document.reference.delete { err in
-                            if let err = err {
-                                print("Error removing document: \(err)")
-                            } else {
-                                print("Document successfully removed!")
-                            }
-                        }
-                    }
-                }
-            }
-    }
-    
-    func checkFollowStatus(id: String) async -> Bool {
-        let db = Firestore.firestore()
-        let query = db.collection("users").document(userNameID).collection("following").whereField("followingID", isEqualTo: id)
         
         do {
-            let querySnapshot = try await query.getDocuments()
-            for document in querySnapshot.documents {
-                if let status = document.data()["status"] as? Bool {
-                    return status
-                }
+            let snapshot = try await querySnapshot.getDocuments()
+            
+            for document in snapshot.documents {
+                let selectID = document.data()["followingID"] as! String
+                try await db.collection("users").document(selectID).collection("follower").document(userNameID).delete()
+                try await db.collection("users").document(selectID).collection("surfer").document(userNameID).delete()
+                try await db.collection("users").document(userNameID).collection("surfing").document(selectID).delete()
+                
+                try await document.reference.delete()
             }
         } catch {
-            print("Error getting documents: \(error)")
+            print("Error removing document: \(error.localizedDescription)")
         }
-        return false
+        
     }
     
+    func checkFollowingStatus(id: String) -> Bool {
+        return userFollowingIDs.contains(id)
+    }
 }

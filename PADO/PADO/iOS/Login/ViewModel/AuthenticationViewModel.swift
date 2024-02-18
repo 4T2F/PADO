@@ -25,13 +25,28 @@ class AuthenticationViewModel: ObservableObject {
     @Published var errorMessage = ""
     @Published var showAlert = false
     @Published var isExisted = false
+    @Published var needsDataFetch = false
+    
+    // 탭바 이동관련 변수
+    @Published var showTab: Int = 0
+    
+    // 세팅 관련 뷰 이동 변수
+    @Published var showingProfileView: Bool = false
+    @Published var showingEditProfile: Bool = false
+    @Published var showingEditBackProfile: Bool = false
     
     // MARK: - SettingProfile
     @Published var username = ""
     @Published var instaAddress = ""
     @Published var tiktokAddress = ""
     @Published var imagePick: Bool = false
+    @Published var backimagePick: Bool = false
     @Published var changedValue: Bool = false
+    @Published var showProfileModal: Bool = false
+    @Published var selectedFilter: FeedFilter = .today
+    
+    // MARK: - SettingNoti
+    @Published var alertAccept = ""
     
     @Published var birthDate = Date() {
         didSet {
@@ -41,8 +56,9 @@ class AuthenticationViewModel: ObservableObject {
         }
     }
     
+    // 프로필 사진 변경 값 저장
     @Published var userSelectImage: Image?
-    @Published private var uiImage: UIImage?
+    @Published var uiImage: UIImage?
     
     @Published var selectedItem: PhotosPickerItem? {
         didSet {
@@ -51,7 +67,24 @@ class AuthenticationViewModel: ObservableObject {
                     let (loadedUIImage, loadedSwiftUIImage) = try await UpdateImageUrl.shared.loadImage(selectedItem: selectedItem)
                     self.uiImage = loadedUIImage
                     self.userSelectImage = loadedSwiftUIImage
-                    self.imagePick = true
+                } catch {
+                    print("이미지 로드 중 오류 발생: \(error)")
+                }
+            }
+        }
+    }
+    
+    // 배경화면 변경값 저장
+    @Published var backSelectImage: Image?
+    @Published var backuiImage: UIImage?
+    
+    @Published var selectedBackgroundItem: PhotosPickerItem? {
+        didSet {
+            Task {
+                do {
+                    let (loadedUIImage, loadedSwiftUIImage) = try await UpdateImageUrl.shared.loadImage(selectedItem: selectedBackgroundItem)
+                    self.backuiImage = loadedUIImage
+                    self.backSelectImage = loadedSwiftUIImage
                 } catch {
                     print("이미지 로드 중 오류 발생: \(error)")
                 }
@@ -62,6 +95,16 @@ class AuthenticationViewModel: ObservableObject {
     @Published var authResult: AuthDataResult?
     
     @Published var currentUser: User?
+    
+    // MARK: - Profile SNS
+    // SNS 주소의 등록 여부를 확인
+    var isAnySocialAccountRegistered: Bool {
+        !(currentUser?.instaAddress ?? "").isEmpty || !(currentUser?.tiktokAddress ?? "").isEmpty
+    }
+    
+    var areBothSocialAccountsRegistered: Bool {
+        !(currentUser?.instaAddress ?? "").isEmpty && !(currentUser?.tiktokAddress ?? "").isEmpty
+    }
     
     // MARK: - 인증 관련
     func sendOtp() async {
@@ -105,12 +148,13 @@ class AuthenticationViewModel: ObservableObject {
         
         let initialUserData = [
             "username": "",
+            "lowercasedName": "",
             "id": userId,
             "nameID": nameID,
             "date": year,
             "phoneNumber": "+82\(phoneNumber)",
             "fcmToken": userToken,
-            "alertAccept": userAlertAccept,
+            "alertAccept": "",
             "instaAddress": "",
             "tiktokAddress": ""
         ]
@@ -124,19 +168,21 @@ class AuthenticationViewModel: ObservableObject {
         
         do {
             try await Firestore.firestore().collection("users").document(nameID).setData(data)
-
+            
+            userNameID = nameID
             currentUser = User(
                 id: userId,
                 username: "",
+                lowercasedName: "",
                 nameID: nameID,
                 date: year,
                 phoneNumber: "+82\(phoneNumber)",
                 fcmToken: userToken,
-                alertAccept: userAlertAccept,
+                alertAccept: "",
                 instaAddress: "",
                 tiktokAddress: ""
             )
-            userNameID = nameID
+           
         } catch {
             print("Error saving user data: \(error.localizedDescription)")
         }
@@ -179,6 +225,7 @@ class AuthenticationViewModel: ObservableObject {
     // MARK: - 사용자 데이터 관리
     func initializeUser() async {
         // 사용자 초기화
+
         guard Auth.auth().currentUser?.uid != nil else { return }
         await fetchUser()
     }
@@ -186,7 +233,7 @@ class AuthenticationViewModel: ObservableObject {
     func signOut() {
         do {
             try Auth.auth().signOut()
-         
+            
             nameID = ""
             userNameID = ""
             year = ""
@@ -198,6 +245,9 @@ class AuthenticationViewModel: ObservableObject {
             showAlert = false
             isExisted = false
             currentUser = nil
+            selectedFilter = .today
+            userFollowingIDs.removeAll()
+            showTab = 0
             
             print("dd")
             print(String(describing: Auth.auth().currentUser?.uid))
@@ -255,6 +305,9 @@ class AuthenticationViewModel: ObservableObject {
         showAlert = false
         isExisted = false
         currentUser = nil
+        selectedFilter = .today
+        userFollowingIDs.removeAll()
+        showTab = 0
     }
     
     // MARK: - Firestore 쿼리 처리
@@ -276,36 +329,16 @@ class AuthenticationViewModel: ObservableObject {
         }
     }
     
-    func fetchNameID() async {
-        guard let id = Auth.auth().currentUser?.uid else { return }
-        
-        let query = Firestore.firestore().collection("users").whereField("id", isEqualTo: id)
-        
-        do {
-            let querySnapshot = try await query.getDocuments()
-            for document in querySnapshot.documents {
-                if let temp = document.data()["nameID"] {
-                    userNameID = temp as? String ?? ""
-                }
-            }
-        } catch {
-            print("Error getting documents: \(error)")
-        }
-    }
-    
     func fetchUser() async {
         // 사용자 데이터 불러오기
-        guard let id = Auth.auth().currentUser?.uid else { return }
-
+        
         do {
-           
-            try await Firestore.firestore().collection("users").document(userNameID).updateData([
+            try await Firestore.firestore().collection("users").document(nameID).updateData([
                 "fcmToken": userToken,
-                "alertAccept": userAlertAccept
             ])
             
-            let snapshot = try await Firestore.firestore().collection("users").document(userNameID).getDocument()
-            print("nameID: \(userNameID)")
+            let snapshot = try await Firestore.firestore().collection("users").document(nameID).getDocument()
+            print("nameID: \(nameID)")
             print("Snapshot: \(String(describing: snapshot.data()))")
             
             guard let user = try? snapshot.data(as: User.self) else {
@@ -331,14 +364,44 @@ class AuthenticationViewModel: ObservableObject {
         Task {
             // 버튼이 활성화된 경우 실행할 로직
             try await UpdateUserData.shared.updateUserData(initialUserData: ["username": username,
+                                                                             "lowercasedName": username.lowercased(),
                                                                              "instaAddress": instaAddress,
                                                                              "tiktokAddress": tiktokAddress])
             currentUser?.username = username
+            currentUser?.lowercasedName = username.lowercased()
             currentUser?.instaAddress = instaAddress
             currentUser?.tiktokAddress = tiktokAddress
             
-            let returnString = try await UpdateImageUrl.shared.updateImageUserData(uiImage: uiImage, storageTypeInput: .user)
-            currentUser?.profileImageUrl = returnString
+            
+            if imagePick && backimagePick {
+                let returnString = try await UpdateImageUrl.shared.updateImageUserData(uiImage: uiImage,
+                                                                                       storageTypeInput: .user,
+                                                                                       documentid: "",
+                                                                                       imageQuality: .middleforProfile,
+                                                                                       surfingID: "")
+                currentUser?.profileImageUrl = returnString
+                
+                let returnBackString = try await UpdateImageUrl.shared.updateImageUserData(uiImage: backuiImage,
+                                                                                           storageTypeInput: .backImage,
+                                                                                           documentid: "",
+                                                                                           imageQuality: .highforPost,
+                                                                                           surfingID: "")
+                currentUser?.backProfileImageUrl = returnBackString
+            } else if imagePick {
+                let returnString = try await UpdateImageUrl.shared.updateImageUserData(uiImage: uiImage,
+                                                                                       storageTypeInput: .user,
+                                                                                       documentid: "",
+                                                                                       imageQuality: .middleforProfile,
+                                                                                       surfingID: "")
+                currentUser?.profileImageUrl = returnString
+            } else if backimagePick {
+                let returnBackString = try await UpdateImageUrl.shared.updateImageUserData(uiImage: backuiImage,
+                                                                                           storageTypeInput: .backImage,
+                                                                                           documentid: "",
+                                                                                           imageQuality: .highforPost,
+                                                                                           surfingID: "")
+                currentUser?.backProfileImageUrl = returnBackString
+            }
         }
     }
     
@@ -346,8 +409,7 @@ class AuthenticationViewModel: ObservableObject {
         username = currentUser?.username ?? ""
         instaAddress = currentUser?.instaAddress ?? ""
         tiktokAddress = currentUser?.tiktokAddress ?? ""
-        userSelectImage = nil
-        imagePick = false
+        changedValue = false
     }
     
     func checkForChanges() {
@@ -355,6 +417,22 @@ class AuthenticationViewModel: ObservableObject {
         let isUsernameChanged = currentUser?.username != username
         let isInstaAddressChanged = currentUser?.instaAddress != instaAddress
         let isTiktokAddressChanged = currentUser?.tiktokAddress != tiktokAddress
-        changedValue = isUsernameChanged || isInstaAddressChanged || isTiktokAddressChanged || imagePick
+        
+        changedValue = isUsernameChanged || isInstaAddressChanged || isTiktokAddressChanged || imagePick || backimagePick
+        
+    }
+    
+    func updateAlertAcceptance(newStatus: Bool) async {
+        let alertAccept = newStatus ? "yes" : "no"
+        
+        do {
+            try await UpdateUserData.shared.updateUserData(initialUserData: ["alertAccept": alertAccept])
+        } catch {
+            print("알림 설정 업데이트 중 오류 발생: \(error)")
+        }
+    }
+    
+    func fetchUserAlertAcceptance() {
+        alertAccept = currentUser?.alertAccept ?? ""
     }
 }

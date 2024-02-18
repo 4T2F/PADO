@@ -1,94 +1,151 @@
 //
-//  CommentView.swift
+//  ReCommentView.swift
 //  PADO
 //
-//  Created by 최동호 on 1/16/24.
+//  Created by 강치우 on 2/3/24.
 //
 
 import SwiftUI
 
 struct CommentView: View {
+    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @StateObject var commentVM = CommentViewModel()
+    
+    @Binding var isShowingCommentView: Bool
+    
     @State private var commentText: String = ""
-    @ObservedObject var commentVM: CommentViewModel
-    @ObservedObject var feedVM: FeedViewModel
-    @State var width = UIScreen.main.bounds.width
+    @State private var isShowingComment: Bool = false
+    @State private var isShowingLoginPage: Bool = false
+    @State var postUser: User
+    @State var post: Post
+    
+    let postID: String
     
     var body: some View {
-        ZStack {
-            VStack {
-                Text("댓글")
-                    .font(.system(size: 16))
-                    .fontWeight(.semibold)
+        NavigationStack {
+            VStack(spacing: 0) {
+                Divider()
                 
-                VStack(spacing: 14) {
+                ScrollView {
+                    VStack {
+                        if let postID = post.id {
+                            FaceMojiView(commentVM: commentVM,
+                                         postOwner: $postUser,
+                                         post: $post,
+                                         postID: postID)
+                            .padding(2)
+                        }
+                        
+                        Divider()
+                    }
+                    .padding(.top)
                     
-                    Divider()
-                    
-                    FaceMojiView()
-                        .padding(2)
-                    
-                    Divider()
-                }
-                .padding(.top, 5)
-                
-                ScrollView(showsIndicators: false) {
                     VStack(alignment: .leading) {
-                        ForEach(commentVM.comments) { comment in
-                            CommentCell(comment: comment)
-                                .padding(.horizontal, 10)
-                                .padding(.bottom, 20)
+                        if !commentVM.comments.isEmpty, let postID = post.id {
+                            ForEach(commentVM.comments) { comment in
+                                CommentCell(comment: comment,
+                                            commentVM: commentVM,
+                                            post: post,
+                                            postID: postID)
+                                    .id(comment.id)
+                                    .padding(.horizontal, 10)
+                                    .padding(.bottom, 20)
+                            }
+                        } else {
+                            VStack {
+                                Text("아직 댓글이 없습니다.")
+                                    .font(.system(size: 16, weight: .semibold))
+                                    .padding(.bottom, 10)
+                                    .padding(.top, 120)
+                                Text("댓글을 남겨보세요.")
+                                    .font(.system(size: 12))
+                                    .foregroundStyle(.gray)
+                            }
                         }
                     }
                     .padding(.top)
                 }
-                .offset(y: -7)
+                .onAppear {
+                    Task {
+                        print(postUser)
+                        commentVM.comments.removeAll()
+                        if let postID = post.id {
+                            if let fetchedComments = await commentVM.updateCommentData.getCommentsDocument(postID: postID) {
+                                commentVM.comments = fetchedComments
+                            }
+                        }
+                        commentVM.removeDuplicateUserIDs(from: commentVM.comments)
+                        await commentVM.fetchCommentUser()
+                    }
+                }
                 
                 Divider()
-                    .offset(y: -14)
-                ZStack {
-                    HStack {
-                        CircularImageView(size: .medium)
-                        
-                        ZStack {
-                            VStack {
-                                HStack {
-                                    TextField("여기에 입력하세요",
-                                              text: $commentText,
-                                              axis: .vertical) // 세로 축으로 동적 높이 조절 활성화
-                                    if !commentText.isEmpty {
-                                        Button {
-                                            Task {
-                                                await commentVM.writeComment(inputcomment: commentText)
-                                                commentText = ""
-                                                await commentVM.getCommentsDocument()
-                                            }
-                                        } label: {
-                                            ZStack {
-                                                RoundedRectangle(cornerRadius: 26)
-                                                    .frame(width: 50, height: 30)
-                                                    .foregroundStyle(.blue)
-                                                Image(systemName: "arrow.up")
-                                                    .resizable()
-                                                    .frame(width: 15, height: 15)
-                                                    .foregroundStyle(.white)
-                                                    .bold()
-                                            }
-                                        }
-                                    }
-                                }
-                                .padding(.vertical, -5)
-                            }
-                            .padding()
-                            .background(
-                                RoundedRectangle(cornerRadius: 36) // HStack의 크기에 맞게 동적으로 크기가 변하는 RoundedRectangle
-                                    .stroke(Color.gray, lineWidth: 1)
-                            )
-                        }
+                
+                Button {
+                    let generator = UIImpactFeedbackGenerator(style: .medium)
+                    generator.impactOccurred()
+                    
+                    if !userNameID.isEmpty {
+                        isShowingComment.toggle()
+                    } else {
+                        isShowingLoginPage = true
                     }
-                    .padding(.horizontal)
+                } label: {
+                    HStack(spacing: 6) {
+                        CircularImageView(size: .xxxSmall, user: postUser)
+                        if post.ownerUid == userNameID {
+                            Text("나의 파도에 댓글 남기기")
+                                .font(.system(size: 14))
+                                .fontWeight(.medium)
+                                .foregroundStyle(.gray)
+                                .padding(.leading, 2)
+                        } else {
+                            Text("\(post.ownerUid)님의 파도에 댓글 남기기")
+                                .font(.system(size: 14))
+                                .fontWeight(.medium)
+                                .foregroundStyle(.gray)
+                                .padding(.leading, 2)
+                        }
+                        
+                        Spacer()
+                    }
+                    .padding(10)
+                    .background(.commentButton)
+                    .clipShape(Capsule())
+                }
+                .padding(10)
+                .sheet(isPresented: $isShowingComment, content: {
+                    CommentWriteView(commentVM: commentVM, isShowingComment: $isShowingComment, postUser: postUser, post: post)
+                        .presentationDragIndicator(.visible)
+                })
+                .sheet(isPresented: $isShowingLoginPage) {
+                    StartView()
+                        .presentationDragIndicator(.visible)
                 }
             }
-            .padding(.top, 30)
+            .background(.main, ignoresSafeAreaEdges: .all)
+            .navigationBarBackButtonHidden()
+            .navigationTitle("댓글")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        isShowingCommentView = false
+                    } label: {
+                        HStack(spacing: 2) {
+                            Image(systemName: "chevron.left")
+                                .font(.system(size: 14))
+                                .fontWeight(.medium)
+                            
+                            Text("닫기")
+                                .font(.system(size: 16))
+                                .fontWeight(.medium)
+                        }
+                    }
+                }
+            }
+            .toolbarBackground(Color(.main), for: .navigationBar)
         }
+        .background(.main, ignoresSafeAreaEdges: .all)
     }
 }

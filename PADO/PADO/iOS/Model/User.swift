@@ -27,20 +27,18 @@ var userToken: String {
     }
 }
 
-var userAlertAccept: String {
-    get {
-        UserDefaults.standard.string(forKey: "userAlertAccept") ?? "no"
-    }
-    set {
-        UserDefaults.standard.set(newValue, forKey: "userAlertAccept")
-    }
-}
+var userFollowingIDs: [String] = []
+
+var blockingUser: [BlockUser] = []
+var blockedUser: [BlockUser] = []
 
 struct User: Codable, Identifiable, Hashable {
     @DocumentID var id: String?
     var username: String // 유저 닉네임
+    var lowercasedName: String
     var nameID: String
     var profileImageUrl: String?
+    var backProfileImageUrl: String?
     var date: String // 날짜가 문자열로 저장된 경우
     var bio: String?
     var location: String?
@@ -50,4 +48,3 @@ struct User: Codable, Identifiable, Hashable {
     var instaAddress: String
     var tiktokAddress: String
 }
-

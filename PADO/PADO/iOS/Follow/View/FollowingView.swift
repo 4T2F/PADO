@@ -14,57 +14,82 @@ struct FollowingView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
     @ObservedObject var followVM: FollowViewModel
     
-    let updateFollowData = UpdateFollowData()
-    
     // MARK: - BODY
     var body: some View {
         let searchTextBinding = Binding {
             return searchText
         } set: {
             searchText = $0
-            followVM.updateSearchText(with: $0)
+            followVM.searchFollowers(with: $0, type: SearchFollowType.following)
         }
         ZStack {
-            Color.black.ignoresSafeArea()
+            Color.main.ignoresSafeArea()
             VStack {
-                ZStack {
-                    Text("팔로잉")
-                        .font(.system(size: 16))
-                        .fontWeight(.bold)
-                    
-                    HStack {
-                        Button {
-                            dismiss()
-                        } label: {
-                            Image("dismissArrow")
-                        }
-                        
-                        Spacer()
-                    }
-                }
-                .padding(.horizontal)
-                
-                Spacer()
-                
                 VStack {
                     SearchBar(text: searchTextBinding,
                               isLoading: $followVM.isLoading)
-                    .padding()
+                    .padding(.bottom, 10)
+                    .padding(.horizontal)
                     
-                    ScrollView {
-                        ForEach(followVM.followingIDs, id: \.self) { followingID in
-                            FollowingCellView(cellUserId: followingID,
-                                              updateFollowData: updateFollowData)
-                                .padding(.vertical)
+                    if searchText.isEmpty {
+                        ScrollView(.vertical) {
+                            VStack {
+                                HStack {
+                                    Text("팔로잉")
+                                        .font(.system(size: 14, weight: .medium))
+                                    
+                                    Spacer()
+                                } //: HSTACK
+                                .padding(.leading)
+                                
+                                if !followVM.followingIDs.isEmpty{
+                                    LazyVStack(spacing: 8) {
+                                        ForEach(followVM.followingIDs, id: \.self) { followingID in
+                                            FollowingCellView(cellUserId: followingID)
+                                                .padding(.vertical)
+                                        }
+                                    }
+                                } else {
+                                    NoItemView(itemName: "아직 팔로잉한 사람이 없습니다")
+                                        .padding(.top, 150)
+                                }
+                            }
+                            .padding(.bottom)
                         }
-                    } //: SCROLL
+                    } else if followVM.viewState == .empty {
+                        Text("검색 결과가 없습니다")
+                            .foregroundColor(.gray)
+                            .font(.system(size: 16,
+                                          weight: .semibold))
+                            .padding(.top, 150)
+                    } else {
+                        ScrollView(.vertical) {
+                            VStack {
+                                HStack {
+                                    Text("팔로잉")
+                                        .font(.system(size: 14, weight: .medium))
+                                    
+                                    Spacer()
+                                } //: HSTACK
+                                .padding(.leading)
+                                
+                                LazyVStack(spacing: 8) {
+                                    ForEach(followVM.searchedFollowing, id: \.self) { followingID in
+                                        FollowingCellView(cellUserId: followingID)
+                                        .padding(.vertical)
+                                    }
+                                } //: SCROLL
+                            }
+                            .padding(.bottom)
+                        }
+                    }
                 } //: VSTACK
-                
             } //: VSTACK
-            
         } //: ZSTACK
         .onDisappear {
-           updateFollowData.fetchFollowStatusData()
+            Task {
+                await UpdateFollowData.shared.fetchFollowStatusData()
+            }
         }
     }
 }

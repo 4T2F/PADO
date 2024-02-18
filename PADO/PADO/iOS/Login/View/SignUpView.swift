@@ -15,43 +15,20 @@ enum SignUpStep {
 }
 
 struct SignUpView: View {
-    
+
     @EnvironmentObject var viewModel: AuthenticationViewModel
     @Environment(\.dismiss) var dismiss
     @State var currentStep: SignUpStep = .phoneNumber
-    
+    @State var loginSignUpType: LoginSignUpType
     var body: some View {
-        
         ZStack {
-            Color.mainBackground.ignoresSafeArea()
-            VStack {
-                ZStack {
-                    Text("PADO")
-                        .font(.system(size: 22))
-                        .fontWeight(.bold)
-                    
-                    HStack {
-                        Button {
-                            handleBackButton()
-                        } label: {
-                            Image("dismissArrow")
-                                .foregroundStyle(.white)
-                                .font(.system(size: 22))
-                        }
-                        
-                        Spacer()
-                    }
-                }
-                .padding(.horizontal)
-                
-                Spacer()
-            }
-            
             switch currentStep {
             case .phoneNumber:
-                PhoneNumberView(currentStep: $currentStep)
+                PhoneNumberView(loginSignUpType: $loginSignUpType,
+                                currentStep: $currentStep)
             case .code:
-                CodeView(currentStep: $currentStep,
+                CodeView(loginSignUpType: $loginSignUpType,
+                         currentStep: $currentStep,
                          dismissAction: { dismiss() })
             case .id:
                 IdView(currentStep: $currentStep)
@@ -59,7 +36,29 @@ struct SignUpView: View {
                 BirthView(currentStep: $currentStep)
             }
         }
-        .navigationBarBackButtonHidden(true)
+        .background(.main, ignoresSafeAreaEdges: .all)
+        .navigationBarBackButtonHidden()
+        .navigationTitle("PADO")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    handleBackButton()
+                } label: {
+                    HStack(spacing: 2) {
+                        Image(systemName: "chevron.left")
+                            .font(.system(size: 14))
+                            .fontWeight(.medium)
+                        
+                        Text("뒤로")
+                            .font(.system(size: 16))
+                            .fontWeight(.medium)
+                    }
+                    .foregroundStyle(.white)
+                }
+            }
+        }
+        .toolbarBackground(Color(.main), for: .navigationBar)
     }
     
     func handleBackButton() {

@@ -4,7 +4,7 @@
 //
 //  Created by 최동호 on 1/16/24.
 //
-
+import Kingfisher
 import SwiftUI
 
 enum Emotion: String, CaseIterable {
@@ -41,31 +41,68 @@ enum Emotion: String, CaseIterable {
 }
 
 struct FaceMojiCell: View {
-    let emotion: Emotion
-    let faceMojiUser: String
+    
+    var facemoji: Facemoji
+    let hapticImpact = UIImpactFeedbackGenerator(style: .medium)
+    
+    @ObservedObject var commentVM: CommentViewModel
+    
     var body: some View {
-        VStack{
-            ZStack {
-                Circle()
-                    .frame(width: 64, height: 64)
-                    .foregroundStyle(emotion.color)
+        if facemoji.userID == userNameID {
+            VStack {
+                ZStack {
+                    Circle()
+                        .stroke(emojiColors[facemoji.emoji, default: .white], lineWidth: 1.4)
+                        .frame(width: 56, height: 56)
+                    
+                    KFImage(URL(string: facemoji.faceMojiImageUrl))
+                        .fade(duration: 0.5)
+                        .placeholder{
+                            ProgressView()
+                        }
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 54, height: 54)
+                        .clipShape(Circle())
+                        .onLongPressGesture(minimumDuration: 1) {
+                            hapticImpact.impactOccurred()
+                            commentVM.selectedFacemoji = facemoji
+                            commentVM.deleteFacemojiModal = true
+                        }
+                    
+                    Text(facemoji.emoji)
+                        .offset(x: 20, y: 20)
+                }
                 
-                Image("pp")
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 60, height: 60)
-                    .clipShape(Circle())
-                
-                Text(emotion.emoji)
-                    .offset(x: 22, y: 20)
+                Text(facemoji.userID)
+                    .foregroundStyle(.white)
+                    .font(.system(size: 12))
             }
-            Text(faceMojiUser)
-                .foregroundStyle(.white)
-                .font(.system(size: 14))
+        } else {
+            VStack {
+                ZStack {
+                    Circle()
+                        .stroke(emojiColors[facemoji.emoji, default: .white], lineWidth: 1.4)
+                        .frame(width: 56, height: 56)
+                    
+                    KFImage(URL(string: facemoji.faceMojiImageUrl))
+                        .fade(duration: 0.5)
+                        .placeholder{
+                            ProgressView()
+                        }
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 54, height: 54)
+                        .clipShape(Circle())
+                    
+                    Text(facemoji.emoji)
+                        .offset(x: 20, y: 20)
+                }
+                
+                Text(facemoji.userID)
+                    .foregroundStyle(.white)
+                    .font(.system(size: 12))
+            }
         }
     }
-}
-
-#Preview {
-    FaceMojiCell(emotion: .heart, faceMojiUser: "DogStar")
 }

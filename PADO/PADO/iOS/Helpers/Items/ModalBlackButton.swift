@@ -15,8 +15,10 @@ struct ModalBlackButton: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 10)
-                .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
+                .stroke(.white, lineWidth: 1)
                 .foregroundStyle(.black)
+                .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
+                
             HStack {
                 
                 Text(text)

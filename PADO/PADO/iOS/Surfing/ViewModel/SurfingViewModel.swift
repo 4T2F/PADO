@@ -13,27 +13,70 @@ import SwiftUI
 class SurfingViewModel: ObservableObject, Searchable  {
     
     @Published var selectedImage: UIImage?
-    @Published var pickerResult: [PHPickerResult] = []
     @Published var showPhotoPicker = false
+    @Published var pickerResult: [PHPickerResult] = []
     @Published var showingPermissionAlert = false
     @Published var selectedUIImage: Image = Image(systemName: "photo")
     
     @Published var showPostView: Bool = false
+    @Published var isShowingPhotoModal = false
+    @Published var isShowingPhoto: Bool = false
     @Published var isShownCamera: Bool = false
     @Published var sourceType: UIImagePickerController.SourceType = .camera
+    @Published var cameraDevice: UIImagePickerController.CameraDevice = .rear
     @Published var cameraUIImage: UIImage = UIImage()
     @Published var cameraImage: Image = Image(systemName: "photo")
     
-    @Published var postingUIImage: UIImage = UIImage()
+    @Published var postingUIImage: UIImage?
     @Published var postingImage: Image = Image(systemName: "photo")
     @Published var postingTitle: String = ""
+    
+    @Published var showCropView: Bool = false
+    @Published var cropResult: Bool = false
+    
+    // 페이스 모지 관련 변수
+    @Published var faceMojiUIImage: UIImage = UIImage()
+    @Published var faceMojiImage: Image = Image(systemName: "photo")
+    @Published var isShowingFaceMojiModal: Bool = false
+    
+    @MainActor
+    @Published var faceMojiItem: PhotosPickerItem? {
+        didSet {
+            Task {
+                do {
+                    let (loadedUIImage, loadedSwiftUIImage) = try await UpdateImageUrl.shared.loadImage(selectedItem: faceMojiItem)
+                    self.faceMojiUIImage = loadedUIImage
+                    self.faceMojiImage = loadedSwiftUIImage
+                } catch {
+                    print("이미지 로드 중 오류 발생: \(error)")
+                }
+            }
+        }
+    }
+    
+    @MainActor
+    @Published var postImageItem: PhotosPickerItem? {
+        didSet {
+            Task {
+                do {
+                    let (loadedUIImage, loadedSwiftUIImage) = try await UpdateImageUrl.shared.loadImage(selectedItem: postImageItem)
+                    self.selectedImage = loadedUIImage
+                    self.selectedUIImage = loadedSwiftUIImage
+                } catch {
+                    print("이미지 로드 중 오류 발생: \(error)")
+                }
+            }
+        }
+    }
     
     @Published var isLoading: Bool = false
     @State var progress: Double = 0
     
-    @Published var searchResult: [User] = []
-    @Published var post: [Post]?
+    @Published var searchResults: [User] = []
+    @Published var post: Post?
     @Published var viewState: ViewState = ViewState.empty
+    
+    @Published var moveTab: Int = 0
     
     // MARK: - 권한 설정 및 확인
     // 카메라 권한 확인 함수 추가
@@ -80,24 +123,54 @@ class SurfingViewModel: ObservableObject, Searchable  {
     }
     
     // MARK: - 게시글 요청
-    func postRequest(imageURL: String) async {
+    @MainActor
+    func postRequest(imageURL: String, surfingID: String) async {
         // 게시 요청 관련 로직 추가
         let initialPostData : [String: Any] = [
-            "ownerUid": userNameID,
+            "ownerUid": surfingID,
+            "surferUid": userNameID,
             "imageUrl": imageURL,
             "title": postingTitle,
-            "hearts": 0,
+            "heartsCount": 0,
+            "commentCount": 0,
             "created_Time": Timestamp()
-       ]
+        ]
         await createPostData(titleName: formattedPostingTitle, data: initialPostData)
+        post?.ownerUid = surfingID
+        post?.surferUid = userNameID
+        post?.imageUrl = imageURL
+        post?.title = postingTitle
+        post?.heartsCount = 0
+        post?.commentCount = 0
+        post?.created_Time = Timestamp()
     }
     
+    @MainActor
     func createPostData(titleName: String, data: [String: Any]) async {
         do {
             try await Firestore.firestore().collection("post").document(titleName).setData(data)
-           
+            
         } catch {
             print("Error saving post data: \(error.localizedDescription)")
         }
+    }
+    
+    // MARK: - 이미지 관련 초기화
+    func resetImage() {
+        selectedImage = nil
+        showingPermissionAlert = false
+        selectedUIImage = Image(systemName: "photo")
+        
+        showPostView = false
+        isShownCamera = false
+        cameraUIImage = UIImage()
+        cameraImage = Image(systemName: "photo")
+        
+        postingUIImage = nil
+        postingImage = Image(systemName: "photo")
+        postingTitle = ""
+        
+        showCropView = false
+        cropResult = false
     }
 }

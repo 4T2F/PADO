@@ -20,6 +20,13 @@ enum StorageTypeInput: String {
     case user
     case post
     case facemoji
+    case backImage
+}
+
+enum ImageQuality: Double {
+    case lowforFaceMoji = 0.25
+    case middleforProfile = 0.5
+    case highforPost = 1.0
 }
 
 class UpdateImageUrl {
@@ -40,24 +47,50 @@ class UpdateImageUrl {
         return (uiImage, profileImageUrl)
     }
     
-    func updateImageUserData(uiImage: UIImage?, storageTypeInput: StorageTypeInput) async throws -> String {
-        let returnString = try await updateProfileImage(uiImage: uiImage, storageTypeInput: storageTypeInput)
+    func updateImageUserData(uiImage: UIImage?, storageTypeInput: StorageTypeInput, documentid: String, imageQuality: ImageQuality, surfingID: String) async throws -> String {
+        let returnString = try await updateProfileImage(uiImage: uiImage,
+                                                        storageTypeInput: storageTypeInput,
+                                                        documentid: documentid,
+                                                        imageQuality: imageQuality,
+                                                        surfingID: surfingID)
         return returnString
     }
     
     // ImageUploader를 통해 Storage에 이미지를 올리고 imageurl을 매개변수로 updateUserProfileImage에 넣어줌
-    func updateProfileImage(uiImage: UIImage?, storageTypeInput: StorageTypeInput) async throws -> String {
+    func updateProfileImage(uiImage: UIImage?, storageTypeInput: StorageTypeInput, documentid: String, imageQuality: ImageQuality, surfingID: String) async throws -> String {
         guard let image = uiImage else { throw ImageLoadError.imageCreationFailed }
         
         switch storageTypeInput {
-        case .user, .facemoji, .post:
-            guard let imageUrl = try? await uploadImageToStorage(image: image, storageTypeInput: storageTypeInput) else { throw ImageLoadError.imageCreationFailed }
-            let returnString = try await updateImageToStore(withImageUrl: imageUrl, storageTypeInput: storageTypeInput)
+        case .user, .facemoji, .backImage:
+            guard let imageUrl = try? await uploadImageToStorage(image: image,
+                                                                 storageTypeInput: storageTypeInput,
+                                                                 imageQuality: imageQuality)
+            else {
+                throw ImageLoadError.imageCreationFailed
+            }
+            let returnString = try await updateImageToStore(withImageUrl: imageUrl,
+                                                            storageTypeInput: storageTypeInput,
+                                                            documentid: documentid,
+                                                            surfingID: "")
+            return returnString
+            
+        case .post:
+            guard let imageUrl = try? await uploadImageToStorage(image: image,
+                                                                 storageTypeInput: storageTypeInput,
+                                                                 imageQuality: imageQuality)
+            else {
+                throw ImageLoadError.imageCreationFailed
+            }
+            let returnString = try await updateImageToStore(withImageUrl: imageUrl,
+                                                            storageTypeInput: storageTypeInput,
+                                                            documentid: documentid,
+                                                            surfingID: surfingID)
             return returnString
         }
         
         // 파이어베이스 스토리지에 이미지를 업로드하는 메서드
-        func uploadImageToStorage(image: UIImage, storageTypeInput: StorageTypeInput) async throws -> String? {
+        func uploadImageToStorage(image: UIImage, storageTypeInput: StorageTypeInput, imageQuality: ImageQuality) async throws -> String? {
+            guard !userNameID.isEmpty else { return nil }
             let filename = userNameID
             
             let dateFormatter = DateFormatter()
@@ -66,7 +99,7 @@ class UpdateImageUrl {
             let formattedDate = dateFormatter.string(from: Date())
             formattedPostingTitle = filename+formattedDate
             
-            guard let imageData = image.jpegData(compressionQuality: 0.25) else { return nil }
+            guard let imageData = image.jpegData(compressionQuality: imageQuality.rawValue) else { return nil }
             
             switch storageTypeInput {
                 
@@ -93,7 +126,17 @@ class UpdateImageUrl {
                 }
                 
             case .facemoji:
-                let storageRef = Storage.storage().reference(withPath: "/facemoji/\(filename)")
+                let storageRef = Storage.storage().reference(withPath: "/facemoji/\(filename)-\(documentid)")
+                do {
+                    _ = try await storageRef.putDataAsync(imageData)
+                    let url = try await storageRef.downloadURL()
+                    return url.absoluteString
+                } catch {
+                    print("DEBUG: Failed to upload image with error: \(error.localizedDescription)")
+                    return nil
+                }
+            case .backImage:
+                let storageRef = Storage.storage().reference(withPath: "/back_image/\(filename)")
                 do {
                     _ = try await storageRef.putDataAsync(imageData)
                     let url = try await storageRef.downloadURL()
@@ -106,7 +149,10 @@ class UpdateImageUrl {
         }
         
         // 전달받은 imageUrl의 값을 파이어스토어 모델에 올리고 뷰모델에 넣어줌
-        func updateImageToStore(withImageUrl imageUrl: String, storageTypeInput: StorageTypeInput) async throws -> String {
+        func updateImageToStore(withImageUrl imageUrl: String, storageTypeInput: StorageTypeInput, documentid: String, surfingID: String) async throws -> String {
+            
+            guard !userNameID.isEmpty else { return "" }
+            
             switch storageTypeInput {
                 
             case .user:
@@ -115,16 +161,31 @@ class UpdateImageUrl {
                 ])
                 return imageUrl
             case .post:
-                try await Firestore.firestore().collection("users").document(userNameID).collection("mypost").document(formattedPostingTitle).setData([
-                    "userID": userNameID
+                try await Firestore.firestore().collection("users").document(userNameID).collection("sendpost").document(formattedPostingTitle).setData([
+                    "surfingID": surfingID,
+                    "userID": userNameID,
+                    "created_Time": Timestamp()
                 ])
+                
+                try await Firestore.firestore().collection("users").document(surfingID).collection("mypost").document(formattedPostingTitle).setData([
+                    "surferID": userNameID,
+                    "userID": surfingID,
+                    "created_Time": Timestamp()
+                ])
+                
                 return imageUrl
             case .facemoji:
-                try await Firestore.firestore().collection("facemoji").document(userNameID).updateData([
+                try await Firestore.firestore().collection("post").document(documentid).collection("facemoji").document(userNameID).setData([
                     "faceMojiImageUrl": imageUrl
+                ])
+                return imageUrl
+            case .backImage:
+                try await Firestore.firestore().collection("users").document(userNameID).updateData([
+                    "backProfileImageUrl": imageUrl
                 ])
                 return imageUrl
             }
         }
+        
     }
 }
