@@ -19,6 +19,7 @@ class ProfileViewModel: ObservableObject {
     @Published var padoPosts: [Post] = []
     @Published var sendPadoPosts: [Post] = []
     @Published var highlights: [Post] = []
+    @Published var padoRides: [PadoRide] = []
     @Published var headerOffsets: (CGFloat, CGFloat) = (0, 0)
     @Published var selectedPostID: String = ""
     @Published var blockUser: [BlockUser] = []

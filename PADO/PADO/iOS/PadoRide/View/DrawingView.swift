@@ -46,7 +46,7 @@ struct DrawingView: View {
                                         .onChanged({ value in
                                             // 드래그 시작 시점의 offset 임시 저장
                                             let startOffset = box.lastOffset
-
+                                            
                                             // 현재 드래그 변위
                                             let currentTranslation = value.translation
                                             
@@ -70,32 +70,32 @@ struct DrawingView: View {
                                             padorideVM.textBoxes[getTextIndex(textBox: box)].lastOffset = padorideVM.textBoxes[getTextIndex(textBox: box)].offset
                                         })
                                         .simultaneously(with:
-                                            MagnificationGesture()
-                                                .onChanged({ value in
-                                                    padorideVM.textBoxes[getTextIndex(textBox: box)].scale = box.lastScale * value
-                                                })
+                                                            MagnificationGesture()
+                                            .onChanged({ value in
+                                                padorideVM.textBoxes[getTextIndex(textBox: box)].scale = box.lastScale * value
+                                            })
                                                 .onEnded({ value in
                                                     padorideVM.textBoxes[getTextIndex(textBox: box)].lastScale = padorideVM.textBoxes[getTextIndex(textBox: box)].scale
                                                 })
-                                                .simultaneously(with:
-                                                    RotationGesture()
+                                                    .simultaneously(with:
+                                                                        RotationGesture()
                                                         .onChanged({ value in
                                                             padorideVM.textBoxes[getTextIndex(textBox: box)].rotation = box.lastRotation + value
                                                         })
-                                                        .onEnded({ value in
-                                                            padorideVM.textBoxes[getTextIndex(textBox: box)].lastRotation = padorideVM.textBoxes[getTextIndex(textBox: box)].rotation
-                                                        })
-                                                )
-                                        )
+                                                            .onEnded({ value in
+                                                                padorideVM.textBoxes[getTextIndex(textBox: box)].lastRotation = padorideVM.textBoxes[getTextIndex(textBox: box)].rotation
+                                                            })
+                                                                   )
+                                                       )
                                 )
-//                                .onLongPressGesture {
-//                                    padorideVM.toolPicker.setVisible(false, forFirstResponder: padorideVM.canvas)
-//                                    padorideVM.canvas.resignFirstResponder()
-//                                    padorideVM.currentTextIndex = getTextIndex(textBox: box)
-//                                    withAnimation{
-//                                        padorideVM.addNewBox = true
-//                                    }
-//                                }
+                                .onLongPressGesture {
+                                    padorideVM.toolPicker.setVisible(false, forFirstResponder: padorideVM.canvas)
+                                    padorideVM.canvas.resignFirstResponder()
+                                    padorideVM.currentTextIndex = getTextIndex(textBox: box)
+                                    withAnimation{
+                                        padorideVM.addNewBox = true
+                                    }
+                                }
                         }
                         
                         ForEach(padorideVM.imageBoxes) { box in
@@ -110,7 +110,7 @@ struct DrawingView: View {
                                         .onChanged({ value in
                                             // 드래그 시작 시점의 offset 임시 저장
                                             let startOffset = box.lastOffset
-
+                                            
                                             // 현재 드래그 변위
                                             let currentTranslation = value.translation
                                             
@@ -134,32 +134,32 @@ struct DrawingView: View {
                                             padorideVM.imageBoxes[getImageIndex(imageBox: box)].lastOffset = padorideVM.imageBoxes[getImageIndex(imageBox: box)].offset
                                         })
                                         .simultaneously(with:
-                                            MagnificationGesture()
-                                                .onChanged({ value in
-                                                    padorideVM.imageBoxes[getImageIndex(imageBox: box)].scale = box.lastScale * value
-                                                })
+                                                            MagnificationGesture()
+                                            .onChanged({ value in
+                                                padorideVM.imageBoxes[getImageIndex(imageBox: box)].scale = box.lastScale * value
+                                            })
                                                 .onEnded({ value in
                                                     padorideVM.imageBoxes[getImageIndex(imageBox: box)].lastScale = padorideVM.imageBoxes[getImageIndex(imageBox: box)].scale
                                                 })
-                                                .simultaneously(with:
-                                                    RotationGesture()
+                                                    .simultaneously(with:
+                                                                        RotationGesture()
                                                         .onChanged({ value in
                                                             padorideVM.imageBoxes[getImageIndex(imageBox: box)].rotation = box.lastRotation + value
                                                         })
-                                                        .onEnded({ value in
-                                                            padorideVM.imageBoxes[getImageIndex(imageBox: box)].lastRotation = padorideVM.imageBoxes[getImageIndex(imageBox: box)].rotation
-                                                        })
-                                                )
-                                        )
+                                                            .onEnded({ value in
+                                                                padorideVM.imageBoxes[getImageIndex(imageBox: box)].lastRotation = padorideVM.imageBoxes[getImageIndex(imageBox: box)].rotation
+                                                            })
+                                                                   )
+                                                       )
                                 )
-//                                .onLongPressGesture {
-//                                    padorideVM.toolPicker.setVisible(false, forFirstResponder: padorideVM.canvas)
-//                                    padorideVM.canvas.resignFirstResponder()
-//                                    padorideVM.currentImageIndex = getImageIndex(imageBox: box)
-//                                    Task {
-//                                        await padorideVM.deleteImage()
-//                                    }
-//                                }
+                                .onLongPressGesture {
+                                    padorideVM.toolPicker.setVisible(false, forFirstResponder: padorideVM.canvas)
+                                    padorideVM.canvas.resignFirstResponder()
+                                    padorideVM.currentImageIndex = getImageIndex(imageBox: box)
+                                    Task {
+                                        await padorideVM.deleteImage()
+                                    }
+                                }
                         }
                     }
                 )
@@ -221,6 +221,7 @@ struct DrawingView: View {
                 Button{
                     padorideVM.showingModal = true
                     padorideVM.saveImage()
+                    padorideVM.toolPicker.setVisible(false, forFirstResponder: padorideVM.canvas)
                     padorideVM.pickerImageItem = nil
                 } label: {
                     Text("다음")
