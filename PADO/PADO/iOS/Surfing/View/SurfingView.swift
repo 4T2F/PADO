@@ -62,50 +62,50 @@ struct SurfingView: View {
                                     .background(Color.gray)
                             }
                         }
-                        .navigationTitle("서핑하기")
-                        .navigationBarTitleDisplayMode(.inline)
-                        .toolbarBackground(.visible, for: .navigationBar)
-                        .toolbarBackground(Color.main, for: .navigationBar)
-                        .toolbarColorScheme(.dark, for: .navigationBar)
-                        .background {
-                            Color.main
-                                .ignoresSafeArea()
-                        }
-                        .onChange(of: surfingVM.selectedUIImage) { oldValue, newValue in
-                            surfingVM.isShowingPhotoModal = false
-                        }
-                        .onAppear {
-                            surfingVM.checkPhotoLibraryPermission()
-                        }
-                        .alert(isPresented: $surfingVM.showingPermissionAlert) {
-                            Alert(title: Text("권한 필요"), message: Text("사진 라이브러리 접근 권한이 필요합니다."), dismissButton: .default(Text("확인")))
-                        }
-                        .sheet(isPresented: $surfingVM.isShownCamera) {
-                            CameraAccessView(isShown: $surfingVM.isShownCamera,
-                                             myimage: $surfingVM.cameraImage,
-                                             myUIImage: $surfingVM.cameraUIImage,
-                                             mysourceType: $surfingVM.sourceType,
-                                             mycameraDevice: $surfingVM.cameraDevice)
-                        }
-                        .onDisappear {
-                            surfingVM.isShownCamera = false
-                        }
-                        .sheet(isPresented: $surfingVM.isShowingPhotoModal, content: {
-                            PhotoTypeModal(surfingVM: surfingVM,
-                                           feedVM: feedVM,
-                                           profileVM: profileVM)
-                            .presentationDetents([.fraction(0.3)])
-                            .presentationDragIndicator(.visible)
-                            
-                        })
-                        .navigationDestination(isPresented: $surfingVM.showCropView) {
-                            PostCropView(surfingVM: surfingVM,
-                                         feedVM: feedVM,
-                                         profileVM: profileVM,
-                                         followVM: followVM) { croppedImage, status in
-                                if let croppedImage {
-                                    surfingVM.postingUIImage = croppedImage
-                                }
+                    }
+                    .navigationTitle("서핑하기")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbarBackground(.visible, for: .navigationBar)
+                    .toolbarBackground(Color.main, for: .navigationBar)
+                    .toolbarColorScheme(.dark, for: .navigationBar)
+                    .background {
+                        Color.main
+                            .ignoresSafeArea()
+                    }
+                    .onChange(of: surfingVM.selectedUIImage) { oldValue, newValue in
+                        surfingVM.isShowingPhotoModal = false
+                    }
+                    .onAppear {
+                        surfingVM.checkPhotoLibraryPermission()
+                    }
+                    .alert(isPresented: $surfingVM.showingPermissionAlert) {
+                        Alert(title: Text("권한 필요"), message: Text("사진 라이브러리 접근 권한이 필요합니다."), dismissButton: .default(Text("확인")))
+                    }
+                    .sheet(isPresented: $surfingVM.isShownCamera) {
+                        CameraAccessView(isShown: $surfingVM.isShownCamera,
+                                         myimage: $surfingVM.cameraImage,
+                                         myUIImage: $surfingVM.cameraUIImage,
+                                         mysourceType: $surfingVM.sourceType,
+                                         mycameraDevice: $surfingVM.cameraDevice)
+                    }
+                    .onDisappear {
+                        surfingVM.isShownCamera = false
+                    }
+                    .sheet(isPresented: $surfingVM.isShowingPhotoModal, content: {
+                        PhotoTypeModal(surfingVM: surfingVM,
+                                       feedVM: feedVM,
+                                       profileVM: profileVM)
+                        .presentationDetents([.fraction(0.3)])
+                        .presentationDragIndicator(.visible)
+                        
+                    })
+                    .navigationDestination(isPresented: $surfingVM.showCropView) {
+                        PostCropView(surfingVM: surfingVM,
+                                     feedVM: feedVM,
+                                     profileVM: profileVM,
+                                     followVM: followVM) { croppedImage, status in
+                            if let croppedImage {
+                                surfingVM.postingUIImage = croppedImage
                             }
                         }
                     }
