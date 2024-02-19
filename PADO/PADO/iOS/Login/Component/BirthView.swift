@@ -13,8 +13,8 @@ struct BirthView: View {
     @Binding var currentStep: SignUpStep
     @EnvironmentObject var viewModel: AuthenticationViewModel
     
-    let termsLink = "[이용약관](https://notch-galaxy-ab8.notion.site/de9e469fca24427cbcf16ada473c9231?pvs=4)"
-    let personalInfoLink = "[개인정보 정책](https://notch-galaxy-ab8.notion.site/1069395170324617b046f096118cd815)"
+    let termsLink = "[이용약관](https://notch-galaxy-ab8.notion.site/6ff60c61aa104cd6b1471d3ea5102ce3?pvs=4)"
+    let personalInfoLink = "[개인정보 정책](https://notch-galaxy-ab8.notion.site/3147fcead0ed41cdad6e2078893807b7?pvs=4)"
     var body: some View {
         ZStack {     
             VStack(alignment: .leading) {
@@ -37,7 +37,7 @@ struct BirthView: View {
                             
                             Divider()
                             
-                            Text("만 14세 미만의 가입자는 이용할 수 없습니다.")
+                            Text("만 14세 미만의 이용자는 가입할 수 없습니다.")
                                 .foregroundStyle(.gray)
                                 .font(.system(size: 14))
                                 .fontWeight(.semibold)
