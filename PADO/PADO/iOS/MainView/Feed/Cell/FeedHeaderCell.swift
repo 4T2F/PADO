@@ -17,7 +17,7 @@ enum FeedFilter: Int, CaseIterable, Identifiable {
     
     var title: String {
         switch self {
-        case .following: return "following"
+        case .following: return "Following"
         case .today: return "Today"
         }
     }
