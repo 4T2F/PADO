@@ -37,6 +37,11 @@ struct BirthView: View {
                             
                             Divider()
                             
+                            Text("만 14세 미만의 가입자는 이용할 수 없습니다")
+                                .foregroundStyle(.gray)
+                                .font(.system(size: 14))
+                                .fontWeight(.semibold)
+                            
                             Group {
                                 Text("가입과 동시에 파도의 ")
                                     .foregroundStyle(.gray)
