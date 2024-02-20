@@ -209,7 +209,10 @@ class PadoRideViewModel: ObservableObject {
         guard let imageData = decoUIImage.jpegData(compressionQuality: 1.0) else { return }
         
         do {
-            UIImageWriteToSavedPhotosAlbum(decoUIImage, nil, nil, nil)
+            
+            if savePhoto {
+                UIImageWriteToSavedPhotosAlbum(decoUIImage, nil, nil, nil)
+            }
             
             _ = try await storageRef.putDataAsync(imageData)
             let url = try await storageRef.downloadURL()
