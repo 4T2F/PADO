@@ -40,6 +40,7 @@ struct OtherUserProfileView: View {
     let columns = [GridItem(.flexible(), spacing: 1), GridItem(.flexible(), spacing: 1), GridItem(.flexible())]
     
     var body: some View {
+
         ZStack {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 0) {
@@ -99,14 +100,7 @@ struct OtherUserProfileView: View {
                                 }
                             }
                             
-                            if user.nameID == userNameID {
-                                NavigationLink {
-                                    SettingView(profileVM: profileVM)
-                                } label: {
-                                    Image("more")
-                                        .foregroundStyle(.white)
-                                }
-                            } else {
+                            if user.nameID != userNameID {
                                 Button {
                                     isShowingUserReport = true
                                 } label: {
@@ -254,14 +248,18 @@ struct OtherUserProfileView: View {
                                 Spacer()
                                 
                                 if user.nameID == userNameID {
-                                    NavigationLink {
-                                        SettingProfileView()
+                                    Button {
+                                        Task {
+                                            dismiss()
+                                            try? await Task.sleep(nanoseconds: 1 * 500_000_000)
+                                            viewModel.showTab = 4
+                                        }
                                     } label: {
                                         ZStack {
                                             RoundedRectangle(cornerRadius:4)
                                                 .stroke(Color.white, lineWidth: 1)
                                                 .frame(width: 80, height: 28)
-                                            Text("프로필 편집")
+                                            Text("내 프로필")
                                                 .font(.system(size: 12))
                                                 .fontWeight(.semibold)
                                                 .foregroundStyle(.white)
