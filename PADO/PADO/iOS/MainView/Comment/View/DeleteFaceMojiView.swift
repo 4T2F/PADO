@@ -28,7 +28,7 @@ struct DeleteFaceMojiView: View {
                     .frame(width: 70, height: 70)
                     .clipShape(Circle())
                 
-                Text("해당 페이스모지를 삭제 하시겠습니까?")
+                Text("해당 포토모지를 삭제 하시겠습니까?")
                     .font(.system(size: 16))
                     .padding()
                 

@@ -364,6 +364,8 @@ struct SettingProfileView: View {
             .onDisappear {
                 viewModel.imagePick = false
                 viewModel.backimagePick = false
+                viewModel.userSelectImage = nil
+                viewModel.backSelectImage = nil
             }
         }
     }

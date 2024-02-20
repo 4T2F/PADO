@@ -28,7 +28,7 @@ struct PostView: View {
         VStack {
             VStack {
                 ZStack {
-                    Text("서핑하기")
+                    Text("새로운 파도")
                         .font(.system(size: 16))
                         .fontWeight(.semibold)
                     
@@ -181,7 +181,7 @@ struct PostView: View {
                                 .progressViewStyle(CircularProgressViewStyle(tint: .white))
                                 .scaleEffect(1.5)
                         } else {
-                            Text("게시하기")
+                            Text("보내기")
                                 .font(.system(size: 16))
                                 .fontWeight(.medium)
                                 .foregroundStyle(.white)
