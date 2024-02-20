@@ -187,7 +187,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
                 setupSnapshotTodayPadoListener(for: post)
             }
 
-            // 인덱스 20개 초과 시 0~24번 인덱스까지만 포함
+            // 인덱스 25개 초과 시 0~24번 인덱스까지만 포함
             self.todayPadoPosts = Array(filteredPosts.prefix(25))
             self.todayPadoPosts = filterBlockedPosts(posts: self.todayPadoPosts)
         } catch {
