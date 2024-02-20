@@ -19,6 +19,8 @@ class PostitViewModel: ObservableObject {
     @Published var messageUserIDs: [String] = []
     @Published var messageUsers: [String: User] = [:]
     
+    private var messagesListener: ListenerRegistration?
+    
     let db = Firestore.firestore()
     
     @MainActor
@@ -65,14 +67,12 @@ class PostitViewModel: ObservableObject {
             print("Error saving post data: \(error.localizedDescription)")
         }
         
-        await getMessageDocument(ownerID: ownerID)
     }
     
     @MainActor
     func removeMessageData(ownerID: String, messageID: String) async {
         do {
             try await db.collection("users").document(ownerID).collection("message").document(messageID).delete()
-            await getMessageDocument(ownerID: ownerID)
         } catch {
             print("Error removing document: \(error.localizedDescription)")
         }
@@ -88,6 +88,26 @@ class PostitViewModel: ObservableObject {
     }
     
     @MainActor
+    func listenForMessages(ownerID: String) async {
+        self.ownerID = ownerID
+        messagesListener = db.collection("users").document(ownerID).collection("message")
+          .order(by: "messageTime", descending: false)
+          .addSnapshotListener { [weak self] (querySnapshot, error) in
+            guard let self = self else { return }
+            guard let snapshot = querySnapshot else {
+                print("Error listening for message updates: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+            self.messages = snapshot.documents.compactMap { document in
+                try? document.data(as: PostitMessage.self)
+            }
+            self.messages = self.filterBlockedMessages(messages: self.messages)
+        }
+        self.messageUserIDs = removeDuplicateUserIDs(from: self.messages)
+        await fetchMessageUser()
+    }
+    
+    @MainActor
     func fetchMessageUser() async {
         do {
             for documentID in messageUserIDs {
@@ -99,6 +119,12 @@ class PostitViewModel: ObservableObject {
         } catch {
             print("Error fetch User: \(error.localizedDescription)")
         }
+    }
+    
+    @MainActor
+    func removeListner() {
+        messagesListener?.remove()
+        messagesListener = nil
     }
 }
 

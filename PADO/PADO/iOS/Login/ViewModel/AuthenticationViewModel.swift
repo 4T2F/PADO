@@ -153,7 +153,7 @@ class AuthenticationViewModel: ObservableObject {
             "date": year,
             "phoneNumber": "+82\(phoneNumber)",
             "fcmToken": userToken,
-            "alertAccept": "",
+            "alertAccept": acceptAlert,
             "instaAddress": "",
             "tiktokAddress": ""
         ]
@@ -177,7 +177,7 @@ class AuthenticationViewModel: ObservableObject {
                 date: year,
                 phoneNumber: "+82\(phoneNumber)",
                 fcmToken: userToken,
-                alertAccept: "",
+                alertAccept: acceptAlert,
                 instaAddress: "",
                 tiktokAddress: ""
             )

@@ -56,6 +56,8 @@ class FollowViewModel: ObservableObject, Searchable {
     @Published var searchResults: [User] = []
     @Published var viewState: ViewState = ViewState.empty
     
+    private var listeners: [CollectionType: ListenerRegistration] = [:]
+    
     @MainActor
     func initializeFollowFetch(id: String) async {
         await fetchIDs(id: id, collectionType: .following)
@@ -69,7 +71,7 @@ class FollowViewModel: ObservableObject, Searchable {
         self.isLoading = true
         let db = Firestore.firestore()
         
-        db.collection("users").document(id).collection(collectionType.collectionName).addSnapshotListener { documentSnapshot, error in
+        listeners[collectionType] = db.collection("users").document(id).collection(collectionType.collectionName).addSnapshotListener { documentSnapshot, error in
             guard let documents = documentSnapshot?.documents else {
                 print("Error fetching document: \(error!)")
                 self.isLoading = false
@@ -103,6 +105,18 @@ class FollowViewModel: ObservableObject, Searchable {
             self.isLoading = false
         }
     }
+    
+    func stopListeningForCollectionType(_ collectionType: CollectionType) {
+        listeners[collectionType]?.remove()
+        listeners[collectionType] = nil
+    }
+    
+    func stopAllListeners() {
+        for listener in listeners.values {
+            listener.remove()
+        }
+        listeners.removeAll()
+    }
 
     func searchFollowers(with str: String, type: SearchFollowType) {
         setViewState(to: .loading)
@@ -119,6 +133,7 @@ class FollowViewModel: ObservableObject, Searchable {
             setViewState(to: .ready)
         }
     }
+
 }
 
 extension FollowViewModel {

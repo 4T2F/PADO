@@ -37,7 +37,7 @@ var savePhoto: Bool {
 }
 
 var userFollowingIDs: [String] = []
-
+var acceptAlert = "no"
 var blockingUser: [BlockUser] = []
 var blockedUser: [BlockUser] = []
 var needsDataFetch: Bool = false

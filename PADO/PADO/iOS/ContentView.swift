@@ -169,9 +169,10 @@ struct ContentView: View {
             await followVM.initializeFollowFetch(id: userNameID)
             await feedVM.fetchTodayPadoPosts()
             await feedVM.fetchFollowingPosts()
+            profileVM.stopAllPostListeners()
             await notiVM.fetchNotifications()
             await profileVM.fetchPostID(id: userNameID)
-            await postitVM.getMessageDocument(ownerID: userNameID)
+            await postitVM.listenForMessages(ownerID: userNameID)
             feedVM.postFetchLoading = false
             
             NotificationCenter.default.addObserver(forName: Notification.Name("ProfileNotification"), object: nil, queue: .main) { notification in

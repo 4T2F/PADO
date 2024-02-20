@@ -168,8 +168,13 @@ struct OtherUserProfileView: View {
             Task {
                 await followVM.initializeFollowFetch(id: user.nameID)
                 await profileVM.fetchPostID(id: user.nameID)
-                await postitVM.getMessageDocument(ownerID: user.nameID)
+                await postitVM.listenForMessages(ownerID: user.nameID)
             }
+        }
+        .onDisappear {
+            followVM.stopAllListeners()
+            postitVM.removeListner()
+            profileVM.stopAllPostListeners()
         }
     }
     

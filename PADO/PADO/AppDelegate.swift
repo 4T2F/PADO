@@ -24,7 +24,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
         UNUserNotificationCenter.current().requestAuthorization(
             options: authOptions,
-            completionHandler: { granted, _ in }
+            completionHandler: { granted, _ in
+                acceptAlert = "yes"
+            }
         )
         
         DispatchQueue.main.async {
