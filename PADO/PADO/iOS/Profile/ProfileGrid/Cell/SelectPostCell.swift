@@ -9,7 +9,6 @@ import Firebase
 import FirebaseFirestoreSwift
 import Kingfisher
 import Lottie
-import PopupView
 import SwiftUI
 
 struct SelectPostCell: View {
@@ -288,7 +287,7 @@ struct SelectPostCell: View {
                                         // 햅틱 피드백 생성
                                         let generator = UIImpactFeedbackGenerator(style: .light)
                                         generator.impactOccurred()
-                                        // feedVM.isHeaderVisible.toggle()
+                                
                                     }
                                     
                                     if let currentIndex = feedVM.currentPadoRideIndex {
@@ -402,7 +401,7 @@ struct SelectPostCell: View {
                             }
                             
                             // MARK: - 댓글
-                            VStack(spacing: 10) {
+                            VStack(spacing: 0) {
                                 Button {
                                     if !blockPost(post: post) {
                                         isShowingCommentView = true
@@ -421,10 +420,9 @@ struct SelectPostCell: View {
                                 .presentationDetents([.large])
                                 
                                 // MARK: - 댓글 숫자
-                                Text("\(post.commentCount)")
+                                Text("")
                                     .font(.system(size: 10))
-                                    .fontWeight(.semibold)
-                                    .shadow(radius: 1, y: 1)
+                                  
                             }
                             
                             // MARK: - 신고하기
@@ -479,6 +477,7 @@ struct SelectPostCell: View {
                                                                                            storageFileName: fileName,
                                                                                            subID: subID ?? "")
                                             deleteMyPadoride = false
+                                            needsDataFetch.toggle()
                                         }
                                     })
                                     .presentationDetents([.fraction(0.4)])
@@ -492,6 +491,7 @@ struct SelectPostCell: View {
                                                                                            storageFileName: fileName,
                                                                                            subID: userNameID)
                                             deleteSendPadoride = false
+                                            needsDataFetch.toggle()
                                         }
                                     }
                                     .presentationDetents([.fraction(0.4)])
@@ -503,6 +503,7 @@ struct SelectPostCell: View {
                                                                                postOwnerID: post.ownerUid,
                                                                                sufferID: post.surferUid)
                                             deleteMyPost = false
+                                            needsDataFetch.toggle()
                                         }
                                     }
                                     .presentationDetents([.fraction(0.4)])
@@ -514,6 +515,7 @@ struct SelectPostCell: View {
                                                                                postOwnerID: post.ownerUid,
                                                                                sufferID: post.surferUid)
                                             deleteSendPost = false
+                                            needsDataFetch.toggle()
                                         }
                                     }
                                     .presentationDetents([.fraction(0.4)])

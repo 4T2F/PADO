@@ -54,6 +54,12 @@ struct IdView: View {
                 
                 Button {
                     if buttonActive {
+                        if viewModel.nameID.contains(" ") {
+                            // 공백이 있으면 경고 메시지 표시
+                            isDuplicateID = true
+                            return
+                        }
+        
                         let regex = "^[A-Za-z0-9]+$"
                         if viewModel.nameID.range(of: regex, options: .regularExpression) != nil {
                             Task {

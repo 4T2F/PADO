@@ -35,6 +35,8 @@ class FeedViewModel:Identifiable ,ObservableObject {
     
     @Published var selectedFeedCheckHeart: Bool = false
     @Published var postFetchLoading: Bool = false
+    @Published var followFetchLoading: Bool = false
+    @Published var deleteUserCounts: [Int] = []
     
     private var db = Firestore.firestore()
     private var listener: ListenerRegistration?

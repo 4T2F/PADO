@@ -14,6 +14,7 @@ enum ProfileImageSize {
     case xxSmall
     case xSmall
     case small
+    case commentSize
     case medium
     case large
     case xLarge
@@ -27,6 +28,7 @@ enum ProfileImageSize {
         case .xxSmall: return 28
         case .xSmall: return 32
         case .small: return 36
+        case .commentSize: return 38
         case .medium: return 40
         case .large: return 48
         case .xLarge: return 60
@@ -47,14 +49,6 @@ struct CircularImageView: View {
         if let imageUrl = user.profileImageUrl {
             KFImage(URL(string: imageUrl))
                 .fade(duration: 0.5)
-                .placeholder{
-                    Image("defaultProfile")
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: size.dimension, height: size.dimension)
-                        .clipShape(Circle())
-                        .foregroundStyle(Color(.systemGray4))
-                }
                 .resizable()
                 .scaledToFill()
                 .frame(width: size.dimension, height: size.dimension)

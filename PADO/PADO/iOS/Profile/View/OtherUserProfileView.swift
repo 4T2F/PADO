@@ -7,7 +7,6 @@
 
 import Kingfisher
 import Lottie
-import PopupView
 import SwiftUI
 
 struct OtherUserProfileView: View {
@@ -127,31 +126,34 @@ struct OtherUserProfileView: View {
             
             // 뒷배경 조건문
             if touchBackImage {
-                KFImage(URL(string: user.backProfileImageUrl ?? ""))
-                    .resizable()
-                    .scaledToFit()
-                    .zIndex(2)
-                    .onTapGesture {
-                        withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
-                            self.touchBackImage = false
+                if let backProfileImageUrl = user.backProfileImageUrl {
+                    KFImage(URL(string: backProfileImageUrl))
+                        .resizable()
+                        .scaledToFit()
+                        .zIndex(2)
+                        .onTapGesture {
+                            withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
+                                self.touchBackImage = false
+                            }
                         }
-                    }
-                    .offset(position)
+                        .offset(position)
                 }
-            
+            }
             // 프로필 사진 조건문
             if touchProfileImage {
-                KFImage(URL(string: user.profileImageUrl ?? ""))
-                    .resizable()
-                    .scaledToFit()
-                    .zIndex(2)
-                    .onTapGesture {
-                        withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
-                            self.touchProfileImage = false
+                if let profileImageUrl = user.profileImageUrl {
+                    KFImage(URL(string: profileImageUrl))
+                        .resizable()
+                        .scaledToFit()
+                        .zIndex(2)
+                        .onTapGesture {
+                            withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
+                                self.touchProfileImage = false
+                            }
                         }
-                    }
-                    .offset(position)
+                        .offset(position)
                 }
+            }
         }
         .overlay {
             Rectangle()
@@ -197,9 +199,11 @@ struct OtherUserProfileView: View {
                                 .offset(y: 5)
                                 .zIndex(touchProfileImage ? 1 : 0)
                                 .onTapGesture {
-                                    position = .zero
-                                    withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
-                                        touchProfileImage = true
+                                    if user.profileImageUrl != nil {
+                                        position = .zero
+                                        withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
+                                            touchProfileImage = true
+                                        }
                                     }
                                 }
                                 .overlay {
@@ -338,9 +342,11 @@ struct OtherUserProfileView: View {
                 .offset(y: -minY)
                 .zIndex(touchBackImage ? 1 : 0)
                 .onTapGesture {
-                    position = .zero
-                    withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
-                        touchBackImage = true
+                    if user.backProfileImageUrl != nil {
+                        position = .zero
+                        withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
+                            touchBackImage = true
+                        }
                     }
                 }
         }

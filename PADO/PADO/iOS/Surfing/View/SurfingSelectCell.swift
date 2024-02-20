@@ -64,16 +64,6 @@ struct SurfingSelectCell: View {
                 Image(systemName: "checkmark.seal.fill")
                     .font(.system(size: 14))
                     .foregroundStyle(.white)
-    //            Button {
-    //                followVM.selectSurfingID = surfingID
-    //                followVM.selectSurfingUsername = surfingUsername
-    //                followVM.selectSurfingProfileUrl = surfingProfileUrl ?? ""
-    //                followVM.showSurfingList.toggle()
-    //            } label: {
-    //                Image(systemName: "checkmark.seal.fill")
-    //                    .font(.system(size: 14))
-    //                    .foregroundStyle(.white)
-    //            }
             }
         }
         .padding(5)

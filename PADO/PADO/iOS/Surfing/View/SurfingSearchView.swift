@@ -21,7 +21,7 @@ struct SurfingSearchView: View {
             viewModel.updateSearchText(with: $0)
         }
         ZStack {
-            Color.black.ignoresSafeArea()
+            Color.main.ignoresSafeArea()
             VStack(alignment: .leading) {
                 ZStack {
                     

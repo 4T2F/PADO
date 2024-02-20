@@ -15,7 +15,7 @@ struct SurfingSelectView: View {
     // MARK: - BODY
     var body: some View {
         ZStack {
-            Color.black.ignoresSafeArea()
+            Color.main.ignoresSafeArea()
             
             ScrollView {
                 Text("서핑리스트")

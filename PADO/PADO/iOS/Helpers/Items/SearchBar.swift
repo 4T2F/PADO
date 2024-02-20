@@ -74,7 +74,7 @@ struct SearchBar: View {
                         }
                     } label: {
                         Text("취소")
-                            .font(.custom("Giants-Bold", size: 15))
+                            .font(.system(size: 16))
                             .foregroundStyle(Color.white)
                     }
                     .padding(3)

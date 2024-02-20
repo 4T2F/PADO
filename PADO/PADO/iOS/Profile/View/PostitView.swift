@@ -26,9 +26,11 @@ struct PostitView: View {
                         VStack {
                             if !postitVM.messages.isEmpty {
                                 ForEach(postitVM.messages) { message in
-                                    PostitCell(postitVM: postitVM,
-                                               message: message)
-                                    .id(message.id)
+                                    if postitVM.messageUsers.keys.contains(message.messageUserID) {
+                                        PostitCell(postitVM: postitVM,
+                                                   message: message)
+                                        .id(message.id)
+                                    }
                                 }
                                 .onAppear {
                                     if let lastMessageID = postitVM.messages.last?.id {

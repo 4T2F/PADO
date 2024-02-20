@@ -5,8 +5,8 @@
 //  Created by 최동호 on 1/16/24.
 //
 
-import SwiftUI
 import Lottie
+import SwiftUI
 
 struct FaceMojiView: View {
     @ObservedObject var commentVM: CommentViewModel
@@ -51,6 +51,7 @@ struct FaceMojiView: View {
                                         .scaledToFit()
                                         .frame(width: 80, height: 80)
                                 }
+                                .padding(.top, 4)
                             Text("")
                         }
                         .padding(.horizontal, 6)

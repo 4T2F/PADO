@@ -15,7 +15,6 @@ struct CameraAccessView: UIViewControllerRepresentable {
     @Binding var mycameraDevice: UIImagePickerController.CameraDevice
     
     func updateUIViewController(_ uiViewController: UIImagePickerController, context: UIViewControllerRepresentableContext<CameraAccessView>) {
-        
     }
     
     func makeUIViewController(context: UIViewControllerRepresentableContext<CameraAccessView>) -> UIImagePickerController {
@@ -30,5 +29,3 @@ struct CameraAccessView: UIViewControllerRepresentable {
         return CameraCoordinator(isShown: $isShown, myimage: $myimage, myUIImage: $myUIImage)
     }
 }
-
-

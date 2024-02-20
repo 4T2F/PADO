@@ -36,10 +36,12 @@ class PadoRideViewModel: ObservableObject {
     @Published var textBoxes: [TextBox] = []
     @Published var imageBoxes: [ImageBox] = []
     @Published var addNewBox = false
+    @Published var modifyBox = false
     @Published var currentTextIndex: Int = 0
     @Published var currentImageIndex: Int = 0
     @Published var rect: CGRect = .zero
     @Published var decoUIImage: UIImage = UIImage()
+
     
     let getPostData = GetPostData()
     let cropWhiteBackground = CropWhiteBackground()
@@ -73,7 +75,7 @@ class PadoRideViewModel: ObservableObject {
         imageBoxes.removeAll()
         currentTextIndex = 0
         currentImageIndex = 0
-        addNewBox = false
+
     }
     
     func calculateTextSize(text: String, font: UIFont, maxWidth: CGFloat) -> CGSize {
@@ -119,11 +121,11 @@ class PadoRideViewModel: ObservableObject {
         
         withAnimation {
             addNewBox = false
+            modifyBox = false
         }
         
-        if textBoxes[currentTextIndex].isAdded {
-            textBoxes.remove(at: currentTextIndex)
-        }
+        textBoxes[currentTextIndex].text = ""
+        
     }
     
     @MainActor
@@ -154,7 +156,7 @@ class PadoRideViewModel: ObservableObject {
         let makeUIView = ZStack {
             ForEach(textBoxes){[self] box in
                 Text(textBoxes[currentTextIndex].id == box.id && addNewBox ? "" : box.text)
-                    .font(.system(size: 30))
+                    .font(.system(size: 70))
                     .fontWeight(box.isBold ? .bold : .none)
                     .foregroundColor(box.textColor)
                     .offset(box.offset)

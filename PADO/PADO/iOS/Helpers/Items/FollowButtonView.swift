@@ -52,11 +52,18 @@ struct FollowButtonView: View {
             }
         }) {
             ZStack {
-                RoundedRectangle(cornerRadius: 6)
-                    .stroke(.gray, lineWidth: 1)
-                    .frame(width: widthValue, height: heightValue)
-                    .foregroundStyle(.clear)
-                
+                Group {
+                    buttonActive ?
+                    RoundedRectangle(cornerRadius: 6)
+                        .stroke(.gray, lineWidth: 1)
+                        .frame(width: widthValue, height: heightValue)
+                        .foregroundStyle(.clear)
+                    :
+                    RoundedRectangle(cornerRadius: 6)
+                        .stroke(.white, lineWidth: 1)
+                        .frame(width: widthValue, height: heightValue)
+                        .foregroundStyle(.clear)
+                }
                 HStack {
                     buttonActive ?
                     Text(unActiveText)

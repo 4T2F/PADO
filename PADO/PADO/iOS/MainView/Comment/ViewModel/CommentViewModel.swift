@@ -20,7 +20,7 @@ class CommentViewModel: ObservableObject {
     @Published var selectedComment: Comment?
     @Published var commentUserIDs: [String] = []
     @Published var commentUsers: [String: User] = [:]
-    
+    @Published var deleteUserComments: Int = 0
     
     let updateCommentData = UpdateCommentData()
     
@@ -34,7 +34,7 @@ class CommentViewModel: ObservableObject {
     @Published var showEmojiView: Bool = false
     @Published var selectedEmoji: String = ""
     @Published var selectedFacemoji: Facemoji?
-    
+
     let updateFacemojiData = UpdateFacemojiData()
     
     func removeDuplicateUserIDs(from comments: [Comment])  {
@@ -56,8 +56,15 @@ class CommentViewModel: ObservableObject {
                 self.commentUsers[documentID] = userData
             }
         } catch {
-            print("Error fetch User: \(error.localizedDescription)")
+            print("유저 데이터 가져오기 실패: \(error.localizedDescription)")
         }
     }
     
+    func fetchDeleteUserComments() {
+        for comment in comments {
+            if !commentUsers.keys.contains(comment.userID) {
+                deleteUserComments += 1
+            }
+        }
+    }
 }

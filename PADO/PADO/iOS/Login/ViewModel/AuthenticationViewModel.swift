@@ -25,7 +25,6 @@ class AuthenticationViewModel: ObservableObject {
     @Published var errorMessage = ""
     @Published var showAlert = false
     @Published var isExisted = false
-    @Published var needsDataFetch = false
     
     // 탭바 이동관련 변수
     @Published var showTab: Int = 0
@@ -263,33 +262,96 @@ class AuthenticationViewModel: ObservableObject {
         let db = Firestore.firestore()
         let storageRef = Storage.storage().reference()
         
-        // user 컬렉션 삭제
-        do {
-            try await db.collection("users").document(nameID).delete()
-        } catch {
-            print("Error removing document: \(error.localizedDescription)")
-        }
-        
-        // Firestore의 `post` 컬렉션에서 사용자의 게시물 삭제
         let postQuery = db.collection("post").whereField("ownerUid", isEqualTo: nameID)
         
+        // Firestore의 `post` 컬렉션에서 사용자의 게시물 삭제
         do {
             let querySnapshot = try await postQuery.getDocuments()
             for document in querySnapshot.documents {
-                try await document.reference.delete()
+                await DeletePost.shared.deletePost(postID: document.documentID)
             }
+        
         } catch {
             print("Error removing posts: \(error.localizedDescription)")
         }
         
+        // user 컬렉션 삭제
+        do {
+            let sendPostQuery = try await db.collection("users").document(nameID).collection("sendpost").getDocuments()
+            
+            let myPostQuery = try await db.collection("users").document(nameID).collection("mypost").getDocuments()
+            
+            let followingQuery = try await db.collection("users").document(nameID).collection("following").getDocuments()
+            
+            let followerQuery = try await db.collection("users").document(nameID).collection("follower").getDocuments()
+            
+            let surferQuery = try await db.collection("users").document(nameID).collection("surfer").getDocuments()
+            
+            let notiQuery = try await db.collection("users").document(nameID).collection("notifications").getDocuments()
+            
+            let messageQuery = try await db.collection("users").document(nameID).collection("message").getDocuments()
+            
+            let highlightQuery = try await db.collection("users").document(nameID).collection("highlight").getDocuments()
+            
+            for document in sendPostQuery.documents {
+                try await db.collection("users").document(nameID).collection("sendpost").document(document.documentID).delete()
+            }
+            
+            for document in myPostQuery.documents {
+                try await db.collection("users").document(nameID).collection("mypost").document(document.documentID).delete()
+            }
+            
+            for document in followingQuery.documents {
+                await UpdateFollowData.shared.directUnfollowUser(id: document.documentID)
+            }
+            
+            for document in followerQuery.documents {
+                await UpdateFollowData.shared.removeFollower(id: document.documentID)
+            }
+        
+            for document in surferQuery.documents {
+                await UpdateFollowData.shared.removeSurfer(id: document.documentID)
+            }
+            
+            for document in notiQuery.documents {
+                try await db.collection("users").document(nameID).collection("notifications").document(document.documentID).delete()
+            }
+            
+            for document in messageQuery.documents {
+                try await db.collection("users").document(nameID).collection("message").document(document.documentID).delete()
+            }
+            
+            for document in highlightQuery.documents {
+                try await db.collection("users").document(nameID).collection("highlight").document(document.documentID).delete()
+            }
+            
+            try await db.collection("users").document(nameID).delete()
+            
+        } catch {
+            print("Error removing document: \(error.localizedDescription)")
+        }
+        
         // Firebase Storage에서 사용자의 'post/' 경로에 있는 모든 이미지 삭제
         let userPostsRef = storageRef.child("post/\(nameID)")
+        let userProfliesRef = storageRef.child("profile_image/\(nameID)")
+        let userBackRef = storageRef.child("back_image/\(nameID)")
         do {
             let listResult = try await userPostsRef.listAll()
+            let profileListResult = try await userProfliesRef.listAll()
+            let backgroundListResult = try await userBackRef.listAll()
             for item in listResult.items {
                 // 각 항목 삭제
                 try await item.delete()
             }
+            
+            for item in profileListResult.items {
+                try await item.delete()
+            }
+            
+            for item in backgroundListResult.items {
+                try await item.delete()
+            }
+            
         } catch {
             print("Error removing posts from storage: \(error.localizedDescription)")
         }

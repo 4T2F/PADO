@@ -7,7 +7,6 @@
 
 import Kingfisher
 import Lottie
-import PopupView
 import SwiftUI
 
 struct ProfileView: View {
@@ -99,31 +98,35 @@ struct ProfileView: View {
                 
                 // 뒷배경 조건문
                 if touchBackImage {
-                    KFImage(URL(string: viewModel.currentUser?.backProfileImageUrl ?? ""))
-                        .resizable()
-                        .scaledToFit()
-                        .zIndex(2)
-                        .onTapGesture {
-                            withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
-                                self.touchBackImage = false
+                    if let backProfileImageUrl = user.backProfileImageUrl {
+                        KFImage(URL(string: backProfileImageUrl))
+                            .resizable()
+                            .scaledToFit()
+                            .zIndex(2)
+                            .onTapGesture {
+                                withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
+                                    self.touchBackImage = false
+                                }
                             }
-                        }
-                        .offset(position)
+                            .offset(position)
                     }
+                }
                 
                 // 프로필 사진 조건문
                 if touchProfileImage {
-                    KFImage(URL(string: viewModel.currentUser?.profileImageUrl ?? ""))
-                        .resizable()
-                        .scaledToFit()
-                        .zIndex(2)
-                        .onTapGesture {
-                            withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
-                                self.touchProfileImage = false
+                    if let profileImageUrl = user.profileImageUrl {
+                        KFImage(URL(string: profileImageUrl))
+                            .resizable()
+                            .scaledToFit()
+                            .zIndex(2)
+                            .onTapGesture {
+                                withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
+                                    self.touchProfileImage = false
+                                }
                             }
-                        }
-                        .offset(position)
+                            .offset(position)
                     }
+                }
             }
             .overlay {
                 Rectangle()
@@ -147,7 +150,7 @@ struct ProfileView: View {
             let size = proxy.size
             let height = (size.height + minY)
             
-            KFImage(URL(string: viewModel.currentUser?.backProfileImageUrl ?? ""))
+            KFImage(URL(string: user.backProfileImageUrl ?? ""))
                 .scaledToFill()
                 .frame(width: size.width, height: height > 0 ? height : 0, alignment: .top)
                 .overlay {
@@ -162,14 +165,15 @@ struct ProfileView: View {
                                        endPoint: .bottom)
                         
                         VStack(alignment: .leading, spacing: 10) {
-                            if let user = viewModel.currentUser {
                                 CircularImageView(size: .xxLarge, user: user)
                                     .offset(y: 5)
                                     .zIndex(touchProfileImage ? 1 : 0)
                                     .onTapGesture {
-                                        position = .zero
-                                        withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
-                                            touchProfileImage = true
+                                        if user.profileImageUrl != nil {
+                                            position = .zero
+                                            withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
+                                                touchProfileImage = true
+                                            }
                                         }
                                     }
                                     .overlay {
@@ -204,7 +208,7 @@ struct ProfileView: View {
                                         .presentationDetents([.large])
                                     }
                                 
-                            }
+                            
                             
                             HStack(alignment: .center, spacing: 5) {
                                 VStack(alignment: .leading, spacing: 4) {
@@ -243,7 +247,6 @@ struct ProfileView: View {
                                 .fontWeight(.medium)
                                 .fontDesign(.rounded)
                                 
-                                if let user = viewModel.currentUser {
                                     Button {
                                         followerActive = true
                                     } label: {
@@ -290,7 +293,7 @@ struct ProfileView: View {
                                             followingActive = false
                                         }
                                     }
-                                }
+                                
                             }
                             .padding(.leading, 2)
                         }
@@ -303,9 +306,11 @@ struct ProfileView: View {
                 .offset(y: -minY)
                 .zIndex(touchBackImage ? 1 : 0)
                 .onTapGesture {
-                    position = .zero
-                    withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
-                        touchBackImage = true
+                    if user.backProfileImageUrl != nil {
+                        position = .zero
+                        withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
+                            touchBackImage = true
+                        }
                     }
                 }
         }
