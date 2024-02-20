@@ -54,7 +54,7 @@ class UpdatePushNotiData {
                 PushNotificationManager.shared.sendPushNotificationWithPost(
                     toFCMToken: receiveUser.fcmToken,
                     title: "PADO",
-                    body: "\(userNameID)님이 회원님의 파도에 페이스모지를 남겼습니다",
+                    body: "\(userNameID)님이 회원님의 파도에 포토모지를 남겼습니다",
                     categoryIdentifier: "post",
                     post: post
                 )

@@ -63,7 +63,7 @@ struct SurfingView: View {
                             }
                         }
                     }
-                    .navigationTitle("서핑하기")
+                    .navigationTitle("새로운 파도")
                     .navigationBarTitleDisplayMode(.inline)
                     .toolbarBackground(.visible, for: .navigationBar)
                     .toolbarBackground(Color.main, for: .navigationBar)

@@ -141,6 +141,11 @@ struct PadoRideEditView: View {
                 .frame(maxHeight: .infinity, alignment: .top)
             }
         }
+        .onDisappear {
+            padorideVM.toolPicker.setVisible(false, forFirstResponder: padorideVM.canvas)
+            padorideVM.cancelImageEditing()
+            dismiss()
+        }
         .navigationBarBackButtonHidden()
     }
 }
