@@ -39,9 +39,11 @@ class FeedViewModel:Identifiable ,ObservableObject {
     @Published var deleteUserCounts: [Int] = []
     
     private var db = Firestore.firestore()
-    private var listener: ListenerRegistration?
+
     @Published var documentID: String = ""
     
+    private var followingListeners: [String: ListenerRegistration] = [:]
+    private var todayPadoListeners: [String: ListenerRegistration] = [:]
     @Published var lastFollowFetchedDocument: DocumentSnapshot? = nil
     @Published var lastTodayPadoFetchedDocument: DocumentSnapshot? = nil
     
@@ -319,7 +321,7 @@ extension FeedViewModel {
         guard let postID = post.id else { return }
 
         let docRef = db.collection("post").document(postID)
-        docRef.addSnapshotListener { documentSnapshot, error in
+        followingListeners[postID] = docRef.addSnapshotListener { documentSnapshot, error in
             guard let document = documentSnapshot, let data = document.data() else {
                 print("Error fetching document: \(error?.localizedDescription ?? "Unknown error")")
                 return
@@ -336,7 +338,7 @@ extension FeedViewModel {
         guard let postID = post.id else { return }
 
         let docRef = db.collection("post").document(postID)
-        docRef.addSnapshotListener { documentSnapshot, error in
+        todayPadoListeners[postID] = docRef.addSnapshotListener { documentSnapshot, error in
             guard let document = documentSnapshot, let data = document.data() else {
                 print("Error fetching document: \(error?.localizedDescription ?? "Unknown error")")
                 return
@@ -346,6 +348,20 @@ extension FeedViewModel {
                 self.todayPadoPosts[index].commentCount = data["commentCount"] as? Int ?? 0
             }
         }
+    }
+    
+    func stopFollowingListeners() {
+        for (_, listener) in followingListeners {
+            listener.remove()
+        }
+        followingListeners.removeAll()
+    }
+    
+    func stopTodayListeners() {
+        for (_, listener) in todayPadoListeners {
+            listener.remove()
+        }
+        todayPadoListeners.removeAll()
     }
 }
 
