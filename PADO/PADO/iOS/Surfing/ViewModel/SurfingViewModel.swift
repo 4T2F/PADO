@@ -133,7 +133,8 @@ class SurfingViewModel: ObservableObject, Searchable  {
             "title": postingTitle,
             "heartsCount": 0,
             "commentCount": 0,
-            "created_Time": Timestamp()
+            "created_Time": Timestamp(),
+            "padoExist": false
         ]
         await createPostData(titleName: formattedPostingTitle, data: initialPostData)
         post?.ownerUid = surfingID
@@ -143,6 +144,7 @@ class SurfingViewModel: ObservableObject, Searchable  {
         post?.heartsCount = 0
         post?.commentCount = 0
         post?.created_Time = Timestamp()
+        post?.padoExist = false
     }
     
     @MainActor

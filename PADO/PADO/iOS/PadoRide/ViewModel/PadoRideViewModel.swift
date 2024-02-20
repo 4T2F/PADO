@@ -209,7 +209,7 @@ class PadoRideViewModel: ObservableObject {
         guard let imageData = decoUIImage.jpegData(compressionQuality: 1.0) else { return }
         
         do {
-            
+            try await db.collection("post").document(String(describing: selectedPost?.id ?? "")).updateData(["padoExist": true])
             if savePhoto {
                 UIImageWriteToSavedPhotosAlbum(decoUIImage, nil, nil, nil)
             }

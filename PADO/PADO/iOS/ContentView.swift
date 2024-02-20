@@ -171,11 +171,11 @@ struct ContentView: View {
             await feedVM.fetchTodayPadoPosts()
             await feedVM.fetchFollowingPosts()
             profileVM.stopAllPostListeners()
-            await notiVM.fetchNotifications()
             await profileVM.fetchPostID(id: userNameID)
-            await postitVM.listenForMessages(ownerID: userNameID)
             feedVM.postFetchLoading = false
             viewModel.showLaunchScreen = false
+            await postitVM.listenForMessages(ownerID: userNameID)
+            await notiVM.fetchNotifications()
             
             NotificationCenter.default.addObserver(forName: Notification.Name("ProfileNotification"), object: nil, queue: .main) { notification in
                 // 알림을 받았을 때 수행할 작업
