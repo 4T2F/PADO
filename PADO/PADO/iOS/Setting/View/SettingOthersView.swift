@@ -10,6 +10,7 @@ import SwiftUI
 struct SettingOthersView: View {
     @State private var showingCashModal: Bool = false
     @State private var showingDeleteModal: Bool = false
+    @State var savePhoto: Bool = UserDefaults.standard.bool(forKey: "savePhoto")
     
     @EnvironmentObject var viewModel: AuthenticationViewModel
     @Environment (\.dismiss) var dismiss
@@ -18,6 +19,11 @@ struct SettingOthersView: View {
         VStack {
             ZStack {
                 VStack {
+                    SettingToggleCell(icon: "photo.badge.plus", text: "파도타기 갤러리 저장", toggle: $savePhoto)
+                        .onChange(of: savePhoto) { _, newValue in
+                            UserDefaults.standard.set(newValue, forKey: "savePhoto")
+                        }
+                    
                     Button {
                         showingCashModal.toggle()
                     } label: {
