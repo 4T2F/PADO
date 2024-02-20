@@ -321,8 +321,9 @@ struct OnePostModalView: View {
                         VStack(spacing: 16) {
                             VStack(spacing: 10) {
                                 // MARK: - 멍게
-                                if post.padoExist ?? false {
-                                    VStack(spacing: 10) {
+                                
+                                VStack(spacing: 10) {
+                                    if post.padoExist ?? false {
                                         Button {
                                             withAnimation {
                                                 // 햅틱 피드백 생성
@@ -374,9 +375,14 @@ struct OnePostModalView: View {
                                                         .frame(width: 200, height: 200)
                                                 }
                                         }
+                                    } else {
+                                        Circle()
+                                            .frame(width: 30)
+                                            .foregroundStyle(.clear)
                                     }
-                                    .padding(.bottom, 15)
                                 }
+                                .padding(.bottom, 15)
+                                
                                 // MARK: - 하트
                                 VStack(spacing: 8) {
                                     
@@ -389,9 +395,6 @@ struct OnePostModalView: View {
                                                         await UpdateHeartData.shared.deleteHeart(documentID: postID)
                                                         isHeartCheck = await UpdateHeartData.shared.checkHeartExists(documentID: postID)
                                                         heartLoading = false
-                                                    }
-                                                    if !userNameID.isEmpty {
-                                                        await profileVM.fetchHighlihts(id: userNameID)
                                                     }
                                                 }
                                             }
@@ -423,8 +426,6 @@ struct OnePostModalView: View {
                                                         heartLoading = false
                                                         await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID, receiveUser: postUser, type: .heart, message: "", post: post)
                                                     }
-                                                    
-                                                    await profileVM.fetchHighlihts(id: userNameID)
                                                 }
                                             }
                                         } label: {

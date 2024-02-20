@@ -161,7 +161,6 @@ struct PostView: View {
                                     followVM.selectSurfingUsername = ""
                                     followVM.selectSurfingProfileUrl = ""
                                     viewModel.showTab = 0
-                                    await profileVM.fetchPostID(id: userNameID)
                                     await feedVM.fetchFollowingPosts()
                                     postLoading = false
                                 } catch {

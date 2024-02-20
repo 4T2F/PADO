@@ -158,6 +158,7 @@ struct ContentView: View {
             Task {
                 await feedVM.getPopularUser()
                 await feedVM.fetchTodayPadoPosts()
+                profileVM.stopAllPostListeners()
             }
             return
         }

@@ -87,9 +87,7 @@ struct FeedView: View {
                             await followVM.initializeFollowFetch(id: userNameID)
                             feedVM.followFetchLoading = true
                             feedVM.stopFollowingListeners()
-                            profileVM.stopAllPostListeners()
                             await feedVM.fetchFollowingPosts()
-                            await profileVM.fetchPostID(id: userNameID)
                             await notiVM.fetchNotifications()
                             feedVM.followFetchLoading = false
                         } else {
@@ -97,11 +95,9 @@ struct FeedView: View {
                                 await profileVM.fetchBlockUsers()
                                 feedVM.stopTodayListeners()
                                 await feedVM.fetchTodayPadoPosts()
-                                profileVM.stopAllPostListeners()
                                 guard !userNameID.isEmpty else { return }
                                 await notiVM.fetchNotifications()
                                 await followVM.initializeFollowFetch(id: userNameID)
-                                await profileVM.fetchPostID(id: userNameID)
                             }
                         }
                     }
