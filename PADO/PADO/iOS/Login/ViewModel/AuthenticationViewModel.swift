@@ -13,6 +13,7 @@ import SwiftUI
 @MainActor
 class AuthenticationViewModel: ObservableObject {
     
+    @Published var showLaunchScreen = true
     @Published var nameID = ""
     @Published var year = ""
     @Published var phoneNumber = ""
@@ -224,9 +225,14 @@ class AuthenticationViewModel: ObservableObject {
     // MARK: - 사용자 데이터 관리
     func initializeUser() async {
         // 사용자 초기화
-
-        guard Auth.auth().currentUser?.uid != nil else { return }
+        guard Auth.auth().currentUser?.uid != nil,
+              !nameID.isEmpty else {
+            try? await Task.sleep(nanoseconds: 2 * 1_000_000_000)
+            showLaunchScreen = false
+            return
+        }
         await fetchUser()
+
     }
     
     func signOut() {

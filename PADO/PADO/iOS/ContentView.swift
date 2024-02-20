@@ -146,6 +146,7 @@ struct ContentView: View {
         .tint(.white)
         .onAppear {
             fetchData()
+            
         }
         .onChange(of: needsDataFetch) { _, _ in
             fetchData()
@@ -174,6 +175,7 @@ struct ContentView: View {
             await profileVM.fetchPostID(id: userNameID)
             await postitVM.listenForMessages(ownerID: userNameID)
             feedVM.postFetchLoading = false
+            viewModel.showLaunchScreen = false
             
             NotificationCenter.default.addObserver(forName: Notification.Name("ProfileNotification"), object: nil, queue: .main) { notification in
                 // 알림을 받았을 때 수행할 작업
