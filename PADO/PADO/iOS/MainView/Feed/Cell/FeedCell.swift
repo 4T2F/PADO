@@ -34,7 +34,7 @@ struct FeedCell: View {
     @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var surfingVM: SurfingViewModel
     @ObservedObject var profileVM: ProfileViewModel
-
+    
     let feedCellType: FeedFilter
     @Binding var post: Post
     var index: Int
@@ -322,7 +322,6 @@ struct FeedCell: View {
                     }
                     .foregroundStyle(.white)
                     
-                    
                     Spacer()
                     
                     VStack(spacing: 16) {
@@ -334,7 +333,6 @@ struct FeedCell: View {
                                         // 햅틱 피드백 생성
                                         let generator = UIImpactFeedbackGenerator(style: .light)
                                         generator.impactOccurred()
-                                        
                                         
                                         if let currentIndex = feedVM.currentPadoRideIndex {
                                             // 다음 이미지로 이동
@@ -355,7 +353,6 @@ struct FeedCell: View {
                                                 Task {
                                                     await feedVM.fetchPadoRides(postID: post.id ?? "")
                                                     if !feedVM.padoRidePosts.isEmpty {
-                                                        
                                                         feedVM.isHeaderVisible = false
                                                         feedVM.isShowingPadoRide = true
                                                         feedVM.currentPadoRideIndex = 0
