@@ -27,6 +27,7 @@ class ProfileViewModel: ObservableObject {
     // 사용자 차단 로직
     @Published var isUserBlocked: Bool = false
     
+    private var postListeners: [String: ListenerRegistration] = [:]
     private var db = Firestore.firestore()
     
     // URL Scheme을 사용하여 앱 열기 시도, 앱이 설치 되지 않았다면 대체 웹 URL로 이동
@@ -110,7 +111,7 @@ class ProfileViewModel: ObservableObject {
             }
             
             // 스냅샷 리스너 설정
-            docRef.addSnapshotListener { documentSnapshot, error in
+            postListeners[documentID] = docRef.addSnapshotListener { documentSnapshot, error in
                 guard let document = documentSnapshot, let data = document.data() else {
                     print("Error fetching document: \(error?.localizedDescription ?? "Unknown error")")
                     return
@@ -150,8 +151,13 @@ class ProfileViewModel: ObservableObject {
         }
     }
     
+    func stopAllPostListeners() {
+        for (_, listener) in postListeners {
+            listener.remove()
+        }
+        postListeners.removeAll()
+    }
 }
-
 
 extension ProfileViewModel {
     // 차단된 사용자들 정보 불러오기
@@ -184,7 +190,6 @@ extension ProfileViewModel {
     // 사용자 차단
     @MainActor
     func blockUser(blockingUser: User, user: User) async {
-        
         
         let blockingUserRef = db.collection("users").document(user.nameID).collection("blockingUsers").document(blockingUser.nameID)
         

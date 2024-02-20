@@ -27,8 +27,17 @@ var userToken: String {
     }
 }
 
-var userFollowingIDs: [String] = []
+var savePhoto: Bool {
+    get {
+        UserDefaults.standard.bool(forKey: "savePhoto")
+    }
+    set {
+        UserDefaults.standard.set(newValue, forKey: "savePhoto")
+    }
+}
 
+var userFollowingIDs: [String] = []
+var acceptAlert = "no"
 var blockingUser: [BlockUser] = []
 var blockedUser: [BlockUser] = []
 var needsDataFetch: Bool = false
