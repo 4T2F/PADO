@@ -36,7 +36,7 @@ class UpdateFacemojiData {
             
             try await storageRef.delete()
         } catch {
-            print("페이스모지 삭제 오류 : \(error.localizedDescription)")
+            print("포토모지 삭제 오류 : \(error.localizedDescription)")
         }
     }
     
