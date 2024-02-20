@@ -25,7 +25,6 @@ struct ProfileView: View {
     @State private var isShowingReceiveDetail: Bool = false
     @State private var isShowingSendDetail: Bool = false
     @State private var isShowingHightlight: Bool = false
-    @State private var isShowingMessageView: Bool = false
     @State private var touchProfileImage: Bool = false
     @State private var touchBackImage: Bool = false
     @State private var position = CGSize.zero
@@ -178,7 +177,7 @@ struct ProfileView: View {
                                     }
                                     .overlay {
                                         Button {
-                                            isShowingMessageView = true
+                                            viewModel.isShowingMessageView = true
                                         } label: {
                                             Circle()
                                                 .frame(width: 30)
@@ -200,9 +199,9 @@ struct ProfileView: View {
                                                 } 
                                         }
                                         .offset(x: +46, y: -30)
-                                        .sheet(isPresented: $isShowingMessageView) {
+                                        .sheet(isPresented: $viewModel.isShowingMessageView) {
                                             PostitView(postitVM: postitVM,
-                                                       isShowingMessageView: $isShowingMessageView)
+                                                       isShowingMessageView: $viewModel.isShowingMessageView)
                                             .presentationDragIndicator(.visible)
                                         }
                                         .presentationDetents([.large])

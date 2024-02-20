@@ -27,6 +27,8 @@ class PostitViewModel: ObservableObject {
     func getMessageDocument(ownerID: String) async {
         self.messages.removeAll()
         self.ownerID = ownerID
+        guard !ownerID.isEmpty else { return }
+        
         do {
             let querySnapshot = try await db.collection("users").document(ownerID).collection("message").order(by: "messageTime", descending: false).getDocuments()
             self.messages = querySnapshot.documents.compactMap { document in
@@ -42,6 +44,9 @@ class PostitViewModel: ObservableObject {
     
     @MainActor
     func writeMessage(ownerID: String, imageUrl: String, inputcomment: String) async {
+        
+        guard !ownerID.isEmpty else { return }
+        
         let initialMessageData : [String: Any] = [
             "messageUserID": userNameID,
             "imageUrl": imageUrl,

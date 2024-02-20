@@ -20,8 +20,13 @@ struct PostitNotificationCell: View {
     // TODO: 포스트잇 네비게이션 링크
     var body: some View {
         Button {
-            dismiss()
-            viewModel.showTab = 4
+            Task {
+                dismiss()
+                try? await Task.sleep(nanoseconds: 1 * 500_000_000)
+                viewModel.showTab = 4
+                try? await Task.sleep(nanoseconds: 1 * 250_000_000)
+                viewModel.isShowingMessageView = true
+            }
         } label: {
             HStack(spacing: 0) {
                 if let image = URL(string: sendUserProfileUrl) {

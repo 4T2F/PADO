@@ -26,7 +26,7 @@ class AuthenticationViewModel: ObservableObject {
     @Published var errorMessage = ""
     @Published var showAlert = false
     @Published var isExisted = false
-    
+    @Published var isShowingMessageView = false
     // 탭바 이동관련 변수
     @Published var showTab: Int = 0
     
