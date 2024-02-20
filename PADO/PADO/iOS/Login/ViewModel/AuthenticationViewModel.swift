@@ -427,12 +427,9 @@ class AuthenticationViewModel: ObservableObject {
         
         do {
             try await UpdateUserData.shared.updateUserData(initialUserData: ["alertAccept": alertAccept])
+            currentUser?.alertAccept = alertAccept
         } catch {
             print("알림 설정 업데이트 중 오류 발생: \(error)")
         }
-    }
-    
-    func fetchUserAlertAcceptance() {
-        alertAccept = currentUser?.alertAccept ?? ""
     }
 }
