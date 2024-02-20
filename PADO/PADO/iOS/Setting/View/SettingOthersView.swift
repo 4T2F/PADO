@@ -81,4 +81,3 @@ struct SettingOthersView: View {
         .toolbarBackground(Color(.main), for: .navigationBar)
     }
 }
-
