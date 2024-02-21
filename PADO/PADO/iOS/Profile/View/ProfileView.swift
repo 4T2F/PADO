@@ -28,6 +28,7 @@ struct ProfileView: View {
     @State private var touchProfileImage: Bool = false
     @State private var touchBackImage: Bool = false
     @State private var position = CGSize.zero
+    @State var openHighlight: Bool = false
     
     let user: User
     
@@ -58,6 +59,11 @@ struct ProfileView: View {
                 .opacity(touchProfileImage ? 0 : 1)
                 .navigationBarBackButtonHidden()
                 .navigationBarTitleDisplayMode(.inline)
+                .onAppear {
+                    if viewModel.currentUser?.openHighlight != nil || viewModel.currentUser?.openHighlight == "yes" {
+                        openHighlight = true
+                    }
+                }
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
                         Text("@\(userNameID)")
@@ -86,7 +92,8 @@ struct ProfileView: View {
                             }
                             
                             NavigationLink {
-                                SettingView(profileVM: profileVM)
+                                SettingView(profileVM: profileVM,
+                                            openHighlight: $openHighlight)
                             } label: {
                                 Image("more")
                                     .foregroundStyle(.white)

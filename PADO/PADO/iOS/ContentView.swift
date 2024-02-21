@@ -172,7 +172,7 @@ struct ContentView: View {
             await feedVM.fetchTodayPadoPosts()
             await feedVM.fetchFollowingPosts()
             profileVM.stopAllPostListeners()
-            await profileVM.fetchPostID(id: userNameID)
+            await profileVM.fetchPostID(user: viewModel.currentUser!)
             await postitVM.listenForMessages(ownerID: userNameID)
             await notiVM.fetchNotifications()
             feedVM.postFetchLoading = false

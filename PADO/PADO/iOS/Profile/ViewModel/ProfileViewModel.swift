@@ -40,10 +40,16 @@ class ProfileViewModel: ObservableObject {
     }
     
     @MainActor
-    func fetchPostID(id: String) async {
-        await fetchPadoPosts(id: id)
-        await fetchSendPadoPosts(id: id)
-        await fetchHighlihts(id: id)
+    func fetchPostID(user: User) async {
+        await fetchPadoPosts(id: user.nameID)
+        await fetchSendPadoPosts(id: user.nameID)
+        if user.nameID == userNameID {
+            await fetchHighlihts(id: user.nameID)
+        } else {
+            guard user.openHighlight != nil,
+                  user.openHighlight == "yes" else { return }
+            await fetchHighlihts(id: user.nameID)
+        }
     }
     
     @MainActor
@@ -111,7 +117,7 @@ class ProfileViewModel: ObservableObject {
     func fetchHighlihts(id: String) async {
         highlights.removeAll()
         do {
-            let padoQuerySnapshot = try await db.collection("users").document(id).collection("highlight").order(by: "created_Time", descending: true).getDocuments()
+            let padoQuerySnapshot = try await db.collection("users").document(id).collection("highlight").order(by: "sendHeartTime", descending: true).getDocuments()
             
             for document in padoQuerySnapshot.documents {
                 let docRef = db.collection("post").document(document.documentID)
@@ -119,7 +125,7 @@ class ProfileViewModel: ObservableObject {
                     guard let self = self else { return }
                     guard let document = documentSnapshot, document.exists,
                           let post = try? document.data(as: Post.self) else {
-                        print("Error fetching document: \(error?.localizedDescription ?? "Unknown error")")
+                        print(" \(error?.localizedDescription ?? "Unknown error")은 삭제된 게시글 입니다.")
                         return
                     }
                     

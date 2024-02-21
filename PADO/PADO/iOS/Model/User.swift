@@ -57,4 +57,5 @@ struct User: Codable, Identifiable, Hashable {
     var alertAccept: String // 필드 이름 수정
     var instaAddress: String
     var tiktokAddress: String
+    var openHighlight: String?
 }
