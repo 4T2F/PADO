@@ -52,6 +52,7 @@ struct SelectUserView: View {
                                     ZStack(alignment: .bottomLeading) {
                                         Button {
                                             Task {
+                                                padorideVM.selectedPost = post
                                                 padorideVM.selectedImage = post.imageUrl
                                                 try? await Task.sleep(nanoseconds: 1 * 250_000_000)
                                                 padorideVM.downloadSelectedImage()
