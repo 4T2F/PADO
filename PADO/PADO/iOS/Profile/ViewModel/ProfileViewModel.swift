@@ -40,12 +40,17 @@ class ProfileViewModel: ObservableObject {
     }
     
     @MainActor
-    func fetchPostID(id: String) async {
-        await fetchPadoPosts(id: id)
-        await fetchSendPadoPosts(id: id)
-        await fetchHighlihts(id: id)
+    func fetchPostID(user: User) async {
+        await fetchPadoPosts(id: user.nameID)
+        await fetchSendPadoPosts(id: user.nameID)
+        if user.nameID == userNameID {
+            await fetchHighlihts(id: user.nameID)
+        } else {
+            guard user.openHighlight != nil,
+                  user.openHighlight == "yes" else { return }
+            await fetchHighlihts(id: user.nameID)
+        }
     }
-    
     
     @MainActor
     func fetchPadoPosts(id: String) async {
@@ -54,8 +59,23 @@ class ProfileViewModel: ObservableObject {
             let padoQuerySnapshot = try await db.collection("users").document(id).collection("mypost").order(by: "created_Time", descending: true).getDocuments()
             
             for document in padoQuerySnapshot.documents {
-                await fetchPostData(documentID: document.documentID,
-                                    inputType: InputPostType.pado)
+                let docRef = db.collection("post").document(document.documentID)
+                postListeners[document.documentID] = docRef.addSnapshotListener { [weak self] documentSnapshot, error in
+                    guard let self = self else { return }
+                    guard let document = documentSnapshot, document.exists,
+                          let post = try? document.data(as: Post.self) else {
+                        print("Error fetching document: \(error?.localizedDescription ?? "Unknown error")")
+                        return
+                    }
+                    
+                    guard self.filterBlockedPost(post: post) else {
+                        print("\(document.documentID)는 차단된 사람의 글입니다")
+                        return
+                    }
+                    
+                    // 배열 업데이트
+                    self.updatePostArray(post: post, inputType: .pado)
+                }
             }
         } catch {
             print("Error fetching posts: \(error.localizedDescription)")
@@ -69,13 +89,29 @@ class ProfileViewModel: ObservableObject {
             let padoQuerySnapshot = try await db.collection("users").document(id).collection("sendpost").order(by: "created_Time", descending: true).getDocuments()
             
             for document in padoQuerySnapshot.documents {
-                await fetchPostData(documentID: document.documentID,
-                                    inputType: InputPostType.sendPado)
+                let docRef = db.collection("post").document(document.documentID)
+                postListeners[document.documentID] = docRef.addSnapshotListener { [weak self] documentSnapshot, error in
+                    guard let self = self else { return }
+                    guard let document = documentSnapshot, document.exists,
+                          let post = try? document.data(as: Post.self) else {
+                        print("Error fetching document: \(error?.localizedDescription ?? "Unknown error")")
+                        return
+                    }
+                    
+                    guard self.filterBlockedPost(post: post) else {
+                        print("\(document.documentID)는 차단된 사람의 글입니다")
+                        return
+                    }
+                    
+                    // 배열 업데이트
+                    self.updatePostArray(post: post, inputType: .sendPado)
+                }
             }
         } catch {
-            print("Error fetching user: \(error.localizedDescription)")
+            print("Error fetching posts: \(error.localizedDescription)")
         }
     }
+    
     
     @MainActor
     func fetchHighlihts(id: String) async {
@@ -83,48 +119,27 @@ class ProfileViewModel: ObservableObject {
         do {
             let padoQuerySnapshot = try await db.collection("users").document(id).collection("highlight").order(by: "sendHeartTime", descending: true).getDocuments()
             
-            
             for document in padoQuerySnapshot.documents {
-                await fetchPostData(documentID: document.documentID,
-                                    inputType: InputPostType.highlight)
-            }
-        } catch {
-            print("Error fetching user: \(error.localizedDescription)")
-        }
-    }
-    
-    @MainActor
-    func fetchPostData(documentID: String, inputType: InputPostType) async {
-        guard !documentID.isEmpty else { return }
-        do {
-            let docRef = db.collection("post").document(documentID)
-            let querySnapshot = try await docRef.getDocument()
-            
-            guard var post = try? querySnapshot.data(as: Post.self) else {
-                print("\(documentID)는 삭제된 게시글입니다")
-                return
-            }
-            
-            guard filterBlockedPost(post: post) else {
-                print("\(documentID)는 차단된 사람의 글입니다")
-                return
-            }
-            
-            // 스냅샷 리스너 설정
-            postListeners[documentID] = docRef.addSnapshotListener { documentSnapshot, error in
-                guard let document = documentSnapshot, let data = document.data() else {
-                    print("Error fetching document: \(error?.localizedDescription ?? "Unknown error")")
-                    return
+                let docRef = db.collection("post").document(document.documentID)
+                postListeners[document.documentID] = docRef.addSnapshotListener { [weak self] documentSnapshot, error in
+                    guard let self = self else { return }
+                    guard let document = documentSnapshot, document.exists,
+                          let post = try? document.data(as: Post.self) else {
+                        print(" \(error?.localizedDescription ?? "Unknown error")은 삭제된 게시글 입니다.")
+                        return
+                    }
+                    
+                    guard self.filterBlockedPost(post: post) else {
+                        print("\(document.documentID)는 차단된 사람의 글입니다")
+                        return
+                    }
+                    
+                    // 배열 업데이트
+                    self.updatePostArray(post: post, inputType: .highlight)
                 }
-                
-                post.heartsCount = data["heartsCount"] as? Int ?? 0
-                post.commentCount = data["commentCount"] as? Int ?? 0
-                
-                // 배열 업데이트
-                self.updatePostArray(post: post, inputType: inputType)
             }
         } catch {
-            print("Error fetching user: \(error.localizedDescription)")
+            print("Error fetching posts: \(error.localizedDescription)")
         }
     }
     
