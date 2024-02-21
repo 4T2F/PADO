@@ -20,60 +20,69 @@ struct SurfingSelectCell: View {
     
     // MARK: - BODY
     var body: some View {
-        HStack {
-            Button {
-                followVM.selectSurfingID = surfingID
-                followVM.selectSurfingUsername = surfingUsername
-                followVM.selectSurfingProfileUrl = surfingProfileUrl ?? ""
-                followVM.showSurfingList.toggle()
-            } label: {
-                if let imageUrl = surfingProfileUrl {
-                    KFImage(URL(string: imageUrl))
-                        .fade(duration: 0.5)
-                        .placeholder{
-                            Image("defaultProfile")
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 50, height: 50)
-                                .clipShape(Circle())
+        VStack {
+            Divider()
+            
+            HStack {
+                Button {
+                    followVM.selectSurfingID = surfingID
+                    followVM.selectSurfingUsername = surfingUsername
+                    followVM.selectSurfingProfileUrl = surfingProfileUrl ?? ""
+                    followVM.showSurfingList.toggle()
+                } label: {
+                    if let imageUrl = surfingProfileUrl {
+                        KFImage(URL(string: imageUrl))
+                            .fade(duration: 0.5)
+                            .placeholder{
+                                Image("defaultProfile")
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 44, height: 44)
+                                    .clipShape(Circle())
+                            }
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 44, height: 44)
+                            .clipShape(Circle())
+                    } else {
+                        Image("defaultProfile")
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 44, height: 44)
+                            .clipShape(Circle())
+                            .foregroundStyle(Color(.systemGray4))
+                    }
+                    VStack(alignment: .leading, spacing: 4) {
+                        if !surfingUsername.isEmpty {
+                            Text(surfingID)
+                                .font(.system(size: 14, weight: .semibold))
+                            
+                            Text(surfingUsername)
+                                .font(.system(size: 12))
+                                .foregroundStyle(Color(.systemGray))
+                        } else {
+                            Text(surfingID)
+                                .font(.system(size: 14, weight: .semibold))
                         }
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 50, height: 50)
-                        .clipShape(Circle())
-                } else {
-                    Image("defaultProfile")
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 50, height: 50)
-                        .clipShape(Circle())
-                        .foregroundStyle(Color(.systemGray4))
-                }
-                VStack(alignment: .leading) {
-                    Text(surfingID)
-                        .font(.system(size: 16, weight: .semibold))
+                    }
+                    .padding(.horizontal, 8)
                     
-                    Text(surfingUsername)
+                    Spacer()
+                    
+                    Image(systemName: "checkmark")
                         .font(.system(size: 14))
-                        .foregroundStyle(Color(.systemGray4))
+                        .foregroundStyle(.white)
                 }
-                .padding(.horizontal, 8)
-                
-                Spacer()
-                
-                Image(systemName: "checkmark.seal.fill")
-                    .font(.system(size: 14))
-                    .foregroundStyle(.white)
             }
-        }
-        .padding(5)
-        .onAppear {
-            Task {
-                let updateUserData = UpdateUserData()
-                if let userProfile = await updateUserData.getOthersProfileDatas(id: cellUserId) {
-                    self.surfingID = userProfile.nameID
-                    self.surfingUsername = userProfile.username
-                    self.surfingProfileUrl = userProfile.profileImageUrl ?? ""
+            .padding(5)
+            .onAppear {
+                Task {
+                    let updateUserData = UpdateUserData()
+                    if let userProfile = await updateUserData.getOthersProfileDatas(id: cellUserId) {
+                        self.surfingID = userProfile.nameID
+                        self.surfingUsername = userProfile.username
+                        self.surfingProfileUrl = userProfile.profileImageUrl ?? ""
+                    }
                 }
             }
         }
