@@ -45,7 +45,9 @@ struct SurfingView: View {
                         } label: {
                             // 이미 선택된 이미지를 표시하는 영역
                             if surfingVM.selectedUIImage != Image(systemName: "photo") {
-                                let size = ImageRatioResize.shared.resizedImageRect(for: surfingVM.selectedImage ?? UIImage(), targetSize: CGSize(width: UIScreen.main.bounds.width * 0.95, height: UIScreen.main.bounds.height * 0.8))
+                                let size = ImageRatioResize.shared.resizedImageRect(for: surfingVM.selectedImage ?? UIImage(), 
+                                                                                    targetSize: CGSize(width: UIScreen.main.bounds.width * 0.95,
+                                                                                                       height: UIScreen.main.bounds.height * 0.8))
                                 
                                 surfingVM.selectedUIImage
                                     .resizable()
@@ -53,26 +55,29 @@ struct SurfingView: View {
                                     .scaledToFit()
                                 
                             } else if surfingVM.cameraImage != Image(systemName: "photo") {
-                                let size = ImageRatioResize.shared.resizedImageRect(for: surfingVM.cameraUIImage , targetSize: CGSize(width: UIScreen.main.bounds.width * 0.95, height: UIScreen.main.bounds.height * 0.8))
+                                let size = ImageRatioResize.shared.resizedImageRect(for: surfingVM.cameraUIImage , 
+                                                                                    targetSize: CGSize(width: UIScreen.main.bounds.width * 0.95,
+                                                                                                       height: UIScreen.main.bounds.height * 0.8))
                                 
                                 surfingVM.cameraImage
                                     .resizable()
-                                    .frame(width: size.size.width, height: size.size.height)
+                                    .frame(width: size.size.width, 
+                                           height: size.size.height)
                                     .scaledToFit()
                             } else {
-                                Text("이미지를 선택하세요.")
-                                    .padding(.top, 30)
-                                    .frame(width: UIScreen.main.bounds.width * 0.95, height: UIScreen.main.bounds.height * 0.8)
-                                    .background(Color.gray)
+                                SurfingOnboardingView()
                             }
                         }
                         Spacer()
                     }
                     .navigationTitle("새로운 파도")
                     .navigationBarTitleDisplayMode(.inline)
-                    .toolbarBackground(.visible, for: .navigationBar)
-                    .toolbarBackground(Color.main, for: .navigationBar)
-                    .toolbarColorScheme(.dark, for: .navigationBar)
+                    .toolbarBackground(.visible,
+                                       for: .navigationBar)
+                    .toolbarBackground(Color.main,
+                                       for: .navigationBar)
+                    .toolbarColorScheme(.dark,
+                                        for: .navigationBar)
                     .background {
                         Color.main
                             .ignoresSafeArea()
@@ -84,7 +89,9 @@ struct SurfingView: View {
                         surfingVM.checkPhotoLibraryPermission()
                     }
                     .alert(isPresented: $surfingVM.showingPermissionAlert) {
-                        Alert(title: Text("권한 필요"), message: Text("사진 라이브러리 접근 권한이 필요합니다."), dismissButton: .default(Text("확인")))
+                        Alert(title: Text("권한 필요"), 
+                              message: Text("사진 라이브러리 접근 권한이 필요합니다."),
+                              dismissButton: .default(Text("확인")))
                     }
                     .sheet(isPresented: $surfingVM.isShownCamera) {
                         CameraAccessView(isShown: $surfingVM.isShownCamera,
@@ -121,7 +128,8 @@ struct SurfingView: View {
                                 Spacer()
                                 
                                 Text("팔로잉한 사람이 없어요")
-                                    .font(.system(size: 16, weight: .bold))
+                                    .font(.system(size: 16, 
+                                                  weight: .bold))
                                 
                                 FeedGuideView(feedVM: feedVM)
                                 
@@ -130,13 +138,15 @@ struct SurfingView: View {
                                 Spacer()
                                 
                                 Text("서퍼로 지정해준 사람이 없어요")
-                                    .font(.system(size: 16, weight: .bold))
+                                    .font(.system(size: 16, 
+                                                  weight: .bold))
                                 
                                 SurfingGuideView()
                                 
                                 Spacer()
                             } else {
-                                if surfingVM.cameraImage != Image(systemName: "photo") || surfingVM.selectedUIImage != Image(systemName: "photo") {
+                                if surfingVM.cameraImage != Image(systemName: "photo")
+                                    || surfingVM.selectedUIImage != Image(systemName: "photo") {
                                     // 변경될 수 있음
                                     Button("다음") {
                                         if surfingVM.cameraImage != Image(systemName: "photo") {
@@ -149,14 +159,6 @@ struct SurfingView: View {
                                         surfingVM.showCropView.toggle()
                                     }
                                     .font(.system(size: 16, weight: .semibold))
-                                } else {
-                                    Button {
-                                        
-                                    } label: {
-                                        Text("다음")
-                                            .font(.system(size: 16, weight: .semibold))
-                                            .foregroundStyle(.gray)
-                                    }
                                 }
                             }
                         }
