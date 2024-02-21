@@ -23,7 +23,7 @@ struct SelectPadoRideUserCell: View {
         } label: {
             VStack {
                 Divider()
-                    .padding(.bottom, 8)
+                    .padding(.vertical, 6)
                 
                 HStack {
                     if let user = user {
@@ -55,7 +55,6 @@ struct SelectPadoRideUserCell: View {
                     }
                 }
             }
-            .padding(.vertical, 5)
             .onAppear {
                 Task {
                     if let user = await UpdateUserData.shared.getOthersProfileDatas(id: id) {
