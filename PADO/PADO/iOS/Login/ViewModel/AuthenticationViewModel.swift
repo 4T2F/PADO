@@ -169,7 +169,6 @@ class AuthenticationViewModel: ObservableObject {
         do {
             try await Firestore.firestore().collection("users").document(nameID).setData(data)
             
-            userNameID = nameID
             currentUser = User(
                 id: userId,
                 username: "",
