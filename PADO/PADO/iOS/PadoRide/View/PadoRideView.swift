@@ -74,21 +74,21 @@ struct PadoRideView: View {
                         }
                     }
                     
-                    //                        if followVM.followingIDs.isEmpty {
-                    //                            Spacer()
-                    //
-                    //                            FeedGuideView(feedVM: feedVM,
-                    //                                          title: "먼저 계정을 팔로우해주세요",
-                    //                                          content: "서퍼로 등록이 되어야 파도를\n보낼 수 있어요")
-                    //
-                    //                            Spacer()
-                    //                        } else if followVM.surfingIDs.isEmpty {
-                    //                            Spacer()
-                    //
-                    //                            SurfingGuideView()
-                    //
-                    //                            Spacer()
-                    //                        }
+                    if followVM.followingIDs.isEmpty {
+                        Spacer()
+                        
+                        FeedGuideView(feedVM: feedVM,
+                                      title: "먼저 계정을 팔로우해주세요",
+                                      content: "서퍼로 등록이 되어야 파도를\n보낼 수 있어요")
+                        
+                        Spacer()
+                    } else if followVM.surfingIDs.isEmpty {
+                        Spacer()
+                        
+                        SurfingGuideView()
+                        
+                        Spacer()
+                    }
                     
                 }
             }
@@ -96,10 +96,10 @@ struct PadoRideView: View {
                 PadoRideEditView(padorideVM: padorideVM)
             }
         }
-        //        .onAppear {
-        //            Task {
-        //                await padorideVM.preloadPostsData(for: followVM.surfingIDs)
-        //            }
-        //        }
+        .onAppear {
+            Task {
+                await padorideVM.preloadPostsData(for: followVM.surfingIDs)
+            }
+        }
     }
 }

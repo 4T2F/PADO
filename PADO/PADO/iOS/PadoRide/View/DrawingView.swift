@@ -94,7 +94,7 @@ struct DrawingView: View {
                                                                 padorideVM.toolPicker.setVisible(false, forFirstResponder: padorideVM.canvas)
                                                                 padorideVM.canvas.resignFirstResponder()
                                                                 padorideVM.currentTextIndex = getTextIndex(textBox: box)
-                                                                withAnimation{
+                                                                withAnimation {
                                                                     padorideVM.modifyBox = true
                                                                 }
                                                             })
@@ -240,7 +240,8 @@ struct DrawingView: View {
         }
         .sheet(isPresented: $padorideVM.showingModal) {
             SendPadoView(padorideVM: padorideVM)
-                .presentationDetents([.fraction(0.22)])
+                .presentationDetents([.fraction(0.2)])
+                .presentationDragIndicator(.visible)
         }
     }
     
