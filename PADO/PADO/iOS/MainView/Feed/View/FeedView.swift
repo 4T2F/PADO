@@ -39,7 +39,9 @@ struct FeedView: View {
                                 } else if feedVM.followFetchLoading {
                                     EmptyView()
                                 } else if feedVM.followingPosts.isEmpty {
-                                    FeedGuideView(feedVM: feedVM)
+                                    FeedGuideView(feedVM: feedVM, 
+                                                  title: "인기 팔로워",
+                                                  content: "계정을 팔로우하여 최신 게시물을\n여기서 확인하세요.")
                                         .containerRelativeFrame([.horizontal,.vertical])
                                 } else {
                                     ForEach(feedVM.followingPosts.indices, id: \.self) { index in

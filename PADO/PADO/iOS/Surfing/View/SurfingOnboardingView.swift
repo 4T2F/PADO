@@ -9,6 +9,8 @@ import SwiftUI
 
 struct SurfingOnboardingView: View {
     @State private var currentTab = 0
+    @ObservedObject var surfingVM: SurfingViewModel
+    @ObservedObject var followVM: FollowViewModel
     
     var body: some View {
         VStack {
@@ -94,7 +96,13 @@ struct SurfingOnboardingView: View {
             .tabViewStyle(PageTabViewStyle())
             
             Button {
-                //
+                if userFollowingIDs.isEmpty {
+                    surfingVM.isShowPopularModal = true
+                } else if followVM.surfingIDs.isEmpty {
+                    surfingVM.isShowFollowingModal = true
+                } else {
+                    surfingVM.isShowingPhotoModal = true
+                }
             } label: {
                 ZStack {
                     RoundedRectangle(cornerRadius: 8)
