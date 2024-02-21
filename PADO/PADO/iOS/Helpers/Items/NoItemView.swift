@@ -11,11 +11,12 @@ struct NoItemView: View {
     var itemName: String
     
     var body: some View {
-        VStack{
+        VStack(alignment: .center) {
             Text(itemName)
-                .foregroundColor(Color.gray)
+                .foregroundColor(Color(.systemGray))
                 .font(.system(size: 16))
-                .fontWeight(.semibold)
+                .fontWeight(.medium)
+                .multilineTextAlignment(.center)
         }
     }
 }

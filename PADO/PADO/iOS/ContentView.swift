@@ -73,9 +73,7 @@ struct ContentView: View {
                 .onAppear { viewModel.showTab = 2 }
                 .tag(2)
                 
-                PadoRideView(feedVM: feedVM,
-                             followVM: followVM,
-                             padorideVM: padorideVM)
+                PadoRideView1()
                 .tabItem {
                     Image(viewModel.showTab == 3 ? "today_light" : "today_gray")
                     

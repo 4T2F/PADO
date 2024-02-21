@@ -237,15 +237,15 @@ struct OtherUserProfileView: View {
                                 }
                             
                             
-                            HStack(alignment: .center, spacing: 5) {
+                            HStack(alignment: .center, spacing: 4) {
                                 VStack(alignment: .leading, spacing: 4) {
                                     if !user.username.isEmpty {
                                         Text(user.username)
-                                            .font(.system(size: 18))
+                                            .font(.system(size: 14))
                                             .fontWeight(.medium)
                                     } else {
                                         Text(user.nameID)
-                                            .font(.system(size: 18))
+                                            .font(.system(size: 14))
                                             .fontWeight(.medium)
                                     }
                                 }
@@ -285,9 +285,9 @@ struct OtherUserProfileView: View {
                                 HStack(spacing: 2) {
                                     Text("\(profileVM.padoPosts.count + profileVM.sendPadoPosts.count)")
                                     
-                                    Text("wave")
+                                    Text("파도")
                                 }
-                                .font(.system(size: 16))
+                                .font(.system(size: 14))
                                 .foregroundStyle(.white)
                                 .fontWeight(.medium)
                                 
@@ -297,9 +297,9 @@ struct OtherUserProfileView: View {
                                     HStack(spacing: 2) {
                                         Text("\(followVM.followerIDs.count + followVM.surferIDs.count)")
                                         
-                                        Text("follower")
+                                        Text("팔로워")
                                     }
-                                    .font(.system(size: 16))
+                                    .font(.system(size: 14))
                                     .foregroundStyle(.white)
                                     .fontWeight(.medium)
                                 }
@@ -318,9 +318,9 @@ struct OtherUserProfileView: View {
                                     HStack(spacing: 2) {
                                         Text("\(followVM.followingIDs.count)")
                                         
-                                        Text("following")
+                                        Text("팔로잉")
                                     }
-                                    .font(.system(size: 16))
+                                    .font(.system(size: 14))
                                     .foregroundStyle(.white)
                                     .fontWeight(.medium)
                                 }
@@ -511,7 +511,7 @@ struct OtherUserProfileView: View {
         VStack(spacing: 25) {
             if user.nameID != userNameID
                         && (user.openHighlight == nil || user.openHighlight == "no") {
-                NoItemView(itemName: "\(user.nameID)님이 좋아요를 표시한 게시물은\n 현재 숨겨져있습니다")
+                NoItemView(itemName: "\(user.nameID)님이 좋아요를 표시한 파도는\n 비공개 입니다")
                     .padding(.top, 150)
             } else if profileVM.highlights.isEmpty {
                 NoItemView(itemName: "아직 좋아요를 표시한 게시물이 없습니다")

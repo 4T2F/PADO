@@ -18,9 +18,7 @@ struct PadoRideView: View {
         NavigationStack {
             ZStack {
                 Color.main.ignoresSafeArea()
-                
                 VStack {
-                    
                     HStack {
                         
                         Spacer()
