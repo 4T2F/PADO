@@ -300,6 +300,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
     // 파도타기 게시글의 유무 확인
     func checkForPadorides(postID: String) async {
         checkPadoRide.removeAll()
+        guard !postID.isEmpty else { return }
         
         let postRef = db.collection("post").document(postID)
         let padoRideCollection = postRef.collection("padoride")
@@ -313,8 +314,15 @@ class FeedViewModel:Identifiable ,ObservableObject {
             print("PadoRides 가져오기 오류: \(error.localizedDescription)")
         }
     }
+    
+    func fetchPadoRideExist(postID: String) {
+        guard !postID.isEmpty else { return }
+        print("여기 왔음 ㅋㅋ")
+        db.collection("post").document(postID).updateData(["padoExist": false])
+    }
 }
 
+// 피드 리스너
 extension FeedViewModel {
     @MainActor
     private func setupSnapshotFollowingListener(for post: Post) {

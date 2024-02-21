@@ -11,6 +11,8 @@ struct SettingView: View {
     @Environment (\.dismiss) var dismiss
     @StateObject var profileVM: ProfileViewModel
 
+    @Binding var openHighlight: Bool
+    
     var body: some View {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .leading) {
@@ -26,7 +28,7 @@ struct SettingView: View {
                 
                 SettingDivider()
                 
-                NavigationLink(destination: SettingOthersView()) {
+                NavigationLink(destination: SettingOthersView(openHighlight: $openHighlight)) {
                     SettingViewCell(settingTittle: "다른 설정들")
                 }
                 

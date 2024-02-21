@@ -24,4 +24,5 @@ struct Post: Identifiable, Hashable, Codable {
     var comments: [Comment]?
     var created_Time: Timestamp
     var modified_Time: Timestamp?
+    var padoExist: Bool?
 }

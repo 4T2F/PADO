@@ -329,63 +329,68 @@ struct FeedCell: View {
                         VStack(spacing: 10) {
                             // MARK: - 멍게
                             VStack(spacing: 10) {
-                                Button {
-                                    withAnimation {
-                                        // 햅틱 피드백 생성
-                                        let generator = UIImpactFeedbackGenerator(style: .light)
-                                        generator.impactOccurred()
-                                        
-                                        
-                                        if let currentIndex = feedVM.currentPadoRideIndex {
-                                            // 다음 이미지로 이동
-                                            let nextIndex = currentIndex + 1
-                                            if nextIndex < feedVM.padoRidePosts.count {
-                                                feedVM.currentPadoRideIndex = nextIndex
-                                            } else {
-                                                // 모든 PadoRide 이미지를 보여준 후, 원래 포스트로 돌아감
-                                                feedVM.currentPadoRideIndex = nil
-                                                feedVM.isHeaderVisible = true
-                                                feedVM.isShowingPadoRide = false
-                                                feedVM.padoRidePosts = []
-                                            }
-                                        } else {
-                                            // 최초로 PadoRide 이미지 보여주기
-                                            // PadoRidePosts가 이미 로드되었는지 확인
-                                            if feedVM.padoRidePosts.isEmpty {
-                                                Task {
-                                                    await feedVM.fetchPadoRides(postID: post.id ?? "")
-                                                    if !feedVM.padoRidePosts.isEmpty {
-                                                        
-                                                        feedVM.isHeaderVisible = false
-                                                        feedVM.isShowingPadoRide = true
-                                                        feedVM.currentPadoRideIndex = 0
-                                                    }
+                                if post.padoExist ?? false {
+                                    Button {
+                                        withAnimation {
+                                            // 햅틱 피드백 생성
+                                            let generator = UIImpactFeedbackGenerator(style: .light)
+                                            generator.impactOccurred()
+                                            
+                                            if let currentIndex = feedVM.currentPadoRideIndex {
+                                                // 다음 이미지로 이동
+                                                let nextIndex = currentIndex + 1
+                                                if nextIndex < feedVM.padoRidePosts.count {
+                                                    feedVM.currentPadoRideIndex = nextIndex
+                                                } else {
+                                                    // 모든 PadoRide 이미지를 보여준 후, 원래 포스트로 돌아감
+                                                    feedVM.currentPadoRideIndex = nil
+                                                    feedVM.isHeaderVisible = true
+                                                    feedVM.isShowingPadoRide = false
+                                                    feedVM.padoRidePosts = []
                                                 }
                                             } else {
-                                                feedVM.isHeaderVisible = true
-                                                feedVM.isShowingPadoRide = false
-                                                feedVM.currentPadoRideIndex = 0
+                                                // 최초로 PadoRide 이미지 보여주기
+                                                // PadoRidePosts가 이미 로드되었는지 확인
+                                                if feedVM.padoRidePosts.isEmpty {
+                                                    Task {
+                                                        await feedVM.fetchPadoRides(postID: post.id ?? "")
+                                                        if !feedVM.padoRidePosts.isEmpty {
+                                                            
+                                                            feedVM.isHeaderVisible = false
+                                                            feedVM.isShowingPadoRide = true
+                                                            feedVM.currentPadoRideIndex = 0
+                                                        }
+                                                    }
+                                                } else {
+                                                    feedVM.isHeaderVisible = true
+                                                    feedVM.isShowingPadoRide = false
+                                                    feedVM.currentPadoRideIndex = 0
+                                                }
                                             }
                                         }
+                                    } label: {
+                                        Circle()
+                                            .frame(width: 30)
+                                            .foregroundStyle(.clear)
+                                            .overlay {
+                                                LottieView(animation: .named("button"))
+                                                    .looping()
+                                                    .resizable()
+                                                    .scaledToFit()
+                                                    .frame(width: 200, height: 200)
+                                            }
                                     }
-                                } label: {
+                                } else {
                                     Circle()
                                         .frame(width: 30)
                                         .foregroundStyle(.clear)
-                                        .overlay {
-                                            LottieView(animation: .named("button"))
-                                                .looping()
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(width: 200, height: 200)
-                                        }
                                 }
                             }
                             .padding(.bottom, 15)
                             
+                            
                             // MARK: - 하트
                             VStack(spacing: 8) {
-                                
                                 if isHeartCheck {
                                     Button {
                                         if !heartLoading && !blockPost(post: post) {
@@ -395,9 +400,6 @@ struct FeedCell: View {
                                                     await UpdateHeartData.shared.deleteHeart(documentID: postID)
                                                     isHeartCheck = await UpdateHeartData.shared.checkHeartExists(documentID: postID)
                                                     heartLoading = false
-                                                }
-                                                if !userNameID.isEmpty {
-                                                    await profileVM.fetchHighlihts(id: userNameID)
                                                 }
                                             }
                                         }
@@ -429,8 +431,6 @@ struct FeedCell: View {
                                                     heartLoading = false
                                                     await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID, receiveUser: postUser, type: .heart, message: "", post: post)
                                                 }
-                                                
-                                                await profileVM.fetchHighlihts(id: userNameID)
                                             }
                                         }
                                     } label: {
@@ -520,10 +520,16 @@ struct FeedCell: View {
                                                         onTouchButton: {
                                         let fileName = feedVM.padoRidePosts[feedVM.currentPadoRideIndex ?? 0].storageFileName
                                         let subID = feedVM.padoRidePosts[feedVM.currentPadoRideIndex ?? 0].id
+                                        
                                         Task {
-                                            try await DeletePost.shared.deletePadoridePost(postID: post.id ?? "",
-                                                                                           storageFileName: fileName,
-                                                                                           subID: subID ?? "")
+                                            if let postID = post.id {
+                                                try await DeletePost.shared.deletePadoridePost(postID: postID,
+                                                                                               storageFileName: fileName,
+                                                                                               subID: subID ?? "")
+                                                if feedVM.padoRidePosts.count == 1 {
+                                                    feedVM.fetchPadoRideExist(postID: postID)
+                                                }
+                                            }
                                             deleteMyPadoride = false
                                             needsDataFetch.toggle()
                                         }
@@ -535,9 +541,14 @@ struct FeedCell: View {
                                         let fileName = feedVM.padoRidePosts[feedVM.currentPadoRideIndex ?? 0].storageFileName
                                         
                                         Task {
-                                            try await DeletePost.shared.deletePadoridePost(postID: post.id ?? "",
-                                                                                           storageFileName: fileName,
-                                                                                           subID: userNameID)
+                                            if let postID = post.id {
+                                                try await DeletePost.shared.deletePadoridePost(postID: postID,
+                                                                                               storageFileName: fileName,
+                                                                                               subID: userNameID)
+                                                if feedVM.padoRidePosts.count == 1 {
+                                                    feedVM.fetchPadoRideExist(postID: postID)
+                                                }
+                                            }
                                             deleteSendPadoride = false
                                             needsDataFetch.toggle()
                                         }
