@@ -45,15 +45,19 @@ struct SurfingView: View {
                         } label: {
                             // 이미 선택된 이미지를 표시하는 영역
                             if surfingVM.selectedUIImage != Image(systemName: "photo") {
+                                let size = ImageRatioResize.shared.resizedImageRect(for: surfingVM.selectedImage ?? UIImage(), targetSize: CGSize(width: UIScreen.main.bounds.width * 0.95, height: UIScreen.main.bounds.height * 0.8))
+                                
                                 surfingVM.selectedUIImage
                                     .resizable()
-                                    .frame(width: UIScreen.main.bounds.width * 0.95, height: UIScreen.main.bounds.height * 0.8)
+                                    .frame(width: size.size.width, height: size.size.height)
                                     .scaledToFit()
                                 
                             } else if surfingVM.cameraImage != Image(systemName: "photo") {
+                                let size = ImageRatioResize.shared.resizedImageRect(for: surfingVM.cameraUIImage , targetSize: CGSize(width: UIScreen.main.bounds.width * 0.95, height: UIScreen.main.bounds.height * 0.8))
+                                
                                 surfingVM.cameraImage
                                     .resizable()
-                                    .frame(width: UIScreen.main.bounds.width * 0.95, height: UIScreen.main.bounds.height * 0.8)
+                                    .frame(width: size.size.width, height: size.size.height)
                                     .scaledToFit()
                             } else {
                                 Text("이미지를 선택하세요.")
