@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-struct PadoRideView1: View {
-    
-   
+struct PadoRideView: View {
     @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var followVM: FollowViewModel
+    
+    @State private var isShowingOnboarding: Bool = false
     
     var body: some View {
         NavigationStack {
@@ -31,12 +31,18 @@ struct PadoRideView1: View {
                             Spacer()
                             
                             Button {
-                                // 온보딩
+                                isShowingOnboarding.toggle()
                             } label: {
                                 Text("파도타기란?")
-                                    .font(.system(size: 10))
+                                    .font(.system(size: 12))
+                                    .fontWeight(.medium)
                                     .foregroundStyle(Color(.systemGray))
                             }
+                            .sheet(isPresented: $isShowingOnboarding, content: {
+                                PadoRideOnboardingView()
+                                    .presentationDragIndicator(.visible)
+                                    .presentationDetents([.fraction(0.99)])
+                            })
                         }
                         
                         // 파도타기 할 수 있는 유저가 없으면 "파도타기를 할 수 있는 친구가 없어요" 텍스트 넣기

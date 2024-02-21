@@ -90,6 +90,7 @@
 		41FD9A212B43D94A0028D38E /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 41FD9A202B43D94A0028D38E /* .swiftlint.yml */; };
 		63283DB92B73BDF700A42C0F /* SelectPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63283DB82B73BDF700A42C0F /* SelectPostView.swift */; };
 		63283DBB2B73BE0100A42C0F /* SelectPostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63283DBA2B73BE0100A42C0F /* SelectPostCell.swift */; };
+		6339440D2B86B6BF0086E5DB /* PadoRideOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6339440C2B86B6BF0086E5DB /* PadoRideOnboardingView.swift */; };
 		6346F7D92B6606A3009C752A /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 6346F7D82B6606A3009C752A /* Lottie */; };
 		635B09482B4500AA009E60A9 /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635B09472B4500AA009E60A9 /* AuthenticationViewModel.swift */; };
 		635B094A2B4500CB009E60A9 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635B09492B4500CB009E60A9 /* User.swift */; };
@@ -131,7 +132,7 @@
 		63C8BA4D2B56241200025422 /* TextAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA4C2B56241200025422 /* TextAnimation.swift */; };
 		63C8BA522B5661A500025422 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA512B5661A500025422 /* NotificationView.swift */; };
 		63C8BA582B56659800025422 /* SurferNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA572B56659800025422 /* SurferNotificationCell.swift */; };
-		63D3C8372B8678BF001C5F33 /* PadoRideView1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D3C8362B8678BF001C5F33 /* PadoRideView1.swift */; };
+		63D3C8372B8678BF001C5F33 /* PadoRideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D3C8362B8678BF001C5F33 /* PadoRideView.swift */; };
 		63D3C8392B8679A9001C5F33 /* SelectPadoRideUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D3C8382B8679A9001C5F33 /* SelectPadoRideUserCell.swift */; };
 		63D3C83B2B867DF3001C5F33 /* FollowerSuggestionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D3C83A2B867DF3001C5F33 /* FollowerSuggestionCell.swift */; };
 		63ECDCBB2B76BADA00D71E88 /* CommentWriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ECDCBA2B76BADA00D71E88 /* CommentWriteView.swift */; };
@@ -328,6 +329,7 @@
 		41FD9A202B43D94A0028D38E /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		63283DB82B73BDF700A42C0F /* SelectPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPostView.swift; sourceTree = "<group>"; };
 		63283DBA2B73BE0100A42C0F /* SelectPostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPostCell.swift; sourceTree = "<group>"; };
+		6339440C2B86B6BF0086E5DB /* PadoRideOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadoRideOnboardingView.swift; sourceTree = "<group>"; };
 		635B09472B4500AA009E60A9 /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
 		635B09492B4500CB009E60A9 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		636C40AE2B85C880003E44F0 /* SurfingOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurfingOnboardingView.swift; sourceTree = "<group>"; };
@@ -369,7 +371,7 @@
 		63C8BA532B56623500025422 /* FollowNotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowNotificationCell.swift; sourceTree = "<group>"; };
 		63C8BA552B56644600025422 /* RequestSurfingNotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestSurfingNotificationCell.swift; sourceTree = "<group>"; };
 		63C8BA572B56659800025422 /* SurferNotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurferNotificationCell.swift; sourceTree = "<group>"; };
-		63D3C8362B8678BF001C5F33 /* PadoRideView1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadoRideView1.swift; sourceTree = "<group>"; };
+		63D3C8362B8678BF001C5F33 /* PadoRideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadoRideView.swift; sourceTree = "<group>"; };
 		63D3C8382B8679A9001C5F33 /* SelectPadoRideUserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPadoRideUserCell.swift; sourceTree = "<group>"; };
 		63D3C83A2B867DF3001C5F33 /* FollowerSuggestionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerSuggestionCell.swift; sourceTree = "<group>"; };
 		63ECDCBA2B76BADA00D71E88 /* CommentWriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentWriteView.swift; sourceTree = "<group>"; };
@@ -1034,12 +1036,13 @@
 		64392B6A2B737EF70047BA12 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				63D3C8362B8678BF001C5F33 /* PadoRideView1.swift */,
+				63D3C8362B8678BF001C5F33 /* PadoRideView.swift */,
 				048A343F2B748DDF0085CE8B /* PadoRideEditView.swift */,
 				048A343B2B748D960085CE8B /* DrawingView.swift */,
 				048A343D2B748DB60085CE8B /* CanvasView.swift */,
 				64392B792B74B66D0047BA12 /* SendPadoView.swift */,
 				63BB24272B868C86006866F0 /* SelectUserView.swift */,
+				6339440C2B86B6BF0086E5DB /* PadoRideOnboardingView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1463,7 +1466,7 @@
 				418B6C962B5EC69100E8289D /* ViewState.swift in Sources */,
 				B1A91D102B55928D00FE7F62 /* SettingNormalCell.swift in Sources */,
 				41E5F69C2B5666D7001750C2 /* FaceMojiCell.swift in Sources */,
-				63D3C8372B8678BF001C5F33 /* PadoRideView1.swift in Sources */,
+				63D3C8372B8678BF001C5F33 /* PadoRideView.swift in Sources */,
 				63C8BA492B561DC200025422 /* SignUpButton.swift in Sources */,
 				63824C462B558B2400D1D653 /* IdView.swift in Sources */,
 				4173D5222B7B4550000D197A /* LoginGuideView.swift in Sources */,
@@ -1544,6 +1547,7 @@
 				63B7B9A12B7E8ACB00707C2F /* BlockUser.swift in Sources */,
 				63C8BA4B2B561FA900025422 /* EnjoyButton.swift in Sources */,
 				B1749A652B5D755700BCC6BA /* AppDelegate.swift in Sources */,
+				6339440D2B86B6BF0086E5DB /* PadoRideOnboardingView.swift in Sources */,
 				64E761C52B7F5F4E00882D29 /* SurfingGuideCell.swift in Sources */,
 				418ACDC52B764B3C003DD9E7 /* PostitMessage.swift in Sources */,
 				637891632B5ECE3300B40AF6 /* FeedViewModel.swift in Sources */,
@@ -1808,10 +1812,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PADO/PADO.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PADO/Preview Content\"";
-				DEVELOPMENT_TEAM = UAG934M4Q7;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = UAG934M4Q7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PADO/Info.plist;
@@ -1834,6 +1840,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.4T2F.PADO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "PADO Debug";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1849,10 +1856,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PADO/PADO.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PADO/Preview Content\"";
-				DEVELOPMENT_TEAM = UAG934M4Q7;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = UAG934M4Q7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PADO/Info.plist;
@@ -1875,6 +1884,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.4T2F.PADO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "PADO Debug";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
