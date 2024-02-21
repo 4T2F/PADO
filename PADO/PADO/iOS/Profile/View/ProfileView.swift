@@ -172,7 +172,6 @@ struct ProfileView: View {
                         
                         VStack(alignment: .leading, spacing: 10) {
                                 CircularImageView(size: .xxLarge, user: user)
-                                    .offset(y: 5)
                                     .zIndex(touchProfileImage ? 1 : 0)
                                     .onTapGesture {
                                         if user.profileImageUrl != nil {
@@ -205,7 +204,7 @@ struct ProfileView: View {
                                                     }
                                                 } 
                                         }
-                                        .offset(x: +46, y: -30)
+                                        .offset(x: 46, y: -36)
                                         .sheet(isPresented: $viewModel.isShowingMessageView) {
                                             PostitView(postitVM: postitVM,
                                                        isShowingMessageView: $viewModel.isShowingMessageView)
@@ -219,9 +218,15 @@ struct ProfileView: View {
                             HStack(alignment: .center, spacing: 5) {
                                 VStack(alignment: .leading, spacing: 4) {
                                     if let user = viewModel.currentUser {
-                                        Text(user.username)
-                                            .font(.system(size: 16))
-                                            .fontWeight(.semibold)
+                                        if !user.username.isEmpty {
+                                            Text(user.username)
+                                                .font(.system(size: 18))
+                                                .fontWeight(.medium)
+                                        } else {
+                                            Text(userNameID)
+                                                .font(.system(size: 18))
+                                                .fontWeight(.medium)
+                                        }
                                     }
                                 }
                                 
@@ -251,7 +256,6 @@ struct ProfileView: View {
                                 .font(.system(size: 16))
                                 .foregroundStyle(.white)
                                 .fontWeight(.medium)
-                                .fontDesign(.rounded)
                                 
                                     Button {
                                         followerActive = true
@@ -264,7 +268,6 @@ struct ProfileView: View {
                                         .font(.system(size: 16))
                                         .foregroundStyle(.white)
                                         .fontWeight(.medium)
-                                        .fontDesign(.rounded)
                                     }
                                     .sheet(isPresented: $followerActive) {
                                         FollowMainView(currentType: "팔로워", followVM: followVM, user: user)
@@ -286,7 +289,6 @@ struct ProfileView: View {
                                         .font(.system(size: 16))
                                         .foregroundStyle(.white)
                                         .fontWeight(.medium)
-                                        .fontDesign(.rounded)
                                     }
                                     
                                     .sheet(isPresented: $followingActive) {

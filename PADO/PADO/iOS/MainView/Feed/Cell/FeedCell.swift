@@ -34,7 +34,7 @@ struct FeedCell: View {
     @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var surfingVM: SurfingViewModel
     @ObservedObject var profileVM: ProfileViewModel
-
+    
     let feedCellType: FeedFilter
     @Binding var post: Post
     var index: Int
@@ -335,7 +335,6 @@ struct FeedCell: View {
                         }
                     }
                     .foregroundStyle(.white)
-                    
                     
                     Spacer()
                     
