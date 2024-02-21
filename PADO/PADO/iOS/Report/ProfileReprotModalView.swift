@@ -35,6 +35,7 @@ struct ReprotProfileModalView: View {
                                     await profileVM.blockUser(blockingUser: user,
                                                         user: currentUser)
                                     profileVM.isUserBlocked = true
+                                    needsDataFetch.toggle()
                                 }
                             }
                         }
