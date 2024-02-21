@@ -25,6 +25,7 @@ struct ContentView: View {
     
     @State private var showPushPost = false
     @State private var pushPost: Post?
+    @State var fetchedPostitData: Bool = false
     
     let updateHeartData = UpdateHeartData()
     
@@ -43,21 +44,9 @@ struct ContentView: View {
                      profileVM: profileVM,
                      followVM: followVM,
                      notiVM: notiVM)
-            .tabItem {
-                Image(viewModel.showTab == 0 ? "home_light" : "home_gray")
-                
-                Text("홈")
-            }
-            .onAppear { viewModel.showTab = 0 }
             .tag(0)
             
             MainSearchView(profileVM: profileVM)
-            .tabItem {
-                Image(viewModel.showTab == 1 ? "search_light" : "search_gray")
-                
-                Text("검색")
-            }
-            .onAppear { viewModel.showTab = 1 }
             .tag(1)
             
             if let user = viewModel.currentUser {
@@ -65,64 +54,33 @@ struct ContentView: View {
                             feedVM: feedVM,
                             profileVM: profileVM,
                             followVM: followVM)
-                .tabItem {
-                    Text("")
-                    
-                    Image(viewModel.showTab == 2 ? "tab_added" : "tab_add")
-                }
-                .onAppear { viewModel.showTab = 2 }
                 .tag(2)
                 
-                PadoRideView1()
-                .tabItem {
-                    Image(viewModel.showTab == 3 ? "today_light" : "today_gray")
-                    
-                    Text("파도타기")
-                }
-                .onAppear { viewModel.showTab = 3 }
+                PadoRideView(feedVM: feedVM,
+                             followVM: followVM,
+                             padorideVM: padorideVM)
                 .tag(3)
-                
                 
                 ProfileView(profileVM: profileVM,
                             followVM: followVM,
                             feedVM: feedVM,
                             postitVM: postitVM,
+                            fetchedPostitData: $fetchedPostitData,
                             user: user)
-                .tabItem {
-                    Image(viewModel.showTab == 4 ? "profile_light" : "profile_gray")
-                    
-                    Text("프로필")
-                }
-                .onAppear { viewModel.showTab = 4 }
                 .tag(4)
             } else {
                 LoginAlert()
-                    .tabItem {
-                        Text("")
-                        
-                        Image(viewModel.showTab == 2 ? "tab_added" : "tab_add")
-                    }
-                    .onAppear { viewModel.showTab = 2 }
                     .tag(2)
                 
                 LoginAlert()
-                    .tabItem {
-                        Image(viewModel.showTab == 3 ? "today_light" : "today_gray")
-                        
-                        Text("파도타기")
-                    }
-                    .onAppear { viewModel.showTab = 3 }
                     .tag(3)
                 
                 LoginAlert()
-                    .tabItem {
-                        Image(viewModel.showTab == 4 ? "profile_light" : "profile_gray")
-                        
-                        Text("프로필")
-                    }
-                    .onAppear { viewModel.showTab = 4 }
                     .tag(4)
             }
+        }
+        .overlay(alignment: .bottom){
+            CustomTabView()
         }
         // 상대방 프로필로 전환 이벤트(팔로우, 서퍼지정, 방명록 글)
         .sheet(isPresented: $showPushProfile) {
@@ -144,7 +102,6 @@ struct ContentView: View {
         .tint(.white)
         .onAppear {
             fetchData()
-            
         }
         .onChange(of: needsDataFetch) { _, _ in
             fetchData()
@@ -154,6 +111,7 @@ struct ContentView: View {
     func fetchData() {
         guard !userNameID.isEmpty else {
             Task {
+                fetchedPostitData = false
                 await feedVM.getPopularUser()
                 await feedVM.fetchTodayPadoPosts()
                 profileVM.stopAllPostListeners()
@@ -165,6 +123,7 @@ struct ContentView: View {
             viewModel.selectedFilter = .following
             viewModel.showTab = 0
             feedVM.postFetchLoading = true
+            fetchedPostitData = false
             await profileVM.fetchBlockUsers()
             await followVM.initializeFollowFetch(id: userNameID)
             await feedVM.fetchTodayPadoPosts()
@@ -172,6 +131,7 @@ struct ContentView: View {
             profileVM.stopAllPostListeners()
             await profileVM.fetchPostID(user: viewModel.currentUser!)
             await postitVM.listenForMessages(ownerID: userNameID)
+            fetchedPostitData = true
             await notiVM.fetchNotifications()
             feedVM.postFetchLoading = false
             viewModel.showLaunchScreen = false

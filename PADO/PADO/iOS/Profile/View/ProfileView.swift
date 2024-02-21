@@ -29,6 +29,7 @@ struct ProfileView: View {
     @State private var touchBackImage: Bool = false
     @State private var position = CGSize.zero
     @State var openHighlight: Bool = false
+    @Binding var fetchedPostitData: Bool
     
     let user: User
     

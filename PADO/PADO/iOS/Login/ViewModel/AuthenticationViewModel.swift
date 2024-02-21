@@ -22,6 +22,7 @@ class AuthenticationViewModel: ObservableObject {
     
     @Published var isLoading: Bool = false
     @Published var verificationCode: String = ""
+    @Published var resetNavigation: Bool = false
     
     @Published var errorMessage = ""
     @Published var showAlert = false
@@ -29,6 +30,7 @@ class AuthenticationViewModel: ObservableObject {
     @Published var isShowingMessageView = false
     // 탭바 이동관련 변수
     @Published var showTab: Int = 0
+    @Published var scrollToTop: Bool = false
     
     // 세팅 관련 뷰 이동 변수
     @Published var showingProfileView: Bool = false

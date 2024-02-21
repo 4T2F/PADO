@@ -43,6 +43,7 @@
 		4173D5202B7B427F000D197A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4173D51F2B7B427F000D197A /* GoogleService-Info.plist */; };
 		4173D5222B7B4550000D197A /* LoginGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4173D5212B7B4550000D197A /* LoginGuideView.swift */; };
 		417568642B47999E003AA8C0 /* PhoneumberTFFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417568632B47999E003AA8C0 /* PhoneumberTFFormat.swift */; };
+		4176B8332B868275009F1DEF /* CustomTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4176B8322B868275009F1DEF /* CustomTabView.swift */; };
 		41787D512B814D9900D48CEA /* PostSelectModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41787D502B814D9900D48CEA /* PostSelectModalView.swift */; };
 		417CD6652B68C3F8001D9EC0 /* UpdateFollowData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417CD6642B68C3F8001D9EC0 /* UpdateFollowData.swift */; };
 		41853B142B6C6DAA004F601D /* RecordSearchCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41853B132B6C6DAA004F601D /* RecordSearchCellView.swift */; };
@@ -280,6 +281,7 @@
 		4173D51F2B7B427F000D197A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4173D5212B7B4550000D197A /* LoginGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginGuideView.swift; sourceTree = "<group>"; };
 		417568632B47999E003AA8C0 /* PhoneumberTFFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneumberTFFormat.swift; sourceTree = "<group>"; };
+		4176B8322B868275009F1DEF /* CustomTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabView.swift; sourceTree = "<group>"; };
 		41787D502B814D9900D48CEA /* PostSelectModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSelectModalView.swift; sourceTree = "<group>"; };
 		417CD6642B68C3F8001D9EC0 /* UpdateFollowData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateFollowData.swift; sourceTree = "<group>"; };
 		41853B132B6C6DAA004F601D /* RecordSearchCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordSearchCellView.swift; sourceTree = "<group>"; };
@@ -899,6 +901,7 @@
 				419981CE2B7412A700EEA06E /* CustomRefreshView.swift */,
 				64E761C62B7FBC4A00882D29 /* NoItemView.swift */,
 				41787D502B814D9900D48CEA /* PostSelectModalView.swift */,
+				4176B8322B868275009F1DEF /* CustomTabView.swift */,
 			);
 			path = Items;
 			sourceTree = "<group>";
@@ -1564,6 +1567,7 @@
 				419742102B55900D0055F2AB /* ContentView.swift in Sources */,
 				6408FEE82B6E98E000BF0DDF /* DeleteCommentView.swift in Sources */,
 				04E9509A2B71B7860091F660 /* FaceMojiModalView.swift in Sources */,
+				4176B8332B868275009F1DEF /* CustomTabView.swift in Sources */,
 				B13BD2C52B7D4B61007D2DA3 /* OnePostModalView.swift in Sources */,
 				63283DBB2B73BE0100A42C0F /* SelectPostCell.swift in Sources */,
 				B13BD2FF2B7FC309007D2DA3 /* PadoRideNotificationCell.swift in Sources */,

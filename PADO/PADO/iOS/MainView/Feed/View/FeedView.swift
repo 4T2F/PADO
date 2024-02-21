@@ -107,6 +107,11 @@ struct FeedView: View {
                         }
                     }
                     .scrollDisabled(feedVM.isShowingPadoRide)
+                    .onChange(of: viewModel.scrollToTop) {
+                        withAnimation {
+                            proxy.scrollTo(0, anchor: .top)
+                        }
+                    }
                     .onChange(of: viewModel.selectedFilter) {
                         withAnimation {
                             proxy.scrollTo(0, anchor: .top)
