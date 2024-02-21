@@ -100,16 +100,6 @@ struct DrawingView: View {
                                                             })
                                                        )
                                 )
-//                                .onLongPressGesture(minimumDuration: 1.5) {
-//                                    let generator = UIImpactFeedbackGenerator(style: .light)
-//                                    generator.impactOccurred()
-//                                    padorideVM.toolPicker.setVisible(false, forFirstResponder: padorideVM.canvas)
-//                                    padorideVM.canvas.resignFirstResponder()
-//                                    padorideVM.currentTextIndex = getTextIndex(textBox: box)
-//                                    withAnimation{
-//                                        padorideVM.modifyBox = true
-//                                    }
-//                                }
                         }
                         
                         ForEach(padorideVM.imageBoxes) { box in
