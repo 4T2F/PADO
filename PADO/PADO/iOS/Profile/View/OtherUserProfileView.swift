@@ -31,6 +31,7 @@ struct OtherUserProfileView: View {
     @State private var isShowingHightlight: Bool = false
     @State private var isShowingMessageView: Bool = false
     @State private var isShowingUserReport: Bool = false
+    @State private var fetchedPostitData: Bool = false
     @State private var touchProfileImage: Bool = false
     @State private var touchBackImage: Bool = false
     @State private var position = CGSize.zero
@@ -163,7 +164,11 @@ struct OtherUserProfileView: View {
                 await followVM.initializeFollowFetch(id: user.nameID)
                 await profileVM.fetchPostID(user: user)
                 await postitVM.listenForMessages(ownerID: user.nameID)
+                fetchedPostitData = true
             }
+        }
+        .onChange(of: viewModel.resetNavigation) { _, _ in
+            dismiss()
         }
         .onDisappear {
             followVM.stopAllListeners()
@@ -206,7 +211,9 @@ struct OtherUserProfileView: View {
                                 }
                                 .overlay {
                                     Button {
-                                        isShowingMessageView = true
+                                        if fetchedPostitData {
+                                            isShowingMessageView = true
+                                        }
                                     } label: {
                                         Circle()
                                             .frame(width: 30)
