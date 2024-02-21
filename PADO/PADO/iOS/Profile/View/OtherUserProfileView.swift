@@ -195,7 +195,6 @@ struct OtherUserProfileView: View {
                         
                         VStack(alignment: .leading, spacing: 10) {
                             CircularImageView(size: .xxLarge, user: user)
-                                .offset(y: 5)
                                 .zIndex(touchProfileImage ? 1 : 0)
                                 .onTapGesture {
                                     if user.profileImageUrl != nil {
@@ -228,7 +227,7 @@ struct OtherUserProfileView: View {
                                                 }
                                             }
                                     }
-                                    .offset(x: +46, y: -30)
+                                    .offset(x: 46, y: -36)
                                     .sheet(isPresented: $isShowingMessageView) {
                                         PostitView(postitVM: postitVM,
                                                    isShowingMessageView: $isShowingMessageView)
@@ -240,9 +239,15 @@ struct OtherUserProfileView: View {
                             
                             HStack(alignment: .center, spacing: 5) {
                                 VStack(alignment: .leading, spacing: 4) {
-                                    Text(user.username)
-                                        .font(.system(size: 16))
-                                        .fontWeight(.semibold)
+                                    if !user.username.isEmpty {
+                                        Text(user.username)
+                                            .font(.system(size: 18))
+                                            .fontWeight(.medium)
+                                    } else {
+                                        Text(user.nameID)
+                                            .font(.system(size: 18))
+                                            .fontWeight(.medium)
+                                    }
                                 }
                                 
                                 Spacer()
@@ -285,7 +290,6 @@ struct OtherUserProfileView: View {
                                 .font(.system(size: 16))
                                 .foregroundStyle(.white)
                                 .fontWeight(.medium)
-                                .fontDesign(.rounded)
                                 
                                 Button {
                                     followerActive = true
@@ -298,7 +302,6 @@ struct OtherUserProfileView: View {
                                     .font(.system(size: 16))
                                     .foregroundStyle(.white)
                                     .fontWeight(.medium)
-                                    .fontDesign(.rounded)
                                 }
                                 .sheet(isPresented: $followerActive) {
                                     FollowMainView(currentType: "팔로워", followVM: followVM, user: user)
@@ -320,7 +323,6 @@ struct OtherUserProfileView: View {
                                     .font(.system(size: 16))
                                     .foregroundStyle(.white)
                                     .fontWeight(.medium)
-                                    .fontDesign(.rounded)
                                 }
                                 
                                 .sheet(isPresented: $followingActive) {
