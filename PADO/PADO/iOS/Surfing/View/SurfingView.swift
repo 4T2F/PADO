@@ -56,10 +56,7 @@ struct SurfingView: View {
                                     .frame(width: UIScreen.main.bounds.width * 0.95, height: UIScreen.main.bounds.height * 0.8)
                                     .scaledToFit()
                             } else {
-                                Text("이미지를 선택하세요.")
-                                    .padding(.top, 30)
-                                    .frame(width: UIScreen.main.bounds.width * 0.95, height: UIScreen.main.bounds.height * 0.8)
-                                    .background(Color.gray)
+                                SurfingOnboardingView()
                             }
                         }
                     }
@@ -144,14 +141,6 @@ struct SurfingView: View {
                                         surfingVM.showCropView.toggle()
                                     }
                                     .font(.system(size: 16, weight: .semibold))
-                                } else {
-                                    Button {
-                                        
-                                    } label: {
-                                        Text("다음")
-                                            .font(.system(size: 16, weight: .semibold))
-                                            .foregroundStyle(.gray)
-                                    }
                                 }
                             }
                         }
