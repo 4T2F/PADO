@@ -213,11 +213,25 @@ struct FeedCell: View {
                                 } label: {
                                     if isShowingMoreText {
                                         Text("\(post.title)")
-                                            .multilineTextAlignment(.leading)
+                                            .font(.system(size: 14))
+                                            .fontWeight(.heavy)
+                                            .foregroundStyle(.white)
+                                            .padding(8)
+                                            .background(.modal.opacity(0.5))
+                                            .clipShape(RoundedRectangle(cornerRadius: 3))
+                                            .padding(.bottom, 4)
+                                            .padding(.trailing, 24)
                                     } else {
                                         Text("\(post.title)")
+                                            .font(.system(size: 14))
+                                            .fontWeight(.heavy)
+                                            .foregroundStyle(.white)
                                             .lineLimit(1)
-                                            .multilineTextAlignment(.leading)
+                                            .padding(8)
+                                            .background(.modal.opacity(0.5))
+                                            .clipShape(RoundedRectangle(cornerRadius: 3))
+                                            .padding(.bottom, 4)
+                                            .padding(.trailing, 24)
                                     }
                                 }
                                 .font(.system(size: 16))
