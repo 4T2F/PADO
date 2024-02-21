@@ -11,7 +11,7 @@ import SwiftUI
 struct FeedView: View {
     @State private var isLoading = true
     
-    @EnvironmentObject var authenticationViewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     
     @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var surfingVM: SurfingViewModel
@@ -27,7 +27,7 @@ struct FeedView: View {
                     CustomRefreshView(showsIndicator: false,
                                       lottieFileName: "Wave",
                                       scrollDelegate: scrollDelegate) {
-                        if authenticationViewModel.selectedFilter == .following {
+                        if viewModel.selectedFilter == .following {
                             LazyVStack(spacing: 0) {
                                 if feedVM.postFetchLoading {
                                     LottieView(animation: .named("Loading"))
@@ -75,7 +75,7 @@ struct FeedView: View {
                         }
                     } onRefresh: {
                         try? await Task.sleep(nanoseconds: 1_500_000_000)
-                        if authenticationViewModel.selectedFilter == FeedFilter.following {
+                        if viewModel.selectedFilter == FeedFilter.following {
                             guard !userNameID.isEmpty else {
                                 await feedVM.getPopularUser()
                                 feedVM.stopFollowingListeners()
@@ -89,7 +89,7 @@ struct FeedView: View {
                             feedVM.stopFollowingListeners()
                             profileVM.stopAllPostListeners()
                             await feedVM.fetchFollowingPosts()
-                            await profileVM.fetchPostID(id: userNameID)
+                            await profileVM.fetchPostID(user: viewModel.currentUser!)
                             await notiVM.fetchNotifications()
                             feedVM.followFetchLoading = false
                         } else {
@@ -97,16 +97,15 @@ struct FeedView: View {
                                 await profileVM.fetchBlockUsers()
                                 feedVM.stopTodayListeners()
                                 await feedVM.fetchTodayPadoPosts()
-                                profileVM.stopAllPostListeners()
                                 guard !userNameID.isEmpty else { return }
-                                await notiVM.fetchNotifications()
                                 await followVM.initializeFollowFetch(id: userNameID)
-                                await profileVM.fetchPostID(id: userNameID)
+                                await profileVM.fetchPostID(user: viewModel.currentUser!)
+                                await notiVM.fetchNotifications()
                             }
                         }
                     }
                     .scrollDisabled(feedVM.isShowingPadoRide)
-                    .onChange(of: authenticationViewModel.selectedFilter) {
+                    .onChange(of: viewModel.selectedFilter) {
                         withAnimation {
                             proxy.scrollTo(0, anchor: .top)
                         }

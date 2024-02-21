@@ -11,28 +11,22 @@ import SwiftUI
 
 
 struct MainView: View {
-    @State private var showLaunchScreen = true
+
     @EnvironmentObject var viewModel: AuthenticationViewModel
     
     var body: some View {
         Group {
-            if showLaunchScreen {
-                LaunchSTA()
-                    .onAppear {
-                        Task {
-                            viewModel.nameID = userNameID
-                            try? await Task.sleep(nanoseconds: 2 * 1_000_000_000)
-                            
-                            if viewModel.nameID.isEmpty {
-                                showLaunchScreen = false
-                            } else {
+            ZStack {
+                ContentView()
+                if viewModel.showLaunchScreen {
+                    LaunchSTA()
+                        .onAppear {
+                            Task {
+                                viewModel.nameID = userNameID
                                 await viewModel.initializeUser()
-                                showLaunchScreen = false
                             }
                         }
-                    }
-            } else {
-                ContentView()
+                }
             }
         }
     }

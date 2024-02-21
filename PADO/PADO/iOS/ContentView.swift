@@ -146,6 +146,7 @@ struct ContentView: View {
         .tint(.white)
         .onAppear {
             fetchData()
+            
         }
         .onChange(of: needsDataFetch) { _, _ in
             fetchData()
@@ -157,6 +158,7 @@ struct ContentView: View {
             Task {
                 await feedVM.getPopularUser()
                 await feedVM.fetchTodayPadoPosts()
+                profileVM.stopAllPostListeners()
             }
             return
         }
@@ -170,10 +172,11 @@ struct ContentView: View {
             await feedVM.fetchTodayPadoPosts()
             await feedVM.fetchFollowingPosts()
             profileVM.stopAllPostListeners()
-            await notiVM.fetchNotifications()
-            await profileVM.fetchPostID(id: userNameID)
+            await profileVM.fetchPostID(user: viewModel.currentUser!)
             await postitVM.listenForMessages(ownerID: userNameID)
+            await notiVM.fetchNotifications()
             feedVM.postFetchLoading = false
+            viewModel.showLaunchScreen = false
             
             NotificationCenter.default.addObserver(forName: Notification.Name("ProfileNotification"), object: nil, queue: .main) { notification in
                 // 알림을 받았을 때 수행할 작업

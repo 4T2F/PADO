@@ -136,7 +136,8 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                     hearts: nil,
                     comments: nil,
                     created_Time: createdTimestamp,
-                    modified_Time: nil
+                    modified_Time: nil,
+                    padoExist: userInfo["padoExist"] as? Bool ?? false
                 )
                 NotificationCenter.default.post(name: Notification.Name("PostNotification"), object: post)
             }
