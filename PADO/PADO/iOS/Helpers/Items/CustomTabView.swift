@@ -62,7 +62,6 @@ struct CustomTabView: View {
                     } label: {
                         VStack {
                             Image(viewModel.showTab == 2 ? "tab_added" : "tab_add")
-                                .padding(.top, 6)
                             
                             Spacer()
                         }

@@ -11,14 +11,12 @@ struct ContentView: View {
     @State var width = UIScreen.main.bounds.width
     
     @EnvironmentObject var viewModel: AuthenticationViewModel
-    
     @StateObject var surfingVM = SurfingViewModel()
     @StateObject var feedVM = FeedViewModel()
     @StateObject var followVM = FollowViewModel()
     @StateObject var profileVM = ProfileViewModel()
     @StateObject var notiVM = NotificationViewModel()
     @StateObject var postitVM = PostitViewModel()
-    @StateObject var padorideVM = PadoRideViewModel()
     
     @State private var showPushProfile = false
     @State private var pushUser: User?
@@ -56,9 +54,8 @@ struct ContentView: View {
                             followVM: followVM)
                 .tag(2)
                 
-                PadoRideView(feedVM: feedVM,
-                             followVM: followVM,
-                             padorideVM: padorideVM)
+                PadoRideView1(feedVM: feedVM,
+                              followVM: followVM)
                 .tag(3)
                 
                 ProfileView(profileVM: profileVM,

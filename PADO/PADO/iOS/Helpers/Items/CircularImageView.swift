@@ -21,6 +21,7 @@ enum ProfileImageSize {
     case xxLarge
     case xxxLarge
     case xxxxLarge
+    case padoRideSize
     
     var dimension: CGFloat {
         switch self {
@@ -30,8 +31,9 @@ enum ProfileImageSize {
         case .small: return 36
         case .commentSize: return 38
         case .medium: return 40
+        case .padoRideSize: return 44
         case .large: return 48
-        case .xLarge: return 60
+        case .xLarge: return 66
         case .xxLarge: return 70
         case .xxxLarge: return 80
         case .xxxxLarge: return 129

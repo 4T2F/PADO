@@ -148,9 +148,6 @@
 		64392B622B707C9A0047BA12 /* SettingBackProfileCropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B612B707C9A0047BA12 /* SettingBackProfileCropView.swift */; };
 		64392B642B7099C70047BA12 /* RectangleImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B632B7099C70047BA12 /* RectangleImageView.swift */; };
 		64392B662B71D2C70047BA12 /* FeedHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B652B71D2C70047BA12 /* FeedHeaderCell.swift */; };
-		64392B6D2B737F080047BA12 /* PadoRideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B6C2B737F080047BA12 /* PadoRideView.swift */; };
-		64392B6F2B73803E0047BA12 /* SufferInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B6E2B73803E0047BA12 /* SufferInfoCell.swift */; };
-		64392B712B73804B0047BA12 /* SufferPostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B702B73804B0047BA12 /* SufferPostCell.swift */; };
 		64392B742B7387590047BA12 /* PadoRideViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B732B7387590047BA12 /* PadoRideViewModel.swift */; };
 		64392B782B74567C0047BA12 /* GetPostData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B772B74567C0047BA12 /* GetPostData.swift */; };
 		64392B7A2B74B66D0047BA12 /* SendPadoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B792B74B66D0047BA12 /* SendPadoView.swift */; };
@@ -389,9 +386,6 @@
 		64392B612B707C9A0047BA12 /* SettingBackProfileCropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingBackProfileCropView.swift; sourceTree = "<group>"; };
 		64392B632B7099C70047BA12 /* RectangleImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangleImageView.swift; sourceTree = "<group>"; };
 		64392B652B71D2C70047BA12 /* FeedHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedHeaderCell.swift; sourceTree = "<group>"; };
-		64392B6C2B737F080047BA12 /* PadoRideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadoRideView.swift; sourceTree = "<group>"; };
-		64392B6E2B73803E0047BA12 /* SufferInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SufferInfoCell.swift; sourceTree = "<group>"; };
-		64392B702B73804B0047BA12 /* SufferPostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SufferPostCell.swift; sourceTree = "<group>"; };
 		64392B732B7387590047BA12 /* PadoRideViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadoRideViewModel.swift; sourceTree = "<group>"; };
 		64392B772B74567C0047BA12 /* GetPostData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPostData.swift; sourceTree = "<group>"; };
 		64392B792B74B66D0047BA12 /* SendPadoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendPadoView.swift; sourceTree = "<group>"; };
@@ -977,33 +971,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		63BB24262B868A29006866F0 /* Redesign */ = {
-			isa = PBXGroup;
-			children = (
-				63BB242A2B868CB7006866F0 /* View */,
-				63BB24292B868C98006866F0 /* Cell */,
-			);
-			path = Redesign;
-			sourceTree = "<group>";
-		};
-		63BB24292B868C98006866F0 /* Cell */ = {
-			isa = PBXGroup;
-			children = (
-				63D3C83A2B867DF3001C5F33 /* FollowerSuggestionCell.swift */,
-				63D3C8382B8679A9001C5F33 /* SelectPadoRideUserCell.swift */,
-			);
-			path = Cell;
-			sourceTree = "<group>";
-		};
-		63BB242A2B868CB7006866F0 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				63D3C8362B8678BF001C5F33 /* PadoRideView1.swift */,
-				63BB24272B868C86006866F0 /* SelectUserView.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
 		63C20BF22B56F0BA00911F64 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -1060,7 +1027,6 @@
 				64392B722B7387490047BA12 /* ViewModel */,
 				64392B6B2B737EFA0047BA12 /* Cell */,
 				64392B6A2B737EF70047BA12 /* View */,
-				63BB24262B868A29006866F0 /* Redesign */,
 			);
 			path = PadoRide;
 			sourceTree = "<group>";
@@ -1068,11 +1034,12 @@
 		64392B6A2B737EF70047BA12 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				64392B6C2B737F080047BA12 /* PadoRideView.swift */,
+				63D3C8362B8678BF001C5F33 /* PadoRideView1.swift */,
 				048A343F2B748DDF0085CE8B /* PadoRideEditView.swift */,
 				048A343B2B748D960085CE8B /* DrawingView.swift */,
 				048A343D2B748DB60085CE8B /* CanvasView.swift */,
 				64392B792B74B66D0047BA12 /* SendPadoView.swift */,
+				63BB24272B868C86006866F0 /* SelectUserView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1080,8 +1047,8 @@
 		64392B6B2B737EFA0047BA12 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				64392B6E2B73803E0047BA12 /* SufferInfoCell.swift */,
-				64392B702B73804B0047BA12 /* SufferPostCell.swift */,
+				63D3C83A2B867DF3001C5F33 /* FollowerSuggestionCell.swift */,
+				63D3C8382B8679A9001C5F33 /* SelectPadoRideUserCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -1443,7 +1410,6 @@
 				418B6C932B5EC61600E8289D /* SurfingViewModel.swift in Sources */,
 				635B094A2B4500CB009E60A9 /* User.swift in Sources */,
 				63B7B99D2B7E7ED500707C2F /* SettingBlockUserView.swift in Sources */,
-				64392B6D2B737F080047BA12 /* PadoRideView.swift in Sources */,
 				64392B662B71D2C70047BA12 /* FeedHeaderCell.swift in Sources */,
 				64392B7A2B74B66D0047BA12 /* SendPadoView.swift in Sources */,
 				41898FB82B7874BE00F33F03 /* SelectCommentView.swift in Sources */,
@@ -1499,7 +1465,6 @@
 				41E5F69C2B5666D7001750C2 /* FaceMojiCell.swift in Sources */,
 				63D3C8372B8678BF001C5F33 /* PadoRideView1.swift in Sources */,
 				63C8BA492B561DC200025422 /* SignUpButton.swift in Sources */,
-				64392B712B73804B0047BA12 /* SufferPostCell.swift in Sources */,
 				63824C462B558B2400D1D653 /* IdView.swift in Sources */,
 				4173D5222B7B4550000D197A /* LoginGuideView.swift in Sources */,
 				64392B812B77F9B10047BA12 /* CropWhiteBackground.swift in Sources */,
@@ -1563,7 +1528,6 @@
 				64392B7C2B76852D0047BA12 /* PadoRide.swift in Sources */,
 				416F61F82B7DF50B00F81093 /* FeedGuideCell.swift in Sources */,
 				4197420F2B55900D0055F2AB /* MainView.swift in Sources */,
-				64392B6F2B73803E0047BA12 /* SufferInfoCell.swift in Sources */,
 				419742102B55900D0055F2AB /* ContentView.swift in Sources */,
 				6408FEE82B6E98E000BF0DDF /* DeleteCommentView.swift in Sources */,
 				04E9509A2B71B7860091F660 /* FaceMojiModalView.swift in Sources */,
@@ -1844,12 +1808,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PADO/PADO.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PADO/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = UAG934M4Q7;
+				DEVELOPMENT_TEAM = UAG934M4Q7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PADO/Info.plist;
@@ -1872,7 +1834,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.4T2F.PADO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "PADO Debug";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1888,12 +1849,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PADO/PADO.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PADO/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = UAG934M4Q7;
+				DEVELOPMENT_TEAM = UAG934M4Q7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PADO/Info.plist;
@@ -1916,7 +1875,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.4T2F.PADO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "PADO Debug";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
