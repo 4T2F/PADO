@@ -66,6 +66,7 @@ struct SurfingView: View {
                                     .background(Color.gray)
                             }
                         }
+                        Spacer()
                     }
                     .navigationTitle("새로운 파도")
                     .navigationBarTitleDisplayMode(.inline)
