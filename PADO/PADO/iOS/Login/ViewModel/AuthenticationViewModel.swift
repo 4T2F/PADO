@@ -229,7 +229,6 @@ class AuthenticationViewModel: ObservableObject {
         guard Auth.auth().currentUser?.uid != nil,
               !nameID.isEmpty else {
             try? await Task.sleep(nanoseconds: 2 * 1_000_000_000)
-            showLaunchScreen = false
             return
         }
         await fetchUser()

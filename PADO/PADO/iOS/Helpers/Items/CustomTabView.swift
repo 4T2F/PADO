@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CustomTabView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
-    
+    @State private var isShowingStartView: Bool = false
     var body: some View {
         ZStack {
             Rectangle()
@@ -58,7 +58,11 @@ struct CustomTabView: View {
                     .frame(width: geometry.size.width / 5)
                     
                     Button {
-                        viewModel.showTab = 2
+                        if !userNameID.isEmpty {
+                            viewModel.showTab = 2
+                        } else {
+                            isShowingStartView = true
+                        }
                     } label: {
                         VStack {
                             Image(viewModel.showTab == 2 ? "tab_added" : "tab_add")
@@ -67,9 +71,16 @@ struct CustomTabView: View {
                         }
                     }
                     .frame(width: geometry.size.width / 5)
+                    .sheet(isPresented: $isShowingStartView, content: {
+                        StartView()
+                    })
                     
                     Button {
-                        viewModel.showTab = 3
+                        if !userNameID.isEmpty {
+                            viewModel.showTab = 3
+                        } else {
+                            isShowingStartView = true
+                        }
                     } label: {
                         VStack(spacing: 6) {
                             Image(viewModel.showTab == 3 ? "today_light" : "today_gray")
@@ -83,9 +94,15 @@ struct CustomTabView: View {
                         }
                     }
                     .frame(width: geometry.size.width / 5)
+                    .sheet(isPresented: $isShowingStartView, content: {
+                        StartView()
+                    })
                     
                     Button {
                         viewModel.showTab = 4
+                        if userNameID.isEmpty {
+                            isShowingStartView = true
+                        }
                     } label: {
                         VStack(spacing: 6) {
                             Image(viewModel.showTab == 4 ? "profile_light" : "profile_gray")
@@ -99,6 +116,9 @@ struct CustomTabView: View {
                         }
                     }
                     .frame(width: geometry.size.width / 5)
+                    .sheet(isPresented: $isShowingStartView, content: {
+                        StartView()
+                    })
                 }
             }
         }

@@ -10,6 +10,8 @@ import SwiftUI
 struct ContentView: View {
     @State var width = UIScreen.main.bounds.width
     
+    @State private var keyboardHeight: CGFloat = 0
+    
     @EnvironmentObject var viewModel: AuthenticationViewModel
     @StateObject var surfingVM = SurfingViewModel()
     @StateObject var feedVM = FeedViewModel()
@@ -78,6 +80,17 @@ struct ContentView: View {
         }
         .overlay(alignment: .bottom){
             CustomTabView()
+                .offset(y: keyboardHeight > 0 ? UIScreen.main.bounds.height : 0)
+        }
+        .onAppear {
+            NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { notification in
+                guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+                keyboardHeight = keyboardFrame.height
+            }
+            
+            NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { _ in
+                keyboardHeight = 0
+            }
         }
         // 상대방 프로필로 전환 이벤트(팔로우, 서퍼지정, 방명록 글)
         .sheet(isPresented: $showPushProfile) {
@@ -109,9 +122,12 @@ struct ContentView: View {
         guard !userNameID.isEmpty else {
             Task {
                 fetchedPostitData = false
+                viewModel.selectedFilter = .today
+                viewModel.showTab = 0
                 await feedVM.getPopularUser()
                 await feedVM.fetchTodayPadoPosts()
                 profileVM.stopAllPostListeners()
+                viewModel.showLaunchScreen = false
             }
             return
         }

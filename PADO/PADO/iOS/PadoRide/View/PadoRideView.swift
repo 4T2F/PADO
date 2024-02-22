@@ -17,17 +17,13 @@ struct PadoRideView: View {
         NavigationStack {
             VStack {
                 ScrollView(showsIndicators: false) {
-                    VStack(alignment: .leading) {
+                    VStack {
                         HStack {
                             if userFollowingIDs.isEmpty {
                                 Text("팔로우한 사람이 없어요")
                                     .font(.system(size: 16))
                                     .fontWeight(.medium)
-                            } else if followVM.surfingIDs.isEmpty {
-                                Text("파도타기를 할 수 있는 친구가 없어요")
-                                    .font(.system(size: 16))
-                                    .fontWeight(.medium)
-                            } else {
+                            } else if !followVM.surfingIDs.isEmpty {
                                 Text("파도타기가 가능한 친구")
                                     .font(.system(size: 16))
                                     .fontWeight(.medium)
@@ -52,10 +48,12 @@ struct PadoRideView: View {
                         // 파도타기 할 수 있는 유저가 없으면 "파도타기를 할 수 있는 친구가 없어요" 텍스트 넣기
                         if userFollowingIDs.isEmpty {
                             Text("다른 유저를 팔로우하고\n방명록에 서퍼등록을 요청해보세요")
+                                .lineSpacing(4)
                                 .font(.system(size: 16, weight: .semibold))
                                 .multilineTextAlignment(.center)
                                 .foregroundStyle(.gray)
-                                .padding(.top, 60)
+                                .padding(.top, 100)
+                            
                         } else if followVM.surfingIDs.isEmpty {
                             SurfingGuideView()
                         } else {
