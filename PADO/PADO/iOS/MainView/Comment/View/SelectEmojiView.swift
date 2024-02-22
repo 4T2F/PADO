@@ -17,6 +17,7 @@ let emojiColors: [String: Color] = [
 ]
 
 struct SelectEmojiView: View {
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     @ObservedObject var commentVM: CommentViewModel
     
     @Binding var postOwner: User
@@ -89,11 +90,14 @@ struct SelectEmojiView: View {
                                                                        selectedEmoji: commentVM.selectedEmoji)
                 }
                 commentVM.facemojies = try await commentVM.updateFacemojiData.getFaceMoji(documentID: postID) ?? []
-                await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID, 
-                                                             receiveUser: postOwner,
-                                                             type: .facemoji,
-                                                             message: "",
-                                                             post: post)
+                if let sendUser = viewModel.currentUser {
+                    await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID,
+                                                                 receiveUser: postOwner,
+                                                                 type: .facemoji,
+                                                                 message: "",
+                                                                 post: post,
+                                                                 sendUser: sendUser)
+                }
             }
             commentVM.showEmojiView = false
             commentVM.showCropFaceMoji = false

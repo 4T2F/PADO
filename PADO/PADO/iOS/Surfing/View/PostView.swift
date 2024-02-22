@@ -126,12 +126,13 @@ struct PostView: View {
                                     
                                     surfingVM.post = await UpdatePostData.shared.fetchPostById(postId: formattedPostingTitle)
                                     
-                                    if let post = surfingVM.post, let postOwner = postOwner {
+                                    if let post = surfingVM.post, let postOwner = postOwner, let sendUser = viewModel.currentUser {
                                         await UpdatePushNotiData.shared.pushPostNoti(targetPostID: formattedPostingTitle,
                                                                                      receiveUser: postOwner,
                                                                                      type: .requestSurfing,
                                                                                      message: surfingVM.postingTitle,
-                                                                                     post: post)
+                                                                                     post: post, 
+                                                                                     sendUser: sendUser)
                                     }
                                     
                                     surfingVM.resetImage()

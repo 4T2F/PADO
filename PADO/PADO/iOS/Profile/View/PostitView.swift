@@ -85,7 +85,10 @@ struct PostitView: View {
                                                                     imageUrl: viewModel.currentUser?.profileImageUrl ?? "",
                                                                     inputcomment: postitVM.inputcomment)
                                         if let user = postitVM.messageUsers[postitVM.ownerID], let currentUser = viewModel.currentUser {
-                                            await UpdatePushNotiData.shared.pushNoti(receiveUser: user, type: .postit, sendUser: currentUser)
+                                            await UpdatePushNotiData.shared.pushNoti(receiveUser: user, 
+                                                                                     type: .postit,
+                                                                                     sendUser: currentUser,
+                                                                                     message: postitVM.inputcommentForNoti)
                                         }
                                     }
                                 }

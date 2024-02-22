@@ -110,12 +110,13 @@ struct CommentWriteView: View {
                                 let generator = UIImpactFeedbackGenerator(style: .medium)
                                 generator.impactOccurred()
                                 
-                                if let postID = post.id {
+                                if let postID = post.id, let sendUser = viewModel.currentUser {
                                     await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID,
                                                                                  receiveUser: postUser,
                                                                                  type: .comment,
                                                                                  message: commentText, 
-                                                                                 post: post)
+                                                                                 post: post, 
+                                                                                 sendUser: sendUser)
                                     await commentVM.updateCommentData.writeComment(documentID: postID,
                                                                                    imageUrl: viewModel.currentUser?.profileImageUrl ?? "",
                                                                                    inputcomment: commentText)

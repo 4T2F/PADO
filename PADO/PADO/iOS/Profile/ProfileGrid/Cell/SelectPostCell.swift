@@ -12,6 +12,7 @@ import Lottie
 import SwiftUI
 
 struct SelectPostCell: View {
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     @ObservedObject var profileVM: ProfileViewModel
     @ObservedObject var feedVM: FeedViewModel
     
@@ -395,11 +396,14 @@ struct SelectPostCell: View {
                                                     await UpdateHeartData.shared.addHeart(documentID: postID)
                                                     isHeartCheck = await UpdateHeartData.shared.checkHeartExists(documentID: postID)
                                                     heartLoading = false
-                                                    await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID,
-                                                                                                 receiveUser: postUser,
-                                                                                                 type: .heart,
-                                                                                                 message: "",
-                                                                                                 post: post)
+                                                    if let sendUser = viewModel.currentUser {
+                                                        await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID,
+                                                                                                     receiveUser: postUser,
+                                                                                                     type: .heart,
+                                                                                                     message: "",
+                                                                                                     post: post,
+                                                                                                     sendUser: sendUser)
+                                                    }
                                                 }
                                             }
                                         }

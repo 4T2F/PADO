@@ -10,7 +10,9 @@ import SwiftUI
 
 struct SendPadoView: View {
     // MARK: - PROPERTY
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     @ObservedObject var padorideVM: PadoRideViewModel
+    
     @State private var surfingUser: User?
     @State private var postLoading = false
     
@@ -39,12 +41,13 @@ struct SendPadoView: View {
                         padorideVM.cancelImageEditing()
                         postLoading = false
                         padorideVM.isShowingEditView = false
-                        if let selectedPost = padorideVM.selectedPost, let surfingUser = surfingUser {
+                        if let selectedPost = padorideVM.selectedPost, let surfingUser = surfingUser, let sendUser = viewModel.currentUser {
                             await UpdatePushNotiData.shared.pushPostNoti(targetPostID: selectedPost.id ?? "",
                                                                          receiveUser: surfingUser,
                                                                          type: .padoRide,
                                                                          message: "",
-                                                                         post: selectedPost)
+                                                                         post: selectedPost, 
+                                                                         sendUser: sendUser)
                         }
                     }
                 }
