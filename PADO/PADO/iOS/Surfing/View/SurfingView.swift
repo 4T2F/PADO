@@ -48,7 +48,7 @@ struct SurfingView: View {
                         SurfingOnboardingView(surfingVM: surfingVM,
                                               followVM: followVM)
                     }
-                    
+                    Spacer()
                 }
                 .navigationTitle("새로운 파도")
                 .navigationBarTitleDisplayMode(.inline)
