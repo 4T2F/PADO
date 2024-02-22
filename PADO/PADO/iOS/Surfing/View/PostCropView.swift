@@ -18,6 +18,8 @@ struct PostCropView: View {
     @State private var offset: CGSize = .zero
     @State private var lastStoredOffset: CGSize = .zero
     @State private var showinGrid: Bool = false
+    @State private var imageChangeButton: Bool = false
+    @State private var selectedColor = Color.main
     @GestureState private var isInteractig: Bool = false
     
     @ObservedObject var surfingVM: SurfingViewModel
@@ -29,54 +31,83 @@ struct PostCropView: View {
     var onCrop: (UIImage?, Bool) -> Void
     
     var body: some View {
-        imageView()
-            .navigationTitle("편집")
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationBarBackButtonHidden()
-            .toolbarBackground(.visible, for: .navigationBar)
-            .toolbarBackground(Color.main, for: .navigationBar)
-            .toolbarColorScheme(.dark, for: .navigationBar)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background {
-                Color.main
-                    .ignoresSafeArea()
-            }
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        let renderer = ImageRenderer(content: imageView(true))
-                        renderer.scale = 3
-                        renderer.proposedSize = .init(crop.size())
-                        if let image = renderer.uiImage {
-                            onCrop(image, true)
-                            surfingVM.postingUIImage = image
-                            if let uiImage = surfingVM.postingUIImage {
-                                surfingVM.postingImage = Image(uiImage: uiImage)
+        VStack {
+            imageView()
+                .navigationTitle("편집")
+                .navigationBarTitleDisplayMode(.inline)
+                .navigationBarBackButtonHidden()
+                .toolbarBackground(.visible, for: .navigationBar)
+                .toolbarBackground(Color.main, for: .navigationBar)
+                .toolbarColorScheme(.dark, for: .navigationBar)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background {
+                    Color.main
+                        .ignoresSafeArea()
+                }
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            let renderer = ImageRenderer(content: imageView(true))
+                            renderer.scale = 3
+                            renderer.proposedSize = .init(crop.size())
+                            if let image = renderer.uiImage {
+                                onCrop(image, true)
+                                surfingVM.postingUIImage = image
+                                if let uiImage = surfingVM.postingUIImage {
+                                    surfingVM.postingImage = Image(uiImage: uiImage)
+                                }
+                                surfingVM.showPostView.toggle()
+                            } else {
+                                onCrop(nil, false)
                             }
-                            surfingVM.showPostView.toggle()
-                        } else {
-                            onCrop(nil, false)
+                            surfingVM.postImageItem = nil
+                        } label: {
+                            Text("다음")
+                                .font(.system(size: 16, weight: .semibold))
                         }
-                        surfingVM.postImageItem = nil
-                    } label: {
-                        Text("다음")
-                            .font(.system(size: 16, weight: .semibold))
                     }
+                    
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button {
+                            surfingVM.resetImage()
+                            dismiss()
+                            surfingVM.postImageItem = nil
+                        } label: {
+                            Image("dismissArrow")
+                        }
+                    }
+                }
+                .navigationDestination(isPresented: $surfingVM.showPostView) {
+                    PostView(surfingVM: surfingVM, feedVM: feedVM, profileVM: profileVM, followVM: followVM)
+                }
+            
+            HStack {
+                Button {
+                    imageChangeButton = false
+                    selectedColor = Color.main
+                } label: {
+                    Image(systemName: "arrow.up.right.and.arrow.down.left")
+                        .font(.system(size: 20))
+                        .padding(.horizontal)
                 }
                 
-                ToolbarItem(placement: .topBarLeading) {
-                    Button {
-                        surfingVM.resetImage()
-                        dismiss()
-                        surfingVM.postImageItem = nil
-                    } label: {
-                        Image("dismissArrow")
-                    }
+                Button {
+                    imageChangeButton = true
+                } label: {
+                    Image(systemName: "arrow.down.backward.and.arrow.up.forward")
+                        .font(.system(size: 20))
+                        .padding(.horizontal)
                 }
+                
+                ColorPicker(selection: $selectedColor) { }
+                    .opacity(imageChangeButton ? 0 : 1)
+                    .fixedSize()
             }
-            .navigationDestination(isPresented: $surfingVM.showPostView) {
-                PostView(surfingVM: surfingVM, feedVM: feedVM, profileVM: profileVM, followVM: followVM)
-            }
+            .padding(.bottom, 10)
+        }
+        .background {
+            Color.main.ignoresSafeArea()
+        }
     }
     
     // 이미지 뷰를 구성하는 함수
@@ -84,94 +115,123 @@ struct PostCropView: View {
     @ViewBuilder
     func imageView(_ hideGrids: Bool = false) -> some View {
         let cropSize = crop.size()
-        GeometryReader {
-            let size = $0.size
-            
-            if let image = surfingVM.postingUIImage {
-                Image(uiImage: image)
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .overlay(content: {
-                        GeometryReader { proxy in
-                            let rect = proxy.frame(in: .named("CROPVIEW"))
-                            
-                            Color.clear
-                                .onChange(of: isInteractig) { oldValue, newValue in
-                                    // 드래그, 핀치 제스처 에 대한 내용
-                                    withAnimation(.easeInOut(duration: 0.2)) {
-                                        if rect.minX > 0 {
-                                            offset.width = (offset.width - rect.minX)
-                                            haptics(.medium)
-                                        }
-                                        if rect.minY > 0 {
-                                            offset.height = (offset.height - rect.minY)
-                                            haptics(.medium)
-                                        }
-                                        if rect.maxX < size.width {
-                                            offset.width = (rect.minX - offset.width)
-                                            haptics(.medium)
-                                        }
-                                        
-                                        if rect.maxY < size.height {
-                                            offset.height = (rect.minY - offset.height)
-                                            haptics(.medium)
-                                        }
-                                    }
-                                    if !newValue {
-                                        lastStoredOffset = offset
-                                    }
-                                }
-                        }
-                    })
-                    .frame(size)
-            }
-        }
-        .scaleEffect(scale)
-        .offset(offset)
-        // 그리드를 보여주는 곳
-        .overlay(content: {
-            if !hideGrids {
-                if showinGrid {
-                    grids()
+        
+        let testSize = ImageRatioResize.shared.resizedImageRect(for: surfingVM.postingUIImage ?? UIImage(), targetSize: CGSize(width: 300, height: 500))
+        
+        if !imageChangeButton {
+            GeometryReader {
+                let size = $0.size
+                
+                if let image = surfingVM.postingUIImage {
+                    Image(uiImage: image)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: testSize.size.width, height: testSize.size.height)
+                        .frame(size)
                 }
             }
-        })
-        .coordinateSpace(name: "CROPVIEW")
-        // 드래그 제스쳐를 통해서 그리드를 보여주고 안보여줌
-        .gesture(
-            DragGesture()
-                .updating($isInteractig, body: { _, out, _ in
-                    out = true
-                }).onChanged({ value in
-                    let translation = value.translation
-                    offset = CGSize(width: translation.width + lastStoredOffset.width, height: translation.height + lastStoredOffset.height)
-                    showinGrid = true
-                })
-                .onEnded({ value in
-                    showinGrid = false
-                })
-        )
-        .gesture(
-            MagnificationGesture()
-                .updating($isInteractig, body: { _, out, _ in
-                    out = true
-                }).onChanged({ value in
-                    let updatedScale = value + lastScale
-                    // - Limiting Beyound 1
-                    scale = (updatedScale < 1 ? 1 : updatedScale)
-                }).onEnded({ value in
-                    withAnimation(.easeInOut(duration: 0.2)) {
-                        if scale < 1 {
-                            scale = 1
-                            lastScale = 0
-                        } else {
-                            lastScale = scale - 1
-                        }
+            .frame(cropSize)
+            .background {
+                if !imageChangeButton {
+                    if selectedColor != Color.main {
+                        selectedColor
+                    } else {
+                        Image(uiImage: surfingVM.postingUIImage ?? UIImage())
+                            .blur(radius: 50)
                     }
-                })
-        )
-        .frame(cropSize)
-        .clipShape(RoundedRectangle(cornerRadius: crop == .circle ? cropSize.height / 2 : 0))
+                }
+            }
+            .clipShape(RoundedRectangle(cornerRadius: crop == .circle ? cropSize.height / 2 : 0))
+        } else {
+            GeometryReader {
+                let size = $0.size
+                
+                if let image = surfingVM.postingUIImage {
+                    Image(uiImage: image)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .overlay(content: {
+                            GeometryReader { proxy in
+                                let rect = proxy.frame(in: .named("CROPVIEW"))
+                                
+                                Color.clear
+                                    .onChange(of: isInteractig) { oldValue, newValue in
+                                        // 드래그, 핀치 제스처 에 대한 내용
+                                        withAnimation(.easeInOut(duration: 0.2)) {
+                                            if rect.minX > 0 {
+                                                offset.width = (offset.width - rect.minX)
+                                                haptics(.medium)
+                                            }
+                                            if rect.minY > 0 {
+                                                offset.height = (offset.height - rect.minY)
+                                                haptics(.medium)
+                                            }
+                                            if rect.maxX < size.width {
+                                                offset.width = (rect.minX - offset.width)
+                                                haptics(.medium)
+                                            }
+                                            
+                                            if rect.maxY < size.height {
+                                                offset.height = (rect.minY - offset.height)
+                                                haptics(.medium)
+                                            }
+                                        }
+                                        if !newValue {
+                                            lastStoredOffset = offset
+                                        }
+                                    }
+                            }
+                        })
+                        .frame(size)
+                }
+            }
+            .scaleEffect(scale)
+            .offset(offset)
+            // 그리드를 보여주는 곳
+            .overlay(content: {
+                if !hideGrids {
+                    if showinGrid {
+                        grids()
+                    }
+                }
+            })
+            .coordinateSpace(name: "CROPVIEW")
+            // 드래그 제스쳐를 통해서 그리드를 보여주고 안보여줌
+            .gesture(
+                DragGesture()
+                    .updating($isInteractig, body: { _, out, _ in
+                        out = true
+                    }).onChanged({ value in
+                        let translation = value.translation
+                        offset = CGSize(width: translation.width + lastStoredOffset.width, height: translation.height + lastStoredOffset.height)
+                        showinGrid = true
+                    })
+                    .onEnded({ value in
+                        showinGrid = false
+                    })
+            )
+            .gesture(
+                MagnificationGesture()
+                    .updating($isInteractig, body: { _, out, _ in
+                        out = true
+                    }).onChanged({ value in
+                        let updatedScale = value + lastScale
+                        // - Limiting Beyound 1
+                        scale = (updatedScale < 1 ? 1 : updatedScale)
+                    }).onEnded({ value in
+                        withAnimation(.easeInOut(duration: 0.2)) {
+                            if scale < 1 {
+                                scale = 1
+                                lastScale = 0
+                            } else {
+                                lastScale = scale - 1
+                            }
+                        }
+                    })
+            )
+            .frame(cropSize)
+            .clipShape(RoundedRectangle(cornerRadius: crop == .circle ? cropSize.height / 2 : 0))
+        }
     }
     // 격자 뷰를 구성하는 함수
     @ViewBuilder
