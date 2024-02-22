@@ -317,7 +317,6 @@ class FeedViewModel:Identifiable ,ObservableObject {
     
     func fetchPadoRideExist(postID: String) {
         guard !postID.isEmpty else { return }
-        print("여기 왔음 ㅋㅋ")
         db.collection("post").document(postID).updateData(["padoExist": false])
     }
 }

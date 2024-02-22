@@ -285,7 +285,7 @@ struct SettingProfileView: View {
                                 
                                 Spacer()
                             }
-                            .padding(.top, UIScreen.main.bounds.height * 0.08)
+//                            .padding(.top, UIScreen.main.bounds.height * 0.08)
                             .background(.main, ignoresSafeAreaEdges: .all)
                         }
                     }

@@ -49,7 +49,6 @@ struct PostitView: View {
                         }
                         .padding(.top)
                     }
-                   
                 }
                 Divider()
                 

@@ -29,6 +29,7 @@ struct ProfileView: View {
     @State private var touchBackImage: Bool = false
     @State private var position = CGSize.zero
     @State var openHighlight: Bool = false
+    @Binding var fetchedPostitData: Bool
     
     let user: User
     
@@ -215,16 +216,16 @@ struct ProfileView: View {
                                 
                             
                             
-                            HStack(alignment: .center, spacing: 5) {
+                            HStack(alignment: .center, spacing: 4) {
                                 VStack(alignment: .leading, spacing: 4) {
                                     if let user = viewModel.currentUser {
                                         if !user.username.isEmpty {
                                             Text(user.username)
-                                                .font(.system(size: 18))
+                                                .font(.system(size: 14))
                                                 .fontWeight(.medium)
                                         } else {
                                             Text(userNameID)
-                                                .font(.system(size: 18))
+                                                .font(.system(size: 14))
                                                 .fontWeight(.medium)
                                         }
                                     }
@@ -251,9 +252,9 @@ struct ProfileView: View {
                                 HStack(spacing: 2) {
                                     Text("\(profileVM.padoPosts.count + profileVM.sendPadoPosts.count)")
                                     
-                                    Text("wave")
+                                    Text("파도")
                                 }
-                                .font(.system(size: 16))
+                                .font(.system(size: 14))
                                 .foregroundStyle(.white)
                                 .fontWeight(.medium)
                                 
@@ -263,9 +264,9 @@ struct ProfileView: View {
                                         HStack(spacing: 2) {
                                             Text("\(followVM.followerIDs.count + followVM.surferIDs.count)")
                                             
-                                            Text("follower")
+                                            Text("팔로워")
                                         }
-                                        .font(.system(size: 16))
+                                        .font(.system(size: 14))
                                         .foregroundStyle(.white)
                                         .fontWeight(.medium)
                                     }
@@ -284,9 +285,9 @@ struct ProfileView: View {
                                         HStack(spacing: 2) {
                                             Text("\(followVM.followingIDs.count)")
                                             
-                                            Text("following")
+                                            Text("팔로잉")
                                         }
-                                        .font(.system(size: 16))
+                                        .font(.system(size: 14))
                                         .foregroundStyle(.white)
                                         .fontWeight(.medium)
                                     }

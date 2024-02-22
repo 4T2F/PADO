@@ -23,16 +23,6 @@ struct MainSearchView: View {
         }
         NavigationStack {
             VStack {
-                VStack(alignment: .leading, spacing: 0) {
-                    HStack(spacing: 0) {
-                        Text("검색")
-                            .font(.title)
-                            .fontWeight(.heavy)
-                            .padding(.leading)
-                        
-                        Spacer()
-                    }
-                }
                 VStack(alignment: .center, spacing: 0) {
                     SearchBar(text: searchTextBinding,
                               isLoading: $searchVM.isLoading)
@@ -59,7 +49,7 @@ struct MainSearchView: View {
                             ScrollView(showsIndicators: false) {
                                 ForEach(searchVM.searchDatas.reversed(), id: \.self) { searchData in
                                     RecordSearchCellView(profileVM: profileVM,
-
+                                                         
                                                          searchVM: searchVM,
                                                          searchCellID: searchData)
                                     .padding(.vertical, 3)
@@ -72,8 +62,8 @@ struct MainSearchView: View {
                     } else if searchVM.viewState == .empty {
                         Text("검색 결과가 없습니다")
                             .foregroundColor(.gray)
-                            .font(.system(size: 16,
-                                          weight: .semibold))
+                            .font(.system(size: 14,
+                                          weight: .medium))
                             .padding(.top, 150)
                         
                     } else if searchVM.viewState == .ready {
@@ -92,6 +82,8 @@ struct MainSearchView: View {
                 }
             }
             .background(.main, ignoresSafeAreaEdges: .all)
+            .navigationTitle("검색")
+            .toolbarTitleDisplayMode(.inlineLarge)
         }
     }
 }

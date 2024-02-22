@@ -22,6 +22,7 @@ class AuthenticationViewModel: ObservableObject {
     
     @Published var isLoading: Bool = false
     @Published var verificationCode: String = ""
+    @Published var resetNavigation: Bool = false
     
     @Published var errorMessage = ""
     @Published var showAlert = false
@@ -29,6 +30,7 @@ class AuthenticationViewModel: ObservableObject {
     @Published var isShowingMessageView = false
     // 탭바 이동관련 변수
     @Published var showTab: Int = 0
+    @Published var scrollToTop: Bool = false
     
     // 세팅 관련 뷰 이동 변수
     @Published var showingProfileView: Bool = false
@@ -169,7 +171,6 @@ class AuthenticationViewModel: ObservableObject {
         do {
             try await Firestore.firestore().collection("users").document(nameID).setData(data)
             
-            userNameID = nameID
             currentUser = User(
                 id: userId,
                 username: "",
@@ -228,7 +229,6 @@ class AuthenticationViewModel: ObservableObject {
         guard Auth.auth().currentUser?.uid != nil,
               !nameID.isEmpty else {
             try? await Task.sleep(nanoseconds: 2 * 1_000_000_000)
-            showLaunchScreen = false
             return
         }
         await fetchUser()

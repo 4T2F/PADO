@@ -21,6 +21,8 @@ class SurfingViewModel: ObservableObject, Searchable  {
     @Published var showPostView: Bool = false
     @Published var isShowingPhotoModal = false
     @Published var isShowingPhoto: Bool = false
+    @Published var isShowPopularModal: Bool = false
+    @Published var isShowFollowingModal: Bool = false
     @Published var isShownCamera: Bool = false
     @Published var sourceType: UIImagePickerController.SourceType = .camera
     @Published var cameraDevice: UIImagePickerController.CameraDevice = .rear

@@ -27,32 +27,6 @@ struct PostView: View {
     var body: some View {
         VStack {
             VStack {
-                ZStack {
-                    Text("새로운 파도")
-                        .font(.system(size: 16))
-                        .fontWeight(.semibold)
-                    
-                    HStack {
-                        Button {
-                            if let image = surfingVM.selectedImage {
-                                surfingVM.postingUIImage = image
-                            }
-                            followVM.selectSurfingID = ""
-                            followVM.selectSurfingUsername = ""
-                            followVM.selectSurfingProfileUrl = ""
-                            dismiss()
-                        } label: {
-                            Image("dismissArrow")
-                        }
-                        
-                        Spacer()
-                    }
-                }
-                .padding(.horizontal)
-                
-            } //: VSTACK
-            
-            VStack {
                 surfingVM.postingImage
                     .resizable()
                     .scaledToFit()
@@ -61,69 +35,73 @@ struct PostView: View {
                 
                 Spacer()
                 
-                HStack {
-                    Text("제목")
-                        .font(.system(size: 16))
-                        .fontWeight(.semibold)
-                        .padding(.leading, 5)
-                    
-                    Spacer()
-                } //: HSTACK
-                
-                .padding(.leading, 20)
-                
-                TextField("제목을 입력해주세요", text: $surfingVM.postingTitle)
-                    .font(.system(size: 14))
-                    .padding(.leading, 20)
-                
-                RoundedRectangle(cornerRadius: 8)
-                    .foregroundStyle(Color(UIColor.systemGray))
-                    .frame(width: UIScreen.main.bounds.width * 0.9, height: 0.5)
-                
-                HStack {
-                    if followVM.selectSurfingID.isEmpty {
-                        Text("서핑리스트")
+                VStack {
+                    HStack {
+                        Text("제목")
                             .font(.system(size: 16))
                             .fontWeight(.semibold)
-                            .padding(.leading, 5)
-                    } else {
-                        KFImage(URL(string: followVM.selectSurfingProfileUrl))
-                            .resizable()
-                            .placeholder {
-                                // 로딩 중이거나 URL이 nil일 때 표시될 이미지
-                                Image("defaultProfile")
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 35, height: 35)
-                                    .clipShape(Circle())
-                            }
-                            .scaledToFill()
-                            .frame(width: 35, height: 35)
-                            .clipShape(Circle())
-                            .padding(.leading, 5)
                         
-                        VStack(alignment: .leading) {
-                            Text(followVM.selectSurfingID)
-                                .font(.system(size: 16, weight: .semibold))
+                        Spacer()
+                    } //: HSTACK
+                    
+                    .padding(.leading, 20)
+                    
+                    TextField("제목을 입력해주세요", text: $surfingVM.postingTitle)
+                        .font(.system(size: 14))
+                        .padding(.leading, 20)
+                    
+                    RoundedRectangle(cornerRadius: 8)
+                        .foregroundStyle(Color(UIColor.systemGray))
+                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 0.5)
+                    
+                    HStack {
+                        if followVM.selectSurfingID.isEmpty {
+                            Text("서핑 리스트")
+                                .font(.system(size: 16))
+                                .fontWeight(.semibold)
+                        } else {
+                            KFImage(URL(string: followVM.selectSurfingProfileUrl))
+                                .resizable()
+                                .placeholder {
+                                    // 로딩 중이거나 URL이 nil일 때 표시될 이미지
+                                    Image("defaultProfile")
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 44, height: 44)
+                                        .clipShape(Circle())
+                                }
+                                .scaledToFill()
+                                .frame(width: 44, height: 44)
+                                .clipShape(Circle())
                             
-                            Text(followVM.selectSurfingUsername)
-                                .font(.system(size: 12))
+                            VStack(alignment: .leading, spacing: 4) {
+                                if !followVM.selectSurfingUsername.isEmpty {
+                                    Text(followVM.selectSurfingID)
+                                        .font(.system(size: 14, weight: .semibold))
+                                    
+                                    Text(followVM.selectSurfingUsername)
+                                        .font(.system(size: 12))
+                                        .foregroundStyle(Color(.systemGray))
+                                } else {
+                                    Text(followVM.selectSurfingID)
+                                        .font(.system(size: 14, weight: .semibold))
+                                }
+                            }
                         }
-                        .padding(.leading, 5)
-                    }
-                    
-                    Spacer()
-                    
-                    Button {
-                        followVM.showSurfingList.toggle()
-                    } label: {
-                        Text("+")
-                            .font(.system(size: 24, weight: .semibold))
-                            .foregroundStyle(.white)
-                    }
-                    .padding(.trailing)
-                } //: HSTACK
-                .padding(20)
+                        
+                        Spacer()
+                        
+                        Button {
+                            followVM.showSurfingList.toggle()
+                        } label: {
+                            Image(systemName: "chevron.right")
+                                .font(.system(size: 18))
+                                .foregroundStyle(.white)
+                        }
+                    } //: HSTACK
+                    .padding(20)
+                }
+                .padding(.bottom, 30)
                 
                 Button {
                     // 게시요청 로직
@@ -164,7 +142,7 @@ struct PostView: View {
                                     await feedVM.fetchFollowingPosts()
                                     postLoading = false
                                 } catch {
-                                    print("파베 전송 오류 발생: (error.localizedDescription)")
+                                    print("파베 전송 오류 발생: \(error.localizedDescription)")
                                 }
                             }
                         }
@@ -172,7 +150,7 @@ struct PostView: View {
                 } label: {
                     ZStack {
                         RoundedRectangle(cornerRadius: 8)
-                            .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
+                            .frame(width: UIScreen.main.bounds.width * 0.9, height: 40)
                             .foregroundStyle(.blueButton)
                         
                         if postLoading {
@@ -180,8 +158,8 @@ struct PostView: View {
                                 .progressViewStyle(CircularProgressViewStyle(tint: .white))
                                 .scaleEffect(1.5)
                         } else {
-                            Text("보내기")
-                                .font(.system(size: 16))
+                            Text("공유")
+                                .font(.system(size: 14))
                                 .fontWeight(.medium)
                                 .foregroundStyle(.white)
                         }
@@ -192,12 +170,36 @@ struct PostView: View {
                 }
                 .padding(.bottom, 20)
             } //: VSTACK
-            .navigationBarBackButtonHidden()
             .sheet(isPresented: $followVM.showSurfingList) {
                 SurfingSelectView(followVM: followVM)
                     .presentationDetents([.medium, .large])
             }
         }
-        .background(.main)
+        .navigationTitle("새로운 파도")
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden()
+        .toolbarBackground(.visible, for: .navigationBar)
+        .toolbarBackground(Color.main, for: .navigationBar)
+        .toolbarColorScheme(.dark, for: .navigationBar)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background {
+            Color.main
+                .ignoresSafeArea()
+        }
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button {
+                    if let image = surfingVM.selectedImage {
+                        surfingVM.postingUIImage = image
+                    }
+                    followVM.selectSurfingID = ""
+                    followVM.selectSurfingUsername = ""
+                    followVM.selectSurfingProfileUrl = ""
+                    dismiss()
+                } label: {
+                    Image("dismissArrow")
+                }
+            }
+        }
     }
 }
