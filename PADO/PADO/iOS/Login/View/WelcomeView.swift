@@ -7,8 +7,27 @@
 
 import SwiftUI
 
+enum SignType {
+    case signIn
+    case signUp
+}
+
 struct WelcomeView: View {
+    
+    @EnvironmentObject var viewModel: AuthenticationViewModel
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack {
+            VStack {
+                switch viewModel.signType {
+                case .signIn:
+                    Text("\(userNameID)님 돌아오신걸 환영합니다")
+                case .signUp:
+                    Text("\(userNameID)님 환영합니다")
+                    
+                    Text("이제부터 파도를 이용해보세요")
+                }
+            }
+        }
     }
 }
