@@ -86,7 +86,7 @@ struct PostCropView: View {
                     imageChangeButton = false
                     selectedColor = Color.main
                 } label: {
-                    Image(systemName: "arrow.up.right.and.arrow.down.left.circle")
+                    Image(systemName: "arrow.up.right.and.arrow.down.left")
                         .font(.system(size: 20))
                         .padding(.horizontal)
                 }
@@ -94,7 +94,7 @@ struct PostCropView: View {
                 Button {
                     imageChangeButton = true
                 } label: {
-                    Image(systemName: "arrow.down.backward.and.arrow.up.forward.circle")
+                    Image(systemName: "arrow.down.backward.and.arrow.up.forward")
                         .font(.system(size: 20))
                         .padding(.horizontal)
                 }
