@@ -150,7 +150,7 @@ struct PostView: View {
                 } label: {
                     ZStack {
                         RoundedRectangle(cornerRadius: 8)
-                            .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
+                            .frame(width: UIScreen.main.bounds.width * 0.9, height: 40)
                             .foregroundStyle(.blueButton)
                         
                         if postLoading {

@@ -1,33 +1,33 @@
 //
-//  OnboardingTabView.swift
+//  PadoRideOnboardingView.swift
 //  PADO
 //
-//  Created by 강치우 on 2/21/24.
+//  Created by 강치우 on 2/22/24.
 //
 
 import SwiftUI
 
-struct SurfingOnboardingView: View {
+struct PadoRideOnboardingView: View {
     @State private var currentTab = 0
-    @ObservedObject var surfingVM: SurfingViewModel
-    @ObservedObject var followVM: FollowViewModel
+    
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         VStack {
             TabView(selection: $currentTab) {
                 VStack(alignment: .center, spacing: 10) {
                     VStack(alignment: .center, spacing: 10) {
-                        Text("사진을 선택하세요")
+                        Text("파도타기")
                             .font(.system(size: 18))
                             .fontWeight(.medium)
                         
-                        Text("친구에게 보낼 우스꽝스럽거나\n예쁜 사진을 선택해보세요 😝")
+                        Text("파도타기는 친구의 파도를\n꾸밀 수 있는 기능이에요 🎨")
                             .foregroundStyle(.white.opacity(0.8))
                             .font(.callout)
                             .lineSpacing(2)
                     }
                     
-                    Image("selectpic")
+                    Image("ridepic1")
                         .padding()
                     
                     Spacer()
@@ -37,16 +37,16 @@ struct SurfingOnboardingView: View {
                 .tag(0)
                 
                 VStack(alignment: .center, spacing: 10) {
-                    Text("파도를 보낼 친구를 선택하세요")
+                    Text("꾸미고 싶은 파도를 선택하기")
                         .font(.system(size: 18))
                         .fontWeight(.medium)
                     
-                    Text("친구들과 일상의 즐거운 경험을\n공유하세요 🥳")
+                    Text("친구의 원하는 사진을 골라서\n꾸밀 수 있어요 🧸")
                         .foregroundStyle(.white.opacity(0.8))
                         .font(.callout)
                         .lineSpacing(2)
                     
-                    Image("surfpic")
+                    Image("ridepic2")
                         .padding()
                     
                     Spacer()
@@ -56,16 +56,16 @@ struct SurfingOnboardingView: View {
                 .tag(1)
                 
                 VStack(alignment: .center, spacing: 10) {
-                    Text("서퍼로 지정되어 있다면\n파도를 보낼 수 있어요")
+                    Text("친구의 사진 꾸미기")
                         .font(.system(size: 18))
                         .fontWeight(.medium)
                     
-                    Text("서퍼 확인은 친구 팔로워에서 확인 할 수 있어요 😎")
+                    Text("텍스트, 사진, 펜툴을 활용해서\n사진을 꾸며보세요 🥳")
                         .foregroundStyle(.white.opacity(0.8))
                         .font(.callout)
                         .lineSpacing(2)
                     
-                    Image("followerpic")
+                    Image("ridepic3")
                         .padding()
                     
                     Spacer()
@@ -75,16 +75,16 @@ struct SurfingOnboardingView: View {
                 .tag(2)
                 
                 VStack(alignment: .center, spacing: 10) {
-                    Text("서퍼가 아니신가요?")
+                    Text("예쁘게 꾸민 사진을 공유하기")
                         .font(.system(size: 18))
                         .fontWeight(.medium)
                     
-                    Text("친구 프로필의 방명록에 서퍼 요청을\n해보는건 어떨까요? 👋")
+                    Text("사진을 친구와 공유하여\n즐거운 시간을 만끽하세요 😎")
                         .foregroundStyle(.white.opacity(0.8))
                         .font(.callout)
                         .lineSpacing(2)
                     
-                    Image("visitpic")
+                    Image("ridepic4")
                         .padding()
                     
                     Spacer()
@@ -92,30 +92,28 @@ struct SurfingOnboardingView: View {
                 .padding(.top, 40)
                 .multilineTextAlignment(.center)
                 .tag(3)
+                
+                VStack(alignment: .center, spacing: 10) {
+                    Text("파도타기 확인하기")
+                        .font(.system(size: 18))
+                        .fontWeight(.medium)
+                    
+                    Text("파도타기를 공유했다면 아이콘을 눌러\n꾸민 사진을 확인하세요 👋")
+                        .foregroundStyle(.white.opacity(0.8))
+                        .font(.callout)
+                        .lineSpacing(2)
+                    
+                    Image("ridepic5")
+                        .padding()
+                    
+                    Spacer()
+                }
+                .padding(.top, 40)
+                .multilineTextAlignment(.center)
+                .tag(4)
             }
             .tabViewStyle(PageTabViewStyle())
-            
-            Button {
-                if userFollowingIDs.isEmpty {
-                    surfingVM.isShowPopularModal = true
-                } else if followVM.surfingIDs.isEmpty {
-                    surfingVM.isShowFollowingModal = true
-                } else {
-                    surfingVM.isShowingPhotoModal = true
-                }
-            } label: {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 8)
-                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 40)
-                        .foregroundStyle(.blueButton)
-                    
-                        Text("사진 선택")
-                            .font(.system(size: 14))
-                            .fontWeight(.medium)
-                            .foregroundStyle(.white)
-                }
-            }
-            .padding(.bottom)
         }
+        .background(.modal, ignoresSafeAreaEdges: .all)
     }
 }

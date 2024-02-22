@@ -43,6 +43,7 @@
 		4173D5202B7B427F000D197A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4173D51F2B7B427F000D197A /* GoogleService-Info.plist */; };
 		4173D5222B7B4550000D197A /* LoginGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4173D5212B7B4550000D197A /* LoginGuideView.swift */; };
 		417568642B47999E003AA8C0 /* PhoneumberTFFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417568632B47999E003AA8C0 /* PhoneumberTFFormat.swift */; };
+		4176B8332B868275009F1DEF /* CustomTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4176B8322B868275009F1DEF /* CustomTabView.swift */; };
 		41787D512B814D9900D48CEA /* PostSelectModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41787D502B814D9900D48CEA /* PostSelectModalView.swift */; };
 		417CD6652B68C3F8001D9EC0 /* UpdateFollowData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417CD6642B68C3F8001D9EC0 /* UpdateFollowData.swift */; };
 		41853B142B6C6DAA004F601D /* RecordSearchCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41853B132B6C6DAA004F601D /* RecordSearchCellView.swift */; };
@@ -89,6 +90,7 @@
 		41FD9A212B43D94A0028D38E /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 41FD9A202B43D94A0028D38E /* .swiftlint.yml */; };
 		63283DB92B73BDF700A42C0F /* SelectPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63283DB82B73BDF700A42C0F /* SelectPostView.swift */; };
 		63283DBB2B73BE0100A42C0F /* SelectPostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63283DBA2B73BE0100A42C0F /* SelectPostCell.swift */; };
+		6339440D2B86B6BF0086E5DB /* PadoRideOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6339440C2B86B6BF0086E5DB /* PadoRideOnboardingView.swift */; };
 		6346F7D92B6606A3009C752A /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 6346F7D82B6606A3009C752A /* Lottie */; };
 		635B09482B4500AA009E60A9 /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635B09472B4500AA009E60A9 /* AuthenticationViewModel.swift */; };
 		635B094A2B4500CB009E60A9 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635B09492B4500CB009E60A9 /* User.swift */; };
@@ -124,11 +126,15 @@
 		63B7B99D2B7E7ED500707C2F /* SettingBlockUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B7B99C2B7E7ED500707C2F /* SettingBlockUserView.swift */; };
 		63B7B9A12B7E8ACB00707C2F /* BlockUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B7B9A02B7E8ACB00707C2F /* BlockUser.swift */; };
 		63B7B9A32B802DC800707C2F /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B7B9A22B802DC800707C2F /* Color+.swift */; };
+		63BB24282B868C86006866F0 /* SelectUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BB24272B868C86006866F0 /* SelectUserView.swift */; };
 		63C8BA492B561DC200025422 /* SignUpButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA482B561DC200025422 /* SignUpButton.swift */; };
 		63C8BA4B2B561FA900025422 /* EnjoyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA4A2B561FA900025422 /* EnjoyButton.swift */; };
 		63C8BA4D2B56241200025422 /* TextAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA4C2B56241200025422 /* TextAnimation.swift */; };
 		63C8BA522B5661A500025422 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA512B5661A500025422 /* NotificationView.swift */; };
 		63C8BA582B56659800025422 /* SurferNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA572B56659800025422 /* SurferNotificationCell.swift */; };
+		63D3C8372B8678BF001C5F33 /* PadoRideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D3C8362B8678BF001C5F33 /* PadoRideView.swift */; };
+		63D3C8392B8679A9001C5F33 /* SelectPadoRideUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D3C8382B8679A9001C5F33 /* SelectPadoRideUserCell.swift */; };
+		63D3C83B2B867DF3001C5F33 /* FollowerSuggestionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D3C83A2B867DF3001C5F33 /* FollowerSuggestionCell.swift */; };
 		63ECDCBB2B76BADA00D71E88 /* CommentWriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ECDCBA2B76BADA00D71E88 /* CommentWriteView.swift */; };
 		63ECDCBD2B771E6100D71E88 /* ProfileReprotModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ECDCBC2B771E6100D71E88 /* ProfileReprotModalView.swift */; };
 		63ECDCBF2B7726B300D71E88 /* ReportUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ECDCBE2B7726B300D71E88 /* ReportUserView.swift */; };
@@ -143,9 +149,6 @@
 		64392B622B707C9A0047BA12 /* SettingBackProfileCropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B612B707C9A0047BA12 /* SettingBackProfileCropView.swift */; };
 		64392B642B7099C70047BA12 /* RectangleImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B632B7099C70047BA12 /* RectangleImageView.swift */; };
 		64392B662B71D2C70047BA12 /* FeedHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B652B71D2C70047BA12 /* FeedHeaderCell.swift */; };
-		64392B6D2B737F080047BA12 /* PadoRideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B6C2B737F080047BA12 /* PadoRideView.swift */; };
-		64392B6F2B73803E0047BA12 /* SufferInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B6E2B73803E0047BA12 /* SufferInfoCell.swift */; };
-		64392B712B73804B0047BA12 /* SufferPostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B702B73804B0047BA12 /* SufferPostCell.swift */; };
 		64392B742B7387590047BA12 /* PadoRideViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B732B7387590047BA12 /* PadoRideViewModel.swift */; };
 		64392B782B74567C0047BA12 /* GetPostData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B772B74567C0047BA12 /* GetPostData.swift */; };
 		64392B7A2B74B66D0047BA12 /* SendPadoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64392B792B74B66D0047BA12 /* SendPadoView.swift */; };
@@ -276,6 +279,7 @@
 		4173D51F2B7B427F000D197A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4173D5212B7B4550000D197A /* LoginGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginGuideView.swift; sourceTree = "<group>"; };
 		417568632B47999E003AA8C0 /* PhoneumberTFFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneumberTFFormat.swift; sourceTree = "<group>"; };
+		4176B8322B868275009F1DEF /* CustomTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabView.swift; sourceTree = "<group>"; };
 		41787D502B814D9900D48CEA /* PostSelectModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSelectModalView.swift; sourceTree = "<group>"; };
 		417CD6642B68C3F8001D9EC0 /* UpdateFollowData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateFollowData.swift; sourceTree = "<group>"; };
 		41853B132B6C6DAA004F601D /* RecordSearchCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordSearchCellView.swift; sourceTree = "<group>"; };
@@ -325,6 +329,7 @@
 		41FD9A202B43D94A0028D38E /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		63283DB82B73BDF700A42C0F /* SelectPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPostView.swift; sourceTree = "<group>"; };
 		63283DBA2B73BE0100A42C0F /* SelectPostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPostCell.swift; sourceTree = "<group>"; };
+		6339440C2B86B6BF0086E5DB /* PadoRideOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadoRideOnboardingView.swift; sourceTree = "<group>"; };
 		635B09472B4500AA009E60A9 /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
 		635B09492B4500CB009E60A9 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		636C40AE2B85C880003E44F0 /* SurfingOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurfingOnboardingView.swift; sourceTree = "<group>"; };
@@ -358,6 +363,7 @@
 		63B7B99C2B7E7ED500707C2F /* SettingBlockUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingBlockUserView.swift; sourceTree = "<group>"; };
 		63B7B9A02B7E8ACB00707C2F /* BlockUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockUser.swift; sourceTree = "<group>"; };
 		63B7B9A22B802DC800707C2F /* Color+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
+		63BB24272B868C86006866F0 /* SelectUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectUserView.swift; sourceTree = "<group>"; };
 		63C8BA482B561DC200025422 /* SignUpButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpButton.swift; sourceTree = "<group>"; };
 		63C8BA4A2B561FA900025422 /* EnjoyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnjoyButton.swift; sourceTree = "<group>"; };
 		63C8BA4C2B56241200025422 /* TextAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextAnimation.swift; sourceTree = "<group>"; };
@@ -365,6 +371,9 @@
 		63C8BA532B56623500025422 /* FollowNotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowNotificationCell.swift; sourceTree = "<group>"; };
 		63C8BA552B56644600025422 /* RequestSurfingNotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestSurfingNotificationCell.swift; sourceTree = "<group>"; };
 		63C8BA572B56659800025422 /* SurferNotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurferNotificationCell.swift; sourceTree = "<group>"; };
+		63D3C8362B8678BF001C5F33 /* PadoRideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadoRideView.swift; sourceTree = "<group>"; };
+		63D3C8382B8679A9001C5F33 /* SelectPadoRideUserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPadoRideUserCell.swift; sourceTree = "<group>"; };
+		63D3C83A2B867DF3001C5F33 /* FollowerSuggestionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerSuggestionCell.swift; sourceTree = "<group>"; };
 		63ECDCBA2B76BADA00D71E88 /* CommentWriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentWriteView.swift; sourceTree = "<group>"; };
 		63ECDCBC2B771E6100D71E88 /* ProfileReprotModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileReprotModalView.swift; sourceTree = "<group>"; };
 		63ECDCBE2B7726B300D71E88 /* ReportUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportUserView.swift; sourceTree = "<group>"; };
@@ -379,9 +388,6 @@
 		64392B612B707C9A0047BA12 /* SettingBackProfileCropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingBackProfileCropView.swift; sourceTree = "<group>"; };
 		64392B632B7099C70047BA12 /* RectangleImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangleImageView.swift; sourceTree = "<group>"; };
 		64392B652B71D2C70047BA12 /* FeedHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedHeaderCell.swift; sourceTree = "<group>"; };
-		64392B6C2B737F080047BA12 /* PadoRideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadoRideView.swift; sourceTree = "<group>"; };
-		64392B6E2B73803E0047BA12 /* SufferInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SufferInfoCell.swift; sourceTree = "<group>"; };
-		64392B702B73804B0047BA12 /* SufferPostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SufferPostCell.swift; sourceTree = "<group>"; };
 		64392B732B7387590047BA12 /* PadoRideViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadoRideViewModel.swift; sourceTree = "<group>"; };
 		64392B772B74567C0047BA12 /* GetPostData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPostData.swift; sourceTree = "<group>"; };
 		64392B792B74B66D0047BA12 /* SendPadoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendPadoView.swift; sourceTree = "<group>"; };
@@ -891,6 +897,7 @@
 				419981CE2B7412A700EEA06E /* CustomRefreshView.swift */,
 				64E761C62B7FBC4A00882D29 /* NoItemView.swift */,
 				41787D502B814D9900D48CEA /* PostSelectModalView.swift */,
+				4176B8322B868275009F1DEF /* CustomTabView.swift */,
 			);
 			path = Items;
 			sourceTree = "<group>";
@@ -1029,11 +1036,13 @@
 		64392B6A2B737EF70047BA12 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				64392B6C2B737F080047BA12 /* PadoRideView.swift */,
+				63D3C8362B8678BF001C5F33 /* PadoRideView.swift */,
 				048A343F2B748DDF0085CE8B /* PadoRideEditView.swift */,
 				048A343B2B748D960085CE8B /* DrawingView.swift */,
 				048A343D2B748DB60085CE8B /* CanvasView.swift */,
 				64392B792B74B66D0047BA12 /* SendPadoView.swift */,
+				63BB24272B868C86006866F0 /* SelectUserView.swift */,
+				6339440C2B86B6BF0086E5DB /* PadoRideOnboardingView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1041,8 +1050,8 @@
 		64392B6B2B737EFA0047BA12 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				64392B6E2B73803E0047BA12 /* SufferInfoCell.swift */,
-				64392B702B73804B0047BA12 /* SufferPostCell.swift */,
+				63D3C83A2B867DF3001C5F33 /* FollowerSuggestionCell.swift */,
+				63D3C8382B8679A9001C5F33 /* SelectPadoRideUserCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -1404,7 +1413,6 @@
 				418B6C932B5EC61600E8289D /* SurfingViewModel.swift in Sources */,
 				635B094A2B4500CB009E60A9 /* User.swift in Sources */,
 				63B7B99D2B7E7ED500707C2F /* SettingBlockUserView.swift in Sources */,
-				64392B6D2B737F080047BA12 /* PadoRideView.swift in Sources */,
 				64392B662B71D2C70047BA12 /* FeedHeaderCell.swift in Sources */,
 				64392B7A2B74B66D0047BA12 /* SendPadoView.swift in Sources */,
 				41898FB82B7874BE00F33F03 /* SelectCommentView.swift in Sources */,
@@ -1426,6 +1434,7 @@
 				64392B782B74567C0047BA12 /* GetPostData.swift in Sources */,
 				63AA03592B68F1BE00431332 /* ProfileView.swift in Sources */,
 				048A343C2B748D960085CE8B /* DrawingView.swift in Sources */,
+				63BB24282B868C86006866F0 /* SelectUserView.swift in Sources */,
 				6373235E2B71552D00C02A32 /* FeedCell.swift in Sources */,
 				635B09482B4500AA009E60A9 /* AuthenticationViewModel.swift in Sources */,
 				B1999EDD2B6E2312005B37BA /* PushNotificationManager.swift in Sources */,
@@ -1457,8 +1466,8 @@
 				418B6C962B5EC69100E8289D /* ViewState.swift in Sources */,
 				B1A91D102B55928D00FE7F62 /* SettingNormalCell.swift in Sources */,
 				41E5F69C2B5666D7001750C2 /* FaceMojiCell.swift in Sources */,
+				63D3C8372B8678BF001C5F33 /* PadoRideView.swift in Sources */,
 				63C8BA492B561DC200025422 /* SignUpButton.swift in Sources */,
-				64392B712B73804B0047BA12 /* SufferPostCell.swift in Sources */,
 				63824C462B558B2400D1D653 /* IdView.swift in Sources */,
 				4173D5222B7B4550000D197A /* LoginGuideView.swift in Sources */,
 				64392B812B77F9B10047BA12 /* CropWhiteBackground.swift in Sources */,
@@ -1476,6 +1485,7 @@
 				419981D82B75060F00EEA06E /* CommentViewModel.swift in Sources */,
 				63824C502B558B5500D1D653 /* WhiteButtonView.swift in Sources */,
 				418D45C12B757388007F6633 /* PostitView.swift in Sources */,
+				63D3C8392B8679A9001C5F33 /* SelectPadoRideUserCell.swift in Sources */,
 				41711F462B72281D00F0A1A7 /* UpdatePhotomojiData.swift in Sources */,
 				04E950982B715E6F0091F660 /* InfoWebView.swift in Sources */,
 				419741E12B558F3A0055F2AB /* FollowButtonView.swift in Sources */,
@@ -1521,10 +1531,10 @@
 				64392B7C2B76852D0047BA12 /* PadoRide.swift in Sources */,
 				416F61F82B7DF50B00F81093 /* FeedGuideCell.swift in Sources */,
 				4197420F2B55900D0055F2AB /* MainView.swift in Sources */,
-				64392B6F2B73803E0047BA12 /* SufferInfoCell.swift in Sources */,
 				419742102B55900D0055F2AB /* ContentView.swift in Sources */,
 				6408FEE82B6E98E000BF0DDF /* DeleteCommentView.swift in Sources */,
 				04E9509A2B71B7860091F660 /* FaceMojiModalView.swift in Sources */,
+				4176B8332B868275009F1DEF /* CustomTabView.swift in Sources */,
 				B13BD2C52B7D4B61007D2DA3 /* OnePostModalView.swift in Sources */,
 				63283DBB2B73BE0100A42C0F /* SelectPostCell.swift in Sources */,
 				B13BD2FF2B7FC309007D2DA3 /* PadoRideNotificationCell.swift in Sources */,
@@ -1537,6 +1547,7 @@
 				63B7B9A12B7E8ACB00707C2F /* BlockUser.swift in Sources */,
 				63C8BA4B2B561FA900025422 /* EnjoyButton.swift in Sources */,
 				B1749A652B5D755700BCC6BA /* AppDelegate.swift in Sources */,
+				6339440D2B86B6BF0086E5DB /* PadoRideOnboardingView.swift in Sources */,
 				64E761C52B7F5F4E00882D29 /* SurfingGuideCell.swift in Sources */,
 				418ACDC52B764B3C003DD9E7 /* PostitMessage.swift in Sources */,
 				637891632B5ECE3300B40AF6 /* FeedViewModel.swift in Sources */,
@@ -1556,6 +1567,7 @@
 				643417332B5F947500E47639 /* SurfingView.swift in Sources */,
 				6401BE9B2B7DFED40084FECD /* DeleteImageUrl.swift in Sources */,
 				040914F92B561FA8001B549B /* ReportSelectCellView.swift in Sources */,
+				63D3C83B2B867DF3001C5F33 /* FollowerSuggestionCell.swift in Sources */,
 				6408FEEA2B6E98E800BF0DDF /* ReportCommentView.swift in Sources */,
 				04D1438C2B5F971F0076578A /* PostView.swift in Sources */,
 				41101B322B6B67A1002E8C64 /* Heart.swift in Sources */,
@@ -1608,9 +1620,11 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = UAG934M4Q7;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = UAG934M4Q7;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationService/Info.plist;
@@ -1626,6 +1640,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.4T2F.PADO.NotificationService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "PADO Notification";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1639,9 +1654,11 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = UAG934M4Q7;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = UAG934M4Q7;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationService/Info.plist;
@@ -1657,6 +1674,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.4T2F.PADO.NotificationService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "PADO Notification";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
