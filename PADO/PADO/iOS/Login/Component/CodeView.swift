@@ -62,6 +62,7 @@ struct CodeView: View {
                                         await viewModel.fetchUIDByPhoneNumber(phoneNumber: "+82\(viewModel.phoneNumber)")
                                         await viewModel.fetchUser()
                                         needsDataFetch.toggle()
+                                        currentStep = .welcome
                                     } else {
                                         showUseID.toggle()
                                     }
