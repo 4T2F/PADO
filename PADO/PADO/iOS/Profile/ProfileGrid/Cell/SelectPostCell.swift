@@ -408,6 +408,7 @@ struct SelectPostCell: View {
                                     }
                                     .sheet(isPresented: $isShowingLoginPage, content: {
                                         StartView()
+                                            .presentationDragIndicator(.visible)
                                     })
                                 }
                                 
