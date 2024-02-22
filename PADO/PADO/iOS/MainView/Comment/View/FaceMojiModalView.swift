@@ -14,7 +14,8 @@ struct FaceMojiModalView: View {
         VStack {
             VStack{
                 HStack {
-                    PhotosPicker(selection: $surfingVM.faceMojiItem) {
+                    PhotosPicker(selection: $surfingVM.faceMojiItem,
+                                 matching: .images) {
                         Text("사진앨범")
                             .font(.system(size: 14))
                             .fontWeight(.bold)

@@ -195,7 +195,8 @@ struct DrawingView: View {
             
             ToolbarItem(placement: .topBarTrailing) {
                 // 사진앨범 버튼
-                PhotosPicker(selection: $padorideVM.pickerImageItem) {
+                PhotosPicker(selection: $padorideVM.pickerImageItem,
+                             matching: .images) {
                     Image(systemName: "photo")
                         .resizable()
                         .frame(width: 25, height: 20)
