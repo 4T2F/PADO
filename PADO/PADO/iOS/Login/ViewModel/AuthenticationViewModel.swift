@@ -158,7 +158,8 @@ class AuthenticationViewModel: ObservableObject {
             "fcmToken": userToken,
             "alertAccept": acceptAlert,
             "instaAddress": "",
-            "tiktokAddress": ""
+            "tiktokAddress": "",
+            "openHighlight": "yes"
         ]
         userNameID = nameID
         await createUserData(nameID, data: initialUserData)
@@ -181,7 +182,8 @@ class AuthenticationViewModel: ObservableObject {
                 fcmToken: userToken,
                 alertAccept: acceptAlert,
                 instaAddress: "",
-                tiktokAddress: ""
+                tiktokAddress: "",
+                openHighlight: "yes"
             )
            
         } catch {

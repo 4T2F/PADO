@@ -61,7 +61,7 @@ struct ProfileView: View {
                 .navigationBarBackButtonHidden()
                 .navigationBarTitleDisplayMode(.inline)
                 .onAppear {
-                    if viewModel.currentUser?.openHighlight != nil || viewModel.currentUser?.openHighlight == "yes" {
+                    if viewModel.currentUser?.openHighlight == nil || viewModel.currentUser?.openHighlight == "yes" {
                         openHighlight = true
                     }
                 }
