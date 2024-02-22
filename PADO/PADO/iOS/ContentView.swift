@@ -10,21 +10,22 @@ import SwiftUI
 struct ContentView: View {
     @State var width = UIScreen.main.bounds.width
     
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @State private var keyboardHeight: CGFloat = 0
     
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     @StateObject var surfingVM = SurfingViewModel()
     @StateObject var feedVM = FeedViewModel()
     @StateObject var followVM = FollowViewModel()
     @StateObject var profileVM = ProfileViewModel()
     @StateObject var notiVM = NotificationViewModel()
     @StateObject var postitVM = PostitViewModel()
-    @StateObject var padorideVM = PadoRideViewModel()
     
     @State private var showPushProfile = false
     @State private var pushUser: User?
     
     @State private var showPushPost = false
     @State private var pushPost: Post?
+    @State var fetchedPostitData: Bool = false
     
     let updateHeartData = UpdateHeartData()
     
@@ -43,21 +44,9 @@ struct ContentView: View {
                      profileVM: profileVM,
                      followVM: followVM,
                      notiVM: notiVM)
-            .tabItem {
-                Image(viewModel.showTab == 0 ? "home_light" : "home_gray")
-                
-                Text("홈")
-            }
-            .onAppear { viewModel.showTab = 0 }
             .tag(0)
             
             MainSearchView(profileVM: profileVM)
-            .tabItem {
-                Image(viewModel.showTab == 1 ? "search_light" : "search_gray")
-                
-                Text("검색")
-            }
-            .onAppear { viewModel.showTab = 1 }
             .tag(1)
             
             if let user = viewModel.currentUser {
@@ -65,65 +54,42 @@ struct ContentView: View {
                             feedVM: feedVM,
                             profileVM: profileVM,
                             followVM: followVM)
-                .tabItem {
-                    Text("")
-                    
-                    Image(viewModel.showTab == 2 ? "tab_added" : "tab_add")
-                }
-                .onAppear { viewModel.showTab = 2 }
                 .tag(2)
                 
                 PadoRideView(feedVM: feedVM,
-                             followVM: followVM,
-                             padorideVM: padorideVM)
-                .tabItem {
-                    Image(viewModel.showTab == 3 ? "today_light" : "today_gray")
-                    
-                    Text("파도타기")
-                }
-                .onAppear { viewModel.showTab = 3 }
+                              followVM: followVM)
                 .tag(3)
-                
                 
                 ProfileView(profileVM: profileVM,
                             followVM: followVM,
                             feedVM: feedVM,
                             postitVM: postitVM,
+                            fetchedPostitData: $fetchedPostitData,
                             user: user)
-                .tabItem {
-                    Image(viewModel.showTab == 4 ? "profile_light" : "profile_gray")
-                    
-                    Text("프로필")
-                }
-                .onAppear { viewModel.showTab = 4 }
                 .tag(4)
             } else {
                 LoginAlert()
-                    .tabItem {
-                        Text("")
-                        
-                        Image(viewModel.showTab == 2 ? "tab_added" : "tab_add")
-                    }
-                    .onAppear { viewModel.showTab = 2 }
                     .tag(2)
                 
                 LoginAlert()
-                    .tabItem {
-                        Image(viewModel.showTab == 3 ? "today_light" : "today_gray")
-                        
-                        Text("파도타기")
-                    }
-                    .onAppear { viewModel.showTab = 3 }
                     .tag(3)
                 
                 LoginAlert()
-                    .tabItem {
-                        Image(viewModel.showTab == 4 ? "profile_light" : "profile_gray")
-                        
-                        Text("프로필")
-                    }
-                    .onAppear { viewModel.showTab = 4 }
                     .tag(4)
+            }
+        }
+        .overlay(alignment: .bottom){
+            CustomTabView()
+                .offset(y: keyboardHeight > 0 ? UIScreen.main.bounds.height : 0)
+        }
+        .onAppear {
+            NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { notification in
+                guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+                keyboardHeight = keyboardFrame.height
+            }
+            
+            NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { _ in
+                keyboardHeight = 0
             }
         }
         // 상대방 프로필로 전환 이벤트(팔로우, 서퍼지정, 방명록 글)
@@ -155,8 +121,13 @@ struct ContentView: View {
     func fetchData() {
         guard !userNameID.isEmpty else {
             Task {
+                fetchedPostitData = false
+                viewModel.selectedFilter = .today
+                viewModel.showTab = 0
                 await feedVM.getPopularUser()
                 await feedVM.fetchTodayPadoPosts()
+                profileVM.stopAllPostListeners()
+                viewModel.showLaunchScreen = false
             }
             return
         }
@@ -165,14 +136,18 @@ struct ContentView: View {
             viewModel.selectedFilter = .following
             viewModel.showTab = 0
             feedVM.postFetchLoading = true
+            fetchedPostitData = false
             await profileVM.fetchBlockUsers()
             await followVM.initializeFollowFetch(id: userNameID)
             await feedVM.fetchTodayPadoPosts()
             await feedVM.fetchFollowingPosts()
+            profileVM.stopAllPostListeners()
+            await profileVM.fetchPostID(user: viewModel.currentUser!)
+            await postitVM.listenForMessages(ownerID: userNameID)
+            fetchedPostitData = true
             await notiVM.fetchNotifications()
-            await profileVM.fetchPostID(id: userNameID)
-            await postitVM.getMessageDocument(ownerID: userNameID)
             feedVM.postFetchLoading = false
+            viewModel.showLaunchScreen = false
             
             NotificationCenter.default.addObserver(forName: Notification.Name("ProfileNotification"), object: nil, queue: .main) { notification in
                 // 알림을 받았을 때 수행할 작업

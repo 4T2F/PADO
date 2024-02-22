@@ -13,6 +13,7 @@ import SwiftUI
 @MainActor
 class AuthenticationViewModel: ObservableObject {
     
+    @Published var showLaunchScreen = true
     @Published var nameID = ""
     @Published var year = ""
     @Published var phoneNumber = ""
@@ -21,13 +22,15 @@ class AuthenticationViewModel: ObservableObject {
     
     @Published var isLoading: Bool = false
     @Published var verificationCode: String = ""
+    @Published var resetNavigation: Bool = false
     
     @Published var errorMessage = ""
     @Published var showAlert = false
     @Published var isExisted = false
-    
+    @Published var isShowingMessageView = false
     // 탭바 이동관련 변수
     @Published var showTab: Int = 0
+    @Published var scrollToTop: Bool = false
     
     // 세팅 관련 뷰 이동 변수
     @Published var showingProfileView: Bool = false
@@ -153,7 +156,7 @@ class AuthenticationViewModel: ObservableObject {
             "date": year,
             "phoneNumber": "+82\(phoneNumber)",
             "fcmToken": userToken,
-            "alertAccept": "",
+            "alertAccept": acceptAlert,
             "instaAddress": "",
             "tiktokAddress": ""
         ]
@@ -168,7 +171,6 @@ class AuthenticationViewModel: ObservableObject {
         do {
             try await Firestore.firestore().collection("users").document(nameID).setData(data)
             
-            userNameID = nameID
             currentUser = User(
                 id: userId,
                 username: "",
@@ -177,7 +179,7 @@ class AuthenticationViewModel: ObservableObject {
                 date: year,
                 phoneNumber: "+82\(phoneNumber)",
                 fcmToken: userToken,
-                alertAccept: "",
+                alertAccept: acceptAlert,
                 instaAddress: "",
                 tiktokAddress: ""
             )
@@ -224,9 +226,13 @@ class AuthenticationViewModel: ObservableObject {
     // MARK: - 사용자 데이터 관리
     func initializeUser() async {
         // 사용자 초기화
-
-        guard Auth.auth().currentUser?.uid != nil else { return }
+        guard Auth.auth().currentUser?.uid != nil,
+              !nameID.isEmpty else {
+            try? await Task.sleep(nanoseconds: 2 * 1_000_000_000)
+            return
+        }
         await fetchUser()
+
     }
     
     func signOut() {
@@ -489,12 +495,9 @@ class AuthenticationViewModel: ObservableObject {
         
         do {
             try await UpdateUserData.shared.updateUserData(initialUserData: ["alertAccept": alertAccept])
+            currentUser?.alertAccept = alertAccept
         } catch {
             print("알림 설정 업데이트 중 오류 발생: \(error)")
         }
-    }
-    
-    func fetchUserAlertAcceptance() {
-        alertAccept = currentUser?.alertAccept ?? ""
     }
 }

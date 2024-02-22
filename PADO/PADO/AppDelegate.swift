@@ -24,7 +24,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
         UNUserNotificationCenter.current().requestAuthorization(
             options: authOptions,
-            completionHandler: { granted, _ in }
+            completionHandler: { granted, _ in
+                acceptAlert = "yes"
+            }
         )
         
         DispatchQueue.main.async {
@@ -44,14 +46,14 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         Messaging.messaging().apnsToken = deviceToken
     }
     
-//    // 앱 활성화시 기존 뱃지 카운트 0으로 변경
-//    func applicationDidBecomeActive(_ application: UIApplication) {
-//        if #available(iOS 17, *) {
-//            UNUserNotificationCenter.current().setBadgeCount(0)
-//        } else {
-//            UIApplication.shared.applicationIconBadgeNumber = 0
-//        }
-//    }
+    //    // 앱 활성화시 기존 뱃지 카운트 0으로 변경
+    //    func applicationDidBecomeActive(_ application: UIApplication) {
+    //        if #available(iOS 17, *) {
+    //            UNUserNotificationCenter.current().setBadgeCount(0)
+    //        } else {
+    //            UIApplication.shared.applicationIconBadgeNumber = 0
+    //        }
+    //    }
 }
 
 // Firebase 메시징 토큰을 받았을 때 호출, 이 토큰은 Firebase를 통해 특정 디바이스로 푸시 알림을 보낼 때 사용
@@ -134,7 +136,8 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                     hearts: nil,
                     comments: nil,
                     created_Time: createdTimestamp,
-                    modified_Time: nil
+                    modified_Time: nil,
+                    padoExist: userInfo["padoExist"] as? Bool ?? false
                 )
                 NotificationCenter.default.post(name: Notification.Name("PostNotification"), object: post)
             }
@@ -145,12 +148,11 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         completionHandler()
     }
     
-     // 원격 알림 수신 처리
-        func application(_ application: UIApplication,
-                         didReceiveRemoteNotification userInfo: [AnyHashable: Any]) async -> UIBackgroundFetchResult {
-            return .newData
-        }
-    
+    // 원격 알림 수신 처리
+    func application(_ application: UIApplication,
+                     didReceiveRemoteNotification userInfo: [AnyHashable: Any]) async -> UIBackgroundFetchResult {
+        return .newData
+    }
 }
 
 // 포그라운드에서 푸시 알림이 올 때 햅틱이 오는 기능

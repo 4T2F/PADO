@@ -31,6 +31,7 @@ struct OtherUserProfileView: View {
     @State private var isShowingHightlight: Bool = false
     @State private var isShowingMessageView: Bool = false
     @State private var isShowingUserReport: Bool = false
+    @State private var fetchedPostitData: Bool = false
     @State private var touchProfileImage: Bool = false
     @State private var touchBackImage: Bool = false
     @State private var position = CGSize.zero
@@ -40,6 +41,7 @@ struct OtherUserProfileView: View {
     let columns = [GridItem(.flexible(), spacing: 1), GridItem(.flexible(), spacing: 1), GridItem(.flexible())]
     
     var body: some View {
+
         ZStack {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 0) {
@@ -99,14 +101,7 @@ struct OtherUserProfileView: View {
                                 }
                             }
                             
-                            if user.nameID == userNameID {
-                                NavigationLink {
-                                    SettingView(profileVM: profileVM)
-                                } label: {
-                                    Image("more")
-                                        .foregroundStyle(.white)
-                                }
-                            } else {
+                            if user.nameID != userNameID {
                                 Button {
                                     isShowingUserReport = true
                                 } label: {
@@ -167,9 +162,18 @@ struct OtherUserProfileView: View {
         .onAppear {
             Task {
                 await followVM.initializeFollowFetch(id: user.nameID)
-                await profileVM.fetchPostID(id: user.nameID)
-                await postitVM.getMessageDocument(ownerID: user.nameID)
+                await profileVM.fetchPostID(user: user)
+                await postitVM.listenForMessages(ownerID: user.nameID)
+                fetchedPostitData = true
             }
+        }
+        .onChange(of: viewModel.resetNavigation) { _, _ in
+            dismiss()
+        }
+        .onDisappear {
+            followVM.stopAllListeners()
+            postitVM.removeListner()
+            profileVM.stopAllPostListeners()
         }
     }
     
@@ -196,7 +200,6 @@ struct OtherUserProfileView: View {
                         
                         VStack(alignment: .leading, spacing: 10) {
                             CircularImageView(size: .xxLarge, user: user)
-                                .offset(y: 5)
                                 .zIndex(touchProfileImage ? 1 : 0)
                                 .onTapGesture {
                                     if user.profileImageUrl != nil {
@@ -208,7 +211,9 @@ struct OtherUserProfileView: View {
                                 }
                                 .overlay {
                                     Button {
-                                        isShowingMessageView = true
+                                        if fetchedPostitData {
+                                            isShowingMessageView = true
+                                        }
                                     } label: {
                                         Circle()
                                             .frame(width: 30)
@@ -229,7 +234,7 @@ struct OtherUserProfileView: View {
                                                 }
                                             }
                                     }
-                                    .offset(x: +46, y: -30)
+                                    .offset(x: 46, y: -36)
                                     .sheet(isPresented: $isShowingMessageView) {
                                         PostitView(postitVM: postitVM,
                                                    isShowingMessageView: $isShowingMessageView)
@@ -239,24 +244,34 @@ struct OtherUserProfileView: View {
                                 }
                             
                             
-                            HStack(alignment: .center, spacing: 5) {
+                            HStack(alignment: .center, spacing: 4) {
                                 VStack(alignment: .leading, spacing: 4) {
-                                    Text(user.username)
-                                        .font(.system(size: 16))
-                                        .fontWeight(.semibold)
+                                    if !user.username.isEmpty {
+                                        Text(user.username)
+                                            .font(.system(size: 14))
+                                            .fontWeight(.medium)
+                                    } else {
+                                        Text(user.nameID)
+                                            .font(.system(size: 14))
+                                            .fontWeight(.medium)
+                                    }
                                 }
                                 
                                 Spacer()
                                 
                                 if user.nameID == userNameID {
-                                    NavigationLink {
-                                        SettingProfileView()
+                                    Button {
+                                        Task {
+                                            dismiss()
+                                            try? await Task.sleep(nanoseconds: 1 * 500_000_000)
+                                            viewModel.showTab = 4
+                                        }
                                     } label: {
                                         ZStack {
                                             RoundedRectangle(cornerRadius:4)
                                                 .stroke(Color.white, lineWidth: 1)
                                                 .frame(width: 80, height: 28)
-                                            Text("프로필 편집")
+                                            Text("내 프로필")
                                                 .font(.system(size: 12))
                                                 .fontWeight(.semibold)
                                                 .foregroundStyle(.white)
@@ -277,12 +292,11 @@ struct OtherUserProfileView: View {
                                 HStack(spacing: 2) {
                                     Text("\(profileVM.padoPosts.count + profileVM.sendPadoPosts.count)")
                                     
-                                    Text("wave")
+                                    Text("파도")
                                 }
-                                .font(.system(size: 16))
+                                .font(.system(size: 14))
                                 .foregroundStyle(.white)
                                 .fontWeight(.medium)
-                                .fontDesign(.rounded)
                                 
                                 Button {
                                     followerActive = true
@@ -290,12 +304,11 @@ struct OtherUserProfileView: View {
                                     HStack(spacing: 2) {
                                         Text("\(followVM.followerIDs.count + followVM.surferIDs.count)")
                                         
-                                        Text("follower")
+                                        Text("팔로워")
                                     }
-                                    .font(.system(size: 16))
+                                    .font(.system(size: 14))
                                     .foregroundStyle(.white)
                                     .fontWeight(.medium)
-                                    .fontDesign(.rounded)
                                 }
                                 .sheet(isPresented: $followerActive) {
                                     FollowMainView(currentType: "팔로워", followVM: followVM, user: user)
@@ -312,12 +325,11 @@ struct OtherUserProfileView: View {
                                     HStack(spacing: 2) {
                                         Text("\(followVM.followingIDs.count)")
                                         
-                                        Text("following")
+                                        Text("팔로잉")
                                     }
-                                    .font(.system(size: 16))
+                                    .font(.system(size: 14))
                                     .foregroundStyle(.white)
                                     .fontWeight(.medium)
-                                    .fontDesign(.rounded)
                                 }
                                 
                                 .sheet(isPresented: $followingActive) {
@@ -504,10 +516,14 @@ struct OtherUserProfileView: View {
     @ViewBuilder
     func highlightsView() -> some View {
         VStack(spacing: 25) {
-            if profileVM.highlights.isEmpty {
+            if user.nameID != userNameID
+                        && (user.openHighlight == nil || user.openHighlight == "no") {
+                NoItemView(itemName: "\(user.nameID)님이 좋아요를 표시한 파도는\n 비공개 입니다")
+                    .padding(.top, 150)
+            } else if profileVM.highlights.isEmpty {
                 NoItemView(itemName: "아직 좋아요를 표시한 게시물이 없습니다")
                     .padding(.top, 150)
-            } else {
+            }  else {
                 LazyVGrid(columns: columns, spacing: 2) {
                     ForEach(profileVM.highlights, id: \.self) { post in
                         ZStack(alignment: .bottomLeading) {

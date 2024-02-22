@@ -26,11 +26,9 @@ struct FollowerModalAlert: View {
         VStack {
             VStack(alignment: .center) {
                 VStack(spacing: 10) {
-                    KFImage.url(URL(string: followerProfileUrl))
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 50, height: 50)
-                        .cornerRadius(50)
+                    UrlProfileImageView(imageUrl: followerProfileUrl,
+                                        size: .large,
+                                        defaultImageName: "defaultProfile")
                     
                     Text(followerUsername)
                         .font(.system(size: 12))

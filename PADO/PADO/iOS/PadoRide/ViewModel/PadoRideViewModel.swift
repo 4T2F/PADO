@@ -139,12 +139,10 @@ class PadoRideViewModel: ObservableObject {
     }
     
     // 특정 ID들에 대한 포스트 데이터를 미리 로드
-    func preloadPostsData(for ids: [String]) async {
-        for id in ids {
-            let posts = await getPostData.suffingPostData(id: id)
-            DispatchQueue.main.async {
-                self.postsData[id] = posts
-            }
+    func loadPostsData(for id: String) async {
+        let posts = await getPostData.suffingPostData(id: id)
+        DispatchQueue.main.async {
+            self.postsData[id] = posts
         }
     }
     
@@ -209,7 +207,10 @@ class PadoRideViewModel: ObservableObject {
         guard let imageData = decoUIImage.jpegData(compressionQuality: 1.0) else { return }
         
         do {
-            UIImageWriteToSavedPhotosAlbum(decoUIImage, nil, nil, nil)
+            try await db.collection("post").document(String(describing: selectedPost?.id ?? "")).updateData(["padoExist": true])
+            if savePhoto {
+                UIImageWriteToSavedPhotosAlbum(decoUIImage, nil, nil, nil)
+            }
             
             _ = try await storageRef.putDataAsync(imageData)
             let url = try await storageRef.downloadURL()

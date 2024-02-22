@@ -5,19 +5,42 @@
 //  Created by 황민채 on 1/15/24.
 //
 
+import Firebase
+import FirebaseFirestoreSwift
 import SwiftUI
 
 struct SettingOthersView: View {
     @State private var showingCashModal: Bool = false
     @State private var showingDeleteModal: Bool = false
-    
+    @State var savePhoto: Bool = UserDefaults.standard.bool(forKey: "savePhoto")
+
     @EnvironmentObject var viewModel: AuthenticationViewModel
     @Environment (\.dismiss) var dismiss
+    
+    @Binding var openHighlight: Bool
     
     var body: some View {
         VStack {
             ZStack {
                 VStack {
+                    SettingToggleCell(icon: "photo.badge.plus", text: "파도타기 갤러리 저장", toggle: $savePhoto)
+                        .onChange(of: savePhoto) { _, newValue in
+                            UserDefaults.standard.set(newValue, forKey: "savePhoto")
+                        }
+                    
+                    SettingToggleCell(icon: "heart.text.square", text: "하이라이트 공개 여부", toggle: $openHighlight)
+                        .onChange(of: openHighlight) { _, newValue in
+                            if newValue {
+                                viewModel.currentUser?.openHighlight = "yes"
+                                Firestore.firestore().collection("users").document(userNameID).updateData(["openHighlight": "yes"])
+                            } else {
+                                viewModel.currentUser?.openHighlight = "no"
+                                Firestore.firestore().collection("users").document(userNameID).updateData(["openHighlight": "no"])
+                            }
+                            
+                        }
+                    
+                    
                     Button {
                         showingCashModal.toggle()
                     } label: {
@@ -74,9 +97,4 @@ struct SettingOthersView: View {
         }
         .toolbarBackground(Color(.main), for: .navigationBar)
     }
-}
-
-
-#Preview {
-    SettingOthersView()
 }

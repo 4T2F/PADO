@@ -25,8 +25,8 @@ struct SettingNotificationView: View {
                                 }
                             }
                     }
-                    
                     Spacer()
+                    
                 }
                 .padding(.horizontal)
             }

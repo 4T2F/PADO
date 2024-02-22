@@ -21,6 +21,8 @@ class SurfingViewModel: ObservableObject, Searchable  {
     @Published var showPostView: Bool = false
     @Published var isShowingPhotoModal = false
     @Published var isShowingPhoto: Bool = false
+    @Published var isShowPopularModal: Bool = false
+    @Published var isShowFollowingModal: Bool = false
     @Published var isShownCamera: Bool = false
     @Published var sourceType: UIImagePickerController.SourceType = .camera
     @Published var cameraDevice: UIImagePickerController.CameraDevice = .rear
@@ -133,7 +135,8 @@ class SurfingViewModel: ObservableObject, Searchable  {
             "title": postingTitle,
             "heartsCount": 0,
             "commentCount": 0,
-            "created_Time": Timestamp()
+            "created_Time": Timestamp(),
+            "padoExist": false
         ]
         await createPostData(titleName: formattedPostingTitle, data: initialPostData)
         post?.ownerUid = surfingID
@@ -143,6 +146,7 @@ class SurfingViewModel: ObservableObject, Searchable  {
         post?.heartsCount = 0
         post?.commentCount = 0
         post?.created_Time = Timestamp()
+        post?.padoExist = false
     }
     
     @MainActor

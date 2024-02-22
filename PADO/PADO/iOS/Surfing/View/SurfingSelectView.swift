@@ -11,17 +11,12 @@ import SwiftUI
 struct SurfingSelectView: View {
     // MARK: - PROPERTY
     @ObservedObject var followVM: FollowViewModel
+    @Environment(\.dismiss) var dismiss
     
     // MARK: - BODY
     var body: some View {
-        ZStack {
-            Color.main.ignoresSafeArea()
-            
+        NavigationStack {
             ScrollView {
-                Text("서핑리스트")
-                    .font(.system(size: 18, weight: .semibold))
-                    .padding(.top, 20)
-                
                 VStack {
                     ForEach(followVM.surfingIDs, id: \.self) { surfingId in
                         SurfingSelectCell(followVM: followVM, cellUserId: surfingId)
@@ -29,6 +24,28 @@ struct SurfingSelectView: View {
                 }
                 .padding()
             }
+            .background(.modal, ignoresSafeAreaEdges: .all)
+            .navigationBarBackButtonHidden()
+            .navigationTitle("서핑 리스트")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        HStack(spacing: 2) {
+                            Image(systemName: "chevron.left")
+                                .font(.system(size: 14))
+                                .fontWeight(.medium)
+                            
+                            Text("닫기")
+                                .font(.system(size: 16))
+                                .fontWeight(.medium)
+                        }
+                    }
+                }
+            }
+            .toolbarBackground(Color(.modal), for: .navigationBar)
         }
     }
 }

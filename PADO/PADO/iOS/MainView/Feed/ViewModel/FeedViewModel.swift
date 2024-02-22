@@ -39,9 +39,11 @@ class FeedViewModel:Identifiable ,ObservableObject {
     @Published var deleteUserCounts: [Int] = []
     
     private var db = Firestore.firestore()
-    private var listener: ListenerRegistration?
+
     @Published var documentID: String = ""
     
+    private var followingListeners: [String: ListenerRegistration] = [:]
+    private var todayPadoListeners: [String: ListenerRegistration] = [:]
     @Published var lastFollowFetchedDocument: DocumentSnapshot? = nil
     @Published var lastTodayPadoFetchedDocument: DocumentSnapshot? = nil
     
@@ -185,7 +187,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
                 setupSnapshotTodayPadoListener(for: post)
             }
 
-            // 인덱스 20개 초과 시 0~24번 인덱스까지만 포함
+            // 인덱스 25개 초과 시 0~24번 인덱스까지만 포함
             self.todayPadoPosts = Array(filteredPosts.prefix(25))
             self.todayPadoPosts = filterBlockedPosts(posts: self.todayPadoPosts)
         } catch {
@@ -298,6 +300,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
     // 파도타기 게시글의 유무 확인
     func checkForPadorides(postID: String) async {
         checkPadoRide.removeAll()
+        guard !postID.isEmpty else { return }
         
         let postRef = db.collection("post").document(postID)
         let padoRideCollection = postRef.collection("padoride")
@@ -311,15 +314,21 @@ class FeedViewModel:Identifiable ,ObservableObject {
             print("PadoRides 가져오기 오류: \(error.localizedDescription)")
         }
     }
+    
+    func fetchPadoRideExist(postID: String) {
+        guard !postID.isEmpty else { return }
+        db.collection("post").document(postID).updateData(["padoExist": false])
+    }
 }
 
+// 피드 리스너
 extension FeedViewModel {
     @MainActor
     private func setupSnapshotFollowingListener(for post: Post) {
         guard let postID = post.id else { return }
 
         let docRef = db.collection("post").document(postID)
-        docRef.addSnapshotListener { documentSnapshot, error in
+        followingListeners[postID] = docRef.addSnapshotListener { documentSnapshot, error in
             guard let document = documentSnapshot, let data = document.data() else {
                 print("Error fetching document: \(error?.localizedDescription ?? "Unknown error")")
                 return
@@ -336,7 +345,7 @@ extension FeedViewModel {
         guard let postID = post.id else { return }
 
         let docRef = db.collection("post").document(postID)
-        docRef.addSnapshotListener { documentSnapshot, error in
+        todayPadoListeners[postID] = docRef.addSnapshotListener { documentSnapshot, error in
             guard let document = documentSnapshot, let data = document.data() else {
                 print("Error fetching document: \(error?.localizedDescription ?? "Unknown error")")
                 return
@@ -346,6 +355,20 @@ extension FeedViewModel {
                 self.todayPadoPosts[index].commentCount = data["commentCount"] as? Int ?? 0
             }
         }
+    }
+    
+    func stopFollowingListeners() {
+        for (_, listener) in followingListeners {
+            listener.remove()
+        }
+        followingListeners.removeAll()
+    }
+    
+    func stopTodayListeners() {
+        for (_, listener) in todayPadoListeners {
+            listener.remove()
+        }
+        todayPadoListeners.removeAll()
     }
 }
 

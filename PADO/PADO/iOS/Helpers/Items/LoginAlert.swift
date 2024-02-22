@@ -59,7 +59,3 @@ struct LoginAlert: View {
     }
 }
 
-
-#Preview {
-    LoginAlert()
-}

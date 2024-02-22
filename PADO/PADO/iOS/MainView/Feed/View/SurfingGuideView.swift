@@ -14,51 +14,53 @@ struct SurfingGuideView: View {
     @State private var surfingID: String = ""
     
     var body: some View {
-        VStack {
-            VStack(alignment: .center, spacing: 8) {
-                Text("내가 팔로잉한 사람들")
-                    .foregroundColor(.white)
-                    .fontWeight(.bold)
-                
-                VStack {
-                    Text("팔로잉한 사람들에게")
+        NavigationStack {
+            VStack {
+                VStack(alignment: .center, spacing: 8) {
+                    Text("내가 팔로잉한 사람들")
+                        .foregroundColor(.white)
+                        .fontWeight(.bold)
                     
-                    Text("방명록에서 서퍼 지정을 요청해보세요.")
-                }
-                .foregroundColor(.gray)
-                .font(.footnote)
-                .fontWeight(.semibold)
-            }
-            .frame(maxWidth: .infinity, alignment: .center)
-            .padding([.leading, .top], 15)
-            .padding(.bottom)
-            
-            GeometryReader(content: { geometry in
-                let size = geometry.size
-                let frameWidth = max(size.width - 80, 0)
-                
-                ScrollView(.horizontal) {
-                    HStack(spacing: 5) {
-                        ForEach(surfingUser) { user in
-                            SurfingGuideCell(user: user)
-                                .frame(width: frameWidth, height: size.height - 0)
-                                .scrollTransition(.interactive, axis: .horizontal) {
-                                    view, phase in
-                                    view
-                                        .scaleEffect(phase.isIdentity ? 1 : 0.95)
-                                }
-                        }
+                    VStack {
+                        Text("팔로잉한 사람들에게")
+                        
+                        Text("방명록에서 서퍼 지정을 요청해보세요.")
                     }
-                    .padding(.horizontal, 30)
-                    .scrollTargetLayout()
-                    .frame(height: size.height, alignment: .top)
+                    .foregroundColor(.gray)
+                    .font(.footnote)
+                    .fontWeight(.semibold)
                 }
-                .scrollTargetBehavior(.viewAligned)
-                .scrollIndicators(.hidden)
-            })
-            .frame(height: 400)
-            .padding(.top, 10)
-            Spacer()
+                .frame(maxWidth: .infinity, alignment: .center)
+                .padding([.leading, .top], 15)
+                .padding(.bottom)
+                
+                GeometryReader(content: { geometry in
+                    let size = geometry.size
+                    let frameWidth = max(size.width - 80, 0)
+                    
+                    ScrollView(.horizontal) {
+                        HStack(spacing: 5) {
+                            ForEach(surfingUser) { user in
+                                SurfingGuideCell(user: user)
+                                    .frame(width: frameWidth, height: size.height - 0)
+                                    .scrollTransition(.interactive, axis: .horizontal) {
+                                        view, phase in
+                                        view
+                                            .scaleEffect(phase.isIdentity ? 1 : 0.95)
+                                    }
+                            }
+                        }
+                        .padding(.horizontal, 30)
+                        .scrollTargetLayout()
+                        .frame(height: size.height, alignment: .top)
+                    }
+                    .scrollTargetBehavior(.viewAligned)
+                    .scrollIndicators(.hidden)
+                })
+                .frame(height: 400)
+                .padding(.top, 10)
+                Spacer()
+            }
         }
         .onAppear {
             surfingUser.removeAll()

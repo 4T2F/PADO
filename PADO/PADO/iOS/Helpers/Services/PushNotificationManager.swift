@@ -122,7 +122,8 @@ final class PushNotificationManager {
                 "Post_hearts": "",
                 "Post_comments": "",
                 "Post_created_Time": createdDateString,
-                "Post_modified_Time": modifiedDateString
+                "Post_modified_Time": modifiedDateString,
+                "Post_padoExist": false
             ]
         ]
         

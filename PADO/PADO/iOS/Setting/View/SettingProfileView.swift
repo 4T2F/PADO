@@ -175,7 +175,10 @@ struct SettingProfileView: View {
                                                     .font(.system(size: 16))
                                                     .foregroundStyle(.white)
                                                     .padding(.leading, width * 0.05)
-                                                    .onChange(of: viewModel.username) { _, _ in
+                                                    .onChange(of: viewModel.username) { _, newValue in
+                                                        if newValue.count > 8 {
+                                                            viewModel.username = String(newValue.prefix(8))
+                                                        }
                                                         viewModel.checkForChanges()
                                                     }
                                             } else {
@@ -183,7 +186,10 @@ struct SettingProfileView: View {
                                                     .font(.system(size: 14))
                                                     .foregroundStyle(.white)
                                                     .padding(.leading, width * 0.05)
-                                                    .onChange(of: viewModel.username) { _, _  in
+                                                    .onChange(of: viewModel.username) { _, newValue in
+                                                        if newValue.count > 8 {
+                                                            viewModel.username = String(newValue.prefix(8))
+                                                        }
                                                         viewModel.checkForChanges()
                                                     }
                                             }
@@ -279,7 +285,7 @@ struct SettingProfileView: View {
                                 
                                 Spacer()
                             }
-                            .padding(.top, UIScreen.main.bounds.height * 0.08)
+//                            .padding(.top, UIScreen.main.bounds.height * 0.08)
                             .background(.main, ignoresSafeAreaEdges: .all)
                         }
                     }
@@ -358,6 +364,8 @@ struct SettingProfileView: View {
             .onDisappear {
                 viewModel.imagePick = false
                 viewModel.backimagePick = false
+                viewModel.userSelectImage = nil
+                viewModel.backSelectImage = nil
             }
         }
     }

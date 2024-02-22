@@ -25,10 +25,11 @@ struct ProfileView: View {
     @State private var isShowingReceiveDetail: Bool = false
     @State private var isShowingSendDetail: Bool = false
     @State private var isShowingHightlight: Bool = false
-    @State private var isShowingMessageView: Bool = false
     @State private var touchProfileImage: Bool = false
     @State private var touchBackImage: Bool = false
     @State private var position = CGSize.zero
+    @State var openHighlight: Bool = false
+    @Binding var fetchedPostitData: Bool
     
     let user: User
     
@@ -59,6 +60,11 @@ struct ProfileView: View {
                 .opacity(touchProfileImage ? 0 : 1)
                 .navigationBarBackButtonHidden()
                 .navigationBarTitleDisplayMode(.inline)
+                .onAppear {
+                    if viewModel.currentUser?.openHighlight != nil || viewModel.currentUser?.openHighlight == "yes" {
+                        openHighlight = true
+                    }
+                }
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
                         Text("@\(userNameID)")
@@ -87,7 +93,8 @@ struct ProfileView: View {
                             }
                             
                             NavigationLink {
-                                SettingView(profileVM: profileVM)
+                                SettingView(profileVM: profileVM,
+                                            openHighlight: $openHighlight)
                             } label: {
                                 Image("more")
                                     .foregroundStyle(.white)
@@ -166,10 +173,9 @@ struct ProfileView: View {
                         
                         VStack(alignment: .leading, spacing: 10) {
                                 CircularImageView(size: .xxLarge, user: user)
-                                    .offset(y: 5)
                                     .zIndex(touchProfileImage ? 1 : 0)
                                     .onTapGesture {
-                                        if (user.profileImageUrl != nil) {
+                                        if user.profileImageUrl != nil {
                                             position = .zero
                                             withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
                                                 touchProfileImage = true
@@ -178,7 +184,7 @@ struct ProfileView: View {
                                     }
                                     .overlay {
                                         Button {
-                                            isShowingMessageView = true
+                                            viewModel.isShowingMessageView = true
                                         } label: {
                                             Circle()
                                                 .frame(width: 30)
@@ -199,10 +205,10 @@ struct ProfileView: View {
                                                     }
                                                 } 
                                         }
-                                        .offset(x: +46, y: -30)
-                                        .sheet(isPresented: $isShowingMessageView) {
+                                        .offset(x: 46, y: -36)
+                                        .sheet(isPresented: $viewModel.isShowingMessageView) {
                                             PostitView(postitVM: postitVM,
-                                                       isShowingMessageView: $isShowingMessageView)
+                                                       isShowingMessageView: $viewModel.isShowingMessageView)
                                             .presentationDragIndicator(.visible)
                                         }
                                         .presentationDetents([.large])
@@ -210,12 +216,18 @@ struct ProfileView: View {
                                 
                             
                             
-                            HStack(alignment: .center, spacing: 5) {
+                            HStack(alignment: .center, spacing: 4) {
                                 VStack(alignment: .leading, spacing: 4) {
                                     if let user = viewModel.currentUser {
-                                        Text(user.username)
-                                            .font(.system(size: 16))
-                                            .fontWeight(.semibold)
+                                        if !user.username.isEmpty {
+                                            Text(user.username)
+                                                .font(.system(size: 14))
+                                                .fontWeight(.medium)
+                                        } else {
+                                            Text(userNameID)
+                                                .font(.system(size: 14))
+                                                .fontWeight(.medium)
+                                        }
                                     }
                                 }
                                 
@@ -240,12 +252,11 @@ struct ProfileView: View {
                                 HStack(spacing: 2) {
                                     Text("\(profileVM.padoPosts.count + profileVM.sendPadoPosts.count)")
                                     
-                                    Text("wave")
+                                    Text("파도")
                                 }
-                                .font(.system(size: 16))
+                                .font(.system(size: 14))
                                 .foregroundStyle(.white)
                                 .fontWeight(.medium)
-                                .fontDesign(.rounded)
                                 
                                     Button {
                                         followerActive = true
@@ -253,12 +264,11 @@ struct ProfileView: View {
                                         HStack(spacing: 2) {
                                             Text("\(followVM.followerIDs.count + followVM.surferIDs.count)")
                                             
-                                            Text("follower")
+                                            Text("팔로워")
                                         }
-                                        .font(.system(size: 16))
+                                        .font(.system(size: 14))
                                         .foregroundStyle(.white)
                                         .fontWeight(.medium)
-                                        .fontDesign(.rounded)
                                     }
                                     .sheet(isPresented: $followerActive) {
                                         FollowMainView(currentType: "팔로워", followVM: followVM, user: user)
@@ -275,12 +285,11 @@ struct ProfileView: View {
                                         HStack(spacing: 2) {
                                             Text("\(followVM.followingIDs.count)")
                                             
-                                            Text("following")
+                                            Text("팔로잉")
                                         }
-                                        .font(.system(size: 16))
+                                        .font(.system(size: 14))
                                         .foregroundStyle(.white)
                                         .fontWeight(.medium)
-                                        .fontDesign(.rounded)
                                     }
                                     
                                     .sheet(isPresented: $followingActive) {

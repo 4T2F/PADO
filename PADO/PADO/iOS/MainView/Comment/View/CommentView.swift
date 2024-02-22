@@ -15,6 +15,7 @@ struct CommentView: View {
     @State private var commentText: String = ""
     @State private var isShowingComment: Bool = false
     @State private var isShowingLoginPage: Bool = false
+    @State private var commentCount: Int = 0
     @State var postUser: User
     @State var post: Post
     
@@ -79,6 +80,7 @@ struct CommentView: View {
                         await commentVM.fetchCommentUser()
                         commentVM.fetchDeleteUserComments()
                     }
+                    commentCount = post.commentCount - commentVM.deleteUserComments
                 }
                 
                 Divider()
@@ -117,7 +119,7 @@ struct CommentView: View {
                 }
                 .padding(10)
                 .sheet(isPresented: $isShowingComment, content: {
-                    CommentWriteView(commentVM: commentVM, isShowingComment: $isShowingComment, postUser: postUser, post: post)
+                    CommentWriteView(commentVM: commentVM, isShowingComment: $isShowingComment, commentCount: $commentCount, postUser: postUser, post: post)
                         .presentationDragIndicator(.visible)
                 })
                 .sheet(isPresented: $isShowingLoginPage) {
@@ -127,7 +129,7 @@ struct CommentView: View {
             }
             .background(.main, ignoresSafeAreaEdges: .all)
             .navigationBarBackButtonHidden()
-            .navigationTitle("댓글 \(post.commentCount - commentVM.deleteUserComments)개")
+            .navigationTitle("댓글 \(commentCount)개")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
