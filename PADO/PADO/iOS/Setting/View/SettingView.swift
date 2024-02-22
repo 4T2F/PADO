@@ -10,7 +10,6 @@ struct SettingView: View {
     @State private var showingSignOutModal: Bool = false
     @Environment (\.dismiss) var dismiss
     @StateObject var profileVM: ProfileViewModel
-
     @Binding var openHighlight: Bool
     
     var body: some View {

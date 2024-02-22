@@ -8,6 +8,7 @@
 import SwiftUI
 // TODO: 알림 없으면 noItemView
 struct NotificationView: View {
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     @ObservedObject var profileVM: ProfileViewModel
     @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var notiVM: NotificationViewModel
@@ -70,6 +71,9 @@ struct NotificationView: View {
                 await notiVM.fetchNotifications()
                 await notiVM.markNotificationsAsRead()
             }
+        }
+        .onChange(of: viewModel.resetNavigation) { _, _ in
+            dismiss()
         }
     }
 }
