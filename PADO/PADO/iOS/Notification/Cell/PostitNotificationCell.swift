@@ -17,7 +17,6 @@ struct PostitNotificationCell: View {
     
     var notification: Noti
     
-    // TODO: 포스트잇 네비게이션 링크
     var body: some View {
         Button {
             Task {
