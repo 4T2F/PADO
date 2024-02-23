@@ -89,7 +89,7 @@ struct NotificationView: View {
                 fetchedNotiData = true
             }
         }
-        .onChange(of: viewModel.resetNavigation) { _, _ in
+        .onChange(of: resetNavigation) { _, _ in
             dismiss()
         }
     }

@@ -24,7 +24,7 @@ struct CustomTabView: View {
                             viewModel.scrollToTop.toggle()
                         }
                         viewModel.showTab = 0
-                        viewModel.resetNavigation.toggle()
+                        resetNavigation.toggle()
                     } label: {
                         VStack(spacing: 6) {
                             Image(viewModel.showTab == 0 ? "home_light" : "home_gray")

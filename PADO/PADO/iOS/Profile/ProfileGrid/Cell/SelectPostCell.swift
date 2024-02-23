@@ -502,6 +502,7 @@ struct SelectPostCell: View {
                                                 }
                                             }
                                             deleteMyPadoride = false
+                                            resetNavigation.toggle()
                                             needsDataFetch.toggle()
                                         }
                                     })
@@ -521,6 +522,7 @@ struct SelectPostCell: View {
                                                 }
                                             }
                                             deleteSendPadoride = false
+                                            resetNavigation.toggle()
                                             needsDataFetch.toggle()
                                         }
                                     }
@@ -535,6 +537,7 @@ struct SelectPostCell: View {
                                                                                    sufferID: post.surferUid)
                                             }
                                             deleteMyPost = false
+                                            resetNavigation.toggle()
                                             needsDataFetch.toggle()
                                         }
                                     }
@@ -547,6 +550,7 @@ struct SelectPostCell: View {
                                                                                postOwnerID: post.ownerUid,
                                                                                sufferID: post.surferUid)
                                             deleteSendPost = false
+                                            resetNavigation.toggle()
                                             needsDataFetch.toggle()
                                         }
                                     }

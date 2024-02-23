@@ -97,6 +97,11 @@ struct SelectPostView: View {
                 .padding(.top, 20)
             }
         }
+        .onChange(of: resetNavigation) { _, _ in
+            withAnimation(.interactiveSpring(response: 0.3, dampingFraction: 0.8, blendDuration: 0.8)) {
+                isShowingDetail = false // 드래그가 일정 임계값을 넘어서면 뷰 닫기
+            }
+        }
         .gesture(
             DragGesture()
                 .updating($dragState) { value, state, _ in

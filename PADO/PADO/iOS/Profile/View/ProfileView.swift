@@ -119,7 +119,7 @@ struct ProfileView: View {
                                 }
                             }
                             .offset(position)
-                            .highPriorityGesture (
+                            .highPriorityGesture(
                                 DragGesture()
                                     .onChanged({ value in
                                         self.position = value.translation
@@ -155,7 +155,7 @@ struct ProfileView: View {
                                 }
                             }
                             .offset(position)
-                            .highPriorityGesture (
+                            .highPriorityGesture(
                                 DragGesture()
                                     .onChanged({ value in
                                         self.position = value.translation

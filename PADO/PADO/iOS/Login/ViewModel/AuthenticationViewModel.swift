@@ -22,7 +22,6 @@ class AuthenticationViewModel: ObservableObject {
     
     @Published var isLoading: Bool = false
     @Published var verificationCode: String = ""
-    @Published var resetNavigation: Bool = false
     
     @Published var errorMessage = ""
     @Published var showAlert = false

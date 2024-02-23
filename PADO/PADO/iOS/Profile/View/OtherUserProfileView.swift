@@ -135,7 +135,7 @@ struct OtherUserProfileView: View {
                             }
                         }
                         .offset(position)
-                        .highPriorityGesture (
+                        .highPriorityGesture(
                             DragGesture()
                                 .onChanged({ value in
                                     self.position = value.translation
@@ -169,7 +169,7 @@ struct OtherUserProfileView: View {
                             }
                         }
                         .offset(position)
-                        .highPriorityGesture (
+                        .highPriorityGesture(
                             DragGesture()
                                 .onChanged({ value in
                                     self.position = value.translation
@@ -207,7 +207,7 @@ struct OtherUserProfileView: View {
                 fetchedPostitData = true
             }
         }
-        .onChange(of: viewModel.resetNavigation) { _, _ in
+        .onChange(of: resetNavigation) { _, _ in
             dismiss()
         }
         .onDisappear {
