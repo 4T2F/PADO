@@ -29,6 +29,7 @@ struct ProfileView: View {
     @State private var touchBackImage: Bool = false
     @State private var isDragging = false
     @State private var position = CGSize.zero
+    @State private var isRefresh: Bool = false
     @State var openHighlight: Bool = false
     @Binding var fetchedPostitData: Bool
     
@@ -56,6 +57,17 @@ struct ProfileView: View {
                         .background(.main)
                     }
                 }
+                .refreshable(action: {
+                    Task {
+                        isRefresh = true
+                        if let currentUser = viewModel.currentUser {
+                            profileVM.stopAllPostListeners()
+                            try? await Task.sleep(nanoseconds: 1 * 1000_000_000)
+                            await profileVM.fetchPostID(user: viewModel.currentUser!)
+                        }
+                        isRefresh = false
+                    }
+                })
                 .background(.main, ignoresSafeAreaEdges: .all)
                 .allowsHitTesting(!touchBackImage)
                 .allowsHitTesting(!touchProfileImage)
@@ -174,6 +186,15 @@ struct ProfileView: View {
                                     })
                             )
                     }
+                }
+                    
+                if isRefresh {
+                    LottieView(animation: .named("Wave"))
+                        .looping()
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 100, height: 100)
+                        .offset(y: -300)
                 }
             }
             .overlay {
@@ -362,6 +383,7 @@ struct ProfileView: View {
                         }
                     }
                 }
+          
         }
         .frame(height: 300)
     }
