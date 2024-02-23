@@ -188,13 +188,16 @@ struct ProfileView: View {
                     }
                 }
                     
-                if isRefresh {
-                    LottieView(animation: .named("Wave"))
-                        .looping()
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 100, height: 100)
-                        .offset(y: -300)
+                VStack {
+                    if isRefresh {
+                        LottieView(animation: .named("Wave"))
+                            .looping()
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 100, height: 100)
+                            .padding(.top, 30)
+                    }
+                    Spacer()
                 }
             }
             .overlay {
