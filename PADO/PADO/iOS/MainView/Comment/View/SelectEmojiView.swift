@@ -17,7 +17,6 @@ let emojiColors: [String: Color] = [
 ]
 
 struct SelectEmojiView: View {
-    @EnvironmentObject var viewModel: AuthenticationViewModel
     @ObservedObject var commentVM: CommentViewModel
     
     @Binding var postOwner: User
@@ -86,18 +85,15 @@ struct SelectEmojiView: View {
                                                                emoji: commentVM.selectedEmoji)
                 if let cropImage = commentVM.cropMojiUIImage {
                     try await commentVM.updateFacemojiData.updateFaceMoji(cropMojiUIImage: cropImage,
-                                                                       documentID: postID,
-                                                                       selectedEmoji: commentVM.selectedEmoji)
+                                                                          documentID: postID,
+                                                                          selectedEmoji: commentVM.selectedEmoji)
                 }
                 commentVM.facemojies = try await commentVM.updateFacemojiData.getFaceMoji(documentID: postID) ?? []
-                if let sendUser = viewModel.currentUser {
-                    await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID,
-                                                                 receiveUser: postOwner,
-                                                                 type: .facemoji,
-                                                                 message: "",
-                                                                 post: post,
-                                                                 sendUser: sendUser)
-                }
+                await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID,
+                                                             receiveUser: postOwner,
+                                                             type: .facemoji,
+                                                             message: "",
+                                                             post: post)
             }
             commentVM.showEmojiView = false
             commentVM.showCropFaceMoji = false

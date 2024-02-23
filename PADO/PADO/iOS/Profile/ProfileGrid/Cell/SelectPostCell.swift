@@ -12,7 +12,6 @@ import Lottie
 import SwiftUI
 
 struct SelectPostCell: View {
-    @EnvironmentObject var viewModel: AuthenticationViewModel
     @ObservedObject var profileVM: ProfileViewModel
     @ObservedObject var feedVM: FeedViewModel
     
@@ -396,14 +395,11 @@ struct SelectPostCell: View {
                                                     await UpdateHeartData.shared.addHeart(documentID: postID)
                                                     isHeartCheck = await UpdateHeartData.shared.checkHeartExists(documentID: postID)
                                                     heartLoading = false
-                                                    if let sendUser = viewModel.currentUser {
-                                                        await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID,
-                                                                                                     receiveUser: postUser,
-                                                                                                     type: .heart,
-                                                                                                     message: "",
-                                                                                                     post: post,
-                                                                                                     sendUser: sendUser)
-                                                    }
+                                                    await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID,
+                                                                                                 receiveUser: postUser,
+                                                                                                 type: .heart,
+                                                                                                 message: "",
+                                                                                                 post: post)
                                                 }
                                             }
                                         }
@@ -445,7 +441,7 @@ struct SelectPostCell: View {
                                 // MARK: - 댓글 숫자
                                 Text("")
                                     .font(.system(size: 10))
-                                  
+                                
                             }
                             
                             // MARK: - 신고하기
@@ -500,7 +496,7 @@ struct SelectPostCell: View {
                                                 try await DeletePost.shared.deletePadoridePost(postID: postID,
                                                                                                storageFileName: fileName,
                                                                                                subID: subID ?? "")
-                                       
+                                                
                                                 if feedVM.padoRidePosts.count == 1 {
                                                     feedVM.fetchPadoRideExist(postID: postID)
                                                 }

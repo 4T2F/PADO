@@ -41,13 +41,12 @@ struct SendPadoView: View {
                         padorideVM.cancelImageEditing()
                         postLoading = false
                         padorideVM.isShowingEditView = false
-                        if let selectedPost = padorideVM.selectedPost, let surfingUser = surfingUser, let sendUser = viewModel.currentUser {
+                        if let selectedPost = padorideVM.selectedPost, let surfingUser = surfingUser {
                             await UpdatePushNotiData.shared.pushPostNoti(targetPostID: selectedPost.id ?? "",
                                                                          receiveUser: surfingUser,
                                                                          type: .padoRide,
                                                                          message: "",
-                                                                         post: selectedPost, 
-                                                                         sendUser: sendUser)
+                                                                         post: selectedPost)
                         }
                     }
                 }

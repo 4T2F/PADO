@@ -37,26 +37,26 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             UNUserNotificationCenter.current().delegate = self
         }
         
-        if let launchOptions = launchOptions?[.remoteNotification] {
-            if let notification = launchOptions as? [String: AnyObject],
-               let aps = notification["aps"] as? [String: AnyObject] {
-                
-                if let categoryIdentifier = aps["categoryIdentifier"] as? String {
-                    switch categoryIdentifier {
-                    case "profile":
-                        NotificationCenter.default.post(name: Notification.Name("ProfileNotification"), object: aps["User_id"])
-                    case "post":
-                        NotificationCenter.default.post(name: Notification.Name("PostNotification"), object: aps["Post_id"])
-                    case "postit":
-                        NotificationCenter.default.post(name: Notification.Name("PostitNotification"), object: aps["User_id"])
-                    default:
-                        print("Unknown categoryIdentifier")
-                    }
-                } else {
-                    print("categoryIdentifier is not a string")
-                }
-            }
-        }
+//        if let launchOptions = launchOptions?[.remoteNotification] {
+//            if let notification = launchOptions as? [String: AnyObject],
+//               let aps = notification["aps"] as? [String: AnyObject] {
+//                
+//                if let categoryIdentifier = aps["categoryIdentifier"] as? String {
+//                    switch categoryIdentifier {
+//                    case "profile":
+//                        NotificationCenter.default.post(name: Notification.Name("ProfileNotification"), object: aps["User_id"])
+//                    case "post":
+//                        NotificationCenter.default.post(name: Notification.Name("PostNotification"), object: aps["Post_id"])
+//                    case "postit":
+//                        NotificationCenter.default.post(name: Notification.Name("PostitNotification"), object: aps["User_id"])
+//                    default:
+//                        print("Unknown categoryIdentifier")
+//                    }
+//                } else {
+//                    print("categoryIdentifier is not a string")
+//                }
+//            }
+//        }
         return true
     }
     
@@ -65,15 +65,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
                      didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Messaging.messaging().apnsToken = deviceToken
     }
-    
-    //    // 앱 활성화시 기존 뱃지 카운트 0으로 변경
-    //    func applicationDidBecomeActive(_ application: UIApplication) {
-    //        if #available(iOS 17, *) {
-    //            UNUserNotificationCenter.current().setBadgeCount(0)
-    //        } else {
-    //            UIApplication.shared.applicationIconBadgeNumber = 0
-    //        }
-    //    }
 }
 
 // Firebase 메시징 토큰을 받았을 때 호출, 이 토큰은 Firebase를 통해 특정 디바이스로 푸시 알림을 보낼 때 사용
@@ -116,9 +107,6 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         let userInfo = response.notification.request.content.userInfo
         let categoryIdentifier = response.notification.request.content.categoryIdentifier
         
-        print(response)
-        print("-------------------")
-        print(userInfo)
         switch categoryIdentifier {
         case "profile":
             NotificationCenter.default.post(name: Notification.Name("ProfileNotification"), object: userInfo["User_id"])
@@ -137,8 +125,6 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
     // 원격 알림 수신 처리
     func application(_ application: UIApplication,
                      didReceiveRemoteNotification userInfo: [AnyHashable: Any]) async -> UIBackgroundFetchResult {
-        
-        
         return .newData
     }
 }

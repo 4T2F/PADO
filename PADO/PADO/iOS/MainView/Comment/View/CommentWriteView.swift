@@ -58,10 +58,10 @@ struct CommentWriteView: View {
                                 CommentCell(comment: comment, commentVM: commentVM,
                                             post: post,
                                             postID: postID)
-                                    .id(comment.id)
-                                    .padding(.horizontal, 10)
-                                    .padding(.bottom, 20)
-                            
+                                .id(comment.id)
+                                .padding(.horizontal, 10)
+                                .padding(.bottom, 20)
+                                
                             }
                             .onAppear {
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
@@ -110,13 +110,12 @@ struct CommentWriteView: View {
                                 let generator = UIImpactFeedbackGenerator(style: .medium)
                                 generator.impactOccurred()
                                 
-                                if let postID = post.id, let sendUser = viewModel.currentUser {
+                                if let postID = post.id {
                                     await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID,
                                                                                  receiveUser: postUser,
                                                                                  type: .comment,
-                                                                                 message: commentText, 
-                                                                                 post: post, 
-                                                                                 sendUser: sendUser)
+                                                                                 message: commentText,
+                                                                                 post: post)
                                     await commentVM.updateCommentData.writeComment(documentID: postID,
                                                                                    imageUrl: viewModel.currentUser?.profileImageUrl ?? "",
                                                                                    inputcomment: commentText)

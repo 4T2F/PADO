@@ -31,7 +31,6 @@ struct OnePostModalView: View {
     @State private var deleteMyPost: Bool = false
     @State private var deleteSendPost: Bool = false
     
-    @EnvironmentObject var viewModel: AuthenticationViewModel
     @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var profileVM: ProfileViewModel
     
@@ -440,14 +439,11 @@ struct OnePostModalView: View {
                                                         await UpdateHeartData.shared.addHeart(documentID: postID)
                                                         isHeartCheck = await UpdateHeartData.shared.checkHeartExists(documentID: postID)
                                                         heartLoading = false
-                                                        if let sendUser = viewModel.currentUser {
                                                             await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID,
                                                                                                          receiveUser: postUser,
                                                                                                          type: .heart,
                                                                                                          message: "",
-                                                                                                         post: post,
-                                                                                                         sendUser: sendUser)
-                                                        }
+                                                                                                         post: post)
                                                     }
                                                 }
                                             }
