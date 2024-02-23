@@ -60,6 +60,8 @@ struct OtherUserProfileView: View {
                 }
             }
             .background(.main, ignoresSafeAreaEdges: .all)
+            .allowsHitTesting(!touchBackImage)
+            .allowsHitTesting(!touchProfileImage)
             .opacity(touchBackImage ? 0.1 : 1)
             .opacity(touchProfileImage ? 0.1 : 1)
             .navigationBarTitleDisplayMode(.inline)
