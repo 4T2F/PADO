@@ -106,7 +106,7 @@ struct FollowerUserCellView: View {
                     Task {
                         await UpdateFollowData.shared.registerSurfer(id: cellUserId)
                         if let currentUser = viewModel.currentUser {
-                            await UpdatePushNotiData.shared.pushNoti(receiveUser: profileUser!, type: .surfer, sendUser: currentUser)
+                            await UpdatePushNotiData.shared.pushNoti(receiveUser: profileUser!, type: .surfer, sendUser: currentUser, message: "")
                         }
                     }
                 } label: {

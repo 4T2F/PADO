@@ -10,7 +10,9 @@ import SwiftUI
 
 struct SendPadoView: View {
     // MARK: - PROPERTY
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     @ObservedObject var padorideVM: PadoRideViewModel
+    
     @State private var surfingUser: User?
     @State private var postLoading = false
     

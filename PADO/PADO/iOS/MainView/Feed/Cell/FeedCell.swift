@@ -442,7 +442,11 @@ struct FeedCell: View {
                                                     await UpdateHeartData.shared.addHeart(documentID: postID)
                                                     isHeartCheck = await UpdateHeartData.shared.checkHeartExists(documentID: postID)
                                                     heartLoading = false
-                                                    await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID, receiveUser: postUser, type: .heart, message: "", post: post)
+                                                    await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID,
+                                                                                                 receiveUser: postUser,
+                                                                                                 type: .heart,
+                                                                                                 message: "",
+                                                                                                 post: post)
                                                 }
                                             }
                                         }
