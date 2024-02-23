@@ -34,6 +34,7 @@ struct OtherUserProfileView: View {
     @State private var fetchedPostitData: Bool = false
     @State private var touchProfileImage: Bool = false
     @State private var touchBackImage: Bool = false
+    @State private var fetchingPostData: Bool = true
     @State private var position = CGSize.zero
     @State private var isDragging = false
     
@@ -205,6 +206,7 @@ struct OtherUserProfileView: View {
             Task {
                 await followVM.initializeFollowFetch(id: user.nameID)
                 await profileVM.fetchPostID(user: user)
+                fetchingPostData = false
                 await postitVM.listenForMessages(ownerID: user.nameID)
                 fetchedPostitData = true
             }
@@ -464,7 +466,14 @@ struct OtherUserProfileView: View {
     @ViewBuilder
     func postView() -> some View {
         VStack(spacing: 25) {
-            if profileVM.padoPosts.isEmpty {
+            if fetchingPostData {
+                LottieView(animation: .named("Loading"))
+                    .looping()
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 100, height: 100)
+                    .padding(.top, 60)
+            } else if profileVM.padoPosts.isEmpty {
                 NoItemView(itemName: "아직 받은 게시물이 없습니다")
                     .padding(.top, 150)
             } else {
@@ -503,6 +512,16 @@ struct OtherUserProfileView: View {
                         }
                         .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
                     }
+                    if profileVM.fetchedPadoData {
+                        Rectangle()
+                            .foregroundStyle(.clear)
+                            .onAppear {
+                                Task {
+                                    try? await Task.sleep(nanoseconds: 1 * 1000_000_000)
+                                    await profileVM.fetchMorePadoPosts(id: userNameID)
+                                }
+                            }
+                    }
                 }
             }
         }
@@ -512,7 +531,14 @@ struct OtherUserProfileView: View {
     @ViewBuilder
     func writtenPostsView() -> some View {
         VStack(spacing: 25) {
-            if profileVM.sendPadoPosts.isEmpty {
+            if fetchingPostData {
+                LottieView(animation: .named("Loading"))
+                    .looping()
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 100, height: 100)
+                    .padding(.top, 60)
+            } else if profileVM.sendPadoPosts.isEmpty {
                 NoItemView(itemName: "아직 보낸 게시물이 없습니다")
                     .padding(.top, 150)
             } else {
@@ -549,6 +575,16 @@ struct OtherUserProfileView: View {
                         }
                         .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
                     }
+                    if profileVM.fetchedSendPadoData {
+                        Rectangle()
+                            .foregroundStyle(.clear)
+                            .onAppear {
+                                Task {
+                                    try? await Task.sleep(nanoseconds: 1 * 1000_000_000)
+                                    await profileVM.fetchMoreSendPadoPosts(id: userNameID)
+                                }
+                            }
+                    }
                 }
             }
         }
@@ -558,7 +594,14 @@ struct OtherUserProfileView: View {
     @ViewBuilder
     func highlightsView() -> some View {
         VStack(spacing: 25) {
-            if user.nameID != userNameID
+            if fetchingPostData {
+                LottieView(animation: .named("Loading"))
+                    .looping()
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 100, height: 100)
+                    .padding(.top, 60)
+            } else if user.nameID != userNameID
                         && user.openHighlight == "no" {
                 NoItemView(itemName: "\(user.nameID)님이 좋아요를 표시한 파도는\n 비공개 입니다")
                     .padding(.top, 150)
@@ -598,6 +641,16 @@ struct OtherUserProfileView: View {
                             }
                         }
                         .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
+                    }
+                    if profileVM.fetchedHighlights {
+                        Rectangle()
+                            .foregroundStyle(.clear)
+                            .onAppear {
+                                Task {
+                                    try? await Task.sleep(nanoseconds: 1 * 1000_000_000)
+                                    await profileVM.fetchMoreHighlihts(id: userNameID)
+                                }
+                            }
                     }
                 }
             }

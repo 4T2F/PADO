@@ -28,8 +28,9 @@ class ProfileViewModel: ObservableObject {
     @Published var lastSendPadoFetchedDocument: DocumentSnapshot? = nil
     @Published var lastHighlightsFetchedDocument: DocumentSnapshot? = nil
 
-    @Published var fetchedData: Bool = false
-    
+    @Published var fetchedPadoData: Bool = false
+    @Published var fetchedSendPadoData: Bool = false
+    @Published var fetchedHighlights: Bool = false
     // 사용자 차단 로직
     @Published var isUserBlocked: Bool = false
     private var postListeners: [String: ListenerRegistration] = [:]
@@ -62,6 +63,7 @@ class ProfileViewModel: ObservableObject {
     func fetchPadoPosts(id: String) async {
         lastPadoFetchedDocument = nil
         padoPosts.removeAll()
+        fetchedPadoData = false
         guard !id.isEmpty else { return }
         do {
             let padoQuerySnapshot =  db.collection("users").document(id).collection("mypost")
@@ -93,6 +95,11 @@ class ProfileViewModel: ObservableObject {
                     self.updatePostArray(post: post, inputType: .pado)
                 }
             }
+            
+            if documents.count == 12 {
+                fetchedPadoData = true
+            }
+            
         } catch {
             print("Error fetching posts: \(error.localizedDescription)")
         }
@@ -104,6 +111,7 @@ class ProfileViewModel: ObservableObject {
     func fetchSendPadoPosts(id: String) async {
         lastSendPadoFetchedDocument = nil
         sendPadoPosts.removeAll()
+        fetchedSendPadoData = false
         guard !id.isEmpty else { return }
         do {
             let padoQuerySnapshot =  db.collection("users").document(id).collection("sendpost")
@@ -134,6 +142,12 @@ class ProfileViewModel: ObservableObject {
                     self.updatePostArray(post: post, inputType: .sendPado)
                 }
             }
+            
+            
+            if documents.count == 12 {
+                fetchedSendPadoData = true
+            }
+            
         } catch {
             print("Error fetching posts: \(error.localizedDescription)")
         }
@@ -143,6 +157,7 @@ class ProfileViewModel: ObservableObject {
     func fetchHighlihts(id: String) async {
         lastHighlightsFetchedDocument = nil
         highlights.removeAll()
+        fetchedHighlights = false
         guard !id.isEmpty else { return }
         do {
             let padoQuerySnapshot =  db.collection("users").document(id).collection("highlight")
@@ -172,6 +187,9 @@ class ProfileViewModel: ObservableObject {
                     // 배열 업데이트
                     self.updatePostArray(post: post, inputType: .highlight)
                 }
+            }
+            if documents.count == 12 {
+                fetchedHighlights = true
             }
         } catch {
             print("Error fetching posts: \(error.localizedDescription)")
@@ -229,11 +247,9 @@ class ProfileViewModel: ObservableObject {
 extension ProfileViewModel {
     @MainActor
     func fetchMorePadoPosts(id: String) async {
-        
+        fetchedPadoData = false
         guard !id.isEmpty else { return }
         guard let lastPadoDocuments = lastPadoFetchedDocument else { return }
-        
-        fetchedData = false
         do {
             let padoQuerySnapshot =  db.collection("users").document(id).collection("mypost")
                 .order(by: "created_Time", descending: true)
@@ -243,7 +259,6 @@ extension ProfileViewModel {
             let documents = try await getDocumentsAsync(collection:
                                                             db.collection("users").document(id).collection("mypost"),
                                                         query: padoQuerySnapshot)
-            
             lastPadoFetchedDocument = documents.last
             
             for document in documents {
@@ -262,11 +277,14 @@ extension ProfileViewModel {
                     }
                     
                     // 배열 업데이트
-                    self.updatePostArray(post: post, inputType: .pado)
-                    
-                    fetchedData = true
+                    self.updatePostArray(post: post,
+                                         inputType: .pado)
                 }
             }
+            if documents.count == 6 {
+                fetchedPadoData = true
+            }
+            
         } catch {
             print("Error fetching posts: \(error.localizedDescription)")
         }
@@ -274,10 +292,9 @@ extension ProfileViewModel {
     
     @MainActor
     func fetchMoreSendPadoPosts(id: String) async {
+        fetchedSendPadoData = false
         guard !id.isEmpty else { return }
         guard let lastSendPadoDocuments = lastSendPadoFetchedDocument else { return }
-        
-        fetchedData = false
         do {
             let padoQuerySnapshot =  db.collection("users").document(id).collection("sendpost")
                 .order(by: "created_Time", descending: true)
@@ -287,8 +304,6 @@ extension ProfileViewModel {
             let documents = try await getDocumentsAsync(collection:
                                                             db.collection("users").document(id).collection("sendpost"),
                                                         query: padoQuerySnapshot)
-            
-            
             
             lastSendPadoFetchedDocument = documents.last
             
@@ -308,8 +323,12 @@ extension ProfileViewModel {
                     }
                     
                     // 배열 업데이트
-                    self.updatePostArray(post: post, inputType: .sendPado)
+                    self.updatePostArray(post: post,
+                                         inputType: .sendPado)
                 }
+            }
+            if documents.count == 6 {
+                fetchedSendPadoData = true
             }
         } catch {
             print("Error fetching posts: \(error.localizedDescription)")
@@ -318,6 +337,7 @@ extension ProfileViewModel {
     
     @MainActor
     func fetchMoreHighlihts(id: String) async {
+        fetchedHighlights = false
         guard !id.isEmpty else { return }
         guard let lastHighlightsDocuments = lastHighlightsFetchedDocument else { return }
         
@@ -339,7 +359,7 @@ extension ProfileViewModel {
                     guard let self = self else { return }
                     guard let document = documentSnapshot, document.exists,
                           let post = try? document.data(as: Post.self) else {
-                        print("Error fetching document: \(error?.localizedDescription ?? "Unknown error")")
+                        print(" \(error?.localizedDescription ?? "Unknown error")은 삭제된 게시글 입니다.")
                         return
                     }
                     
@@ -349,8 +369,12 @@ extension ProfileViewModel {
                     }
                     
                     // 배열 업데이트
-                    self.updatePostArray(post: post, inputType: .highlight)
+                    self.updatePostArray(post: post, 
+                                         inputType: .highlight)
                 }
+            }
+            if documents.count == 6 {
+                fetchedHighlights = true
             }
         } catch {
             print("Error fetching posts: \(error.localizedDescription)")

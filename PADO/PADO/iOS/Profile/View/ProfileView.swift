@@ -448,6 +448,7 @@ struct ProfileView: View {
     @ViewBuilder
     func postView() -> some View {
         VStack(spacing: 25) {
+            
             if profileVM.padoPosts.isEmpty {
                 NoItemView(itemName: "아직 받은 게시물이 없습니다")
                     .padding(.top, 150)
@@ -484,11 +485,20 @@ struct ProfileView: View {
                         }
                         .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
                     }
-                    
+                    if profileVM.fetchedPadoData {
+                        Rectangle()
+                            .foregroundStyle(.clear)
+                            .onAppear {
+                                Task {
+                                    try? await Task.sleep(nanoseconds: 1 * 1000_000_000)
+                                    await profileVM.fetchMorePadoPosts(id: userNameID)
+                                }
+                            }
+                    }
                 }
             }
         }
-        .padding(.bottom, 80)
+        .padding(.bottom, 100)
         .offset(y: -4)
     }
     
@@ -531,10 +541,20 @@ struct ProfileView: View {
                         }
                         .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
                     }
+                    if profileVM.fetchedSendPadoData {
+                        Rectangle()
+                            .foregroundStyle(.clear)
+                            .onAppear {
+                                Task {
+                                    try? await Task.sleep(nanoseconds: 1 * 1000_000_000)
+                                    await profileVM.fetchMoreSendPadoPosts(id: userNameID)
+                                }
+                            }
+                    }
                 }
             }
         }
-        .padding(.bottom, 80)
+        .padding(.bottom, 100)
         .offset(y: -4)
     }
     
@@ -577,10 +597,20 @@ struct ProfileView: View {
                         }
                         .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
                     }
+                    if profileVM.fetchedHighlights {
+                        Rectangle()
+                            .foregroundStyle(.clear)
+                            .onAppear {
+                                Task {
+                                    try? await Task.sleep(nanoseconds: 1 * 1000_000_000)
+                                    await profileVM.fetchMoreHighlihts(id: userNameID)
+                                }
+                            }
+                    }
                 }
             }
         }
-        .padding(.bottom, 80)
+        .padding(.bottom, 100)
         .offset(y: -4)
     }
 }
