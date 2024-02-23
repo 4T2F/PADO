@@ -24,9 +24,12 @@ class ProfileViewModel: ObservableObject {
     @Published var selectedPostID: String = ""
     @Published var blockUser: [BlockUser] = []
     
+    @Published var lastPadoFetchedDocument: DocumentSnapshot? = nil
+    @Published var lastSendPadoFetchedDocument: DocumentSnapshot? = nil
+    @Published var lastHighlightsFetchedDocument: DocumentSnapshot? = nil
+
     // 사용자 차단 로직
     @Published var isUserBlocked: Bool = false
-    
     private var postListeners: [String: ListenerRegistration] = [:]
     private var db = Firestore.firestore()
     
@@ -54,11 +57,21 @@ class ProfileViewModel: ObservableObject {
     
     @MainActor
     func fetchPadoPosts(id: String) async {
+        lastPadoFetchedDocument = nil
         padoPosts.removeAll()
+        guard !id.isEmpty else { return }
         do {
-            let padoQuerySnapshot = try await db.collection("users").document(id).collection("mypost").order(by: "created_Time", descending: true).getDocuments()
+            let padoQuerySnapshot =  db.collection("users").document(id).collection("mypost")
+                .order(by: "created_Time", descending: true)
+                .limit(to: 12)
             
-            for document in padoQuerySnapshot.documents {
+            let documents = try await getDocumentsAsync(collection:
+                                                            db.collection("users").document(id).collection("mypost"),
+                                                        query: padoQuerySnapshot)
+            
+            lastPadoFetchedDocument = documents.last
+            
+            for document in documents {
                 let docRef = db.collection("post").document(document.documentID)
                 postListeners[document.documentID] = docRef.addSnapshotListener { [weak self] documentSnapshot, error in
                     guard let self = self else { return }
@@ -82,13 +95,24 @@ class ProfileViewModel: ObservableObject {
         }
     }
     
+  
+    
     @MainActor
     func fetchSendPadoPosts(id: String) async {
+        lastSendPadoFetchedDocument = nil
         sendPadoPosts.removeAll()
+        guard !id.isEmpty else { return }
         do {
-            let padoQuerySnapshot = try await db.collection("users").document(id).collection("sendpost").order(by: "created_Time", descending: true).getDocuments()
+            let padoQuerySnapshot =  db.collection("users").document(id).collection("sendpost")
+                .order(by: "created_Time", descending: true)
+                .limit(to: 12)
             
-            for document in padoQuerySnapshot.documents {
+            let documents = try await getDocumentsAsync(collection:
+                                                            db.collection("users").document(id).collection("sendpost"),
+                                                        query: padoQuerySnapshot)
+            lastSendPadoFetchedDocument = documents.last
+            
+            for document in documents {
                 let docRef = db.collection("post").document(document.documentID)
                 postListeners[document.documentID] = docRef.addSnapshotListener { [weak self] documentSnapshot, error in
                     guard let self = self else { return }
@@ -112,14 +136,22 @@ class ProfileViewModel: ObservableObject {
         }
     }
     
-    
     @MainActor
     func fetchHighlihts(id: String) async {
+        lastHighlightsFetchedDocument = nil
         highlights.removeAll()
+        guard !id.isEmpty else { return }
         do {
-            let padoQuerySnapshot = try await db.collection("users").document(id).collection("highlight").order(by: "sendHeartTime", descending: true).getDocuments()
+            let padoQuerySnapshot =  db.collection("users").document(id).collection("highlight")
+                .order(by: "sendHeartTime", descending: true)
+                .limit(to: 12)
             
-            for document in padoQuerySnapshot.documents {
+            let documents = try await getDocumentsAsync(collection:
+                                                            db.collection("users").document(id).collection("highlight"),
+                                                        query: padoQuerySnapshot)
+            lastHighlightsFetchedDocument = documents.last
+            
+            for document in documents {
                 let docRef = db.collection("post").document(document.documentID)
                 postListeners[document.documentID] = docRef.addSnapshotListener { [weak self] documentSnapshot, error in
                     guard let self = self else { return }
@@ -142,6 +174,8 @@ class ProfileViewModel: ObservableObject {
             print("Error fetching posts: \(error.localizedDescription)")
         }
     }
+    
+   
     
     private func updatePostArray(post: Post, inputType: InputPostType) {
         switch inputType {
@@ -166,11 +200,152 @@ class ProfileViewModel: ObservableObject {
         }
     }
     
+    // Firestore의 getDocuments에 대한 비동기 래퍼 함수
+    func getDocumentsAsync(collection: CollectionReference, query: Query) async throws -> [QueryDocumentSnapshot] {
+        try await withCheckedThrowingContinuation { continuation in
+            query.getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    continuation.resume(throwing: error)
+                } else if let querySnapshot = querySnapshot {
+                    continuation.resume(returning: querySnapshot.documents)
+                } else {
+                    continuation.resume(throwing: NSError(domain: "DataError", code: 0, userInfo: nil))
+                }
+            }
+        }
+    }
+    
     func stopAllPostListeners() {
         for (_, listener) in postListeners {
             listener.remove()
         }
         postListeners.removeAll()
+    }
+}
+
+// MARK: 추가 데이터 받아오기
+extension ProfileViewModel {
+    @MainActor
+    func fetchMorePadoPosts(id: String) async {
+        guard !id.isEmpty else { return }
+        guard let lastPadoDocuments = lastPadoFetchedDocument else { return }
+        
+        do {
+            let padoQuerySnapshot =  db.collection("users").document(id).collection("mypost")
+                .order(by: "created_Time", descending: true)
+                .start(afterDocument: lastPadoDocuments)
+                .limit(to: 6)
+            
+            let documents = try await getDocumentsAsync(collection:
+                                                            db.collection("users").document(id).collection("mypost"),
+                                                        query: padoQuerySnapshot)
+            
+            lastPadoFetchedDocument = documents.last
+            
+            for document in documents {
+                let docRef = db.collection("post").document(document.documentID)
+                postListeners[document.documentID] = docRef.addSnapshotListener { [weak self] documentSnapshot, error in
+                    guard let self = self else { return }
+                    guard let document = documentSnapshot, document.exists,
+                          let post = try? document.data(as: Post.self) else {
+                        print("Error fetching document: \(error?.localizedDescription ?? "Unknown error")")
+                        return
+                    }
+                    
+                    guard self.filterBlockedPost(post: post) else {
+                        print("\(document.documentID)는 차단된 사람의 글입니다")
+                        return
+                    }
+                    
+                    // 배열 업데이트
+                    self.updatePostArray(post: post, inputType: .pado)
+                }
+            }
+        } catch {
+            print("Error fetching posts: \(error.localizedDescription)")
+        }
+    }
+    
+    @MainActor
+    func fetchMoreSendPadoPosts(id: String) async {
+        guard !id.isEmpty else { return }
+        guard let lastSendPadoDocuments = lastSendPadoFetchedDocument else { return }
+        
+        do {
+            let padoQuerySnapshot =  db.collection("users").document(id).collection("sendpost")
+                .order(by: "created_Time", descending: true)
+                .start(afterDocument: lastSendPadoDocuments)
+                .limit(to: 6)
+            
+            let documents = try await getDocumentsAsync(collection:
+                                                            db.collection("users").document(id).collection("sendpost"),
+                                                        query: padoQuerySnapshot)
+            
+            lastSendPadoFetchedDocument = documents.last
+            
+            for document in documents {
+                let docRef = db.collection("post").document(document.documentID)
+                postListeners[document.documentID] = docRef.addSnapshotListener { [weak self] documentSnapshot, error in
+                    guard let self = self else { return }
+                    guard let document = documentSnapshot, document.exists,
+                          let post = try? document.data(as: Post.self) else {
+                        print("Error fetching document: \(error?.localizedDescription ?? "Unknown error")")
+                        return
+                    }
+                    
+                    guard self.filterBlockedPost(post: post) else {
+                        print("\(document.documentID)는 차단된 사람의 글입니다")
+                        return
+                    }
+                    
+                    // 배열 업데이트
+                    self.updatePostArray(post: post, inputType: .sendPado)
+                }
+            }
+        } catch {
+            print("Error fetching posts: \(error.localizedDescription)")
+        }
+    }
+    
+    @MainActor
+    func fetchMoreHighlihts(id: String) async {
+        guard !id.isEmpty else { return }
+        guard let lastHighlightsDocuments = lastHighlightsFetchedDocument else { return }
+        
+        do {
+            let padoQuerySnapshot =  db.collection("users").document(id).collection("highlight")
+                .order(by: "sendHeartTime", descending: true)
+                .start(afterDocument: lastHighlightsDocuments)
+                .limit(to: 6)
+            
+            let documents = try await getDocumentsAsync(collection:
+                                                            db.collection("users").document(id).collection("highlight"),
+                                                        query: padoQuerySnapshot)
+            
+            lastHighlightsFetchedDocument = documents.last
+            
+            for document in documents {
+                let docRef = db.collection("post").document(document.documentID)
+                postListeners[document.documentID] = docRef.addSnapshotListener { [weak self] documentSnapshot, error in
+                    guard let self = self else { return }
+                    guard let document = documentSnapshot, document.exists,
+                          let post = try? document.data(as: Post.self) else {
+                        print("Error fetching document: \(error?.localizedDescription ?? "Unknown error")")
+                        return
+                    }
+                    
+                    guard self.filterBlockedPost(post: post) else {
+                        print("\(document.documentID)는 차단된 사람의 글입니다")
+                        return
+                    }
+                    
+                    // 배열 업데이트
+                    self.updatePostArray(post: post, inputType: .highlight)
+                }
+            }
+        } catch {
+            print("Error fetching posts: \(error.localizedDescription)")
+        }
     }
 }
 
