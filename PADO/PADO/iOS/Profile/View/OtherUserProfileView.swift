@@ -35,13 +35,13 @@ struct OtherUserProfileView: View {
     @State private var touchProfileImage: Bool = false
     @State private var touchBackImage: Bool = false
     @State private var position = CGSize.zero
+    @State private var isDragging = false
     
     let user: User
     
     let columns = [GridItem(.flexible(), spacing: 1), GridItem(.flexible(), spacing: 1), GridItem(.flexible())]
     
     var body: some View {
-
         ZStack {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 0) {
@@ -60,8 +60,10 @@ struct OtherUserProfileView: View {
                 }
             }
             .background(.main, ignoresSafeAreaEdges: .all)
-            .opacity(touchBackImage ? 0 : 1)
-            .opacity(touchProfileImage ? 0 : 1)
+            .allowsHitTesting(!touchBackImage)
+            .allowsHitTesting(!touchProfileImage)
+            .opacity(touchBackImage ? 0.1 : 1)
+            .opacity(touchProfileImage ? 0.1 : 1)
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()
             .navigationTitle("@\(user.nameID)")
@@ -125,6 +127,7 @@ struct OtherUserProfileView: View {
                     KFImage(URL(string: backProfileImageUrl))
                         .resizable()
                         .scaledToFit()
+                        .clipShape(RoundedRectangle(cornerRadius: isDragging ? 12 : 0))
                         .zIndex(2)
                         .onTapGesture {
                             withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
@@ -132,6 +135,24 @@ struct OtherUserProfileView: View {
                             }
                         }
                         .offset(position)
+                        .highPriorityGesture (
+                            DragGesture()
+                                .onChanged({ value in
+                                    self.position = value.translation
+                                    self.isDragging = true
+                                })
+                                .onEnded({ value in
+                                    withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
+                                        if 200 < abs(self.position.height) {
+                                            self.touchBackImage = false
+                                            self.isDragging = false
+                                        } else {
+                                            self.position = .zero
+                                            self.isDragging = false
+                                        }
+                                    }
+                                })
+                        )
                 }
             }
             // 프로필 사진 조건문
@@ -140,6 +161,7 @@ struct OtherUserProfileView: View {
                     KFImage(URL(string: profileImageUrl))
                         .resizable()
                         .scaledToFit()
+                        .clipShape(RoundedRectangle(cornerRadius: isDragging ? 12 : 0))
                         .zIndex(2)
                         .onTapGesture {
                             withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
@@ -147,6 +169,24 @@ struct OtherUserProfileView: View {
                             }
                         }
                         .offset(position)
+                        .highPriorityGesture (
+                            DragGesture()
+                                .onChanged({ value in
+                                    self.position = value.translation
+                                    self.isDragging = true
+                                })
+                                .onEnded({ value in
+                                    withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
+                                        if 200 < abs(self.position.height) {
+                                            self.touchProfileImage = false
+                                            self.isDragging = false
+                                        } else {
+                                            self.position = .zero
+                                            self.isDragging = false
+                                        }
+                                    }
+                                })
+                        )
                 }
             }
         }
