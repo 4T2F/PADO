@@ -24,6 +24,7 @@ struct SelectPostView: View {
     @GestureState private var dragState = CGSize.zero
     @State private var isDetailViewReady = false
     
+    let userID: String
     var body: some View {
         NavigationStack {
             ZStack {
@@ -37,6 +38,13 @@ struct SelectPostView: View {
                                                    feedVM: feedVM,
                                                    post: $profileVM.padoPosts[index])
                                     .id(profileVM.padoPosts[index].id)
+                                    .onAppear {
+                                        if index == profileVM.padoPosts.indices.last {
+                                            Task {
+                                                await profileVM.fetchMorePadoPosts(id: userID)
+                                            }
+                                        }
+                                    }
                                 }
                                 
                             case .send:
@@ -45,6 +53,13 @@ struct SelectPostView: View {
                                                    feedVM: feedVM,
                                                    post: $profileVM.sendPadoPosts[index])
                                     .id(profileVM.sendPadoPosts[index].id)
+                                    .onAppear {
+                                        if index == profileVM.sendPadoPosts.indices.last {
+                                            Task {
+                                                await profileVM.fetchMoreSendPadoPosts(id: userID)
+                                            }
+                                        }
+                                    }
                                 }
                             case .highlight:
                                 ForEach(profileVM.highlights.indices, id: \.self) { index in
@@ -52,6 +67,13 @@ struct SelectPostView: View {
                                                    feedVM: feedVM,
                                                    post: $profileVM.highlights[index])
                                     .id(profileVM.highlights[index].id)
+                                    .onAppear {
+                                        if index == profileVM.highlights.indices.last {
+                                            Task {
+                                                await profileVM.fetchMoreHighlihts(id: userID)
+                                            }
+                                        }
+                                    }
                                 }
                             }
                             

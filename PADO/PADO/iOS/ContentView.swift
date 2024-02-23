@@ -146,6 +146,7 @@ struct ContentView: View {
             await feedVM.fetchFollowingPosts()
             profileVM.stopAllPostListeners()
             await profileVM.fetchPostID(user: viewModel.currentUser!)
+            profileVM.fetchedData = true
             await postitVM.listenForMessages(ownerID: userNameID)
             fetchedPostitData = true
             await notiVM.fetchNotifications()

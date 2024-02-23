@@ -28,6 +28,8 @@ class ProfileViewModel: ObservableObject {
     @Published var lastSendPadoFetchedDocument: DocumentSnapshot? = nil
     @Published var lastHighlightsFetchedDocument: DocumentSnapshot? = nil
 
+    @Published var fetchedData: Bool = false
+    
     // 사용자 차단 로직
     @Published var isUserBlocked: Bool = false
     private var postListeners: [String: ListenerRegistration] = [:]
@@ -53,6 +55,7 @@ class ProfileViewModel: ObservableObject {
                   user.openHighlight == "yes" else { return }
             await fetchHighlihts(id: user.nameID)
         }
+   
     }
     
     @MainActor
@@ -175,8 +178,7 @@ class ProfileViewModel: ObservableObject {
         }
     }
     
-   
-    
+
     private func updatePostArray(post: Post, inputType: InputPostType) {
         switch inputType {
         case .pado:
@@ -227,9 +229,11 @@ class ProfileViewModel: ObservableObject {
 extension ProfileViewModel {
     @MainActor
     func fetchMorePadoPosts(id: String) async {
+        
         guard !id.isEmpty else { return }
         guard let lastPadoDocuments = lastPadoFetchedDocument else { return }
         
+        fetchedData = false
         do {
             let padoQuerySnapshot =  db.collection("users").document(id).collection("mypost")
                 .order(by: "created_Time", descending: true)
@@ -259,6 +263,8 @@ extension ProfileViewModel {
                     
                     // 배열 업데이트
                     self.updatePostArray(post: post, inputType: .pado)
+                    
+                    fetchedData = true
                 }
             }
         } catch {
@@ -271,6 +277,7 @@ extension ProfileViewModel {
         guard !id.isEmpty else { return }
         guard let lastSendPadoDocuments = lastSendPadoFetchedDocument else { return }
         
+        fetchedData = false
         do {
             let padoQuerySnapshot =  db.collection("users").document(id).collection("sendpost")
                 .order(by: "created_Time", descending: true)
@@ -280,6 +287,8 @@ extension ProfileViewModel {
             let documents = try await getDocumentsAsync(collection:
                                                             db.collection("users").document(id).collection("sendpost"),
                                                         query: padoQuerySnapshot)
+            
+            
             
             lastSendPadoFetchedDocument = documents.last
             

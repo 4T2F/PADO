@@ -471,7 +471,8 @@ struct ProfileView: View {
                                 .sheet(isPresented: $isShowingReceiveDetail) {
                                     SelectPostView(profileVM: profileVM, feedVM: feedVM,
                                                    viewType: PostViewType.receive,
-                                                   isShowingDetail: $isShowingReceiveDetail)
+                                                   isShowingDetail: $isShowingReceiveDetail,
+                                                   userID: userNameID)
                                     .presentationDragIndicator(.visible)
                                     .onDisappear {
                                         feedVM.currentPadoRideIndex = nil
@@ -483,10 +484,11 @@ struct ProfileView: View {
                         }
                         .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
                     }
+                    
                 }
             }
         }
-        .padding(.bottom, 500)
+        .padding(.bottom, 80)
         .offset(y: -4)
     }
     
@@ -516,7 +518,8 @@ struct ProfileView: View {
                                 .sheet(isPresented: $isShowingSendDetail) {
                                     SelectPostView(profileVM: profileVM, feedVM: feedVM,
                                                    viewType: PostViewType.send,
-                                                   isShowingDetail: $isShowingSendDetail)
+                                                   isShowingDetail: $isShowingSendDetail,
+                                                   userID: userNameID)
                                     .presentationDragIndicator(.visible)
                                     .onDisappear {
                                         feedVM.currentPadoRideIndex = nil
@@ -531,7 +534,7 @@ struct ProfileView: View {
                 }
             }
         }
-        .padding(.bottom, 500)
+        .padding(.bottom, 80)
         .offset(y: -4)
     }
     
@@ -561,7 +564,8 @@ struct ProfileView: View {
                                 .sheet(isPresented: $isShowingHightlight) {
                                     SelectPostView(profileVM: profileVM, feedVM: feedVM,
                                                    viewType: PostViewType.highlight,
-                                                   isShowingDetail: $isShowingHightlight)
+                                                   isShowingDetail: $isShowingHightlight,
+                                                   userID: userNameID)
                                     .presentationDragIndicator(.visible)
                                     .onDisappear {
                                         feedVM.currentPadoRideIndex = nil
@@ -576,7 +580,7 @@ struct ProfileView: View {
                 }
             }
         }
-        .padding(.bottom, 500)
+        .padding(.bottom, 80)
         .offset(y: -4)
     }
 }
