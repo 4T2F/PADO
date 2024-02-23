@@ -120,11 +120,11 @@ final class PushNotificationManager {
     }
     
     func sendPostitPushNotification(toFCMToken token: String?,
-                              title: String,
-                              body: String,
-                              categoryIdentifier: String,
-                              userID: String,
-                              userUrl: String
+                                    title: String,
+                                    body: String,
+                                    categoryIdentifier: String,
+                                    userID: String,
+                                    userUrl: String
     ) {
         let serverKey: String = Bundle.main.object(forInfoDictionaryKey: "firebase_Push_Api_Key") as? String ?? "1"
         
