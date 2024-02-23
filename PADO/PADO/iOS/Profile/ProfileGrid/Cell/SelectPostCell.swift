@@ -441,7 +441,7 @@ struct SelectPostCell: View {
                                 // MARK: - 댓글 숫자
                                 Text("")
                                     .font(.system(size: 10))
-                                  
+                                
                             }
                             
                             // MARK: - 신고하기
@@ -496,7 +496,7 @@ struct SelectPostCell: View {
                                                 try await DeletePost.shared.deletePadoridePost(postID: postID,
                                                                                                storageFileName: fileName,
                                                                                                subID: subID ?? "")
-                                       
+                                                
                                                 if feedVM.padoRidePosts.count == 1 {
                                                     feedVM.fetchPadoRideExist(postID: postID)
                                                 }

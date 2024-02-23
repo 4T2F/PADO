@@ -85,11 +85,11 @@ struct SelectEmojiView: View {
                                                                emoji: commentVM.selectedEmoji)
                 if let cropImage = commentVM.cropMojiUIImage {
                     try await commentVM.updateFacemojiData.updateFaceMoji(cropMojiUIImage: cropImage,
-                                                                       documentID: postID,
-                                                                       selectedEmoji: commentVM.selectedEmoji)
+                                                                          documentID: postID,
+                                                                          selectedEmoji: commentVM.selectedEmoji)
                 }
                 commentVM.facemojies = try await commentVM.updateFacemojiData.getFaceMoji(documentID: postID) ?? []
-                await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID, 
+                await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID,
                                                              receiveUser: postOwner,
                                                              type: .facemoji,
                                                              message: "",

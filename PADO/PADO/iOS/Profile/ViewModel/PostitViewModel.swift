@@ -13,6 +13,7 @@ class PostitViewModel: ObservableObject {
     @Published var messages: [PostitMessage] = []
     @Published var ownerID: String = ""
     @Published var inputcomment: String = ""
+    @Published var inputcommentForNoti: String = ""
     @Published var longpressedMessage: String = ""
     @Published var longpressedID: String = ""
     @Published var showdeleteModal: Bool = false
@@ -54,6 +55,7 @@ class PostitViewModel: ObservableObject {
             "messageTime": Timestamp(),
         ]
         await createMessageData(ownerID: ownerID, data: initialMessageData)
+        self.inputcommentForNoti = inputcomment
         self.inputcomment = ""
     }
     
