@@ -12,6 +12,7 @@ enum SignUpStep {
     case code
     case id
     case birth
+    case welcome
 }
 
 struct SignUpView: View {
@@ -34,6 +35,8 @@ struct SignUpView: View {
                 IdView(currentStep: $currentStep)
             case .birth:
                 BirthView(currentStep: $currentStep)
+            case .welcome:
+                WelcomeView()
             }
         }
         .background(.main, ignoresSafeAreaEdges: .all)
@@ -42,19 +45,21 @@ struct SignUpView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
-                Button {
-                    handleBackButton()
-                } label: {
-                    HStack(spacing: 2) {
-                        Image(systemName: "chevron.left")
-                            .font(.system(size: 14))
-                            .fontWeight(.medium)
-                        
-                        Text("뒤로")
-                            .font(.system(size: 16))
-                            .fontWeight(.medium)
+                if currentStep != .welcome {
+                    Button {
+                        handleBackButton()
+                    } label: {
+                        HStack(spacing: 2) {
+                            Image(systemName: "chevron.left")
+                                .font(.system(size: 14))
+                                .fontWeight(.medium)
+                            
+                            Text("뒤로")
+                                .font(.system(size: 16))
+                                .fontWeight(.medium)
+                        }
+                        .foregroundStyle(.white)
                     }
-                    .foregroundStyle(.white)
                 }
             }
         }
@@ -79,7 +84,8 @@ struct SignUpView: View {
             viewModel.nameID = ""
             viewModel.year = ""
             currentStep = .id
-            
+        case .welcome:
+            dismiss()
         }
     }
 }

@@ -4,7 +4,9 @@
 //
 //  Created by 최동호 on 2/9/24.
 //
+
 import Kingfisher
+import Lottie
 import SwiftUI
 
 struct PostitView: View {
@@ -14,6 +16,7 @@ struct PostitView: View {
     @Binding var isShowingMessageView: Bool
     
     @FocusState private var isTextFieldFocused: Bool
+    @State private var isFetchedMessages: Bool = false
     @State private var isFocused: Bool = false
     @State private var isShowingLoginPage: Bool = false
     
@@ -23,31 +26,40 @@ struct PostitView: View {
                 Divider()
                 ScrollViewReader { proxy in
                     ScrollView {
-                        VStack {
-                            if !postitVM.messages.isEmpty {
-                                ForEach(postitVM.messages) { message in
-                                    if postitVM.messageUsers.keys.contains(message.messageUserID) {
-                                        PostitCell(postitVM: postitVM,
-                                                   message: message)
-                                        .id(message.id)
-                                    }
-                                }
-                                .onAppear {
-                                    if let lastMessageID = postitVM.messages.last?.id {
-                                        withAnimation {
-                                            proxy.scrollTo(lastMessageID, anchor: .bottom)
+                        if isFetchedMessages {
+                            VStack {
+                                if !postitVM.messages.isEmpty {
+                                    ForEach(postitVM.messages) { message in
+                                        if postitVM.messageUsers.keys.contains(message.messageUserID) {
+                                            PostitCell(postitVM: postitVM,
+                                                       message: message)
+                                            .id(message.id)
                                         }
                                     }
+                                    .onAppear {
+                                        if let lastMessageID = postitVM.messages.last?.id {
+                                            withAnimation {
+                                                proxy.scrollTo(lastMessageID, anchor: .bottom)
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    Text("아직 방명록에 글이 없습니다")
+                                        .foregroundColor(Color.gray)
+                                        .font(.system(size: 15))
+                                        .fontWeight(.semibold)
+                                        .padding(.top, 150)
                                 }
-                            } else {
-                                Text("아직 방명록에 글이 없습니다")
-                                    .foregroundColor(Color.gray)
-                                    .font(.system(size: 15))
-                                    .fontWeight(.semibold)
-                                    .padding(.top, 150)
                             }
+                            .padding(.top)
+                        } else {
+                            LottieView(animation: .named("Loading"))
+                                .looping()
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 100, height: 100)
+                                .containerRelativeFrame([.horizontal,.vertical])
                         }
-                        .padding(.top)
                     }
                 }
                 Divider()
@@ -132,6 +144,7 @@ struct PostitView: View {
             .onAppear {
                 Task{
                     await postitVM.getMessageDocument(ownerID: postitVM.ownerID)
+                    isFetchedMessages = true
                 }
             }
             .toolbar {

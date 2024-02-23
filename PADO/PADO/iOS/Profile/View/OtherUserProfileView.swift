@@ -517,7 +517,7 @@ struct OtherUserProfileView: View {
     func highlightsView() -> some View {
         VStack(spacing: 25) {
             if user.nameID != userNameID
-                        && (user.openHighlight == nil || user.openHighlight == "no") {
+                        && user.openHighlight == "no" {
                 NoItemView(itemName: "\(user.nameID)님이 좋아요를 표시한 파도는\n 비공개 입니다")
                     .padding(.top, 150)
             } else if profileVM.highlights.isEmpty {
