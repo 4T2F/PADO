@@ -45,7 +45,6 @@ struct PadoRideView: View {
                             })
                         }
                         
-                        // 파도타기 할 수 있는 유저가 없으면 "파도타기를 할 수 있는 친구가 없어요" 텍스트 넣기
                         if userFollowingIDs.isEmpty {
                             Text("다른 유저를 팔로우하고\n방명록에 서퍼등록을 요청해보세요")
                                 .lineSpacing(4)

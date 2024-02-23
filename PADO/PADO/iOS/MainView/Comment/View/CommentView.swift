@@ -5,6 +5,7 @@
 //  Created by 강치우 on 2/3/24.
 //
 
+import Lottie
 import SwiftUI
 
 struct CommentView: View {
@@ -13,6 +14,7 @@ struct CommentView: View {
     @Binding var isShowingCommentView: Bool
     
     @State private var commentText: String = ""
+    @State private var isFetchedComment: Bool = false
     @State private var isShowingComment: Bool = false
     @State private var isShowingLoginPage: Bool = false
     @State private var commentCount: Int = 0
@@ -41,28 +43,37 @@ struct CommentView: View {
                     .padding(.top)
                     
                     VStack(alignment: .leading) {
-                        if !commentVM.comments.isEmpty, let postID = post.id {
-                            ForEach(commentVM.comments) { comment in
-                                if commentVM.commentUsers.keys.contains(comment.userID) {
-                                    CommentCell(comment: comment,
-                                                commentVM: commentVM,
-                                                post: post,
-                                                postID: postID)
-                                    .id(comment.id)
-                                    .padding(.horizontal, 10)
-                                    .padding(.bottom, 20)
+                        if isFetchedComment {
+                            if !commentVM.comments.isEmpty, let postID = post.id {
+                                ForEach(commentVM.comments) { comment in
+                                    if commentVM.commentUsers.keys.contains(comment.userID) {
+                                        CommentCell(comment: comment,
+                                                    commentVM: commentVM,
+                                                    post: post,
+                                                    postID: postID)
+                                        .id(comment.id)
+                                        .padding(.horizontal, 10)
+                                        .padding(.bottom, 20)
+                                    }
+                                }
+                            } else {
+                                VStack {
+                                    Text("아직 댓글이 없습니다.")
+                                        .font(.system(size: 16, weight: .semibold))
+                                        .padding(.bottom, 10)
+                                        .padding(.top, 120)
+                                    Text("댓글을 남겨보세요.")
+                                        .font(.system(size: 12))
+                                        .foregroundStyle(.gray)
                                 }
                             }
                         } else {
-                            VStack {
-                                Text("아직 댓글이 없습니다.")
-                                    .font(.system(size: 16, weight: .semibold))
-                                    .padding(.bottom, 10)
-                                    .padding(.top, 120)
-                                Text("댓글을 남겨보세요.")
-                                    .font(.system(size: 12))
-                                    .foregroundStyle(.gray)
-                            }
+                            LottieView(animation: .named("Loading"))
+                                .looping()
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 100, height: 100)
+                                .padding(.top, 60)
                         }
                     }
                     .padding(.top)
@@ -78,6 +89,7 @@ struct CommentView: View {
                         }
                         commentVM.removeDuplicateUserIDs(from: commentVM.comments)
                         await commentVM.fetchCommentUser()
+                        isFetchedComment = true
                         commentVM.fetchDeleteUserComments()
                     }
                     commentCount = post.commentCount - commentVM.deleteUserComments

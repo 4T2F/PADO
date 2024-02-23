@@ -27,6 +27,7 @@ struct ProfileView: View {
     @State private var isShowingHightlight: Bool = false
     @State private var touchProfileImage: Bool = false
     @State private var touchBackImage: Bool = false
+    @State private var isDragging = false
     @State private var position = CGSize.zero
     @State var openHighlight: Bool = false
     @Binding var fetchedPostitData: Bool
@@ -56,12 +57,14 @@ struct ProfileView: View {
                     }
                 }
                 .background(.main, ignoresSafeAreaEdges: .all)
-                .opacity(touchBackImage ? 0 : 1)
-                .opacity(touchProfileImage ? 0 : 1)
+                .allowsHitTesting(!touchBackImage)
+                .allowsHitTesting(!touchProfileImage)
+                .opacity(touchBackImage ? 0.1 : 1)
+                .opacity(touchProfileImage ? 0.1 : 1)
                 .navigationBarBackButtonHidden()
                 .navigationBarTitleDisplayMode(.inline)
                 .onAppear {
-                    if viewModel.currentUser?.openHighlight != nil || viewModel.currentUser?.openHighlight == "yes" {
+                    if viewModel.currentUser?.openHighlight == nil || viewModel.currentUser?.openHighlight == "yes" {
                         openHighlight = true
                     }
                 }
@@ -102,13 +105,13 @@ struct ProfileView: View {
                         }
                     }
                 }
-                
                 // 뒷배경 조건문
                 if touchBackImage {
                     if let backProfileImageUrl = user.backProfileImageUrl {
                         KFImage(URL(string: backProfileImageUrl))
                             .resizable()
                             .scaledToFit()
+                            .clipShape(RoundedRectangle(cornerRadius: isDragging ? 12 : 0))
                             .zIndex(2)
                             .onTapGesture {
                                 withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
@@ -116,22 +119,60 @@ struct ProfileView: View {
                                 }
                             }
                             .offset(position)
+                            .highPriorityGesture (
+                                DragGesture()
+                                    .onChanged({ value in
+                                        self.position = value.translation
+                                        self.isDragging = true
+                                    })
+                                    .onEnded({ value in
+                                        withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
+                                            if 200 < abs(self.position.height) {
+                                                self.touchBackImage = false
+                                                self.isDragging = false
+                                            } else {
+                                                self.position = .zero
+                                                self.isDragging = false
+                                            }
+                                        }
+                                    })
+                            )
                     }
                 }
-                
                 // 프로필 사진 조건문
                 if touchProfileImage {
                     if let profileImageUrl = user.profileImageUrl {
                         KFImage(URL(string: profileImageUrl))
                             .resizable()
                             .scaledToFit()
+                            .background(.black)
+                            .clipShape(RoundedRectangle(cornerRadius: isDragging ? 12 : 0))
                             .zIndex(2)
+                            .contentShape(.rect)
                             .onTapGesture {
                                 withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
                                     self.touchProfileImage = false
                                 }
                             }
                             .offset(position)
+                            .highPriorityGesture (
+                                DragGesture()
+                                    .onChanged({ value in
+                                        self.position = value.translation
+                                        self.isDragging = true
+                                    })
+                                    .onEnded({ value in
+                                        withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
+                                            if 200 < abs(self.position.height) {
+                                                self.touchProfileImage = false
+                                                self.isDragging = false
+                                            } else {
+                                                self.position = .zero
+                                                self.isDragging = false
+                                            }
+                                        }
+                                    })
+                            )
                     }
                 }
             }
@@ -160,6 +201,7 @@ struct ProfileView: View {
             KFImage(URL(string: user.backProfileImageUrl ?? ""))
                 .scaledToFill()
                 .frame(width: size.width, height: height > 0 ? height : 0, alignment: .top)
+                .contentShape(.rect)
                 .overlay {
                     ZStack(alignment: .bottom) {
                         LinearGradient(colors: [.clear,
@@ -172,49 +214,47 @@ struct ProfileView: View {
                                        endPoint: .bottom)
                         
                         VStack(alignment: .leading, spacing: 10) {
-                                CircularImageView(size: .xxLarge, user: user)
-                                    .zIndex(touchProfileImage ? 1 : 0)
-                                    .onTapGesture {
-                                        if user.profileImageUrl != nil {
-                                            position = .zero
-                                            withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
-                                                touchProfileImage = true
+                            CircularImageView(size: .xxLarge, user: user)
+                                .zIndex(touchProfileImage ? 1 : 0)
+                                .onTapGesture {
+                                    if user.profileImageUrl != nil {
+                                        position = .zero
+                                        withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
+                                            touchProfileImage = true
+                                        }
+                                    }
+                                }
+                                .overlay {
+                                    Button {
+                                        viewModel.isShowingMessageView = true
+                                    } label: {
+                                        Circle()
+                                            .frame(width: 30)
+                                            .foregroundStyle(.clear)
+                                            .overlay {
+                                                if postitVM.messages.isEmpty {
+                                                    LottieView(animation: .named("nonePostit"))
+                                                        .paused(at: .progress(1))
+                                                        .resizable()
+                                                        .scaledToFit()
+                                                        .frame(width: 40, height: 40)
+                                                } else {
+                                                    LottieView(animation: .named("Postit"))
+                                                        .looping()
+                                                        .resizable()
+                                                        .scaledToFit()
+                                                        .frame(width: 40, height: 40)
+                                                }
                                             }
-                                        }
                                     }
-                                    .overlay {
-                                        Button {
-                                            viewModel.isShowingMessageView = true
-                                        } label: {
-                                            Circle()
-                                                .frame(width: 30)
-                                                .foregroundStyle(.clear)
-                                                .overlay {
-                                                    if postitVM.messages.isEmpty {
-                                                        LottieView(animation: .named("nonePostit"))
-                                                            .paused(at: .progress(1))
-                                                            .resizable()
-                                                            .scaledToFit()
-                                                            .frame(width: 40, height: 40)
-                                                    } else {
-                                                        LottieView(animation: .named("Postit"))
-                                                            .looping()
-                                                            .resizable()
-                                                            .scaledToFit()
-                                                            .frame(width: 40, height: 40)
-                                                    }
-                                                } 
-                                        }
-                                        .offset(x: 46, y: -36)
-                                        .sheet(isPresented: $viewModel.isShowingMessageView) {
-                                            PostitView(postitVM: postitVM,
-                                                       isShowingMessageView: $viewModel.isShowingMessageView)
-                                            .presentationDragIndicator(.visible)
-                                        }
-                                        .presentationDetents([.large])
+                                    .offset(x: 46, y: -36)
+                                    .sheet(isPresented: $viewModel.isShowingMessageView) {
+                                        PostitView(postitVM: postitVM,
+                                                   isShowingMessageView: $viewModel.isShowingMessageView)
+                                        .presentationDragIndicator(.visible)
                                     }
-                                
-                            
+                                    .presentationDetents([.large])
+                                }
                             
                             HStack(alignment: .center, spacing: 4) {
                                 VStack(alignment: .leading, spacing: 4) {
@@ -258,50 +298,50 @@ struct ProfileView: View {
                                 .foregroundStyle(.white)
                                 .fontWeight(.medium)
                                 
-                                    Button {
-                                        followerActive = true
-                                    } label: {
-                                        HStack(spacing: 2) {
-                                            Text("\(followVM.followerIDs.count + followVM.surferIDs.count)")
-                                            
-                                            Text("팔로워")
-                                        }
-                                        .font(.system(size: 14))
-                                        .foregroundStyle(.white)
-                                        .fontWeight(.medium)
+                                Button {
+                                    followerActive = true
+                                } label: {
+                                    HStack(spacing: 2) {
+                                        Text("\(followVM.followerIDs.count + followVM.surferIDs.count)")
+                                        
+                                        Text("팔로워")
                                     }
-                                    .sheet(isPresented: $followerActive) {
-                                        FollowMainView(currentType: "팔로워", followVM: followVM, user: user)
-                                            .presentationDetents([.large])
-                                            .presentationDragIndicator(.visible)
-                                            .onDisappear {
-                                                followerActive = false
-                                            }
-                                    }
-                                    
-                                    Button {
-                                        followingActive = true
-                                    } label: {
-                                        HStack(spacing: 2) {
-                                            Text("\(followVM.followingIDs.count)")
-                                            
-                                            Text("팔로잉")
-                                        }
-                                        .font(.system(size: 14))
-                                        .foregroundStyle(.white)
-                                        .fontWeight(.medium)
-                                    }
-                                    
-                                    .sheet(isPresented: $followingActive) {
-                                        FollowMainView(currentType: "팔로잉",
-                                                       followVM: followVM,
-                                                       user: user)
+                                    .font(.system(size: 14))
+                                    .foregroundStyle(.white)
+                                    .fontWeight(.medium)
+                                }
+                                .sheet(isPresented: $followerActive) {
+                                    FollowMainView(currentType: "팔로워", followVM: followVM, user: user)
                                         .presentationDetents([.large])
                                         .presentationDragIndicator(.visible)
                                         .onDisappear {
-                                            followingActive = false
+                                            followerActive = false
                                         }
+                                }
+                                
+                                Button {
+                                    followingActive = true
+                                } label: {
+                                    HStack(spacing: 2) {
+                                        Text("\(followVM.followingIDs.count)")
+                                        
+                                        Text("팔로잉")
                                     }
+                                    .font(.system(size: 14))
+                                    .foregroundStyle(.white)
+                                    .fontWeight(.medium)
+                                }
+                                
+                                .sheet(isPresented: $followingActive) {
+                                    FollowMainView(currentType: "팔로잉",
+                                                   followVM: followVM,
+                                                   user: user)
+                                    .presentationDetents([.large])
+                                    .presentationDragIndicator(.visible)
+                                    .onDisappear {
+                                        followingActive = false
+                                    }
+                                }
                                 
                             }
                             .padding(.leading, 2)

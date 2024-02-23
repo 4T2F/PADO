@@ -88,6 +88,8 @@ struct BirthView: View {
                             Task{
                                 await viewModel.signUpUser()
                                 needsDataFetch.toggle()
+                                viewModel.signType = .signUp
+                                currentStep = .welcome
                             }
                         } else {
                             showBirthAlert = true
