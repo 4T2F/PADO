@@ -50,7 +50,7 @@ struct LoginAlert: View {
                     .padding(.horizontal, 50)
                 }
                 .sheet(isPresented: $isShowingLoginPage, content: {
-                    StartView()
+                    StartView(isShowStartView: $isShowingLoginPage)
                         .presentationDragIndicator(.visible)
                 })
                 .padding(.bottom, 10)

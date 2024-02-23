@@ -63,7 +63,7 @@ struct ProfileView: View {
                         if let currentUser = viewModel.currentUser {
                             profileVM.stopAllPostListeners()
                             try? await Task.sleep(nanoseconds: 1 * 1000_000_000)
-                            await profileVM.fetchPostID(user: viewModel.currentUser!)
+                            await profileVM.fetchPostID(user: currentUser)
                         }
                         isRefresh = false
                     }
@@ -187,7 +187,7 @@ struct ProfileView: View {
                             )
                     }
                 }
-                    
+                
                 VStack {
                     if isRefresh {
                         LottieView(animation: .named("Wave"))
@@ -386,7 +386,7 @@ struct ProfileView: View {
                         }
                     }
                 }
-          
+            
         }
         .frame(height: 300)
     }

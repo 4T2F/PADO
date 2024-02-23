@@ -454,7 +454,7 @@ struct FeedCell: View {
                                         Image("heart")
                                     }
                                     .sheet(isPresented: $isShowingLoginPage, content: {
-                                        StartView()
+                                        StartView(isShowStartView: $isShowingLoginPage)
                                             .presentationDragIndicator(.visible)
                                     })
                                 }
@@ -602,7 +602,7 @@ struct FeedCell: View {
                                         .presentationDragIndicator(.visible)
                                 }
                                 .sheet(isPresented: $isShowingLoginPage, content: {
-                                    StartView()
+                                    StartView(isShowStartView: $isShowingLoginPage)
                                         .presentationDragIndicator(.visible)
                                 })
                             }

@@ -17,7 +17,6 @@ class AuthenticationViewModel: ObservableObject {
     @Published var nameID = ""
     @Published var year = ""
     @Published var phoneNumber = ""
-    @Published var signType = SignType.signUp
     @Published var otpText = ""
     
     @Published var isLoading: Bool = false

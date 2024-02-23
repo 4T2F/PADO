@@ -105,7 +105,9 @@ struct OtherUserProfileView: View {
                             
                             if user.nameID != userNameID {
                                 Button {
-                                    isShowingUserReport = true
+                                    if !userNameID.isEmpty {
+                                        isShowingUserReport = true
+                                    }
                                 } label: {
                                     Image(systemName: "ellipsis")
                                 }

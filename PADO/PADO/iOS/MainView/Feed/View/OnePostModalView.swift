@@ -451,7 +451,7 @@ struct OnePostModalView: View {
                                             Image("heart")
                                         }
                                         .sheet(isPresented: $isShowingLoginPage, content: {
-                                            StartView()
+                                            StartView(isShowStartView: $isShowingLoginPage)
                                                 .presentationDragIndicator(.visible)
                                         })
                                     }
@@ -603,7 +603,7 @@ struct OnePostModalView: View {
                                             .presentationDragIndicator(.visible)
                                     }
                                     .sheet(isPresented: $isShowingLoginPage, content: {
-                                        StartView()
+                                        StartView(isShowStartView: $isShowingLoginPage)
                                             .presentationDragIndicator(.visible)
                                     })
                                 }

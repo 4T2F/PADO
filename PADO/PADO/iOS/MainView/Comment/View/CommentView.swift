@@ -135,7 +135,7 @@ struct CommentView: View {
                         .presentationDragIndicator(.visible)
                 })
                 .sheet(isPresented: $isShowingLoginPage) {
-                    StartView()
+                    StartView(isShowStartView: $isShowingLoginPage)
                         .presentationDragIndicator(.visible)
                 }
             }

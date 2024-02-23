@@ -74,7 +74,7 @@ struct FaceMojiView: View {
                                              mycameraDevice: $surfingVM.cameraDevice)
                         }
                         .sheet(isPresented: $isShowingLoginPage, content: {
-                            StartView()
+                            StartView(isShowStartView: $isShowingLoginPage)
                                 .presentationDragIndicator(.visible)
                         })
                         .onChange(of: surfingVM.faceMojiUIImage) { _, _ in

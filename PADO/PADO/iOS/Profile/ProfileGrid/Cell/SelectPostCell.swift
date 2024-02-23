@@ -407,7 +407,7 @@ struct SelectPostCell: View {
                                         Image("heart")
                                     }
                                     .sheet(isPresented: $isShowingLoginPage, content: {
-                                        StartView()
+                                        StartView(isShowStartView: $isShowingLoginPage)
                                             .presentationDragIndicator(.visible)
                                     })
                                 }
@@ -562,7 +562,7 @@ struct SelectPostCell: View {
                                         .presentationDragIndicator(.visible)
                                 }
                                 .sheet(isPresented: $isShowingLoginPage, content: {
-                                    StartView()
+                                    StartView(isShowStartView: $isShowingLoginPage)
                                         .presentationDragIndicator(.visible)
                                 })
                             }

@@ -72,7 +72,7 @@ struct CustomTabView: View {
                     }
                     .frame(width: geometry.size.width / 5)
                     .sheet(isPresented: $isShowingStartView, content: {
-                        StartView()
+                        StartView(isShowStartView: $isShowingStartView)
                             .presentationDragIndicator(.visible)
                     })
                     
@@ -96,8 +96,7 @@ struct CustomTabView: View {
                     }
                     .frame(width: geometry.size.width / 5)
                     .sheet(isPresented: $isShowingStartView, content: {
-                        StartView()
-                            .presentationDragIndicator(.visible)
+                        StartView(isShowStartView: $isShowingStartView)                            .presentationDragIndicator(.visible)
                     })
                     
                     Button {
@@ -119,7 +118,7 @@ struct CustomTabView: View {
                     }
                     .frame(width: geometry.size.width / 5)
                     .sheet(isPresented: $isShowingStartView, content: {
-                        StartView()
+                        StartView(isShowStartView: $isShowingStartView)
                             .presentationDragIndicator(.visible)
                     })
                 }
