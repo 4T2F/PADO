@@ -209,6 +209,7 @@ struct OtherUserProfileView: View {
                 fetchingPostData = false
                 await postitVM.listenForMessages(ownerID: user.nameID)
                 fetchedPostitData = true
+                enteredNavigation = true
             }
         }
         .onChange(of: resetNavigation) { _, _ in
@@ -218,6 +219,7 @@ struct OtherUserProfileView: View {
             followVM.stopAllListeners()
             postitVM.removeListner()
             profileVM.stopAllPostListeners()
+            enteredNavigation = false
         }
     }
     

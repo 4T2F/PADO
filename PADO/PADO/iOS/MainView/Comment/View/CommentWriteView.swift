@@ -17,8 +17,6 @@ struct CommentWriteView: View {
     @State private var commentText: String = ""
     @State private var isFocused: Bool = false
     
-    @Binding var commentCount: Int
-    
     @State var postUser: User
     
     let post: Post
@@ -122,7 +120,6 @@ struct CommentWriteView: View {
                                         commentVM.comments = fetchedComments
                                     }
                                     commentText = ""
-                                    commentCount += 1
                                 }
                                 dismiss()
                             }

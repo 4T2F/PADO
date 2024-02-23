@@ -21,7 +21,6 @@ struct OnePostModalView: View {
     @State var postSurferButtonOnOff: Bool = false
     
     @State private var isShowingReportView: Bool = false
-    @State private var isShowingCommentView: Bool = false
     @State private var isShowingLoginPage: Bool = false
     @State private var isShowingMoreText: Bool = false
     @State private var textColor: Color = .white
@@ -224,7 +223,7 @@ struct OnePostModalView: View {
                                                 .clipShape(RoundedRectangle(cornerRadius: 3))
                                                 .padding(.bottom, 4)
                                                 .padding(.trailing, 24)
-                                        
+                                            
                                         }
                                     }
                                     .font(.system(size: 16))
@@ -232,44 +231,26 @@ struct OnePostModalView: View {
                                     .lineSpacing(1)
                                     .fontWeight(.bold)
                                     .padding(.trailing, 20)
-                                    
-                                    // MARK: - 서퍼
-                                    if let surferUser = surferUser {
-                                        NavigationLink {
-                                            OtherUserProfileView(buttonOnOff: $postSurferButtonOnOff,
-                                                                 user: surferUser)
-                                            
-                                        } label: {
-                                            Text("surf. @\(post.surferUid)")
-                                        }
-                                        .font(.system(size: 14))
-                                        .fontWeight(.heavy)
-                                        .foregroundStyle(.white)
-                                        .padding(8)
-                                        .background(.modal.opacity(0.8))
-                                        .clipShape(RoundedRectangle(cornerRadius: 3))
-                                        .padding(.bottom, 4)
-                                        .padding(.trailing, 24)
+                                }
+                                // MARK: - 서퍼
+                                if let surferUser = surferUser {
+                                    NavigationLink {
+                                        OtherUserProfileView(buttonOnOff: $postSurferButtonOnOff,
+                                                             user: surferUser)
                                         
+                                    } label: {
+                                        Text("surf. @\(post.surferUid)")
                                     }
-                                } else {
-                                    if let surferUser = surferUser {
-                                        NavigationLink {
-                                            OtherUserProfileView(buttonOnOff: $postSurferButtonOnOff,
-                                                                 user: surferUser)
-                                            
-                                        } label: {
-                                            Text("surf. @\(post.surferUid)")
-                                        }
-                                        .font(.system(size: 14))
-                                        .fontWeight(.heavy)
-                                        .foregroundStyle(.white)
-                                        .padding(8)
-                                        .background(.modal.opacity(0.8))
-                                        .clipShape(RoundedRectangle(cornerRadius: 3))
-                                        .padding(.bottom, 4)
-                                        .padding(.trailing, 24)
-                                    }
+                                    .font(.system(size: 14))
+                                    .fontWeight(.heavy)
+                                    .foregroundStyle(.white)
+                                    .padding(8)
+                                    .background(.modal.opacity(0.8))
+                                    .clipShape(RoundedRectangle(cornerRadius: 3))
+                                    .padding(.bottom, 4)
+                                    .padding(.trailing, 24)
+                                    
+                                    
                                 }
                             }
                             
@@ -439,11 +420,11 @@ struct OnePostModalView: View {
                                                         await UpdateHeartData.shared.addHeart(documentID: postID)
                                                         isHeartCheck = await UpdateHeartData.shared.checkHeartExists(documentID: postID)
                                                         heartLoading = false
-                                                            await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID,
-                                                                                                         receiveUser: postUser,
-                                                                                                         type: .heart,
-                                                                                                         message: "",
-                                                                                                         post: post)
+                                                        await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID,
+                                                                                                     receiveUser: postUser,
+                                                                                                     type: .heart,
+                                                                                                     message: "",
+                                                                                                     post: post)
                                                     }
                                                 }
                                             }
@@ -464,26 +445,23 @@ struct OnePostModalView: View {
                                 }
                                 
                                 // MARK: - 댓글
-                                VStack(spacing: 0) {
-                                    Button {
-                                        if !blockPost(post: post) {
-                                            isShowingCommentView = true
-                                        }
-                                    } label: {
+                                NavigationLink {
+                                    if let postUser = postUser, let postID = post.id, !blockPost(post: post) {
+                                        CommentView(postUser: postUser,
+                                                    post: post,
+                                                    postID: postID)
+                                        
+                                    }
+                                } label: {
+                                    VStack(spacing: 10) {
                                         Image("chat")
+                                        
+                                        // MARK: - 댓글 숫자
+                                        Text("\(post.commentCount)")
+                                            .font(.system(size: 10))
+                                            .fontWeight(.semibold)
+                                            .shadow(radius: 1, y: 1)
                                     }
-                                    .sheet(isPresented: $isShowingCommentView) {
-                                        if let postUser = postUser, let postID = post.id {
-                                            CommentView(postUser: postUser,
-                                                        post: post,
-                                                        postID: postID)
-                                            .presentationDragIndicator(.visible)
-                                        }
-                                    }
-                                    .presentationDetents([.large])
-                                    
-                                    Text("")
-                                        .font(.system(size: 10))
                                 }
                                 
                                 // MARK: - 신고하기

@@ -40,3 +40,4 @@ var blockingUser: [BlockUser] = []
 var blockedUser: [BlockUser] = []
 var needsDataFetch: Bool = false
 var resetNavigation: Bool = false
+var enteredNavigation: Bool = false

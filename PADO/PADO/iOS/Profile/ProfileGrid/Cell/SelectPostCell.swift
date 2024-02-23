@@ -25,7 +25,6 @@ struct SelectPostCell: View {
     
     @State private var isHeaderVisible: Bool = true
     @State private var isShowingReportView: Bool = false
-    @State private var isShowingCommentWriteView: Bool = false
     @State private var isShowingLoginPage: Bool = false
     @State private var isShowingMoreText: Bool = false
     @State private var textColor: Color = .white
@@ -195,42 +194,25 @@ struct SelectPostCell: View {
                                 .lineSpacing(1)
                                 .fontWeight(.bold)
                                 .padding(.trailing, 20)
-                                
-                                // MARK: - 서퍼
-                                if let surferUser = surferUser {
-                                    NavigationLink {
-                                        OtherUserProfileView(buttonOnOff: $postSurferButtonOnOff,
-                                                             user: surferUser)
-                                    } label: {
-                                        Text("surf. @\(post.surferUid)")
-                                    }
-                                    .font(.system(size: 14))
-                                    .fontWeight(.heavy)
-                                    .foregroundStyle(.white)
-                                    .padding(8)
-                                    .background(.modal.opacity(0.8))
-                                    .clipShape(RoundedRectangle(cornerRadius: 3))
-                                    .padding(.bottom, 4)
-                                    .padding(.trailing, 24)
-                                }
-                            } else {
-                                if let surferUser = surferUser {
-                                    NavigationLink {
-                                        OtherUserProfileView(buttonOnOff: $postSurferButtonOnOff,
-                                                             user: surferUser)
-                                    } label: {
-                                        Text("surf. @\(post.surferUid)")
-                                    }
-                                    .font(.system(size: 14))
-                                    .fontWeight(.heavy)
-                                    .foregroundStyle(.white)
-                                    .padding(8)
-                                    .background(.modal.opacity(0.8))
-                                    .clipShape(RoundedRectangle(cornerRadius: 3))
-                                    .padding(.bottom, 4)
-                                    .padding(.trailing, 24)
-                                }
                             }
+                            // MARK: - 서퍼
+                            if let surferUser = surferUser {
+                                NavigationLink {
+                                    OtherUserProfileView(buttonOnOff: $postSurferButtonOnOff,
+                                                         user: surferUser)
+                                } label: {
+                                    Text("surf. @\(post.surferUid)")
+                                }
+                                .font(.system(size: 14))
+                                .fontWeight(.heavy)
+                                .foregroundStyle(.white)
+                                .padding(8)
+                                .background(.modal.opacity(0.8))
+                                .clipShape(RoundedRectangle(cornerRadius: 3))
+                                .padding(.bottom, 4)
+                                .padding(.trailing, 24)
+                            }
+                            
                         }
                         
                         HStack(spacing: 12) {
@@ -427,11 +409,13 @@ struct SelectPostCell: View {
                                                 postID: postID)
                                 }
                             } label: {
-                                VStack(spacing: 0) {
+                                VStack(spacing: 10) {
                                     Image("chat")
-                                    
-                                    Text("")
+                                    // MARK: - 댓글 숫자
+                                    Text("\(post.commentCount)")
                                         .font(.system(size: 10))
+                                        .fontWeight(.semibold)
+                                        .shadow(radius: 1, y: 1)
                                 }
                             }
                             

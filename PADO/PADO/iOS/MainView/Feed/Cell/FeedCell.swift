@@ -238,47 +238,29 @@ struct FeedCell: View {
                                 .lineSpacing(1)
                                 .fontWeight(.bold)
                                 .padding(.trailing, 20)
-                                
-                                // MARK: - 서퍼
-                                if let surferUser = surferUser {
-                                    NavigationLink {
-                                        OtherUserProfileView(buttonOnOff: $postSurferButtonOnOff,
-                                                             user: surferUser)
-                                        
-                                    } label: {
-                                        Text("surf. @\(post.surferUid)")
-                                    }
-                                    .font(.system(size: 14))
-                                    .fontWeight(.heavy)
-                                    .foregroundStyle(.white)
-                                    .padding(8)
-                                    .background(.modal.opacity(0.8))
-                                    .clipShape(RoundedRectangle(cornerRadius: 3))
-                                    .padding(.bottom, 4)
-                                    .padding(.trailing, 24)
+                            }
+                            // MARK: - 서퍼
+                            if let surferUser = surferUser {
+                                NavigationLink {
+                                    OtherUserProfileView(buttonOnOff: $postSurferButtonOnOff,
+                                                         user: surferUser)
                                     
+                                } label: {
+                                    Text("surf. @\(post.surferUid)")
                                 }
-                            } else {
-                                if let surferUser = surferUser {
-                                    NavigationLink {
-                                        OtherUserProfileView(buttonOnOff: $postSurferButtonOnOff,
-                                                             user: surferUser)
-                                        
-                                    } label: {
-                                        Text("surf. @\(post.surferUid)")
-                                    }
-                                    .font(.system(size: 14))
-                                    .fontWeight(.heavy)
-                                    .foregroundStyle(.white)
-                                    .padding(8)
-                                    .background(.modal.opacity(0.8))
-                                    .clipShape(RoundedRectangle(cornerRadius: 3))
-                                    .padding(.bottom, 4)
-                                    .padding(.trailing, 24)
-                                }
+                                .font(.system(size: 14))
+                                .fontWeight(.heavy)
+                                .foregroundStyle(.white)
+                                .padding(8)
+                                .background(.modal.opacity(0.8))
+                                .clipShape(RoundedRectangle(cornerRadius: 3))
+                                .padding(.bottom, 4)
+                                .padding(.trailing, 24)
+                                
                             }
                         }
                         HStack(spacing: 12) {
+                            
                             NavigationLink {
                                 if let postUser = postUser {
                                     OtherUserProfileView(buttonOnOff: $postOwnerButtonOnOff,
@@ -471,17 +453,19 @@ struct FeedCell: View {
                                     CommentView(postUser: postUser,
                                                 post: post,
                                                 postID: postID)
+                                    
                                 }
                             } label: {
-                                VStack(spacing: 0) {
+                                VStack(spacing: 10) {
                                     Image("chat")
                                     
-                                    Text("")
+                                    // MARK: - 댓글 숫자
+                                    Text("\(post.commentCount)")
                                         .font(.system(size: 10))
+                                        .fontWeight(.semibold)
+                                        .shadow(radius: 1, y: 1)
                                 }
                             }
-
-                            
                             
                             // MARK: - 신고하기
                             VStack(spacing: 10) {

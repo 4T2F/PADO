@@ -20,7 +20,6 @@ class CommentViewModel: ObservableObject {
     @Published var selectedComment: Comment?
     @Published var commentUserIDs: [String] = []
     @Published var commentUsers: [String: User] = [:]
-    @Published var deleteUserComments: Int = 0
     
     let updateCommentData = UpdateCommentData()
     
@@ -57,14 +56,6 @@ class CommentViewModel: ObservableObject {
             }
         } catch {
             print("유저 데이터 가져오기 실패: \(error.localizedDescription)")
-        }
-    }
-    
-    func fetchDeleteUserComments() {
-        for comment in comments {
-            if !commentUsers.keys.contains(comment.userID) {
-                deleteUserComments += 1
-            }
         }
     }
 }

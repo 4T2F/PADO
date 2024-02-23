@@ -20,7 +20,7 @@ struct CustomTabView: View {
             GeometryReader { geometry in
                 HStack(spacing: 0) {
                     Button {
-                        if viewModel.showTab == 0 {
+                        if !enteredNavigation && viewModel.showTab == 0 {
                             viewModel.scrollToTop.toggle()
                         }
                         viewModel.showTab = 0
