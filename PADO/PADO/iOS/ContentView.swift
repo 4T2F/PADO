@@ -119,6 +119,8 @@ struct ContentView: View {
         .onChange(of: needsDataFetch) { _, _ in
             fetchData()
         }
+        .onChange(of: pushUser) { }
+        .onChange(of: pushPost) { }
     }
     
     func fetchData() {
@@ -146,6 +148,7 @@ struct ContentView: View {
             await feedVM.fetchFollowingPosts()
             profileVM.stopAllPostListeners()
             await profileVM.fetchPostID(user: viewModel.currentUser!)
+            
             await postitVM.listenForMessages(ownerID: userNameID)
             fetchedPostitData = true
             await notiVM.fetchNotifications()

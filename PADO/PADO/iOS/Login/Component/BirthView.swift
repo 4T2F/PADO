@@ -11,6 +11,7 @@ struct BirthView: View {
     @State var showBirthAlert: Bool = false
     @State var buttonActive: Bool = false
     @Binding var currentStep: SignUpStep
+    @Binding var isShowStartView: Bool
     @EnvironmentObject var viewModel: AuthenticationViewModel
     
     let termsLink = "[이용약관](https://notch-galaxy-ab8.notion.site/6ff60c61aa104cd6b1471d3ea5102ce3?pvs=4)"
@@ -88,8 +89,9 @@ struct BirthView: View {
                             Task{
                                 await viewModel.signUpUser()
                                 needsDataFetch.toggle()
-                                viewModel.signType = .signUp
-                                currentStep = .welcome
+                                withAnimation(.interactiveSpring(response: 0.3, dampingFraction: 0.8, blendDuration: 0.8)) {
+                                    isShowStartView = false
+                                }
                             }
                         } else {
                             showBirthAlert = true

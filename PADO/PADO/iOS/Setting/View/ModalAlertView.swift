@@ -84,8 +84,11 @@ struct ModalAlertView: View {
                         dismiss()
                         
                     case .signOut:
-                        viewModel.signOut()
-                        needsDataFetch.toggle()
+                        Task {
+                            viewModel.signOut()
+                            try? await Task.sleep(nanoseconds: 1 * 500_000_000)
+                            needsDataFetch.toggle()
+                        }
                         dismiss()
                     }
                 } label: {

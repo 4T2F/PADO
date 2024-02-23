@@ -87,10 +87,14 @@ struct NotificationView: View {
                 await notiVM.fetchNotifications()
                 await notiVM.markNotificationsAsRead()
                 fetchedNotiData = true
+                enteredNavigation = true
             }
         }
-        .onChange(of: viewModel.resetNavigation) { _, _ in
+        .onChange(of: resetNavigation) { _, _ in
             dismiss()
+        }
+        .onDisappear {
+            enteredNavigation = false
         }
     }
 }

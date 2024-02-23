@@ -25,7 +25,6 @@ struct SelectPostCell: View {
     
     @State private var isHeaderVisible: Bool = true
     @State private var isShowingReportView: Bool = false
-    @State private var isShowingCommentView: Bool = false
     @State private var isShowingLoginPage: Bool = false
     @State private var isShowingMoreText: Bool = false
     @State private var textColor: Color = .white
@@ -195,42 +194,25 @@ struct SelectPostCell: View {
                                 .lineSpacing(1)
                                 .fontWeight(.bold)
                                 .padding(.trailing, 20)
-                                
-                                // MARK: - 서퍼
-                                if let surferUser = surferUser {
-                                    NavigationLink {
-                                        OtherUserProfileView(buttonOnOff: $postSurferButtonOnOff,
-                                                             user: surferUser)
-                                    } label: {
-                                        Text("surf. @\(post.surferUid)")
-                                    }
-                                    .font(.system(size: 14))
-                                    .fontWeight(.heavy)
-                                    .foregroundStyle(.white)
-                                    .padding(8)
-                                    .background(.modal.opacity(0.8))
-                                    .clipShape(RoundedRectangle(cornerRadius: 3))
-                                    .padding(.bottom, 4)
-                                    .padding(.trailing, 24)
-                                }
-                            } else {
-                                if let surferUser = surferUser {
-                                    NavigationLink {
-                                        OtherUserProfileView(buttonOnOff: $postSurferButtonOnOff,
-                                                             user: surferUser)
-                                    } label: {
-                                        Text("surf. @\(post.surferUid)")
-                                    }
-                                    .font(.system(size: 14))
-                                    .fontWeight(.heavy)
-                                    .foregroundStyle(.white)
-                                    .padding(8)
-                                    .background(.modal.opacity(0.8))
-                                    .clipShape(RoundedRectangle(cornerRadius: 3))
-                                    .padding(.bottom, 4)
-                                    .padding(.trailing, 24)
-                                }
                             }
+                            // MARK: - 서퍼
+                            if let surferUser = surferUser {
+                                NavigationLink {
+                                    OtherUserProfileView(buttonOnOff: $postSurferButtonOnOff,
+                                                         user: surferUser)
+                                } label: {
+                                    Text("surf. @\(post.surferUid)")
+                                }
+                                .font(.system(size: 14))
+                                .fontWeight(.heavy)
+                                .foregroundStyle(.white)
+                                .padding(8)
+                                .background(.modal.opacity(0.8))
+                                .clipShape(RoundedRectangle(cornerRadius: 3))
+                                .padding(.bottom, 4)
+                                .padding(.trailing, 24)
+                            }
+                            
                         }
                         
                         HStack(spacing: 12) {
@@ -407,7 +389,7 @@ struct SelectPostCell: View {
                                         Image("heart")
                                     }
                                     .sheet(isPresented: $isShowingLoginPage, content: {
-                                        StartView()
+                                        StartView(isShowStartView: $isShowingLoginPage)
                                             .presentationDragIndicator(.visible)
                                     })
                                 }
@@ -420,28 +402,21 @@ struct SelectPostCell: View {
                             }
                             
                             // MARK: - 댓글
-                            VStack(spacing: 0) {
-                                Button {
-                                    if !blockPost(post: post) {
-                                        isShowingCommentView = true
-                                    }
-                                } label: {
+                            NavigationLink {
+                                if let postUser = postUser, let postID = post.id, !blockPost(post: post) {
+                                    CommentView(postUser: postUser,
+                                                post: post,
+                                                postID: postID)
+                                }
+                            } label: {
+                                VStack(spacing: 10) {
                                     Image("chat")
+                                    // MARK: - 댓글 숫자
+                                    Text("\(post.commentCount)")
+                                        .font(.system(size: 10))
+                                        .fontWeight(.semibold)
+                                        .shadow(radius: 1, y: 1)
                                 }
-                                .sheet(isPresented: $isShowingCommentView) {
-                                    if let postUser = postUser, let postID = post.id {
-                                        CommentView(isShowingCommentView: $isShowingCommentView,
-                                                    postUser: postUser,
-                                                    post: post,
-                                                    postID: postID)
-                                    }
-                                }
-                                .presentationDetents([.large])
-                                
-                                // MARK: - 댓글 숫자
-                                Text("")
-                                    .font(.system(size: 10))
-                                
                             }
                             
                             // MARK: - 신고하기
@@ -502,6 +477,7 @@ struct SelectPostCell: View {
                                                 }
                                             }
                                             deleteMyPadoride = false
+                                            resetNavigation.toggle()
                                             needsDataFetch.toggle()
                                         }
                                     })
@@ -521,6 +497,7 @@ struct SelectPostCell: View {
                                                 }
                                             }
                                             deleteSendPadoride = false
+                                            resetNavigation.toggle()
                                             needsDataFetch.toggle()
                                         }
                                     }
@@ -535,6 +512,7 @@ struct SelectPostCell: View {
                                                                                    sufferID: post.surferUid)
                                             }
                                             deleteMyPost = false
+                                            resetNavigation.toggle()
                                             needsDataFetch.toggle()
                                         }
                                     }
@@ -547,6 +525,7 @@ struct SelectPostCell: View {
                                                                                postOwnerID: post.ownerUid,
                                                                                sufferID: post.surferUid)
                                             deleteSendPost = false
+                                            resetNavigation.toggle()
                                             needsDataFetch.toggle()
                                         }
                                     }
@@ -558,7 +537,7 @@ struct SelectPostCell: View {
                                         .presentationDragIndicator(.visible)
                                 }
                                 .sheet(isPresented: $isShowingLoginPage, content: {
-                                    StartView()
+                                    StartView(isShowStartView: $isShowingLoginPage)
                                         .presentationDragIndicator(.visible)
                                 })
                             }

@@ -116,7 +116,7 @@ struct PostitView: View {
                             }
                             .padding(.vertical, -5)
                             .sheet(isPresented: $isShowingLoginPage, content: {
-                                StartView()
+                                StartView(isShowStartView: $isShowingLoginPage)
                                     .presentationDragIndicator(.visible)
                             })
                         } else {

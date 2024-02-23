@@ -82,7 +82,7 @@ struct FollowButtonView: View {
         }
         .sheet(isPresented: $isShowingLoginPage,
                content: {
-            StartView()
+            StartView(isShowStartView: $isShowingLoginPage)
                 .presentationDragIndicator(.visible)
         })
         .onAppear {

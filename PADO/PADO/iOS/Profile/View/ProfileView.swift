@@ -29,6 +29,7 @@ struct ProfileView: View {
     @State private var touchBackImage: Bool = false
     @State private var isDragging = false
     @State private var position = CGSize.zero
+    @State private var isRefresh: Bool = false
     @State var openHighlight: Bool = false
     @Binding var fetchedPostitData: Bool
     
@@ -56,6 +57,17 @@ struct ProfileView: View {
                         .background(.main)
                     }
                 }
+                .refreshable(action: {
+                    Task {
+                        isRefresh = true
+                        if let currentUser = viewModel.currentUser {
+                            profileVM.stopAllPostListeners()
+                            try? await Task.sleep(nanoseconds: 1 * 1000_000_000)
+                            await profileVM.fetchPostID(user: currentUser)
+                        }
+                        isRefresh = false
+                    }
+                })
                 .background(.main, ignoresSafeAreaEdges: .all)
                 .allowsHitTesting(!touchBackImage)
                 .allowsHitTesting(!touchProfileImage)
@@ -119,7 +131,7 @@ struct ProfileView: View {
                                 }
                             }
                             .offset(position)
-                            .highPriorityGesture (
+                            .highPriorityGesture(
                                 DragGesture()
                                     .onChanged({ value in
                                         self.position = value.translation
@@ -155,7 +167,7 @@ struct ProfileView: View {
                                 }
                             }
                             .offset(position)
-                            .highPriorityGesture (
+                            .highPriorityGesture(
                                 DragGesture()
                                     .onChanged({ value in
                                         self.position = value.translation
@@ -174,6 +186,18 @@ struct ProfileView: View {
                                     })
                             )
                     }
+                }
+                
+                VStack {
+                    if isRefresh {
+                        LottieView(animation: .named("Wave"))
+                            .looping()
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 100, height: 100)
+                            .padding(.top, 30)
+                    }
+                    Spacer()
                 }
             }
             .overlay {
@@ -362,6 +386,7 @@ struct ProfileView: View {
                         }
                     }
                 }
+            
         }
         .frame(height: 300)
     }
@@ -423,6 +448,7 @@ struct ProfileView: View {
     @ViewBuilder
     func postView() -> some View {
         VStack(spacing: 25) {
+            
             if profileVM.padoPosts.isEmpty {
                 NoItemView(itemName: "아직 받은 게시물이 없습니다")
                     .padding(.top, 150)
@@ -446,7 +472,8 @@ struct ProfileView: View {
                                 .sheet(isPresented: $isShowingReceiveDetail) {
                                     SelectPostView(profileVM: profileVM, feedVM: feedVM,
                                                    viewType: PostViewType.receive,
-                                                   isShowingDetail: $isShowingReceiveDetail)
+                                                   isShowingDetail: $isShowingReceiveDetail,
+                                                   userID: userNameID)
                                     .presentationDragIndicator(.visible)
                                     .onDisappear {
                                         feedVM.currentPadoRideIndex = nil
@@ -458,10 +485,20 @@ struct ProfileView: View {
                         }
                         .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
                     }
+                    if profileVM.fetchedPadoData {
+                        Rectangle()
+                            .foregroundStyle(.clear)
+                            .onAppear {
+                                Task {
+                                    try? await Task.sleep(nanoseconds: 1 * 1000_000_000)
+                                    await profileVM.fetchMorePadoPosts(id: userNameID)
+                                }
+                            }
+                    }
                 }
             }
         }
-        .padding(.bottom, 500)
+        .padding(.bottom, 100)
         .offset(y: -4)
     }
     
@@ -491,7 +528,8 @@ struct ProfileView: View {
                                 .sheet(isPresented: $isShowingSendDetail) {
                                     SelectPostView(profileVM: profileVM, feedVM: feedVM,
                                                    viewType: PostViewType.send,
-                                                   isShowingDetail: $isShowingSendDetail)
+                                                   isShowingDetail: $isShowingSendDetail,
+                                                   userID: userNameID)
                                     .presentationDragIndicator(.visible)
                                     .onDisappear {
                                         feedVM.currentPadoRideIndex = nil
@@ -503,10 +541,20 @@ struct ProfileView: View {
                         }
                         .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
                     }
+                    if profileVM.fetchedSendPadoData {
+                        Rectangle()
+                            .foregroundStyle(.clear)
+                            .onAppear {
+                                Task {
+                                    try? await Task.sleep(nanoseconds: 1 * 1000_000_000)
+                                    await profileVM.fetchMoreSendPadoPosts(id: userNameID)
+                                }
+                            }
+                    }
                 }
             }
         }
-        .padding(.bottom, 500)
+        .padding(.bottom, 100)
         .offset(y: -4)
     }
     
@@ -536,7 +584,8 @@ struct ProfileView: View {
                                 .sheet(isPresented: $isShowingHightlight) {
                                     SelectPostView(profileVM: profileVM, feedVM: feedVM,
                                                    viewType: PostViewType.highlight,
-                                                   isShowingDetail: $isShowingHightlight)
+                                                   isShowingDetail: $isShowingHightlight,
+                                                   userID: userNameID)
                                     .presentationDragIndicator(.visible)
                                     .onDisappear {
                                         feedVM.currentPadoRideIndex = nil
@@ -548,10 +597,20 @@ struct ProfileView: View {
                         }
                         .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
                     }
+                    if profileVM.fetchedHighlights {
+                        Rectangle()
+                            .foregroundStyle(.clear)
+                            .onAppear {
+                                Task {
+                                    try? await Task.sleep(nanoseconds: 1 * 1000_000_000)
+                                    await profileVM.fetchMoreHighlihts(id: userNameID)
+                                }
+                            }
+                    }
                 }
             }
         }
-        .padding(.bottom, 500)
+        .padding(.bottom, 100)
         .offset(y: -4)
     }
 }

@@ -24,6 +24,7 @@ struct SelectPostView: View {
     @GestureState private var dragState = CGSize.zero
     @State private var isDetailViewReady = false
     
+    let userID: String
     var body: some View {
         NavigationStack {
             ZStack {
@@ -37,6 +38,13 @@ struct SelectPostView: View {
                                                    feedVM: feedVM,
                                                    post: $profileVM.padoPosts[index])
                                     .id(profileVM.padoPosts[index].id)
+                                    .onAppear {
+                                        if index == profileVM.padoPosts.indices.last {
+                                            Task {
+                                                await profileVM.fetchMorePadoPosts(id: userID)
+                                            }
+                                        }
+                                    }
                                 }
                                 
                             case .send:
@@ -45,6 +53,13 @@ struct SelectPostView: View {
                                                    feedVM: feedVM,
                                                    post: $profileVM.sendPadoPosts[index])
                                     .id(profileVM.sendPadoPosts[index].id)
+                                    .onAppear {
+                                        if index == profileVM.sendPadoPosts.indices.last {
+                                            Task {
+                                                await profileVM.fetchMoreSendPadoPosts(id: userID)
+                                            }
+                                        }
+                                    }
                                 }
                             case .highlight:
                                 ForEach(profileVM.highlights.indices, id: \.self) { index in
@@ -52,6 +67,13 @@ struct SelectPostView: View {
                                                    feedVM: feedVM,
                                                    post: $profileVM.highlights[index])
                                     .id(profileVM.highlights[index].id)
+                                    .onAppear {
+                                        if index == profileVM.highlights.indices.last {
+                                            Task {
+                                                await profileVM.fetchMoreHighlihts(id: userID)
+                                            }
+                                        }
+                                    }
                                 }
                             }
                             
@@ -97,19 +119,11 @@ struct SelectPostView: View {
                 .padding(.top, 20)
             }
         }
-        .gesture(
-            DragGesture()
-                .updating($dragState) { value, state, _ in
-                    state = value.translation
-                }
-                .onEnded { value in
-                    if value.translation.height > 100 || abs(value.translation.width) > 100 {
-                        withAnimation(.interactiveSpring(response: 0.3, dampingFraction: 0.8, blendDuration: 0.8)) {
-                            isShowingDetail = false // 드래그가 일정 임계값을 넘어서면 뷰 닫기
-                        }
-                    }
-                }
-        )
+        .onChange(of: resetNavigation) { _, _ in
+            withAnimation(.interactiveSpring(response: 0.3, dampingFraction: 0.8, blendDuration: 0.8)) {
+                isShowingDetail = false 
+            }
+        }
     }
     
 

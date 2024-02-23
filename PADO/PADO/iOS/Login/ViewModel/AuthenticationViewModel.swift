@@ -17,12 +17,10 @@ class AuthenticationViewModel: ObservableObject {
     @Published var nameID = ""
     @Published var year = ""
     @Published var phoneNumber = ""
-    @Published var signType = SignType.signUp
     @Published var otpText = ""
     
     @Published var isLoading: Bool = false
     @Published var verificationCode: String = ""
-    @Published var resetNavigation: Bool = false
     
     @Published var errorMessage = ""
     @Published var showAlert = false

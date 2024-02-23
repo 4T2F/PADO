@@ -15,6 +15,7 @@ struct StartView: View {
     @State private var subTitleAnimation: Bool = false
     @State private var endAnimation = false
 
+    @Binding var isShowStartView: Bool
     let titles = ["Clean your mind from", "Unique experience", "The ultimate sns"]
     let subTitles = ["Decorate your friend's picture", "Prepare your mind for sweet dreams", "Healty mind - better think - well being"]
 
@@ -59,13 +60,15 @@ struct StartView: View {
                     
                     HStack(spacing: 20) {
                         NavigationLink {
-                            SignUpView(loginSignUpType: LoginSignUpType.signUp)
+                            SignUpView(loginSignUpType: LoginSignUpType.signUp,
+                                       isShowStartView: $isShowStartView)
                         } label: {
                             SignUpButton(text: "회원가입")
                         }
-
+                        
                         NavigationLink {
-                            SignUpView(loginSignUpType: LoginSignUpType.login)
+                            SignUpView(loginSignUpType: LoginSignUpType.login,
+                                       isShowStartView: $isShowStartView)
                         } label: {
                             EnjoyButton(text: "로그인")
                         }
