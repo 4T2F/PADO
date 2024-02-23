@@ -124,19 +124,6 @@ struct SelectPostView: View {
                 isShowingDetail = false 
             }
         }
-        .gesture(
-            DragGesture()
-                .updating($dragState) { value, state, _ in
-                    state = value.translation
-                }
-                .onEnded { value in
-                    if value.translation.height > 100 || abs(value.translation.width) > 100 {
-                        withAnimation(.interactiveSpring(response: 0.3, dampingFraction: 0.8, blendDuration: 0.8)) {
-                            isShowingDetail = false // 드래그가 일정 임계값을 넘어서면 뷰 닫기
-                        }
-                    }
-                }
-        )
     }
     
 
