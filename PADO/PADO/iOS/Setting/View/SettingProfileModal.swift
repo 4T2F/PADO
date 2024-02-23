@@ -20,7 +20,8 @@ struct SettingProfileModal: View {
             Button {
                 viewModel.showProfileModal = false
             } label: {
-                PhotosPicker(selection: $viewModel.selectedItem) {
+                PhotosPicker(selection: $viewModel.selectedItem,
+                             matching: .images) {
                     Text("프로필 사진 변경")
                         .font(.system(size: 16, weight: .semibold))
                         .foregroundStyle(.white)
@@ -34,7 +35,8 @@ struct SettingProfileModal: View {
             Button {
                 viewModel.showProfileModal = false
             } label: {
-                PhotosPicker(selection: $viewModel.selectedBackgroundItem) {
+                PhotosPicker(selection: $viewModel.selectedBackgroundItem,
+                             matching: .images) {
                     Text("배경 사진 변경")
                         .font(.system(size: 16, weight: .semibold))
                         .foregroundStyle(.white)
