@@ -17,7 +17,6 @@ struct CommentWriteView: View {
     @State private var commentText: String = ""
     @State private var isFocused: Bool = false
     
-    @Binding var isShowingComment: Bool
     @Binding var commentCount: Int
     
     @State var postUser: User
@@ -125,7 +124,7 @@ struct CommentWriteView: View {
                                     commentText = ""
                                     commentCount += 1
                                 }
-                                isShowingComment = false
+                                dismiss()
                             }
                         } label: {
                             ZStack {

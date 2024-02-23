@@ -21,7 +21,6 @@ struct FeedCell: View {
     @State var postSurferButtonOnOff: Bool = false
     
     @State private var isShowingReportView: Bool = false
-    @State private var isShowingCommentView: Bool = false
     @State private var isShowingLoginPage: Bool = false
     @State private var isShowingMoreText: Bool = false
     @State private var textColor: Color = .white
@@ -467,28 +466,22 @@ struct FeedCell: View {
                             }
                             
                             // MARK: - 댓글
-                            VStack(spacing: 0) {
-                                Button {
-                                    if !blockPost(post: post) {
-                                        isShowingCommentView = true
-                                    }
-                                } label: {
+                            NavigationLink {
+                                if let postUser = postUser, let postID = post.id, !blockPost(post: post) {
+                                    CommentView(postUser: postUser,
+                                                post: post,
+                                                postID: postID)
+                                }
+                            } label: {
+                                VStack(spacing: 0) {
                                     Image("chat")
+                                    
+                                    Text("")
+                                        .font(.system(size: 10))
                                 }
-                                .sheet(isPresented: $isShowingCommentView) {
-                                    if let postUser = postUser, let postID = post.id {
-                                        CommentView(isShowingCommentView: $isShowingCommentView,
-                                                    postUser: postUser,
-                                                    post: post,
-                                                    postID: postID)
-                                        .presentationDragIndicator(.visible)
-                                    }
-                                }
-                                .presentationDetents([.large])
-                                
-                                Text("")
-                                    .font(.system(size: 10))
                             }
+
+                            
                             
                             // MARK: - 신고하기
                             VStack(spacing: 10) {

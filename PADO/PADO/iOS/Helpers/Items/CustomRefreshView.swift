@@ -162,6 +162,7 @@ class ScrollViewModel: NSObject,ObservableObject,UIGestureRecognizerDelegate {
 }
 
 // MARK: Offset Modifier
+@MainActor
 extension View {
     @ViewBuilder
     func offset(coordinateSpace: String,

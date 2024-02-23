@@ -10,12 +10,12 @@ import SwiftUI
 
 struct CommentView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
+    @Environment(\.dismiss) var dismiss
     @StateObject var commentVM = CommentViewModel()
-    @Binding var isShowingCommentView: Bool
     
+    @State private var isShowingCommentWriteView: Bool = false
     @State private var commentText: String = ""
     @State private var isFetchedComment: Bool = false
-    @State private var isShowingComment: Bool = false
     @State private var isShowingLoginPage: Bool = false
     @State private var commentCount: Int = 0
     @State var postUser: User
@@ -102,7 +102,7 @@ struct CommentView: View {
                     generator.impactOccurred()
                     
                     if !userNameID.isEmpty {
-                        isShowingComment.toggle()
+                        isShowingCommentWriteView.toggle()
                     } else {
                         isShowingLoginPage = true
                     }
@@ -130,9 +130,10 @@ struct CommentView: View {
                     .clipShape(Capsule())
                 }
                 .padding(10)
-                .sheet(isPresented: $isShowingComment, content: {
-                    CommentWriteView(commentVM: commentVM, isShowingComment: $isShowingComment, commentCount: $commentCount, postUser: postUser, post: post)
+                .sheet(isPresented: $isShowingCommentWriteView, content: {
+                    CommentWriteView(commentVM: commentVM, commentCount: $commentCount, postUser: postUser, post: post)
                         .presentationDragIndicator(.visible)
+                        .presentationDetents([.large])
                 })
                 .sheet(isPresented: $isShowingLoginPage) {
                     StartView(isShowStartView: $isShowingLoginPage)
@@ -146,7 +147,7 @@ struct CommentView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
-                        isShowingCommentView = false
+                        dismiss()
                     } label: {
                         HStack(spacing: 2) {
                             Image(systemName: "chevron.left")

@@ -474,8 +474,7 @@ struct OnePostModalView: View {
                                     }
                                     .sheet(isPresented: $isShowingCommentView) {
                                         if let postUser = postUser, let postID = post.id {
-                                            CommentView(isShowingCommentView: $isShowingCommentView,
-                                                        postUser: postUser,
+                                            CommentView(postUser: postUser,
                                                         post: post,
                                                         postID: postID)
                                             .presentationDragIndicator(.visible)
