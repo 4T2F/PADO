@@ -153,7 +153,7 @@ struct CommentView: View {
                             .font(.system(size: 14))
                             .fontWeight(.medium)
                         
-                        Text("닫기")
+                        Text("뒤로")
                             .font(.system(size: 16))
                             .fontWeight(.medium)
                     }
