@@ -105,7 +105,6 @@ struct ProfileView: View {
                         }
                     }
                 }
-                
                 // 뒷배경 조건문
                 if touchBackImage {
                     if let backProfileImageUrl = user.backProfileImageUrl {
@@ -115,7 +114,7 @@ struct ProfileView: View {
                             .clipShape(RoundedRectangle(cornerRadius: isDragging ? 12 : 0))
                             .zIndex(2)
                             .onTapGesture {
-                                withAnimation(.interactiveSpring(response: 0.2, dampingFraction: 0.8, blendDuration: 0.8)) {
+                                withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
                                     self.touchBackImage = false
                                 }
                             }
@@ -127,7 +126,7 @@ struct ProfileView: View {
                                         self.isDragging = true
                                     })
                                     .onEnded({ value in
-                                        withAnimation(.spring(response: 0.2, dampingFraction: 0.75)) {
+                                        withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
                                             if 200 < abs(self.position.height) {
                                                 self.touchBackImage = false
                                                 self.isDragging = false
@@ -140,18 +139,18 @@ struct ProfileView: View {
                             )
                     }
                 }
-                
                 // 프로필 사진 조건문
                 if touchProfileImage {
                     if let profileImageUrl = user.profileImageUrl {
                         KFImage(URL(string: profileImageUrl))
                             .resizable()
                             .scaledToFit()
+                            .background(.black)
                             .clipShape(RoundedRectangle(cornerRadius: isDragging ? 12 : 0))
                             .zIndex(2)
+                            .contentShape(.rect)
                             .onTapGesture {
-                                if touchProfileImage { return }
-                                withAnimation(.interactiveSpring(response: 0.2, dampingFraction: 0.8, blendDuration: 0.8)) {
+                                withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
                                     self.touchProfileImage = false
                                 }
                             }
@@ -163,7 +162,7 @@ struct ProfileView: View {
                                         self.isDragging = true
                                     })
                                     .onEnded({ value in
-                                        withAnimation(.spring(response: 0.2, dampingFraction: 0.75)) {
+                                        withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
                                             if 200 < abs(self.position.height) {
                                                 self.touchProfileImage = false
                                                 self.isDragging = false
@@ -202,6 +201,7 @@ struct ProfileView: View {
             KFImage(URL(string: user.backProfileImageUrl ?? ""))
                 .scaledToFill()
                 .frame(width: size.width, height: height > 0 ? height : 0, alignment: .top)
+                .contentShape(.rect)
                 .overlay {
                     ZStack(alignment: .bottom) {
                         LinearGradient(colors: [.clear,

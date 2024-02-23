@@ -130,7 +130,7 @@ struct OtherUserProfileView: View {
                         .clipShape(RoundedRectangle(cornerRadius: isDragging ? 12 : 0))
                         .zIndex(2)
                         .onTapGesture {
-                            withAnimation(.interactiveSpring(response: 0.2, dampingFraction: 0.8, blendDuration: 0.8)) {
+                            withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
                                 self.touchBackImage = false
                             }
                         }
@@ -142,11 +142,13 @@ struct OtherUserProfileView: View {
                                     self.isDragging = true
                                 })
                                 .onEnded({ value in
-                                    withAnimation(.spring(response: 0.4, dampingFraction: 0.75)) {
+                                    withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
                                         if 200 < abs(self.position.height) {
                                             self.touchBackImage = false
+                                            self.isDragging = false
                                         } else {
                                             self.position = .zero
+                                            self.isDragging = false
                                         }
                                     }
                                 })
@@ -162,7 +164,7 @@ struct OtherUserProfileView: View {
                         .clipShape(RoundedRectangle(cornerRadius: isDragging ? 12 : 0))
                         .zIndex(2)
                         .onTapGesture {
-                            withAnimation(.interactiveSpring(response: 0.2, dampingFraction: 0.8, blendDuration: 0.8)) {
+                            withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
                                 self.touchProfileImage = false
                             }
                         }
@@ -174,7 +176,7 @@ struct OtherUserProfileView: View {
                                     self.isDragging = true
                                 })
                                 .onEnded({ value in
-                                    withAnimation(.spring(response: 0.4, dampingFraction: 0.75)) {
+                                    withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
                                         if 200 < abs(self.position.height) {
                                             self.touchProfileImage = false
                                             self.isDragging = false
