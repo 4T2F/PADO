@@ -73,7 +73,6 @@ struct CommentView: View {
             }
             .onAppear {
                 Task {
-                    commentVM.comments.removeAll()
                     enteredNavigation = true
                     
                     if let fetchedComments = await commentVM.updateCommentData.getCommentsDocument(post: post) {
@@ -84,6 +83,7 @@ struct CommentView: View {
                     isFetchedComment = true
                 }
             }
+    
             
             Divider()
             

@@ -18,6 +18,7 @@ struct CommentCell: View {
     
     @State var buttonOnOff: Bool = false
     @State var isShowingReportView: Bool = false
+    @State private var isShowingHeartUserView: Bool = false
     @State private var isHeartCheck: Bool = true
 
     @Binding var post: Post
@@ -87,14 +88,14 @@ struct CommentCell: View {
                         }
                     } label: {
                         Circle()
-                            .frame(width: 14)
+                            .frame(width: 17)
                             .foregroundStyle(.clear)
                             .overlay {
                                 LottieView(animation: .named("Heart"))
                                     .playing()
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(width: 28, height: 28)
+                                    .frame(width: 34, height: 34)
                             }
                     }
                 } else {
@@ -109,18 +110,21 @@ struct CommentCell: View {
                         Image("heart")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 14, height: 14)
+                            .frame(width: 17, height: 17)
                     }
                 }
                 
                 if commentVM.comments[index].heartIDs.count > 0 {
                     Button {
-                        
+                        isShowingHeartUserView = true
                     } label: {
                         Text("\(commentVM.comments[index].heartIDs.count)")
-                            .font(.system(size: 10))
+                            .font(.system(size: 12))
                             .foregroundStyle(.gray)
                     }
+                    .sheet(isPresented: $isShowingHeartUserView, content: {
+                        HeartUsersView(userIDs: commentVM.comments[index].heartIDs)
+                    })
                 }
                 
                 Spacer()

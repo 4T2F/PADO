@@ -61,6 +61,8 @@
 		418B6C962B5EC69100E8289D /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418B6C952B5EC69100E8289D /* ViewState.swift */; };
 		418B6C982B5EC75F00E8289D /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418B6C972B5EC75F00E8289D /* SearchViewModel.swift */; };
 		418B6C9B2B5EC9BB00E8289D /* Searchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418B6C9A2B5EC9BB00E8289D /* Searchable.swift */; };
+		418D184F2B8A7F3E00E379F8 /* HeartUsersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418D184E2B8A7F3E00E379F8 /* HeartUsersView.swift */; };
+		418D18512B8A826C00E379F8 /* HeartUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418D18502B8A826C00E379F8 /* HeartUserCell.swift */; };
 		418D45BF2B756AAD007F6633 /* Postit.json in Resources */ = {isa = PBXBuildFile; fileRef = 418D45BE2B756AAD007F6633 /* Postit.json */; };
 		418D45C12B757388007F6633 /* PostitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418D45C02B757388007F6633 /* PostitView.swift */; };
 		418D45C32B757393007F6633 /* PostitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418D45C22B757393007F6633 /* PostitViewModel.swift */; };
@@ -297,6 +299,8 @@
 		418B6C952B5EC69100E8289D /* ViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewState.swift; sourceTree = "<group>"; };
 		418B6C972B5EC75F00E8289D /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		418B6C9A2B5EC9BB00E8289D /* Searchable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Searchable.swift; sourceTree = "<group>"; };
+		418D184E2B8A7F3E00E379F8 /* HeartUsersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartUsersView.swift; sourceTree = "<group>"; };
+		418D18502B8A826C00E379F8 /* HeartUserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartUserCell.swift; sourceTree = "<group>"; };
 		418D45BE2B756AAD007F6633 /* Postit.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Postit.json; sourceTree = "<group>"; };
 		418D45C02B757388007F6633 /* PostitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostitView.swift; sourceTree = "<group>"; };
 		418D45C22B757393007F6633 /* PostitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostitViewModel.swift; sourceTree = "<group>"; };
@@ -821,6 +825,7 @@
 				6373235B2B7140E800C02A32 /* FeedView.swift */,
 				63B7B9982B7C996C00707C2F /* FeedGuideView.swift */,
 				64E761C22B7F5F3600882D29 /* SurfingGuideView.swift */,
+				418D184E2B8A7F3E00E379F8 /* HeartUsersView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -832,6 +837,7 @@
 				64392B652B71D2C70047BA12 /* FeedHeaderCell.swift */,
 				416F61F72B7DF50B00F81093 /* FeedGuideCell.swift */,
 				64E761C42B7F5F4E00882D29 /* SurfingGuideCell.swift */,
+				418D18502B8A826C00E379F8 /* HeartUserCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -1426,6 +1432,7 @@
 				63824C452B558B2400D1D653 /* StartView.swift in Sources */,
 				63283DB92B73BDF700A42C0F /* SelectPostView.swift in Sources */,
 				B1D7CDEF2B566A2F0090544B /* ViewExtension.swift in Sources */,
+				418D18512B8A826C00E379F8 /* HeartUserCell.swift in Sources */,
 				418ACDCB2B767CB3003DD9E7 /* DeleteMessageView.swift in Sources */,
 				64E761C72B7FBC4A00882D29 /* NoItemView.swift in Sources */,
 				41A102932B624CCB0070AB8D /* Comment.swift in Sources */,
@@ -1464,6 +1471,7 @@
 				418743212B5C32CF00D93CBE /* CircularImageView.swift in Sources */,
 				B107655C2B7421390023B686 /* UpdatePostData.swift in Sources */,
 				418B6C962B5EC69100E8289D /* ViewState.swift in Sources */,
+				418D184F2B8A7F3E00E379F8 /* HeartUsersView.swift in Sources */,
 				B1A91D102B55928D00FE7F62 /* SettingNormalCell.swift in Sources */,
 				41E5F69C2B5666D7001750C2 /* FaceMojiCell.swift in Sources */,
 				63D3C8372B8678BF001C5F33 /* PadoRideView.swift in Sources */,
