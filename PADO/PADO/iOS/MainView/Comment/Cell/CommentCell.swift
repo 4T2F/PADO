@@ -6,10 +6,11 @@
 //
 
 import Kingfisher
+import Lottie
 import SwiftUI
 
 struct CommentCell: View {
-    let comment: Comment
+    let index: Int
     
     @State private var isUserLoaded = false
     
@@ -17,18 +18,19 @@ struct CommentCell: View {
     
     @State var buttonOnOff: Bool = false
     @State var isShowingReportView: Bool = false
-    let post: Post
-    let postID: String
+    @State private var isHeartCheck: Bool = true
+
+    @Binding var post: Post
     
     var body: some View {
         HStack(alignment: .top) {
             NavigationLink {
-                if let user = commentVM.commentUsers[comment.userID] {
+                if let user = commentVM.commentUsers[commentVM.comments[index].userID] {
                     OtherUserProfileView(buttonOnOff: $buttonOnOff,
                                          user: user)
                 }
             } label: {
-                if let user = commentVM.commentUsers[comment.userID] {
+                if let user = commentVM.commentUsers[commentVM.comments[index].userID] {
                     CircularImageView(size: .commentSize,
                                       user: user)
                 }
@@ -37,73 +39,121 @@ struct CommentCell: View {
             VStack(alignment: .leading, spacing: 4) {
                 HStack(spacing: 4) {
                     NavigationLink {
-                        if let user = commentVM.commentUsers[comment.userID] {
+                        if let user = commentVM.commentUsers[commentVM.comments[index].userID] {
                             OtherUserProfileView(buttonOnOff: $buttonOnOff,
                                                  user: user)
                         }
                     } label: {
-                        Text(comment.userID)
+                        Text(commentVM.comments[index].userID)
                             .fontWeight(.semibold)
                             .font(.system(size: 12))
                             .padding(.trailing, 4)
                             .foregroundStyle(.white)
                     }
                     
-                    Text(comment.time.formatDate(comment.time))
+                    Text(commentVM.comments[index].time.formatDate(commentVM.comments[index].time))
                         .font(.caption)
                         .foregroundColor(.secondary)
                     
                     Spacer()
                     
-                    if comment.userID == userNameID {
-                        Button {
-                            commentVM.selectedComment = comment
-                            commentVM.showdeleteModal = true
-                        } label: {
-                            Image(systemName: "ellipsis")
-                                .foregroundStyle(.white)
+
+                }
+                
+                Text(commentVM.comments[index].content)
+                    .font(.system(size: 12))
+                    .foregroundStyle(.white)
+                
+                Button {
+                    
+                } label: {
+                    Text("답글달기")
+                        .font(.system(size: 10))
+                        .foregroundStyle(.gray)
+                }
+            }
+            .padding(.top, 2)
+            
+            Spacer()
+            
+            VStack(spacing: 4) {
+                Spacer()
+                if isHeartCheck {
+                    Button {
+                        Task {
+                            await commentVM.deleteCommentHeart(post: post,
+                                                                            index: index)
+                            self.isHeartCheck = commentVM.checkCommentHeartExists(index: index)
                         }
-                    } else if post.ownerUid == userNameID {
-                        // 댓글 삭제, 신고 두개 다 가능한 모달 열리게 해야함
-                        Button {
-                            commentVM.selectedComment = comment
-                            commentVM.showselectModal = true
-                        } label: {
-                            Image(systemName: "ellipsis")
-                                .foregroundStyle(.white)
-                        }
-                    } else {
-                        Button {
-                            commentVM.selectedComment = comment
-                            commentVM.showreportModal = true
-                            Task {
+                    } label: {
+                        Circle()
+                            .frame(width: 14)
+                            .foregroundStyle(.clear)
+                            .overlay {
+                                LottieView(animation: .named("Heart"))
+                                    .playing()
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 28, height: 28)
                             }
-                        } label: {
-                            Image(systemName: "ellipsis")
-                                .foregroundStyle(.white)
+                    }
+                } else {
+                    Button {
+                        Task {
+                            await commentVM.addCommentHeart(post: post,
+                                                            index: index)
+                           
+                            self.isHeartCheck = commentVM.checkCommentHeartExists(index: index)
                         }
+                    } label: {
+                        Image("heart")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 14, height: 14)
                     }
                 }
                 
-                Text(comment.content)
-                    .font(.system(size: 12))
-                    .foregroundStyle(.white)
+                if commentVM.comments[index].heartIDs.count > 0 {
+                    Button {
+                        
+                    } label: {
+                        Text("\(commentVM.comments[index].heartIDs.count)")
+                            .font(.system(size: 10))
+                            .foregroundStyle(.gray)
+                    }
+                }
+                
+                Spacer()
             }
-            .padding(.top, 2)
+            
+//            Button {
+//                if commentVM.comments[index].userID == userNameID {
+//                    commentVM.selectedComment = commentVM.comments[index]
+//                    commentVM.showdeleteModal = true
+//                } else if post.ownerUid == userNameID {
+//                    commentVM.selectedComment = commentVM.comments[index]
+//                    commentVM.showselectModal = true
+//                } else {
+//                    commentVM.selectedComment = commentVM.comments[index]
+//                    commentVM.showreportModal = true
+//                }
+//            } label: {
+//                Image(systemName: "ellipsis")
+//                    .foregroundStyle(.white)
+//            }
         }
         .onAppear {
-            Task {
-                self.buttonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: comment.userID)
-            }
+            self.isHeartCheck = commentVM.checkCommentHeartExists(index: index)
+            self.buttonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: commentVM.comments[index].userID)
         }
         .sheet(isPresented: $commentVM.showdeleteModal) {
             DeleteCommentView(commentVM: commentVM,
-                              postID: postID)
+                              post: $post)
                 .presentationDetents([.fraction(0.4)])
         }
         .sheet(isPresented: $commentVM.showselectModal) {
             SelectCommentView(commentVM: commentVM,
-                              postID: postID)
+                              post: $post)
             .presentationDetents([.fraction(0.25)])
             .presentationDragIndicator(.visible)
                 

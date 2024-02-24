@@ -19,7 +19,6 @@ struct CommentView: View {
     @State private var isShowingLoginPage: Bool = false
     @State var postUser: User
     @State var post: Post
-    let postID: String
     
     var body: some View {
         VStack(spacing: 0) {
@@ -39,14 +38,13 @@ struct CommentView: View {
                 
                 VStack(alignment: .leading) {
                     if isFetchedComment {
-                        if !commentVM.comments.isEmpty, let postID = post.id {
-                            ForEach(commentVM.comments) { comment in
-                                if commentVM.commentUsers.keys.contains(comment.userID) {
-                                    CommentCell(comment: comment,
+                        if !commentVM.comments.isEmpty {
+                            ForEach(commentVM.comments.indices, id:\.self) { index in
+                                if commentVM.commentUsers.keys.contains(commentVM.comments[index].userID) {
+                                    CommentCell(index: index,
                                                 commentVM: commentVM,
-                                                post: post,
-                                                postID: postID)
-                                    .id(comment.id)
+                                                post: $post)
+                                    .id(index)
                                     .padding(.horizontal, 10)
                                     .padding(.bottom, 20)
                                 }
@@ -77,10 +75,9 @@ struct CommentView: View {
                 Task {
                     commentVM.comments.removeAll()
                     enteredNavigation = true
-                    if let postID = post.id {
-                        if let fetchedComments = await commentVM.updateCommentData.getCommentsDocument(postID: postID) {
-                            commentVM.comments = fetchedComments
-                        }
+                    
+                    if let fetchedComments = await commentVM.updateCommentData.getCommentsDocument(post: post) {
+                        commentVM.comments = fetchedComments
                     }
                     commentVM.removeDuplicateUserIDs(from: commentVM.comments)
                     await commentVM.fetchCommentUser()
@@ -124,7 +121,7 @@ struct CommentView: View {
             }
             .padding(10)
             .sheet(isPresented: $isShowingCommentWriteView, content: {
-                CommentWriteView(commentVM: commentVM, postUser: postUser, post: post)
+                CommentWriteView(commentVM: commentVM, postUser: postUser, post: $post)
                     .presentationDragIndicator(.visible)
                     .presentationDetents([.large])
             })

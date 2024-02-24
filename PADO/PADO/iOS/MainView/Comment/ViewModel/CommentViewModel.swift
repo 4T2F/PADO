@@ -23,6 +23,8 @@ class CommentViewModel: ObservableObject {
     
     let updateCommentData = UpdateCommentData()
     
+    let db = Firestore.firestore()
+    
     // MARK: - FaceMoji 관련
     @Published var faceMojiUIImage: UIImage?
     @Published var cropMojiUIImage: UIImage?
@@ -57,5 +59,97 @@ class CommentViewModel: ObservableObject {
         } catch {
             print("유저 데이터 가져오기 실패: \(error.localizedDescription)")
         }
+    }
+    
+    @MainActor
+    func addCommentHeart(post: Post, index: Int) async {
+        guard !userNameID.isEmpty else { return }
+        guard let postID = post.id else { return }
+        guard let commentID = comments[index].id else { return }
+        
+        do {
+            _ = try await db.runTransaction({ (transaction, errorPointer) in
+                let postRef = self.db.collection("post").document(postID).collection("comment").document(commentID)
+                let postDocument: DocumentSnapshot
+                
+                do {
+                    try postDocument = transaction.getDocument(postRef)
+                } catch let fetchError as NSError {
+                    errorPointer?.pointee = fetchError
+                    return
+                }
+                
+                guard var commentHeartIDs = postDocument.data()?["heartIDs"] as? [String] else {
+                    let error = NSError(domain: "AppErrorDomain", code: -1, userInfo: [
+                        NSLocalizedDescriptionKey: "하트준 ID값들에 접근 못함 \(postDocument)"
+                    ])
+                    errorPointer?.pointee = error
+                    return
+                }
+                guard !commentHeartIDs.contains(userNameID) else { return }
+                
+                commentHeartIDs.append(userNameID)
+                transaction.updateData(["heartIDs": commentHeartIDs], forDocument: postRef)
+                DispatchQueue.main.async {
+                    self.comments[index].heartIDs.append(userNameID)
+                }
+                
+                return
+            })
+        }
+        catch {
+            print("error: \(error.localizedDescription)")
+        }
+        return
+    }
+    
+    @MainActor
+    func deleteCommentHeart(post: Post, index: Int) async {
+        guard !userNameID.isEmpty else { return }
+        guard let postID = post.id else { return }
+        guard let commentID = comments[index].id else { return }
+
+        do {
+            _ = try await db.runTransaction({ (transaction, errorPointer) in
+                let postRef = self.db.collection("post").document(postID).collection("comment").document(commentID)
+                let postDocument: DocumentSnapshot
+                
+                do {
+                    try postDocument = transaction.getDocument(postRef)
+                } catch let fetchError as NSError {
+                    errorPointer?.pointee = fetchError
+                    return
+                }
+                
+                guard var commentHeartIDs = postDocument.data()?["heartIDs"] as? [String] else {
+                    let error = NSError(domain: "AppErrorDomain", code: -1, userInfo: [
+                        NSLocalizedDescriptionKey: "하트준 ID값들에 접근 못함 \(postDocument)"
+                    ])
+                    errorPointer?.pointee = error
+                    return
+                }
+                
+                guard let removeIndex = commentHeartIDs.firstIndex(of: userNameID) else { return }
+                
+                commentHeartIDs.remove(at: removeIndex)
+
+                transaction.updateData(["heartIDs": commentHeartIDs], forDocument: postRef)
+                
+                DispatchQueue.main.async {
+                    if let localRemoveIndex = self.comments[index].heartIDs.firstIndex(of: userNameID) {
+                        self.comments[index].heartIDs.remove(at: localRemoveIndex)
+                    }
+                }
+                return
+            })
+        }
+        catch {
+            print("error: \(error.localizedDescription)")
+        }
+    }
+    
+    func checkCommentHeartExists(index: Int) -> Bool {
+        guard !userNameID.isEmpty else { return false }
+        return comments[index].heartIDs.contains(userNameID)
     }
 }

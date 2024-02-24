@@ -17,7 +17,7 @@ struct SelectCommentView: View {
     
     @ObservedObject var commentVM: CommentViewModel
     
-    let postID: String
+    @Binding var post: Post
     
     // MARK: - BODY
     var body: some View {
@@ -35,9 +35,9 @@ struct SelectCommentView: View {
                 Button {
                     if let selectComment = commentVM.selectedComment {
                         Task {
-                            await commentVM.updateCommentData.deleteComment(documentID: postID,
+                            await commentVM.updateCommentData.deleteComment(post: post,
                                                                             commentID: selectComment.userID+(selectComment.time.convertTimestampToString(timestamp: selectComment.time)))
-                            if let fetchedComments = await commentVM.updateCommentData.getCommentsDocument(postID: postID) {
+                            if let fetchedComments = await commentVM.updateCommentData.getCommentsDocument(post: post) {
                                 commentVM.comments = fetchedComments
                             }
                             

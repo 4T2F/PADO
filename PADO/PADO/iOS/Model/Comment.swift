@@ -12,7 +12,9 @@ import Foundation
 struct Comment: Identifiable, Hashable, Codable {
     @DocumentID var id: String?
 
-    let userID: String
-    let content: String
-    let time: Timestamp
+    var userID: String
+    var content: String
+    var time: Timestamp
+    var heartIDs: [String] = []
+    var replyComments: [Comment] = []
 }

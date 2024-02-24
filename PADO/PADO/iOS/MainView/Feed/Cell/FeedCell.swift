@@ -390,11 +390,10 @@ struct FeedCell: View {
                                         if !heartLoading && !blockPost(post: post) {
                                             Task {
                                                 heartLoading = true
-                                                if let postID = post.id {
-                                                    await UpdateHeartData.shared.deleteHeart(post: post)
-                                                    isHeartCheck = UpdateHeartData.shared.checkHeartExists(post: post)
-                                                    heartLoading = false
-                                                }
+                                                
+                                                await UpdateHeartData.shared.deleteHeart(post: post)
+                                                isHeartCheck = UpdateHeartData.shared.checkHeartExists(post: post)
+                                                heartLoading = false               
                                             }
                                         }
                                     } label: {
@@ -451,8 +450,7 @@ struct FeedCell: View {
                             NavigationLink {
                                 if let postUser = postUser, let postID = post.id, !blockPost(post: post) {
                                     CommentView(postUser: postUser,
-                                                post: post,
-                                                postID: postID)
+                                                post: post)
                                     
                                 }
                             } label: {

@@ -18,7 +18,6 @@ struct Post: Identifiable, Hashable, Codable {
     var surferUid: String
     var imageUrl: String
     var title: String
-    var heartsCount: Int?
     var heartIDs: [String] = []
     var commentCount: Int
     var comments: [Comment]?
