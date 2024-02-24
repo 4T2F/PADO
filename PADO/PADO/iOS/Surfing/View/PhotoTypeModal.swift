@@ -23,7 +23,8 @@ struct PhotoTypeModal: View {
                     surfingVM.isShowingPhotoModal = false
                 } label: {
                     HStack {
-                        PhotosPicker(selection: $surfingVM.postImageItem) {
+                        PhotosPicker(selection: $surfingVM.postImageItem,
+                                     matching: .images) {
                             Text("사진앨범")
                                 .font(.system(size: 14))
                                 .fontWeight(.medium)

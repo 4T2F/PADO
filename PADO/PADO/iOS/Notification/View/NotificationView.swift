@@ -8,9 +8,12 @@
 import SwiftUI
 // TODO: 알림 없으면 noItemView
 struct NotificationView: View {
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     @ObservedObject var profileVM: ProfileViewModel
     @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var notiVM: NotificationViewModel
+    
+    @State private var fetchedNotiData: Bool = false
     
     @Environment(\.dismiss) var dismiss
     
@@ -18,29 +21,43 @@ struct NotificationView: View {
         NavigationStack {
             VStack {
                 ScrollView(showsIndicators: false) {
-                    HStack {
-                        Spacer()
-                        
-                        Button {
-                            Task {
-                                await notiVM.deleteAllNotifications()
+                    LazyVStack(pinnedViews: .sectionHeaders) {
+                        HStack {
+                            Spacer()
+                            
+                            Button {
+                                Task {
+                                    await notiVM.deleteAllNotifications()
+                                }
+                            } label: {
+                                Text("알림 전체삭제")
+                                    .font(.system(size: 12))
+                                    .foregroundStyle(Color(.systemGray))
                             }
-                        } label: {
-                            Text("알림 전체삭제")
-                                .font(.system(size: 12))
-                                .foregroundStyle(Color(.systemGray))
+                            .padding(.horizontal, 10)
                         }
-                        .padding(.horizontal, 10)
-                    }
-                    .frame(width: UIScreen.main.bounds.width)
-                    ForEach(notiVM.notifications.filter { !$0.sendUser.isEmpty }) { notification in
-                        NotificationCell(profileVM: profileVM,
-                                         feedVM: feedVM,
-                                         notification: notification)
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 8)
+                        .frame(width: UIScreen.main.bounds.width)
+                        if fetchedNotiData {
+                            ForEach(notiVM.notifications.indices, id: \.self) { index in
+                                NotificationCell(profileVM: profileVM,
+                                                 feedVM: feedVM,
+                                                 notification: notiVM.notifications[index])
+                                .id(index)
+                                .padding(.horizontal, 10)
+                                .padding(.vertical, 8)
+                                .onAppear {
+                                    if index == notiVM.notifications.indices.last {
+                                        Task {
+                                            await notiVM.fetchMoreNotifications()
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
+                .padding(.top, 0)
+                Spacer()
             }
         }
         .background(.main, ignoresSafeAreaEdges: .all)
@@ -69,7 +86,15 @@ struct NotificationView: View {
             Task {
                 await notiVM.fetchNotifications()
                 await notiVM.markNotificationsAsRead()
+                fetchedNotiData = true
+                enteredNavigation = true
             }
+        }
+        .onChange(of: resetNavigation) { _, _ in
+            dismiss()
+        }
+        .onDisappear {
+            enteredNavigation = false
         }
     }
 }

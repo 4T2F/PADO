@@ -20,6 +20,7 @@ struct SignUpView: View {
     @Environment(\.dismiss) var dismiss
     @State var currentStep: SignUpStep = .phoneNumber
     @State var loginSignUpType: LoginSignUpType
+    @Binding var isShowStartView: Bool
     var body: some View {
         ZStack {
             switch currentStep {
@@ -29,17 +30,20 @@ struct SignUpView: View {
             case .code:
                 CodeView(loginSignUpType: $loginSignUpType,
                          currentStep: $currentStep,
+                         isShowStartView: $isShowStartView,
                          dismissAction: { dismiss() })
             case .id:
                 IdView(currentStep: $currentStep)
             case .birth:
-                BirthView(currentStep: $currentStep)
+                BirthView(currentStep: $currentStep,
+                          isShowStartView: $isShowStartView)
             }
         }
         .background(.main, ignoresSafeAreaEdges: .all)
         .navigationBarBackButtonHidden()
         .navigationTitle("PADO")
         .navigationBarTitleDisplayMode(.inline)
+        
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button {
@@ -56,6 +60,7 @@ struct SignUpView: View {
                     }
                     .foregroundStyle(.white)
                 }
+                
             }
         }
         .toolbarBackground(Color(.main), for: .navigationBar)
@@ -79,7 +84,6 @@ struct SignUpView: View {
             viewModel.nameID = ""
             viewModel.year = ""
             currentStep = .id
-            
         }
     }
 }

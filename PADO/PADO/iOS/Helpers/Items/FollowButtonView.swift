@@ -43,7 +43,7 @@ struct FollowButtonView: View {
                     Task {
                         await UpdateFollowData.shared.followUser(id: cellUser.nameID)
                         if let currentUser = viewModel.currentUser {
-                            await UpdatePushNotiData.shared.pushNoti(receiveUser: cellUser, type: .follow, sendUser: currentUser)
+                            await UpdatePushNotiData.shared.pushNoti(receiveUser: cellUser, type: .follow, sendUser: currentUser, message: "")
                         }
                         
                     }
@@ -82,7 +82,7 @@ struct FollowButtonView: View {
         }
         .sheet(isPresented: $isShowingLoginPage,
                content: {
-            StartView()
+            StartView(isShowStartView: $isShowingLoginPage)
                 .presentationDragIndicator(.visible)
         })
         .onAppear {

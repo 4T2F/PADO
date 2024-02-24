@@ -78,6 +78,7 @@
 		41A102932B624CCB0070AB8D /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A102922B624CCB0070AB8D /* Comment.swift */; };
 		41A102962B62628E0070AB8D /* CameraAccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A102952B62628E0070AB8D /* CameraAccessView.swift */; };
 		41A1029B2B62631A0070AB8D /* CamerCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A1029A2B62631A0070AB8D /* CamerCoordinator.swift */; };
+		41A7DC8E2B88E12C00381732 /* GlobalVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A7DC8D2B88E12C00381732 /* GlobalVariable.swift */; };
 		41E5F6982B56536D001750C2 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E5F6972B56536D001750C2 /* CommentCell.swift */; };
 		41E5F69A2B565409001750C2 /* FaceMojiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E5F6992B565409001750C2 /* FaceMojiView.swift */; };
 		41E5F69C2B5666D7001750C2 /* FaceMojiCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E5F69B2B5666D7001750C2 /* FaceMojiCell.swift */; };
@@ -314,6 +315,7 @@
 		41A102922B624CCB0070AB8D /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		41A102952B62628E0070AB8D /* CameraAccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraAccessView.swift; sourceTree = "<group>"; };
 		41A1029A2B62631A0070AB8D /* CamerCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamerCoordinator.swift; sourceTree = "<group>"; };
+		41A7DC8D2B88E12C00381732 /* GlobalVariable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalVariable.swift; sourceTree = "<group>"; };
 		41E5F6972B56536D001750C2 /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
 		41E5F6992B565409001750C2 /* FaceMojiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceMojiView.swift; sourceTree = "<group>"; };
 		41E5F69B2B5666D7001750C2 /* FaceMojiCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceMojiCell.swift; sourceTree = "<group>"; };
@@ -541,6 +543,7 @@
 				B1999EDA2B6E205D005B37BA /* Noti.swift */,
 				64392B7B2B76852D0047BA12 /* PadoRide.swift */,
 				63B7B9A02B7E8ACB00707C2F /* BlockUser.swift */,
+				41A7DC8D2B88E12C00381732 /* GlobalVariable.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -936,8 +939,8 @@
 		63AA03552B68F17E00431332 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				63AA035F2B6A173000431332 /* ViewModel */,
 				63AA03562B68F19A00431332 /* View */,
+				63AA035F2B6A173000431332 /* ViewModel */,
 				63283DBC2B73BEFE00A42C0F /* ProfileGrid */,
 			);
 			path = Profile;
@@ -1564,6 +1567,7 @@
 				41FD99F62B43D5EC0028D38E /* PADOApp.swift in Sources */,
 				4197420A2B55900D0055F2AB /* LoginAlert.swift in Sources */,
 				63ECDCBD2B771E6100D71E88 /* ProfileReprotModalView.swift in Sources */,
+				41A7DC8E2B88E12C00381732 /* GlobalVariable.swift in Sources */,
 				643417332B5F947500E47639 /* SurfingView.swift in Sources */,
 				6401BE9B2B7DFED40084FECD /* DeleteImageUrl.swift in Sources */,
 				040914F92B561FA8001B549B /* ReportSelectCellView.swift in Sources */,
@@ -1620,11 +1624,9 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = UAG934M4Q7;
+				DEVELOPMENT_TEAM = UAG934M4Q7;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationService/Info.plist;
@@ -1640,7 +1642,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.4T2F.PADO.NotificationService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "PADO Notification";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1654,11 +1655,9 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = UAG934M4Q7;
+				DEVELOPMENT_TEAM = UAG934M4Q7;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationService/Info.plist;
@@ -1674,7 +1673,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.4T2F.PADO.NotificationService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "PADO Notification";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1834,7 +1832,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 1.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.4T2F.PADO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1875,7 +1873,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 1.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.4T2F.PADO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

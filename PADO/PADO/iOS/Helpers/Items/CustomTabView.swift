@@ -20,11 +20,11 @@ struct CustomTabView: View {
             GeometryReader { geometry in
                 HStack(spacing: 0) {
                     Button {
-                        if viewModel.showTab == 0 {
+                        if !enteredNavigation && viewModel.showTab == 0 {
                             viewModel.scrollToTop.toggle()
                         }
                         viewModel.showTab = 0
-                        viewModel.resetNavigation.toggle()
+                        resetNavigation.toggle()
                     } label: {
                         VStack(spacing: 6) {
                             Image(viewModel.showTab == 0 ? "home_light" : "home_gray")
@@ -72,7 +72,7 @@ struct CustomTabView: View {
                     }
                     .frame(width: geometry.size.width / 5)
                     .sheet(isPresented: $isShowingStartView, content: {
-                        StartView()
+                        StartView(isShowStartView: $isShowingStartView)
                             .presentationDragIndicator(.visible)
                     })
                     
@@ -96,8 +96,7 @@ struct CustomTabView: View {
                     }
                     .frame(width: geometry.size.width / 5)
                     .sheet(isPresented: $isShowingStartView, content: {
-                        StartView()
-                            .presentationDragIndicator(.visible)
+                        StartView(isShowStartView: $isShowingStartView)                            .presentationDragIndicator(.visible)
                     })
                     
                     Button {
@@ -119,7 +118,7 @@ struct CustomTabView: View {
                     }
                     .frame(width: geometry.size.width / 5)
                     .sheet(isPresented: $isShowingStartView, content: {
-                        StartView()
+                        StartView(isShowStartView: $isShowingStartView)
                             .presentationDragIndicator(.visible)
                     })
                 }

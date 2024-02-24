@@ -15,7 +15,7 @@ struct CodeView: View {
     
     @Binding var loginSignUpType: LoginSignUpType
     @Binding var currentStep: SignUpStep
-    
+    @Binding var isShowStartView: Bool
     var dismissAction: () -> Void
     
     @EnvironmentObject var viewModel: AuthenticationViewModel
@@ -62,6 +62,9 @@ struct CodeView: View {
                                         await viewModel.fetchUIDByPhoneNumber(phoneNumber: "+82\(viewModel.phoneNumber)")
                                         await viewModel.fetchUser()
                                         needsDataFetch.toggle()
+                                        withAnimation(.interactiveSpring(response: 0.3, dampingFraction: 0.8, blendDuration: 0.8)) {
+                                            isShowStartView = false
+                                        }
                                     } else {
                                         showUseID.toggle()
                                     }
@@ -98,6 +101,7 @@ struct CodeView: View {
                 UseIDModalView(showUseID: $showUseID,
                                loginSignUpType: $loginSignUpType,
                                currentStep: $currentStep,
+                               isShowStartView: $isShowStartView,
                                dismissSignUpView: dismissAction)
                     .presentationDetents([.height(250)])
                     .presentationCornerRadius(30)

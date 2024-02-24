@@ -17,9 +17,6 @@ struct CommentWriteView: View {
     @State private var commentText: String = ""
     @State private var isFocused: Bool = false
     
-    @Binding var isShowingComment: Bool
-    @Binding var commentCount: Int
-    
     @State var postUser: User
     
     let post: Post
@@ -58,10 +55,10 @@ struct CommentWriteView: View {
                                 CommentCell(comment: comment, commentVM: commentVM,
                                             post: post,
                                             postID: postID)
-                                    .id(comment.id)
-                                    .padding(.horizontal, 10)
-                                    .padding(.bottom, 20)
-                            
+                                .id(comment.id)
+                                .padding(.horizontal, 10)
+                                .padding(.bottom, 20)
+                                
                             }
                             .onAppear {
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
@@ -114,7 +111,7 @@ struct CommentWriteView: View {
                                     await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID,
                                                                                  receiveUser: postUser,
                                                                                  type: .comment,
-                                                                                 message: commentText, 
+                                                                                 message: commentText,
                                                                                  post: post)
                                     await commentVM.updateCommentData.writeComment(documentID: postID,
                                                                                    imageUrl: viewModel.currentUser?.profileImageUrl ?? "",
@@ -123,9 +120,8 @@ struct CommentWriteView: View {
                                         commentVM.comments = fetchedComments
                                     }
                                     commentText = ""
-                                    commentCount += 1
                                 }
-                                isShowingComment = false
+                                dismiss()
                             }
                         } label: {
                             ZStack {

@@ -13,7 +13,6 @@ class UpdateCommentData {
     
     let db = Firestore.firestore()
     // 포스트 - 포스팅제목 - 서브컬렉션 포스트에 접근해서 문서 댓글정보를 가져와 comments 배열에 할당
-    
  
     func getCommentsDocument(postID: String) async -> [Comment]? {
         print(postID)
@@ -23,7 +22,9 @@ class UpdateCommentData {
                 try? document.data(as: Comment.self)
             }
             print(comments)
-            return filterBlockedComments(comments: comments)
+            let filteredComments = filterBlockedComments(comments: comments)
+            
+            return filteredComments
         } catch {
             print("Error fetching comments: \(error)")
         }
@@ -124,8 +125,10 @@ extension UpdateCommentData {
     private func filterBlockedComments(comments: [Comment]) -> [Comment] {
         let blockedUserIDs = Set(blockingUser.map { $0.blockUserID } + blockedUser.map { $0.blockUserID })
         
-        return comments.filter { comment in
+        let filteredComments = comments.filter { comment in
             !blockedUserIDs.contains(comment.userID)
         }
+        
+        return filteredComments
     }
 }

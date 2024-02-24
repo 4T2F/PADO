@@ -25,6 +25,9 @@ struct ContentView: View {
     
     @State private var showPushPost = false
     @State private var pushPost: Post?
+    
+    @State private var showPushPostit = false
+    
     @State var fetchedPostitData: Bool = false
     
     let updateHeartData = UpdateHeartData()
@@ -116,6 +119,8 @@ struct ContentView: View {
         .onChange(of: needsDataFetch) { _, _ in
             fetchData()
         }
+        .onChange(of: pushUser) { }
+        .onChange(of: pushPost) { }
     }
     
     func fetchData() {
@@ -143,6 +148,7 @@ struct ContentView: View {
             await feedVM.fetchFollowingPosts()
             profileVM.stopAllPostListeners()
             await profileVM.fetchPostID(user: viewModel.currentUser!)
+            
             await postitVM.listenForMessages(ownerID: userNameID)
             fetchedPostitData = true
             await notiVM.fetchNotifications()
@@ -150,32 +156,57 @@ struct ContentView: View {
             viewModel.showLaunchScreen = false
             
             NotificationCenter.default.addObserver(forName: Notification.Name("ProfileNotification"), object: nil, queue: .main) { notification in
-                // 알림을 받았을 때 수행할 작업
-                guard let userInfo = notification.object as? User else { return }
+                // 팔로잉, 서퍼지정 알림을 받았을 때 수행할 작업
+                guard let notiUserID = notification.object as? String else { return }
+                
                 Task {
-                    await handleProfileNotification(userInfo: userInfo)
+                    await handleProfileNotification(notiUserID: notiUserID)
                 }
             }
+            
             NotificationCenter.default.addObserver(forName: Notification.Name("PostNotification"), object: nil, queue: .main) { notification in
-                // 알림을 받았을 때 수행할 작업
+                // 댓글, 하트, 포토모지, 파도타기, 게시물 작성 알림을 받았을 때 수행할 작업
+                guard let notiPostID = notification.object as? String else { return }
                 
-                guard let postInfo = notification.object as? Post else { return }
                 Task {
-                    await handlePostNotification(postInfo: postInfo)
+                    await handlePostNotification(notiPostID: notiPostID)
+                }
+            }
+            
+            NotificationCenter.default.addObserver(forName: Notification.Name("PostitNotification"), object: nil, queue: .main) { notification in
+                // 포스트잇 알림을 받았을 때 수행할 작업
+                guard let notiUserID = notification.object as? String else { return }
+                
+                Task {
+                    await handlePostitNotification(notiUserID: notiUserID)
                 }
             }
         }
     }
+    
+    // 팔로잉, 서퍼지정 알림
     @MainActor
-    private func handleProfileNotification(userInfo: User) async {
-        self.pushUser = userInfo
+    private func handleProfileNotification(notiUserID: String) async {
+        self.pushUser = await UpdateUserData.shared.getOthersProfileDatas(id: notiUserID)
         self.showPushProfile = true
     }
+    
+    // 댓글, 하트, 포토모지, 파도타기, 게시물 작성 알림
     @MainActor
-    private func handlePostNotification(postInfo: Post) async {
+    private func handlePostNotification(notiPostID: String) async {
         viewModel.showTab = 4
-        self.pushPost = postInfo
+        self.pushPost = await UpdatePostData.shared.fetchPostById(postId: notiPostID)
         self.showPushPost = true
-
+    }
+    
+    // 포스트잇 알림
+    @MainActor
+    private func handlePostitNotification(notiUserID: String) async {
+        Task {
+            try? await Task.sleep(nanoseconds: 1 * 500_000_000)
+            viewModel.showTab = 4
+            try? await Task.sleep(nanoseconds: 1 * 250_000_000)
+            viewModel.isShowingMessageView = true
+        }
     }
 }

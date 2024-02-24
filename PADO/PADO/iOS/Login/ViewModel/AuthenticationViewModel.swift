@@ -17,12 +17,10 @@ class AuthenticationViewModel: ObservableObject {
     @Published var nameID = ""
     @Published var year = ""
     @Published var phoneNumber = ""
-    
     @Published var otpText = ""
     
     @Published var isLoading: Bool = false
     @Published var verificationCode: String = ""
-    @Published var resetNavigation: Bool = false
     
     @Published var errorMessage = ""
     @Published var showAlert = false
@@ -158,7 +156,8 @@ class AuthenticationViewModel: ObservableObject {
             "fcmToken": userToken,
             "alertAccept": acceptAlert,
             "instaAddress": "",
-            "tiktokAddress": ""
+            "tiktokAddress": "",
+            "openHighlight": "yes"
         ]
         userNameID = nameID
         await createUserData(nameID, data: initialUserData)
@@ -181,7 +180,8 @@ class AuthenticationViewModel: ObservableObject {
                 fcmToken: userToken,
                 alertAccept: acceptAlert,
                 instaAddress: "",
-                tiktokAddress: ""
+                tiktokAddress: "",
+                openHighlight: "yes"
             )
            
         } catch {

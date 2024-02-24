@@ -34,14 +34,15 @@ struct OtherUserProfileView: View {
     @State private var fetchedPostitData: Bool = false
     @State private var touchProfileImage: Bool = false
     @State private var touchBackImage: Bool = false
+    @State private var fetchingPostData: Bool = true
     @State private var position = CGSize.zero
+    @State private var isDragging = false
     
     let user: User
     
     let columns = [GridItem(.flexible(), spacing: 1), GridItem(.flexible(), spacing: 1), GridItem(.flexible())]
     
     var body: some View {
-
         ZStack {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 0) {
@@ -60,8 +61,10 @@ struct OtherUserProfileView: View {
                 }
             }
             .background(.main, ignoresSafeAreaEdges: .all)
-            .opacity(touchBackImage ? 0 : 1)
-            .opacity(touchProfileImage ? 0 : 1)
+            .allowsHitTesting(!touchBackImage)
+            .allowsHitTesting(!touchProfileImage)
+            .opacity(touchBackImage ? 0.1 : 1)
+            .opacity(touchProfileImage ? 0.1 : 1)
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()
             .navigationTitle("@\(user.nameID)")
@@ -103,7 +106,9 @@ struct OtherUserProfileView: View {
                             
                             if user.nameID != userNameID {
                                 Button {
-                                    isShowingUserReport = true
+                                    if !userNameID.isEmpty {
+                                        isShowingUserReport = true
+                                    }
                                 } label: {
                                     Image(systemName: "ellipsis")
                                 }
@@ -125,6 +130,7 @@ struct OtherUserProfileView: View {
                     KFImage(URL(string: backProfileImageUrl))
                         .resizable()
                         .scaledToFit()
+                        .clipShape(RoundedRectangle(cornerRadius: isDragging ? 12 : 0))
                         .zIndex(2)
                         .onTapGesture {
                             withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
@@ -132,6 +138,24 @@ struct OtherUserProfileView: View {
                             }
                         }
                         .offset(position)
+                        .highPriorityGesture(
+                            DragGesture()
+                                .onChanged({ value in
+                                    self.position = value.translation
+                                    self.isDragging = true
+                                })
+                                .onEnded({ value in
+                                    withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
+                                        if 200 < abs(self.position.height) {
+                                            self.touchBackImage = false
+                                            self.isDragging = false
+                                        } else {
+                                            self.position = .zero
+                                            self.isDragging = false
+                                        }
+                                    }
+                                })
+                        )
                 }
             }
             // 프로필 사진 조건문
@@ -140,6 +164,7 @@ struct OtherUserProfileView: View {
                     KFImage(URL(string: profileImageUrl))
                         .resizable()
                         .scaledToFit()
+                        .clipShape(RoundedRectangle(cornerRadius: isDragging ? 12 : 0))
                         .zIndex(2)
                         .onTapGesture {
                             withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
@@ -147,6 +172,24 @@ struct OtherUserProfileView: View {
                             }
                         }
                         .offset(position)
+                        .highPriorityGesture(
+                            DragGesture()
+                                .onChanged({ value in
+                                    self.position = value.translation
+                                    self.isDragging = true
+                                })
+                                .onEnded({ value in
+                                    withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
+                                        if 200 < abs(self.position.height) {
+                                            self.touchProfileImage = false
+                                            self.isDragging = false
+                                        } else {
+                                            self.position = .zero
+                                            self.isDragging = false
+                                        }
+                                    }
+                                })
+                        )
                 }
             }
         }
@@ -163,17 +206,20 @@ struct OtherUserProfileView: View {
             Task {
                 await followVM.initializeFollowFetch(id: user.nameID)
                 await profileVM.fetchPostID(user: user)
+                fetchingPostData = false
                 await postitVM.listenForMessages(ownerID: user.nameID)
                 fetchedPostitData = true
+                enteredNavigation = true
             }
         }
-        .onChange(of: viewModel.resetNavigation) { _, _ in
+        .onChange(of: resetNavigation) { _, _ in
             dismiss()
         }
         .onDisappear {
             followVM.stopAllListeners()
             postitVM.removeListner()
             profileVM.stopAllPostListeners()
+            enteredNavigation = false
         }
     }
     
@@ -422,7 +468,14 @@ struct OtherUserProfileView: View {
     @ViewBuilder
     func postView() -> some View {
         VStack(spacing: 25) {
-            if profileVM.padoPosts.isEmpty {
+            if fetchingPostData {
+                LottieView(animation: .named("Loading"))
+                    .looping()
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 100, height: 100)
+                    .padding(.top, 60)
+            } else if profileVM.padoPosts.isEmpty {
                 NoItemView(itemName: "아직 받은 게시물이 없습니다")
                     .padding(.top, 150)
             } else {
@@ -446,7 +499,8 @@ struct OtherUserProfileView: View {
                                     SelectPostView(profileVM: profileVM,
                                                    feedVM: feedVM,
                                                    viewType: PostViewType.receive,
-                                                   isShowingDetail: $isShowingReceiveDetail)
+                                                   isShowingDetail: $isShowingReceiveDetail,
+                                                   userID: user.nameID)
                                     .presentationDragIndicator(.visible)
                                     .onDisappear {
                                         feedVM.currentPadoRideIndex = nil
@@ -460,17 +514,33 @@ struct OtherUserProfileView: View {
                         }
                         .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
                     }
+                    if profileVM.fetchedPadoData {
+                        Rectangle()
+                            .foregroundStyle(.clear)
+                            .onAppear {
+                                Task {
+                                    try? await Task.sleep(nanoseconds: 1 * 1000_000_000)
+                                    await profileVM.fetchMorePadoPosts(id: userNameID)
+                                }
+                            }
+                    }
                 }
             }
         }
-        .padding(.bottom, 500)
         .offset(y: -4)
     }
     
     @ViewBuilder
     func writtenPostsView() -> some View {
         VStack(spacing: 25) {
-            if profileVM.sendPadoPosts.isEmpty {
+            if fetchingPostData {
+                LottieView(animation: .named("Loading"))
+                    .looping()
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 100, height: 100)
+                    .padding(.top, 60)
+            } else if profileVM.sendPadoPosts.isEmpty {
                 NoItemView(itemName: "아직 보낸 게시물이 없습니다")
                     .padding(.top, 150)
             } else {
@@ -494,7 +564,8 @@ struct OtherUserProfileView: View {
                                     SelectPostView(profileVM: profileVM,
                                                    feedVM: feedVM,
                                                    viewType: PostViewType.send,
-                                                   isShowingDetail: $isShowingSendDetail)
+                                                   isShowingDetail: $isShowingSendDetail,
+                                                   userID: user.nameID)
                                     .presentationDragIndicator(.visible)
                                     .onDisappear {
                                         feedVM.currentPadoRideIndex = nil
@@ -506,18 +577,34 @@ struct OtherUserProfileView: View {
                         }
                         .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
                     }
+                    if profileVM.fetchedSendPadoData {
+                        Rectangle()
+                            .foregroundStyle(.clear)
+                            .onAppear {
+                                Task {
+                                    try? await Task.sleep(nanoseconds: 1 * 1000_000_000)
+                                    await profileVM.fetchMoreSendPadoPosts(id: userNameID)
+                                }
+                            }
+                    }
                 }
             }
         }
-        .padding(.bottom, 500)
         .offset(y: -4)
     }
     
     @ViewBuilder
     func highlightsView() -> some View {
         VStack(spacing: 25) {
-            if user.nameID != userNameID
-                        && (user.openHighlight == nil || user.openHighlight == "no") {
+            if fetchingPostData {
+                LottieView(animation: .named("Loading"))
+                    .looping()
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 100, height: 100)
+                    .padding(.top, 60)
+            } else if user.nameID != userNameID
+                        && user.openHighlight == "no" {
                 NoItemView(itemName: "\(user.nameID)님이 좋아요를 표시한 파도는\n 비공개 입니다")
                     .padding(.top, 150)
             } else if profileVM.highlights.isEmpty {
@@ -544,7 +631,8 @@ struct OtherUserProfileView: View {
                                     SelectPostView(profileVM: profileVM,
                                                    feedVM: feedVM,
                                                    viewType: PostViewType.highlight,
-                                                   isShowingDetail: $isShowingHightlight)
+                                                   isShowingDetail: $isShowingHightlight,
+                                                   userID: user.nameID)
                                     .presentationDragIndicator(.visible)
                                     .onDisappear {
                                         feedVM.currentPadoRideIndex = nil
@@ -556,10 +644,19 @@ struct OtherUserProfileView: View {
                         }
                         .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
                     }
+                    if profileVM.fetchedHighlights {
+                        Rectangle()
+                            .foregroundStyle(.clear)
+                            .onAppear {
+                                Task {
+                                    try? await Task.sleep(nanoseconds: 1 * 1000_000_000)
+                                    await profileVM.fetchMoreHighlihts(id: userNameID)
+                                }
+                            }
+                    }
                 }
             }
         }
-        .padding(.bottom, 500)
         .offset(y: -4)
     }
 }
