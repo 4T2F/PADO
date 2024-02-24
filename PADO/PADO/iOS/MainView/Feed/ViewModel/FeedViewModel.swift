@@ -181,7 +181,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
                 try? document.data(as: Post.self)
             }
 
-            filteredPosts.sort { $0.heartsCount > $1.heartsCount }
+            filteredPosts.sort { $0.heartIDs.count > $1.heartIDs.count }
 
             for post in filteredPosts.prefix(20) {
                 setupSnapshotTodayPadoListener(for: post)
@@ -329,13 +329,12 @@ extension FeedViewModel {
 
         let docRef = db.collection("post").document(postID)
         followingListeners[postID] = docRef.addSnapshotListener { documentSnapshot, error in
-            guard let document = documentSnapshot, let data = document.data() else {
+            guard let document = documentSnapshot, let data = try? document.data(as: Post.self) else {
                 print("Error fetching document: \(error?.localizedDescription ?? "Unknown error")")
                 return
             }
             if let index = self.followingPosts.firstIndex(where: { $0.id == postID }) {
-                self.followingPosts[index].heartsCount = data["heartsCount"] as? Int ?? 0
-                self.followingPosts[index].commentCount = data["commentCount"] as? Int ?? 0
+                self.followingPosts[index] = data
             }
         }
     }
@@ -346,13 +345,13 @@ extension FeedViewModel {
 
         let docRef = db.collection("post").document(postID)
         todayPadoListeners[postID] = docRef.addSnapshotListener { documentSnapshot, error in
-            guard let document = documentSnapshot, let data = document.data() else {
+            guard let document = documentSnapshot, let data = try? document.data(as: Post.self) else {
                 print("Error fetching document: \(error?.localizedDescription ?? "Unknown error")")
                 return
             }
             if let index = self.todayPadoPosts.firstIndex(where: { $0.id == postID }) {
-                self.todayPadoPosts[index].heartsCount = data["heartsCount"] as? Int ?? 0
-                self.todayPadoPosts[index].commentCount = data["commentCount"] as? Int ?? 0
+                self.todayPadoPosts[index] = data
+
             }
         }
     }

@@ -133,7 +133,7 @@ class SurfingViewModel: ObservableObject, Searchable  {
             "surferUid": userNameID,
             "imageUrl": imageURL,
             "title": postingTitle,
-            "heartsCount": 0,
+            "heartIDs": [],
             "commentCount": 0,
             "created_Time": Timestamp(),
             "padoExist": false
@@ -143,7 +143,7 @@ class SurfingViewModel: ObservableObject, Searchable  {
         post?.surferUid = userNameID
         post?.imageUrl = imageURL
         post?.title = postingTitle
-        post?.heartsCount = 0
+        post?.heartIDs = []
         post?.commentCount = 0
         post?.created_Time = Timestamp()
         post?.padoExist = false

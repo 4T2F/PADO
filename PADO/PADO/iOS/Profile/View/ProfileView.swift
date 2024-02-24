@@ -393,7 +393,7 @@ struct ProfileView: View {
     
     @ViewBuilder
     func pinnedHeaderView() -> some View {
-        let types: [String] = ["받은 파도", "보낸 파도", "하이라이트"]
+        let types: [String] = ["받은 파도", "보낸 파도", "좋아요"]
         HStack(spacing: 25) {
             ForEach(types, id: \.self) { type in
                 VStack(spacing: 12) {
@@ -438,7 +438,7 @@ struct ProfileView: View {
             postView()
         case "보낸 파도":
             writtenPostsView()
-        case "하이라이트":
+        case "좋아요":
             highlightsView()
         default:
             EmptyView()

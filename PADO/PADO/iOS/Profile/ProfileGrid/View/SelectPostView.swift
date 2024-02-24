@@ -125,7 +125,7 @@ struct SelectPostView: View {
             }
         }
     }
-    
+   
 
     // 각 뷰 타입에 맞는 제목 반환
     private func titleForType(_ type: PostViewType) -> String {
@@ -135,7 +135,7 @@ struct SelectPostView: View {
         case .send:
             return "보낸 파도"
         case .highlight:
-            return "하이라이트"
+            return "좋아요"
         }
     }
 }

@@ -391,8 +391,8 @@ struct FeedCell: View {
                                             Task {
                                                 heartLoading = true
                                                 if let postID = post.id {
-                                                    await UpdateHeartData.shared.deleteHeart(documentID: postID)
-                                                    isHeartCheck = await UpdateHeartData.shared.checkHeartExists(documentID: postID)
+                                                    await UpdateHeartData.shared.deleteHeart(post: post)
+                                                    isHeartCheck = UpdateHeartData.shared.checkHeartExists(post: post)
                                                     heartLoading = false
                                                 }
                                             }
@@ -420,8 +420,8 @@ struct FeedCell: View {
                                                 
                                                 heartLoading = true
                                                 if let postID = post.id, let postUser = postUser {
-                                                    await UpdateHeartData.shared.addHeart(documentID: postID)
-                                                    isHeartCheck = await UpdateHeartData.shared.checkHeartExists(documentID: postID)
+                                                    await UpdateHeartData.shared.addHeart(post: post)
+                                                    isHeartCheck = UpdateHeartData.shared.checkHeartExists(post: post)
                                                     heartLoading = false
                                                     await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID,
                                                                                                  receiveUser: postUser,
@@ -441,7 +441,7 @@ struct FeedCell: View {
                                 }
                                 
                                 // MARK: - 하트 숫자
-                                Text("\(post.heartsCount)")
+                                Text("\(post.heartIDs.count-1)")
                                     .font(.system(size: 10))
                                     .fontWeight(.semibold)
                                     .shadow(radius: 1, y: 1)
@@ -607,9 +607,9 @@ struct FeedCell: View {
     func fetchPostData(post: Post) async {
         self.postUser = await UpdateUserData.shared.getOthersProfileDatas(id: post.ownerUid)
         self.surferUser = await UpdateUserData.shared.getOthersProfileDatas(id: post.surferUid)
-        if let postID = post.id {
-            isHeartCheck = await UpdateHeartData.shared.checkHeartExists(documentID: postID)
-        }
+        
+        isHeartCheck =  UpdateHeartData.shared.checkHeartExists(post: post)
+        
         self.postOwnerButtonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: post.ownerUid)
         self.postSurferButtonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: post.surferUid)
     }

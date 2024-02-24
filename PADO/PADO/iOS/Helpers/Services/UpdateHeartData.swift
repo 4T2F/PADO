@@ -16,89 +16,42 @@ class UpdateHeartData {
     
     let db = Firestore.firestore()
     
-    func addHeart(documentID: String) async {
-        // 햅틱 피드백 생성
+    func addHeart(post: Post) async {
         guard !userNameID.isEmpty else { return }
-        
+        guard let postID = post.id else { return }
         do {
-            try await db.collection("users").document(userNameID).collection("highlight").document(documentID).setData(["documentID": documentID,
+            try await db.collection("users").document(userNameID).collection("highlight").document(postID).setData(["documentID": postID,
                                                                                                                         "sendHeartTime": Timestamp()])
           
-            // 그 다음, 'post' 문서의 'heartsCount'를 업데이트하는 트랜잭션을 시작합니다.
-            _ = try await db.runTransaction({ (transaction, errorPointer) -> Any? in
-                let postRef = self.db.collection("post").document(documentID)
-                let postDocument: DocumentSnapshot
-                
-                do {
-                    try postDocument = transaction.getDocument(postRef)
-                } catch let fetchError as NSError {
-                    errorPointer?.pointee = fetchError
-                    return nil
-                }
-                
-                guard let oldCount = postDocument.data()?["heartsCount"] as? Int else {
-                    let error = NSError(domain: "AppErrorDomain", code: -1, userInfo: [
-                        NSLocalizedDescriptionKey: "Unable to retrieve hearts count from snapshot \(postDocument)"
-                    ])
-                    errorPointer?.pointee = error
-                    return nil
-                }
-                
-                transaction.updateData(["heartsCount": oldCount + 1], forDocument: postRef)
-                return nil
-            })
+            var newHeartIDs = post.heartIDs
+            guard !newHeartIDs.contains(userNameID) else { return }
+            newHeartIDs.append(userNameID)
+            try await db.collection("post").document(postID).updateData(["heartIDs": newHeartIDs])
         }
         catch {
             print("error: \(error.localizedDescription)")
         }
     }
     
-    func deleteHeart(documentID: String) async {
+    func deleteHeart(post: Post) async {
         guard !userNameID.isEmpty else { return }
-        
+        guard let postID = post.id else { return }
         do {
-            try await db.collection("users").document(userNameID).collection("highlight").document(documentID).delete()
+            try await db.collection("users").document(userNameID).collection("highlight").document(postID).delete()
+            var newHeartIDs = post.heartIDs
             
-            // 그 다음, 'post' 문서의 'heartsCount'를 업데이트하는 트랜잭션을 시작합니다.
-            _ = try await db.runTransaction({ (transaction, errorPointer) in
-                let postRef = self.db.collection("post").document(documentID)
-                let postDocument: DocumentSnapshot
-                
-                do {
-                    try postDocument = transaction.getDocument(postRef)
-                } catch let fetchError as NSError {
-                    errorPointer?.pointee = fetchError
-                    return nil
-                }
-                
-                guard let oldCount = postDocument.data()?["heartsCount"] as? Int else {
-                    let error = NSError(domain: "AppErrorDomain", code: -1, userInfo: [
-                        NSLocalizedDescriptionKey: "Unable to retrieve hearts count from snapshot \(postDocument)"
-                    ])
-                    errorPointer?.pointee = error
-                    return nil
-                }
-                
-                transaction.updateData(["heartsCount": oldCount - 1], forDocument: postRef)
-                return nil
-            })
+            guard let index = newHeartIDs.firstIndex(of: userNameID) else { return }
+            newHeartIDs.remove(at: index)
+            try await db.collection("post").document(postID).updateData(["heartIDs": newHeartIDs])
         } catch {
             print("error: \(error.localizedDescription)")
         }
     }
     
-    func checkHeartExists(documentID: String) async -> Bool {
+    func checkHeartExists(post: Post) -> Bool {
         guard !userNameID.isEmpty else { return false }
+        guard let postID = post.id else { return false }
         
-        do {
-            let documentSnapshot = try await db.collection("users").document(userNameID).collection("highlight").document(documentID).getDocument()
-            // 문서가 존재하지 않으면 false, 존재하면 true 반환
-            return documentSnapshot.exists
-                
-        } catch {
-            print("Error checking heart document: \(error)")
-            return false
-        }
+        return post.heartIDs.contains(userNameID)
     }
-    
 }
