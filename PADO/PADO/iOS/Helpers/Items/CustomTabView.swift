@@ -40,7 +40,7 @@ struct CustomTabView: View {
                     } label: {
                         VStack(spacing: 6) {
                             Image(viewModel.showTab == 1 ? "search_white" : "search")
-                                .padding(.top, 8)
+                                .padding(.top, 9)
                             
                             Spacer()
                         }
@@ -57,7 +57,7 @@ struct CustomTabView: View {
                     } label: {
                         VStack {
                             Image(viewModel.showTab == 2 ? "tab_white" : "tab")
-                                .padding(.top, 10)
+                                .padding(.top, 9.5)
                             
                             Spacer()
                         }
@@ -96,14 +96,14 @@ struct CustomTabView: View {
                     } label: {
                         VStack(spacing: 6) {
                             if let user = viewModel.currentUser {
-                                CircularImageView(size: .xSmall, user: user)
+                                CircularImageView(size: .tab, user: user)
                                     .padding(.top, 10)
                                     .overlay {
                                         Circle()
                                             .stroke(viewModel.showTab == 4 ? .white : .clear)
-                                            .frame(width: 35)
+                                            .frame(width: 30)
                                             .foregroundStyle(.clear)
-                                            .padding(.top, 10)
+                                            .padding(.top, 9)
                                     }
                             }
                             

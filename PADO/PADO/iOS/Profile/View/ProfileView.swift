@@ -238,7 +238,7 @@ struct ProfileView: View {
                                        endPoint: .bottom)
                         
                         VStack(alignment: .leading, spacing: 10) {
-                            CircularImageView(size: .xxLarge, user: user)
+                            CircularImageView(size: .xxxLarge, user: user)
                                 .zIndex(touchProfileImage ? 1 : 0)
                                 .onTapGesture {
                                     if user.profileImageUrl != nil {
@@ -271,7 +271,7 @@ struct ProfileView: View {
                                                 }
                                             }
                                     }
-                                    .offset(x: 46, y: -36)
+                                    .offset(x: 46, y: -40)
                                     .sheet(isPresented: $viewModel.isShowingMessageView) {
                                         PostitView(postitVM: postitVM,
                                                    isShowingMessageView: $viewModel.isShowingMessageView)
