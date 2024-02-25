@@ -27,12 +27,8 @@ struct CustomTabView: View {
                         resetNavigation.toggle()
                     } label: {
                         VStack(spacing: 6) {
-                            Image(viewModel.showTab == 0 ? "home_light" : "home_gray")
-                                .padding(.top, 6)
-                            
-                            Text("홈")
-                                .font(.system(size: 12))
-                                .foregroundStyle(viewModel.showTab == 0 ? .white : .gray)
+                            Image(viewModel.showTab == 0 ? "home_white" : "home")
+                                .padding(.top, 8)
                             
                             Spacer()
                         }
@@ -43,13 +39,8 @@ struct CustomTabView: View {
                         viewModel.showTab = 1
                     } label: {
                         VStack(spacing: 6) {
-                            Image(viewModel.showTab == 1 ? "search_light" : "search_gray")
-                                .padding(.top, 6)
-                            
-                            Text("검색")
-                                .font(.system(size: 12))
-                                .foregroundStyle(viewModel.showTab == 1 ? .white : .gray)
-                            
+                            Image(viewModel.showTab == 1 ? "search_white" : "search")
+                                .padding(.top, 8)
                             
                             Spacer()
                         }
@@ -65,7 +56,8 @@ struct CustomTabView: View {
                         }
                     } label: {
                         VStack {
-                            Image(viewModel.showTab == 2 ? "tab_added" : "tab_add")
+                            Image(viewModel.showTab == 2 ? "tab_white" : "tab")
+                                .padding(.top, 10)
                             
                             Spacer()
                         }
@@ -84,19 +76,16 @@ struct CustomTabView: View {
                         }
                     } label: {
                         VStack(spacing: 6) {
-                            Image(viewModel.showTab == 3 ? "today_light" : "today_gray")
-                                .padding(.top, 6)
-                            
-                            Text("파도타기")
-                                .font(.system(size: 12))
-                                .foregroundStyle(viewModel.showTab == 3 ? .white : .gray)
+                            Image(viewModel.showTab == 3 ? "surf_white" : "surf")
+                                .padding(.top, 8)
                             
                             Spacer()
                         }
                     }
                     .frame(width: geometry.size.width / 5)
                     .sheet(isPresented: $isShowingStartView, content: {
-                        StartView(isShowStartView: $isShowingStartView)                            .presentationDragIndicator(.visible)
+                        StartView(isShowStartView: $isShowingStartView)                           
+                            .presentationDragIndicator(.visible)
                     })
                     
                     Button {
@@ -106,12 +95,17 @@ struct CustomTabView: View {
                         }
                     } label: {
                         VStack(spacing: 6) {
-                            Image(viewModel.showTab == 4 ? "profile_light" : "profile_gray")
-                                .padding(.top, 6)
-                            
-                            Text("프로필")
-                                .font(.system(size: 12))
-                                .foregroundStyle(viewModel.showTab == 4 ? .white : .gray)
+                            if let user = viewModel.currentUser {
+                                CircularImageView(size: .xSmall, user: user)
+                                    .padding(.top, 10)
+                                    .overlay {
+                                        Circle()
+                                            .stroke(viewModel.showTab == 4 ? .white : .clear)
+                                            .frame(width: 35)
+                                            .foregroundStyle(.clear)
+                                            .padding(.top, 10)
+                                    }
+                            }
                             
                             Spacer()
                         }
