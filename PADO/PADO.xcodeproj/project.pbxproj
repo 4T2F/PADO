@@ -66,6 +66,7 @@
 		418D45BF2B756AAD007F6633 /* Postit.json in Resources */ = {isa = PBXBuildFile; fileRef = 418D45BE2B756AAD007F6633 /* Postit.json */; };
 		418D45C12B757388007F6633 /* PostitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418D45C02B757388007F6633 /* PostitView.swift */; };
 		418D45C32B757393007F6633 /* PostitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418D45C22B757393007F6633 /* PostitViewModel.swift */; };
+		4190DAB32B8B3A96003161BA /* SwipeAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4190DAB22B8B3A96003161BA /* SwipeAction.swift */; };
 		419741E12B558F3A0055F2AB /* FollowButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419741DF2B558F3A0055F2AB /* FollowButtonView.swift */; };
 		4197420A2B55900D0055F2AB /* LoginAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419742032B55900D0055F2AB /* LoginAlert.swift */; };
 		4197420F2B55900D0055F2AB /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419742082B55900D0055F2AB /* MainView.swift */; };
@@ -304,6 +305,7 @@
 		418D45BE2B756AAD007F6633 /* Postit.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Postit.json; sourceTree = "<group>"; };
 		418D45C02B757388007F6633 /* PostitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostitView.swift; sourceTree = "<group>"; };
 		418D45C22B757393007F6633 /* PostitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostitViewModel.swift; sourceTree = "<group>"; };
+		4190DAB22B8B3A96003161BA /* SwipeAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeAction.swift; sourceTree = "<group>"; };
 		419741DF2B558F3A0055F2AB /* FollowButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowButtonView.swift; sourceTree = "<group>"; };
 		419742032B55900D0055F2AB /* LoginAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginAlert.swift; sourceTree = "<group>"; };
 		419742082B55900D0055F2AB /* MainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -887,6 +889,7 @@
 			children = (
 				4187431C2B5C32CF00D93CBE /* CircularImageView.swift */,
 				64392B632B7099C70047BA12 /* RectangleImageView.swift */,
+				4190DAB22B8B3A96003161BA /* SwipeAction.swift */,
 				419742032B55900D0055F2AB /* LoginAlert.swift */,
 				418B6C892B5EBC0100E8289D /* SearchBar.swift */,
 				417568632B47999E003AA8C0 /* PhoneumberTFFormat.swift */,
@@ -1492,6 +1495,7 @@
 				048A34402B748DDF0085CE8B /* PadoRideEditView.swift in Sources */,
 				419981D82B75060F00EEA06E /* CommentViewModel.swift in Sources */,
 				63824C502B558B5500D1D653 /* WhiteButtonView.swift in Sources */,
+				4190DAB32B8B3A96003161BA /* SwipeAction.swift in Sources */,
 				418D45C12B757388007F6633 /* PostitView.swift in Sources */,
 				63D3C8392B8679A9001C5F33 /* SelectPadoRideUserCell.swift in Sources */,
 				41711F462B72281D00F0A1A7 /* UpdatePhotomojiData.swift in Sources */,

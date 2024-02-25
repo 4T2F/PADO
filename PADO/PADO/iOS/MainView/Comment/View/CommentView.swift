@@ -45,7 +45,6 @@ struct CommentView: View {
                                                 commentVM: commentVM,
                                                 post: $post)
                                     .id(index)
-                                    .padding(.horizontal, 10)
                                     .padding(.bottom, 20)
                                 }
                             }

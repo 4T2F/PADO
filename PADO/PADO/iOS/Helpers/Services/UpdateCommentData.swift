@@ -32,7 +32,9 @@ class UpdateCommentData {
     }
     
     //  댓글 작성 및 프로필 이미지 URL 반환
-    func writeComment(post: Post, imageUrl: String, inputcomment: String) async {
+    func writeComment(post: Post, 
+                      imageUrl: String,
+                      inputcomment: String) async {
         
         guard !userNameID.isEmpty else { return }
         
@@ -43,7 +45,8 @@ class UpdateCommentData {
             "heartIDs": [],
             "replyComments": []
         ]
-        await createCommentData(post: post, data: initialPostData)
+        await createCommentData(post: post,
+                                data: initialPostData)
     }
     
     func createCommentData(post: Post, data: [String: Any]) async {

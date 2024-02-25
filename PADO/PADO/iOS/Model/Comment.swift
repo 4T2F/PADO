@@ -16,7 +16,7 @@ struct Comment: Identifiable, Hashable, Codable {
     var content: String
     var time: Timestamp
     var heartIDs: [String] = []
-    var replyCommentIDs: [String] = []
+    var replyComments: [String] = []
 }
 
 
