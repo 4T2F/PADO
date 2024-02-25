@@ -5,77 +5,138 @@
 //  Created by 최동호 on 2/5/24.
 //
 
-import FirebaseMessaging
-import Foundation
 import SwiftUI
+import Intents
+import UserNotifications
 
 class NotificationService: UNNotificationServiceExtension {
     
     var contentHandler: ((UNNotificationContent) -> Void)?
     var bestAttemptContent: UNMutableNotificationContent?
     
-    // 이 메서드는 알림이 도착했을 때 호출함
-    override func didReceive(_ request: UNNotificationRequest, withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void) {
+    // APNs를 수신하면 didReceive 메소드 호출
+    // contentHnadler 클로저를 수행하면 푸시가 노출
+    override func didReceive(_ request: UNNotificationRequest,
+                             withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void) {
+        
         self.contentHandler = contentHandler
         bestAttemptContent = (request.content.mutableCopy() as? UNMutableNotificationContent)
         
-        if let bestAttemptContent = bestAttemptContent {
-            // Modify the notification content here...
-            
-            if let apsData = request.content.userInfo["aps"] as? [String: Any],
-               let alertData = apsData["alert"] as? [String: Any],
-               let imageData = request.content.userInfo["fcm_options"] as? [String: Any] {
-                
-                bestAttemptContent.title = "\(bestAttemptContent.title) [테스트중]"
-                bestAttemptContent.body = "\(bestAttemptContent.body) [테스트중]"
-                
-                if let urlImageString = imageData["image"] as? String,
-                   let newsImageUrl = URL(string: urlImageString) {
-                    
-                    do {
-                        let imageData = try Data(contentsOf: newsImageUrl)
-                        if let attachment = UNNotificationAttachment.saveImageToDisk(identifier: "newsImage.jpg", data: imageData, options: nil) {
-                            bestAttemptContent.attachments = [attachment]
-                        }
-                    } catch {
-                        print("Error loading image data: \(error)")
-                    }
+        // attachment에 이미지 넣기: https://ios-development.tistory.com/1282
+        setAttachment(request: request, contentHandler: contentHandler)
+        
+        // 푸시 app icon 부분 커스텀 하기: https://ios-development.tistory.com/1283
+        setAppIconToCustom(request: request, contentHandler: contentHandler)
+    }
+    
+    private func setAttachment(request: UNNotificationRequest, 
+                               contentHandler: @escaping (UNNotificationContent) -> Void) {
+        
+        guard let bestAttemptContent else { return }
+        bestAttemptContent.title = "변경 " + request.content.title
+        bestAttemptContent.subtitle = "변경 " + request.content.subtitle
+        
+        // 푸시에 이미지 추가
+        let imageURLString = request.content.userInfo["image"] as! String
+        do {
+            // 이미지 타입으로 저장하지 않으면 error나므로 주의 (.png, .jpg 등으로 할 것)
+            try saveFile(id: "myImage.png", 
+                         imageURLString: imageURLString) { fileURL in
+                do {
+                    print(fileURL.absoluteURL)
+                    let attachment = try UNNotificationAttachment(identifier: "", url: fileURL, options: nil)
+                    bestAttemptContent.attachments = [attachment]
+                    contentHandler(bestAttemptContent)
+                } catch {
+                    print(error)
                 }
-                
-                // Messaging.serviceExtension() 호출은 예제에 따라 필요에 맞게 조정해야 합니다.
-                // Messaging.serviceExtension().populateNotificationContent(bestAttemptContent, withContentHandler: self.contentHandler!)
-                
-                contentHandler(bestAttemptContent)
-            } else {
-                contentHandler(bestAttemptContent) // userInfo에 필요한 데이터가 없는 경우
+            }
+        } catch {
+            print(error)
+        }
+    }
+    
+    private func setAppIconToCustom(request: UNNotificationRequest, 
+                                    contentHandler: @escaping (UNNotificationContent) -> Void) {
+        // Intent를 사용 전에는 info.plist에 키-값 추가 필요
+        // NSUserActivityTypes을 array로 놓고 배열 중 하나의 값으로 INSendMessageIntent 입력
+
+        let avatar = INImage(imageData: UIImage(named: "my_image.png")!.pngData()!)
+        
+        let senderPerson = INPerson(
+            personHandle: INPersonHandle(value: "unique-sender-id-2", type: .unknown),
+            nameComponents: nil,
+            displayName: "Sender name",
+            image: avatar,
+            contactIdentifier: nil,
+            customIdentifier: nil,
+            isMe: false,
+            suggestionType: .none
+        )
+        
+        let mePerson = INPerson(
+            personHandle: INPersonHandle(value: "unique-me-id-2", type: .unknown),
+            nameComponents: nil,
+            displayName: nil,
+            image: nil,
+            contactIdentifier: nil,
+            customIdentifier: nil,
+            isMe: true,
+            suggestionType: .none
+        )
+        
+        // Intent
+        let intent = INSendMessageIntent(recipients: [mePerson],
+                                         outgoingMessageType: .outgoingMessageText,
+                                         content: "Message content",
+                                         speakableGroupName: nil,
+                                         conversationIdentifier: "unique-conversation-id-1",
+                                         serviceName: nil,
+                                         sender: senderPerson,
+                                         attachments: nil)
+        
+        //
+        intent.setImage(avatar, forParameterNamed: \.sender)
+//        intent.setImage(avatar, forParameterNamed: \.speakableGroupName) // 그룹
+        
+        // interaction
+        let interaction = INInteraction(intent: intent, response: nil)
+        interaction.direction = .incoming
+        
+        // 알림을 주기 전에 `donate`
+        interaction.donate { error in
+            if let error = error {
+                print(error)
+                return
+            }
+            
+            do {
+                // 이전 notification에 intent를 더해주고, 노티 띄우기
+                let updatedContent = try request.content.updating(from: intent)
+                contentHandler(updatedContent)
+            } catch {
+                print(error)
             }
         }
     }
     
+    // didReceive에서 contentHandler가 호출되지 않고 특정 시간이 경과하면 이 메소드가 호출
     override func serviceExtensionTimeWillExpire() {
-        // Called just before the extension will be terminated by the system.
-        // Use this as an opportunity to deliver your "best attempt" at modified content, otherwise the original push payload will be used.
         if let contentHandler = contentHandler, let bestAttemptContent =  bestAttemptContent {
             contentHandler(bestAttemptContent)
         }
     }
-}
-
-extension UNNotificationAttachment {
-    static func saveImageToDisk(identifier: String, data: Data, options: [AnyHashable : Any]? = nil) -> UNNotificationAttachment? {
+    
+    private func saveFile(id: String, imageURLString: String, completion: (_ fileURL: URL) -> Void) throws {
         let fileManager = FileManager.default
-        let folderName = ProcessInfo.processInfo.globallyUniqueString
-        let folderURL = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(folderName, isDirectory: true)!
+        let documentDirectory = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+        let fileURL = documentDirectory.appendingPathComponent(id)
         
-        do {
-            try fileManager.createDirectory(at: folderURL, withIntermediateDirectories: true, attributes: nil)
-            let fileURL = folderURL.appendingPathExtension(identifier)
-            try data.write(to: fileURL)
-            let attachment = try UNNotificationAttachment(identifier: identifier, url: fileURL, options: options)
-            return attachment
-        } catch {
-            print("saveImageToDisk error - \(error)")
-        }
-        return nil
+        guard
+            let imageURL = URL(string: imageURLString),
+            let data = try? Data(contentsOf: imageURL)
+        else { throw URLError(.cannotDecodeContentData) }
+        try data.write(to: fileURL)
+        completion(fileURL)
     }
 }
