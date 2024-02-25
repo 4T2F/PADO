@@ -12,6 +12,7 @@ import SwiftUI
 
 class CommentViewModel: ObservableObject {
     @Published var comments: [Comment] = []
+    @Published var replyComments: [String: ReplyComment] = [:]
     @Published var documentID: String = ""
     @Published var inputcomment: String = ""
     @Published var showdeleteModal: Bool = false
@@ -20,8 +21,6 @@ class CommentViewModel: ObservableObject {
     @Published var selectedComment: Comment?
     @Published var commentUserIDs: [String] = []
     @Published var commentUsers: [String: User] = [:]
-    
-    let updateCommentData = UpdateCommentData()
     
     let db = Firestore.firestore()
     
@@ -38,6 +37,80 @@ class CommentViewModel: ObservableObject {
 
     let updateFacemojiData = UpdateFacemojiData()
     
+    @MainActor
+    func getCommentsDocument(post: Post) async {
+        guard let postID = post.id else { return }
+        do {
+            let querySnapshot = try await db.collection("post").document(postID).collection("comment").order(by: "time", descending: false).getDocuments()
+            let comments = querySnapshot.documents.compactMap { document in
+                try? document.data(as: Comment.self)
+            }
+            print(comments)
+            let filteredComments = filterBlockedComments(comments: comments)
+            
+            self.comments = filteredComments
+        } catch {
+            print("Error fetching comments: \(error)")
+        }
+        return
+    }
+    
+ 
+    //  댓글 작성 및 프로필 이미지 URL 반환
+    func writeComment(post: Post,
+                      imageUrl: String,
+                      inputcomment: String) async {
+        
+        guard !userNameID.isEmpty else { return }
+        
+        let initialPostData : [String: Any] = [
+            "userID": userNameID,
+            "content": inputcomment,
+            "time": Timestamp(),
+            "heartIDs": [],
+            "replyComments": []
+        ]
+        await createCommentData(post: post,
+                                data: initialPostData)
+    }
+    
+    func createCommentData(post: Post, data: [String: Any]) async {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd-HH:mm:ss.sssZ"
+        
+        let formattedDate = dateFormatter.string(from: Date())
+        let formattedCommentTitle = userNameID+formattedDate
+        guard let postID = post.id else { return }
+        do {
+            // 포스트에서 댓글을 보여주기 위해 만들어줌
+            try await db.collection("post").document(postID).collection("comment").document(formattedCommentTitle).setData(data)
+            
+            try await db.collection("post").document(postID).updateData(["commentCount": post.commentCount + 1])
+            
+            await getCommentsDocument(post: post)
+        } catch {
+            print("Error saving post data: \(error.localizedDescription)")
+        }
+    }
+    
+    // 댓글 삭제 함수에 commentID = 댓글 서브 컬렉션의 DocumentID 매개변수
+    func deleteComment(post: Post, commentID: String) async {
+        guard let postID = post.id else { return }
+        do {
+            // 포스트의 'comment' 컬렉션에서 특정 댓글 삭제
+            try await db.collection("post").document(postID).collection("comment").document(commentID).delete()
+            
+            try await db.collection("post").document(postID).updateData(["commentCount": post.commentCount-1])
+            
+            await getCommentsDocument(post: post)
+            // 성공적으로 삭제됐다는 메시지 출력
+            print(commentID)
+            print("댓글이 성공적으로 삭제되었습니다.")
+        } catch {
+            print("댓글 삭제 중 오류 발생: \(error.localizedDescription)")
+        }
+    }
+    
     func removeDuplicateUserIDs(from comments: [Comment])  {
         let userIDs = comments.map { $0.userID }
         var uniqueUserIDs = Set(userIDs)
@@ -52,6 +125,7 @@ class CommentViewModel: ObservableObject {
         do {
             for documentID in commentUserIDs {
                 let querySnapshot = try await Firestore.firestore().collection("users").document(documentID).getDocument()
+                
                 
                 let userData = try? querySnapshot.data(as: User.self)
                 self.commentUsers[documentID] = userData
@@ -156,6 +230,29 @@ class CommentViewModel: ObservableObject {
 
 // MARK: 대댓글
 extension CommentViewModel {
+    @MainActor
+    func getReplyCommentsDocument(post: Post, comment: Comment) async {
+        guard let postID = post.id else { return }
+        guard let commentID = comment.id else { return }
+        
+        do {
+            let querySnapshot = try await db.collection("post").document(postID).collection("comment").document(commentID).collection("replyComments").order(by: "time", descending: false).getDocuments()
+            
+            let fetchCommentData = querySnapshot.documents.compactMap { document in
+                try? document.data(as: ReplyComment.self)
+            }
+            
+            let filteredComments = filterBlockedReplyComments(comments: fetchCommentData)
+            for replyComment in filteredComments {
+                if let replyCommentId = replyComment.id {
+                    replyComments[replyCommentId] = replyComment
+                }
+            }
+        } catch {
+            print("Error fetching comments: \(error)")
+        }
+    }
+    
     func writeReplyComment(post: Post,
                            index: Int,
                            imageUrl: String,
@@ -228,6 +325,7 @@ extension CommentViewModel {
         }
     }
     
+    @MainActor
     func deleteReplyComment(post: Post, index: Int, replyCommentID: String) async {
         guard let postID = post.id else { return }
         guard let commentID = comments[index].id else { return }
@@ -275,5 +373,136 @@ extension CommentViewModel {
         } catch {
             print("답글 삭제 중 오류 발생: \(error.localizedDescription)")
         }
+    }
+    
+    // 대댓글 좋아요
+    @MainActor
+    func addReplyCommentHeart(post: Post, comment: Comment, replyComment: ReplyComment) async {
+        guard !userNameID.isEmpty else { return }
+        guard let postID = post.id else { return }
+        guard let commentID = comment.id else { return }
+        guard let replyCommentID = replyComment.id else { return }
+        do {
+            _ = try await db.runTransaction({ (transaction, errorPointer) in
+                let postRef = self.db.collection("post").document(postID).collection("comment").document(commentID).collection("replyComments").document(replyCommentID)
+                
+                let postDocument: DocumentSnapshot
+                
+                do {
+                    try postDocument = transaction.getDocument(postRef)
+                } catch let fetchError as NSError {
+                    errorPointer?.pointee = fetchError
+                    return
+                }
+                
+                guard var replyCommentHeartIDs = postDocument.data()?["heartIDs"] as? [String] else {
+                    let error = NSError(domain: "AppErrorDomain", code: -1, userInfo: [
+                        NSLocalizedDescriptionKey: "하트준 ID값들에 접근 못함 \(postDocument)"
+                    ])
+                    errorPointer?.pointee = error
+                    return
+                }
+                guard !replyCommentHeartIDs.contains(userNameID) else { return }
+                
+                DispatchQueue.main.async {
+                    if var newDictionaryData: ReplyComment = self.replyComments[replyCommentID] {
+                        var newArray = newDictionaryData.heartIDs
+                        newArray.append(userNameID)
+                        newDictionaryData.heartIDs = newArray
+                        self.replyComments[replyCommentID] = newDictionaryData
+                    }
+                }
+                
+                replyCommentHeartIDs.append(userNameID)
+                transaction.updateData(["heartIDs": replyCommentHeartIDs], forDocument: postRef)
+                return
+            })
+        }
+        catch {
+            print("error: \(error.localizedDescription)")
+        }
+        return
+    }
+    
+    // 대댓글 좋아요 삭제
+    @MainActor
+    func deleteReplyCommentHeart(post: Post, comment: Comment, replyComment: ReplyComment) async {
+        guard !userNameID.isEmpty else { return }
+        guard let postID = post.id else { return }
+        guard let commentID = comment.id else { return }
+        guard let replyCommentID = replyComment.id else { return }
+
+        do {
+            _ = try await db.runTransaction({ (transaction, errorPointer) in
+                let postRef = self.db.collection("post").document(postID).collection("comment").document(commentID).collection("replyComments").document(replyCommentID)
+                
+                let postDocument: DocumentSnapshot
+                
+                do {
+                    try postDocument = transaction.getDocument(postRef)
+                } catch let fetchError as NSError {
+                    errorPointer?.pointee = fetchError
+                    return
+                }
+                
+                guard var replyCommentHeartIDs = postDocument.data()?["heartIDs"] as? [String] else {
+                    let error = NSError(domain: "AppErrorDomain", code: -1, userInfo: [
+                        NSLocalizedDescriptionKey: "하트준 ID값들에 접근 못함 \(postDocument)"
+                    ])
+                    errorPointer?.pointee = error
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    if var newDictionaryData: ReplyComment = self.replyComments[replyCommentID] {
+                        var newArray = newDictionaryData.heartIDs
+                        guard let index = newArray.firstIndex(of: userNameID) else { return }
+                        newArray.remove(at: index)
+                        newDictionaryData.heartIDs = newArray
+                        self.replyComments[replyCommentID] = newDictionaryData
+                    }
+                }
+                
+                guard let removeIndex = replyCommentHeartIDs.firstIndex(of: userNameID) else { return }
+                
+                replyCommentHeartIDs.remove(at: removeIndex)
+
+                transaction.updateData(["heartIDs": replyCommentHeartIDs], forDocument: postRef)
+                
+                
+                return
+            })
+        }
+        catch {
+            print("error: \(error.localizedDescription)")
+        }
+    }
+    
+    // 대댓글 좋아요 체크
+    func checkReplyCommentHeartExists(replyComment: ReplyComment) -> Bool {
+        guard !userNameID.isEmpty else { return false }
+        return replyComment.heartIDs.contains(userNameID)
+    }
+}
+
+extension CommentViewModel {
+    private func filterBlockedComments(comments: [Comment]) -> [Comment] {
+        let blockedUserIDs = Set(blockingUser.map { $0.blockUserID } + blockedUser.map { $0.blockUserID })
+        
+        let filteredComments = comments.filter { comment in
+            !blockedUserIDs.contains(comment.userID)
+        }
+        
+        return filteredComments
+    }
+    
+    private func filterBlockedReplyComments(comments: [ReplyComment]) -> [ReplyComment] {
+        let blockedUserIDs = Set(blockingUser.map { $0.blockUserID } + blockedUser.map { $0.blockUserID })
+        
+        let filteredComments = comments.filter { comment in
+            !blockedUserIDs.contains(comment.userID)
+        }
+        
+        return filteredComments
     }
 }

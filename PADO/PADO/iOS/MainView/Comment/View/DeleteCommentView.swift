@@ -39,12 +39,9 @@ struct DeleteCommentView: View {
                 Button {
                     if let selectComment = commentVM.selectedComment {
                         Task {
-                            await commentVM.updateCommentData.deleteComment(post: post,
+                            await commentVM.deleteComment(post: post,
                                                                             commentID: selectComment.userID+(selectComment.time.convertTimestampToString(timestamp: selectComment.time)))
-                            if let fetchedComments = await commentVM.updateCommentData.getCommentsDocument(post: post) {
-                                commentVM.comments = fetchedComments
-                            }
-                            
+                     
                             commentVM.showdeleteModal = false
                         }
                     }

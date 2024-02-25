@@ -81,6 +81,7 @@ struct CommentWriteView: View {
                     .padding(.top)
                 }
             }
+            .padding(.bottom, 6)
             
             Divider()
             
@@ -110,12 +111,10 @@ struct CommentWriteView: View {
                                                                                  type: .comment,
                                                                                  message: commentText,
                                                                                  post: post)
-                                    await commentVM.updateCommentData.writeComment(post: post,
+                                    await commentVM.writeComment(post: post,
                                                                                    imageUrl: viewModel.currentUser?.profileImageUrl ?? "",
                                                                                    inputcomment: commentText)
-                                    if let fetchedComments = await commentVM.updateCommentData.getCommentsDocument(post: post) {
-                                        commentVM.comments = fetchedComments
-                                    }
+                                    
                                     commentText = ""
                                 }
                                 dismiss()

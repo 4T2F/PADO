@@ -58,7 +58,7 @@ struct CommentView: View {
                                     .font(.system(size: 12))
                                     .foregroundStyle(.gray)
                             }
-                        }
+                        } 
                     } else {
                         LottieView(animation: .named("Loading"))
                             .looping()
@@ -70,13 +70,11 @@ struct CommentView: View {
                 }
                 .padding(.top)
             }
+            .padding(.bottom, 6)
             .onAppear {
                 Task {
                     enteredNavigation = true
-                    
-                    if let fetchedComments = await commentVM.updateCommentData.getCommentsDocument(post: post) {
-                        commentVM.comments = fetchedComments
-                    }
+                    await commentVM.getCommentsDocument(post: post)
                     commentVM.removeDuplicateUserIDs(from: commentVM.comments)
                     await commentVM.fetchCommentUser()
                     isFetchedComment = true

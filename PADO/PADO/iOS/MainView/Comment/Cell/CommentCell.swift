@@ -166,13 +166,6 @@ struct CommentCell: View {
                                   post: $post)
                 .presentationDetents([.fraction(0.4)])
             }
-            .sheet(isPresented: $commentVM.showselectModal) {
-                SelectCommentView(commentVM: commentVM,
-                                  post: $post)
-                .presentationDetents([.fraction(0.25)])
-                .presentationDragIndicator(.visible)
-                
-            }
             .sheet(isPresented: $commentVM.showreportModal) {
                 ReportCommentView(isShowingReportView: $isShowingReportView)
                     .presentationDetents([.medium])
