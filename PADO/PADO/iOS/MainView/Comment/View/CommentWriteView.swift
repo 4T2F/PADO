@@ -56,9 +56,6 @@ struct CommentWriteView: View {
                                             commentVM: commentVM,
                                             post: $post)
                                 .id(index)
-                                .padding(.horizontal, 10)
-                                .padding(.bottom, 20)
-                                
                             }
                             .onAppear {
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {

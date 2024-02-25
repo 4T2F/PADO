@@ -40,12 +40,12 @@ struct CommentView: View {
                     if isFetchedComment {
                         if !commentVM.comments.isEmpty {
                             ForEach(commentVM.comments.indices, id:\.self) { index in
-                                if commentVM.commentUsers.keys.contains(commentVM.comments[index].userID) {
+                                if index < commentVM.comments.count,
+                                   commentVM.commentUsers.keys.contains(commentVM.comments[index].userID) {
                                     CommentCell(index: index,
                                                 commentVM: commentVM,
                                                 post: $post)
                                     .id(index)
-                                    .padding(.bottom, 20)
                                 }
                             }
                         } else {

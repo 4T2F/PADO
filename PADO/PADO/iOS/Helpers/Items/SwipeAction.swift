@@ -80,7 +80,7 @@ struct SwipeAction<Content: View>: View {
     
     /// Action Buttons
     @ViewBuilder
-    func actionButtons(resetPosition: @escaping () -> ()) -> some View {
+    func actionButtons(resetPosition: @escaping () -> Void) -> some View {
         /// Each Button Will Have 100 Width
         Rectangle()
             .fill(.clear)

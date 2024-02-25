@@ -24,154 +24,160 @@ struct CommentCell: View {
     @Binding var post: Post
     
     var body: some View {
-        SwipeAction(cornerRadius: 0, direction: .trailing) {
-            HStack(alignment: .top) {
-                Group {
-                    NavigationLink {
-                        if let user = commentVM.commentUsers[commentVM.comments[index].userID] {
-                            OtherUserProfileView(buttonOnOff: $buttonOnOff,
-                                                 user: user)
-                        }
-                    } label: {
-                        if let user = commentVM.commentUsers[commentVM.comments[index].userID] {
-                            CircularImageView(size: .commentSize,
-                                              user: user)
-                        }
-                    }
-                }
-                .padding(.leading, 10)
-                
-                VStack(alignment: .leading, spacing: 4) {
-                    HStack(spacing: 4) {
-                        NavigationLink {
-                            if let user = commentVM.commentUsers[commentVM.comments[index].userID] {
-                                OtherUserProfileView(buttonOnOff: $buttonOnOff,
-                                                     user: user)
-                            }
-                        } label: {
-                            Text(commentVM.comments[index].userID)
-                                .fontWeight(.semibold)
-                                .font(.system(size: 12))
-                                .padding(.trailing, 4)
-                                .foregroundStyle(.white)
-                        }
-                        
-                        Text(commentVM.comments[index].time.formatDate(commentVM.comments[index].time))
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                        
-                        Spacer()
-                        
-
-                    }
-                    
-                    Text(commentVM.comments[index].content)
-                        .font(.system(size: 12))
-                        .foregroundStyle(.white)
-                    
-                    Button {
-                        
-                    } label: {
-                        Text("답글달기")
-                            .font(.system(size: 10))
-                            .foregroundStyle(.gray)
-                    }
-                }
-                .padding(.top, 2)
-                
-                Spacer()
-                
-                Group {
-                    VStack(spacing: 4) {
-                        Spacer()
-                        if isHeartCheck {
-                            Button {
-                                Task {
-                                    await commentVM.deleteCommentHeart(post: post,
-                                                                       index: index)
-                                    self.isHeartCheck = commentVM.checkCommentHeartExists(index: index)
+        if index < commentVM.comments.count {
+            SwipeAction(cornerRadius: 0, direction: .trailing) {
+                    HStack(alignment: .top) {
+                        Group {
+                            NavigationLink {
+                                if let user = commentVM.commentUsers[commentVM.comments[index].userID] {
+                                    OtherUserProfileView(buttonOnOff: $buttonOnOff,
+                                                         user: user)
                                 }
                             } label: {
-                                Circle()
-                                    .frame(width: 17)
-                                    .foregroundStyle(.clear)
-                                    .overlay {
-                                        LottieView(animation: .named("Heart"))
-                                            .playing()
+                                if let user = commentVM.commentUsers[commentVM.comments[index].userID] {
+                                    CircularImageView(size: .commentSize,
+                                                      user: user)
+                                }
+                            }
+                        }
+                        .padding(.leading, 10)
+                        .padding(.top, 6)
+                        
+                        VStack(alignment: .leading, spacing: 4) {
+                            HStack(spacing: 4) {
+                                NavigationLink {
+                                    if let user = commentVM.commentUsers[commentVM.comments[index].userID] {
+                                        OtherUserProfileView(buttonOnOff: $buttonOnOff,
+                                                             user: user)
+                                    }
+                                } label: {
+                                    Text(commentVM.comments[index].userID)
+                                        .fontWeight(.semibold)
+                                        .font(.system(size: 12))
+                                        .padding(.trailing, 4)
+                                        .foregroundStyle(.white)
+                                }
+                                
+                                Text(commentVM.comments[index].time.formatDate(commentVM.comments[index].time))
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                                
+                                Spacer()
+                                
+                                
+                            }
+                            
+                            Text(commentVM.comments[index].content)
+                                .font(.system(size: 12))
+                                .foregroundStyle(.white)
+                            
+                            //                    Button {
+                            //
+                            //                    } label: {
+                            //                        Text("답글달기")
+                            //                            .font(.system(size: 10))
+                            //                            .foregroundStyle(.gray)
+                            //                    }
+                        }
+                        .padding(.top, 6)
+                        
+                        Spacer()
+                        
+                        Group {
+                            VStack(spacing: 4) {
+                                Spacer()
+                                if isHeartCheck {
+                                    Button {
+                                        Task {
+                                            await commentVM.deleteCommentHeart(post: post,
+                                                                               index: index)
+                                            self.isHeartCheck = commentVM.checkCommentHeartExists(index: index)
+                                        }
+                                    } label: {
+                                        Circle()
+                                            .frame(width: 17)
+                                            .foregroundStyle(.clear)
+                                            .overlay {
+                                                LottieView(animation: .named("Heart"))
+                                                    .playing()
+                                                    .resizable()
+                                                    .scaledToFit()
+                                                    .frame(width: 34, height: 34)
+                                            }
+                                    }
+                                } else {
+                                    Button {
+                                        Task {
+                                            await commentVM.addCommentHeart(post: post,
+                                                                            index: index)
+                                            
+                                            self.isHeartCheck = commentVM.checkCommentHeartExists(index: index)
+                                        }
+                                    } label: {
+                                        Image("heart")
                                             .resizable()
                                             .scaledToFit()
-                                            .frame(width: 34, height: 34)
+                                            .frame(width: 17, height: 17)
                                     }
-                            }
-                        } else {
-                            Button {
-                                Task {
-                                    await commentVM.addCommentHeart(post: post,
-                                                                    index: index)
-                                    
-                                    self.isHeartCheck = commentVM.checkCommentHeartExists(index: index)
                                 }
-                            } label: {
-                                Image("heart")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 17, height: 17)
+                                
+                                if commentVM.comments[index].heartIDs.count > 0 {
+                                    Button {
+                                        isShowingHeartUserView = true
+                                    } label: {
+                                        Text("\(commentVM.comments[index].heartIDs.count)")
+                                            .font(.system(size: 12))
+                                            .foregroundStyle(.gray)
+                                    }
+                                    .sheet(isPresented: $isShowingHeartUserView, content: {
+                                        HeartUsersView(userIDs: commentVM.comments[index].heartIDs)
+                                    })
+                                }
+                                
+                                Spacer()
                             }
                         }
+                        .padding(.trailing, 10)
                         
-                        if commentVM.comments[index].heartIDs.count > 0 {
-                            Button {
-                                isShowingHeartUserView = true
-                            } label: {
-                                Text("\(commentVM.comments[index].heartIDs.count)")
-                                    .font(.system(size: 12))
-                                    .foregroundStyle(.gray)
-                            }
-                            .sheet(isPresented: $isShowingHeartUserView, content: {
-                                HeartUsersView(userIDs: commentVM.comments[index].heartIDs)
-                            })
-                        }
-                        
-                        Spacer()
+                    }
+                    
+            } actions: {
+                Action(tint: .modal, icon: "flag", isEnabled: commentVM.comments[index].userID != userNameID) {
+                    DispatchQueue.main.async {
+                        commentVM.selectedComment = commentVM.comments[index]
+                        commentVM.showreportModal = true
                     }
                 }
-                .padding(.trailing, 10)
                 
-            }
-        } actions: {
-            Action(tint: .modal, icon: "flag", isEnabled: commentVM.comments[index].userID != userNameID) {
-                DispatchQueue.main.async {
-                    commentVM.showreportModal = true
+                Action(tint: .modal, icon: "trash", iconTint: Color.red, isEnabled: commentVM.comments[index].userID == userNameID
+                       || post.ownerUid == userNameID) {
+                    DispatchQueue.main.async {
+                        commentVM.selectedComment = commentVM.comments[index]
+                        commentVM.showdeleteModal = true
+                    }
                 }
             }
-            
-            Action(tint: .modal, icon: "trash", iconTint: Color.red, isEnabled: commentVM.comments[index].userID == userNameID
-                   || post.ownerUid == userNameID) {
-                DispatchQueue.main.async {
-                    commentVM.showdeleteModal = true
-                }
+            .onAppear {
+                self.isHeartCheck = commentVM.checkCommentHeartExists(index: index)
+                self.buttonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: commentVM.comments[index].userID)
             }
-        }
-        .onAppear {
-            self.isHeartCheck = commentVM.checkCommentHeartExists(index: index)
-            self.buttonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: commentVM.comments[index].userID)
-        }
-        .sheet(isPresented: $commentVM.showdeleteModal) {
-            DeleteCommentView(commentVM: commentVM,
-                              post: $post)
+            .sheet(isPresented: $commentVM.showdeleteModal) {
+                DeleteCommentView(commentVM: commentVM,
+                                  post: $post)
                 .presentationDetents([.fraction(0.4)])
-        }
-        .sheet(isPresented: $commentVM.showselectModal) {
-            SelectCommentView(commentVM: commentVM,
-                              post: $post)
-            .presentationDetents([.fraction(0.25)])
-            .presentationDragIndicator(.visible)
-                
-        }
-        .sheet(isPresented: $commentVM.showreportModal) {
-            ReportCommentView(isShowingReportView: $isShowingReportView)
-                .presentationDetents([.medium])
+            }
+            .sheet(isPresented: $commentVM.showselectModal) {
+                SelectCommentView(commentVM: commentVM,
+                                  post: $post)
+                .presentationDetents([.fraction(0.25)])
                 .presentationDragIndicator(.visible)
+                
+            }
+            .sheet(isPresented: $commentVM.showreportModal) {
+                ReportCommentView(isShowingReportView: $isShowingReportView)
+                    .presentationDetents([.medium])
+                    .presentationDragIndicator(.visible)
+            }
         }
     }
 }

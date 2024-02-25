@@ -19,7 +19,6 @@ struct Comment: Identifiable, Hashable, Codable {
     var replyComments: [String] = []
 }
 
-
 struct ReplyComment: Identifiable, Hashable, Codable {
     @DocumentID var id: String?
     var userID: String
