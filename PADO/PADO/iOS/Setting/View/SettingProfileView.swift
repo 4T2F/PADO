@@ -355,14 +355,14 @@ struct SettingProfileView: View {
                                 if viewModel.currentUser?.profileImageUrl == nil && viewModel.currentUser?.backProfileImageUrl == nil {
                                     await DeleteImageUrl.shared.deleteProfileURL()
                                     await DeleteImageUrl.shared.deleteBackURL()
-                                    viewModel.tempProfileImage = ""
-                                    viewModel.tempBackImage = ""
+                                    viewModel.tempProfileImage = nil
+                                    viewModel.tempBackImage = nil
                                 } else if viewModel.currentUser?.profileImageUrl == nil {
                                     await DeleteImageUrl.shared.deleteProfileURL()
-                                    viewModel.tempProfileImage = ""
+                                    viewModel.tempProfileImage = nil
                                 } else if viewModel.currentUser?.backProfileImageUrl == nil {
                                     await DeleteImageUrl.shared.deleteBackURL()
-                                    viewModel.tempBackImage = ""
+                                    viewModel.tempBackImage = nil
                                 }
                             }
                         }

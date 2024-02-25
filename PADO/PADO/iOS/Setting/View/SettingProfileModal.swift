@@ -49,7 +49,7 @@ struct SettingProfileModal: View {
             
             Button {
                 viewModel.showProfileModal = false
-                viewModel.tempProfileImage = viewModel.currentUser?.profileImageUrl ?? ""
+                viewModel.tempProfileImage = viewModel.currentUser?.profileImageUrl
                 viewModel.currentUser?.profileImageUrl = nil
                 isActive = true
             } label: {
@@ -64,7 +64,7 @@ struct SettingProfileModal: View {
             
             Button {
                 viewModel.showProfileModal = false
-                viewModel.tempBackImage = viewModel.currentUser?.backProfileImageUrl ?? ""
+                viewModel.tempBackImage = viewModel.currentUser?.backProfileImageUrl
                 viewModel.currentUser?.backProfileImageUrl = nil
                 isActive = true
             } label: {
