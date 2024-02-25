@@ -50,8 +50,8 @@ class UpdateHeartData {
     
     func checkHeartExists(post: Post) -> Bool {
         guard !userNameID.isEmpty else { return false }
-        guard let postID = post.id else { return false }
         
         return post.heartIDs.contains(userNameID)
     }
 }
+

@@ -23,6 +23,7 @@ struct OnePostModalView: View {
     @State private var isShowingReportView: Bool = false
     @State private var isShowingLoginPage: Bool = false
     @State private var isShowingMoreText: Bool = false
+    @State private var isShowingHeartUserView: Bool = false
     @State private var textColor: Color = .white
     
     @State private var deleteMyPadoride: Bool = false
@@ -387,11 +388,9 @@ struct OnePostModalView: View {
                                             if !heartLoading && !blockPost(post: post) {
                                                 Task {
                                                     heartLoading = true
-                                                    if let postID = post.id {
                                                         await UpdateHeartData.shared.deleteHeart(post: post)
                                                         isHeartCheck = UpdateHeartData.shared.checkHeartExists(post: post)
                                                         heartLoading = false
-                                                    }
                                                 }
                                             }
                                         } label: {
@@ -438,18 +437,27 @@ struct OnePostModalView: View {
                                     }
                                     
                                     // MARK: - 하트 숫자
-                                    Text("\(post.heartIDs.count-1)")
-                                        .font(.system(size: 10))
-                                        .fontWeight(.semibold)
-                                        .shadow(radius: 1, y: 1)
+                                    Button {
+                                        if post.heartIDs.count > 1 {
+                                            isShowingHeartUserView = true
+                                        }
+                                    } label: {
+                                        Text("\(post.heartIDs.count-1)")
+                                            .font(.system(size: 10))
+                                            .fontWeight(.semibold)
+                                            .shadow(radius: 1, y: 1)
+                                    }
+                                    .sheet(isPresented: $isShowingHeartUserView, content: {
+                                        HeartUsersView(userIDs: post.heartIDs)
+                                    })
                                 }
                                 
                                 // MARK: - 댓글
                                 NavigationLink {
-                                    if let postUser = postUser, let postID = post.id, !blockPost(post: post) {
+                                    if let postUser = postUser,
+                                       !blockPost(post: post) {
                                         CommentView(postUser: postUser,
-                                                    post: post,
-                                                    postID: postID)
+                                                    post: post)
                                         
                                     }
                                 } label: {

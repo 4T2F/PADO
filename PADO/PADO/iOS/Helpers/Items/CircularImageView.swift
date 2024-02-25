@@ -12,6 +12,7 @@ import SwiftUI
 enum ProfileImageSize {
     case xxxSmall
     case xxSmall
+    case tab
     case xSmall
     case small
     case commentSize
@@ -27,6 +28,7 @@ enum ProfileImageSize {
         switch self {
         case .xxxSmall: return 22
         case .xxSmall: return 28
+        case .tab: return 30
         case .xSmall: return 32
         case .small: return 36
         case .commentSize: return 38

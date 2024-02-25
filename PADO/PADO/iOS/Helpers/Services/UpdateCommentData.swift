@@ -14,8 +14,8 @@ class UpdateCommentData {
     let db = Firestore.firestore()
     // 포스트 - 포스팅제목 - 서브컬렉션 포스트에 접근해서 문서 댓글정보를 가져와 comments 배열에 할당
  
-    func getCommentsDocument(postID: String) async -> [Comment]? {
-        print(postID)
+    func getCommentsDocument(post: Post) async -> [Comment]? {
+        guard let postID = post.id else { return nil }
         do {
             let querySnapshot = try await db.collection("post").document(postID).collection("comment").order(by: "time", descending: false).getDocuments()
             let comments = querySnapshot.documents.compactMap { document in
@@ -28,12 +28,13 @@ class UpdateCommentData {
         } catch {
             print("Error fetching comments: \(error)")
         }
-        
         return nil
     }
     
     //  댓글 작성 및 프로필 이미지 URL 반환
-    func writeComment(documentID: String, imageUrl: String, inputcomment: String) async {
+    func writeComment(post: Post, 
+                      imageUrl: String,
+                      inputcomment: String) async {
         
         guard !userNameID.isEmpty else { return }
         
@@ -41,77 +42,40 @@ class UpdateCommentData {
             "userID": userNameID,
             "content": inputcomment,
             "time": Timestamp(),
+            "heartIDs": [],
+            "replyComments": []
         ]
-        await createCommentData(documentName: documentID, data: initialPostData)
+        await createCommentData(post: post,
+                                data: initialPostData)
     }
     
-    func createCommentData(documentName: String, data: [String: Any]) async {
+    func createCommentData(post: Post, data: [String: Any]) async {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd-HH:mm:ss.sssZ"
         
         let formattedDate = dateFormatter.string(from: Date())
         let formattedCommentTitle = userNameID+formattedDate
-        
+        guard let postID = post.id else { return }
         do {
             // 포스트에서 댓글을 보여주기 위해 만들어줌
-            try await db.collection("post").document(documentName).collection("comment").document(formattedCommentTitle).setData(data)
-            _ = try await db.runTransaction({ (transaction, errorPointer) in
-                let postRef = self.db.collection("post").document(documentName)
-                let postDocument: DocumentSnapshot
-                
-                do {
-                    try postDocument = transaction.getDocument(postRef)
-                } catch let fetchError as NSError {
-                    errorPointer?.pointee = fetchError
-                    return nil
-                }
-                
-                guard let oldCount = postDocument.data()?["commentCount"] as? Int else {
-                    let error = NSError(domain: "AppErrorDomain", code: -1, userInfo: [
-                        NSLocalizedDescriptionKey: "Unable to retrieve hearts count from snapshot \(postDocument)"
-                    ])
-                    errorPointer?.pointee = error
-                    return nil
-                }
-                
-                transaction.updateData(["commentCount": oldCount + 1], forDocument: postRef)
-                return nil
-            })
+            try await db.collection("post").document(postID).collection("comment").document(formattedCommentTitle).setData(data)
+            
+            try await db.collection("post").document(postID).updateData(["commentCount": post.commentCount + 1])
+            
         } catch {
             print("Error saving post data: \(error.localizedDescription)")
         }
     }
     
     // 댓글 삭제 함수에 commentID = 댓글 서브 컬렉션의 DocumentID 매개변수
-    func deleteComment(documentID: String, commentID: String) async {
+    func deleteComment(post: Post, commentID: String) async {
+        guard let postID = post.id else { return }
         do {
             // 포스트의 'comment' 컬렉션에서 특정 댓글 삭제
-            try await db.collection("post").document(documentID).collection("comment").document(commentID).delete()
+            try await db.collection("post").document(postID).collection("comment").document(commentID).delete()
             
-            // 그 다음, 'post' 문서의 'commentCount'를 업데이트하는 트랜잭션을 시작합니다.
-            _ = try await db.runTransaction({ (transaction, errorPointer) in
-                let postRef = self.db.collection("post").document(documentID)
-                let postDocument: DocumentSnapshot
-                
-                do {
-                    try postDocument = transaction.getDocument(postRef)
-                } catch let fetchError as NSError {
-                    errorPointer?.pointee = fetchError
-                    return nil
-                }
-                
-                guard let oldCount = postDocument.data()?["commentCount"] as? Int else {
-                    let error = NSError(domain: "AppErrorDomain", code: -1, userInfo: [
-                        NSLocalizedDescriptionKey: "Unable to retrieve hearts count from snapshot \(postDocument)"
-                    ])
-                    errorPointer?.pointee = error
-                    return nil
-                }
-                
-                transaction.updateData(["commentCount": oldCount - 1], forDocument: postRef)
-                return nil
-            })
-
+            try await db.collection("post").document(postID).updateData(["commentCount": post.commentCount-1])
+            
             // 성공적으로 삭제됐다는 메시지 출력
             print(commentID)
             print("댓글이 성공적으로 삭제되었습니다.")

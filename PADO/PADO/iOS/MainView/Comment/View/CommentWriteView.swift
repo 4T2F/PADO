@@ -19,7 +19,7 @@ struct CommentWriteView: View {
     
     @State var postUser: User
     
-    let post: Post
+    @Binding var post: Post
     
     var body: some View {
         VStack(spacing: 0) {
@@ -50,15 +50,12 @@ struct CommentWriteView: View {
             ScrollView {
                 ScrollViewReader { value in
                     VStack(alignment: .leading) {
-                        if !commentVM.comments.isEmpty, let postID = post.id {
-                            ForEach(commentVM.comments) { comment in
-                                CommentCell(comment: comment, commentVM: commentVM,
-                                            post: post,
-                                            postID: postID)
-                                .id(comment.id)
-                                .padding(.horizontal, 10)
-                                .padding(.bottom, 20)
-                                
+                        if !commentVM.comments.isEmpty {
+                            ForEach(commentVM.comments.indices, id:\.self) { index in
+                                CommentCell(index: index,
+                                            commentVM: commentVM,
+                                            post: $post)
+                                .id(index)
                             }
                             .onAppear {
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
@@ -113,10 +110,10 @@ struct CommentWriteView: View {
                                                                                  type: .comment,
                                                                                  message: commentText,
                                                                                  post: post)
-                                    await commentVM.updateCommentData.writeComment(documentID: postID,
+                                    await commentVM.updateCommentData.writeComment(post: post,
                                                                                    imageUrl: viewModel.currentUser?.profileImageUrl ?? "",
                                                                                    inputcomment: commentText)
-                                    if let fetchedComments = await commentVM.updateCommentData.getCommentsDocument(postID: postID) {
+                                    if let fetchedComments = await commentVM.updateCommentData.getCommentsDocument(post: post) {
                                         commentVM.comments = fetchedComments
                                     }
                                     commentText = ""

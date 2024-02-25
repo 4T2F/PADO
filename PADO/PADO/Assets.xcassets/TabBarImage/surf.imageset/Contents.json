@@ -1,15 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "tap_added.svg",
+      "filename" : "surf.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "surf2.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "surf3.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
