@@ -44,6 +44,8 @@ class AuthenticationViewModel: ObservableObject {
     @Published var changedValue: Bool = false
     @Published var showProfileModal: Bool = false
     @Published var selectedFilter: FeedFilter = .today
+    @Published var tempProfileImage: String = ""
+    @Published var tempBackImage: String = ""
     
     // MARK: - SettingNoti
     @Published var alertAccept = ""

@@ -49,11 +49,9 @@ struct SettingProfileModal: View {
             
             Button {
                 viewModel.showProfileModal = false
-                viewModel.currentUser?.profileImageUrl = ""
+                viewModel.tempProfileImage = viewModel.currentUser?.profileImageUrl ?? ""
+                viewModel.currentUser?.profileImageUrl = nil
                 isActive = true
-                Task {
-                    try await DeleteImageUrl.shared.deleteProfileURL()
-                }
             } label: {
                 Text("프로필 사진 초기화")
                     .font(.system(size: 16, weight: .semibold))
@@ -66,11 +64,9 @@ struct SettingProfileModal: View {
             
             Button {
                 viewModel.showProfileModal = false
-                viewModel.currentUser?.backProfileImageUrl = ""
+                viewModel.tempBackImage = viewModel.currentUser?.backProfileImageUrl ?? ""
+                viewModel.currentUser?.backProfileImageUrl = nil
                 isActive = true
-                Task {
-                    try await DeleteImageUrl.shared.deleteBackURL()
-                }
             } label: {
                 Text("배경 사진 초기화")
                     .font(.system(size: 16, weight: .semibold))
