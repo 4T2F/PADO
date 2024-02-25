@@ -50,7 +50,7 @@ struct CommentWriteView: View {
             ScrollView {
                 ScrollViewReader { value in
                     VStack(alignment: .leading) {
-                        if !commentVM.comments.isEmpty, let postID = post.id {
+                        if !commentVM.comments.isEmpty {
                             ForEach(commentVM.comments.indices, id:\.self) { index in
                                 CommentCell(index: index,
                                             commentVM: commentVM,

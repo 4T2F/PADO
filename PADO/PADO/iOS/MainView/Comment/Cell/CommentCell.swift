@@ -139,13 +139,13 @@ struct CommentCell: View {
                 
             }
         } actions: {
-            Action(tint: .blue, icon: "flag.fill", isEnabled: commentVM.comments[index].userID != userNameID) {
+            Action(tint: .modal, icon: "flag", isEnabled: commentVM.comments[index].userID != userNameID) {
                 DispatchQueue.main.async {
                     commentVM.showreportModal = true
                 }
             }
             
-            Action(tint: .red, icon: "trash.fill", isEnabled: commentVM.comments[index].userID == userNameID
+            Action(tint: .modal, icon: "trash", iconTint: Color.red, isEnabled: commentVM.comments[index].userID == userNameID
                    || post.ownerUid == userNameID) {
                 DispatchQueue.main.async {
                     commentVM.showdeleteModal = true

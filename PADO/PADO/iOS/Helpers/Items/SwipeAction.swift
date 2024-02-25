@@ -80,7 +80,7 @@ struct SwipeAction<Content: View>: View {
     
     /// Action Buttons
     @ViewBuilder
-    func actionButtons(resetPosition: @escaping () -> Void) -> some View {
+    func actionButtons(resetPosition: @escaping () -> ()) -> some View {
         /// Each Button Will Have 100 Width
         Rectangle()
             .fill(.clear)
@@ -102,12 +102,9 @@ struct SwipeAction<Content: View>: View {
                         }, label: {
                             Image(systemName: button.icon)
                                 .foregroundStyle(button.iconTint)
-                                .frame(width: 50, height: 50)
+                                .frame(width: 60, height: 60)
                                 .contentShape(.rect)
                         })
-                        .buttonStyle(.plain)
-                        .background(button.tint)
-                        .rotationEffect(.init(degrees: direction == .leading ? -180 : 0))
                     }
                     Spacer()
                 }
