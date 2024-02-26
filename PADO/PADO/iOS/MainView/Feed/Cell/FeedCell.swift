@@ -385,7 +385,7 @@ struct FeedCell: View {
                             
                             
                             // MARK: - 하트
-                            VStack(spacing: 8) {
+                            VStack(spacing: 10) {
                                 if isHeartCheck {
                                     Button {
                                         if !heartLoading && !blockPost(post: post) {
