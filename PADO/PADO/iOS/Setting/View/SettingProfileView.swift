@@ -163,7 +163,7 @@ struct SettingProfileView: View {
                                         HStack {
                                             Text("닉네임")
                                                 .foregroundStyle(.white)
-                                                .font(.system(.subheadline))
+                                                .font(.system(.body))
                                             
                                             Spacer()
                                         }
@@ -183,7 +183,7 @@ struct SettingProfileView: View {
                                                     }
                                             } else {
                                                 TextField("닉네임", text: $viewModel.username)
-                                                    .font(.system(.subheadline))
+                                                    .font(.system(.body))
                                                     .foregroundStyle(.white)
                                                     .padding(.leading, width * 0.05)
                                                     .onChange(of: viewModel.username) { _, newValue in
@@ -207,7 +207,7 @@ struct SettingProfileView: View {
                                         HStack {
                                             Text("Instagram")
                                                 .foregroundStyle(.white)
-                                                .font(.system(.subheadline))
+                                                .font(.system(.body))
                                             
                                             Spacer()
                                         }
@@ -216,7 +216,7 @@ struct SettingProfileView: View {
                                         HStack {
                                             if let insta = viewModel.currentUser?.instaAddress, !insta.isEmpty {
                                                 TextField(insta, text: $viewModel.instaAddress)
-                                                    .font(.system(.subheadline))
+                                                    .font(.system(.body))
                                                     .foregroundStyle(.white)
                                                     .padding(.leading, width * 0.05)
                                                     .onChange(of: viewModel.instaAddress) { _, _  in
@@ -225,7 +225,7 @@ struct SettingProfileView: View {
                                                 
                                             } else {
                                                 TextField("계정명", text: $viewModel.instaAddress)
-                                                    .font(.system(.subheadline))
+                                                    .font(.system(.body))
                                                     .foregroundStyle(.white)
                                                     .padding(.leading, width * 0.05)
                                                     .onChange(of: viewModel.instaAddress) { _, _  in
@@ -246,7 +246,7 @@ struct SettingProfileView: View {
                                         HStack {
                                             Text("Tiktok")
                                                 .foregroundStyle(.white)
-                                                .font(.system(.subheadline))
+                                                .font(.system(.body))
                                             
                                             Spacer()
                                         }
@@ -263,7 +263,7 @@ struct SettingProfileView: View {
                                                     }
                                             } else {
                                                 TextField("계정명", text: $viewModel.tiktokAddress)
-                                                    .font(.system(.subheadline))
+                                                    .font(.system(.body))
                                                     .foregroundStyle(.white)
                                                     .padding(.leading, width * 0.05)
                                                     .onChange(of: viewModel.tiktokAddress) { _, _  in

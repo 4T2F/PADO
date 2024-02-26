@@ -13,13 +13,13 @@ struct SettingViewCell: View {
     var body: some View {
         HStack {
             Text("\(settingTittle)")
-                .font(.system(.subheadline))
+                .font(.system(.body))
                 .foregroundStyle(.white)
             
             Spacer()
             
             Image(systemName: "chevron.right")
-                .font(.system(.subheadline))
+                .font(.system(.body))
                 .fontWeight(.medium)
                 .foregroundStyle(.white)
         }

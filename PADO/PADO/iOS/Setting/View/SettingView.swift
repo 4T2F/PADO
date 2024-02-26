@@ -71,7 +71,7 @@ struct SettingView: View {
                 } label: {
                     HStack {
                         Text("로그아웃")
-                            .font(.system(.subheadline, weight: .semibold))
+                            .font(.system(.body))
                             .foregroundStyle(.red)
                         Spacer()
                         Image(systemName: "chevron.right")
@@ -95,7 +95,6 @@ struct SettingView: View {
                 VStack(spacing: 2) {
                     Text("2024, PADO all rights reserved.")
                     Text("Powered by 4T2F")
-                    
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
                 .font(.system(.caption2))
@@ -112,9 +111,16 @@ struct SettingView: View {
                 Button {
                     dismiss()
                 } label: {
-                    Text("취소")
-                        .font(.system(.body))
-                        .fontWeight(.medium)
+                    HStack(spacing: 2) {
+                        Image(systemName: "chevron.left")
+                            .font(.system(.subheadline))
+                            .fontWeight(.medium)
+                        
+                        Text("뒤로")
+                            .font(.system(.body))
+                            .fontWeight(.medium)
+                    }
+
                 }
             }
         }

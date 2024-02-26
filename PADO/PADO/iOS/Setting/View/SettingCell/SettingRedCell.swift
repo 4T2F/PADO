@@ -25,8 +25,7 @@ struct SettingRedCell: View {
                 
                 Text(text)
                     .foregroundStyle(.red)
-                    .font(.system(.subheadline))
-                    .fontWeight(.medium)
+                    .font(.system(.body))
                 
                 Spacer()
             }
