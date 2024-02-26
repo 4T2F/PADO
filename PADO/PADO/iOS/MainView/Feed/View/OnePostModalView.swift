@@ -381,7 +381,7 @@ struct OnePostModalView: View {
                                 .padding(.bottom, 15)
                                 
                                 // MARK: - 하트
-                                VStack(spacing: 8) {
+                                VStack(spacing: 10) {
                                     
                                     if isHeartCheck {
                                         Button {

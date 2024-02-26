@@ -60,17 +60,17 @@ struct ReplyCommentCell: View {
                         } label: {
                             Text(replyComment.userID)
                                 .fontWeight(.semibold)
-                                .font(.system(.subheadline))
+                                .font(.system(.footnote))
                                 .padding(.trailing, 4)
                                 .foregroundStyle(.white)
                         }
                         
                         Text(replyComment.content)
-                            .font(.system(.subheadline))
+                            .font(.system(.footnote))
                             .foregroundStyle(.white)
                         
                         Text(replyComment.time.formatDate(replyComment.time))
-                            .font(.system(.footnote))
+                            .font(.system(.caption))
                             .foregroundColor(.secondary)
                             .padding(.top, 2)
                         
@@ -131,7 +131,7 @@ struct ReplyCommentCell: View {
                                     isShowingHeartUserView = true
                                 } label: {
                                     Text("\(replyComment.heartIDs.count)")
-                                        .font(.system(.footnote))
+                                        .font(.system(.caption))
                                         .foregroundStyle(.gray)
                                 }
                                 .sheet(isPresented: $isShowingHeartUserView, content: {
