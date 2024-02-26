@@ -73,7 +73,7 @@ struct CommentWriteView: View {
                                     .padding(.bottom, 10)
                                     .padding(.top, 120)
                                 Text("댓글을 남겨보세요.")
-                                    .font(.system(size: 12))
+                                    .font(.system(.footnote))
                                     .foregroundStyle(.gray)
                             }
                         }

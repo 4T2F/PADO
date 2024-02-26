@@ -68,12 +68,12 @@ struct FollowButtonView: View {
                     buttonActive ?
                     Text(unActiveText)
                         .foregroundStyle(.gray)
-                        .font(.system(size: 12))
+                        .font(.system(.footnote))
                         .fontWeight(.medium)
                     :
                     Text(activeText)
                         .foregroundStyle(.white)
-                        .font(.system(size: 12))
+                        .font(.system(.footnote))
                         .fontWeight(.medium)
                 }
                 .padding(.horizontal)

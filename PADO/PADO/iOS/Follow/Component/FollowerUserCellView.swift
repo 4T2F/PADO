@@ -86,7 +86,7 @@ struct FollowerUserCellView: View {
                             .stroke(.gray, lineWidth: 1)
                             .frame(width: 78, height: 28)
                         Text("서퍼 해제")
-                            .font(.system(size: 12))
+                            .font(.system(.footnote))
                             .fontWeight(.medium)
                             .foregroundStyle(.gray)
                     }
@@ -115,7 +115,7 @@ struct FollowerUserCellView: View {
                             .stroke(.white, lineWidth: 1)
                             .frame(width: 78, height: 28)
                         Text("서퍼 등록")
-                            .font(.system(size: 12))
+                            .font(.system(.footnote))
                             .fontWeight(.medium)
                             .foregroundStyle(.white)
                     }

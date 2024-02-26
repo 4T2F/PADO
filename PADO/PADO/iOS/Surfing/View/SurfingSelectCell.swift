@@ -58,7 +58,7 @@ struct SurfingSelectCell: View {
                                 .font(.system(size: 14, weight: .semibold))
                             
                             Text(surfingUsername)
-                                .font(.system(size: 12))
+                                .font(.system(.footnote))
                                 .foregroundStyle(Color(.systemGray))
                         } else {
                             Text(surfingID)

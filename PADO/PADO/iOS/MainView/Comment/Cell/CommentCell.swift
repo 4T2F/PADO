@@ -60,18 +60,18 @@ struct CommentCell: View {
                             } label: {
                                 Text(commentVM.comments[index].userID)
                                     .fontWeight(.semibold)
-                                    .font(.system(size: 14))
+                                    .font(.system(.subheadline))
                                     .padding(.trailing, 4)
                                     .foregroundStyle(.white)
                             }
                             
                             Text(commentVM.comments[index].content)
-                                .font(.system(size: 14))
+                                .font(.system(.subheadline))
                                 .foregroundStyle(.white)
                             
                             HStack(spacing: 8) {
                                 Text(commentVM.comments[index].time.formatDate(commentVM.comments[index].time))
-                                    .font(.system(size: 12))
+                                    .font(.system(.footnote))
                                     .foregroundColor(.secondary)
                                 
                                 Button {
@@ -111,7 +111,7 @@ struct CommentCell: View {
                             VStack(spacing: 4) {
                                 Text("")
                                     .fontWeight(.semibold)
-                                    .font(.system(size: 12))
+                                    .font(.system(.footnote))
                                     .padding(.trailing, 4)
                                 
                                 if isHeartCheck {
@@ -154,7 +154,7 @@ struct CommentCell: View {
                                         isShowingHeartUserView = true
                                     } label: {
                                         Text("\(commentVM.comments[index].heartIDs.count)")
-                                            .font(.system(size: 12))
+                                            .font(.system(.footnote))
                                             .foregroundStyle(.gray)
                                     }
                                     .sheet(isPresented: $isShowingHeartUserView, content: {

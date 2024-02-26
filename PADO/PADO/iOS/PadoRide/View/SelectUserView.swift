@@ -33,7 +33,7 @@ struct SelectUserView: View {
                         Text(user.nameID)
                             .font(.system(size: 14, weight: .semibold))
                         Text(user.username)
-                            .font(.system(size: 12))
+                            .font(.system(.footnote))
                             .foregroundStyle(Color(.systemGray))
                     }
                 }

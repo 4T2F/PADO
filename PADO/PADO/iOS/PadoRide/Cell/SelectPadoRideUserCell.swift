@@ -42,7 +42,7 @@ struct SelectPadoRideUserCell: View {
                                     .foregroundStyle(.white)
                                 
                                 Text(user.username)
-                                    .font(.system(size: 12))
+                                    .font(.system(.footnote))
                                     .foregroundStyle(Color(.systemGray))
                             }
                         }

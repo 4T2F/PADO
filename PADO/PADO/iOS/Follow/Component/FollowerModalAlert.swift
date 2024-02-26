@@ -31,7 +31,7 @@ struct FollowerModalAlert: View {
                                         defaultImageName: "defaultProfile")
                     
                     Text(followerUsername)
-                        .font(.system(size: 12))
+                        .font(.system(.footnote))
                         .fontWeight(.medium)
                     
                     Divider()

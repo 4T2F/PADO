@@ -31,7 +31,7 @@ struct NotificationView: View {
                                 }
                             } label: {
                                 Text("알림 전체삭제")
-                                    .font(.system(size: 12))
+                                    .font(.system(.footnote))
                                     .foregroundStyle(Color(.systemGray))
                             }
                             .padding(.horizontal, 10)

@@ -13,7 +13,7 @@ extension View {
         self
             .foregroundStyle(.gray)
             .fontWeight(.semibold)
-            .font(.system(size: 12))
+            .font(.system(.footnote))
             .padding(.horizontal, UIScreen.main.bounds.width * 0.05)
     }
 }

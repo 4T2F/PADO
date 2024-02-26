@@ -61,7 +61,7 @@ struct CommentWriteViewCell: View {
                         .foregroundStyle(.white)
                     
                     Text(commentVM.comments[index].time.formatDate(commentVM.comments[index].time))
-                        .font(.system(size: 12))
+                        .font(.system(.footnote))
                         .foregroundColor(.secondary)
                         .padding(.top, 2)
                     
@@ -74,7 +74,7 @@ struct CommentWriteViewCell: View {
                     VStack(spacing: 4) {
                         Text("")
                             .fontWeight(.semibold)
-                            .font(.system(size: 12))
+                            .font(.system(.footnote))
                             .padding(.trailing, 4)
                         
                         if isHeartCheck {
@@ -117,7 +117,7 @@ struct CommentWriteViewCell: View {
                                 isShowingHeartUserView = true
                             } label: {
                                 Text("\(commentVM.comments[index].heartIDs.count)")
-                                    .font(.system(size: 12))
+                                    .font(.system(.footnote))
                                     .foregroundStyle(.gray)
                             }
                             .sheet(isPresented: $isShowingHeartUserView, content: {

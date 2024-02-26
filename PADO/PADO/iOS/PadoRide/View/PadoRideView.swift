@@ -34,7 +34,7 @@ struct PadoRideView: View {
                                 isShowingOnboarding.toggle()
                             } label: {
                                 Text("파도타기란?")
-                                    .font(.system(size: 12))
+                                    .font(.system(.footnote))
                                     .fontWeight(.medium)
                                     .foregroundStyle(Color(.systemGray))
                             }
@@ -66,7 +66,7 @@ struct PadoRideView: View {
                     if !followVM.surfingIDs.isEmpty {
                         VStack(alignment: .leading, spacing: 10) {
                             Text("회원님을 위한 추천")
-                                .font(.system(size: 12))
+                                .font(.system(.footnote))
                                 .fontWeight(.medium)
                                 .foregroundStyle(Color(.systemGray))
                                 .padding(.leading)

@@ -44,7 +44,7 @@ struct FollowNotificationCell: View {
                             .fontWeight(.medium)
                         +
                         Text(notification.createdAt.formatDate(notification.createdAt))
-                            .font(.system(size: 12))
+                            .font(.system(.footnote))
                             .foregroundStyle(Color(.systemGray))
                     }
                     .multilineTextAlignment(.leading)

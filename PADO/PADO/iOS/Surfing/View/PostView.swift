@@ -80,7 +80,7 @@ struct PostView: View {
                                         .font(.system(size: 14, weight: .semibold))
                                     
                                     Text(followVM.selectSurfingUsername)
-                                        .font(.system(size: 12))
+                                        .font(.system(.footnote))
                                         .foregroundStyle(Color(.systemGray))
                                 } else {
                                     Text(followVM.selectSurfingID)

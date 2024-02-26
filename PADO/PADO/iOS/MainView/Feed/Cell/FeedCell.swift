@@ -284,29 +284,29 @@ struct FeedCell: View {
                                         if !user.username.isEmpty {
                                             VStack(alignment: .leading, spacing: 4) {
                                                 Text("\(user.username)님의 프로필")
-                                                    .font(.system(size: 12))
+                                                    .font(.system(.footnote))
                                                     .fontWeight(.medium)
                                                 
                                                 Text("@\(post.ownerUid)")
-                                                    .font(.system(size: 10))
+                                                    .font(.system(.caption2))
                                                     .fontWeight(.medium)
                                                     .foregroundStyle(.gray)
                                             }
                                         } else {
                                             VStack(alignment: .leading, spacing: 4) {
                                                 Text("\(post.ownerUid)님의 프로필")
-                                                    .font(.system(size: 12))
+                                                    .font(.system(.footnote))
                                                     .fontWeight(.medium)
                                                 
                                                 Text("@\(post.ownerUid)")
-                                                    .font(.system(size: 10))
+                                                    .font(.system(.caption2))
                                                     .fontWeight(.medium)
                                                     .foregroundStyle(.gray)
                                             }
                                         }
                                     }
                                     Image(systemName: "chevron.right")
-                                        .font(.system(size: 12))
+                                        .font(.system(.footnote))
                                         .foregroundStyle(.white)
                                         .padding(.leading, 90)
                                 }
@@ -447,7 +447,7 @@ struct FeedCell: View {
                                     }
                                 } label: {
                                     Text("\(post.heartIDs.count-1)")
-                                        .font(.system(size: 10))
+                                        .font(.system(.caption2))
                                         .fontWeight(.semibold)
                                         .shadow(radius: 1, y: 1)
                                 }
@@ -470,7 +470,7 @@ struct FeedCell: View {
                                     
                                     // MARK: - 댓글 숫자
                                     Text("\(post.commentCount)")
-                                        .font(.system(size: 10))
+                                        .font(.system(.caption2))
                                         .fontWeight(.semibold)
                                         .shadow(radius: 1, y: 1)
                                 }

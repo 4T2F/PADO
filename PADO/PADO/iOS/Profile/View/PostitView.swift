@@ -46,7 +46,7 @@ struct PostitView: View {
                                 } else {
                                     Text("아직 방명록에 글이 없습니다")
                                         .foregroundColor(Color.gray)
-                                        .font(.system(size: 15))
+                                        .font(.system(.subheadline))
                                         .fontWeight(.semibold)
                                         .padding(.top, 150)
                                 }

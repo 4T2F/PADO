@@ -34,7 +34,7 @@ struct ReportSelectView: View {
                             .padding(.horizontal)
                         
                         Text("지식재산권 침해를 신고하는 경우를 제외하고 회원님의 신고는\n익명으로 처리됩니다.")
-                            .font(.system(size: 12))
+                            .font(.system(.footnote))
                             .fontWeight(.semibold)
                             .foregroundStyle(.gray)
                             .lineSpacing(3)

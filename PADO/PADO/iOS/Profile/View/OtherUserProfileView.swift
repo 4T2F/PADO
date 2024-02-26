@@ -318,7 +318,7 @@ struct OtherUserProfileView: View {
                                                 .stroke(Color.white, lineWidth: 1)
                                                 .frame(width: 80, height: 28)
                                             Text("내 프로필")
-                                                .font(.system(size: 12))
+                                                .font(.system(.footnote))
                                                 .fontWeight(.semibold)
                                                 .foregroundStyle(.white)
                                         }

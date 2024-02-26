@@ -70,7 +70,7 @@ struct ReplyCommentCell: View {
                             .foregroundStyle(.white)
                         
                         Text(replyComment.time.formatDate(replyComment.time))
-                            .font(.system(size: 12))
+                            .font(.system(.footnote))
                             .foregroundColor(.secondary)
                             .padding(.top, 2)
                         
@@ -83,7 +83,7 @@ struct ReplyCommentCell: View {
                         VStack(spacing: 4) {
                             Text("")
                                 .fontWeight(.semibold)
-                                .font(.system(size: 12))
+                                .font(.system(.footnote))
                                 .padding(.trailing, 4)
                             
                             if isHeartCheck {
@@ -131,7 +131,7 @@ struct ReplyCommentCell: View {
                                     isShowingHeartUserView = true
                                 } label: {
                                     Text("\(replyComment.heartIDs.count)")
-                                        .font(.system(size: 12))
+                                        .font(.system(.footnote))
                                         .foregroundStyle(.gray)
                                 }
                                 .sheet(isPresented: $isShowingHeartUserView, content: {
