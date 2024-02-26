@@ -21,7 +21,7 @@ struct SignUpButton: View {
                 
                 Text(text)
                     .foregroundStyle(.black)
-                    .font(.system(size: 16))
+                    .font(.system(.body))
                     .fontWeight(.medium)
                     .padding(.trailing, 6)
                 

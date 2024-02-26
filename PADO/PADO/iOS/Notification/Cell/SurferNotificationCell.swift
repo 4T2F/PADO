@@ -40,7 +40,7 @@ struct SurferNotificationCell: View {
                 VStack(alignment: .leading, spacing: 4) {
                     HStack {
                         Text("\(notification.sendUser)님이 회원님을 서퍼로 지정했습니다. ")
-                            .font(.system(size: 14))
+                            .font(.system(.subheadline))
                             .fontWeight(.medium)
                         +
                         Text(notification.createdAt.formatDate(notification.createdAt))

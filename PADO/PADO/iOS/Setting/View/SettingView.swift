@@ -16,7 +16,7 @@ struct SettingView: View {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .leading) {
                 Text("설정")
-                    .font(.system(size: 12, weight: .semibold))
+                    .font(.system(.caption, weight: .semibold))
                     .foregroundStyle(.gray)
                     .padding(.leading)
                     .padding(.bottom, 20)
@@ -41,7 +41,7 @@ struct SettingView: View {
                     .padding(.bottom, 30)
                 
                 Text("정보")
-                    .font(.system(size: 12, weight: .semibold))
+                    .font(.system(.caption, weight: .semibold))
                     .foregroundStyle(.gray)
                     .padding(.leading)
                     .padding(.bottom, 20)
@@ -71,11 +71,11 @@ struct SettingView: View {
                 } label: {
                     HStack {
                         Text("로그아웃")
-                            .font(.system(size: 14, weight: .semibold))
+                            .font(.system(.subheadline, weight: .semibold))
                             .foregroundStyle(.red)
                         Spacer()
                         Image(systemName: "chevron.right")
-                            .font(.system(size: 14))
+                            .font(.system(.subheadline))
                             .fontWeight(.medium)
                             .foregroundStyle(.white)
                     }
@@ -113,7 +113,7 @@ struct SettingView: View {
                     dismiss()
                 } label: {
                     Text("취소")
-                        .font(.system(size: 16))
+                        .font(.system(.body))
                         .fontWeight(.medium)
                 }
             }

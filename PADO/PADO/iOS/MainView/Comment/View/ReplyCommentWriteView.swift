@@ -30,14 +30,14 @@ struct ReplyCommentWriteView: View {
                     dismiss()
                 } label: {
                     Text("취소")
-                        .font(.system(size: 16))
+                        .font(.system(.body))
                         .fontWeight(.medium)
                 }
                 
                 Spacer()
                
                 Text("답글 달기")
-                    .font(.system(size: 16))
+                    .font(.system(.body))
                     .fontWeight(.semibold)
                     .padding(.trailing, 30)
 
@@ -78,7 +78,7 @@ struct ReplyCommentWriteView: View {
 
                 HStack {
                     TextField("\(commentVM.comments[index].userID)님에게 답글 남기기...", text: $commentText, axis: .vertical)
-                        .font(.system(size: 14))
+                        .font(.system(.subheadline))
                         .tint(Color(.systemBlue).opacity(0.7))
                         .focused($isTextFieldFocused)
                         .onAppear {
@@ -113,7 +113,7 @@ struct ReplyCommentWriteView: View {
                                     .frame(width: 48, height: 28)
                                     .foregroundStyle(.blue)
                                 Image(systemName: "arrow.up")
-                                    .font(.system(size: 14))
+                                    .font(.system(.subheadline))
                                     .foregroundStyle(.white)
                             }
                         }
@@ -127,7 +127,7 @@ struct ReplyCommentWriteView: View {
                                     .frame(width: 48, height: 28)
                                     .foregroundStyle(.gray)
                                 Image(systemName: "arrow.up")
-                                    .font(.system(size: 14))
+                                    .font(.system(.subheadline))
                                     .foregroundStyle(.black)
                             }
                         }

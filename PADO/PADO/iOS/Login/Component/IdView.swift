@@ -18,7 +18,7 @@ struct IdView: View {
         ZStack {
             VStack(alignment: .leading) {
                 Text("파도에서 사용할 아이디를 입력해주세요")
-                    .font(.system(size: 20))
+                    .font(.system(.title2))
                     .fontWeight(.medium)
                     .padding(.horizontal)
                 
@@ -34,7 +34,7 @@ struct IdView: View {
                         }
                     if isDuplicateID {
                         Text("사용할 수 없는 ID입니다.")
-                            .font(.system(size: 14))
+                            .font(.system(.subheadline))
                             .fontWeight(.semibold)
                             .foregroundStyle(.red)
                     } else {
@@ -43,7 +43,7 @@ struct IdView: View {
                             
                             Text("한 번 설정한 ID는 수정 불가능해요")
                         }
-                        .font(.system(size: 14))
+                        .font(.system(.subheadline))
                         .fontWeight(.semibold)
                         .foregroundStyle(.gray)
                     }

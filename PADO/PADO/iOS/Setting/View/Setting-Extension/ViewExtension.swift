@@ -23,7 +23,7 @@ extension View {
     func settingFontModi() -> some View {
         self
             .foregroundStyle(.white)
-            .font(.system(size: 16))
+            .font(.system(.body))
             .fontWeight(.semibold)
     }
 }

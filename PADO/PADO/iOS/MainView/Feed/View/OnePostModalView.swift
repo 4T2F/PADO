@@ -205,7 +205,7 @@ struct OnePostModalView: View {
                                     } label: {
                                         if isShowingMoreText {
                                             Text("\(post.title)")
-                                                .font(.system(size: 14))
+                                                .font(.system(.subheadline))
                                                 .fontWeight(.heavy)
                                                 .foregroundStyle(.white)
                                                 .padding(8)
@@ -215,7 +215,7 @@ struct OnePostModalView: View {
                                                 .padding(.trailing, 24)
                                         } else {
                                             Text("\(post.title)")
-                                                .font(.system(size: 14))
+                                                .font(.system(.subheadline))
                                                 .fontWeight(.heavy)
                                                 .foregroundStyle(.white)
                                                 .lineLimit(1)
@@ -227,7 +227,7 @@ struct OnePostModalView: View {
                                             
                                         }
                                     }
-                                    .font(.system(size: 16))
+                                    .font(.system(.body))
                                     .foregroundStyle(textColor)
                                     .lineSpacing(1)
                                     .fontWeight(.bold)
@@ -242,7 +242,7 @@ struct OnePostModalView: View {
                                     } label: {
                                         Text("surf. @\(post.surferUid)")
                                     }
-                                    .font(.system(size: 14))
+                                    .font(.system(.subheadline))
                                     .fontWeight(.heavy)
                                     .foregroundStyle(.white)
                                     .padding(8)
@@ -507,7 +507,7 @@ struct OnePostModalView: View {
                                     } label: {
                                         VStack {
                                             Text("...")
-                                                .font(.system(size: 32))
+                                                .font(.system(.title))
                                                 .fontWeight(.regular)
                                                 .foregroundStyle(.white)
                                             

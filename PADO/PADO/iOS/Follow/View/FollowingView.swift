@@ -36,7 +36,7 @@ struct FollowingView: View {
                             VStack {
                                 HStack {
                                     Text("팔로잉")
-                                        .font(.system(size: 14, weight: .medium))
+                                        .font(.system(.subheadline, weight: .medium))
                                     
                                     Spacer()
                                 } //: HSTACK
@@ -59,7 +59,7 @@ struct FollowingView: View {
                     } else if followVM.viewState == .empty {
                         Text("검색 결과가 없습니다")
                             .foregroundColor(.gray)
-                            .font(.system(size: 16,
+                            .font(.system(.body,
                                           weight: .semibold))
                             .padding(.top, 150)
                     } else {
@@ -67,7 +67,7 @@ struct FollowingView: View {
                             VStack {
                                 HStack {
                                     Text("팔로잉")
-                                        .font(.system(size: 14, weight: .medium))
+                                        .font(.system(.subheadline, weight: .medium))
                                     
                                     Spacer()
                                 } //: HSTACK

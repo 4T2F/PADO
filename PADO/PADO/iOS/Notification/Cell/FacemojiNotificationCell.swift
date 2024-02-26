@@ -44,7 +44,7 @@ struct FacemojiNotificationCell: View {
                 VStack(alignment: .leading, spacing: 4) {
                     HStack {
                         Text("\(notification.sendUser)님이 회원님의 파도에 포토모지를 남겼습니다. ")
-                            .font(.system(size: 14))
+                            .font(.system(.subheadline))
                             .fontWeight(.medium)
                         +
                         Text(notification.createdAt.formatDate(notification.createdAt))

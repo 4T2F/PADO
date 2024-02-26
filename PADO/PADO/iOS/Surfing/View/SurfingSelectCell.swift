@@ -55,14 +55,14 @@ struct SurfingSelectCell: View {
                     VStack(alignment: .leading, spacing: 4) {
                         if !surfingUsername.isEmpty {
                             Text(surfingID)
-                                .font(.system(size: 14, weight: .semibold))
+                                .font(.system(.subheadline, weight: .semibold))
                             
                             Text(surfingUsername)
                                 .font(.system(.footnote))
                                 .foregroundStyle(Color(.systemGray))
                         } else {
                             Text(surfingID)
-                                .font(.system(size: 14, weight: .semibold))
+                                .font(.system(.subheadline, weight: .semibold))
                         }
                     }
                     .padding(.horizontal, 8)
@@ -70,7 +70,7 @@ struct SurfingSelectCell: View {
                     Spacer()
                     
                     Image(systemName: "checkmark")
-                        .font(.system(size: 14))
+                        .font(.system(.subheadline))
                         .foregroundStyle(.white)
                 }
             }

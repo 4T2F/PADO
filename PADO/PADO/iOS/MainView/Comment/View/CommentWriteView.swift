@@ -28,14 +28,14 @@ struct CommentWriteView: View {
                     dismiss()
                 } label: {
                     Text("취소")
-                        .font(.system(size: 16))
+                        .font(.system(.body))
                         .fontWeight(.medium)
                 }
                 
                 Spacer()
                
                 Text("댓글 달기")
-                    .font(.system(size: 16))
+                    .font(.system(.body))
                     .fontWeight(.semibold)
                     .padding(.trailing, 30)
 
@@ -69,7 +69,7 @@ struct CommentWriteView: View {
                         } else {
                             VStack {
                                 Text("아직 댓글이 없습니다.")
-                                    .font(.system(size: 16, weight: .semibold))
+                                    .font(.system(.body, weight: .semibold))
                                     .padding(.bottom, 10)
                                     .padding(.top, 120)
                                 Text("댓글을 남겨보세요.")
@@ -92,7 +92,7 @@ struct CommentWriteView: View {
                 
                 HStack {
                     TextField("\(userNameID)(으)로 댓글 남기기...", text: $commentText, axis: .vertical)
-                        .font(.system(size: 14))
+                        .font(.system(.subheadline))
                         .tint(Color(.systemBlue).opacity(0.7))
                         .focused($isTextFieldFocused)
                         .onAppear {
@@ -125,7 +125,7 @@ struct CommentWriteView: View {
                                     .frame(width: 48, height: 28)
                                     .foregroundStyle(.blue)
                                 Image(systemName: "arrow.up")
-                                    .font(.system(size: 14))
+                                    .font(.system(.subheadline))
                                     .foregroundStyle(.white)
                             }
                         }
@@ -139,7 +139,7 @@ struct CommentWriteView: View {
                                     .frame(width: 48, height: 28)
                                     .foregroundStyle(.gray)
                                 Image(systemName: "arrow.up")
-                                    .font(.system(size: 14))
+                                    .font(.system(.subheadline))
                                     .foregroundStyle(.black)
                             }
                         }

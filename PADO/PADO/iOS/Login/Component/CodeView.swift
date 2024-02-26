@@ -25,7 +25,7 @@ struct CodeView: View {
             VStack(alignment: .leading) {
                 // 휴대폰 번호 받아와야함
                 Text("\(viewModel.phoneNumber) 로 인증번호를 보냈어요")
-                    .font(.system(size: 20))
+                    .font(.system(.title2))
                     .fontWeight(.medium)
                     .padding(.horizontal, 20)
                 
@@ -41,7 +41,7 @@ struct CodeView: View {
                         }
                     if otpVerificationFailed {
                         Text("인증 번호가 틀렸습니다")
-                            .font(.system(size: 14))
+                            .font(.system(.subheadline))
                             .fontWeight(.semibold)
                             .foregroundStyle(.red)
                             .padding(.horizontal, 20)

@@ -66,7 +66,7 @@ struct FaceMojiCropView: View {
                         commentVM.showEmojiView = true
                     } label: {
                         Text("이모지 선택")
-                            .font(.system(size: 16, weight: .semibold))
+                            .font(.system(.body, weight: .semibold))
                     }
                 }
                 

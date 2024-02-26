@@ -56,7 +56,7 @@ struct CommentView: View {
                         } else {
                             VStack {
                                 Text("아직 댓글이 없습니다.")
-                                    .font(.system(size: 16, weight: .semibold))
+                                    .font(.system(.body, weight: .semibold))
                                     .padding(.bottom, 10)
                                     .padding(.top, 120)
                                 Text("댓글을 남겨보세요.")
@@ -103,13 +103,13 @@ struct CommentView: View {
                     CircularImageView(size: .xxxSmall, user: postUser)
                     if post.ownerUid == userNameID {
                         Text("나의 파도에 댓글 남기기")
-                            .font(.system(size: 14))
+                            .font(.system(.subheadline))
                             .fontWeight(.medium)
                             .foregroundStyle(.gray)
                             .padding(.leading, 2)
                     } else {
                         Text("\(post.ownerUid)님의 파도에 댓글 남기기")
-                            .font(.system(size: 14))
+                            .font(.system(.subheadline))
                             .fontWeight(.medium)
                             .foregroundStyle(.gray)
                             .padding(.leading, 2)
@@ -151,11 +151,11 @@ struct CommentView: View {
                 } label: {
                     HStack(spacing: 2) {
                         Image(systemName: "chevron.left")
-                            .font(.system(size: 14))
+                            .font(.system(.subheadline))
                             .fontWeight(.medium)
                         
                         Text("뒤로")
-                            .font(.system(size: 16))
+                            .font(.system(.body))
                             .fontWeight(.medium)
                     }
                 }

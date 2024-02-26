@@ -43,7 +43,7 @@ struct FollowMainView: View {
                 VStack(spacing: 12) {
                     Text(type)
                         .foregroundStyle(currentType == type ? .white : .gray)
-                        .font(.system(size: 14))
+                        .font(.system(.subheadline))
                         .fontWeight(.medium)
                     
                     ZStack {

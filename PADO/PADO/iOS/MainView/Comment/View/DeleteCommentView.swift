@@ -35,7 +35,7 @@ struct DeleteCommentView: View {
                             .multilineTextAlignment(.center)
                     }
                     .foregroundStyle(Color.white)
-                    .font(.system(size: 14))
+                    .font(.system(.subheadline))
                     .fontWeight(.medium)
                     .padding()
                     
@@ -53,7 +53,7 @@ struct DeleteCommentView: View {
                         commentVM.showDeleteModal = false
                     } label: {
                         Text("댓글 삭제")
-                            .font(.system(size: 16))
+                            .font(.system(.body))
                             .foregroundStyle(Color.red)
                             .fontWeight(.semibold)
                             .frame(width: width * 0.9, height: 40)
@@ -70,7 +70,7 @@ struct DeleteCommentView: View {
                         commentVM.showDeleteModal = false
                     } label: {
                         Text("취소")
-                            .font(.system(size: 16))
+                            .font(.system(.body))
                             .foregroundStyle(Color.white)
                             .fontWeight(.semibold)
                             .frame(width: width * 0.9, height: 40)
@@ -93,7 +93,7 @@ struct DeleteCommentView: View {
                             .multilineTextAlignment(.center)
                     }
                     .foregroundStyle(Color.white)
-                    .font(.system(size: 14))
+                    .font(.system(.subheadline))
                     .fontWeight(.medium)
                     .padding()
                     
@@ -114,7 +114,7 @@ struct DeleteCommentView: View {
                         commentVM.showDeleteReplyModal = false
                     } label: {
                         Text("답글 삭제")
-                            .font(.system(size: 16))
+                            .font(.system(.body))
                             .foregroundStyle(Color.red)
                             .fontWeight(.semibold)
                             .frame(width: width * 0.9, height: 40)
@@ -131,7 +131,7 @@ struct DeleteCommentView: View {
                         commentVM.showDeleteReplyModal = false
                     } label: {
                         Text("취소")
-                            .font(.system(size: 16))
+                            .font(.system(.body))
                             .foregroundStyle(Color.white)
                             .fontWeight(.semibold)
                             .frame(width: width * 0.9, height: 40)

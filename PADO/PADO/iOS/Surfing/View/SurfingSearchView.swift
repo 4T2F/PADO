@@ -27,7 +27,7 @@ struct SurfingSearchView: View {
                     
                     HStack {
                         Text("PADO")
-                            .font(.system(size: 22))
+                            .font(.system(.title2))
                             .fontWeight(.bold)
                         
                         Spacer()
@@ -45,7 +45,7 @@ struct SurfingSearchView: View {
                 Spacer()
                 
                 Text("최근검색")
-                    .font(.system(size: 14, weight: .semibold))
+                    .font(.system(.subheadline, weight: .semibold))
                     .padding()
                 
 //                ScrollView {
@@ -60,7 +60,7 @@ struct SurfingSearchView: View {
 //                        } label: {
 //                            Text("모두 삭제")
 //                                .foregroundStyle(.grayButton)
-//                                .font(.system(size: 14))
+//                                .font(.system(.subheadline))
 //                        }
 //                    }
 //                    .padding()

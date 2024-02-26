@@ -45,7 +45,7 @@ struct PostitNotificationCell: View {
                 VStack(alignment: .leading, spacing: 4) {
                     HStack {
                         Text("\(notification.sendUser)님이 회원님의 방명록에 글을 남겼습니다. ")
-                            .font(.system(size: 14))
+                            .font(.system(.subheadline))
                             .fontWeight(.medium)
                         +
                         Text(notification.createdAt.formatDate(notification.createdAt))

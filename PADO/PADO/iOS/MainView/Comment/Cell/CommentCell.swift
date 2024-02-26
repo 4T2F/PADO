@@ -82,7 +82,7 @@ struct CommentCell: View {
                                     }
                                 } label: {
                                     Text("답글 달기")
-                                        .font(.system(size: 12, weight: .semibold))
+                                        .font(.system(.caption, weight: .semibold))
                                         .foregroundStyle(Color(.systemGray))
                                 }
                                 .sheet(isPresented: $isShowingReplyCommentWriteView, content: {

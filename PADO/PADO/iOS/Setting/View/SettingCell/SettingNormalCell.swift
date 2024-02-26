@@ -22,7 +22,7 @@ struct SettingNormalCell: View {
                 
                 Text(text)
                     .foregroundStyle(.white)
-                    .font(.system(size: 14))
+                    .font(.system(.subheadline))
                     .fontWeight(.medium)
                 
                 Spacer()

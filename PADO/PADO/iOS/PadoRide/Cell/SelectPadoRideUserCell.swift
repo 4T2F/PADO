@@ -34,11 +34,11 @@ struct SelectPadoRideUserCell: View {
                             // 닉네임이 있으면 username, userID 다 넣고 닉네임 없으면 else로 userID만 넣는 조건문 넣기
                             if user.username.isEmpty {
                                 Text(user.nameID)
-                                    .font(.system(size: 14, weight: .semibold))
+                                    .font(.system(.subheadline, weight: .semibold))
                                     .foregroundStyle(.white)
                             } else {
                                 Text(user.nameID)
-                                    .font(.system(size: 14, weight: .semibold))
+                                    .font(.system(.subheadline, weight: .semibold))
                                     .foregroundStyle(.white)
                                 
                                 Text(user.username)
@@ -50,7 +50,7 @@ struct SelectPadoRideUserCell: View {
                         Spacer()
                         
                         Image(systemName: "chevron.right")
-                            .font(.system(size: 14))
+                            .font(.system(.subheadline))
                             .foregroundStyle(.white)
                     }
                 }

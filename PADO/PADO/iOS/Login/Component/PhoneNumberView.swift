@@ -23,7 +23,7 @@ struct PhoneNumberView: View {
         ZStack {
             VStack(alignment: .leading) {
                 Text("휴대폰 번호")
-                    .font(.system(size: 20))
+                    .font(.system(.title2))
                     .fontWeight(.medium)
                     .padding(.horizontal)
                 
@@ -40,7 +40,7 @@ struct PhoneNumberView: View {
                     Text(loginSignUpType == .signUp ?
                          "Thank you for Signing up the PADO" :
                         "Welcome back to PADO")
-                        .font(.system(size: 14))
+                        .font(.system(.subheadline))
                         .fontWeight(.semibold)
                 }
                 .padding(.horizontal)

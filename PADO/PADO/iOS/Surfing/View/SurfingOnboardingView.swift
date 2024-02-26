@@ -18,7 +18,7 @@ struct SurfingOnboardingView: View {
                 VStack(alignment: .center, spacing: 10) {
                     VStack(alignment: .center, spacing: 10) {
                         Text("사진을 선택하세요")
-                            .font(.system(size: 18))
+                            .font(.system(.title3))
                             .fontWeight(.medium)
                         
                         Text("친구에게 보낼 우스꽝스럽거나\n예쁜 사진을 선택해보세요 😝")
@@ -38,7 +38,7 @@ struct SurfingOnboardingView: View {
                 
                 VStack(alignment: .center, spacing: 10) {
                     Text("파도를 보낼 친구를 선택하세요")
-                        .font(.system(size: 18))
+                        .font(.system(.title3))
                         .fontWeight(.medium)
                     
                     Text("친구들과 일상의 즐거운 경험을\n공유하세요 🥳")
@@ -57,7 +57,7 @@ struct SurfingOnboardingView: View {
                 
                 VStack(alignment: .center, spacing: 10) {
                     Text("서퍼로 지정되어 있다면\n파도를 보낼 수 있어요")
-                        .font(.system(size: 18))
+                        .font(.system(.title3))
                         .fontWeight(.medium)
                     
                     Text("서퍼 확인은 친구 팔로워에서 확인 할 수 있어요 😎")
@@ -76,7 +76,7 @@ struct SurfingOnboardingView: View {
                 
                 VStack(alignment: .center, spacing: 10) {
                     Text("서퍼가 아니신가요?")
-                        .font(.system(size: 18))
+                        .font(.system(.title3))
                         .fontWeight(.medium)
                     
                     Text("친구 프로필의 방명록에 서퍼 요청을\n해보는건 어떨까요? 👋")
@@ -110,7 +110,7 @@ struct SurfingOnboardingView: View {
                         .foregroundStyle(.blueButton)
                     
                         Text("사진 선택")
-                            .font(.system(size: 14))
+                        .font(.system(.subheadline))
                             .fontWeight(.medium)
                             .foregroundStyle(.white)
                 }

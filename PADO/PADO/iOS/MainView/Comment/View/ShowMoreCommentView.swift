@@ -35,7 +35,7 @@ struct ShowMoreCommentView: View {
                         .foregroundStyle(Color(.systemGray))
                     
                     Text("답글 \(commentVM.comments[index].replyComments.count)개 보기")
-                        .font(.system(size: 12, weight: .semibold))
+                        .font(.system(.caption, weight: .semibold))
                         .foregroundStyle(Color(.systemGray))
                     
                 }

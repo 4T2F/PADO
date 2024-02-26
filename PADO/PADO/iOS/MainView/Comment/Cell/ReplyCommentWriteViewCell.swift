@@ -59,13 +59,13 @@ struct ReplyCommentWriteViewCell: View {
                     } label: {
                         Text(replyComment.userID)
                             .fontWeight(.semibold)
-                            .font(.system(size: 14))
+                            .font(.system(.subheadline))
                             .padding(.trailing, 4)
                             .foregroundStyle(.white)
                     }
                     
                     Text(replyComment.content)
-                        .font(.system(size: 14))
+                        .font(.system(.subheadline))
                         .foregroundStyle(.white)
                     
                     Text(replyComment.time.formatDate(commentVM.comments[index].time))

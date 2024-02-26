@@ -163,7 +163,7 @@ struct SettingProfileView: View {
                                         HStack {
                                             Text("닉네임")
                                                 .foregroundStyle(.white)
-                                                .font(.system(size: 14))
+                                                .font(.system(.subheadline))
                                             
                                             Spacer()
                                         }
@@ -172,7 +172,7 @@ struct SettingProfileView: View {
                                         HStack {
                                             if let originUsername = viewModel.currentUser?.username, !originUsername.isEmpty {
                                                 TextField(originUsername, text: $viewModel.username)
-                                                    .font(.system(size: 16))
+                                                    .font(.system(.body))
                                                     .foregroundStyle(.white)
                                                     .padding(.leading, width * 0.05)
                                                     .onChange(of: viewModel.username) { _, newValue in
@@ -183,7 +183,7 @@ struct SettingProfileView: View {
                                                     }
                                             } else {
                                                 TextField("닉네임", text: $viewModel.username)
-                                                    .font(.system(size: 14))
+                                                    .font(.system(.subheadline))
                                                     .foregroundStyle(.white)
                                                     .padding(.leading, width * 0.05)
                                                     .onChange(of: viewModel.username) { _, newValue in
@@ -207,7 +207,7 @@ struct SettingProfileView: View {
                                         HStack {
                                             Text("Instagram")
                                                 .foregroundStyle(.white)
-                                                .font(.system(size: 14))
+                                                .font(.system(.subheadline))
                                             
                                             Spacer()
                                         }
@@ -216,7 +216,7 @@ struct SettingProfileView: View {
                                         HStack {
                                             if let insta = viewModel.currentUser?.instaAddress, !insta.isEmpty {
                                                 TextField(insta, text: $viewModel.instaAddress)
-                                                    .font(.system(size: 14))
+                                                    .font(.system(.subheadline))
                                                     .foregroundStyle(.white)
                                                     .padding(.leading, width * 0.05)
                                                     .onChange(of: viewModel.instaAddress) { _, _  in
@@ -225,7 +225,7 @@ struct SettingProfileView: View {
                                                 
                                             } else {
                                                 TextField("계정명", text: $viewModel.instaAddress)
-                                                    .font(.system(size: 14))
+                                                    .font(.system(.subheadline))
                                                     .foregroundStyle(.white)
                                                     .padding(.leading, width * 0.05)
                                                     .onChange(of: viewModel.instaAddress) { _, _  in
@@ -246,7 +246,7 @@ struct SettingProfileView: View {
                                         HStack {
                                             Text("Tiktok")
                                                 .foregroundStyle(.white)
-                                                .font(.system(size: 14))
+                                                .font(.system(.subheadline))
                                             
                                             Spacer()
                                         }
@@ -255,7 +255,7 @@ struct SettingProfileView: View {
                                         HStack {
                                             if let tiktok = viewModel.currentUser?.tiktokAddress, !tiktok.isEmpty {
                                                 TextField(tiktok, text: $viewModel.tiktokAddress)
-                                                    .font(.system(size: 16))
+                                                    .font(.system(.body))
                                                     .foregroundStyle(.white)
                                                     .padding(.leading, width * 0.05)
                                                     .onChange(of: viewModel.tiktokAddress) { _, _  in
@@ -263,7 +263,7 @@ struct SettingProfileView: View {
                                                     }
                                             } else {
                                                 TextField("계정명", text: $viewModel.tiktokAddress)
-                                                    .font(.system(size: 14))
+                                                    .font(.system(.subheadline))
                                                     .foregroundStyle(.white)
                                                     .padding(.leading, width * 0.05)
                                                     .onChange(of: viewModel.tiktokAddress) { _, _  in
@@ -320,11 +320,11 @@ struct SettingProfileView: View {
                     } label: {
                         HStack(spacing: 2) {
                             Image(systemName: "chevron.left")
-                                .font(.system(size: 14))
+                                .font(.system(.subheadline))
                                 .fontWeight(.medium)
                             
                             Text("뒤로")
-                                .font(.system(size: 16))
+                                .font(.system(.body))
                                 .fontWeight(.medium)
                         }
                     }
@@ -348,7 +348,7 @@ struct SettingProfileView: View {
                     } label: {
                         Text("저장")
                             .foregroundStyle(isActive ? .white : .gray) // 활성화 상태에 따라 텍스트 색상 변경
-                            .font(.system(size: 16))
+                            .font(.system(.body))
                     }
                     .disabled(!isActive) // 버튼 비활성화 여부 결정
                     .onChange(of: viewModel.changedValue) { newValue, oldValue in

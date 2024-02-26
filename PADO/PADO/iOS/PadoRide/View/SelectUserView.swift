@@ -28,10 +28,10 @@ struct SelectUserView: View {
                 VStack(alignment: .leading, spacing: 0) {
                     if user.username.isEmpty {
                         Text(user.nameID)
-                            .font(.system(size: 14, weight: .semibold))
+                            .font(.system(.subheadline, weight: .semibold))
                     } else {
                         Text(user.nameID)
-                            .font(.system(size: 14, weight: .semibold))
+                            .font(.system(.subheadline, weight: .semibold))
                         Text(user.username)
                             .font(.system(.footnote))
                             .foregroundStyle(Color(.systemGray))
@@ -73,7 +73,7 @@ struct SelectUserView: View {
                             }
                         } else {
                             Text("\(user.nameID)님은\n아직 받은 파도가 없어요")
-                                .font(.system(size: 16, weight: .semibold))
+                                .font(.system(.body, weight: .semibold))
                                 .multilineTextAlignment(.center)
                                 .foregroundStyle(.gray)
                                 .padding(.top, 60)
@@ -104,11 +104,11 @@ struct SelectUserView: View {
                 } label: {
                     HStack(spacing: 2) {
                         Image(systemName: "chevron.left")
-                            .font(.system(size: 14))
+                            .font(.system(.subheadline))
                             .fontWeight(.medium)
                         
                         Text("뒤로")
-                            .font(.system(size: 16))
+                            .font(.system(.body))
                             .fontWeight(.medium)
                     }
                     .foregroundStyle(.white)

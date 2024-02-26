@@ -18,7 +18,7 @@ struct ReportSelectView: View {
             ZStack {
                 VStack {
                     Text("신고하기")
-                        .font(.system(size: 16))
+                        .font(.system(.body))
                         .fontWeight(.semibold)
                         .padding(.top, 30)
                     
@@ -28,7 +28,7 @@ struct ReportSelectView: View {
                     VStack(alignment: .leading) {
                         
                         Text("이 게시물을 신고하는 이유가 무엇인가요?")
-                            .font(.system(size: 14))
+                            .font(.system(.subheadline))
                             .fontWeight(.semibold)
                             .padding(.bottom, 3)
                             .padding(.horizontal)

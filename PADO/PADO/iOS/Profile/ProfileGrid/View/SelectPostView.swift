@@ -99,14 +99,14 @@ struct SelectPostView: View {
                             }
                         } label: {
                             Image(systemName: "chevron.left")
-                                .font(.system(size: 18))
+                                .font(.system(.title3))
                                 .fontWeight(.medium)
                         }
                         
                         Spacer()
                         
                         Text(titleForType(viewType))
-                            .font(.system(size: 18))
+                            .font(.system(.title3))
                             .fontWeight(.semibold)
                             .padding(.trailing, 15)
                         

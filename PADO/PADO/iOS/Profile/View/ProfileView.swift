@@ -83,7 +83,7 @@ struct ProfileView: View {
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
                         Text("@\(userNameID)")
-                            .font(.system(size: 22))
+                            .font(.system(.title2))
                             .fontWeight(.bold)
                     }
                     
@@ -285,11 +285,11 @@ struct ProfileView: View {
                                     if let user = viewModel.currentUser {
                                         if !user.username.isEmpty {
                                             Text(user.username)
-                                                .font(.system(size: 14))
+                                                .font(.system(.subheadline))
                                                 .fontWeight(.medium)
                                         } else {
                                             Text(userNameID)
-                                                .font(.system(size: 14))
+                                                .font(.system(.subheadline))
                                                 .fontWeight(.medium)
                                         }
                                     }
@@ -318,7 +318,7 @@ struct ProfileView: View {
                                     
                                     Text("파도")
                                 }
-                                .font(.system(size: 14))
+                                .font(.system(.subheadline))
                                 .foregroundStyle(.white)
                                 .fontWeight(.medium)
                                 
@@ -330,7 +330,7 @@ struct ProfileView: View {
                                         
                                         Text("팔로워")
                                     }
-                                    .font(.system(size: 14))
+                                    .font(.system(.subheadline))
                                     .foregroundStyle(.white)
                                     .fontWeight(.medium)
                                 }
@@ -351,7 +351,7 @@ struct ProfileView: View {
                                         
                                         Text("팔로잉")
                                     }
-                                    .font(.system(size: 14))
+                                    .font(.system(.subheadline))
                                     .foregroundStyle(.white)
                                     .fontWeight(.medium)
                                 }
@@ -398,7 +398,7 @@ struct ProfileView: View {
             ForEach(types, id: \.self) { type in
                 VStack(spacing: 12) {
                     Text(type)
-                        .font(.system(size: 16))
+                        .font(.system(.body))
                         .fontWeight(.bold)
                         .foregroundStyle(profileVM.currentType == type ? .white : .gray)
                     

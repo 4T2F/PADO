@@ -60,12 +60,12 @@ struct FollowerUserCellView: View {
                     
                     VStack(alignment: .leading, spacing: 4) {
                         Text(cellUserId)
-                            .font(.system(size: 14, weight: .medium))
+                            .font(.system(.subheadline, weight: .medium))
                             .foregroundStyle(.white)
                         
                         if !followerUsername.isEmpty {
                             Text(followerUsername)
-                                .font(.system(size: 14, weight: .regular))
+                                .font(.system(.subheadline, weight: .regular))
                                 .foregroundStyle(Color(.systemGray))
                         }
                     } //: VSTACK
@@ -127,7 +127,7 @@ struct FollowerUserCellView: View {
                 showingModal.toggle()
             } label: {
                 Image(systemName: "ellipsis")
-                    .font(.system(size: 16))
+                    .font(.system(.body))
                     .foregroundStyle(.white)
                     .padding(.trailing)
             }

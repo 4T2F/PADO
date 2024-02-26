@@ -21,11 +21,11 @@ struct PadoRideView: View {
                         HStack {
                             if userFollowingIDs.isEmpty {
                                 Text("팔로우한 사람이 없어요")
-                                    .font(.system(size: 16))
+                                    .font(.system(.body))
                                     .fontWeight(.medium)
                             } else if !followVM.surfingIDs.isEmpty {
                                 Text("파도타기가 가능한 친구")
-                                    .font(.system(size: 16))
+                                    .font(.system(.body))
                                     .fontWeight(.medium)
                             }
                             Spacer()
@@ -48,7 +48,7 @@ struct PadoRideView: View {
                         if userFollowingIDs.isEmpty {
                             Text("다른 유저를 팔로우하고\n방명록에 서퍼등록을 요청해보세요")
                                 .lineSpacing(4)
-                                .font(.system(size: 16, weight: .semibold))
+                                .font(.system(.body, weight: .semibold))
                                 .multilineTextAlignment(.center)
                                 .foregroundStyle(.gray)
                                 .padding(.top, 100)
