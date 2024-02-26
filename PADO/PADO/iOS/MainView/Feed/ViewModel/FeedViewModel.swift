@@ -19,12 +19,12 @@ extension User: FeedItem {}
 
 @MainActor
 class FeedViewModel:Identifiable ,ObservableObject {
-
+    
     // MARK: - feed관련
     @Published var isShowingReportView = false
     @Published var isShowingCommentView = false
     @Published var isHeaderVisible = true
-  
+    
     @Published var followingPosts: [Post] = []
     @Published var todayPadoPosts: [Post] = []
     @Published var watchedPostIDs: Set<String> = []
@@ -39,7 +39,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
     @Published var deleteUserCounts: [Int] = []
     
     private var db = Firestore.firestore()
-
+    
     @Published var documentID: String = ""
     
     private var followingListeners: [String: ListenerRegistration] = [:]
@@ -61,10 +61,10 @@ class FeedViewModel:Identifiable ,ObservableObject {
         
         let developerSnapshot = db.collection("users")
             .whereField("nameID", in: developerIDs)
-       
+        
         do {
             let documents = try await getDocumentsAsync(collection: db.collection("users"), query: querySnapshot)
-                
+            
             let developerDocuments = try await getDocumentsAsync(collection: db.collection("users"), query: developerSnapshot)
             
             let newUsers = documents.compactMap { document in
@@ -120,7 +120,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
         getFollowingPostIDs.append(userNameID)
         // 현재 날짜로부터 2일 전의 날짜를 계산
         let twoDaysAgo = Calendar.current.date(byAdding: .day, value: -7, to: Date()) ?? Date()
-           // Date 객체를 Timestamp로 변환
+        // Date 객체를 Timestamp로 변환
         let twoDaysAgoTimestamp = Timestamp(date: twoDaysAgo)
         
         let query = db.collection("post")
@@ -141,7 +141,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
                     return nil
                 }
             }
- 
+            
             let fetchedFollowingPosts = filteredDocuments.compactMap { document in
                 try? document.data(as: Post.self)
             }
@@ -158,7 +158,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
             }
             
             await getPopularUser()
-
+            
         } catch {
             print("포스트 가져오기 오류: \(error.localizedDescription)")
         }
@@ -168,10 +168,10 @@ class FeedViewModel:Identifiable ,ObservableObject {
     // 오늘 파도 포스트 가져오기
     func fetchTodayPadoPosts() async {
         todayPadoPosts.removeAll()
-
+        
         let threeDaysAgo = Calendar.current.date(byAdding: .day, value: -7, to: Date()) ?? Date()
         let threeDaysAgoTimestamp = Timestamp(date: threeDaysAgo)
-
+        
         let query = db.collection("post")
             .whereField("created_Time", isGreaterThanOrEqualTo: threeDaysAgoTimestamp)
         
@@ -180,13 +180,13 @@ class FeedViewModel:Identifiable ,ObservableObject {
             var filteredPosts = documents.compactMap { document in
                 try? document.data(as: Post.self)
             }
-
+            
             filteredPosts.sort { $0.heartIDs.count > $1.heartIDs.count }
-
+            
             for post in filteredPosts.prefix(20) {
                 setupSnapshotTodayPadoListener(for: post)
             }
-
+            
             // 인덱스 25개 초과 시 0~24번 인덱스까지만 포함
             self.todayPadoPosts = Array(filteredPosts.prefix(25))
             self.todayPadoPosts = filterBlockedPosts(posts: self.todayPadoPosts)
@@ -194,7 +194,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
             print("포스트 가져오기 오류: \(error.localizedDescription)")
         }
     }
-
+    
     
     func fetchFollowMorePosts() async {
         guard let lastDocument = lastFollowFetchedDocument else { return }
@@ -211,7 +211,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
             .order(by: "created_Time", descending: true)
             .start(afterDocument: lastDocument)
             .limit(to: 4)
-            
+        
         do {
             let documents = try await getDocumentsAsync(collection: db.collection("post"), query: query)
             
@@ -220,12 +220,12 @@ class FeedViewModel:Identifiable ,ObservableObject {
             var documentsData = documents.compactMap { document in
                 try? document.data(as: Post.self)
             }
-            .filter { post in
-                userFollowingIDs.contains(where: { $0 == post.ownerUid })
-            }
+                .filter { post in
+                    userFollowingIDs.contains(where: { $0 == post.ownerUid })
+                }
             
             documentsData = filterBlockedPosts(posts: documentsData)
-      
+            
             for documentData in documentsData {
                 setupSnapshotFollowingListener(for: documentData)
                 followingPosts.append(documentData)
@@ -266,7 +266,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
         
         return ""
     }
-  
+    
     func watchedPost(_ story: Post) async {
         do {
             if let postID = story.id {
@@ -283,10 +283,10 @@ class FeedViewModel:Identifiable ,ObservableObject {
     // 파도타기 게시글 불러오기
     func fetchPadoRides(postID: String) async {
         padoRidePosts.removeAll()
-
+        
         let postRef = db.collection("post").document(postID)
         let padoRideCollection = postRef.collection("padoride")
-
+        
         do {
             let snapshot = try await padoRideCollection.getDocuments()
             self.padoRidePosts = snapshot.documents.compactMap { document in
@@ -326,7 +326,7 @@ extension FeedViewModel {
     @MainActor
     private func setupSnapshotFollowingListener(for post: Post) {
         guard let postID = post.id else { return }
-
+        
         let docRef = db.collection("post").document(postID)
         followingListeners[postID] = docRef.addSnapshotListener { documentSnapshot, error in
             guard let document = documentSnapshot, let data = try? document.data(as: Post.self) else {
@@ -342,7 +342,7 @@ extension FeedViewModel {
     @MainActor
     func setupSnapshotTodayPadoListener(for post: Post) {
         guard let postID = post.id else { return }
-
+        
         let docRef = db.collection("post").document(postID)
         todayPadoListeners[postID] = docRef.addSnapshotListener { documentSnapshot, error in
             guard let document = documentSnapshot, let data = try? document.data(as: Post.self) else {
@@ -351,7 +351,7 @@ extension FeedViewModel {
             }
             if let index = self.todayPadoPosts.firstIndex(where: { $0.id == postID }) {
                 self.todayPadoPosts[index] = data
-
+                
             }
         }
     }
@@ -377,27 +377,51 @@ extension Timestamp {
         let currentDate = Date() // 현재 날짜 및 시간
         let date = timestamp.dateValue() // Timestamp를 Date로 변환
         let calendar = Calendar.current
-
-        let hoursAgo = calendar.dateComponents([.hour], from: date, to: currentDate).hour ?? 0
-        let minutesAgo = calendar.dateComponents([.minute], from: date, to: currentDate).minute ?? 0
-        let secondsAgo = calendar.dateComponents([.second], from: date, to: currentDate).second ?? 0
         
-        switch hoursAgo {
-        case 24...:
-            // 1일보다 오래된 경우
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd" // AM/PM을 포함하는 날짜 형식 지정
-            return formatter.string(from: date)
+        let yearsAgo = calendar.dateComponents([.year], from: date, to: currentDate).year ?? 0
+        let monthsAgo = calendar.dateComponents([.month], from: date, to: currentDate).month ?? 0
+        let weeksAgo = calendar.dateComponents([.weekOfMonth], from: date, to: currentDate).weekOfMonth ?? 0
+        let daysAgo = calendar.dateComponents([.day], from: date, to: currentDate).day ?? 0
+        
+        switch yearsAgo {
         case 1...:
-            // 1시간 이상, 1일 미만
-            return "\(hoursAgo)시간 전"
-            
+            // 1년 이상
+            return "\(yearsAgo)년"
         default:
-            // 1시간 미만
-            if minutesAgo >= 1 {
-                return "\(minutesAgo)분 전"
-            } else {
-                return "\(secondsAgo)초 전"
+            switch monthsAgo {
+            case 1...:
+                // 1달 이상
+                return "\(monthsAgo)달"
+            default:
+                switch weeksAgo {
+                case 1...:
+                    // 1주 이상
+                    return "\(weeksAgo)주"
+                default:
+                    // 1일 이상
+                    if daysAgo >= 1 {
+                        return "\(daysAgo)일"
+                    } else {
+                        // 1일 미만
+                        let hoursAgo = calendar.dateComponents([.hour], from: date, to: currentDate).hour ?? 0
+                        let minutesAgo = calendar.dateComponents([.minute], from: date, to: currentDate).minute ?? 0
+                        let secondsAgo = calendar.dateComponents([.second], from: date, to: currentDate).second ?? 0
+                        
+                        switch hoursAgo {
+                        case 1...:
+                            // 1시간 이상, 1일 미만
+                            return "\(hoursAgo)시간"
+                            
+                        default:
+                            // 1시간 미만
+                            if minutesAgo >= 1 {
+                                return "\(minutesAgo)분"
+                            } else {
+                                return "\(secondsAgo)초"
+                            }
+                        }
+                    }
+                }
             }
         }
     }

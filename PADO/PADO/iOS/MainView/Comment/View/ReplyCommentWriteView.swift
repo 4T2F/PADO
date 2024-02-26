@@ -1,13 +1,13 @@
 //
-//  CommentWriteView.swift
+//  ReplyCommentWriteView.swift
 //  PADO
 //
-//  Created by 강치우 on 2/10/24.
+//  Created by 최동호 on 2/27/24.
 //
 
 import SwiftUI
 
-struct CommentWriteView: View {
+struct ReplyCommentWriteView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
     @ObservedObject var commentVM: CommentViewModel
     @Environment(\.dismiss) var dismiss
@@ -20,6 +20,8 @@ struct CommentWriteView: View {
     @State var notiUser: User
     
     @Binding var post: Post
+    
+    let index: Int
     
     var body: some View {
         VStack(spacing: 0) {
@@ -34,7 +36,7 @@ struct CommentWriteView: View {
                 
                 Spacer()
                
-                Text("댓글 달기")
+                Text("답글 달기")
                     .font(.system(size: 16))
                     .fontWeight(.semibold)
                     .padding(.trailing, 30)
@@ -50,31 +52,17 @@ struct CommentWriteView: View {
             ScrollView {
                 ScrollViewReader { value in
                     VStack(alignment: .leading) {
-                        if !commentVM.comments.isEmpty {
-                            ForEach(commentVM.comments.indices, id:\.self) { index in
-                                CommentWriteViewCell(index: index,
-                                            commentVM: commentVM,
-                                            post: $post)
-                                .id(index)
-                            }
-                            .onAppear {
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-                                    if let lastCommentID = commentVM.comments.last?.id {
-                                        withAnimation {
-                                            value.scrollTo(lastCommentID, anchor: .bottom)
-                                        }
-                                    }
+                        if index < commentVM.comments.count {
+                            CommentWriteViewCell(index: index,
+                                                 commentVM: commentVM,
+                                                 post: $post)
+                            if !commentVM.comments[index].replyComments.isEmpty {
+                                ForEach(commentVM.comments[index].replyComments, id: \.self) { replyCommentID in
+                                    ReplyCommentWriteViewCell(index: index,
+                                                              replyCommentID: replyCommentID,
+                                                              commentVM: commentVM,
+                                                              post: $post)
                                 }
-                            }
-                        } else {
-                            VStack {
-                                Text("아직 댓글이 없습니다.")
-                                    .font(.system(size: 16, weight: .semibold))
-                                    .padding(.bottom, 10)
-                                    .padding(.top, 120)
-                                Text("댓글을 남겨보세요.")
-                                    .font(.system(size: 12))
-                                    .foregroundStyle(.gray)
                             }
                         }
                     }
@@ -86,12 +74,10 @@ struct CommentWriteView: View {
             Divider()
             
             HStack {
-                if let user = viewModel.currentUser {
-                    CircularImageView(size: .small, user: user)
-                }
-                
+                CircularImageView(size: .small, user: notiUser)
+
                 HStack {
-                    TextField("\(userNameID)(으)로 댓글 남기기...", text: $commentText, axis: .vertical)
+                    TextField("\(commentVM.comments[index].userID)님에게 답글 남기기...", text: $commentText, axis: .vertical)
                         .font(.system(size: 14))
                         .tint(Color(.systemBlue).opacity(0.7))
                         .focused($isTextFieldFocused)
@@ -108,13 +94,15 @@ struct CommentWriteView: View {
                                 if let postID = post.id {
                                     await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID,
                                                                                  receiveUser: notiUser,
-                                                                                 type: .comment,
+                                                                                 type: .replyComment,
                                                                                  message: commentText,
                                                                                  post: post)
-                                    await commentVM.writeComment(post: post,
+                                    await commentVM.writeReplyComment(post: post,
+                                                                      index: index,
                                                                                    imageUrl: viewModel.currentUser?.profileImageUrl ?? "",
                                                                                    inputcomment: commentText)
-                                    
+                                    await commentVM.getReplyCommentsDocument(post: post,
+                                                                       index: index)
                                     commentText = ""
                                 }
                                 dismiss()
@@ -151,3 +139,5 @@ struct CommentWriteView: View {
         .background(.main, ignoresSafeAreaEdges: .all)
     }
 }
+
+

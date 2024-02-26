@@ -11,6 +11,7 @@ import Foundation
 
 enum PostNotiType {
     case comment
+    case replyComment
     case facemoji
     case heart
     case requestSurfing
@@ -42,6 +43,19 @@ class UpdatePushNotiData {
                     toFCMToken: receiveUser.fcmToken,
                     title: "PADO",
                     body: "\(userNameID)님이 회원님의 파도에 댓글을 남겼습니다: \"\(message)\"",
+                    categoryIdentifier: "post",
+                    post: post
+                )
+            }
+        case .replyComment:
+            if receiveUser.nameID != userNameID {
+                await createPostNoti(userId: receiveUser.nameID, type: "comment", postID: targetPostID, message: message)
+            }
+            if receiveUser.nameID != userNameID && receiveUser.alertAccept == "yes" {
+                PushNotificationManager.shared.sendPushNotificationWithPost(
+                    toFCMToken: receiveUser.fcmToken,
+                    title: "PADO",
+                    body: "\(userNameID)님이 회원님의 댓글에 답글을 남겼습니다: \"\(message)\"",
                     categoryIdentifier: "post",
                     post: post
                 )

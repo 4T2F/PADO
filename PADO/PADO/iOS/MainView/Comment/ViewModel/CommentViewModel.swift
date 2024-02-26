@@ -15,10 +15,12 @@ class CommentViewModel: ObservableObject {
     @Published var replyComments: [String: ReplyComment] = [:]
     @Published var documentID: String = ""
     @Published var inputcomment: String = ""
-    @Published var showdeleteModal: Bool = false
-    @Published var showreportModal: Bool = false
-    @Published var showselectModal: Bool = false
+    @Published var showDeleteModal: Bool = false
+    @Published var showDeleteReplyModal: Bool = false
+    @Published var showReportModal: Bool = false
+    @Published var showReportReplyModal: Bool = false
     @Published var selectedComment: Comment?
+    @Published var selectedReplyComment: ReplyComment?
     @Published var commentUserIDs: [String] = []
     @Published var commentUsers: [String: User] = [:]
     
@@ -98,9 +100,23 @@ class CommentViewModel: ObservableObject {
         guard let postID = post.id else { return }
         do {
             // 포스트의 'comment' 컬렉션에서 특정 댓글 삭제
+            var count = 1
+            
+            let index = comments.firstIndex {
+                $0.id == commentID
+            }
+            if let index = index, !comments[index].replyComments.isEmpty {
+                let querySnapshot = try await db.collection("post").document(postID).collection("comment").document(commentID).collection("replyComments").getDocuments()
+            
+                for queryDocument in querySnapshot.documents {
+                    try await db.collection("post").document(postID).collection("comment").document(commentID).collection("replyComments").document(queryDocument.documentID).delete()
+                    count += 1
+                }
+            }
+            
             try await db.collection("post").document(postID).collection("comment").document(commentID).delete()
             
-            try await db.collection("post").document(postID).updateData(["commentCount": post.commentCount-1])
+            try await db.collection("post").document(postID).updateData(["commentCount": post.commentCount-count])
             
             await getCommentsDocument(post: post)
             // 성공적으로 삭제됐다는 메시지 출력
@@ -231,12 +247,14 @@ class CommentViewModel: ObservableObject {
 // MARK: 대댓글
 extension CommentViewModel {
     @MainActor
-    func getReplyCommentsDocument(post: Post, comment: Comment) async {
+    func getReplyCommentsDocument(post: Post, index: Int) async {
         guard let postID = post.id else { return }
-        guard let commentID = comment.id else { return }
+        guard let commentID = comments[index].id else { return }
         
         do {
-            let querySnapshot = try await db.collection("post").document(postID).collection("comment").document(commentID).collection("replyComments").order(by: "time", descending: false).getDocuments()
+            let querySnapshot = try await db.collection("post").document(postID).collection("comment")
+                .document(commentID).collection("replyComments")
+                .order(by: "time", descending: false).getDocuments()
             
             let fetchCommentData = querySnapshot.documents.compactMap { document in
                 try? document.data(as: ReplyComment.self)
@@ -317,6 +335,7 @@ extension CommentViewModel {
                 DispatchQueue.main.async {
                     self.comments[index].replyComments.append(formattedCommentTitle)
                 }
+                  
                 return
             })
             
@@ -377,10 +396,10 @@ extension CommentViewModel {
     
     // 대댓글 좋아요
     @MainActor
-    func addReplyCommentHeart(post: Post, comment: Comment, replyComment: ReplyComment) async {
+    func addReplyCommentHeart(post: Post, index: Int, replyComment: ReplyComment) async {
         guard !userNameID.isEmpty else { return }
         guard let postID = post.id else { return }
-        guard let commentID = comment.id else { return }
+        guard let commentID = comments[index].id else { return }
         guard let replyCommentID = replyComment.id else { return }
         do {
             _ = try await db.runTransaction({ (transaction, errorPointer) in
@@ -404,6 +423,9 @@ extension CommentViewModel {
                 }
                 guard !replyCommentHeartIDs.contains(userNameID) else { return }
                 
+                replyCommentHeartIDs.append(userNameID)
+                transaction.updateData(["heartIDs": replyCommentHeartIDs], forDocument: postRef)
+                
                 DispatchQueue.main.async {
                     if var newDictionaryData: ReplyComment = self.replyComments[replyCommentID] {
                         var newArray = newDictionaryData.heartIDs
@@ -412,9 +434,7 @@ extension CommentViewModel {
                         self.replyComments[replyCommentID] = newDictionaryData
                     }
                 }
-                
-                replyCommentHeartIDs.append(userNameID)
-                transaction.updateData(["heartIDs": replyCommentHeartIDs], forDocument: postRef)
+            
                 return
             })
         }
@@ -426,10 +446,10 @@ extension CommentViewModel {
     
     // 대댓글 좋아요 삭제
     @MainActor
-    func deleteReplyCommentHeart(post: Post, comment: Comment, replyComment: ReplyComment) async {
+    func deleteReplyCommentHeart(post: Post, index: Int, replyComment: ReplyComment) async {
         guard !userNameID.isEmpty else { return }
         guard let postID = post.id else { return }
-        guard let commentID = comment.id else { return }
+        guard let commentID = comments[index].id else { return }
         guard let replyCommentID = replyComment.id else { return }
 
         do {
@@ -453,6 +473,12 @@ extension CommentViewModel {
                     return
                 }
                 
+                guard let removeIndex = replyCommentHeartIDs.firstIndex(of: userNameID) else { return }
+                
+                replyCommentHeartIDs.remove(at: removeIndex)
+
+                transaction.updateData(["heartIDs": replyCommentHeartIDs], forDocument: postRef)
+                
                 DispatchQueue.main.async {
                     if var newDictionaryData: ReplyComment = self.replyComments[replyCommentID] {
                         var newArray = newDictionaryData.heartIDs
@@ -462,12 +488,6 @@ extension CommentViewModel {
                         self.replyComments[replyCommentID] = newDictionaryData
                     }
                 }
-                
-                guard let removeIndex = replyCommentHeartIDs.firstIndex(of: userNameID) else { return }
-                
-                replyCommentHeartIDs.remove(at: removeIndex)
-
-                transaction.updateData(["heartIDs": replyCommentHeartIDs], forDocument: postRef)
                 
                 
                 return

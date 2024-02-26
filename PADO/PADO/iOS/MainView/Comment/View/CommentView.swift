@@ -46,6 +46,11 @@ struct CommentView: View {
                                                 commentVM: commentVM,
                                                 post: $post)
                                     .id(index)
+                                    if !commentVM.comments[index].replyComments.isEmpty {
+                                       ShowMoreCommentView(commentVM: commentVM,
+                                                           post: $post,
+                                                           index: index)
+                                    }
                                 }
                             }
                         } else {
@@ -118,7 +123,9 @@ struct CommentView: View {
             }
             .padding(10)
             .sheet(isPresented: $isShowingCommentWriteView, content: {
-                CommentWriteView(commentVM: commentVM, postUser: postUser, post: $post)
+                CommentWriteView(commentVM: commentVM, 
+                                 notiUser: postUser,
+                                 post: $post)
                     .presentationDragIndicator(.visible)
                     .presentationDetents([.large])
             })

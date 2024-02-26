@@ -165,7 +165,7 @@ struct PostView: View {
                         }
                     }
                 }
-                .alert("서핑할 유저를 선택해주세요", isPresented: $showAlert) {
+                .alert("파도를 보낼 유저를 선택해주세요", isPresented: $showAlert) {
                     Button("확인", role: .cancel) { }
                 }
                 .padding(.bottom, 20)
