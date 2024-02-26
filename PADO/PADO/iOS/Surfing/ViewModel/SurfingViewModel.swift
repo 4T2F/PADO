@@ -50,7 +50,7 @@ class SurfingViewModel: ObservableObject, Searchable  {
                     self.faceMojiUIImage = loadedUIImage
                     self.faceMojiImage = loadedSwiftUIImage
                 } catch {
-                    print("이미지 로드 중 오류 발생: \(error)")
+                    print("선택 이미지 초기화: \(error)")
                 }
             }
         }
@@ -65,7 +65,7 @@ class SurfingViewModel: ObservableObject, Searchable  {
                     self.selectedImage = loadedUIImage
                     self.selectedUIImage = loadedSwiftUIImage
                 } catch {
-                    print("이미지 로드 중 오류 발생: \(error)")
+                    print("선택 이미지 초기화: \(error)")
                 }
             }
         }

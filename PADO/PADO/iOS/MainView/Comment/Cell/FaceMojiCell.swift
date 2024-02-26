@@ -41,11 +41,11 @@ enum Emotion: String, CaseIterable {
 }
 
 struct FaceMojiCell: View {
+    @ObservedObject var commentVM: CommentViewModel
     
     var facemoji: Facemoji
     let hapticImpact = UIImpactFeedbackGenerator(style: .medium)
     
-    @ObservedObject var commentVM: CommentViewModel
     
     var body: some View {
         if facemoji.userID == userNameID {
