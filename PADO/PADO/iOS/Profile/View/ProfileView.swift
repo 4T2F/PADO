@@ -285,11 +285,11 @@ struct ProfileView: View {
                                     if let user = viewModel.currentUser {
                                         if !user.username.isEmpty {
                                             Text(user.username)
-                                                .font(.system(.subheadline))
+                                                .font(.system(.title3))
                                                 .fontWeight(.medium)
                                         } else {
                                             Text(userNameID)
-                                                .font(.system(.subheadline))
+                                                .font(.system(.title3))
                                                 .fontWeight(.medium)
                                         }
                                     }
@@ -318,7 +318,7 @@ struct ProfileView: View {
                                     
                                     Text("파도")
                                 }
-                                .font(.system(.subheadline))
+                                .font(.system(.body))
                                 .foregroundStyle(.white)
                                 .fontWeight(.medium)
                                 
@@ -330,7 +330,7 @@ struct ProfileView: View {
                                         
                                         Text("팔로워")
                                     }
-                                    .font(.system(.subheadline))
+                                    .font(.system(.body))
                                     .foregroundStyle(.white)
                                     .fontWeight(.medium)
                                 }
@@ -351,7 +351,7 @@ struct ProfileView: View {
                                         
                                         Text("팔로잉")
                                     }
-                                    .font(.system(.subheadline))
+                                    .font(.system(.body))
                                     .foregroundStyle(.white)
                                     .fontWeight(.medium)
                                 }

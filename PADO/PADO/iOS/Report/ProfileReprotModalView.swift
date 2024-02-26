@@ -42,7 +42,7 @@ struct ReprotProfileModalView: View {
                     } label: {
                         HStack {
                             Text(profileVM.isUserBlocked ? "차단 해제" : "차단")
-                                .font(.system(.subheadline))
+                                .font(.system(.body))
                                 .fontWeight(.bold)
                                 .foregroundStyle(.red)
                              
@@ -68,7 +68,7 @@ struct ReprotProfileModalView: View {
                     } label: {
                         HStack {
                             Text("신고")
-                                .font(.system(.subheadline))
+                                .font(.system(.body))
                                 .fontWeight(.bold)
                                 .foregroundStyle(.red)
                             
@@ -76,7 +76,7 @@ struct ReprotProfileModalView: View {
                             
                             Image(systemName: "exclamationmark.bubble")
                                 .foregroundStyle(.red)
-                                .font(.system(.subheadline))
+                                .font(.system(.body))
                                 .fontWeight(.semibold)
                         }
                         .sheet(isPresented: $isShowingReportView) {
@@ -98,7 +98,7 @@ struct ReprotProfileModalView: View {
                         Spacer()
                         
                         Text("취소")
-                            .font(.system(.subheadline))
+                            .font(.system(.body))
                             .fontWeight(.bold)
                          
                         Spacer()
