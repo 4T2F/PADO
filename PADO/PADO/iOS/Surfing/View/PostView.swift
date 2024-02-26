@@ -38,7 +38,7 @@ struct PostView: View {
                 VStack {
                     HStack {
                         Text("제목")
-                            .font(.system(.body))
+                            .font(.system(.title3))
                             .fontWeight(.semibold)
                         
                         Spacer()
@@ -47,7 +47,7 @@ struct PostView: View {
                     .padding(.leading, 20)
                     
                     TextField("제목을 입력해주세요", text: $surfingVM.postingTitle)
-                        .font(.system(.subheadline))
+                        .font(.system(.headline))
                         .padding(.leading, 20)
                     
                     RoundedRectangle(cornerRadius: 8)
@@ -57,7 +57,7 @@ struct PostView: View {
                     HStack {
                         if followVM.selectSurfingID.isEmpty {
                             Text("서핑 리스트")
-                                .font(.system(.body))
+                                .font(.system(.title3))
                                 .fontWeight(.semibold)
                         } else {
                             KFImage(URL(string: followVM.selectSurfingProfileUrl))
@@ -159,7 +159,7 @@ struct PostView: View {
                                 .scaleEffect(1.5)
                         } else {
                             Text("공유")
-                                .font(.system(.subheadline))
+                                .font(.system(.headline))
                                 .fontWeight(.medium)
                                 .foregroundStyle(.white)
                         }

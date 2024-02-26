@@ -285,12 +285,12 @@ struct ProfileView: View {
                                     if let user = viewModel.currentUser {
                                         if !user.username.isEmpty {
                                             Text(user.username)
-                                                .font(.system(.title3))
-                                                .fontWeight(.medium)
+                                                .font(.system(.body))
+                                                .fontWeight(.semibold)
                                         } else {
                                             Text(userNameID)
-                                                .font(.system(.title3))
-                                                .fontWeight(.medium)
+                                                .font(.system(.body))
+                                                .fontWeight(.semibold)
                                         }
                                     }
                                 }
@@ -317,10 +317,10 @@ struct ProfileView: View {
                                     Text("\(profileVM.padoPosts.count + profileVM.sendPadoPosts.count)")
                                     
                                     Text("파도")
+                                        .fontWeight(.medium)
                                 }
                                 .font(.system(.body))
                                 .foregroundStyle(.white)
-                                .fontWeight(.medium)
                                 
                                 Button {
                                     followerActive = true
@@ -329,10 +329,10 @@ struct ProfileView: View {
                                         Text("\(followVM.followerIDs.count + followVM.surferIDs.count)")
                                         
                                         Text("팔로워")
+                                            .fontWeight(.medium)
                                     }
                                     .font(.system(.body))
                                     .foregroundStyle(.white)
-                                    .fontWeight(.medium)
                                 }
                                 .sheet(isPresented: $followerActive) {
                                     FollowMainView(currentType: "팔로워", followVM: followVM, user: user)
@@ -350,10 +350,10 @@ struct ProfileView: View {
                                         Text("\(followVM.followingIDs.count)")
                                         
                                         Text("팔로잉")
+                                            .fontWeight(.medium)
                                     }
                                     .font(.system(.body))
                                     .foregroundStyle(.white)
-                                    .fontWeight(.medium)
                                 }
                                 
                                 .sheet(isPresented: $followingActive) {
@@ -398,8 +398,8 @@ struct ProfileView: View {
             ForEach(types, id: \.self) { type in
                 VStack(spacing: 12) {
                     Text(type)
-                        .font(.system(.body))
-                        .fontWeight(.bold)
+                        .font(.system(.title3))
+                        .fontWeight(.medium)
                         .foregroundStyle(profileVM.currentType == type ? .white : .gray)
                     
                     ZStack {

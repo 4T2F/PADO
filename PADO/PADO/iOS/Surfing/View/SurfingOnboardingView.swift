@@ -110,7 +110,7 @@ struct SurfingOnboardingView: View {
                         .foregroundStyle(.blueButton)
                     
                         Text("사진 선택")
-                        .font(.system(.subheadline))
+                        .font(.system(.body))
                             .fontWeight(.medium)
                             .foregroundStyle(.white)
                 }

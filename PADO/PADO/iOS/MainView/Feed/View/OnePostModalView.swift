@@ -205,7 +205,7 @@ struct OnePostModalView: View {
                                     } label: {
                                         if isShowingMoreText {
                                             Text("\(post.title)")
-                                                .font(.system(.subheadline))
+                                                .font(.system(.body))
                                                 .fontWeight(.heavy)
                                                 .foregroundStyle(.white)
                                                 .padding(8)
@@ -215,7 +215,7 @@ struct OnePostModalView: View {
                                                 .padding(.trailing, 24)
                                         } else {
                                             Text("\(post.title)")
-                                                .font(.system(.subheadline))
+                                                .font(.system(.body))
                                                 .fontWeight(.heavy)
                                                 .foregroundStyle(.white)
                                                 .lineLimit(1)
@@ -242,7 +242,7 @@ struct OnePostModalView: View {
                                     } label: {
                                         Text("surf. @\(post.surferUid)")
                                     }
-                                    .font(.system(.subheadline))
+                                    .font(.system(.body))
                                     .fontWeight(.heavy)
                                     .foregroundStyle(.white)
                                     .padding(8)
@@ -507,7 +507,7 @@ struct OnePostModalView: View {
                                     } label: {
                                         VStack {
                                             Text("...")
-                                                .font(.system(.title))
+                                                .font(.system(.largeTitle))
                                                 .fontWeight(.regular)
                                                 .foregroundStyle(.white)
                                             

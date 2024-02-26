@@ -26,7 +26,7 @@ struct PhotoTypeModal: View {
                         PhotosPicker(selection: $surfingVM.postImageItem,
                                      matching: .images) {
                             Text("사진앨범")
-                                .font(.system(.subheadline))
+                                .font(.system(.body))
                                 .fontWeight(.medium)
                             
                             Spacer()
@@ -53,7 +53,7 @@ struct PhotoTypeModal: View {
                 } label: {
                     HStack {
                         Text("카메라")
-                            .font(.system(.subheadline))
+                            .font(.system(.body))
                             .fontWeight(.medium)
                         
                         Spacer()
@@ -79,7 +79,7 @@ struct PhotoTypeModal: View {
                     Spacer()
                     
                     Text("취소")
-                        .font(.system(.subheadline))
+                        .font(.system(.body))
                         .fontWeight(.bold)
                      
                     Spacer()

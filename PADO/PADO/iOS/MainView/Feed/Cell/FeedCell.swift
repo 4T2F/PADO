@@ -511,7 +511,7 @@ struct FeedCell: View {
                                 } label: {
                                     VStack {
                                         Text("...")
-                                            .font(.system(.title))
+                                            .font(.system(.largeTitle))
                                             .fontWeight(.regular)
                                             .foregroundStyle(.white)
                                         
