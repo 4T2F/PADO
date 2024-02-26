@@ -556,6 +556,33 @@ struct SelectPostCell: View {
             .padding()
             .padding(.bottom)
         }
+        .onTapGesture(count: 2) {
+            // 더블 탭 시 실행할 로직
+            Task {
+                if !self.isHeartCheck {
+                    if userNameID.isEmpty {
+                        isShowingLoginPage = true
+                    } else if !heartLoading && !blockPost(post: post) {
+                        Task {
+                            let generator = UIImpactFeedbackGenerator(style: .light)
+                            generator.impactOccurred()
+                            
+                            heartLoading = true
+                            if let postID = post.id, let postUser = postUser {
+                                await UpdateHeartData.shared.addHeart(post: post)
+                                isHeartCheck = UpdateHeartData.shared.checkHeartExists(post: post)
+                                heartLoading = false
+                                await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID,
+                                                                             receiveUser: postUser,
+                                                                             type: .heart,
+                                                                             message: "",
+                                                                             post: post)
+                            }
+                        }
+                    }
+                }
+            }
+        }
         .onAppear {
             Task {
                 self.postUser = await UpdateUserData.shared.getOthersProfileDatas(id: post.ownerUid)

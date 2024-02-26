@@ -75,70 +75,9 @@ struct ReplyCommentWriteViewCell: View {
                     
                 }
                 .padding(.top, 6)
+                .padding(.trailing, 10)
                 
                 Spacer()
-                
-                Group {
-                    VStack(spacing: 4) {
-                        Text("")
-                            .fontWeight(.semibold)
-                            .font(.system(.footnote))
-                            .padding(.trailing, 4)
-                        
-                        if isHeartCheck {
-                            Button {
-                                Task {
-                                    await commentVM.deleteReplyCommentHeart(post: post,
-                                                                            index: index,
-                                                                            replyComment: replyComment)
-                                    self.isHeartCheck = commentVM.checkReplyCommentHeartExists(replyComment: replyComment)
-                                }
-                            } label: {
-                                Circle()
-                                    .frame(width: 17)
-                                    .foregroundStyle(.clear)
-                                    .overlay {
-                                        LottieView(animation: .named("Heart"))
-                                            .playing()
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(width: 34, height: 34)
-                                    }
-                            }
-                        } else {
-                            Button {
-                                Task {
-                                    await commentVM.addReplyCommentHeart(post: post,
-                                                                    index: index,
-                                                                    replyComment: replyComment)
-                                    
-                                    self.isHeartCheck = commentVM.checkReplyCommentHeartExists(replyComment: replyComment)
-                                }
-                            } label: {
-                                Image("heart")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 17, height: 17)
-                            }
-                        }
-                        
-                        if replyComment.heartIDs.count > 0 {
-                            Button {
-                                isShowingHeartUserView = true
-                            } label: {
-                                Text("\(replyComment.heartIDs.count)")
-                                    .font(.system(.caption))
-                                    .foregroundStyle(.gray)
-                            }
-                            .sheet(isPresented: $isShowingHeartUserView, content: {
-                                HeartUsersView(userIDs: replyComment.heartIDs)
-                            })
-                        }
-                        
-                        Spacer()
-                    }
-                }
-                .padding(.trailing, 10)
             }
             .onAppear {
                 Task {

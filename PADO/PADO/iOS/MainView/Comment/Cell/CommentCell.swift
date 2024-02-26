@@ -136,6 +136,9 @@ struct CommentCell: View {
                                 } else {
                                     Button {
                                         Task {
+                                            let generator = UIImpactFeedbackGenerator(style: .light)
+                                            generator.impactOccurred()
+                                            
                                             await commentVM.addCommentHeart(post: post,
                                                                             index: index)
                                             
@@ -185,6 +188,21 @@ struct CommentCell: View {
             .onAppear {
                 self.isHeartCheck = commentVM.checkCommentHeartExists(index: index)
                 self.buttonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: commentVM.comments[index].userID)
+            }
+            .onTapGesture(count: 2) {
+                // 더블 탭 시 실행할 로직
+                Task {
+                    if !self.isHeartCheck {
+                        Task {
+                            let generator = UIImpactFeedbackGenerator(style: .light)
+                            generator.impactOccurred()
+                            
+                            await commentVM.addCommentHeart(post: post,
+                                                            index: index)
+                            self.isHeartCheck = commentVM.checkCommentHeartExists(index: index)
+                        }
+                    }
+                }
             }
             .sheet(isPresented: $commentVM.showDeleteModal) {
                 DeleteCommentView(commentVM: commentVM,

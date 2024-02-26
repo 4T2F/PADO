@@ -111,6 +111,8 @@ struct ReplyCommentCell: View {
                             } else {
                                 Button {
                                     Task {
+                                        let generator = UIImpactFeedbackGenerator(style: .light)
+                                        generator.impactOccurred()
                                         await commentVM.addReplyCommentHeart(post: post,
                                                                         index: index,
                                                                         replyComment: replyComment)
@@ -170,6 +172,23 @@ struct ReplyCommentCell: View {
                             self.isHeartCheck = commentVM.checkReplyCommentHeartExists(replyComment: replyComment)
                             
                             self.buttonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: user.nameID)
+                        }
+                    }
+                }
+            }
+            .onTapGesture(count: 2) {
+                // 더블 탭 시 실행할 로직
+                Task {
+                    if !self.isHeartCheck {
+                        Task {
+                            let generator = UIImpactFeedbackGenerator(style: .light)
+                            generator.impactOccurred()
+                            await commentVM.addReplyCommentHeart(post: post,
+                                                            index: index,
+                                                            replyComment: replyComment)
+                            if let replyComment = commentVM.replyComments[replyCommentID] {
+                                self.isHeartCheck = commentVM.checkReplyCommentHeartExists(replyComment: replyComment)
+                            }
                         }
                     }
                 }
