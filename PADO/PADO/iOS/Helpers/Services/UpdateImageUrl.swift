@@ -98,16 +98,13 @@ class UpdateImageUrl {
             
             let formattedDate = dateFormatter.string(from: Date())
             formattedPostingTitle = filename+formattedDate
-            
-//           guard let imageData = image.jpegData(compressionQuality: imageQuality.rawValue) else { return nil }
-            
-            // UIImage를 CIImage로 변환
+                        
+            // UIImage를 CIImage로 변환후 다시 UIImage로 바꿔주면서 이미지 포맷 정규화 시킴
             if let ciImage = CIImage(image: image) {
                 let context = CIContext(options: nil)
                 if let newCGImage = context.createCGImage(ciImage, from: ciImage.extent) {
                     let normalizedImage = UIImage(cgImage: newCGImage)
                     guard let normalizedImageData = normalizedImage.jpegData(compressionQuality: imageQuality.rawValue) else { return nil }
-                    // 이제 normalizedImageData를 사용하여 업로드 로직을 계속 진행합니다.
                     switch storageTypeInput {
                     case .user:
                         let storageRef = Storage.storage().reference(withPath: "/profile_image/\(filename)")
