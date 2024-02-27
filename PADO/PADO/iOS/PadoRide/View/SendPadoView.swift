@@ -62,7 +62,7 @@ struct SendPadoView: View {
                             .scaleEffect(1.5)
                     } else {
                         Text("공유")
-                            .font(.system(.subheadline))
+                            .font(.system(.body))
                             .fontWeight(.medium)
                             .foregroundStyle(.white)
                     }
