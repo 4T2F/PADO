@@ -159,7 +159,7 @@ struct PostView: View {
                                 .scaleEffect(1.5)
                         } else {
                             Text("공유")
-                                .font(.system(.headline))
+                                .font(.system(.body))
                                 .fontWeight(.medium)
                                 .foregroundStyle(.white)
                         }

@@ -213,6 +213,7 @@ struct OnePostModalView: View {
                                                 .clipShape(RoundedRectangle(cornerRadius: 3))
                                                 .padding(.bottom, 4)
                                                 .padding(.trailing, 24)
+                                                .multilineTextAlignment(.leading)
                                         } else {
                                             Text("\(post.title)")
                                                 .font(.system(.body))
