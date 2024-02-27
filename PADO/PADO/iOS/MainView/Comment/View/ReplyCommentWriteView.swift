@@ -78,7 +78,7 @@ struct ReplyCommentWriteView: View {
 
                 HStack {
                     TextField("\(commentVM.comments[index].userID)님에게 답글 남기기...", text: $commentText, axis: .vertical)
-                        .font(.system(.subheadline))
+                        .font(.system(.body))
                         .tint(Color(.systemBlue).opacity(0.7))
                         .focused($isTextFieldFocused)
                         .onAppear {
@@ -113,7 +113,7 @@ struct ReplyCommentWriteView: View {
                                     .frame(width: 48, height: 28)
                                     .foregroundStyle(.blue)
                                 Image(systemName: "arrow.up")
-                                    .font(.system(.subheadline))
+                                    .font(.system(.body))
                                     .foregroundStyle(.white)
                             }
                         }

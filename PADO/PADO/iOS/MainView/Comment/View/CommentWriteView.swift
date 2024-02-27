@@ -92,7 +92,7 @@ struct CommentWriteView: View {
                 
                 HStack {
                     TextField("\(userNameID)(으)로 댓글 남기기...", text: $commentText, axis: .vertical)
-                        .font(.system(.subheadline))
+                        .font(.system(.body))
                         .tint(Color(.systemBlue).opacity(0.7))
                         .focused($isTextFieldFocused)
                         .onAppear {

@@ -74,7 +74,7 @@ struct PostitView: View {
                             TextField("내 방명록에 글 남기기",
                                       text: $postitVM.inputcomment,
                                       axis: .vertical)
-                            .font(.system(.subheadline))
+                            .font(.system(.body))
                             .tint(Color(.systemBlue).opacity(0.7))
                             .focused($isTextFieldFocused)
                             
@@ -82,7 +82,7 @@ struct PostitView: View {
                             TextField("\(postitVM.ownerID)님의 방명록에 글 남기기",
                                       text: $postitVM.inputcomment,
                                       axis: .vertical)
-                            .font(.system(.subheadline))
+                            .font(.system(.body))
                             .tint(Color(.systemBlue).opacity(0.7))
                             .focused($isTextFieldFocused)
                         }
@@ -110,7 +110,7 @@ struct PostitView: View {
                                         .frame(width: 48, height: 28)
                                         .foregroundStyle(.blue)
                                     Image(systemName: "arrow.up")
-                                        .font(.system(.subheadline))
+                                        .font(.system(.body))
                                         .foregroundStyle(.white)
                                 }
                             }
