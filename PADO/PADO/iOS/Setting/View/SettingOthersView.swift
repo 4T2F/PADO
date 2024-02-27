@@ -28,7 +28,7 @@ struct SettingOthersView: View {
                             UserDefaults.standard.set(newValue, forKey: "savePhoto")
                         }
                     
-                    SettingToggleCell(icon: "heart.text.square", text: "하이라이트 공개 여부", toggle: $openHighlight)
+                    SettingToggleCell(icon: "heart.text.square", text: "좋아요 한 게시글 공개", toggle: $openHighlight)
                         .onChange(of: openHighlight) { _, newValue in
                             if newValue {
                                 viewModel.currentUser?.openHighlight = "yes"
