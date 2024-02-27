@@ -168,7 +168,7 @@ struct SelectPostCell: View {
                                 } label: {
                                     if isShowingMoreText {
                                         Text("\(post.title)")
-                                            .font(.system(.body))
+                                            .font(.system(.subheadline))
                                             .fontWeight(.heavy)
                                             .foregroundStyle(.white)
                                             .padding(8)
@@ -179,7 +179,7 @@ struct SelectPostCell: View {
                                             .multilineTextAlignment(.leading)
                                     } else {
                                         Text("\(post.title)")
-                                            .font(.system(.body))
+                                            .font(.system(.subheadline))
                                             .fontWeight(.heavy)
                                             .foregroundStyle(.white)
                                             .lineLimit(1)
@@ -190,7 +190,6 @@ struct SelectPostCell: View {
                                             .padding(.trailing, 24)
                                     }
                                 }
-                                .font(.system(.body))
                                 .foregroundStyle(textColor)
                                 .lineSpacing(1)
                                 .fontWeight(.bold)
@@ -204,7 +203,7 @@ struct SelectPostCell: View {
                                 } label: {
                                     Text("surf. @\(post.surferUid)")
                                 }
-                                .font(.system(.body))
+                                .font(.system(.callout))
                                 .fontWeight(.heavy)
                                 .foregroundStyle(.white)
                                 .padding(8)

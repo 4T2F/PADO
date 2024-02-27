@@ -130,6 +130,7 @@ struct ContentView: View {
                 viewModel.selectedFilter = .today
                 viewModel.showTab = 0
                 await feedVM.getPopularUser()
+                feedVM.followingPosts.removeAll()
                 await feedVM.fetchTodayPadoPosts()
                 profileVM.stopAllPostListeners()
                 viewModel.showLaunchScreen = false

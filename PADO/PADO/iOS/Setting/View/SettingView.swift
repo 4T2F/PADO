@@ -71,7 +71,7 @@ struct SettingView: View {
                 } label: {
                     HStack {
                         Text("로그아웃")
-                            .font(.system(.body))
+                            .font(.system(.subheadline))
                             .foregroundStyle(.red)
                         Spacer()
                         Image(systemName: "chevron.right")

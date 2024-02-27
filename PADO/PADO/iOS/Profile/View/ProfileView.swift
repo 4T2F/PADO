@@ -34,16 +34,15 @@ struct ProfileView: View {
     @Binding var fetchedPostitData: Bool
     
     let user: User
-    
     let columns = [GridItem(.flexible(), spacing: 1), GridItem(.flexible(), spacing: 1), GridItem(.flexible())]
     
     var body: some View {
         NavigationStack {
             ZStack {
                 ScrollView(.vertical, showsIndicators: false) {
+                    headerView()
+                        .padding(.top, 50)
                     VStack(spacing: 0) {
-                        headerView()
-                        
                         LazyVStack(pinnedViews: [.sectionHeaders]) {
                             Section {
                                 postList()
@@ -222,10 +221,10 @@ struct ProfileView: View {
             let size = proxy.size
             let height = (size.height + minY)
             
-            KFImage(URL(string: user.backProfileImageUrl ?? ""))
+            KFImage(URL(string: user.backProfileImageUrl ?? defaultBackgroundImageUrl))
+                .resizable()
                 .scaledToFill()
                 .frame(width: size.width, height: height > 0 ? height : 0, alignment: .top)
-                .contentShape(.rect)
                 .overlay {
                     ZStack(alignment: .bottom) {
                         LinearGradient(colors: [.clear,
@@ -398,7 +397,7 @@ struct ProfileView: View {
             ForEach(types, id: \.self) { type in
                 VStack(spacing: 12) {
                     Text(type)
-                        .font(.system(.title3))
+                        .font(.system(.headline))
                         .fontWeight(.medium)
                         .foregroundStyle(profileVM.currentType == type ? .white : .gray)
                     
@@ -427,7 +426,7 @@ struct ProfileView: View {
                 }
             }
         }
-        .padding(.top, 15)
+        .padding(.top, 4)
         .padding(.horizontal)
     }
     

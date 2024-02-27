@@ -213,7 +213,7 @@ struct FeedCell: View {
                                 } label: {
                                     if isShowingMoreText {
                                         Text("\(post.title)")
-                                            .font(.system(.body))
+                                            .font(.system(.subheadline))
                                             .fontWeight(.heavy)
                                             .foregroundStyle(.white)
                                             .padding(8)
@@ -224,7 +224,7 @@ struct FeedCell: View {
                                             .multilineTextAlignment(.leading)
                                     } else {
                                         Text("\(post.title)")
-                                            .font(.system(.body))
+                                            .font(.system(.subheadline))
                                             .fontWeight(.heavy)
                                             .foregroundStyle(.white)
                                             .lineLimit(1)
@@ -235,7 +235,6 @@ struct FeedCell: View {
                                             .padding(.trailing, 24)
                                     }
                                 }
-                                .font(.system(.body))
                                 .foregroundStyle(textColor)
                                 .lineSpacing(1)
                                 .fontWeight(.bold)
@@ -250,7 +249,7 @@ struct FeedCell: View {
                                 } label: {
                                     Text("surf. @\(post.surferUid)")
                                 }
-                                .font(.system(.body))
+                                .font(.system(.callout))
                                 .fontWeight(.heavy)
                                 .foregroundStyle(.white)
                                 .padding(8)
