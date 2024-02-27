@@ -25,7 +25,7 @@ struct SettingToggleCell: View {
                 
                 Text(text)
                     .foregroundStyle(.white)
-                    .font(.system(.body))
+                    .font(.system(.subheadline))
                     .fontWeight(.medium)
                 
                 Spacer()

@@ -45,9 +45,9 @@ struct OtherUserProfileView: View {
     var body: some View {
         ZStack {
             ScrollView(.vertical, showsIndicators: false) {
+                headerView()
+                    .padding(.top, 100)
                 VStack(spacing: 0) {
-                    headerView()
-                    
                     LazyVStack(pinnedViews: [.sectionHeaders]) {
                         Section {
                             postList()
@@ -231,9 +231,9 @@ struct OtherUserProfileView: View {
             let height = (size.height + minY)
             
             KFImage(URL(string: user.backProfileImageUrl ?? ""))
+                .resizable()
                 .scaledToFill()
                 .frame(width: size.width, height: height > 0 ? height : 0, alignment: .top)
-                .contentShape(.rect)
                 .overlay {
                     ZStack(alignment: .bottom) {
                         LinearGradient(colors: [.clear,
