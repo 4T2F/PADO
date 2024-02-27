@@ -46,14 +46,14 @@ struct ModalAlertView: View {
                         }
                     } else {
                         Text(mainTitle.rawValue)
-                            .font(.system(size: 16))
+                            .font(.system(.body))
                             .fontWeight(.semibold)
                     }
                     Text(subTitle.rawValue)
                         .multilineTextAlignment(.center)
                 }
                 .foregroundStyle(Color.white)
-                .font(.system(size: 14))
+                .font(.system(.subheadline))
                 .fontWeight(.medium)
                 .padding()
                 
@@ -84,13 +84,16 @@ struct ModalAlertView: View {
                         dismiss()
                         
                     case .signOut:
-                        viewModel.signOut()
-                        needsDataFetch.toggle()
+                        Task {
+                            viewModel.signOut()
+                            try? await Task.sleep(nanoseconds: 1 * 500_000_000)
+                            needsDataFetch.toggle()
+                        }
                         dismiss()
                     }
                 } label: {
                     Text(removeMessage.rawValue)
-                        .font(.system(size: 16))
+                        .font(.system(.body))
                         .foregroundStyle(Color.red)
                         .fontWeight(.semibold)
                         .frame(width: width * 0.9, height: 40)
@@ -106,7 +109,7 @@ struct ModalAlertView: View {
                     dismiss()
                 } label: {
                     Text("취소")
-                        .font(.system(size: 16))
+                        .font(.system(.body))
                         .foregroundStyle(Color.white)
                         .fontWeight(.semibold)
                         .frame(width: width * 0.9, height: 40)

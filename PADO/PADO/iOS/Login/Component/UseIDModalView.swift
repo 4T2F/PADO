@@ -18,6 +18,7 @@ struct UseIDModalView: View {
     @Binding var showUseID: Bool
     @Binding var loginSignUpType: LoginSignUpType
     @Binding var currentStep: SignUpStep
+    @Binding var isShowStartView: Bool
     var dismissSignUpView: () -> Void
     
     @EnvironmentObject var viewModel: AuthenticationViewModel
@@ -29,7 +30,7 @@ struct UseIDModalView: View {
                 Color.modal.ignoresSafeArea()
                 VStack(alignment: .leading, spacing: 15, content: {
                     Text("가입되지 않은 번호 입니다")
-                        .font(.system(size: 24))
+                        .font(.system(.title2))
                         .fontWeight(.heavy)
                         .padding(.top, 5)
                     
@@ -69,7 +70,7 @@ struct UseIDModalView: View {
                 Color.modal.ignoresSafeArea()
                 VStack(alignment: .leading, spacing: 15, content: {
                     Text("이미 가입된 사용자 입니다")
-                        .font(.system(size: 24))
+                        .font(.system(.title2))
                         .fontWeight(.heavy)
                         .padding(.top, 5)
                     
@@ -79,6 +80,9 @@ struct UseIDModalView: View {
                                 await viewModel.fetchUIDByPhoneNumber(phoneNumber: "+82\(viewModel.phoneNumber)")
                                 await viewModel.fetchUser()
                                 needsDataFetch.toggle()
+                                withAnimation(.interactiveSpring(response: 0.3, dampingFraction: 0.8, blendDuration: 0.8)) {
+                                    isShowStartView = false
+                                }
                             }
                         } label: {
                             ModalWhiteButton(buttonActive: $buttonActive,

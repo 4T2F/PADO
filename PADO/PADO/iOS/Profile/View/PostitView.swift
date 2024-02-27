@@ -4,7 +4,9 @@
 //
 //  Created by 최동호 on 2/9/24.
 //
+
 import Kingfisher
+import Lottie
 import SwiftUI
 
 struct PostitView: View {
@@ -14,7 +16,7 @@ struct PostitView: View {
     @Binding var isShowingMessageView: Bool
     
     @FocusState private var isTextFieldFocused: Bool
-    @State private var isFocused: Bool = false
+    @State private var isFetchedMessages: Bool = false
     @State private var isShowingLoginPage: Bool = false
     
     var body: some View {
@@ -23,31 +25,40 @@ struct PostitView: View {
                 Divider()
                 ScrollViewReader { proxy in
                     ScrollView {
-                        VStack {
-                            if !postitVM.messages.isEmpty {
-                                ForEach(postitVM.messages) { message in
-                                    if postitVM.messageUsers.keys.contains(message.messageUserID) {
-                                        PostitCell(postitVM: postitVM,
-                                                   message: message)
-                                        .id(message.id)
-                                    }
-                                }
-                                .onAppear {
-                                    if let lastMessageID = postitVM.messages.last?.id {
-                                        withAnimation {
-                                            proxy.scrollTo(lastMessageID, anchor: .bottom)
+                        if isFetchedMessages {
+                            VStack {
+                                if !postitVM.messages.isEmpty {
+                                    ForEach(postitVM.messages) { message in
+                                        if postitVM.messageUsers.keys.contains(message.messageUserID) {
+                                            PostitCell(postitVM: postitVM,
+                                                       message: message)
+                                            .id(message.id)
                                         }
                                     }
+                                    .onAppear {
+                                        if let lastMessageID = postitVM.messages.last?.id {
+                                            withAnimation {
+                                                proxy.scrollTo(lastMessageID, anchor: .bottom)
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    Text("아직 방명록에 글이 없습니다")
+                                        .foregroundColor(Color.gray)
+                                        .font(.system(.subheadline))
+                                        .fontWeight(.semibold)
+                                        .padding(.top, 150)
                                 }
-                            } else {
-                                Text("아직 방명록에 글이 없습니다")
-                                    .foregroundColor(Color.gray)
-                                    .font(.system(size: 15))
-                                    .fontWeight(.semibold)
-                                    .padding(.top, 150)
                             }
+                            .padding(.top)
+                        } else {
+                            LottieView(animation: .named("Loading"))
+                                .looping()
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 100, height: 100)
+                                .containerRelativeFrame([.horizontal,.vertical])
                         }
-                        .padding(.top)
                     }
                 }
                 Divider()
@@ -62,7 +73,7 @@ struct PostitView: View {
                             TextField("내 방명록에 글 남기기",
                                       text: $postitVM.inputcomment,
                                       axis: .vertical)
-                            .font(.system(size: 14))
+                            .font(.system(.body))
                             .tint(Color(.systemBlue).opacity(0.7))
                             .focused($isTextFieldFocused)
                             
@@ -70,7 +81,7 @@ struct PostitView: View {
                             TextField("\(postitVM.ownerID)님의 방명록에 글 남기기",
                                       text: $postitVM.inputcomment,
                                       axis: .vertical)
-                            .font(.system(size: 14))
+                            .font(.system(.body))
                             .tint(Color(.systemBlue).opacity(0.7))
                             .focused($isTextFieldFocused)
                         }
@@ -85,7 +96,10 @@ struct PostitView: View {
                                                                     imageUrl: viewModel.currentUser?.profileImageUrl ?? "",
                                                                     inputcomment: postitVM.inputcomment)
                                         if let user = postitVM.messageUsers[postitVM.ownerID], let currentUser = viewModel.currentUser {
-                                            await UpdatePushNotiData.shared.pushNoti(receiveUser: user, type: .postit, sendUser: currentUser)
+                                            await UpdatePushNotiData.shared.pushNoti(receiveUser: user, 
+                                                                                     type: .postit,
+                                                                                     sendUser: currentUser,
+                                                                                     message: postitVM.inputcommentForNoti)
                                         }
                                     }
                                 }
@@ -95,13 +109,13 @@ struct PostitView: View {
                                         .frame(width: 48, height: 28)
                                         .foregroundStyle(.blue)
                                     Image(systemName: "arrow.up")
-                                        .font(.system(size: 14))
+                                        .font(.system(.body))
                                         .foregroundStyle(.white)
                                 }
                             }
                             .padding(.vertical, -5)
                             .sheet(isPresented: $isShowingLoginPage, content: {
-                                StartView()
+                                StartView(isShowStartView: $isShowingLoginPage)
                                     .presentationDragIndicator(.visible)
                             })
                         } else {
@@ -113,7 +127,7 @@ struct PostitView: View {
                                         .frame(width: 48, height: 28)
                                         .foregroundStyle(.gray)
                                     Image(systemName: "arrow.up")
-                                        .font(.system(size: 14))
+                                        .font(.system(.subheadline))
                                         .foregroundStyle(.black)
                                 }
                             }
@@ -129,6 +143,7 @@ struct PostitView: View {
             .onAppear {
                 Task{
                     await postitVM.getMessageDocument(ownerID: postitVM.ownerID)
+                    isFetchedMessages = true
                 }
             }
             .toolbar {
@@ -138,11 +153,11 @@ struct PostitView: View {
                     } label: {
                         HStack(spacing: 2) {
                             Image(systemName: "chevron.left")
-                                .font(.system(size: 14))
+                                .font(.system(.subheadline))
                                 .fontWeight(.medium)
                             
                             Text("닫기")
-                                .font(.system(size: 16))
+                                .font(.system(.body))
                                 .fontWeight(.medium)
                         }
                     }

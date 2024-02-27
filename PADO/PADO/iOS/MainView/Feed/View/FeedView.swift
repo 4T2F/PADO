@@ -109,6 +109,10 @@ struct FeedView: View {
                     .scrollDisabled(feedVM.isShowingPadoRide)
                     .onChange(of: viewModel.scrollToTop) {
                         withAnimation {
+                            feedVM.currentPadoRideIndex = nil
+                            feedVM.isHeaderVisible = true
+                            feedVM.isShowingPadoRide = false
+                            feedVM.padoRidePosts = []
                             proxy.scrollTo(0, anchor: .top)
                         }
                     }

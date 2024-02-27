@@ -44,11 +44,11 @@ struct PadoRideNotificationCell: View {
                 VStack(alignment: .leading, spacing: 4) {
                     HStack {
                         Text("\(notification.sendUser)님에게 새로운 파도타기가 도착했어요 ")
-                            .font(.system(size: 14))
+                            .font(.system(.subheadline))
                             .fontWeight(.medium)
                         +
                         Text(notification.createdAt.formatDate(notification.createdAt))
-                            .font(.system(size: 12))
+                            .font(.system(.footnote))
                             .foregroundStyle(Color(.systemGray))
                     }
                     .multilineTextAlignment(.leading)

@@ -11,6 +11,7 @@ struct BirthView: View {
     @State var showBirthAlert: Bool = false
     @State var buttonActive: Bool = false
     @Binding var currentStep: SignUpStep
+    @Binding var isShowStartView: Bool
     @EnvironmentObject var viewModel: AuthenticationViewModel
     
     let termsLink = "[이용약관](https://notch-galaxy-ab8.notion.site/6ff60c61aa104cd6b1471d3ea5102ce3?pvs=4)"
@@ -20,7 +21,7 @@ struct BirthView: View {
             VStack(alignment: .leading) {
                 // id값 불러오는 로직 추가 해야함
                 Text("\(viewModel.nameID)님 환영합니다\n생일을 입력해주세요")
-                    .font(.system(size: 20))
+                    .font(.system(.title2))
                     .fontWeight(.medium)
                     .padding(.horizontal)
                 
@@ -39,7 +40,7 @@ struct BirthView: View {
                             
                             Text("만 14세 미만의 이용자는 가입할 수 없습니다.")
                                 .foregroundStyle(.gray)
-                                .font(.system(size: 14))
+                                .font(.system(.subheadline))
                                 .fontWeight(.semibold)
                             
                             Group {
@@ -58,7 +59,7 @@ struct BirthView: View {
                                 Text("에 동의하는 것으로 간주함니다.")
                                     .foregroundStyle(.gray)
                             }
-                            .font(.system(size: 14))
+                            .font(.system(.subheadline))
                             .fontWeight(.semibold)
                        
                         })
@@ -88,6 +89,9 @@ struct BirthView: View {
                             Task{
                                 await viewModel.signUpUser()
                                 needsDataFetch.toggle()
+                                withAnimation(.interactiveSpring(response: 0.3, dampingFraction: 0.8, blendDuration: 0.8)) {
+                                    isShowStartView = false
+                                }
                             }
                         } else {
                             showBirthAlert = true

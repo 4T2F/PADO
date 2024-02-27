@@ -26,31 +26,35 @@ struct SelectEmojiView: View {
     let emojis = ["None", "👍", "🥰", "🤣", "😡", "😢"]
     
     var body: some View {
-        VStack {
-            Spacer()
-            ZStack {
-                Circle()
-                    .fill(.black)
-                    .stroke(emojiColors[commentVM.selectedEmoji, default: .white], lineWidth: 3.0)
-                    .frame(width: 102, height: 102)
-                
-                commentVM.cropMojiImage
-                    .resizable()
-                    .frame(width: 100, height: 100)
-                
-                if commentVM.selectedEmoji != "None" {
-                    Text(commentVM.selectedEmoji)
-                        .offset(x: 40, y: 35)
+        ZStack {
+            Color.main.ignoresSafeArea()
+            
+            VStack {
+                Spacer()
+                ZStack {
+                    Circle()
+                        .fill(.black)
+                        .stroke(emojiColors[commentVM.selectedEmoji, default: .white], lineWidth: 3.0)
+                        .frame(width: 102, height: 102)
+                    
+                    commentVM.cropMojiImage
+                        .resizable()
+                        .frame(width: 100, height: 100)
+                    
+                    if commentVM.selectedEmoji != "None" {
+                        Text(commentVM.selectedEmoji)
+                            .offset(x: 40, y: 35)
+                    }
                 }
+                Spacer()
+                Text("포토모지의 이모티콘을 선택해주세요")
+                    .font(.system(.body))
+                
+                emojiPicker
+                
+                submitButton
+                    .padding(.bottom, 20)
             }
-            Spacer()
-            Text("FaceMoji의 이모티콘을 선택해주세요")
-                .font(.system(size: 16))
-            
-            emojiPicker
-            
-            submitButton
-                .padding(.bottom, 20)
         }
     }
     
@@ -64,10 +68,10 @@ struct SelectEmojiView: View {
                         }) {
                             if emoji == "None" {
                                 Text(emoji)
-                                    .font(.system(size: 14))
+                                    .font(.system(.subheadline))
                             } else {
                                 Text(emoji)
-                                    .font(.system(size: 20))
+                                    .font(.system(.title2))
                             }
                         }
                         .frame(width: 45, height: 45)
@@ -85,11 +89,11 @@ struct SelectEmojiView: View {
                                                                emoji: commentVM.selectedEmoji)
                 if let cropImage = commentVM.cropMojiUIImage {
                     try await commentVM.updateFacemojiData.updateFaceMoji(cropMojiUIImage: cropImage,
-                                                                       documentID: postID,
-                                                                       selectedEmoji: commentVM.selectedEmoji)
+                                                                          documentID: postID,
+                                                                          selectedEmoji: commentVM.selectedEmoji)
                 }
                 commentVM.facemojies = try await commentVM.updateFacemojiData.getFaceMoji(documentID: postID) ?? []
-                await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID, 
+                await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID,
                                                              receiveUser: postOwner,
                                                              type: .facemoji,
                                                              message: "",
@@ -99,7 +103,7 @@ struct SelectEmojiView: View {
             commentVM.showCropFaceMoji = false
         }) {
             Text("포토모지 올리기")
-                .font(.system(size: 16, weight: .semibold))
+                .font(.system(.body, weight: .semibold))
                 .foregroundColor(.white)
                 .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
                 .background(RoundedRectangle(cornerRadius: 10).fill(Color.blue))

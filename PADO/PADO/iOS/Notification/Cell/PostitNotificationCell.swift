@@ -17,7 +17,6 @@ struct PostitNotificationCell: View {
     
     var notification: Noti
     
-    // TODO: 포스트잇 네비게이션 링크
     var body: some View {
         Button {
             Task {
@@ -46,11 +45,11 @@ struct PostitNotificationCell: View {
                 VStack(alignment: .leading, spacing: 4) {
                     HStack {
                         Text("\(notification.sendUser)님이 회원님의 방명록에 글을 남겼습니다. ")
-                            .font(.system(size: 14))
+                            .font(.system(.subheadline))
                             .fontWeight(.medium)
                         +
                         Text(notification.createdAt.formatDate(notification.createdAt))
-                            .font(.system(size: 12))
+                            .font(.system(.footnote))
                             .foregroundStyle(Color(.systemGray))
                     }
                     .multilineTextAlignment(.leading)

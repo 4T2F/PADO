@@ -15,7 +15,7 @@ struct CodeView: View {
     
     @Binding var loginSignUpType: LoginSignUpType
     @Binding var currentStep: SignUpStep
-    
+    @Binding var isShowStartView: Bool
     var dismissAction: () -> Void
     
     @EnvironmentObject var viewModel: AuthenticationViewModel
@@ -25,7 +25,7 @@ struct CodeView: View {
             VStack(alignment: .leading) {
                 // 휴대폰 번호 받아와야함
                 Text("\(viewModel.phoneNumber) 로 인증번호를 보냈어요")
-                    .font(.system(size: 20))
+                    .font(.system(.title2))
                     .fontWeight(.medium)
                     .padding(.horizontal, 20)
                 
@@ -41,7 +41,7 @@ struct CodeView: View {
                         }
                     if otpVerificationFailed {
                         Text("인증 번호가 틀렸습니다")
-                            .font(.system(size: 14))
+                            .font(.system(.subheadline))
                             .fontWeight(.semibold)
                             .foregroundStyle(.red)
                             .padding(.horizontal, 20)
@@ -62,6 +62,9 @@ struct CodeView: View {
                                         await viewModel.fetchUIDByPhoneNumber(phoneNumber: "+82\(viewModel.phoneNumber)")
                                         await viewModel.fetchUser()
                                         needsDataFetch.toggle()
+                                        withAnimation(.interactiveSpring(response: 0.3, dampingFraction: 0.8, blendDuration: 0.8)) {
+                                            isShowStartView = false
+                                        }
                                     } else {
                                         showUseID.toggle()
                                     }
@@ -98,6 +101,7 @@ struct CodeView: View {
                 UseIDModalView(showUseID: $showUseID,
                                loginSignUpType: $loginSignUpType,
                                currentStep: $currentStep,
+                               isShowStartView: $isShowStartView,
                                dismissSignUpView: dismissAction)
                     .presentationDetents([.height(250)])
                     .presentationCornerRadius(30)

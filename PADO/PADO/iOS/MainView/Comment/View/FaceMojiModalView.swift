@@ -14,15 +14,16 @@ struct FaceMojiModalView: View {
         VStack {
             VStack{
                 HStack {
-                    PhotosPicker(selection: $surfingVM.faceMojiItem) {
+                    PhotosPicker(selection: $surfingVM.faceMojiItem,
+                                 matching: .images) {
                         Text("사진앨범")
-                            .font(.system(size: 14))
+                            .font(.system(.subheadline))
                             .fontWeight(.bold)
                         
                         Spacer()
                         
                         Image(systemName: "photo")
-                            .font(.system(size: 14))
+                            .font(.system(.subheadline))
                             .fontWeight(.bold)
                     }
                 }
@@ -40,13 +41,13 @@ struct FaceMojiModalView: View {
                 } label: {
                     HStack {
                         Text("카메라")
-                            .font(.system(size: 14))
+                            .font(.system(.subheadline))
                             .fontWeight(.bold)
                         
                         Spacer()
                         
                         Image(systemName: "camera")
-                            .font(.system(size: 14))
+                            .font(.system(.subheadline))
                             .fontWeight(.semibold)
                     }
                 }
@@ -63,7 +64,7 @@ struct FaceMojiModalView: View {
                     Spacer()
                     
                     Text("취소")
-                        .font(.system(size: 14))
+                        .font(.system(.subheadline))
                         .fontWeight(.bold)
                      
                     Spacer()

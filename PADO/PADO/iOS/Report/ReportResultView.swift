@@ -29,12 +29,12 @@ struct ReportResultView: View {
             
             
             Text("확인을 누르면 메일로 이동합니다")
-                .font(.system(size: 20))
+                .font(.system(.title2))
                 .fontWeight(.medium)
                 .padding(.bottom, 20)
             
             Text("신고 용도 :")
-                .font(.system(size: 14))
+                .font(.system(.subheadline))
                 .fontWeight(.semibold)
                 .foregroundStyle(.gray)
                 .padding(.bottom, 40)
@@ -47,7 +47,7 @@ struct ReportResultView: View {
                         .padding(.horizontal)
                     
                     Text("사람들이 PADO에서 다양한 유형의 콘텐츠로 인해 겪고 있는 문제를 이해합니다.")
-                        .font(.system(size: 14))
+                        .font(.system(.subheadline))
                         .fontWeight(.medium)
                         .padding(.trailing, 15)
                         .lineSpacing(5)
@@ -61,7 +61,7 @@ struct ReportResultView: View {
                         .bold()
                         .padding(.horizontal)
                     Text("앞으로 이 유형의 콘텐츠를 더 적게 표시합니다.")
-                        .font(.system(size: 14))
+                        .font(.system(.subheadline))
                         .fontWeight(.medium)
                 } //: HStack
             }
@@ -83,7 +83,7 @@ struct ReportResultView: View {
                     
                     Text("확인")
                         .foregroundStyle(.white)
-                        .font(.system(size: 16))
+                        .font(.system(.body))
                         .fontWeight(.medium)
                 }
             }

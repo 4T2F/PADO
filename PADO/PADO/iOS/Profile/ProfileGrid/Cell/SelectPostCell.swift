@@ -23,11 +23,10 @@ struct SelectPostCell: View {
     @State var postOwnerButtonOnOff: Bool = false
     @State var postSurferButtonOnOff: Bool = false
     
-    @State private var isHeaderVisible: Bool = true
     @State private var isShowingReportView: Bool = false
-    @State private var isShowingCommentView: Bool = false
     @State private var isShowingLoginPage: Bool = false
     @State private var isShowingMoreText: Bool = false
+    @State private var isShowingHeartUserView: Bool = false
     @State private var textColor: Color = .white
     
     @State private var deleteMyPadoride: Bool = false
@@ -169,7 +168,7 @@ struct SelectPostCell: View {
                                 } label: {
                                     if isShowingMoreText {
                                         Text("\(post.title)")
-                                            .font(.system(size: 14))
+                                            .font(.system(.body))
                                             .fontWeight(.heavy)
                                             .foregroundStyle(.white)
                                             .padding(8)
@@ -177,9 +176,10 @@ struct SelectPostCell: View {
                                             .clipShape(RoundedRectangle(cornerRadius: 3))
                                             .padding(.bottom, 4)
                                             .padding(.trailing, 24)
+                                            .multilineTextAlignment(.leading)
                                     } else {
                                         Text("\(post.title)")
-                                            .font(.system(size: 14))
+                                            .font(.system(.body))
                                             .fontWeight(.heavy)
                                             .foregroundStyle(.white)
                                             .lineLimit(1)
@@ -190,47 +190,30 @@ struct SelectPostCell: View {
                                             .padding(.trailing, 24)
                                     }
                                 }
-                                .font(.system(size: 16))
+                                .font(.system(.body))
                                 .foregroundStyle(textColor)
                                 .lineSpacing(1)
                                 .fontWeight(.bold)
                                 .padding(.trailing, 20)
-                                
-                                // MARK: - 서퍼
-                                if let surferUser = surferUser {
-                                    NavigationLink {
-                                        OtherUserProfileView(buttonOnOff: $postSurferButtonOnOff,
-                                                             user: surferUser)
-                                    } label: {
-                                        Text("surf. @\(post.surferUid)")
-                                    }
-                                    .font(.system(size: 14))
-                                    .fontWeight(.heavy)
-                                    .foregroundStyle(.white)
-                                    .padding(8)
-                                    .background(.modal.opacity(0.8))
-                                    .clipShape(RoundedRectangle(cornerRadius: 3))
-                                    .padding(.bottom, 4)
-                                    .padding(.trailing, 24)
-                                }
-                            } else {
-                                if let surferUser = surferUser {
-                                    NavigationLink {
-                                        OtherUserProfileView(buttonOnOff: $postSurferButtonOnOff,
-                                                             user: surferUser)
-                                    } label: {
-                                        Text("surf. @\(post.surferUid)")
-                                    }
-                                    .font(.system(size: 14))
-                                    .fontWeight(.heavy)
-                                    .foregroundStyle(.white)
-                                    .padding(8)
-                                    .background(.modal.opacity(0.8))
-                                    .clipShape(RoundedRectangle(cornerRadius: 3))
-                                    .padding(.bottom, 4)
-                                    .padding(.trailing, 24)
-                                }
                             }
+                            // MARK: - 서퍼
+                            if let surferUser = surferUser {
+                                NavigationLink {
+                                    OtherUserProfileView(buttonOnOff: $postSurferButtonOnOff,
+                                                         user: surferUser)
+                                } label: {
+                                    Text("surf. @\(post.surferUid)")
+                                }
+                                .font(.system(.body))
+                                .fontWeight(.heavy)
+                                .foregroundStyle(.white)
+                                .padding(8)
+                                .background(.modal.opacity(0.8))
+                                .clipShape(RoundedRectangle(cornerRadius: 3))
+                                .padding(.bottom, 4)
+                                .padding(.trailing, 24)
+                            }
+                            
                         }
                         
                         HStack(spacing: 12) {
@@ -256,22 +239,22 @@ struct SelectPostCell: View {
                                         if !user.username.isEmpty {
                                             VStack(alignment: .leading, spacing: 4) {
                                                 Text("\(user.username)님의 프로필")
-                                                    .font(.system(size: 12))
+                                                    .font(.system(.footnote))
                                                     .fontWeight(.medium)
                                                 
                                                 Text("@\(post.ownerUid)")
-                                                    .font(.system(size: 10))
+                                                    .font(.system(.caption2))
                                                     .fontWeight(.medium)
                                                     .foregroundStyle(.gray)
                                             }
                                         } else {
                                             VStack(alignment: .leading, spacing: 4) {
                                                 Text("\(post.ownerUid)님의 프로필")
-                                                    .font(.system(size: 12))
+                                                    .font(.system(.footnote))
                                                     .fontWeight(.medium)
                                                 
                                                 Text("@\(post.ownerUid)")
-                                                    .font(.system(size: 10))
+                                                    .font(.system(.caption2))
                                                     .fontWeight(.medium)
                                                     .foregroundStyle(.gray)
                                             }
@@ -279,7 +262,7 @@ struct SelectPostCell: View {
                                     }
                                     
                                     Image(systemName: "chevron.right")
-                                        .font(.system(size: 12))
+                                        .font(.system(.footnote))
                                         .foregroundStyle(.white)
                                         .padding(.leading, 90)
                                 }
@@ -365,11 +348,10 @@ struct SelectPostCell: View {
                                         if !heartLoading && !blockPost(post: post) {
                                             Task {
                                                 heartLoading = true
-                                                if let postID = post.id {
-                                                    await UpdateHeartData.shared.deleteHeart(documentID: postID)
-                                                    isHeartCheck = await UpdateHeartData.shared.checkHeartExists(documentID: postID)
-                                                    heartLoading = false
-                                                }
+                                                await UpdateHeartData.shared.deleteHeart(post: post)
+                                                isHeartCheck = UpdateHeartData.shared.checkHeartExists(post: post)
+                                                heartLoading = false
+                                                
                                             }
                                         }
                                     } label: {
@@ -392,8 +374,8 @@ struct SelectPostCell: View {
                                             Task {
                                                 heartLoading = true
                                                 if let postID = post.id, let postUser = postUser {
-                                                    await UpdateHeartData.shared.addHeart(documentID: postID)
-                                                    isHeartCheck = await UpdateHeartData.shared.checkHeartExists(documentID: postID)
+                                                    await UpdateHeartData.shared.addHeart(post: post)
+                                                    isHeartCheck = UpdateHeartData.shared.checkHeartExists(post: post)
                                                     heartLoading = false
                                                     await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID,
                                                                                                  receiveUser: postUser,
@@ -407,41 +389,42 @@ struct SelectPostCell: View {
                                         Image("heart")
                                     }
                                     .sheet(isPresented: $isShowingLoginPage, content: {
-                                        StartView()
+                                        StartView(isShowStartView: $isShowingLoginPage)
                                             .presentationDragIndicator(.visible)
                                     })
                                 }
                                 
-                                // MARK: - 하트 숫자
-                                Text("\(post.heartsCount)")
-                                    .font(.system(size: 10))
-                                    .fontWeight(.semibold)
-                                    .shadow(radius: 1, y: 1)
+                                Button {
+                                    if post.heartIDs.count > 1 {
+                                        isShowingHeartUserView = true
+                                    }
+                                } label: {
+                                    Text("\(post.heartIDs.count-1)")
+                                        .font(.system(.caption2))
+                                        .fontWeight(.semibold)
+                                        .shadow(radius: 1, y: 1)
+                                }
+                                .sheet(isPresented: $isShowingHeartUserView, content: {
+                                    HeartUsersView(userIDs: post.heartIDs)
+                                })
                             }
                             
                             // MARK: - 댓글
-                            VStack(spacing: 0) {
-                                Button {
-                                    if !blockPost(post: post) {
-                                        isShowingCommentView = true
-                                    }
-                                } label: {
+                            NavigationLink {
+                                if let postUser = postUser,
+                                   !blockPost(post: post) {
+                                    CommentView(postUser: postUser,
+                                                post: post)
+                                }
+                            } label: {
+                                VStack(spacing: 10) {
                                     Image("chat")
+                                    // MARK: - 댓글 숫자
+                                    Text("\(post.commentCount)")
+                                        .font(.system(.caption2))
+                                        .fontWeight(.semibold)
+                                        .shadow(radius: 1, y: 1)
                                 }
-                                .sheet(isPresented: $isShowingCommentView) {
-                                    if let postUser = postUser, let postID = post.id {
-                                        CommentView(isShowingCommentView: $isShowingCommentView,
-                                                    postUser: postUser,
-                                                    post: post,
-                                                    postID: postID)
-                                    }
-                                }
-                                .presentationDetents([.large])
-                                
-                                // MARK: - 댓글 숫자
-                                Text("")
-                                    .font(.system(size: 10))
-                                  
                             }
                             
                             // MARK: - 신고하기
@@ -479,7 +462,7 @@ struct SelectPostCell: View {
                                 } label: {
                                     VStack {
                                         Text("...")
-                                            .font(.system(size: 32))
+                                            .font(.system(.largeTitle))
                                             .fontWeight(.regular)
                                             .foregroundStyle(.white)
                                         
@@ -496,12 +479,13 @@ struct SelectPostCell: View {
                                                 try await DeletePost.shared.deletePadoridePost(postID: postID,
                                                                                                storageFileName: fileName,
                                                                                                subID: subID ?? "")
-                                       
+                                                
                                                 if feedVM.padoRidePosts.count == 1 {
                                                     feedVM.fetchPadoRideExist(postID: postID)
                                                 }
                                             }
                                             deleteMyPadoride = false
+                                            resetNavigation.toggle()
                                             needsDataFetch.toggle()
                                         }
                                     })
@@ -521,6 +505,7 @@ struct SelectPostCell: View {
                                                 }
                                             }
                                             deleteSendPadoride = false
+                                            resetNavigation.toggle()
                                             needsDataFetch.toggle()
                                         }
                                     }
@@ -535,6 +520,7 @@ struct SelectPostCell: View {
                                                                                    sufferID: post.surferUid)
                                             }
                                             deleteMyPost = false
+                                            resetNavigation.toggle()
                                             needsDataFetch.toggle()
                                         }
                                     }
@@ -547,6 +533,7 @@ struct SelectPostCell: View {
                                                                                postOwnerID: post.ownerUid,
                                                                                sufferID: post.surferUid)
                                             deleteSendPost = false
+                                            resetNavigation.toggle()
                                             needsDataFetch.toggle()
                                         }
                                     }
@@ -558,7 +545,7 @@ struct SelectPostCell: View {
                                         .presentationDragIndicator(.visible)
                                 }
                                 .sheet(isPresented: $isShowingLoginPage, content: {
-                                    StartView()
+                                    StartView(isShowStartView: $isShowingLoginPage)
                                         .presentationDragIndicator(.visible)
                                 })
                             }
@@ -570,13 +557,39 @@ struct SelectPostCell: View {
             .padding()
             .padding(.bottom)
         }
+        .onTapGesture(count: 2) {
+            // 더블 탭 시 실행할 로직
+            Task {
+                if !self.isHeartCheck {
+                    if userNameID.isEmpty {
+                        isShowingLoginPage = true
+                    } else if !heartLoading && !blockPost(post: post) {
+                        Task {
+                            let generator = UIImpactFeedbackGenerator(style: .light)
+                            generator.impactOccurred()
+                            
+                            heartLoading = true
+                            if let postID = post.id, let postUser = postUser {
+                                await UpdateHeartData.shared.addHeart(post: post)
+                                isHeartCheck = UpdateHeartData.shared.checkHeartExists(post: post)
+                                heartLoading = false
+                                await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID,
+                                                                             receiveUser: postUser,
+                                                                             type: .heart,
+                                                                             message: "",
+                                                                             post: post)
+                            }
+                        }
+                    }
+                }
+            }
+        }
         .onAppear {
             Task {
                 self.postUser = await UpdateUserData.shared.getOthersProfileDatas(id: post.ownerUid)
                 self.surferUser = await UpdateUserData.shared.getOthersProfileDatas(id: post.surferUid)
-                if let postID = post.id {
-                    isHeartCheck = await UpdateHeartData.shared.checkHeartExists(documentID: postID)
-                }
+                isHeartCheck = UpdateHeartData.shared.checkHeartExists(post: post)
+                
                 self.postOwnerButtonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: post.ownerUid)
                 self.postSurferButtonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: post.surferUid)
             }

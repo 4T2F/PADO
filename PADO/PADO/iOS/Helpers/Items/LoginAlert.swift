@@ -24,13 +24,13 @@ struct LoginAlert: View {
                 }
                 Text("로그인이 필요한 서비스 입니다")
                     .foregroundStyle(.white)
-                    .font(.system(size: 18))
+                    .font(.system(.title3))
                     .fontWeight(.semibold)
                     .padding(.bottom, 8)
                 
                 Text("이 기능은 로그인 후 이용할 수 있습니다.")
                     .foregroundStyle(.white)
-                    .font(.system(size: 14))
+                    .font(.system(.subheadline))
                     .fontWeight(.medium)
                     .padding(.bottom, 10)
 
@@ -43,14 +43,14 @@ struct LoginAlert: View {
                             .frame(height: 35)
                             .foregroundStyle(.blueButton)
                         Text("로그인")
-                            .font(.system(size: 14))
+                            .font(.system(.subheadline))
                             .foregroundStyle(.white)
                             .fontWeight(.medium)
                     }
                     .padding(.horizontal, 50)
                 }
                 .sheet(isPresented: $isShowingLoginPage, content: {
-                    StartView()
+                    StartView(isShowStartView: $isShowingLoginPage)
                         .presentationDragIndicator(.visible)
                 })
                 .padding(.bottom, 10)

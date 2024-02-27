@@ -17,23 +17,29 @@ class DeleteImageUrl {
     
     private init() { }
     
-    func deleteProfileURL() async throws {
-        try await db.collection("users").document(userNameID).updateData([
-            "profileImageUrl": FieldValue.delete()
-        ])
-        
-        let imagesRef = storageRef.child("profile_image")
-        try await imagesRef.child(userNameID).delete()
+    func deleteProfileURL() async {
+        do {
+            try await db.collection("users").document(userNameID).updateData([
+                "profileImageUrl": FieldValue.delete()
+            ])
+            
+            let imagesRef = storageRef.child("profile_image")
+            try await imagesRef.child(userNameID).delete()
+        } catch {
+            print("프로필 이미지 초기화 오류 : \(error.localizedDescription)")
+        }
     }
     
-    func deleteBackURL() async throws {
-        try await db.collection("users").document(userNameID).updateData([
-            "backProfileImageUrl" : FieldValue.delete()
-        ])
-        
-        let imagesRef = storageRef.child("back_image")
-        try await imagesRef.child(userNameID).delete()
+    func deleteBackURL() async {
+        do {
+            try await db.collection("users").document(userNameID).updateData([
+                "backProfileImageUrl" : FieldValue.delete()
+            ])
+            
+            let imagesRef = storageRef.child("back_image")
+            try await imagesRef.child(userNameID).delete()
+        } catch {
+            print("배경 이미지 초기화 오류 : \(error.localizedDescription)")
+        }
     }
-    
-    
 }

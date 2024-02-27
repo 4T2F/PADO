@@ -51,12 +51,12 @@ struct FollowerOtherUserCellView: View {
                         
                         VStack(alignment: .leading, spacing: 4) {
                             Text(cellUserId)
-                                .font(.system(size: 14, weight: .medium))
+                                .font(.system(.subheadline, weight: .medium))
                                 .foregroundStyle(.white)
                             
                             if !followerUsername.isEmpty {
                                 Text(followerUsername)
-                                    .font(.system(size: 14, weight: .regular))
+                                    .font(.system(.subheadline, weight: .regular))
                                     .foregroundStyle(Color(.systemGray))
                             }
                         } //: VSTACK

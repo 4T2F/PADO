@@ -19,6 +19,10 @@ struct NotificationCell: View {
             CommentNotificationCell(profileVM: profileVM,
                                     feedVM: feedVM,
                                     notification: notification)
+        case "replyComment":
+            ReplyCommentNotificationCell(profileVM: profileVM,
+                                    feedVM: feedVM,
+                                    notification: notification)
         case "heart":
             HeartNotificationCell(profileVM: profileVM,
                                   feedVM: feedVM,

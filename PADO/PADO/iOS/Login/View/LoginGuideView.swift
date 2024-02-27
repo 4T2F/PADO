@@ -21,7 +21,7 @@ struct LoginGuideView: View {
                         .background(.clear)
                 }
                 .sheet(isPresented: $showing, content: {
-                    StartView()
+                    StartView(isShowStartView: $showing)
                         .presentationDragIndicator(.visible)
                 })
             }

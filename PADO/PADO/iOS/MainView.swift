@@ -9,9 +9,7 @@ import Firebase
 import FirebaseFirestore
 import SwiftUI
 
-
 struct MainView: View {
-
     @EnvironmentObject var viewModel: AuthenticationViewModel
     
     var body: some View {
@@ -31,7 +29,3 @@ struct MainView: View {
         }
     }
 }
-
-// #Preview {
-//    MainView()
-// }

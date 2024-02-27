@@ -43,7 +43,7 @@ struct FollowButtonView: View {
                     Task {
                         await UpdateFollowData.shared.followUser(id: cellUser.nameID)
                         if let currentUser = viewModel.currentUser {
-                            await UpdatePushNotiData.shared.pushNoti(receiveUser: cellUser, type: .follow, sendUser: currentUser)
+                            await UpdatePushNotiData.shared.pushNoti(receiveUser: cellUser, type: .follow, sendUser: currentUser, message: "")
                         }
                         
                     }
@@ -68,12 +68,12 @@ struct FollowButtonView: View {
                     buttonActive ?
                     Text(unActiveText)
                         .foregroundStyle(.gray)
-                        .font(.system(size: 12))
+                        .font(.system(.footnote))
                         .fontWeight(.medium)
                     :
                     Text(activeText)
                         .foregroundStyle(.white)
-                        .font(.system(size: 12))
+                        .font(.system(.footnote))
                         .fontWeight(.medium)
                 }
                 .padding(.horizontal)
@@ -82,7 +82,7 @@ struct FollowButtonView: View {
         }
         .sheet(isPresented: $isShowingLoginPage,
                content: {
-            StartView()
+            StartView(isShowStartView: $isShowingLoginPage)
                 .presentationDragIndicator(.visible)
         })
         .onAppear {

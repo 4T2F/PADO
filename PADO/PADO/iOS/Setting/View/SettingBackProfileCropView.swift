@@ -60,7 +60,7 @@ struct SettingBackProfileCropView: View {
                         viewModel.selectedBackgroundItem = nil
                     } label: {
                         Text("완료")
-                            .font(.system(size: 16, weight: .semibold))
+                            .font(.system(.body, weight: .semibold))
                     }
                 }
                 

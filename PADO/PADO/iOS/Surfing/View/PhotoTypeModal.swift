@@ -23,15 +23,16 @@ struct PhotoTypeModal: View {
                     surfingVM.isShowingPhotoModal = false
                 } label: {
                     HStack {
-                        PhotosPicker(selection: $surfingVM.postImageItem) {
+                        PhotosPicker(selection: $surfingVM.postImageItem,
+                                     matching: .images) {
                             Text("사진앨범")
-                                .font(.system(size: 14))
+                                .font(.system(.body))
                                 .fontWeight(.medium)
                             
                             Spacer()
                             
                             Image(systemName: "photo")
-                                .font(.system(size: 14))
+                                .font(.system(.subheadline))
                                 .fontWeight(.bold)
                         }
                     }
@@ -52,13 +53,13 @@ struct PhotoTypeModal: View {
                 } label: {
                     HStack {
                         Text("카메라")
-                            .font(.system(size: 14))
+                            .font(.system(.body))
                             .fontWeight(.medium)
                         
                         Spacer()
                         
                         Image(systemName: "camera")
-                            .font(.system(size: 14))
+                            .font(.system(.subheadline))
                             .fontWeight(.semibold)
                     }
                 }
@@ -78,7 +79,7 @@ struct PhotoTypeModal: View {
                     Spacer()
                     
                     Text("취소")
-                        .font(.system(size: 14))
+                        .font(.system(.body))
                         .fontWeight(.bold)
                      
                     Spacer()
