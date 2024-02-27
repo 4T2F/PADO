@@ -25,7 +25,7 @@ struct CodeView: View {
             VStack(alignment: .leading) {
                 // 휴대폰 번호 받아와야함
                 Text("\(viewModel.phoneNumber) 로 인증번호를 보냈어요")
-                    .font(.system(.title2))
+                    .font(.system(.title3))
                     .fontWeight(.medium)
                     .padding(.horizontal, 20)
                 

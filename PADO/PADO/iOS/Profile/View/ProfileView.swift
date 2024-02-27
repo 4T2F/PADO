@@ -221,7 +221,7 @@ struct ProfileView: View {
             let size = proxy.size
             let height = (size.height + minY)
             
-            KFImage(URL(string: user.backProfileImageUrl ?? ""))
+            KFImage(URL(string: user.backProfileImageUrl ?? defaultBackgroundImageUrl))
                 .resizable()
                 .scaledToFill()
                 .frame(width: size.width, height: height > 0 ? height : 0, alignment: .top)
@@ -397,7 +397,7 @@ struct ProfileView: View {
             ForEach(types, id: \.self) { type in
                 VStack(spacing: 12) {
                     Text(type)
-                        .font(.system(.title3))
+                        .font(.system(.headline))
                         .fontWeight(.medium)
                         .foregroundStyle(profileVM.currentType == type ? .white : .gray)
                     
@@ -426,7 +426,7 @@ struct ProfileView: View {
                 }
             }
         }
-        .padding(.top, 15)
+        .padding(.top, 4)
         .padding(.horizontal)
     }
     
