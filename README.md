@@ -65,7 +65,7 @@
 
 ### 개발도구
 
-![image](https://github.com/4T2F/PADO/assets/120264964/2cacd098-b72a-47e8-a38a-3a290b12d043)
+![image](https://github.com/4T2F/PADO/assets/120264964/4da3dc49-7f97-43d0-8f80-53c371be1038)
 
 ### 사용기술
 
