@@ -21,7 +21,7 @@ struct BirthView: View {
             VStack(alignment: .leading) {
                 // id값 불러오는 로직 추가 해야함
                 Text("\(viewModel.nameID)님 환영합니다\n생일을 입력해주세요")
-                    .font(.system(size: 20))
+                    .font(.system(.title2))
                     .fontWeight(.medium)
                     .padding(.horizontal)
                 
@@ -40,7 +40,7 @@ struct BirthView: View {
                             
                             Text("만 14세 미만의 이용자는 가입할 수 없습니다.")
                                 .foregroundStyle(.gray)
-                                .font(.system(size: 14))
+                                .font(.system(.subheadline))
                                 .fontWeight(.semibold)
                             
                             Group {
@@ -59,7 +59,7 @@ struct BirthView: View {
                                 Text("에 동의하는 것으로 간주함니다.")
                                     .foregroundStyle(.gray)
                             }
-                            .font(.system(size: 14))
+                            .font(.system(.subheadline))
                             .fontWeight(.semibold)
                        
                         })

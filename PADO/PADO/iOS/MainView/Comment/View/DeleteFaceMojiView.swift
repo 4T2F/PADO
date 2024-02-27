@@ -29,7 +29,7 @@ struct DeleteFaceMojiView: View {
                     .clipShape(Circle())
                 
                 Text("해당 포토모지를 삭제 하시겠습니까?")
-                    .font(.system(size: 16))
+                    .font(.system(.body))
                     .padding()
                 
                 Button {
@@ -41,7 +41,7 @@ struct DeleteFaceMojiView: View {
                     }
                 } label: {
                     Text("삭제")
-                        .font(.system(size: 16, weight: .semibold))
+                        .font(.system(.body, weight: .semibold))
                         .foregroundStyle(.white)
                         .background(
                             RoundedRectangle(cornerRadius: 10)

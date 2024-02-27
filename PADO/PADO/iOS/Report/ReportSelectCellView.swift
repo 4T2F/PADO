@@ -21,12 +21,12 @@ struct ReportSelectCellView: View {
                 HStack {
                     Text(text)
                         .foregroundStyle(.white)
-                        .font(.system(size: 14))
+                        .font(.system(.subheadline))
                     
                     Spacer()
                     
                     Image(systemName: "chevron.right")
-                        .font(.system(size: 14))
+                        .font(.system(.subheadline))
                 }
                 .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
                 .frame(height: 30)

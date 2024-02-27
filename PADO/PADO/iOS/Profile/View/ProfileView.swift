@@ -83,7 +83,7 @@ struct ProfileView: View {
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
                         Text("@\(userNameID)")
-                            .font(.system(size: 22))
+                            .font(.system(.title2))
                             .fontWeight(.bold)
                     }
                     
@@ -238,7 +238,7 @@ struct ProfileView: View {
                                        endPoint: .bottom)
                         
                         VStack(alignment: .leading, spacing: 10) {
-                            CircularImageView(size: .xxLarge, user: user)
+                            CircularImageView(size: .xxxLarge, user: user)
                                 .zIndex(touchProfileImage ? 1 : 0)
                                 .onTapGesture {
                                     if user.profileImageUrl != nil {
@@ -271,7 +271,7 @@ struct ProfileView: View {
                                                 }
                                             }
                                     }
-                                    .offset(x: 46, y: -36)
+                                    .offset(x: 46, y: -40)
                                     .sheet(isPresented: $viewModel.isShowingMessageView) {
                                         PostitView(postitVM: postitVM,
                                                    isShowingMessageView: $viewModel.isShowingMessageView)
@@ -285,12 +285,12 @@ struct ProfileView: View {
                                     if let user = viewModel.currentUser {
                                         if !user.username.isEmpty {
                                             Text(user.username)
-                                                .font(.system(size: 14))
-                                                .fontWeight(.medium)
+                                                .font(.system(.body))
+                                                .fontWeight(.semibold)
                                         } else {
                                             Text(userNameID)
-                                                .font(.system(size: 14))
-                                                .fontWeight(.medium)
+                                                .font(.system(.body))
+                                                .fontWeight(.semibold)
                                         }
                                     }
                                 }
@@ -305,7 +305,7 @@ struct ProfileView: View {
                                             .stroke(Color.white, lineWidth: 1)
                                             .frame(width: 80, height: 28)
                                         Text("프로필 편집")
-                                            .font(.system(size: 12))
+                                            .font(.system(.footnote))
                                             .fontWeight(.semibold)
                                             .foregroundStyle(.white)
                                     }
@@ -317,10 +317,10 @@ struct ProfileView: View {
                                     Text("\(profileVM.padoPosts.count + profileVM.sendPadoPosts.count)")
                                     
                                     Text("파도")
+                                        .fontWeight(.medium)
                                 }
-                                .font(.system(size: 14))
+                                .font(.system(.body))
                                 .foregroundStyle(.white)
-                                .fontWeight(.medium)
                                 
                                 Button {
                                     followerActive = true
@@ -329,10 +329,10 @@ struct ProfileView: View {
                                         Text("\(followVM.followerIDs.count + followVM.surferIDs.count)")
                                         
                                         Text("팔로워")
+                                            .fontWeight(.medium)
                                     }
-                                    .font(.system(size: 14))
+                                    .font(.system(.body))
                                     .foregroundStyle(.white)
-                                    .fontWeight(.medium)
                                 }
                                 .sheet(isPresented: $followerActive) {
                                     FollowMainView(currentType: "팔로워", followVM: followVM, user: user)
@@ -350,10 +350,10 @@ struct ProfileView: View {
                                         Text("\(followVM.followingIDs.count)")
                                         
                                         Text("팔로잉")
+                                            .fontWeight(.medium)
                                     }
-                                    .font(.system(size: 14))
+                                    .font(.system(.body))
                                     .foregroundStyle(.white)
-                                    .fontWeight(.medium)
                                 }
                                 
                                 .sheet(isPresented: $followingActive) {
@@ -393,13 +393,13 @@ struct ProfileView: View {
     
     @ViewBuilder
     func pinnedHeaderView() -> some View {
-        let types: [String] = ["받은 파도", "보낸 파도", "하이라이트"]
+        let types: [String] = ["받은 파도", "보낸 파도", "좋아요"]
         HStack(spacing: 25) {
             ForEach(types, id: \.self) { type in
                 VStack(spacing: 12) {
                     Text(type)
-                        .font(.system(size: 16))
-                        .fontWeight(.bold)
+                        .font(.system(.title3))
+                        .fontWeight(.medium)
                         .foregroundStyle(profileVM.currentType == type ? .white : .gray)
                     
                     ZStack {
@@ -438,7 +438,7 @@ struct ProfileView: View {
             postView()
         case "보낸 파도":
             writtenPostsView()
-        case "하이라이트":
+        case "좋아요":
             highlightsView()
         default:
             EmptyView()

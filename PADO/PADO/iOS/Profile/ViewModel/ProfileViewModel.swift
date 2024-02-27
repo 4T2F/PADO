@@ -56,7 +56,6 @@ class ProfileViewModel: ObservableObject {
                   user.openHighlight == "yes" else { return }
             await fetchHighlihts(id: user.nameID)
         }
-   
     }
     
     @MainActor

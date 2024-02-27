@@ -75,11 +75,11 @@ struct OtherUserProfileView: View {
                     } label: {
                         HStack(spacing: 2) {
                             Image(systemName: "chevron.left")
-                                .font(.system(size: 14))
+                                .font(.system(.subheadline))
                                 .fontWeight(.medium)
                             
                             Text("뒤로")
-                                .font(.system(size: 16))
+                                .font(.system(.body))
                                 .fontWeight(.medium)
                         }
                     }
@@ -233,6 +233,7 @@ struct OtherUserProfileView: View {
             KFImage(URL(string: user.backProfileImageUrl ?? ""))
                 .scaledToFill()
                 .frame(width: size.width, height: height > 0 ? height : 0, alignment: .top)
+                .contentShape(.rect)
                 .overlay {
                     ZStack(alignment: .bottom) {
                         LinearGradient(colors: [.clear,
@@ -245,7 +246,7 @@ struct OtherUserProfileView: View {
                                        endPoint: .bottom)
                         
                         VStack(alignment: .leading, spacing: 10) {
-                            CircularImageView(size: .xxLarge, user: user)
+                            CircularImageView(size: .xxxLarge, user: user)
                                 .zIndex(touchProfileImage ? 1 : 0)
                                 .onTapGesture {
                                     if user.profileImageUrl != nil {
@@ -280,7 +281,7 @@ struct OtherUserProfileView: View {
                                                 }
                                             }
                                     }
-                                    .offset(x: 46, y: -36)
+                                    .offset(x: 46, y: -40)
                                     .sheet(isPresented: $isShowingMessageView) {
                                         PostitView(postitVM: postitVM,
                                                    isShowingMessageView: $isShowingMessageView)
@@ -294,12 +295,12 @@ struct OtherUserProfileView: View {
                                 VStack(alignment: .leading, spacing: 4) {
                                     if !user.username.isEmpty {
                                         Text(user.username)
-                                            .font(.system(size: 14))
-                                            .fontWeight(.medium)
+                                            .font(.system(.body))
+                                            .fontWeight(.semibold)
                                     } else {
                                         Text(user.nameID)
-                                            .font(.system(size: 14))
-                                            .fontWeight(.medium)
+                                            .font(.system(.body))
+                                            .fontWeight(.semibold)
                                     }
                                 }
                                 
@@ -318,7 +319,7 @@ struct OtherUserProfileView: View {
                                                 .stroke(Color.white, lineWidth: 1)
                                                 .frame(width: 80, height: 28)
                                             Text("내 프로필")
-                                                .font(.system(size: 12))
+                                                .font(.system(.footnote))
                                                 .fontWeight(.semibold)
                                                 .foregroundStyle(.white)
                                         }
@@ -339,10 +340,10 @@ struct OtherUserProfileView: View {
                                     Text("\(profileVM.padoPosts.count + profileVM.sendPadoPosts.count)")
                                     
                                     Text("파도")
+                                        .fontWeight(.medium)
                                 }
-                                .font(.system(size: 14))
+                                .font(.system(.body))
                                 .foregroundStyle(.white)
-                                .fontWeight(.medium)
                                 
                                 Button {
                                     followerActive = true
@@ -351,10 +352,10 @@ struct OtherUserProfileView: View {
                                         Text("\(followVM.followerIDs.count + followVM.surferIDs.count)")
                                         
                                         Text("팔로워")
+                                            .fontWeight(.medium)
                                     }
-                                    .font(.system(size: 14))
+                                    .font(.system(.body))
                                     .foregroundStyle(.white)
-                                    .fontWeight(.medium)
                                 }
                                 .sheet(isPresented: $followerActive) {
                                     FollowMainView(currentType: "팔로워", followVM: followVM, user: user)
@@ -372,10 +373,10 @@ struct OtherUserProfileView: View {
                                         Text("\(followVM.followingIDs.count)")
                                         
                                         Text("팔로잉")
+                                            .fontWeight(.medium)
                                     }
-                                    .font(.system(size: 14))
+                                    .font(.system(.body))
                                     .foregroundStyle(.white)
-                                    .fontWeight(.medium)
                                 }
                                 
                                 .sheet(isPresented: $followingActive) {
@@ -413,13 +414,13 @@ struct OtherUserProfileView: View {
     
     @ViewBuilder
     func pinnedHeaderView() -> some View {
-        let types: [String] = ["받은 파도", "보낸 파도", "하이라이트"]
+        let types: [String] = ["받은 파도", "보낸 파도", "좋아요"]
         HStack(spacing: 25) {
             ForEach(types, id: \.self) { type in
                 VStack(spacing: 12) {
                     Text(type)
-                        .font(.system(size: 16))
-                        .fontWeight(.bold)
+                        .font(.system(.title3))
+                        .fontWeight(.medium)
                         .foregroundStyle(profileVM.currentType == type ? .white : .gray)
                     
                     ZStack {
@@ -458,7 +459,7 @@ struct OtherUserProfileView: View {
             postView()
         case "보낸 파도":
             writtenPostsView()
-        case "하이라이트":
+        case "좋아요":
             highlightsView()
         default:
             EmptyView()

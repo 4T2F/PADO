@@ -21,13 +21,13 @@ struct DeleteMessageView: View {
                 VStack(spacing: 10) {
                     
                     Text("방명록 글 삭제")
-                        .font(.system(size: 16))
+                        .font(.system(.body))
                         .fontWeight(.semibold)
                     
                     Text("작성한 글을 삭제 할까요?")
                 }
                 .foregroundStyle(Color.white)
-                .font(.system(size: 14))
+                .font(.system(.subheadline))
                 .fontWeight(.medium)
                 .padding()
                 
@@ -41,7 +41,7 @@ struct DeleteMessageView: View {
                     }
                 } label: {
                     Text("삭제")
-                        .font(.system(size: 16))
+                        .font(.system(.body))
                         .foregroundStyle(Color.red)
                         .fontWeight(.semibold)
                         .frame(width: width * 0.9, height: 40)
@@ -57,7 +57,7 @@ struct DeleteMessageView: View {
                     dismiss()
                 } label: {
                     Text("취소")
-                        .font(.system(size: 16))
+                        .font(.system(.body))
                         .foregroundStyle(Color.white)
                         .fontWeight(.semibold)
                         .frame(width: width * 0.9, height: 40)

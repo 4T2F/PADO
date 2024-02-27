@@ -74,7 +74,7 @@ struct SearchBar: View {
                         }
                     } label: {
                         Text("취소")
-                            .font(.system(size: 16))
+                            .font(.system(.body))
                             .foregroundStyle(Color.white)
                     }
                     .padding(3)

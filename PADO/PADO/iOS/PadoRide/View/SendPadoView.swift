@@ -26,7 +26,7 @@ struct SendPadoView: View {
                     CircularImageView(size: .medium, user: user)
                 }
                 Text("\(padorideVM.selectedPost?.ownerUid ?? "")님에게 파도타기 공유")
-                    .font(.system(size: 16))
+                    .font(.system(.body))
                     .fontWeight(.medium)
             }
             .padding(.vertical)
@@ -62,7 +62,7 @@ struct SendPadoView: View {
                             .scaleEffect(1.5)
                     } else {
                         Text("공유")
-                            .font(.system(size: 14))
+                            .font(.system(.body))
                             .fontWeight(.medium)
                             .foregroundStyle(.white)
                     }

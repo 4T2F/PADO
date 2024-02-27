@@ -50,7 +50,7 @@ class SurfingViewModel: ObservableObject, Searchable  {
                     self.faceMojiUIImage = loadedUIImage
                     self.faceMojiImage = loadedSwiftUIImage
                 } catch {
-                    print("이미지 로드 중 오류 발생: \(error)")
+                    print("선택 이미지 초기화: \(error)")
                 }
             }
         }
@@ -65,7 +65,7 @@ class SurfingViewModel: ObservableObject, Searchable  {
                     self.selectedImage = loadedUIImage
                     self.selectedUIImage = loadedSwiftUIImage
                 } catch {
-                    print("이미지 로드 중 오류 발생: \(error)")
+                    print("선택 이미지 초기화: \(error)")
                 }
             }
         }
@@ -133,7 +133,7 @@ class SurfingViewModel: ObservableObject, Searchable  {
             "surferUid": userNameID,
             "imageUrl": imageURL,
             "title": postingTitle,
-            "heartsCount": 0,
+            "heartIDs": [""],
             "commentCount": 0,
             "created_Time": Timestamp(),
             "padoExist": false
@@ -143,7 +143,7 @@ class SurfingViewModel: ObservableObject, Searchable  {
         post?.surferUid = userNameID
         post?.imageUrl = imageURL
         post?.title = postingTitle
-        post?.heartsCount = 0
+        post?.heartIDs = [""]
         post?.commentCount = 0
         post?.created_Time = Timestamp()
         post?.padoExist = false

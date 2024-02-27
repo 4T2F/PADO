@@ -30,7 +30,7 @@ struct UseIDModalView: View {
                 Color.modal.ignoresSafeArea()
                 VStack(alignment: .leading, spacing: 15, content: {
                     Text("가입되지 않은 번호 입니다")
-                        .font(.system(size: 24))
+                        .font(.system(.title2))
                         .fontWeight(.heavy)
                         .padding(.top, 5)
                     
@@ -70,7 +70,7 @@ struct UseIDModalView: View {
                 Color.modal.ignoresSafeArea()
                 VStack(alignment: .leading, spacing: 15, content: {
                     Text("이미 가입된 사용자 입니다")
-                        .font(.system(size: 24))
+                        .font(.system(.title2))
                         .fontWeight(.heavy)
                         .padding(.top, 5)
                     

@@ -23,6 +23,7 @@ struct OnePostModalView: View {
     @State private var isShowingReportView: Bool = false
     @State private var isShowingLoginPage: Bool = false
     @State private var isShowingMoreText: Bool = false
+    @State private var isShowingHeartUserView: Bool = false
     @State private var textColor: Color = .white
     
     @State private var deleteMyPadoride: Bool = false
@@ -204,7 +205,7 @@ struct OnePostModalView: View {
                                     } label: {
                                         if isShowingMoreText {
                                             Text("\(post.title)")
-                                                .font(.system(size: 14))
+                                                .font(.system(.body))
                                                 .fontWeight(.heavy)
                                                 .foregroundStyle(.white)
                                                 .padding(8)
@@ -212,9 +213,10 @@ struct OnePostModalView: View {
                                                 .clipShape(RoundedRectangle(cornerRadius: 3))
                                                 .padding(.bottom, 4)
                                                 .padding(.trailing, 24)
+                                                .multilineTextAlignment(.leading)
                                         } else {
                                             Text("\(post.title)")
-                                                .font(.system(size: 14))
+                                                .font(.system(.body))
                                                 .fontWeight(.heavy)
                                                 .foregroundStyle(.white)
                                                 .lineLimit(1)
@@ -226,7 +228,7 @@ struct OnePostModalView: View {
                                             
                                         }
                                     }
-                                    .font(.system(size: 16))
+                                    .font(.system(.body))
                                     .foregroundStyle(textColor)
                                     .lineSpacing(1)
                                     .fontWeight(.bold)
@@ -241,7 +243,7 @@ struct OnePostModalView: View {
                                     } label: {
                                         Text("surf. @\(post.surferUid)")
                                     }
-                                    .font(.system(size: 14))
+                                    .font(.system(.body))
                                     .fontWeight(.heavy)
                                     .foregroundStyle(.white)
                                     .padding(8)
@@ -277,29 +279,29 @@ struct OnePostModalView: View {
                                             if !user.username.isEmpty {
                                                 VStack(alignment: .leading, spacing: 4) {
                                                     Text("\(user.username)님의 프로필")
-                                                        .font(.system(size: 12))
+                                                        .font(.system(.footnote))
                                                         .fontWeight(.medium)
                                                     
                                                     Text("@\(post.ownerUid)")
-                                                        .font(.system(size: 10))
+                                                        .font(.system(.caption2))
                                                         .fontWeight(.medium)
                                                         .foregroundStyle(.gray)
                                                 }
                                             } else {
                                                 VStack(alignment: .leading, spacing: 4) {
                                                     Text("\(post.ownerUid)님의 프로필")
-                                                        .font(.system(size: 12))
+                                                        .font(.system(.footnote))
                                                         .fontWeight(.medium)
                                                     
                                                     Text("@\(post.ownerUid)")
-                                                        .font(.system(size: 10))
+                                                        .font(.system(.caption2))
                                                         .fontWeight(.medium)
                                                         .foregroundStyle(.gray)
                                                 }
                                             }
                                         }
                                         Image(systemName: "chevron.right")
-                                            .font(.system(size: 12))
+                                            .font(.system(.footnote))
                                             .foregroundStyle(.white)
                                             .padding(.leading, 90)
                                     }
@@ -380,18 +382,16 @@ struct OnePostModalView: View {
                                 .padding(.bottom, 15)
                                 
                                 // MARK: - 하트
-                                VStack(spacing: 8) {
+                                VStack(spacing: 10) {
                                     
                                     if isHeartCheck {
                                         Button {
                                             if !heartLoading && !blockPost(post: post) {
                                                 Task {
                                                     heartLoading = true
-                                                    if let postID = post.id {
-                                                        await UpdateHeartData.shared.deleteHeart(documentID: postID)
-                                                        isHeartCheck = await UpdateHeartData.shared.checkHeartExists(documentID: postID)
+                                                        await UpdateHeartData.shared.deleteHeart(post: post)
+                                                        isHeartCheck = UpdateHeartData.shared.checkHeartExists(post: post)
                                                         heartLoading = false
-                                                    }
                                                 }
                                             }
                                         } label: {
@@ -417,8 +417,8 @@ struct OnePostModalView: View {
                                                     
                                                     heartLoading = true
                                                     if let postID = post.id, let postUser = postUser {
-                                                        await UpdateHeartData.shared.addHeart(documentID: postID)
-                                                        isHeartCheck = await UpdateHeartData.shared.checkHeartExists(documentID: postID)
+                                                        await UpdateHeartData.shared.addHeart(post: post)
+                                                        isHeartCheck = UpdateHeartData.shared.checkHeartExists(post: post)
                                                         heartLoading = false
                                                         await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID,
                                                                                                      receiveUser: postUser,
@@ -438,18 +438,27 @@ struct OnePostModalView: View {
                                     }
                                     
                                     // MARK: - 하트 숫자
-                                    Text("\(post.heartsCount)")
-                                        .font(.system(size: 10))
-                                        .fontWeight(.semibold)
-                                        .shadow(radius: 1, y: 1)
+                                    Button {
+                                        if post.heartIDs.count > 1 {
+                                            isShowingHeartUserView = true
+                                        }
+                                    } label: {
+                                        Text("\(post.heartIDs.count-1)")
+                                            .font(.system(.caption2))
+                                            .fontWeight(.semibold)
+                                            .shadow(radius: 1, y: 1)
+                                    }
+                                    .sheet(isPresented: $isShowingHeartUserView, content: {
+                                        HeartUsersView(userIDs: post.heartIDs)
+                                    })
                                 }
                                 
                                 // MARK: - 댓글
                                 NavigationLink {
-                                    if let postUser = postUser, let postID = post.id, !blockPost(post: post) {
+                                    if let postUser = postUser,
+                                       !blockPost(post: post) {
                                         CommentView(postUser: postUser,
-                                                    post: post,
-                                                    postID: postID)
+                                                    post: post)
                                         
                                     }
                                 } label: {
@@ -458,7 +467,7 @@ struct OnePostModalView: View {
                                         
                                         // MARK: - 댓글 숫자
                                         Text("\(post.commentCount)")
-                                            .font(.system(size: 10))
+                                            .font(.system(.caption2))
                                             .fontWeight(.semibold)
                                             .shadow(radius: 1, y: 1)
                                     }
@@ -499,7 +508,7 @@ struct OnePostModalView: View {
                                     } label: {
                                         VStack {
                                             Text("...")
-                                                .font(.system(size: 32))
+                                                .font(.system(.largeTitle))
                                                 .fontWeight(.regular)
                                                 .foregroundStyle(.white)
                                             
@@ -592,6 +601,33 @@ struct OnePostModalView: View {
                 .padding()
             }
         }
+        .onTapGesture(count: 2) {
+            // 더블 탭 시 실행할 로직
+            Task {
+                if !self.isHeartCheck {
+                    if userNameID.isEmpty {
+                        isShowingLoginPage = true
+                    } else if !heartLoading && !blockPost(post: post) {
+                        Task {
+                            let generator = UIImpactFeedbackGenerator(style: .light)
+                            generator.impactOccurred()
+                            
+                            heartLoading = true
+                            if let postID = post.id, let postUser = postUser {
+                                await UpdateHeartData.shared.addHeart(post: post)
+                                isHeartCheck = UpdateHeartData.shared.checkHeartExists(post: post)
+                                heartLoading = false
+                                await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID,
+                                                                             receiveUser: postUser,
+                                                                             type: .heart,
+                                                                             message: "",
+                                                                             post: post)
+                            }
+                        }
+                    }
+                }
+            }
+        }
         .onAppear {
             Task {
                 await fetchPostData(post: post)
@@ -605,9 +641,7 @@ struct OnePostModalView: View {
     func fetchPostData(post: Post) async {
         self.postUser = await UpdateUserData.shared.getOthersProfileDatas(id: post.ownerUid)
         self.surferUser = await UpdateUserData.shared.getOthersProfileDatas(id: post.surferUid)
-        if let postID = post.id {
-            isHeartCheck = await UpdateHeartData.shared.checkHeartExists(documentID: postID)
-        }
+        isHeartCheck = UpdateHeartData.shared.checkHeartExists(post: post)
         self.postOwnerButtonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: post.ownerUid)
         self.postSurferButtonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: post.surferUid)
     }

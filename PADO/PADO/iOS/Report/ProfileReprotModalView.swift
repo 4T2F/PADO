@@ -42,7 +42,7 @@ struct ReprotProfileModalView: View {
                     } label: {
                         HStack {
                             Text(profileVM.isUserBlocked ? "차단 해제" : "차단")
-                                .font(.system(size: 14))
+                                .font(.system(.body))
                                 .fontWeight(.bold)
                                 .foregroundStyle(.red)
                              
@@ -50,7 +50,7 @@ struct ReprotProfileModalView: View {
                             
                             Image(systemName: "person.slash")
                                 .foregroundStyle(.red)
-                                .font(.system(size: 14))
+                                .font(.system(.subheadline))
                                 .fontWeight(.bold)
                         }
                     }
@@ -68,7 +68,7 @@ struct ReprotProfileModalView: View {
                     } label: {
                         HStack {
                             Text("신고")
-                                .font(.system(size: 14))
+                                .font(.system(.body))
                                 .fontWeight(.bold)
                                 .foregroundStyle(.red)
                             
@@ -76,7 +76,7 @@ struct ReprotProfileModalView: View {
                             
                             Image(systemName: "exclamationmark.bubble")
                                 .foregroundStyle(.red)
-                                .font(.system(size: 14))
+                                .font(.system(.body))
                                 .fontWeight(.semibold)
                         }
                         .sheet(isPresented: $isShowingReportView) {
@@ -98,7 +98,7 @@ struct ReprotProfileModalView: View {
                         Spacer()
                         
                         Text("취소")
-                            .font(.system(size: 14))
+                            .font(.system(.body))
                             .fontWeight(.bold)
                          
                         Spacer()

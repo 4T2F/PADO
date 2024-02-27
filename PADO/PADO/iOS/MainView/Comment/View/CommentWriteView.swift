@@ -17,9 +17,9 @@ struct CommentWriteView: View {
     @State private var commentText: String = ""
     @State private var isFocused: Bool = false
     
-    @State var postUser: User
+    @State var notiUser: User
     
-    let post: Post
+    @Binding var post: Post
     
     var body: some View {
         VStack(spacing: 0) {
@@ -28,17 +28,17 @@ struct CommentWriteView: View {
                     dismiss()
                 } label: {
                     Text("취소")
-                        .font(.system(size: 16))
+                        .font(.system(.body))
                         .fontWeight(.medium)
                 }
                 
                 Spacer()
-                
+               
                 Text("댓글 달기")
-                    .font(.system(size: 16))
+                    .font(.system(.body))
                     .fontWeight(.semibold)
                     .padding(.trailing, 30)
-                
+
                 Spacer()
             }
             .padding(.horizontal)
@@ -50,15 +50,12 @@ struct CommentWriteView: View {
             ScrollView {
                 ScrollViewReader { value in
                     VStack(alignment: .leading) {
-                        if !commentVM.comments.isEmpty, let postID = post.id {
-                            ForEach(commentVM.comments) { comment in
-                                CommentCell(comment: comment, commentVM: commentVM,
-                                            post: post,
-                                            postID: postID)
-                                .id(comment.id)
-                                .padding(.horizontal, 10)
-                                .padding(.bottom, 20)
-                                
+                        if !commentVM.comments.isEmpty {
+                            ForEach(commentVM.comments.indices, id:\.self) { index in
+                                CommentWriteViewCell(index: index,
+                                            commentVM: commentVM,
+                                            post: $post)
+                                .id(index)
                             }
                             .onAppear {
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
@@ -72,11 +69,11 @@ struct CommentWriteView: View {
                         } else {
                             VStack {
                                 Text("아직 댓글이 없습니다.")
-                                    .font(.system(size: 16, weight: .semibold))
+                                    .font(.system(.body, weight: .semibold))
                                     .padding(.bottom, 10)
                                     .padding(.top, 120)
                                 Text("댓글을 남겨보세요.")
-                                    .font(.system(size: 12))
+                                    .font(.system(.footnote))
                                     .foregroundStyle(.gray)
                             }
                         }
@@ -84,6 +81,7 @@ struct CommentWriteView: View {
                     .padding(.top)
                 }
             }
+            .padding(.bottom, 6)
             
             Divider()
             
@@ -94,7 +92,7 @@ struct CommentWriteView: View {
                 
                 HStack {
                     TextField("\(userNameID)(으)로 댓글 남기기...", text: $commentText, axis: .vertical)
-                        .font(.system(size: 14))
+                        .font(.system(.body))
                         .tint(Color(.systemBlue).opacity(0.7))
                         .focused($isTextFieldFocused)
                         .onAppear {
@@ -109,16 +107,14 @@ struct CommentWriteView: View {
                                 
                                 if let postID = post.id {
                                     await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID,
-                                                                                 receiveUser: postUser,
+                                                                                 receiveUser: notiUser,
                                                                                  type: .comment,
                                                                                  message: commentText,
                                                                                  post: post)
-                                    await commentVM.updateCommentData.writeComment(documentID: postID,
+                                    await commentVM.writeComment(post: post,
                                                                                    imageUrl: viewModel.currentUser?.profileImageUrl ?? "",
                                                                                    inputcomment: commentText)
-                                    if let fetchedComments = await commentVM.updateCommentData.getCommentsDocument(postID: postID) {
-                                        commentVM.comments = fetchedComments
-                                    }
+                                    
                                     commentText = ""
                                 }
                                 dismiss()
@@ -129,7 +125,7 @@ struct CommentWriteView: View {
                                     .frame(width: 48, height: 28)
                                     .foregroundStyle(.blue)
                                 Image(systemName: "arrow.up")
-                                    .font(.system(size: 14))
+                                    .font(.system(.subheadline))
                                     .foregroundStyle(.white)
                             }
                         }
@@ -143,7 +139,7 @@ struct CommentWriteView: View {
                                     .frame(width: 48, height: 28)
                                     .foregroundStyle(.gray)
                                 Image(systemName: "arrow.up")
-                                    .font(.system(size: 14))
+                                    .font(.system(.subheadline))
                                     .foregroundStyle(.black)
                             }
                         }

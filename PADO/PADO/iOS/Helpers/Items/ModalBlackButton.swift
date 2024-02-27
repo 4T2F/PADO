@@ -23,13 +23,13 @@ struct ModalBlackButton: View {
                 
                 Text(text)
                     .foregroundStyle(.white)
-                    .font(.system(size: 16))
+                    .font(.system(.body))
                     .fontWeight(.medium)
                 
                 Spacer()
                 
                 Image("Arrow_right_light")
-                    .font(.system(size: 16))
+                    .font(.system(.body))
                     .fontWeight(.medium)
             }
             .padding(.horizontal, UIScreen.main.bounds.width * 0.1)

@@ -57,11 +57,11 @@ struct SettingInfoView: View {
                 } label: {
                     HStack(spacing: 2) {
                         Image(systemName: "chevron.left")
-                            .font(.system(size: 14))
+                            .font(.system(.subheadline))
                             .fontWeight(.medium)
                         
                         Text("뒤로")
-                            .font(.system(size: 16))
+                            .font(.system(.body))
                             .fontWeight(.medium)
                     }
                 }

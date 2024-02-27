@@ -14,7 +14,7 @@ struct NoItemView: View {
         VStack(alignment: .center) {
             Text(itemName)
                 .foregroundColor(Color(.systemGray))
-                .font(.system(size: 16))
+                .font(.system(.body))
                 .fontWeight(.medium)
                 .multilineTextAlignment(.center)
         }

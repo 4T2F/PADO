@@ -34,7 +34,7 @@ struct MessageBubbleView: View {
                 case true:
                     Text("\(messageUserID)")
                         .fontWeight(.medium)
-                        .font(.system(size: 14))
+                        .font(.system(.subheadline))
                         .foregroundStyle(.white)
                         .padding(.trailing, 2)
                     
@@ -48,7 +48,7 @@ struct MessageBubbleView: View {
                         .padding(.trailing, 2)
                     Text("\(messageUserID)")
                         .fontWeight(.medium)
-                        .font(.system(size: 14))
+                        .font(.system(.subheadline))
                         .foregroundStyle(.white)
              
                 }
@@ -64,7 +64,7 @@ struct MessageBubbleView: View {
     func messageBubble(text: String, isUser: Bool) -> some View {
         if isUser {
             return Text(text)
-                .font(.system(size: 16))
+                .font(.system(.body))
                 .padding(10)
                 .background(Color.num3)
                 .foregroundColor(.white)
@@ -72,7 +72,7 @@ struct MessageBubbleView: View {
             
         } else {
             return Text(text)
-                .font(.system(size: 16))
+                .font(.system(.body))
                 .padding(10)
                 .background(Color.grayButton)
                 .foregroundColor(.white)

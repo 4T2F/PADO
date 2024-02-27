@@ -31,7 +31,7 @@ struct NotificationView: View {
                                 }
                             } label: {
                                 Text("알림 전체삭제")
-                                    .font(.system(size: 12))
+                                    .font(.system(.footnote))
                                     .foregroundStyle(Color(.systemGray))
                             }
                             .padding(.horizontal, 10)
@@ -71,11 +71,11 @@ struct NotificationView: View {
                 } label: {
                     HStack(spacing: 2) {
                         Image(systemName: "chevron.left")
-                            .font(.system(size: 14))
+                            .font(.system(.subheadline))
                             .fontWeight(.medium)
                         
                         Text("뒤로")
-                            .font(.system(size: 16))
+                            .font(.system(.body))
                             .fontWeight(.medium)
                     }
                 }

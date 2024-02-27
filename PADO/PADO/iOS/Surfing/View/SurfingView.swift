@@ -131,7 +131,7 @@ struct SurfingView: View {
                                 }
                                 surfingVM.showCropView.toggle()
                             }
-                            .font(.system(size: 16, weight: .semibold))
+                            .font(.system(.body, weight: .semibold))
                         }
                         
                     }
