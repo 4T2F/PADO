@@ -50,11 +50,11 @@ struct SearchCellView: View {
                         VStack(alignment: .leading, spacing: 4) {
                             Text(user.nameID)
                                 .foregroundStyle(.white)
-                                .font(.system(size: 14))
+                                .font(.system(.subheadline))
                                 .fontWeight(.medium)
                             if !user.username.isEmpty {
                                 Text(user.username)
-                                    .font(.system(size: 14))
+                                    .font(.system(.subheadline))
                                     .fontWeight(.regular)
                                     .foregroundStyle(Color(.systemGray))
                             }

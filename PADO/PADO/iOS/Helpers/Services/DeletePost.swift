@@ -61,6 +61,17 @@ class DeletePost {
             let facemojiQuery = try await db.collection("post").document(postID).collection("facemoji").getDocuments()
             
             for query in commentQuery.documents {
+                
+                let commentData = try query.data(as: Comment.self)
+                
+                if let commentDataID = commentData.id,
+                   !commentData.replyComments.isEmpty {
+                    let querySnapshot = try await db.collection("post").document(postID).collection("comment").document(commentDataID).collection("replyComments").getDocuments()
+                
+                    for queryDocument in querySnapshot.documents {
+                        try await db.collection("post").document(postID).collection("comment").document(commentDataID).collection("replyComments").document(queryDocument.documentID).delete()
+                    }
+                }
                 try await db.collection("post").document(postID).collection("comment").document(query.documentID).delete()
             }
             

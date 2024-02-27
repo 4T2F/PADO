@@ -47,7 +47,7 @@ struct FeedHeaderCell: View {
                     ForEach(FeedFilter.allCases) { filter in
                         VStack(spacing: 4) {
                             Text(filter.title)
-                                .font(.system(size: 18))
+                                .font(.system(.title3))
                                 .fontWeight(.bold)
                                 .foregroundStyle(viewModel.selectedFilter == filter ? .white : .white.opacity(0.6))
                             
@@ -99,7 +99,7 @@ struct FeedRefreshHeaderCell: View {
                 HStack(spacing: 22) {
                     Text("아래로 드래그해서 새로고침")
                         .foregroundStyle(.white)
-                        .font(.system(size: 14))
+                        .font(.system(.subheadline))
                 } //: HSTACK
             } //: VSTACK
             

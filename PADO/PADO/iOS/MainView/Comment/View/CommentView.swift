@@ -46,19 +46,24 @@ struct CommentView: View {
                                                 commentVM: commentVM,
                                                 post: $post)
                                     .id(index)
+                                    if !commentVM.comments[index].replyComments.isEmpty {
+                                       ShowMoreCommentView(commentVM: commentVM,
+                                                           post: $post,
+                                                           index: index)
+                                    }
                                 }
                             }
                         } else {
                             VStack {
                                 Text("아직 댓글이 없습니다.")
-                                    .font(.system(size: 16, weight: .semibold))
+                                    .font(.system(.body, weight: .semibold))
                                     .padding(.bottom, 10)
                                     .padding(.top, 120)
                                 Text("댓글을 남겨보세요.")
-                                    .font(.system(size: 12))
+                                    .font(.system(.footnote))
                                     .foregroundStyle(.gray)
                             }
-                        }
+                        } 
                     } else {
                         LottieView(animation: .named("Loading"))
                             .looping()
@@ -70,13 +75,11 @@ struct CommentView: View {
                 }
                 .padding(.top)
             }
+            .padding(.bottom, 6)
             .onAppear {
                 Task {
                     enteredNavigation = true
-                    
-                    if let fetchedComments = await commentVM.updateCommentData.getCommentsDocument(post: post) {
-                        commentVM.comments = fetchedComments
-                    }
+                    await commentVM.getCommentsDocument(post: post)
                     commentVM.removeDuplicateUserIDs(from: commentVM.comments)
                     await commentVM.fetchCommentUser()
                     isFetchedComment = true
@@ -100,13 +103,13 @@ struct CommentView: View {
                     CircularImageView(size: .xxxSmall, user: postUser)
                     if post.ownerUid == userNameID {
                         Text("나의 파도에 댓글 남기기")
-                            .font(.system(size: 14))
+                            .font(.system(.subheadline))
                             .fontWeight(.medium)
                             .foregroundStyle(.gray)
                             .padding(.leading, 2)
                     } else {
                         Text("\(post.ownerUid)님의 파도에 댓글 남기기")
-                            .font(.system(size: 14))
+                            .font(.system(.subheadline))
                             .fontWeight(.medium)
                             .foregroundStyle(.gray)
                             .padding(.leading, 2)
@@ -120,7 +123,9 @@ struct CommentView: View {
             }
             .padding(10)
             .sheet(isPresented: $isShowingCommentWriteView, content: {
-                CommentWriteView(commentVM: commentVM, postUser: postUser, post: $post)
+                CommentWriteView(commentVM: commentVM, 
+                                 notiUser: postUser,
+                                 post: $post)
                     .presentationDragIndicator(.visible)
                     .presentationDetents([.large])
             })
@@ -146,11 +151,11 @@ struct CommentView: View {
                 } label: {
                     HStack(spacing: 2) {
                         Image(systemName: "chevron.left")
-                            .font(.system(size: 14))
+                            .font(.system(.subheadline))
                             .fontWeight(.medium)
                         
                         Text("뒤로")
-                            .font(.system(size: 16))
+                            .font(.system(.body))
                             .fontWeight(.medium)
                     }
                 }

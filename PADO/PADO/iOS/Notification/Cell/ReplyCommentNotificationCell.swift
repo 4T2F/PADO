@@ -1,19 +1,19 @@
 //
-//  PadoRideNotificationCell.swift
+//  ReplyCommentNotificationCell.swift
 //  PADO
 //
-//  Created by 황민채 on 2/17/24.
+//  Created by 최동호 on 2/27/24.
 //
 
 import Kingfisher
 import SwiftUI
 
-struct PadoRideNotificationCell: View {
+struct ReplyCommentNotificationCell: View {
     @ObservedObject var profileVM: ProfileViewModel
     @ObservedObject var feedVM: FeedViewModel
     
     @State var sendUserProfileUrl: String = ""
-    @State var sendPostUrl: String = ""
+    
     @State var sendPost: Post? = nil
     
     @State private var showPost = false
@@ -43,7 +43,7 @@ struct PadoRideNotificationCell: View {
                 
                 VStack(alignment: .leading, spacing: 4) {
                     HStack {
-                        Text("\(notification.sendUser)님에게 새로운 파도타기가 도착했어요 ")
+                        Text("\(notification.sendUser)님의 회원님의 댓글에 답글을 남겼습니다: \(notification.message ?? "") ")
                             .font(.system(.subheadline))
                             .fontWeight(.medium)
                         +
@@ -56,13 +56,6 @@ struct PadoRideNotificationCell: View {
                 }
                 
                 Spacer()
-                
-                if let image = URL(string: sendPostUrl) {
-                    KFImage(image)
-                        .resizable()
-                        .frame(width: 40, height: 40)
-                        .clipShape(RoundedRectangle(cornerRadius: 5))
-                }
             }
         }
         .sheet(isPresented: $showPost) {
@@ -78,10 +71,8 @@ struct PadoRideNotificationCell: View {
                 if let sendUserProfile = await UpdateUserData.shared.getOthersProfileDatas(id: notification.sendUser) {
                     self.sendUserProfileUrl = sendUserProfile.profileImageUrl ?? ""
                 }
-                
                 if let sendPost = await
                     UpdatePostData.shared.fetchPostById(postId: notification.postID ?? "") {
-                    self.sendPostUrl = sendPost.imageUrl
                     self.sendPost = sendPost
                 }
             }

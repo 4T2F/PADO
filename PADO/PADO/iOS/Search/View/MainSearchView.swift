@@ -32,7 +32,7 @@ struct MainSearchView: View {
                         if !searchVM.searchDatas.isEmpty {
                             HStack {
                                 Text("최근검색")
-                                    .font(.system(size: 14, weight: .semibold))
+                                    .font(.system(.subheadline, weight: .semibold))
                                 
                                 Spacer()
                                 
@@ -41,7 +41,7 @@ struct MainSearchView: View {
                                 } label: {
                                     Text("기록 삭제")
                                         .foregroundStyle(Color(.systemGray))
-                                        .font(.system(size: 14))
+                                        .font(.system(.subheadline))
                                 }
                             }
                             .padding()
@@ -62,7 +62,7 @@ struct MainSearchView: View {
                     } else if searchVM.viewState == .empty {
                         Text("검색 결과가 없습니다")
                             .foregroundColor(.gray)
-                            .font(.system(size: 14,
+                            .font(.system(.subheadline,
                                           weight: .medium))
                             .padding(.top, 150)
                         

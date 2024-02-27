@@ -44,11 +44,11 @@ struct CommentNotificationCell: View {
                 VStack(alignment: .leading, spacing: 4) {
                     HStack {
                         Text("\(notification.sendUser)님의 회원님의 파도에 댓글을 남겼습니다: \(notification.message ?? "") ")
-                            .font(.system(size: 14))
+                            .font(.system(.subheadline))
                             .fontWeight(.medium)
                         +
                         Text(notification.createdAt.formatDate(notification.createdAt))
-                            .font(.system(size: 12))
+                            .font(.system(.footnote))
                             .foregroundStyle(Color(.systemGray))
                     }
                     .multilineTextAlignment(.leading)

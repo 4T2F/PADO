@@ -16,7 +16,7 @@ struct SearchGuide: View {
                 .padding(.bottom, 3)
             Text("검색 내역이 없습니다")
                 .foregroundColor(Color.gray)
-                .font(.system(size: 14))
+                .font(.system(.subheadline))
                 .fontWeight(.medium)
         }
     }

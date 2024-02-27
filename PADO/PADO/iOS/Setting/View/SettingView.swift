@@ -16,7 +16,7 @@ struct SettingView: View {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .leading) {
                 Text("설정")
-                    .font(.system(size: 12, weight: .semibold))
+                    .font(.system(.caption, weight: .semibold))
                     .foregroundStyle(.gray)
                     .padding(.leading)
                     .padding(.bottom, 20)
@@ -41,7 +41,7 @@ struct SettingView: View {
                     .padding(.bottom, 30)
                 
                 Text("정보")
-                    .font(.system(size: 12, weight: .semibold))
+                    .font(.system(.caption, weight: .semibold))
                     .foregroundStyle(.gray)
                     .padding(.leading)
                     .padding(.bottom, 20)
@@ -71,11 +71,11 @@ struct SettingView: View {
                 } label: {
                     HStack {
                         Text("로그아웃")
-                            .font(.system(size: 14, weight: .semibold))
+                            .font(.system(.body))
                             .foregroundStyle(.red)
                         Spacer()
                         Image(systemName: "chevron.right")
-                            .font(.system(size: 14))
+                            .font(.system(.subheadline))
                             .fontWeight(.medium)
                             .foregroundStyle(.white)
                     }
@@ -95,10 +95,9 @@ struct SettingView: View {
                 VStack(spacing: 2) {
                     Text("2024, PADO all rights reserved.")
                     Text("Powered by 4T2F")
-                    
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
-                .font(.system(size: 10))
+                .font(.system(.caption2))
                 .padding(.bottom)
             }
             .padding(.top, 10)
@@ -112,9 +111,16 @@ struct SettingView: View {
                 Button {
                     dismiss()
                 } label: {
-                    Text("취소")
-                        .font(.system(size: 16))
-                        .fontWeight(.medium)
+                    HStack(spacing: 2) {
+                        Image(systemName: "chevron.left")
+                            .font(.system(.subheadline))
+                            .fontWeight(.medium)
+                        
+                        Text("뒤로")
+                            .font(.system(.body))
+                            .fontWeight(.medium)
+                    }
+
                 }
             }
         }

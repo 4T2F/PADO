@@ -23,7 +23,7 @@ struct SettingProfileModal: View {
                 PhotosPicker(selection: $viewModel.selectedItem,
                              matching: .images) {
                     Text("프로필 사진 변경")
-                        .font(.system(size: 16, weight: .semibold))
+                        .font(.system(.body, weight: .semibold))
                         .foregroundStyle(.white)
                         .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
                         .background(.modalCell)
@@ -38,7 +38,7 @@ struct SettingProfileModal: View {
                 PhotosPicker(selection: $viewModel.selectedBackgroundItem,
                              matching: .images) {
                     Text("배경 사진 변경")
-                        .font(.system(size: 16, weight: .semibold))
+                        .font(.system(.body, weight: .semibold))
                         .foregroundStyle(.white)
                         .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
                         .background(.modalCell)
@@ -54,7 +54,7 @@ struct SettingProfileModal: View {
                 isActive = true
             } label: {
                 Text("프로필 사진 초기화")
-                    .font(.system(size: 16, weight: .semibold))
+                    .font(.system(.body, weight: .semibold))
                     .foregroundStyle(.red)
                     .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
                     .background(.modalCell)
@@ -69,7 +69,7 @@ struct SettingProfileModal: View {
                 isActive = true
             } label: {
                 Text("배경 사진 초기화")
-                    .font(.system(size: 16, weight: .semibold))
+                    .font(.system(.body, weight: .semibold))
                     .foregroundStyle(.red)
                     .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
                     .background(.modalCell)

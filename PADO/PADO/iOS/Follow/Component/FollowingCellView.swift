@@ -48,12 +48,12 @@ struct FollowingCellView: View {
                         VStack(alignment: .leading, spacing: 4) {
                             Text(cellUserId)
                                 .foregroundStyle(.white)
-                                .font(.system(size: 14))
+                                .font(.system(.subheadline))
                                 .fontWeight(.medium)
                             
                             if !followingUsername.isEmpty {
                                 Text(followingUsername)
-                                    .font(.system(size: 14, weight: .regular))
+                                    .font(.system(.subheadline, weight: .regular))
                                     .foregroundStyle(Color(.systemGray))
                             }
                         } //: VSTACK

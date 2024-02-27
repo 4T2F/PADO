@@ -44,12 +44,12 @@ struct HeartNotificationCell: View {
                 VStack(alignment: .leading, spacing: 4) {
                     HStack {
                         Text("\(notification.sendUser)님이 회원님의 파도에 ❤️로 공감했습니다. ")
-                            .font(.system(size: 14))
+                            .font(.system(.subheadline))
                             .fontWeight(.medium)
                         
                         +
                         Text(notification.createdAt.formatDate(notification.createdAt))
-                            .font(.system(size: 12))
+                            .font(.system(.footnote))
                             .foregroundStyle(Color(.systemGray))
                     }
                     .multilineTextAlignment(.leading)

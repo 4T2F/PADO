@@ -63,7 +63,7 @@ struct PostCropView: View {
                             surfingVM.postImageItem = nil
                         } label: {
                             Text("다음")
-                                .font(.system(size: 16, weight: .semibold))
+                                .font(.system(.body, weight: .semibold))
                         }
                     }
                     
@@ -87,7 +87,7 @@ struct PostCropView: View {
                     selectedColor = Color.main
                 } label: {
                     Image(systemName: "arrow.up.right.and.arrow.down.left")
-                        .font(.system(size: 20))
+                        .font(.system(.title2))
                         .padding(.horizontal)
                 }
                 
@@ -95,7 +95,7 @@ struct PostCropView: View {
                     imageChangeButton = true
                 } label: {
                     Image(systemName: "arrow.down.backward.and.arrow.up.forward")
-                        .font(.system(size: 20))
+                        .font(.system(.title2))
                         .padding(.horizontal)
                 }
                 

@@ -47,8 +47,8 @@ struct SelectEmojiView: View {
                     }
                 }
                 Spacer()
-                Text("FaceMoji의 이모티콘을 선택해주세요")
-                    .font(.system(size: 16))
+                Text("포토모지의 이모티콘을 선택해주세요")
+                    .font(.system(.body))
                 
                 emojiPicker
                 
@@ -68,10 +68,10 @@ struct SelectEmojiView: View {
                         }) {
                             if emoji == "None" {
                                 Text(emoji)
-                                    .font(.system(size: 14))
+                                    .font(.system(.subheadline))
                             } else {
                                 Text(emoji)
-                                    .font(.system(size: 20))
+                                    .font(.system(.title2))
                             }
                         }
                         .frame(width: 45, height: 45)
@@ -103,7 +103,7 @@ struct SelectEmojiView: View {
             commentVM.showCropFaceMoji = false
         }) {
             Text("포토모지 올리기")
-                .font(.system(size: 16, weight: .semibold))
+                .font(.system(.body, weight: .semibold))
                 .foregroundColor(.white)
                 .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
                 .background(RoundedRectangle(cornerRadius: 10).fill(Color.blue))

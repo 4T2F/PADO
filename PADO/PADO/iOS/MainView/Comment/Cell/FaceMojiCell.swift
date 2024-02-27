@@ -76,7 +76,7 @@ struct FaceMojiCell: View {
                 
                 Text(facemoji.userID)
                     .foregroundStyle(.white)
-                    .font(.system(size: 12))
+                    .font(.system(.footnote))
             }
         } else {
             VStack {
@@ -101,7 +101,7 @@ struct FaceMojiCell: View {
                 
                 Text(facemoji.userID)
                     .foregroundStyle(.white)
-                    .font(.system(size: 12))
+                    .font(.system(.footnote))
             }
         }
     }

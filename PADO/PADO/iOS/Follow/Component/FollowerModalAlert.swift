@@ -31,7 +31,7 @@ struct FollowerModalAlert: View {
                                         defaultImageName: "defaultProfile")
                     
                     Text(followerUsername)
-                        .font(.system(size: 12))
+                        .font(.system(.footnote))
                         .fontWeight(.medium)
                     
                     Divider()
@@ -47,7 +47,7 @@ struct FollowerModalAlert: View {
                         
                     } label: {
                         Text(buttonText1)
-                            .font(.system(size: 14))
+                            .font(.system(.subheadline))
                             .fontWeight(.regular)
                             .foregroundStyle(.red)
                     }
@@ -64,7 +64,7 @@ struct FollowerModalAlert: View {
                     dismiss()
                 } label: {
                     Text("취소")
-                        .font(.system(size: 14))
+                        .font(.system(.subheadline))
                         .foregroundStyle(Color.white)
                         .fontWeight(.regular)
                         .frame(width: width * 0.9, height: 40)

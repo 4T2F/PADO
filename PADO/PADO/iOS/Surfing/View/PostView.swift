@@ -38,7 +38,7 @@ struct PostView: View {
                 VStack {
                     HStack {
                         Text("제목")
-                            .font(.system(size: 16))
+                            .font(.system(.title3))
                             .fontWeight(.semibold)
                         
                         Spacer()
@@ -47,7 +47,7 @@ struct PostView: View {
                     .padding(.leading, 20)
                     
                     TextField("제목을 입력해주세요", text: $surfingVM.postingTitle)
-                        .font(.system(size: 14))
+                        .font(.system(.headline))
                         .padding(.leading, 20)
                     
                     RoundedRectangle(cornerRadius: 8)
@@ -57,7 +57,7 @@ struct PostView: View {
                     HStack {
                         if followVM.selectSurfingID.isEmpty {
                             Text("서핑 리스트")
-                                .font(.system(size: 16))
+                                .font(.system(.title3))
                                 .fontWeight(.semibold)
                         } else {
                             KFImage(URL(string: followVM.selectSurfingProfileUrl))
@@ -77,14 +77,14 @@ struct PostView: View {
                             VStack(alignment: .leading, spacing: 4) {
                                 if !followVM.selectSurfingUsername.isEmpty {
                                     Text(followVM.selectSurfingID)
-                                        .font(.system(size: 14, weight: .semibold))
+                                        .font(.system(.subheadline, weight: .semibold))
                                     
                                     Text(followVM.selectSurfingUsername)
-                                        .font(.system(size: 12))
+                                        .font(.system(.footnote))
                                         .foregroundStyle(Color(.systemGray))
                                 } else {
                                     Text(followVM.selectSurfingID)
-                                        .font(.system(size: 14, weight: .semibold))
+                                        .font(.system(.subheadline, weight: .semibold))
                                 }
                             }
                         }
@@ -95,7 +95,7 @@ struct PostView: View {
                             followVM.showSurfingList.toggle()
                         } label: {
                             Image(systemName: "chevron.right")
-                                .font(.system(size: 18))
+                                .font(.system(.title3))
                                 .foregroundStyle(.white)
                         }
                     } //: HSTACK
@@ -159,13 +159,13 @@ struct PostView: View {
                                 .scaleEffect(1.5)
                         } else {
                             Text("공유")
-                                .font(.system(size: 14))
+                                .font(.system(.body))
                                 .fontWeight(.medium)
                                 .foregroundStyle(.white)
                         }
                     }
                 }
-                .alert("서핑할 유저를 선택해주세요", isPresented: $showAlert) {
+                .alert("파도를 보낼 유저를 선택해주세요", isPresented: $showAlert) {
                     Button("확인", role: .cancel) { }
                 }
                 .padding(.bottom, 20)

@@ -28,7 +28,7 @@ struct FollowerSuggestionCell: View {
                                       user: user)
                     
                     Text(user.nameID)
-                        .font(.system(size: 14, weight: .medium))
+                        .font(.system(.subheadline, weight: .medium))
                     
                     FollowButtonView(cellUser: user,
                                      buttonActive: $buttonActive,
