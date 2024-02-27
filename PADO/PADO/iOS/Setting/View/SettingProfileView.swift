@@ -222,7 +222,6 @@ struct SettingProfileView: View {
                                                     .onChange(of: viewModel.instaAddress) { _, _  in
                                                         viewModel.checkForChanges()
                                                     }
-                                                
                                             } else {
                                                 TextField("계정명", text: $viewModel.instaAddress)
                                                     .font(.system(size: 14))
@@ -285,7 +284,7 @@ struct SettingProfileView: View {
                                 
                                 Spacer()
                             }
-//                            .padding(.top, UIScreen.main.bounds.height * 0.08)
+                            //                            .padding(.top, UIScreen.main.bounds.height * 0.08)
                             .background(.main, ignoresSafeAreaEdges: .all)
                         }
                     }
@@ -317,6 +316,16 @@ struct SettingProfileView: View {
                         viewModel.backimagePick = false
                         viewModel.userSelectImage = nil
                         viewModel.backSelectImage = nil
+                        
+                        if viewModel.currentUser?.profileImageUrl == nil && viewModel.currentUser?.backProfileImageUrl == nil {
+                            viewModel.currentUser?.profileImageUrl = viewModel.tempProfileImage
+                            viewModel.currentUser?.backProfileImageUrl = viewModel.tempBackImage
+                        } else if viewModel.currentUser?.profileImageUrl == nil {
+                            viewModel.currentUser?.profileImageUrl = viewModel.tempProfileImage
+                        } else if viewModel.currentUser?.backProfileImageUrl == nil {
+                            viewModel.currentUser?.backProfileImageUrl = viewModel.tempBackImage
+                        }
+                        
                     } label: {
                         HStack(spacing: 2) {
                             Image(systemName: "chevron.left")
@@ -342,6 +351,19 @@ struct SettingProfileView: View {
                                 viewModel.selectedBackgroundItem = nil
                                 viewModel.userSelectImage = nil
                                 viewModel.backSelectImage = nil
+                                
+                                if viewModel.currentUser?.profileImageUrl == nil && viewModel.currentUser?.backProfileImageUrl == nil {
+                                    await DeleteImageUrl.shared.deleteProfileURL()
+                                    await DeleteImageUrl.shared.deleteBackURL()
+                                    viewModel.tempProfileImage = nil
+                                    viewModel.tempBackImage = nil
+                                } else if viewModel.currentUser?.profileImageUrl == nil {
+                                    await DeleteImageUrl.shared.deleteProfileURL()
+                                    viewModel.tempProfileImage = nil
+                                } else if viewModel.currentUser?.backProfileImageUrl == nil {
+                                    await DeleteImageUrl.shared.deleteBackURL()
+                                    viewModel.tempBackImage = nil
+                                }
                             }
                         }
                         // 비활성화 상태일 때는 아무 작업도 수행하지 않음

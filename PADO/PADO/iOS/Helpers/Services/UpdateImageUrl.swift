@@ -98,54 +98,60 @@ class UpdateImageUrl {
             
             let formattedDate = dateFormatter.string(from: Date())
             formattedPostingTitle = filename+formattedDate
-            
-            guard let imageData = image.jpegData(compressionQuality: imageQuality.rawValue) else { return nil }
-            
-            switch storageTypeInput {
-                
-            case .user:
-                let storageRef = Storage.storage().reference(withPath: "/profile_image/\(filename)")
-                do {
-                    _ = try await storageRef.putDataAsync(imageData)
-                    let url = try await storageRef.downloadURL()
-                    return url.absoluteString
-                } catch {
-                    print("DEBUG: Failed to upload image with error: \(error.localizedDescription)")
-                    return nil
-                }
-                
-            case .post:
-                let storageRef = Storage.storage().reference(withPath: "/post/\(formattedPostingTitle)")
-                do {
-                    _ = try await storageRef.putDataAsync(imageData)
-                    let url = try await storageRef.downloadURL()
-                    return url.absoluteString
-                } catch {
-                    print("DEBUG: Failed to upload image with error: \(error.localizedDescription)")
-                    return nil
-                }
-                
-            case .facemoji:
-                let storageRef = Storage.storage().reference(withPath: "/facemoji/\(filename)-\(documentid)")
-                do {
-                    _ = try await storageRef.putDataAsync(imageData)
-                    let url = try await storageRef.downloadURL()
-                    return url.absoluteString
-                } catch {
-                    print("DEBUG: Failed to upload image with error: \(error.localizedDescription)")
-                    return nil
-                }
-            case .backImage:
-                let storageRef = Storage.storage().reference(withPath: "/back_image/\(filename)")
-                do {
-                    _ = try await storageRef.putDataAsync(imageData)
-                    let url = try await storageRef.downloadURL()
-                    return url.absoluteString
-                } catch {
-                    print("DEBUG: Failed to upload image with error: \(error.localizedDescription)")
-                    return nil
+                        
+            // UIImage를 CIImage로 변환후 다시 UIImage로 바꿔주면서 이미지 포맷 정규화 시킴
+            if let ciImage = CIImage(image: image) {
+                let context = CIContext(options: nil)
+                if let newCGImage = context.createCGImage(ciImage, from: ciImage.extent) {
+                    let normalizedImage = UIImage(cgImage: newCGImage)
+                    guard let normalizedImageData = normalizedImage.jpegData(compressionQuality: imageQuality.rawValue) else { return nil }
+                    switch storageTypeInput {
+                    case .user:
+                        let storageRef = Storage.storage().reference(withPath: "/profile_image/\(filename)")
+                        do {
+                            _ = try await storageRef.putDataAsync(normalizedImageData)
+                            let url = try await storageRef.downloadURL()
+                            return url.absoluteString
+                        } catch {
+                            print("DEBUG: Failed to upload image with error: \(error.localizedDescription)")
+                            return nil
+                        }
+                        
+                    case .post:
+                        let storageRef = Storage.storage().reference(withPath: "/post/\(formattedPostingTitle)")
+                        do {
+                            _ = try await storageRef.putDataAsync(normalizedImageData)
+                            let url = try await storageRef.downloadURL()
+                            return url.absoluteString
+                        } catch {
+                            print("DEBUG: Failed to upload image with error: \(error.localizedDescription)")
+                            return nil
+                        }
+                        
+                    case .facemoji:
+                        let storageRef = Storage.storage().reference(withPath: "/facemoji/\(filename)-\(documentid)")
+                        do {
+                            _ = try await storageRef.putDataAsync(normalizedImageData)
+                            let url = try await storageRef.downloadURL()
+                            return url.absoluteString
+                        } catch {
+                            print("DEBUG: Failed to upload image with error: \(error.localizedDescription)")
+                            return nil
+                        }
+                    case .backImage:
+                        let storageRef = Storage.storage().reference(withPath: "/back_image/\(filename)")
+                        do {
+                            _ = try await storageRef.putDataAsync(normalizedImageData)
+                            let url = try await storageRef.downloadURL()
+                            return url.absoluteString
+                        } catch {
+                            print("DEBUG: Failed to upload image with error: \(error.localizedDescription)")
+                            return nil
+                        }
+                    }
                 }
             }
+            return nil
         }
         
         // 전달받은 imageUrl의 값을 파이어스토어 모델에 올리고 뷰모델에 넣어줌
