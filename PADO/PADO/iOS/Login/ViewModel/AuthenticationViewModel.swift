@@ -44,6 +44,8 @@ class AuthenticationViewModel: ObservableObject {
     @Published var changedValue: Bool = false
     @Published var showProfileModal: Bool = false
     @Published var selectedFilter: FeedFilter = .today
+    @Published var tempProfileImage: String? = nil
+    @Published var tempBackImage: String? = nil
     
     // MARK: - SettingNoti
     @Published var alertAccept = ""
@@ -68,7 +70,7 @@ class AuthenticationViewModel: ObservableObject {
                     self.uiImage = loadedUIImage
                     self.userSelectImage = loadedSwiftUIImage
                 } catch {
-                    print("이미지 로드 중 오류 발생: \(error)")
+                    print("선택 이미지 초기화: \(error)")
                 }
             }
         }
@@ -86,7 +88,7 @@ class AuthenticationViewModel: ObservableObject {
                     self.backuiImage = loadedUIImage
                     self.backSelectImage = loadedSwiftUIImage
                 } catch {
-                    print("이미지 로드 중 오류 발생: \(error)")
+                    print("선택 이미지 초기화: \(error)")
                 }
             }
         }

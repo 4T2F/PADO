@@ -105,6 +105,21 @@ struct CustomTabView: View {
                                             .foregroundStyle(.clear)
                                             .padding(.top, 9)
                                     }
+                            } else {
+                                Image("defaultProfile")
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 30, height: 30)
+                                    .clipShape(Circle())
+                                    .padding(.top, 10)
+                                    .foregroundStyle(Color(.systemGray4))
+                                    .overlay {
+                                        Circle()
+                                            .stroke(viewModel.showTab == 4 ? .white : .clear)
+                                            .frame(width: 30)
+                                            .foregroundStyle(.clear)
+                                            .padding(.top, 9)
+                                    }
                             }
                             
                             Spacer()

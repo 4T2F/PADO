@@ -26,31 +26,35 @@ struct SelectEmojiView: View {
     let emojis = ["None", "👍", "🥰", "🤣", "😡", "😢"]
     
     var body: some View {
-        VStack {
-            Spacer()
-            ZStack {
-                Circle()
-                    .fill(.black)
-                    .stroke(emojiColors[commentVM.selectedEmoji, default: .white], lineWidth: 3.0)
-                    .frame(width: 102, height: 102)
-                
-                commentVM.cropMojiImage
-                    .resizable()
-                    .frame(width: 100, height: 100)
-                
-                if commentVM.selectedEmoji != "None" {
-                    Text(commentVM.selectedEmoji)
-                        .offset(x: 40, y: 35)
+        ZStack {
+            Color.main.ignoresSafeArea()
+            
+            VStack {
+                Spacer()
+                ZStack {
+                    Circle()
+                        .fill(.black)
+                        .stroke(emojiColors[commentVM.selectedEmoji, default: .white], lineWidth: 3.0)
+                        .frame(width: 102, height: 102)
+                    
+                    commentVM.cropMojiImage
+                        .resizable()
+                        .frame(width: 100, height: 100)
+                    
+                    if commentVM.selectedEmoji != "None" {
+                        Text(commentVM.selectedEmoji)
+                            .offset(x: 40, y: 35)
+                    }
                 }
+                Spacer()
+                Text("포토모지의 이모티콘을 선택해주세요")
+                    .font(.system(.body))
+                
+                emojiPicker
+                
+                submitButton
+                    .padding(.bottom, 20)
             }
-            Spacer()
-            Text("FaceMoji의 이모티콘을 선택해주세요")
-                .font(.system(.body))
-            
-            emojiPicker
-            
-            submitButton
-                .padding(.bottom, 20)
         }
     }
     
