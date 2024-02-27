@@ -1,25 +1,31 @@
-![Group 9078](https://github.com/4T2F/PADO/assets/103357078/84255ac4-971e-4f57-b00b-8cd9cb98c924)
-
+![PADO](https://github.com/4T2F/PADO/assets/120264964/82ec8968-7bcc-4716-9388-9f4ef901a7ac)
 <br><br>
 
 ## 🪧 목차
-
 - [📜 프로젝트 소개](#-프로젝트-소개)
 - [🌊 PADO 팀소개](#-pado-팀소개)
 - [✨ 앱 필요성](#-앱-필요성)
+- [🚩 개발목표](#-개발목표)
 - [💾 개발환경 및 라이브러리](#-개발환경-및-라이브러리)
+- [🌴 아키텍쳐 및 파이어베이스 구조](#-아키텍쳐-및-파이어베이스-구조)
 - [💡 핵심경험](#-핵심경험)
 - [🕰 타임라인](#-타임라인)
 - [📱 구현 화면](#-구현-화면)
 - [✅ 구현 List](#-구현-list)
-- [☠️ 트러블 슈팅 - Step 1](#-트러블-슈팅---step-1)
+- [🧑‍🤝‍🧑 유저 피드백](#-유저-피드백)
+- [⚠️ 트러블 슈팅 - Step1](#️-트러블-슈팅---step1)
+- [⚠️ 트러블 슈팅 - Step2](#️-트러블-슈팅---step2)
+- [⚠️ 트러블 슈팅 - Step3](#️-트러블-슈팅---step3)
+- [⚠️ 트러블 슈팅 - Step4](#️-트러블-슈팅---step4)
+- [⚠️ 트러블 슈팅 - Step5](#️-트러블-슈팅---step5)
+- [😆 프로젝트 회고](#-프로젝트-회고)
 - [📎 커밋 규칙](#-커밋-규칙)
 
 <br><br>
 
 ## 📜 프로젝트 소개
 
-앱스쿨 3기 마지막 프로젝트인  <span style="color:blue"> "PADO" </span> 는 친구들이 사용자를 촬영한 사진, 사용자와의 일상을 공유했던 추억 사진을 통해 내 피드를 꾸며주고 소통하는 소셜 미디어 앱입니다.
+앱스쿨 3기 마지막 프로젝트인  <span style="color:blue"> "PADO" </span> 는 안티 SNS로써,  친구들이 사용자를 촬영한 사진, 사용자와의 일상을 공유했던 추억 사진을 통해 내 피드를 꾸며주고 소통하는 소셜 미디어 앱 입니다.
 
 <br><br>
 
@@ -28,8 +34,8 @@
 | | **강치우** | **김명현** | **최동호** | **황민채** | **황성진** |
 |:---:|:---:|:---:|:---:|:---:|:---:|
 |**사진**|<img src="https://avatars.githubusercontent.com/u/112779139?v=4" width="95" height="95"/>|<img src="https://github.com/4T2F/PADO/assets/120264964/e0053e8f-24a1-448b-a120-35ca472ec100" width="95" height="95"/>|<img src="https://avatars.githubusercontent.com/u/37105602?v=4" width="95" height="95"/>|<img src="https://github.com/4T2F/PADO/assets/120264964/ee166053-82ca-48cb-b423-04153564c396" width="95" height="95"/>|<img src="https://avatars.githubusercontent.com/u/120264964?v=4" width="95" height="95"/>|
-|**한줄 소개**|**그거 그렇게 하는거 맞아요?**|**숟가락 노년**|**무례하긴 순애야**|**판숙이**|**건실한 청년**|
-|**깃허브**|[Github](https://github.com/ha-nabi)|[Github](https://github.com/kmh5038)|[Github](https://github.com/hamfan524)|[Github](https://github.com/Hminchae)|[Github](https://github.com/Hsungjin)|
+|**한줄 소개**|**그거 그렇게 하는거 맞아요?**|**숟가락 청년**|**무례하긴 순애야**|**판숙이**|**건실한 청년**|
+|**깃허브**|[Github](https://github.com/kangciu)|[Github](https://github.com/kmh5038)|[Github](https://github.com/hamfan524)|[Github](https://github.com/Hminchae)|[Github](https://github.com/Hsungjin)|
 
 <br><br>
 
@@ -49,32 +55,57 @@
 
 <br><br>
 
-## 💾 개발환경 및 라이브러리
+## 🚩 개발목표
 
-### 사용언어
+이미지 수정
+![image](https://github.com/4T2F/PADO/assets/120264964/0c4925ef-a4f8-4651-938f-c0393638faec)
 
-`Swift`
+<br><br>
 
-### 사용한 주요 라이브러리
+## 💾 개발도구 및 사용기술
 
-`Kingfisher`,`Firebase`, `Lottie`
+### 개발기술
 
-### 사용된 디자인 패턴(아키텍쳐)
+이미지 수정
+![image](https://github.com/4T2F/PADO/assets/120264964/2cacd098-b72a-47e8-a38a-3a290b12d043)
 
-`MVVM`
+### 사용기술(추가 예정)
+
+이미지수정
+
+<br><br>
+
+## 🌴 아키텍쳐 및 파이어베이스 구조
+
+### 프로젝트 아키텍쳐(추가 예정)
+
+이미지 수정
+
+### 파이어베이스 구조
+
+이미지 수정
+
+![image](https://github.com/4T2F/PADO/assets/120264964/3146eb71-e27c-4d3d-ac25-76cb44ed00bd)
 
 <br><br>
 
 ## 💡 핵심경험
 
-### 프로젝트 진행하면서 추가작성
-
-- [x] FireStore를 활용한 이미지 업데이트, 불러오기
-- [x] Firebase Auth를 이용한 로그인, 로그아웃, 회원가입, 회원탈퇴 활용
-- [x] View를 만들때 다양한 기기에서 사용려면 고려해야 하는 요소
+- [x] Firestorage 활용한 이미지 업데이트, 불러오기
+- [x] FireStore를 이용한 데이터 읽기, 저장, 삭제 로직 구현
+- [x] Firebase Auth를 이용한 로그인, 로그아웃, 회원가입, 회원탈퇴 구현
+- [x] MVVM 패턴에 대한 이해와 ViewModel의 분리 중요성
+- [x] View 를 만들때 다양한 기기에서 사용려면 고려해야 하는 요소
 - [x] 사용자 친화적인 UI/UX 구현 (적절한 입력 컴포넌트 사용, 알맞은 키보드 타입 지정)
 - [x] HIG를 이용한 디자인 구성
 - [x] CoreGraphics의 이해
+- [x] PencileKit의 이해
+- [x] PhotosUI의 활용
+- [x] Lottie의 사용
+- [x] 앱 배포경험 및 출시 후 피드백 반영의 중요성
+- [x] Geometryreader의 활용
+- [x] 뷰의 생명주기
+- [x] FCM을 통한 알람 방송 및 뷰 이동
 
 <br><br>
 
@@ -112,11 +143,11 @@
 |:---:|:---:|
 |24.01.22|노션 정리, 요구사항 명세서 작성|
 |24.01.23|UI작업, 앱스쿨 발표준비,SufferView 카메라, 앨범 작업, Splash View 작업|
-|24.01.24|1|
-|24.01.25|1|
-|24.01.26|1|
-|24.01.27|1|
-|24.01.28|1|
+|24.01.24|SettingView UI 작업, 로그아웃 오류 수정, ReadMe.md 1차 작업, 컴포넌트 정리|
+|24.01.25|UI Gradient 작업, 오늘 파도 스크롤링 추가, Splash View 오류 수정, SurffingView 파일 구조 변경, SurffingViewModel 리팩토링|
+|24.01.26|SettingView 정보 변경 기능, TodayView 오류 수정, Profile 변경 로직 수정, 로그인 로직 오류 수정, MainView 모델링 및 로직 수정, AuthViewModel 리팩토링|
+|24.01.27|파이어베이스에서 사진 불로오는 기능 구현|
+|24.01.28|KingFisher 적용, FCM 뱃지 구현, MainView 디자인 변경, Lottie 적용, 게시굴 올리는 함수 구현|
 </div>
 </details>
 
@@ -128,13 +159,13 @@
 
 |**날짜**|**작업 내용**|
 |:---:|:---:|
-|24.01.29|1|
-|24.01.30|1|
-|24.01.31|1|
-|24.02.01|1|
-|24.02.02|1|
-|24.02.03|1|
-|24.02.04|1|
+|24.01.29|게시하기 기능 구현, 스토리 셀 로직 구현, 캐시지우기 구현, 회원탈퇴 로직 수정, 파이어베이스 문서 이름 규칙 수정, 로그인 오류 수정, 로그아웃 모달 적용, 메인 피드에서 시간, 제목, 하트수 서버에서 SnapShot으로 받아오게 구현|
+|24.01.30|문의하기 사진 첨부 기능 구현, 팔로워 팔로잉 기능 구현, 댓글 입력창 디자인 수정, 포스팅 관련 스트리지 데이터 구조 변경, 댓글 기능 구현, ProfileView 디자인 변경|
+|24.01.31|메인피드 사진 사이즈 수정, 팔로잉 한 사람의 피드만 가져오게 변경, 포토모지 카메라 기능 구현, 프로필에서 SNS연동 기능 구현, 팔로워/팔로잉 뷰 디자인 수정|
+|24.02.01|댓글에서 프로필 이미지 로드기능 구현, 이미지 자르기 구현, 프로필 없을시 기본프로필 적용, 이미지 화절 저하 문제 해결, 검색기능 구현, 좋아요 눌린 피드 하이라이트 적용|
+|24.02.02|피드 데이터 로직 수정, 페이스모지 기능 구현, 다른사람 프로필 뷰 구현, 검색을 통한 유저 프로필 이동기능 구현, 앱 아이콘 변경, 다른사람 프로필에서 팔로워/팔로잉 수 보이게 구현, 댓글에서 프로필 이동 구현, 검색기록 구현, 댓글 없을 때 뷰 반영, 키보트 탭하여 내리기 구현, 대,소문자 구분없이 검색가능하게 변경, 검색 로직 일부 수정|
+|24.02.03|포스팅 시 서퍼지정 뷰/로직연결, Comment 서버 구조 변경, 하트 로직 수정, 게시물 중복으로 불러오는 오류 수정, 새로고침 오류 수정, 서퍼로 게시글 등록시 포스팅 올라가게 구현, Z스택 사용 최소화 리팩토링, 프로필에서 게시글들 최신순으로 불러오게 구현, 텍스트필드 자동으로 키보드 올라가게 구현, 팔로우 FCM기능 구현, 메인 뷰 햅틱 피드백 추가|
+|24.02.04|댓글 카운트 반영 안되던 오류 수정, 하트, 서퍼지정, 게시올리기 FCM 로직 추가, 그라데이션 수정, 팔로잉 관련 로직 수정, 현재 보고있는 스토리 셀 표시되게 구현, 포토모지 삭제기능 구현, 하트 로티 적용, 신고 메일 발송기능 구현, 알림설정 기능 구현, 포토모지 이모지 선택기능 구현|
 </div>
 </details>
 
@@ -146,13 +177,13 @@
 
 |**날짜**|**작업 내용**|
 |:---:|:---:|
-|24.02.05|1|
-|24.02.06|1|
-|24.02.07|1|
-|24.02.08|1|
-|24.02.09|1|
-|24.02.10|1|
-|24.02.11|1|
+|24.02.05|이모지 선택 로직 리팩토링, 프로필 저장 로직 수정, 배경화면 선택기능 추가, 문의하기 기능 구현, 프로필에서 게시글 선택하면 열리게 수정, 배경화면 없는 사람 프로필 안나오는 오류 수정|
+|24.02.06|메인뷰 디자인 변경, 2일 이내 게시글 받아오게 구현, 이용약관, 개인정보 처리방침 작성 및 연결, 변경된 메인뷰 댓글 하트 데이터 연결, 오늘 파도 가져오는 함수 구현, 사용하지 않은 코드 삭제|
+|24.02.07|유저값 재설정 함수 구현, 알림 기능 수정, 데이터 받아오는 로직 수정(스크롤 아래로 내리면 데이터를 추가로 받아오게 구현), 그리드 뷰 연동, 파도타기 기초 UI 작업|
+|24.02.08|파도타기 기능 구현, 알림 로직 수정, 프로필, 팔로워, 세팅 디자인 변경, 인기 게시글 받아오기, 새로고침 로직 수정, 다른 사람 피드에서 게시글 선택하면 열리게 구현|
+|24.02.09|회원가입, 로그아웃 오류 수정, 포스트 스냅샷 로직 수정, 그리드 관련 오류 수정, 방명록 기능 구현|
+|24.02.10|방명록 관련 오류, 디자인 수정, FCM 방명록 추가, 파도타기 메인뷰 연결, 모달뷰 수정, 데이터 포맷 변경 및 검색 뷰 크기 통일화, 차단 뷰 구현, 폰트 및 크기 통일화|
+|24.02.11|오늘파도 관련 오류 수정, 파도타기 디테일 수정, 댓글 관련 로직 수정, 댓글 삭제 인덱스 연결, 피드, 방명록에서 프로필 연결, 회원가입 관련 오류 수정|
 </div>
 </details>
 
@@ -164,13 +195,13 @@
 
 |**날짜**|**작업 내용**|
 |:---:|:---:|
-|24.02.12|UX 전략 회의 및 노션 정리|
-|24.02.13|1|
-|24.02.14|1|
-|24.02.15|1|
-|24.02.16|1|
-|24.02.17|1|
-|24.02.18|1|
+|24.02.12|프로필 관련 오류 수정, 팔로우, 서퍼지정 네비게이션 링크 연결|
+|24.02.13|오늘파도 랭킹 구현, 로그인 없이 둘러보기 기능 구현, 팔로우한 사람없을때 보여줄 뷰 구현, 댓글, 다른유저 프로필 신고하기 연결|
+|24.02.14|로그인 회원가입 관련 오류 수정, 포토피커 로직 수정, 파도타기 디테일 작업, 인기 팔로워 구현, 프로필 관련 오류 수정|
+|24.02.15|이미지 관련 디테일 작업, 서핑뷰 관련 오류, UI 수정, FCM관련 화면 전환기능 구현, 로직 수정|
+|24.02.16|파도타기 UI 수정, FCM 추가, 유저 차단 기능 구현|
+|24.02.17|포스팅 관련 디테일 작업, 파도타기 삭제기능 구현, 메인뷰 디자인, 로직 수정, 알림센터 내 뷰 이동 구현, FCM 관련 로직 수정, 인기-팔로잉 변환시 스크롤 맨위로 올라가게 구현, 서핑뷰, 오늘파도 프로그래스 뷰 구현, 차단 기능 디테일 작업, 앱내 어투, 폰트 수정|
+|24.02.18|설정-차단목록 작업, 차단 기능 디테일 작업, 전체적인 모달 수정, 가입할 때 이용약관 동의 추가, 알림뷰 오류 수정, 문자 인증 안오던 오류 수정|
 </div>
 </details>
 
@@ -182,27 +213,28 @@
 
 |**날짜**|**작업 내용**|
 |:---:|:---:|
-|24.02.19|1|
-|24.02.20|1|
-|24.02.21|1|
-|24.02.22|1|
-|24.02.23|1|
-|24.02.24|1|
-|24.02.25|1|
+|24.02.19|프로필, 배경사진 터치 이벤트 추가, 불필요 파일 삭제, 각종 오류 수정, 게시글 삭제시 새로고침 구현|
+|24.02.20|**앱 출시 및 각종 오류 수정**|
+|24.02.21|유저 피드백에 의한 앱 수정 / 온보딩 뷰 추가, 유저 차단시 새로고침 로직 구현, 메인뷰 디자인 수정, 하이라이트 공개 여부 설정기능 구현, FCM 관련 뷰 이동 로직 수정|
+|24.02.22|유저 피드백에 의한 앱 수정 / 파도 보내기 기능 추가, 커스텁 탭바 구현, 각종 오류 수정, 일부 디자인 변경|
+|24.02.23|유저 피드백에 의한 앱 수정 / FCM 관련 로직 수정, 각종 오류 수정, 게시글 삭제시 시트 내려가게 구현|
+|24.02.24|유저 피드백에 의한 앱 수정 / 모달관련 로직 수정, 프로필 뷰 새로고침 기능 구현, 각종 오류 수정, 커스텀 탭바 관련 디테일 작업|
+|24.02.25|유저 피드백에 의한 앱 수정 / 댓글 좋아요 추가 구현, 발표자로 준비, README 작성|
 </div>
 </details>
 
 <details>
-<summary>여섯째 주</summary>
+<summary>일곱번째 주</summary>
 <div markdown="1">
 
 ### 일곱번째 주
 
 |**날짜**|**작업 내용**|
 |:---:|:---:|
-|24.02.26|1|
-|24.02.27|1|
-|24.02.28|1|
+|24.02.26|유저 피드백에 의한 앱 수정 / 발표자로 준비, README 작성|
+|24.02.27|유저 피드백에 의한 앱 수정 / 답글 기능 구현, 발표자로 준비, README 작성|
+|24.02.28|프로젝트 종료|
+|24.02.29 ~ |유지보수, 코드 리팩토링 실시 예정|
 </div>
 </details>
 
@@ -210,21 +242,19 @@
 
 ## 📱 구현 화면
 
-세부기능 제작중
-
 ### 서버
 ![image](https://github.com/4T2F/PADO/assets/120264964/ee32c094-b2fd-4d15-b48d-9644e76f2ff1)
 
 ### 앱 설명
-![image](https://github.com/4T2F/PADO/assets/120264964/eeaef187-b52e-4364-98a0-a6b607a23a6c)
+![image](https://github.com/4T2F/PADO/assets/120264964/d0bb6128-e359-4b0c-9f6a-577ea9f13654)
 
-![image](https://github.com/4T2F/PADO/assets/120264964/f099258e-e5fc-4757-9902-c6e8e1eda961)
+![image](https://github.com/4T2F/PADO/assets/120264964/3bc292a0-e7be-43a6-949c-26b76e82cf06)
 
-![image](https://github.com/4T2F/PADO/assets/120264964/f75b6c80-e9aa-46c8-a85c-9d6dd80694d8)
+![image](https://github.com/4T2F/PADO/assets/120264964/deb174eb-96a2-4888-8634-5d3fc591d728)
 
-![image](https://github.com/4T2F/PADO/assets/120264964/9e8f5ed2-9acd-4e72-9d4e-ec45404bba0a)
+![image](https://github.com/4T2F/PADO/assets/120264964/aa690e0c-eb83-4fcc-90c7-d810abac3e0d)
 
-<!-- <img src="https://user-images.githubusercontent.com/11778058/130349283-4947b07b-0a9d-43fa-9cc3-47248d81c7e8.gif"  width="256" height="455"/> <img src="https://user-images.githubusercontent.com/11778058/130349329-6eeed2e6-ff33-4203-a37a-47ba791ba49f.gif"  width="256" height="455"/> <img src="https://user-images.githubusercontent.com/11778058/130349631-3386359b-050c-4383-8f78-29ac37575674.gif"  width="256" height="455"/> <img src="https://user-images.githubusercontent.com/11778058/130349739-2abcf14e-4633-4f80-9ec3-a1540fa3edcd.gif"  width="256" height="455"/> <img src="https://user-images.githubusercontent.com/11778058/130349978-b7fc43a3-da47-447f-ad0a-d205e1e289ea.gif"  width="256" height="455"/> <img src="https://user-images.githubusercontent.com/11778058/130350119-1552c530-3101-4861-a0be-1502dce3be3d.gif"  width="256" height="455"/>  -->
+![image](https://github.com/4T2F/PADO/assets/120264964/c49a2b33-6b25-4084-86e5-3697e3213493)
 
 <br><br>
 
@@ -232,46 +262,56 @@
 
 ### Pages
 
-- [x] Splash Image UI 구현
-- [x] StartView UI 구현
-- [x] LoginView UI 구현
-- [x] SearchView UI 구현
-- [x] SurfingView UI 구현
-- [x] 오늘파도 UI 구현
-- [x] ProfileView UI
-- [x] SettingView UI 구현
+- [x] Splash
+- [x] Start
+- [x] Login
+- [x] Search
+- [x] Surfing
+- [x] Today
+- [x] Profile
+- [x] Setting
+- [x] Notification
+- [x] PadoRide
+- [x] Onboarding
+- [x] ImageCrop
 
 ### Function
 
-- [ ] 둘러보기를 통한 제한적인 기능 수행
+- [x] 둘러보기 시 제한된 기능으로 오늘의 파도 만들기
 - [x] Firebase Auth 를 통한 로그인, 로그아웃, 회원가입 기능
 - [x] Firebase Auth 에서 이미 가입된 회원의 정보는 데이터 받아오기
 - [x] FireStore 를 통해 유저 정보 저장
-- [ ] FireStore 를 통해 메인 게시물 불러오기
-- [ ] FCM을 통한 조건에 따른 알림 발송
-- [ ] 게시물 신고 내용 메일 발송
-- [ ] FireStore 를 통해 댓글, 좋아요, 페이스모지 저장, 불러오기
+- [x] FireStore 를 통해 메인 게시물 불러오기
+- [x] FireStore 를 통해 댓글, 좋아요, 포토모지 저장, 불러오기
+- [x] FCM을 통한 조건에 따른 알림 발송
+- [x] FCM을 통한 조건에 따른 뷰 이동
+- [x] 게시물 신고, 문의하기 메일 발송
 - [x] 제스터를 통한 메인 피드 인터렉션
-- [ ] 유저 정보 검색 기능
-- [x] 사용자의 카메라, 앨범에 접근해 게시물 작성
-- [ ] 오늘 파도 게시물 불러오기, 정렬 기능
+- [x] 유저 정보 검색 기능
+- [x] 사용자의 카메라, 앨범에 접근해 게시물, 포토모지 작성
+- [x] 오늘 파도 게시물 불러오기, 정렬 기능
 - [x] 오늘 파도 애니메이션
-- [ ] 내 프로필 정보 표시, 저장
-- [ ] 서퍼 지정
-- [ ] 팔로잉, 팔로워 수 불러오기
-- [ ] 캐시 지우기 기능
-- [ ] 회원 탈퇴 기능
-- [x] FCM 알림 받기 설정
-- [ ] 문의 내용 FireStore 저장
-- [ ] APNs FireStore에 등록
-- [ ] 서퍼 지정 알림
-- [ ] 개시물 댓글, 하트 알림
-- [ ] 팔로우 알림
-- [ ] 서퍼가 내 게시물 작성시 알림
+- [x] 내 프로필 정보 표시, 저장
+- [x] 서퍼 지정, 해제, 알림
+- [x] 팔로잉, 팔로워 수 불러오기
+- [x] 캐시 지우기 기능
+- [x] 회원 탈퇴 기능
+- [x] FCM 알림 받기 여부 설정
+- [x] 메일을 통한 문의 기능
+- [x] APNs FireStore에 등록
+- [x] 개시물 댓글, 하트, 팔로우 팔로잉 알림
+- [x] 서퍼가 내 게시물 작성시 알림
+- [x] 파도타기 기능, 알림 구현
+- [x] 방명록 기능, 알림 구현
 
 <br><br>
 
-## ☠️ 트러블 슈팅 - Step 1
+## 🧑‍🤝‍🧑 유저 피드백
+### (추가 작성예정)
+
+<br><br>
+
+## ⚠️ 트러블 슈팅 - Step1
 
 ### TCA와 MVVM 아키텍쳐 관련 고민
 
@@ -296,6 +336,234 @@ MVVM을 통해, 우리는 안정적이면서도 유연한 애니메이션 구현
 이 경험은 우리가 앞으로 나아갈 길에 있어서 소중한 경험이 될 것입니다.
 
 <br><br>
+
+## ⚠️ 트러블 슈팅 - Step2
+
+### 이미지 저장시 생기는 흰색 배경화면
+
+앱에서 이미지를 다루면서 특히 파도타기 기능을 구현하는 과정에서, 이미지 하단에 원치 않는 흰색 배경이 추가되는 문제에 직면했어요. 이런 문제는 사용자 경험을 저해하고, 앱의 전체적인 외관을 떨어뜨릴 수 있죠. 이를 해결하기 위해 여러 시도 끝에, 이미지를 저장하기 전에 흰색 배경을 제거하는 방법을 채택했습니다.
+
+```swift
+ let imageView = UIImageView(image: padorideVM.selectedUIImage)
+        imageView.frame = CGRect(x: 0, y: 0, width: rect.width, height: rect.height - 50)
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+```
+이미지의 위치를 -50 끌어 올리면서 이미지의 밑에 부분에는 흰색 배경이 들어가게 되었습니다.
+
+CropWhiteBackground 클래스를 만들어서 이미지 처리를 담당하는 processImage 함수를 구현했어요. 
+이 함수는 입력된 이미지에서 흰색 배경을 제거해줍니다. 이미지의 크기와 배율을 고려하여, 실제로 사용자가 보게 될 이미지 부분만 남기고, 나머지는 잘라냅니다. 이 과정에서 CGImage의 cropping 메소드를 활용하여, 이미지의 특정 부분을 정확하게 크롭합니다. 이로써, 이미지의 중요한 부분만을 강조하고, 불필요한 배경은 제거할 수 있게 되었습니다.
+
+```swift
+class CropWhiteBackground {
+    func processImage(inputImage: UIImage) async throws -> UIImage {
+        
+        enum CroppingError: Error {
+            case imageNotFound, failedToCrop
+        }
+        
+        let croppingFrame: CGRect
+        let scaleFactor: CGFloat
+        let processedImageWidth: CGFloat
+        let processedImageHeight: CGFloat
+        let croppedImage: UIImage
+        guard let cgImage: CGImage = inputImage.cgImage else {
+            print("image not found")
+            throw CroppingError.imageNotFound
+        }
+        
+        // Declaration of cropping frame size
+        scaleFactor = inputImage.scale
+        processedImageWidth = (inputImage.size.width * scaleFactor)
+        processedImageHeight = (inputImage.size.height * scaleFactor) - (36 * scaleFactor)
+        
+        // Declaration of frame for cropping
+        croppingFrame = CGRect(x: 0, y: 0, width: processedImageWidth, height: processedImageHeight)
+        
+        // Cropping CGImage
+        guard let processedCGImage: CGImage = cgImage.cropping(to: croppingFrame) else {
+            print("image not found")
+            throw CroppingError.failedToCrop
+        }
+        
+        // Convert CGImage to UIImage
+        croppedImage = UIImage(cgImage: processedCGImage, scale: scaleFactor, orientation: inputImage.imageOrientation)
+        
+        return croppedImage
+    }
+}
+```
+이런 방식으로 문제를 해결하니 사용자들이 이미지를 보았을 때, 더 이상 하단의 흰색 배경에 신경 쓰지 않아도 되고, 우리가 전달하고자 하는 주요 내용에 더 집중할 수 있게 되었어요.
+
+이 경험을 통해, 앱 개발 과정에서 마주칠 수 있는 다양한 문제들을 해결하기 위해 창의적인 해결책을 모색하는 것의 중요성을 다시 한번 깨닫게 되었습니다. 코드 한 줄 한 줄이 사용자 경험에 얼마나 큰 영향을 미칠 수 있는지를 실감하였습니다.
+
+<br><br>
+
+## ⚠️ 트러블 슈팅 - Step3
+
+### 이미지 원본비율을 유지하기
+
+사용자들로 부터 받은 피드백으로 이미지가 원본 비율을 유지하면서도 화면에 잘 맞게 조정되는 것이었어요. 
+
+팀에서도 해당 문제에 대해 동의 하고 있었습니다.
+
+이 문제를 인지한 후, 우리 팀은 이미지 처리를 위한 해결하기 위해 ImageRatioResize라는 싱글톤 클래스를 만들기를 사용했습니다.
+
+ImageRatioResize 클래스는 두 가지 함수로 구성되어있어요. 
+첫 번째 함수인 resizedImageRect는 이미지의 비율을 유지하면서 원하는 사이즈로 조정해주는 것입니다. 
+이는 이미지가 화면에 꽉 차게 표시되길 원하지만, 그 과정에서 이미지가 원본의 비율이 깨지는 것을 원하지 않는 사용자들의 피드백에 의해 만들어 졌어요
+
+두 번째 함수인 resizeImage 이미지를 원하는 픽셀의 크기로 정확하게 조절해주는 것입니다. 
+이는 특히 이미지의 세부 사항이 중요한 경우에 유용하며, 사용자가 더 선명한 이미지를 경험할 수 있도록 합니다.
+
+```swift
+class ImageRatioResize {
+    
+    static let shared = ImageRatioResize()
+    
+    private init() { }
+        
+    // 이미지 비율을 반영해서 원하는 사이즈로 설정해주는 함수
+    func resizedImageRect(for originalImage: UIImage, targetSize: CGSize) -> CGRect {
+        let widthRatio = targetSize.width / originalImage.size.width
+        let heightRatio = targetSize.height / originalImage.size.height
+        let ratio = min(widthRatio, heightRatio)
+        
+        let newSize = CGSize(width: originalImage.size.width * ratio, height: originalImage.size.height * ratio)
+        let rect = CGRect(x: (targetSize.width - newSize.width) / 2.0,
+                          y: (targetSize.height - newSize.height) / 2.0,
+                          width: newSize.width,
+                          height: newSize.height)
+        return rect
+    }
+    
+    // 이미지를 원하는 크기로 변경해주는 함수
+    func resizeImage(_ originalImage: UIImage, toSize newSize: CGSize) async -> UIImage {
+        let format = UIGraphicsImageRendererFormat()
+        format.scale = 1 // 픽셀 기반 크기 조정을 위해 scale을 1로 설정합니다.
+        let renderer = UIGraphicsImageRenderer(size: newSize, format: format)
+        
+        let resizedImage = renderer.image { context in
+            originalImage.draw(in: CGRect(origin: .zero, size: newSize))
+        }
+        
+        return resizedImage
+    }
+}
+
+두가지 함수를 통해 우리는 사용자들로부터 받은 피드백을 해결할 수 있었습니다. 
+사용자들이 우리 앱에 보내는 이미지가 얼마나 중요한지 이해하고 피드백을 최대한 반영하고자 노력했어요. 
+이 과정을 통해 사용자 경험을 개선하는 것이 가장 큰 목표였어요.
+
+결론적으로 해당 함수들을 통해 원본 이미지가 비율을 유지한 상태로 활용할 수 있게 되었어요.
+```
+
+<br><br>
+
+## ⚠️ 트러블 슈팅 - Step4
+
+### 이미지를 자르고 데이터가 줄어드는 현상
+
+이번 문제는 앱에서 사용자가 이미지를 원하는 크기로 자를 때 발생한 문제로 이미지를 사용자가 원하는 크기로 자르는 뷰를 별도로 만들어서 사용하고 있습는데 여기서 발생했어요.
+
+이미지를 자른 후에 이미지의 품질이 떨어지는 현상을 찾았어요. 문제의 원인을 찾기위해 이미지를 자르기 전에 파이어베이스 서버에 올리면 이미지 크기가 정상적으로 들어것을 확인했고, 이미지를 자르면 원본 크기를 유지하지 못하고 이미지 크기가 크게 저하되는 문제가 생긴다는 것을 알게되었어요.
+
+기본적으로 ImageRenderer의 scale은 이미지를 렌더링할 때 해상도를 결정하는 중요한 요소라는 것을 알게 되었고. renderer.scale = 3 을 설정함으로써 이미지가 자동으로 작아지는 것을 방지하고, 원본에 가까운 품질을 유지할 수 있게 되었습니다. 이 작은 변경으로 사용자가 이미지를 자른 후에도 이미지의 품질이 크게 개선되었고, 원하는 크기로 조정해도 이미지가 선명함을 유지할 수 있게 되었죠.
+
+```swift
+Button {
+    let renderer = ImageRenderer(content: imageView(true))
+    renderer.scale = 3
+    renderer.proposedSize = .init(crop.size())
+    if let image = renderer.uiImage {
+        onCrop(image, true)
+        surfingVM.postingUIImage = image
+        if let uiImage = surfingVM.postingUIImage {
+                surfingVM.postingImage = Image(uiImage: uiImage)
+            }
+            surfingVM.showPostView.toggle()
+        } else {
+            onCrop(nil, false)
+    }
+}
+```
+
+ImageRenderer의 scale 속성을 조정하는 간단한 해결책을 통해, 우리는 사용자가 이미지를 자르고도 높은 품질의 이미지를 유지할 수 있도록 도왔습니다.
+
+<br><br>
+
+## ⚠️ 트러블 슈팅 - Step5
+
+### 특정 이미지가 안올라가는 오류
+
+다음으로 발생한 문제는 사진 중 안올라가는 사진이 있었습니다.
+
+근데 이 이미지가 주로 png 타입일 경우가 많았고, 이상하게도 모든 png가 다 안올라가는 게 아니였고, 규칙을 찾기가 힘들었습니다.
+
+그래서 파이어베이스에 올릴때 do catch 문으로 오류에 대해 파악하고자 했어요.
+
+그렇게 찍힌 오류는 
+> writeImageAtIndex:906: *** CMPhotoCompressionSessionAddImage: err = kCMPhotoError_UnsupportedPixelFormat [-16995]    (codec: 'jpeg')
+
+라는 오류 문구를 확인했습니다.
+
+이것에 대해 찾아보니 UIImage가 사용하는 픽셀 포맷이나 색상 공간이 JPEG 인코딩과 호환되지 않을 수 있다는 것을 알게 되었습니다.
+
+이에 대한 해결방법으로는 UIImage 를 CIImage 타입으로 바꿔주고 다시 UIImage로 바꿔주면 해결가능하다는 글을 찾게 되었습니다.
+
+```swift
+if let ciImage = CIImage(image: image) {
+    let context = CIContext(options: nil)
+    let colorSpace = CGColorSpaceCreateDeviceRGB()
+    // CIImage를 CGImage로 변환하면서 색상 공간 지정
+    if let newCGImage = context.createCGImage(ciImage, from: ciImage.extent, format: .RGBA8, colorSpace: colorSpace) {
+        let normalizedImage = UIImage(cgImage: newCGImage)
+        guard let normalizedImageData = normalizedImage.jpegData(compressionQuality: imageQuality.rawValue) else { return nil }
+        // normalizedImageData를 사용하여 업로드 로직을 계속 진행
+    }
+}
+```
+그래서 파이어베이스에 업로드 하기전 다음과 같이 이미지 포맷 변환 로직 추가 해주면서 문제를 해결할 수 있었습니다.
+
+<br><br>
+
+## 😆 프로젝트 회고
+
+### 강치우
+
+이상한 주제를 선택해서 하루 12시간이상 작업, 2달 안되는 기간동안 커밋 1000개, PR 약 200개를 넘겨버렸네요..
+우리가 계획했던 로직들이 다 완성되서 너무 좋았고 배포, 유지보수까지 경험해봐서 너무 뜻깊은 시간이였어요.
+누가 뭐라해도 우리팀이 제일 수고 많았어요. 다들 고생했어요
+
+<br>
+
+### 김명현
+
+난생 처음 해보는 프로젝트에서 A-Z 경험을 너무 좋은 조원들과 함께해서 더 의미가 깊었습니다. 프로젝트 동안 개인역량이 부족해 조원들에게 많이 미안하고 고마웠습니다. 이번 프로젝트를 하면서 배워야할게 아직 많구나 느끼는 좋은 동기부여가 되었습니다.앱스쿨 수강생분들, 강사님 보조강사님, 운영진분들 다들 고생 너무 많으셨습니다!!
+
+<br>
+
+### 최동호
+
+처음 목표로 잡았던 기능들을 완성하고 배포 이후 유지보수까지 할 수 있었다는게 너무 행복합니다. PADO 화면에 로그인부터 끝까지 제가 작업한
+로직들이 적용되어있다는게 너무 뿌듯해요. 그런데 기능 구현에 너무 집중하다보니 코드가 살짝 깔끔하지 못했다는점이 아쉽지만 
+이후에 유지보수하며 리팩토링하고 정리하며 더 배우겠습니다 :)
+
+<br>
+
+### 황민채
+
+즐 길푸푸 길동이 순심이
+
+<br>
+
+### 황성진
+
+처음으로 시작하는 제대로된 프로젝트였어요. 협업 단계에서 문제도 많았고 배워가는 부분도 많았고, 내가 맡은 부분을 어떻게든 해결하고자 노력하면서 
+성장하는 기분이였어요. 이미지파트를 주로 맡으면서 와 이렇게까지 해야지 이미지 처리가 된다고? 하는 부분도 있었지만, 
+나 스스로 성장할 수 있는 기회가 되었습니다. 누가 뭐래도 우리 파도팀이 짱이야! 그리고 이미지.. 다시는 만나지 말자.. 
+
+<br>
 
 ## 📎 커밋 규칙
 
