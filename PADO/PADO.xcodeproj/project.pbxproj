@@ -48,6 +48,7 @@
 		4182CA472B8D1B4D00EABD49 /* ShowMoreCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4182CA462B8D1B4D00EABD49 /* ShowMoreCommentView.swift */; };
 		4182CA492B8D27E200EABD49 /* ReplyCommentWriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4182CA482B8D27E200EABD49 /* ReplyCommentWriteView.swift */; };
 		4182CA4B2B8D29F400EABD49 /* ReplyCommentWriteViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4182CA4A2B8D29F400EABD49 /* ReplyCommentWriteViewCell.swift */; };
+		4182CA4D2B8D5F6800EABD49 /* ReplyCommentNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4182CA4C2B8D5F6800EABD49 /* ReplyCommentNotificationCell.swift */; };
 		41853B142B6C6DAA004F601D /* RecordSearchCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41853B132B6C6DAA004F601D /* RecordSearchCellView.swift */; };
 		418743212B5C32CF00D93CBE /* CircularImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4187431C2B5C32CF00D93CBE /* CircularImageView.swift */; };
 		418743272B5C42A300D93CBE /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418743262B5C42A300D93CBE /* SignUpView.swift */; };
@@ -289,6 +290,7 @@
 		4182CA462B8D1B4D00EABD49 /* ShowMoreCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowMoreCommentView.swift; sourceTree = "<group>"; };
 		4182CA482B8D27E200EABD49 /* ReplyCommentWriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyCommentWriteView.swift; sourceTree = "<group>"; };
 		4182CA4A2B8D29F400EABD49 /* ReplyCommentWriteViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyCommentWriteViewCell.swift; sourceTree = "<group>"; };
+		4182CA4C2B8D5F6800EABD49 /* ReplyCommentNotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyCommentNotificationCell.swift; sourceTree = "<group>"; };
 		41853B132B6C6DAA004F601D /* RecordSearchCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordSearchCellView.swift; sourceTree = "<group>"; };
 		4187431C2B5C32CF00D93CBE /* CircularImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircularImageView.swift; sourceTree = "<group>"; };
 		418743262B5C42A300D93CBE /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
@@ -992,6 +994,7 @@
 				63C8BA552B56644600025422 /* RequestSurfingNotificationCell.swift */,
 				63C8BA572B56659800025422 /* SurferNotificationCell.swift */,
 				B10765552B740FFC0023B686 /* CommentNotificationCell.swift */,
+				4182CA4C2B8D5F6800EABD49 /* ReplyCommentNotificationCell.swift */,
 				B10765572B7410470023B686 /* HeartNotificationCell.swift */,
 				B10765592B7410C50023B686 /* FacemojiNotificationCell.swift */,
 				B107655F2B7A41C20023B686 /* PostitNotificationCell.swift */,
@@ -1515,6 +1518,7 @@
 				648963DF2B6B6BE50080050D /* SettingProfileEditView.swift in Sources */,
 				648963DB2B6A9E960080050D /* PostCropView.swift in Sources */,
 				64E761C32B7F5F3600882D29 /* SurfingGuideView.swift in Sources */,
+				4182CA4D2B8D5F6800EABD49 /* ReplyCommentNotificationCell.swift in Sources */,
 				64392B742B7387590047BA12 /* PadoRideViewModel.swift in Sources */,
 				048A343E2B748DB60085CE8B /* CanvasView.swift in Sources */,
 				B10765562B740FFC0023B686 /* CommentNotificationCell.swift in Sources */,
@@ -1847,6 +1851,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Dark;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1889,6 +1894,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Dark;
 				LD_RUNPATH_SEARCH_PATHS = (

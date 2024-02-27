@@ -49,7 +49,7 @@ class UpdatePushNotiData {
             }
         case .replyComment:
             if receiveUser.nameID != userNameID {
-                await createPostNoti(userId: receiveUser.nameID, type: "comment", postID: targetPostID, message: message)
+                await createPostNoti(userId: receiveUser.nameID, type: "replyComment", postID: targetPostID, message: message)
             }
             if receiveUser.nameID != userNameID && receiveUser.alertAccept == "yes" {
                 PushNotificationManager.shared.sendPushNotificationWithPost(

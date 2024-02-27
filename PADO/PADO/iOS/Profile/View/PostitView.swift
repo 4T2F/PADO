@@ -17,7 +17,6 @@ struct PostitView: View {
     
     @FocusState private var isTextFieldFocused: Bool
     @State private var isFetchedMessages: Bool = false
-    @State private var isFocused: Bool = false
     @State private var isShowingLoginPage: Bool = false
     
     var body: some View {
