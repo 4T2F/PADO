@@ -41,7 +41,7 @@ struct ProfileView: View {
             ZStack {
                 ScrollView(.vertical, showsIndicators: false) {
                     headerView()
-                        .padding(.top, 100)
+                        .padding(.top, 50)
                     VStack(spacing: 0) {
                         LazyVStack(pinnedViews: [.sectionHeaders]) {
                             Section {
