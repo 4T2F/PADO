@@ -14,7 +14,6 @@ struct FeedView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
     
     @ObservedObject var feedVM: FeedViewModel
-    @ObservedObject var surfingVM: SurfingViewModel
     @ObservedObject var profileVM: ProfileViewModel
     @ObservedObject var followVM: FollowViewModel
     @ObservedObject var notiVM: NotificationViewModel
@@ -39,18 +38,16 @@ struct FeedView: View {
                                 } else if feedVM.followFetchLoading {
                                     EmptyView()
                                 } else if feedVM.followingPosts.isEmpty {
-                                    FeedGuideView(feedVM: feedVM, 
-                                                  title: "인기 팔로워",
-                                                  content: "계정을 팔로우하여 최신 게시물을\n여기서 확인하세요.")
+                                    FeedGuideView(title: "인기 팔로워",
+                                                  content: "계정을 팔로우하여 최신 게시물을\n여기서 확인하세요.",
+                                                  popularUsers: feedVM.popularUsers)
                                         .containerRelativeFrame([.horizontal,.vertical])
                                 } else {
                                     ForEach(feedVM.followingPosts.indices, id: \.self) { index in
                                         FeedCell(feedVM: feedVM,
-                                                 surfingVM: surfingVM,
-                                                 profileVM: profileVM,
                                                  feedCellType: FeedFilter.following,
-                                                 post: $feedVM.followingPosts[index],
-                                                 index: index)
+                                                 index: index,
+                                                 post: $feedVM.followingPosts[index])
                                         .id(index)
                                         .onAppear {
                                             if index == feedVM.followingPosts.indices.last {
@@ -67,11 +64,9 @@ struct FeedView: View {
                             LazyVStack(spacing: 0) {
                                 ForEach(feedVM.todayPadoPosts.indices, id: \.self) { index in
                                     FeedCell(feedVM: feedVM,
-                                             surfingVM: surfingVM,
-                                             profileVM: profileVM,
                                              feedCellType: FeedFilter.today,
-                                             post: $feedVM.todayPadoPosts[index],
-                                             index: index)
+                                             index: index,
+                                             post: $feedVM.todayPadoPosts[index])
                                 }
                             }
                         }
@@ -126,7 +121,6 @@ struct FeedView: View {
                     if !feedVM.isShowingPadoRide {
                         if scrollDelegate.scrollOffset < 5 {
                             FeedHeaderCell(notiVM: notiVM,
-                                           profileVM: profileVM,
                                            feedVM: feedVM)
                                 .transition(.opacity.combined(with: .scale))
                         } else if !scrollDelegate.isEligible {

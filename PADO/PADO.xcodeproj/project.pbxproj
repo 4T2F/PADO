@@ -190,7 +190,7 @@
 		B107655D2B7698FE0023B686 /* FollowNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA532B56623500025422 /* FollowNotificationCell.swift */; };
 		B107655E2B7699050023B686 /* RequestSurfingNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA552B56644600025422 /* RequestSurfingNotificationCell.swift */; };
 		B10765602B7A41C20023B686 /* PostitNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B107655F2B7A41C20023B686 /* PostitNotificationCell.swift */; };
-		B13BD2C52B7D4B61007D2DA3 /* OnePostModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13BD2C42B7D4B61007D2DA3 /* OnePostModalView.swift */; };
+		B13BD2C52B7D4B61007D2DA3 /* NotificationFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13BD2C42B7D4B61007D2DA3 /* NotificationFeedCell.swift */; };
 		B13BD2FF2B7FC309007D2DA3 /* PadoRideNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13BD2FE2B7FC309007D2DA3 /* PadoRideNotificationCell.swift */; };
 		B1749A652B5D755700BCC6BA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1749A642B5D755700BCC6BA /* AppDelegate.swift */; };
 		B1749A672B5E41AA00BCC6BA /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1749A662B5E41AA00BCC6BA /* Post.swift */; };
@@ -431,7 +431,7 @@
 		B10765592B7410C50023B686 /* FacemojiNotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacemojiNotificationCell.swift; sourceTree = "<group>"; };
 		B107655B2B7421390023B686 /* UpdatePostData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePostData.swift; sourceTree = "<group>"; };
 		B107655F2B7A41C20023B686 /* PostitNotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostitNotificationCell.swift; sourceTree = "<group>"; };
-		B13BD2C42B7D4B61007D2DA3 /* OnePostModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnePostModalView.swift; sourceTree = "<group>"; };
+		B13BD2C42B7D4B61007D2DA3 /* NotificationFeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationFeedCell.swift; sourceTree = "<group>"; };
 		B13BD2FE2B7FC309007D2DA3 /* PadoRideNotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadoRideNotificationCell.swift; sourceTree = "<group>"; };
 		B1749A642B5D755700BCC6BA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B1749A662B5E41AA00BCC6BA /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
@@ -827,7 +827,6 @@
 		632291392B5BF41D007C51D1 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				B13BD2C42B7D4B61007D2DA3 /* OnePostModalView.swift */,
 				6373235B2B7140E800C02A32 /* FeedView.swift */,
 				63B7B9982B7C996C00707C2F /* FeedGuideView.swift */,
 				64E761C22B7F5F3600882D29 /* SurfingGuideView.swift */,
@@ -844,6 +843,7 @@
 				416F61F72B7DF50B00F81093 /* FeedGuideCell.swift */,
 				64E761C42B7F5F4E00882D29 /* SurfingGuideCell.swift */,
 				418D18502B8A826C00E379F8 /* HeartUserCell.swift */,
+				B13BD2C42B7D4B61007D2DA3 /* NotificationFeedCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -1559,7 +1559,7 @@
 				6408FEE82B6E98E000BF0DDF /* DeleteCommentView.swift in Sources */,
 				04E9509A2B71B7860091F660 /* FaceMojiModalView.swift in Sources */,
 				4176B8332B868275009F1DEF /* CustomTabView.swift in Sources */,
-				B13BD2C52B7D4B61007D2DA3 /* OnePostModalView.swift in Sources */,
+				B13BD2C52B7D4B61007D2DA3 /* NotificationFeedCell.swift in Sources */,
 				63283DBB2B73BE0100A42C0F /* SelectPostCell.swift in Sources */,
 				B13BD2FF2B7FC309007D2DA3 /* PadoRideNotificationCell.swift in Sources */,
 				63AA035A2B68F1BE00431332 /* OffsetModifier.swift in Sources */,

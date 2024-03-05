@@ -9,9 +9,9 @@ import SwiftUI
 
 struct PadoRideView: View {
     @ObservedObject var feedVM: FeedViewModel
-    @ObservedObject var followVM: FollowViewModel
-    
     @State private var isShowingOnboarding: Bool = false
+    
+    @State var surfingIDs: [String]
     
     var body: some View {
         NavigationStack {
@@ -23,7 +23,7 @@ struct PadoRideView: View {
                                 Text("팔로우한 사람이 없어요")
                                     .font(.system(.body))
                                     .fontWeight(.medium)
-                            } else if !followVM.surfingIDs.isEmpty {
+                            } else if !surfingIDs.isEmpty {
                                 Text("파도타기가 가능한 친구")
                                     .font(.system(.body))
                                     .fontWeight(.medium)
@@ -53,17 +53,17 @@ struct PadoRideView: View {
                                 .foregroundStyle(.gray)
                                 .padding(.top, 100)
                             
-                        } else if followVM.surfingIDs.isEmpty {
+                        } else if surfingIDs.isEmpty {
                             SurfingGuideView()
                         } else {
-                            ForEach(followVM.surfingIDs, id: \.self) { surfingID in
+                            ForEach(surfingIDs, id: \.self) { surfingID in
                                 SelectPadoRideUserCell(id: surfingID)
                             }
                         }
                     }
                     .padding()
                     
-                    if !followVM.surfingIDs.isEmpty {
+                    if !surfingIDs.isEmpty {
                         VStack(alignment: .leading, spacing: 10) {
                             Text("회원님을 위한 추천")
                                 .font(.system(.footnote))

@@ -9,7 +9,6 @@ import Kingfisher
 import SwiftUI
 
 struct RequestSurfingNotificationCell: View {
-    @ObservedObject var profileVM: ProfileViewModel
     @ObservedObject var feedVM: FeedViewModel
     
     @State var sendUserProfileUrl: String = ""
@@ -67,8 +66,7 @@ struct RequestSurfingNotificationCell: View {
         }
         .sheet(isPresented: $showPost) {
             if let post = sendPost {
-                OnePostModalView(feedVM: feedVM,
-                                 profileVM: profileVM,
+                SelectPostCell(feedVM: feedVM,
                                  post: post)
                 .presentationDragIndicator(.visible)
             }

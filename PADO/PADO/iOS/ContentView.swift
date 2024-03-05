@@ -22,7 +22,6 @@ struct ContentView: View {
     
     @State private var showPushProfile = false
     @State private var pushUser: User?
-    
     @State private var showPushPost = false
     @State private var pushPost: Post?
     
@@ -43,7 +42,6 @@ struct ContentView: View {
     var body: some View {
         TabView(selection: $viewModel.showTab) {
             FeedView(feedVM: feedVM,
-                     surfingVM: surfingVM,
                      profileVM: profileVM,
                      followVM: followVM,
                      notiVM: notiVM)
@@ -55,12 +53,11 @@ struct ContentView: View {
             if let user = viewModel.currentUser {
                 SurfingView(surfingVM: surfingVM,
                             feedVM: feedVM,
-                            profileVM: profileVM,
                             followVM: followVM)
                 .tag(2)
                 
                 PadoRideView(feedVM: feedVM,
-                              followVM: followVM)
+                             surfingIDs: followVM.surfingIDs)
                 .tag(3)
                 
                 ProfileView(profileVM: profileVM,
@@ -106,8 +103,7 @@ struct ContentView: View {
         }
         .sheet(isPresented: $showPushPost) {
             if let post = pushPost {
-                OnePostModalView(feedVM: feedVM,
-                                 profileVM: profileVM,
+                SelectPostCell(feedVM: feedVM,
                                  post: post)
                 .presentationDragIndicator(.visible)
             }

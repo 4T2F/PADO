@@ -12,8 +12,13 @@ import SwiftUI
 @MainActor
 class NotificationViewModel: ObservableObject {
     @Published var notifications: [Noti] = []
+    @Published var notiPostListener: [String: ListenerRegistration] = [:]
+    @Published var notiPost: [String: Post] = [:]
+    @Published var notiUser: [String: User] = [:]
     @Published var hasNewNotifications = false // 새로운 알림 유무를 나타내는 변수 추가
     @Published var lastFetchedDocument: DocumentSnapshot? = nil
+    
+    static let shared = NotificationViewModel()
     
     private let db = Firestore.firestore()
     
@@ -39,10 +44,40 @@ class NotificationViewModel: ObservableObject {
             }
             self.notifications = self.notifications.filter { !$0.sendUser.isEmpty }
             self.hasNewNotifications = notifications.contains { !$0.read }
+            
+            for notification in notifications {
+                if let postID = notification.postID {
+                    await fetchNotificationPostData(postID: postID)
+                }
+                if notiUser[notification.sendUser] != nil {
+                    continue
+                }
+                if let user = await UpdateUserData.shared.getOthersProfileDatas(id: notification.sendUser) {
+                    notiUser[notification.sendUser] = user
+                }
+            }
         } catch {
             print("Error fetching notifications: \(error)")
         }
     }
+    
+    func fetchNotificationPostData(postID: String) async {
+        guard !postID.isEmpty else { return }
+        
+        let query = db.collection("post").document(postID)
+        
+        notiPostListener[postID] = query.addSnapshotListener{ [weak self] documentSnapshot, error in
+            guard let self = self else { return }
+            guard let document = documentSnapshot, document.exists,
+                  let post = try? document.data(as: Post.self) else {
+                print("Error fetching document: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+            
+            self.notiPost[postID] = post
+        }
+    }
+  
     
     func fetchMoreNotifications() async {
         guard !userNameID.isEmpty else { return }
@@ -70,10 +105,27 @@ class NotificationViewModel: ObservableObject {
             documentsData = documentsData.filter { !$0.sendUser.isEmpty }
             for documentData in documentsData {
                 self.notifications.append(documentData)
+                if let postID = documentData.postID {
+                    await fetchNotificationPostData(postID: postID)
+                }
+                if notiUser[documentData.sendUser] != nil {
+                    continue
+                }
+                if let user = await UpdateUserData.shared.getOthersProfileDatas(id: documentData.sendUser) {
+                    notiUser[documentData.sendUser] = user
+                }
             }
         } catch {
             print("Error fetching notifications: \(error)")
         }
+    }
+
+    func stopAllPostListeners() {
+        for (_, listener) in notiPostListener {
+            listener.remove()
+        }
+        notiPostListener.removeAll()
+        notiPost.removeAll()
     }
     
     // Firestore의 getDocuments에 대한 비동기 래퍼 함수

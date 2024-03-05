@@ -9,25 +9,20 @@ import Kingfisher
 import SwiftUI
 
 struct HeartNotificationCell: View {
-    @ObservedObject var profileVM: ProfileViewModel
     @ObservedObject var feedVM: FeedViewModel
-    
-    @State var sendUserProfileUrl: String = ""
-    
-    @State var sendPost: Post? = nil
-    
+    @StateObject var notiVM = NotificationViewModel()
+
     @State private var showPost = false
     
     var notification: Noti
     
     var body: some View {
         Button {
-            if sendPost != nil {
-                showPost = true
-            }
+            showPost = true
         } label: {
             HStack(spacing: 0) {
-                if let image = URL(string: sendUserProfileUrl) {
+                if let imageUrl = notiVM.notiUser[notification.sendUser]?.profileImageUrl,
+                   let image = URL(string: imageUrl) {
                     KFImage(image)
                         .resizable()
                         .frame(width: 40, height: 40)
@@ -46,7 +41,6 @@ struct HeartNotificationCell: View {
                         Text("\(notification.sendUser)님이 회원님의 파도에 ❤️로 공감했습니다. ")
                             .font(.system(.subheadline))
                             .fontWeight(.medium)
-                        
                         +
                         Text(notification.createdAt.formatDate(notification.createdAt))
                             .font(.system(.footnote))
@@ -60,23 +54,11 @@ struct HeartNotificationCell: View {
             }
         }
         .sheet(isPresented: $showPost) {
-            if let post = sendPost {
-                OnePostModalView(feedVM: feedVM,
-                                 profileVM: profileVM,
-                                 post: post)
-                .presentationDragIndicator(.visible)
-            }
-        }
-        .onAppear {
-            Task {
-                if let sendUserProfile = await UpdateUserData.shared.getOthersProfileDatas(id: notification.sendUser) {
-                    self.sendUserProfileUrl = sendUserProfile.profileImageUrl ?? ""
-                }
-                if let sendPost = await
-                    UpdatePostData.shared.fetchPostById(postId: notification.postID ?? "") {
-                    self.sendPost = sendPost
-                }
-            }
+            if let postID = notification.postID,
+               let post = notiVM.notiPost[postID] {
+                   SelectPostCell(feedVM: feedVM, post: .constant(post))
+                    .presentationDragIndicator(.visible) // .constant를 사용하여 Binding 객체 생성
+               }
         }
     }
 }

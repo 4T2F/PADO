@@ -11,7 +11,9 @@ import Kingfisher
 import Lottie
 import SwiftUI
 
-struct OnePostModalView: View {
+struct NotificationFeedCell: View {
+    @ObservedObject var feedVM: FeedViewModel
+    
     @State var heartLoading: Bool = false
     @State var isLoading: Bool = false
     @State var isHeartCheck: Bool = false
@@ -30,10 +32,7 @@ struct OnePostModalView: View {
     @State private var deleteSendPadoride: Bool = false
     @State private var deleteMyPost: Bool = false
     @State private var deleteSendPost: Bool = false
-    
-    @ObservedObject var feedVM: FeedViewModel
-    @ObservedObject var profileVM: ProfileViewModel
-    
+
     @Environment(\.dismiss) var dismiss
     
     var post: Post
