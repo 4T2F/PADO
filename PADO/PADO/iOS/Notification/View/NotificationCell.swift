@@ -10,8 +10,6 @@ import SwiftUI
 struct NotificationCell: View {
     @ObservedObject var feedVM: FeedViewModel
     
-    @State var post: Post
-    
     var notification: Noti
     
     var body: some View {

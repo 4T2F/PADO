@@ -13,7 +13,7 @@ import SwiftUI
 class NotificationViewModel: ObservableObject {
     @Published var notifications: [Noti] = []
     @Published var notiPostListener: [String: ListenerRegistration] = [:]
-    @Published var notiPost: [String: Post] = [:]
+    @Published var notiPosts: [String: Post] = [:]
     @Published var notiUser: [String: User] = [:]
     @Published var hasNewNotifications = false // 새로운 알림 유무를 나타내는 변수 추가
     @Published var lastFetchedDocument: DocumentSnapshot? = nil
@@ -63,6 +63,7 @@ class NotificationViewModel: ObservableObject {
     
     func fetchNotificationPostData(postID: String) async {
         guard !postID.isEmpty else { return }
+        guard self.notiPosts[postID] == nil else { return }
         
         let query = db.collection("post").document(postID)
         
@@ -74,16 +75,14 @@ class NotificationViewModel: ObservableObject {
                 return
             }
             
-            self.notiPost[postID] = post
+            self.notiPosts[postID] = post
         }
     }
   
     
     func fetchMoreNotifications() async {
         guard !userNameID.isEmpty else { return }
-        guard let lastDocument = lastFetchedDocument else {
-            print("여기 아직 안됨")
-            return }
+        guard let lastDocument = lastFetchedDocument else { return }
         
         let query = db.collection("users")
             .document(userNameID)
@@ -125,7 +124,7 @@ class NotificationViewModel: ObservableObject {
             listener.remove()
         }
         notiPostListener.removeAll()
-        notiPost.removeAll()
+        notiPosts.removeAll()
     }
     
     // Firestore의 getDocuments에 대한 비동기 래퍼 함수

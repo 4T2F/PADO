@@ -10,10 +10,7 @@ import SwiftUI
 
 struct FacemojiNotificationCell: View {
     @ObservedObject var feedVM: FeedViewModel
-    
-    @State var sendUserProfileUrl: String = ""
-    
-    @State var sendPost: Post? = nil
+    @StateObject var notiVM = NotificationViewModel.shared
     
     @State private var showPost = false
     
@@ -21,23 +18,13 @@ struct FacemojiNotificationCell: View {
     
     var body: some View {
         Button {
-            if sendPost != nil {
-                showPost = true
-            }
+            showPost = true
         } label: {
             HStack(spacing: 0) {
-                if let image = URL(string: sendUserProfileUrl) {
-                    KFImage(image)
-                        .resizable()
-                        .frame(width: 40, height: 40)
-                        .cornerRadius(40)
-                        .padding(.trailing)
-                } else {
-                    Image("defaultProfile")
-                        .resizable()
-                        .frame(width: 40, height: 40)
-                        .cornerRadius(40)
-                        .padding(.trailing)
+                if let user = notiVM.notiUser[notification.sendUser] {
+                    CircularImageView(size: .medium,
+                                           user: user)
+                    .padding(.trailing, 10)
                 }
                 
                 VStack(alignment: .leading, spacing: 4) {
@@ -58,21 +45,11 @@ struct FacemojiNotificationCell: View {
             }
         }
         .sheet(isPresented: $showPost) {
-            if let post = sendPost {
+            if let postID = notification.postID,
+               let post = notiVM.notiPosts[postID] {
                 SelectPostCell(feedVM: feedVM,
-                                 post: post)
+                               post: .constant(post))
                 .presentationDragIndicator(.visible)
-            }
-        }
-        .onAppear {
-            Task {
-                if let sendUserProfile = await UpdateUserData.shared.getOthersProfileDatas(id: notification.sendUser) {
-                    self.sendUserProfileUrl = sendUserProfile.profileImageUrl ?? ""
-                }
-                if let sendPost = await
-                    UpdatePostData.shared.fetchPostById(postId: notification.postID ?? "") {
-                    self.sendPost = sendPost
-                }
             }
         }
     }

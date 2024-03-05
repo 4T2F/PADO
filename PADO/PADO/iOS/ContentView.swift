@@ -17,13 +17,13 @@ struct ContentView: View {
     @StateObject var feedVM = FeedViewModel()
     @StateObject var followVM = FollowViewModel()
     @StateObject var profileVM = ProfileViewModel()
-    @StateObject var notiVM = NotificationViewModel()
     @StateObject var postitVM = PostitViewModel()
+    @StateObject var notiVM = NotificationViewModel.shared
     
     @State private var showPushProfile = false
     @State private var pushUser: User?
     @State private var showPushPost = false
-    @State private var pushPost: Post?
+    @State private var pushPostID: String = ""
     
     @State private var showPushPostit = false
     
@@ -43,8 +43,7 @@ struct ContentView: View {
         TabView(selection: $viewModel.showTab) {
             FeedView(feedVM: feedVM,
                      profileVM: profileVM,
-                     followVM: followVM,
-                     notiVM: notiVM)
+                     followVM: followVM)
             .tag(0)
             
             MainSearchView(profileVM: profileVM)
@@ -102,11 +101,12 @@ struct ContentView: View {
             }
         }
         .sheet(isPresented: $showPushPost) {
-            if let post = pushPost {
+            if let post = notiVM.notiPosts[pushPostID] {
                 SelectPostCell(feedVM: feedVM,
-                                 post: post)
+                               post: .constant(post))
                 .presentationDragIndicator(.visible)
             }
+
         }
         .tint(.white)
         .onAppear {
@@ -116,7 +116,7 @@ struct ContentView: View {
             fetchData()
         }
         .onChange(of: pushUser) { }
-        .onChange(of: pushPost) { }
+        .onChange(of: pushPostID) { } 
     }
     
     func fetchData() {
@@ -192,7 +192,8 @@ struct ContentView: View {
     @MainActor
     private func handlePostNotification(notiPostID: String) async {
         viewModel.showTab = 4
-        self.pushPost = await UpdatePostData.shared.fetchPostById(postId: notiPostID)
+        self.pushPostID = notiPostID
+        await notiVM.fetchNotificationPostData(postID: pushPostID)
         self.showPushPost = true
     }
     

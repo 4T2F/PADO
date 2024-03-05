@@ -382,8 +382,8 @@ struct FeedCell: View {
                                                 heartLoading = true
                                                 
                                                 await UpdateHeartData.shared.deleteHeart(post: post)
-                                                isHeartCheck = UpdateHeartData.shared.checkHeartExists(post: post)
-                                                heartLoading = false               
+                                                isHeartCheck.toggle()
+                                                heartLoading = false
                                             }
                                         }
                                     } label: {
@@ -410,7 +410,7 @@ struct FeedCell: View {
                                                 heartLoading = true
                                                 if let postID = post.id, let postUser = postUser {
                                                     await UpdateHeartData.shared.addHeart(post: post)
-                                                    isHeartCheck = UpdateHeartData.shared.checkHeartExists(post: post)
+                                                    isHeartCheck.toggle()
                                                     heartLoading = false
                                                     await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID,
                                                                                                  receiveUser: postUser,

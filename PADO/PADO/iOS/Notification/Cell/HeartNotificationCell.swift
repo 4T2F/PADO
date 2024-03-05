@@ -10,7 +10,7 @@ import SwiftUI
 
 struct HeartNotificationCell: View {
     @ObservedObject var feedVM: FeedViewModel
-    @StateObject var notiVM = NotificationViewModel()
+    @StateObject var notiVM = NotificationViewModel.shared
 
     @State private var showPost = false
     
@@ -21,19 +21,10 @@ struct HeartNotificationCell: View {
             showPost = true
         } label: {
             HStack(spacing: 0) {
-                if let imageUrl = notiVM.notiUser[notification.sendUser]?.profileImageUrl,
-                   let image = URL(string: imageUrl) {
-                    KFImage(image)
-                        .resizable()
-                        .frame(width: 40, height: 40)
-                        .cornerRadius(40)
-                        .padding(.trailing)
-                } else {
-                    Image("defaultProfile")
-                        .resizable()
-                        .frame(width: 40, height: 40)
-                        .cornerRadius(40)
-                        .padding(.trailing)
+                if let user = notiVM.notiUser[notification.sendUser] {
+                    CircularImageView(size: .medium,
+                                           user: user)
+                    .padding(.trailing, 10)
                 }
                 
                 VStack(alignment: .leading, spacing: 4) {
@@ -55,9 +46,9 @@ struct HeartNotificationCell: View {
         }
         .sheet(isPresented: $showPost) {
             if let postID = notification.postID,
-               let post = notiVM.notiPost[postID] {
+               let post = notiVM.notiPosts[postID] {
                    SelectPostCell(feedVM: feedVM, post: .constant(post))
-                    .presentationDragIndicator(.visible) // .constant를 사용하여 Binding 객체 생성
+                    .presentationDragIndicator(.visible)
                }
         }
     }

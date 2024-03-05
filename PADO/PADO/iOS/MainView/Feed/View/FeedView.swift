@@ -16,7 +16,8 @@ struct FeedView: View {
     @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var profileVM: ProfileViewModel
     @ObservedObject var followVM: FollowViewModel
-    @ObservedObject var notiVM: NotificationViewModel
+    
+    @StateObject var notiVM = NotificationViewModel.shared
     @StateObject var scrollDelegate: ScrollViewModel = .init()
     
     var body: some View {
@@ -120,8 +121,7 @@ struct FeedView: View {
                 VStack {
                     if !feedVM.isShowingPadoRide {
                         if scrollDelegate.scrollOffset < 5 {
-                            FeedHeaderCell(notiVM: notiVM,
-                                           feedVM: feedVM)
+                            FeedHeaderCell(feedVM: feedVM)
                                 .transition(.opacity.combined(with: .scale))
                         } else if !scrollDelegate.isEligible {
                             FeedRefreshHeaderCell()

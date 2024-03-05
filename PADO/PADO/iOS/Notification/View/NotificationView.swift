@@ -8,9 +8,8 @@
 import SwiftUI
 // TODO: 알림 없으면 noItemView
 struct NotificationView: View {
-    @EnvironmentObject var viewModel: AuthenticationViewModel
     @ObservedObject var feedVM: FeedViewModel
-    @ObservedObject var notiVM: NotificationViewModel
+    @ObservedObject var notiVM = NotificationViewModel.shared
     
     @State private var fetchedNotiData: Bool = false
     
@@ -38,8 +37,7 @@ struct NotificationView: View {
                         .frame(width: UIScreen.main.bounds.width)
                         if fetchedNotiData {
                             ForEach(notiVM.notifications.indices, id: \.self) { index in
-                                NotificationCell(feedVM: feedVM, 
-                                                 post: <#Post#>,
+                                NotificationCell(feedVM: feedVM,
                                                  notification: notiVM.notifications[index])
                                 .id(index)
                                 .padding(.horizontal, 10)
@@ -93,6 +91,7 @@ struct NotificationView: View {
             dismiss()
         }
         .onDisappear {
+            notiVM.stopAllPostListeners()
             enteredNavigation = false
         }
     }
