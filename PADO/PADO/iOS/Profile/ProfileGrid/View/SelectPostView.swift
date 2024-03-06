@@ -34,8 +34,7 @@ struct SelectPostView: View {
                             switch viewType {
                             case .receive:
                                 ForEach(profileVM.padoPosts.indices, id: \.self) { index in
-                                    SelectPostCell(profileVM: profileVM,
-                                                   feedVM: feedVM,
+                                    SelectPostCell(feedVM: feedVM,
                                                    post: $profileVM.padoPosts[index])
                                     .id(profileVM.padoPosts[index].id)
                                     .onAppear {
@@ -49,8 +48,7 @@ struct SelectPostView: View {
                                 
                             case .send:
                                 ForEach(profileVM.sendPadoPosts.indices, id: \.self) { index in
-                                    SelectPostCell(profileVM: profileVM,
-                                                   feedVM: feedVM,
+                                    SelectPostCell(feedVM: feedVM,
                                                    post: $profileVM.sendPadoPosts[index])
                                     .id(profileVM.sendPadoPosts[index].id)
                                     .onAppear {
@@ -63,8 +61,7 @@ struct SelectPostView: View {
                                 }
                             case .highlight:
                                 ForEach(profileVM.highlights.indices, id: \.self) { index in
-                                    SelectPostCell(profileVM: profileVM,
-                                                   feedVM: feedVM,
+                                    SelectPostCell(feedVM: feedVM,
                                                    post: $profileVM.highlights[index])
                                     .id(profileVM.highlights[index].id)
                                     .onAppear {

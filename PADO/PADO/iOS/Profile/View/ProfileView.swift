@@ -12,13 +12,14 @@ import SwiftUI
 struct ProfileView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
     @Environment(\.dismiss) var dismiss
+    
     @ObservedObject var profileVM: ProfileViewModel
     @ObservedObject var followVM: FollowViewModel
     @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var postitVM: PostitViewModel
     
     @Namespace var animation
-    @State private var buttonActive: Bool = false
+
     @State private var followerActive: Bool = false
     @State private var followingActive: Bool = false
     
@@ -469,7 +470,8 @@ struct ProfileView: View {
                                         .clipped()
                                 }
                                 .sheet(isPresented: $isShowingReceiveDetail) {
-                                    SelectPostView(profileVM: profileVM, feedVM: feedVM,
+                                    SelectPostView(profileVM: profileVM, 
+                                                   feedVM: feedVM,
                                                    viewType: PostViewType.receive,
                                                    isShowingDetail: $isShowingReceiveDetail,
                                                    userID: userNameID)
@@ -525,7 +527,8 @@ struct ProfileView: View {
                                         .clipped()
                                 }
                                 .sheet(isPresented: $isShowingSendDetail) {
-                                    SelectPostView(profileVM: profileVM, feedVM: feedVM,
+                                    SelectPostView(profileVM: profileVM, 
+                                                   feedVM: feedVM,
                                                    viewType: PostViewType.send,
                                                    isShowingDetail: $isShowingSendDetail,
                                                    userID: userNameID)
@@ -581,7 +584,8 @@ struct ProfileView: View {
                                         .clipped()
                                 }
                                 .sheet(isPresented: $isShowingHightlight) {
-                                    SelectPostView(profileVM: profileVM, feedVM: feedVM,
+                                    SelectPostView(profileVM: profileVM,
+                                                   feedVM: feedVM,
                                                    viewType: PostViewType.highlight,
                                                    isShowingDetail: $isShowingHightlight,
                                                    userID: userNameID)

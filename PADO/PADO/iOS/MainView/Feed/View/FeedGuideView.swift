@@ -9,10 +9,11 @@ import Kingfisher
 import SwiftUI
 
 struct FeedGuideView: View {
-    @ObservedObject var feedVM: FeedViewModel
     let title: String
     let content: String
     
+    let popularUsers: [User]
+
     var body: some View {
         NavigationStack {
             VStack {
@@ -41,7 +42,7 @@ struct FeedGuideView: View {
                     
                     ScrollView(.horizontal) {
                         HStack(spacing: 5) {
-                            ForEach(feedVM.popularUsers) { user in
+                            ForEach(popularUsers) { user in
                                 FeedGuideCell(user: user)
                                     .frame(width: frameWidth, height: size.height - 0)
                                     .scrollTransition(.interactive, axis: .horizontal) {

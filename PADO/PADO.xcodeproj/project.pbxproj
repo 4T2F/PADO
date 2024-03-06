@@ -182,7 +182,7 @@
 		B107654E2B712ABE0023B686 /* UserDefaultsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B107654D2B712ABE0023B686 /* UserDefaultsExtension.swift */; };
 		B10765502B712FBF0023B686 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = B107654F2B712FBF0023B686 /* FirebaseMessaging */; };
 		B10765522B73E5400023B686 /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10765512B73E5400023B686 /* NotificationViewModel.swift */; };
-		B10765542B73E9210023B686 /* NotificationCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10765532B73E9210023B686 /* NotificationCellView.swift */; };
+		B10765542B73E9210023B686 /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10765532B73E9210023B686 /* NotificationCell.swift */; };
 		B10765562B740FFC0023B686 /* CommentNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10765552B740FFC0023B686 /* CommentNotificationCell.swift */; };
 		B10765582B7410470023B686 /* HeartNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10765572B7410470023B686 /* HeartNotificationCell.swift */; };
 		B107655A2B7410C50023B686 /* FacemojiNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10765592B7410C50023B686 /* FacemojiNotificationCell.swift */; };
@@ -190,7 +190,6 @@
 		B107655D2B7698FE0023B686 /* FollowNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA532B56623500025422 /* FollowNotificationCell.swift */; };
 		B107655E2B7699050023B686 /* RequestSurfingNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA552B56644600025422 /* RequestSurfingNotificationCell.swift */; };
 		B10765602B7A41C20023B686 /* PostitNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B107655F2B7A41C20023B686 /* PostitNotificationCell.swift */; };
-		B13BD2C52B7D4B61007D2DA3 /* OnePostModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13BD2C42B7D4B61007D2DA3 /* OnePostModalView.swift */; };
 		B13BD2FF2B7FC309007D2DA3 /* PadoRideNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13BD2FE2B7FC309007D2DA3 /* PadoRideNotificationCell.swift */; };
 		B1749A652B5D755700BCC6BA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1749A642B5D755700BCC6BA /* AppDelegate.swift */; };
 		B1749A672B5E41AA00BCC6BA /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1749A662B5E41AA00BCC6BA /* Post.swift */; };
@@ -425,13 +424,12 @@
 		64F210D22B58B26F00E2064A /* MainSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSearchView.swift; sourceTree = "<group>"; };
 		B107654D2B712ABE0023B686 /* UserDefaultsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsExtension.swift; sourceTree = "<group>"; };
 		B10765512B73E5400023B686 /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
-		B10765532B73E9210023B686 /* NotificationCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCellView.swift; sourceTree = "<group>"; };
+		B10765532B73E9210023B686 /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
 		B10765552B740FFC0023B686 /* CommentNotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentNotificationCell.swift; sourceTree = "<group>"; };
 		B10765572B7410470023B686 /* HeartNotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartNotificationCell.swift; sourceTree = "<group>"; };
 		B10765592B7410C50023B686 /* FacemojiNotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacemojiNotificationCell.swift; sourceTree = "<group>"; };
 		B107655B2B7421390023B686 /* UpdatePostData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePostData.swift; sourceTree = "<group>"; };
 		B107655F2B7A41C20023B686 /* PostitNotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostitNotificationCell.swift; sourceTree = "<group>"; };
-		B13BD2C42B7D4B61007D2DA3 /* OnePostModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnePostModalView.swift; sourceTree = "<group>"; };
 		B13BD2FE2B7FC309007D2DA3 /* PadoRideNotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadoRideNotificationCell.swift; sourceTree = "<group>"; };
 		B1749A642B5D755700BCC6BA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B1749A662B5E41AA00BCC6BA /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
@@ -827,7 +825,6 @@
 		632291392B5BF41D007C51D1 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				B13BD2C42B7D4B61007D2DA3 /* OnePostModalView.swift */,
 				6373235B2B7140E800C02A32 /* FeedView.swift */,
 				63B7B9982B7C996C00707C2F /* FeedGuideView.swift */,
 				64E761C22B7F5F3600882D29 /* SurfingGuideView.swift */,
@@ -1159,7 +1156,7 @@
 			isa = PBXGroup;
 			children = (
 				63C8BA512B5661A500025422 /* NotificationView.swift */,
-				B10765532B73E9210023B686 /* NotificationCellView.swift */,
+				B10765532B73E9210023B686 /* NotificationCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1523,7 +1520,7 @@
 				048A343E2B748DB60085CE8B /* CanvasView.swift in Sources */,
 				B10765562B740FFC0023B686 /* CommentNotificationCell.swift in Sources */,
 				63B7B9992B7C996C00707C2F /* FeedGuideView.swift in Sources */,
-				B10765542B73E9210023B686 /* NotificationCellView.swift in Sources */,
+				B10765542B73E9210023B686 /* NotificationCell.swift in Sources */,
 				63824C522B558B6900D1D653 /* UseIDModalView.swift in Sources */,
 				B1A91D112B55928D00FE7F62 /* SettingNotificationView.swift in Sources */,
 				B1749A672B5E41AA00BCC6BA /* Post.swift in Sources */,
@@ -1559,7 +1556,6 @@
 				6408FEE82B6E98E000BF0DDF /* DeleteCommentView.swift in Sources */,
 				04E9509A2B71B7860091F660 /* FaceMojiModalView.swift in Sources */,
 				4176B8332B868275009F1DEF /* CustomTabView.swift in Sources */,
-				B13BD2C52B7D4B61007D2DA3 /* OnePostModalView.swift in Sources */,
 				63283DBB2B73BE0100A42C0F /* SelectPostCell.swift in Sources */,
 				B13BD2FF2B7FC309007D2DA3 /* PadoRideNotificationCell.swift in Sources */,
 				63AA035A2B68F1BE00431332 /* OffsetModifier.swift in Sources */,
