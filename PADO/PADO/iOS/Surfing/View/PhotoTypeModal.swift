@@ -13,8 +13,6 @@ struct PhotoTypeModal: View {
     @State var height = UIScreen.main.bounds.height
     
     @ObservedObject var surfingVM: SurfingViewModel
-    @ObservedObject var feedVM: FeedViewModel
-    @ObservedObject var profileVM: ProfileViewModel
     
     var body: some View {
         VStack {

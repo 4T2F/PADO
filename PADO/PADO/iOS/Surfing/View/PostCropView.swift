@@ -24,7 +24,6 @@ struct PostCropView: View {
     
     @ObservedObject var surfingVM: SurfingViewModel
     @ObservedObject var feedVM: FeedViewModel
-    @ObservedObject var profileVM: ProfileViewModel
     @ObservedObject var followVM: FollowViewModel
     
     var crop: Crop = .rectangle
@@ -78,7 +77,9 @@ struct PostCropView: View {
                     }
                 }
                 .navigationDestination(isPresented: $surfingVM.showPostView) {
-                    PostView(surfingVM: surfingVM, feedVM: feedVM, profileVM: profileVM, followVM: followVM)
+                    PostView(surfingVM: surfingVM,
+                             feedVM: feedVM,
+                             followVM: followVM)
                 }
             
             HStack {
