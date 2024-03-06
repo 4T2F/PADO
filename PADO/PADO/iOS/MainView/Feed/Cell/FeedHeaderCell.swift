@@ -29,9 +29,8 @@ struct FeedHeaderCell: View {
     @Namespace var animation
     
     @EnvironmentObject var viewModel: AuthenticationViewModel
-    @ObservedObject var notiVM: NotificationViewModel
-    @ObservedObject var profileVM: ProfileViewModel
     @ObservedObject var feedVM: FeedViewModel
+    @StateObject var notiVM = NotificationViewModel.shared
     
     private var filterBarWidth: CGFloat {
         let count = CGFloat(FeedFilter.allCases.count)
@@ -75,9 +74,7 @@ struct FeedHeaderCell: View {
             Spacer()
             
             if !userNameID.isEmpty {
-                NavigationLink(destination: NotificationView(profileVM: profileVM,
-                                                             feedVM: feedVM,
-                                                             notiVM: notiVM)) {
+                NavigationLink(destination: NotificationView(feedVM: feedVM)) {
                     Image(notiVM.hasNewNotifications ? "Bell_pin_light" : "Bell_light") // 조건부 아이콘 변경
                 }
             } else {

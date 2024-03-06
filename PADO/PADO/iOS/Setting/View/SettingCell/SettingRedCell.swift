@@ -25,12 +25,12 @@ struct SettingRedCell: View {
                 
                 Text(text)
                     .foregroundStyle(.red)
-                    .font(.system(.body))
+                    .font(.system(.subheadline))
                 
                 Spacer()
             }
             .padding(.horizontal, UIScreen.main.bounds.width * 0.04)
-            .frame(height: 50)
+            .frame(height: 30)
         }
     }
 }

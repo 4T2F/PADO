@@ -16,7 +16,6 @@ struct PostView: View {
     
     @ObservedObject var surfingVM: SurfingViewModel
     @ObservedObject var feedVM: FeedViewModel
-    @ObservedObject var profileVM: ProfileViewModel
     @ObservedObject var followVM: FollowViewModel
     @EnvironmentObject var viewModel: AuthenticationViewModel
     

@@ -24,7 +24,6 @@ struct FeedCell: View {
     @State private var isShowingLoginPage: Bool = false
     @State private var isShowingMoreText: Bool = false
     @State private var isShowingHeartUserView: Bool = false
-    @State private var textColor: Color = .white
     
     @State private var deleteMyPadoride: Bool = false
     @State private var deleteSendPadoride: Bool = false
@@ -32,12 +31,11 @@ struct FeedCell: View {
     @State private var deleteSendPost: Bool = false
     
     @ObservedObject var feedVM: FeedViewModel
-    @ObservedObject var surfingVM: SurfingViewModel
-    @ObservedObject var profileVM: ProfileViewModel
     
     let feedCellType: FeedFilter
-    @Binding var post: Post
     var index: Int
+    
+    @Binding var post: Post
     
     var body: some View {
         ZStack {
@@ -54,14 +52,6 @@ struct FeedCell: View {
                                     .onSuccess { result in
                                         // 이미지 로딩 성공 시
                                         isLoading = false
-                                        
-                                        let uiImage = result.image
-                                        
-                                        if let averageColor = uiImage.averageColor(), averageColor.isLight() {
-                                            textColor = .black
-                                        } else {
-                                            textColor = .white
-                                        }
                                     }
                                     .onFailure { _ in
                                         // 이미지 로딩 실패 시
@@ -213,7 +203,7 @@ struct FeedCell: View {
                                 } label: {
                                     if isShowingMoreText {
                                         Text("\(post.title)")
-                                            .font(.system(.body))
+                                            .font(.system(.subheadline))
                                             .fontWeight(.heavy)
                                             .foregroundStyle(.white)
                                             .padding(8)
@@ -224,7 +214,7 @@ struct FeedCell: View {
                                             .multilineTextAlignment(.leading)
                                     } else {
                                         Text("\(post.title)")
-                                            .font(.system(.body))
+                                            .font(.system(.subheadline))
                                             .fontWeight(.heavy)
                                             .foregroundStyle(.white)
                                             .lineLimit(1)
@@ -235,8 +225,6 @@ struct FeedCell: View {
                                             .padding(.trailing, 24)
                                     }
                                 }
-                                .font(.system(.body))
-                                .foregroundStyle(textColor)
                                 .lineSpacing(1)
                                 .fontWeight(.bold)
                                 .padding(.trailing, 20)
@@ -250,7 +238,7 @@ struct FeedCell: View {
                                 } label: {
                                     Text("surf. @\(post.surferUid)")
                                 }
-                                .font(.system(.body))
+                                .font(.system(.callout))
                                 .fontWeight(.heavy)
                                 .foregroundStyle(.white)
                                 .padding(8)
@@ -394,8 +382,8 @@ struct FeedCell: View {
                                                 heartLoading = true
                                                 
                                                 await UpdateHeartData.shared.deleteHeart(post: post)
-                                                isHeartCheck = UpdateHeartData.shared.checkHeartExists(post: post)
-                                                heartLoading = false               
+                                                isHeartCheck.toggle()
+                                                heartLoading = false
                                             }
                                         }
                                     } label: {
@@ -422,7 +410,7 @@ struct FeedCell: View {
                                                 heartLoading = true
                                                 if let postID = post.id, let postUser = postUser {
                                                     await UpdateHeartData.shared.addHeart(post: post)
-                                                    isHeartCheck = UpdateHeartData.shared.checkHeartExists(post: post)
+                                                    isHeartCheck.toggle()
                                                     heartLoading = false
                                                     await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID,
                                                                                                  receiveUser: postUser,

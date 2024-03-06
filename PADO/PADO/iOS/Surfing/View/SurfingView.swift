@@ -13,7 +13,6 @@ struct SurfingView: View {
     // MARK: - PROPERTY
     @ObservedObject var surfingVM: SurfingViewModel
     @ObservedObject var feedVM: FeedViewModel
-    @ObservedObject var profileVM: ProfileViewModel
     @ObservedObject var followVM: FollowViewModel
     
     // MARK: - BODY
@@ -84,17 +83,15 @@ struct SurfingView: View {
                     surfingVM.isShownCamera = false
                 }
                 .sheet(isPresented: $surfingVM.isShowingPhotoModal, content: {
-                    PhotoTypeModal(surfingVM: surfingVM,
-                                   feedVM: feedVM,
-                                   profileVM: profileVM)
+                    PhotoTypeModal(surfingVM: surfingVM)
                     .presentationDetents([.fraction(0.3)])
                     .presentationDragIndicator(.visible)
                     
                 })
                 .sheet(isPresented: $surfingVM.isShowPopularModal, content: {
-                    FeedGuideView(feedVM: feedVM,
-                                  title: "먼저 계정을 팔로우해주세요",
-                                  content: "서퍼로 등록이 되어야 파도를\n보낼 수 있어요")
+                    FeedGuideView(title: "먼저 계정을 팔로우해주세요",
+                                  content: "서퍼로 등록이 되어야 파도를\n보낼 수 있어요",
+                                  popularUsers: feedVM.popularUsers)
                     .presentationDetents([.fraction(0.8), .large])
                     .presentationDragIndicator(.visible)
                     .presentationCornerRadius(30)
@@ -108,7 +105,6 @@ struct SurfingView: View {
                 .navigationDestination(isPresented: $surfingVM.showCropView) {
                     PostCropView(surfingVM: surfingVM,
                                  feedVM: feedVM,
-                                 profileVM: profileVM,
                                  followVM: followVM) { croppedImage, status in
                         if let croppedImage {
                             surfingVM.postingUIImage = croppedImage
