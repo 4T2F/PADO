@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct SettingRedCell: View {
-    
     var icon: String
     var text: String
     

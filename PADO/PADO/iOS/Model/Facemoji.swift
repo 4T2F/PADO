@@ -7,9 +7,10 @@
 
 import Firebase
 import FirebaseFirestore
+
 import Foundation
 
-struct Facemoji : Identifiable, Codable, Hashable {
+struct Facemoji: Identifiable, Codable, Hashable {
     @DocumentID var id: String?
     
     let userID: String

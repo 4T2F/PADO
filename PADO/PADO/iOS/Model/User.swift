@@ -7,10 +7,12 @@
 
 import Firebase
 import FirebaseFirestoreSwift
+
 import Foundation
 
 struct User: Codable, Identifiable, Hashable {
     @DocumentID var id: String?
+    
     var username: String // 유저 닉네임
     var lowercasedName: String
     var nameID: String

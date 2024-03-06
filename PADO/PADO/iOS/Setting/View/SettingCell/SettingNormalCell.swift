@@ -34,6 +34,3 @@ struct SettingNormalCell: View {
 }
 
 
-#Preview {
-    SettingInfoView()
-}

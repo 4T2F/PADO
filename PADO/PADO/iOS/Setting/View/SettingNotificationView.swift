@@ -9,8 +9,8 @@ import SwiftUI
 
 struct SettingNotificationView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
-    
     @Environment (\.dismiss) var dismiss
+    
     @State var noti: Bool = true
     
     var body: some View {
@@ -18,7 +18,9 @@ struct SettingNotificationView: View {
             ZStack {
                 VStack {
                     VStack {
-                        SettingToggleCell(icon: "square.and.pencil", text: "알림 설정", toggle: $noti)
+                        SettingToggleCell(toggle: $noti,
+                                          icon: "square.and.pencil",
+                                          text: "알림 설정")
                             .onChange(of: noti) { oldValue, newValue in
                                 Task {
                                     await viewModel.updateAlertAcceptance(newStatus: newValue)

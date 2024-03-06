@@ -10,12 +10,10 @@ import PhotosUI
 import SwiftUI
 
 struct SurfingView: View {
-    // MARK: - PROPERTY
     @ObservedObject var surfingVM: SurfingViewModel
     @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var followVM: FollowViewModel
     
-    // MARK: - BODY
     var body: some View {
         NavigationStack {
             ZStack {
@@ -51,12 +49,9 @@ struct SurfingView: View {
                 }
                 .navigationTitle("새로운 파도")
                 .navigationBarTitleDisplayMode(.inline)
-                .toolbarBackground(.visible,
-                                   for: .navigationBar)
-                .toolbarBackground(Color.main,
-                                   for: .navigationBar)
-                .toolbarColorScheme(.dark,
-                                    for: .navigationBar)
+                .toolbarBackground(.visible, for: .navigationBar)
+                .toolbarBackground(Color.main, for: .navigationBar)
+                .toolbarColorScheme(.dark, for: .navigationBar)
                 .background {
                     Color.main
                         .ignoresSafeArea()
@@ -129,10 +124,8 @@ struct SurfingView: View {
                             }
                             .font(.system(.body, weight: .semibold))
                         }
-                        
                     }
                 }
-                
             }
         }
     }
