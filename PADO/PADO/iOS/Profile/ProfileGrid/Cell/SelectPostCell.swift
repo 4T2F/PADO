@@ -12,7 +12,6 @@ import Lottie
 import SwiftUI
 
 struct SelectPostCell: View {
-    @Environment(\.dismiss) var dismiss
     
     @ObservedObject var feedVM: FeedViewModel
     
@@ -52,7 +51,6 @@ struct SelectPostCell: View {
                                         .onSuccess { result in
                                             // 이미지 로딩 성공 시
                                             isLoading = false
-                                            
                                         }
                                         .onFailure { _ in
                                             // 이미지 로딩 실패 시
@@ -317,10 +315,10 @@ struct SelectPostCell: View {
                                                 let generator = UIImpactFeedbackGenerator(style: .light)
                                                 generator.impactOccurred()
                                                 
-                                                
                                                 if let currentIndex = feedVM.currentPadoRideIndex {
                                                     // 다음 이미지로 이동
                                                     let nextIndex = currentIndex + 1
+                                                  
                                                     if nextIndex < feedVM.padoRidePosts.count {
                                                         feedVM.currentPadoRideIndex = nextIndex
                                                     } else {
@@ -520,7 +518,6 @@ struct SelectPostCell: View {
                                                 }
                                                 deleteMyPadoride = false
                                                 needsDataFetch.toggle()
-                                                dismiss()
                                             }
                                         })
                                         .presentationDetents([.fraction(0.4)])
@@ -541,7 +538,6 @@ struct SelectPostCell: View {
                                                 }
                                                 deleteSendPadoride = false
                                                 needsDataFetch.toggle()
-                                                dismiss()
                                             }
                                         }
                                         .presentationDetents([.fraction(0.4)])
@@ -554,7 +550,6 @@ struct SelectPostCell: View {
                                                                                    sufferID: post.surferUid)
                                                 deleteMyPost = false
                                                 needsDataFetch.toggle()
-                                                dismiss()
                                             }
                                         }
                                         .presentationDetents([.fraction(0.4)])
@@ -567,7 +562,6 @@ struct SelectPostCell: View {
                                                                                    sufferID: post.surferUid)
                                                 deleteSendPost = false
                                                 needsDataFetch.toggle()
-                                                dismiss()
                                             }
                                         }
                                         .presentationDetents([.fraction(0.4)])
