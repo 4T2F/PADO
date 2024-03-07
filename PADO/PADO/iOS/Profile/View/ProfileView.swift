@@ -19,7 +19,7 @@ struct ProfileView: View {
     @ObservedObject var postitVM: PostitViewModel
     
     @Namespace var animation
-
+    
     @State private var followerActive: Bool = false
     @State private var followingActive: Bool = false
     
@@ -335,12 +335,14 @@ struct ProfileView: View {
                                     .foregroundStyle(.white)
                                 }
                                 .sheet(isPresented: $followerActive) {
-                                    FollowMainView(currentType: "팔로워", followVM: followVM, user: user)
-                                        .presentationDetents([.large])
-                                        .presentationDragIndicator(.visible)
-                                        .onDisappear {
-                                            followerActive = false
-                                        }
+                                    FollowMainView(followVM: followVM,
+                                                   currentType: "팔로워",
+                                                   user: user)
+                                    .presentationDetents([.large])
+                                    .presentationDragIndicator(.visible)
+                                    .onDisappear {
+                                        followerActive = false
+                                    }
                                 }
                                 
                                 Button {
@@ -357,8 +359,8 @@ struct ProfileView: View {
                                 }
                                 
                                 .sheet(isPresented: $followingActive) {
-                                    FollowMainView(currentType: "팔로잉",
-                                                   followVM: followVM,
+                                    FollowMainView(followVM: followVM,
+                                                   currentType: "팔로워",
                                                    user: user)
                                     .presentationDetents([.large])
                                     .presentationDragIndicator(.visible)
@@ -470,7 +472,7 @@ struct ProfileView: View {
                                         .clipped()
                                 }
                                 .sheet(isPresented: $isShowingReceiveDetail) {
-                                    SelectPostView(profileVM: profileVM, 
+                                    SelectPostView(profileVM: profileVM,
                                                    feedVM: feedVM,
                                                    viewType: PostViewType.receive,
                                                    isShowingDetail: $isShowingReceiveDetail,
@@ -527,7 +529,7 @@ struct ProfileView: View {
                                         .clipped()
                                 }
                                 .sheet(isPresented: $isShowingSendDetail) {
-                                    SelectPostView(profileVM: profileVM, 
+                                    SelectPostView(profileVM: profileVM,
                                                    feedVM: feedVM,
                                                    viewType: PostViewType.send,
                                                    isShowingDetail: $isShowingSendDetail,

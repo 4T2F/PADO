@@ -64,9 +64,9 @@ struct FeedView: View {
                             LazyVStack(spacing: 0) {
                                 ForEach(feedVM.todayPadoPosts.indices, id: \.self) { index in
                                     FeedCell(feedVM: feedVM,
+                                             post: $feedVM.todayPadoPosts[index],
                                              feedCellType: FeedFilter.today,
-                                             index: index,
-                                             post: $feedVM.todayPadoPosts[index])
+                                             index: index)
                                 }
                             }
                         }
