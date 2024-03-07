@@ -9,8 +9,8 @@ import Kingfisher
 import SwiftUI
 
 struct PostitCell: View {
-    
     @ObservedObject var postitVM: PostitViewModel
+    
     @State private var buttonOnOff: Bool = false
     
     let message: PostitMessage
@@ -29,12 +29,11 @@ struct PostitCell: View {
                                                 defaultImageName: "defaultProfile")
                         }
                         if let messageID = message.id {
-                            MessageBubbleView(text: message.content,
+                            MessageBubbleView(postitVM: postitVM, text: message.content,
                                               isUser: true,
                                               messageUserID: message.messageUserID,
                                               messageTime: message.messageTime,
-                                              messageID: messageID,
-                                              postitVM: postitVM)
+                                              messageID: messageID)
                         }
                         Spacer()
                         
@@ -42,12 +41,11 @@ struct PostitCell: View {
                 } else {
                     Spacer()
                     if let messageID = message.id {
-                        MessageBubbleView(text: message.content,
+                        MessageBubbleView(postitVM: postitVM, text: message.content,
                                           isUser: false,
                                           messageUserID: message.messageUserID,
                                           messageTime: message.messageTime,
-                                          messageID: messageID,
-                                          postitVM: postitVM)
+                                          messageID: messageID)
                     }
                     if let user = postitVM.messageUsers[message.messageUserID] {
                         NavigationLink {
