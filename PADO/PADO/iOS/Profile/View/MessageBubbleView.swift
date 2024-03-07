@@ -10,13 +10,13 @@ import FirebaseFirestoreSwift
 import SwiftUI
 
 struct MessageBubbleView: View {
+    @ObservedObject var postitVM: PostitViewModel
+    
     let text: String
     let isUser: Bool
     let messageUserID: String
     let messageTime: Timestamp
     let messageID: String
-    
-    @ObservedObject var postitVM: PostitViewModel
     
     var body: some View {
         VStack(alignment: isUser ? .leading : .trailing) {

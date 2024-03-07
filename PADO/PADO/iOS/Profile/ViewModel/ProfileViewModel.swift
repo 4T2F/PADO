@@ -33,6 +33,7 @@ class ProfileViewModel: ObservableObject {
     @Published var fetchedHighlights: Bool = false
     // 사용자 차단 로직
     @Published var isUserBlocked: Bool = false
+    
     private var postListeners: [String: ListenerRegistration] = [:]
     private var db = Firestore.firestore()
     
@@ -103,8 +104,6 @@ class ProfileViewModel: ObservableObject {
             print("Error fetching posts: \(error.localizedDescription)")
         }
     }
-    
-  
     
     @MainActor
     func fetchSendPadoPosts(id: String) async {
@@ -458,7 +457,6 @@ extension ProfileViewModel {
             print("Error unblocking user: \(error.localizedDescription)")
         }
     }
-    
     
     private func filterBlockedPost(post: Post) -> Bool {
         let blockedUserIDs = Set(blockingUser.map { $0.blockUserID } + blockedUser.map { $0.blockUserID })
