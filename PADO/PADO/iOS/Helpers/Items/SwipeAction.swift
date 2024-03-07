@@ -9,16 +9,20 @@ import SwiftUI
 
 /// Custom Swipe Action View
 struct SwipeAction<Content: View>: View {
-    var cornerRadius: CGFloat = 0
-    var direction: SwipeDirection = .trailing
-    @ViewBuilder var content: Content
-    @ActionBuilder var actions: [Action]
-    /// View Properties
     @Environment(\.colorScheme) private var scheme
-    /// View Unique ID
-    let viewID = "CONTENTVIEW"
+    
     @State private var isEnabled: Bool = true
     @State private var scrollOffset: CGFloat = .zero
+    
+    var cornerRadius: CGFloat = 0
+    var direction: SwipeDirection = .trailing
+    /// View Unique ID
+    let viewID = "CONTENTVIEW"
+    
+    @ViewBuilder var content: Content
+    
+    @ActionBuilder var actions: [Action]
+    
     var body: some View {
         ScrollViewReader { scrollProxy in
             ScrollView(.horizontal) {

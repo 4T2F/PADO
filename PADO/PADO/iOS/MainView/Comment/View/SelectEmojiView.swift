@@ -85,22 +85,22 @@ struct SelectEmojiView: View {
     var submitButton: some View {
         Button(action: {
             Task {
-                await commentVM.updateFacemojiData.updateEmoji(documentID: postID,
+                await commentVM.updatePhotoMojiData.updateEmoji(documentID: postID,
                                                                emoji: commentVM.selectedEmoji)
                 if let cropImage = commentVM.cropMojiUIImage {
-                    try await commentVM.updateFacemojiData.updateFaceMoji(cropMojiUIImage: cropImage,
+                    try await commentVM.updatePhotoMojiData.updatePhotoMoji(cropMojiUIImage: cropImage,
                                                                           documentID: postID,
                                                                           selectedEmoji: commentVM.selectedEmoji)
                 }
-                commentVM.facemojies = try await commentVM.updateFacemojiData.getFaceMoji(documentID: postID) ?? []
+                commentVM.photoMojies = try await commentVM.updatePhotoMojiData.getPhotoMoji(documentID: postID) ?? []
                 await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID,
                                                              receiveUser: postOwner,
-                                                             type: .facemoji,
+                                                             type: .photoMoji,
                                                              message: "",
                                                              post: post)
             }
             commentVM.showEmojiView = false
-            commentVM.showCropFaceMoji = false
+            commentVM.showCropPhotoMoji = false
         }) {
             Text("포토모지 올리기")
                 .font(.system(.body, weight: .semibold))

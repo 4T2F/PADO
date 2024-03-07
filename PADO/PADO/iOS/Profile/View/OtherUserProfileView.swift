@@ -327,8 +327,8 @@ struct OtherUserProfileView: View {
                                         }
                                     }
                                 } else {
-                                    FollowButtonView(cellUser: user,
-                                                     buttonActive: $buttonOnOff,
+                                    FollowButtonView(buttonActive: $buttonOnOff, 
+                                                     cellUser: user,
                                                      activeText: "팔로우",
                                                      unActiveText: "팔로우 취소",
                                                      widthValue: 85,
@@ -360,7 +360,7 @@ struct OtherUserProfileView: View {
                                     .foregroundStyle(.white)
                                 }
                                 .sheet(isPresented: $followerActive) {
-                                    FollowMainView(followVM: followVM,
+                                    FollowMainView(followVM: followVM, 
                                                    currentType: "팔로워",
                                                    user: user)
                                         .presentationDetents([.large])
@@ -384,8 +384,8 @@ struct OtherUserProfileView: View {
                                 }
                                 
                                 .sheet(isPresented: $followingActive) {
-                                    FollowMainView(followVM: followVM,
-                                                   currentType: "팔로워",
+                                    FollowMainView(followVM: followVM, 
+                                                   currentType: "팔로잉",
                                                    user: user)
                                     .presentationDetents([.large])
                                     .presentationDragIndicator(.visible)

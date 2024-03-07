@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct ModalBlackButton: View {
-    
     @Binding var buttonActive: Bool
+    
     var text: String
     
     var body: some View {
@@ -20,7 +20,6 @@ struct ModalBlackButton: View {
                 .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
                 
             HStack {
-                
                 Text(text)
                     .foregroundStyle(.white)
                     .font(.system(.body))

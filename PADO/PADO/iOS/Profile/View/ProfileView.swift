@@ -338,7 +338,7 @@ struct ProfileView: View {
                                     .foregroundStyle(.white)
                                 }
                                 .sheet(isPresented: $followerActive) {
-                                    FollowMainView(followVM: followVM,
+                                    FollowMainView(followVM: followVM, 
                                                    currentType: "팔로워",
                                                    user: user)
                                     .presentationDetents([.large])
@@ -362,8 +362,8 @@ struct ProfileView: View {
                                 }
                                 
                                 .sheet(isPresented: $followingActive) {
-                                    FollowMainView(followVM: followVM,
-                                                   currentType: "팔로워",
+                                    FollowMainView(followVM: followVM, 
+                                                   currentType: "팔로잉",
                                                    user: user)
                                     .presentationDetents([.large])
                                     .presentationDragIndicator(.visible)

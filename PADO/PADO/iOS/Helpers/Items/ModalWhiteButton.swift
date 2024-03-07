@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct ModalWhiteButton: View {
-    
     @Binding var buttonActive: Bool
+    
     var text: String
     
     var body: some View {

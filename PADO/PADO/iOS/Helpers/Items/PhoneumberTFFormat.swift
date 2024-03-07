@@ -23,6 +23,7 @@ class PhoneumberTFFormat {
                 result.append(ch)
             }
         }
+        
         return result
     }
 }

@@ -8,12 +8,6 @@ import Firebase
 import FirebaseFirestoreSwift
 import SwiftUI
 
-enum InputPostType {
-    case pado
-    case sendPado
-    case highlight
-}
-
 class ProfileViewModel: ObservableObject {
     @Published var currentType: String = "받은 파도"
     @Published var padoPosts: [Post] = []

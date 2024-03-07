@@ -9,15 +9,14 @@ import SwiftUI
 
 struct CommentWriteView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
-    @ObservedObject var commentVM: CommentViewModel
     @Environment(\.dismiss) var dismiss
     
-    @FocusState private var isTextFieldFocused: Bool
-    
-    @State private var commentText: String = ""
-    @State private var isFocused: Bool = false
+    @ObservedObject var commentVM: CommentViewModel
     
     @State var notiUser: User
+    @State private var commentText: String = ""
+    @State private var isFocused: Bool = false
+    @FocusState private var isTextFieldFocused: Bool
     
     @Binding var post: Post
     
@@ -52,9 +51,9 @@ struct CommentWriteView: View {
                     VStack(alignment: .leading) {
                         if !commentVM.comments.isEmpty {
                             ForEach(commentVM.comments.indices, id:\.self) { index in
-                                CommentWriteViewCell(index: index,
-                                            commentVM: commentVM,
-                                            post: $post)
+                                CommentWriteViewCell(commentVM: commentVM,
+                                                     post: $post,
+                                                     index: index)
                                 .id(index)
                             }
                             .onAppear {

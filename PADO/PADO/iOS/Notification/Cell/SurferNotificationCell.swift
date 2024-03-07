@@ -43,8 +43,8 @@ struct SurferNotificationCell: View {
                     
                     Spacer()
                     
-                    FollowButtonView(cellUser: user,
-                                     buttonActive: $buttonActive,
+                    FollowButtonView(buttonActive: $buttonActive, 
+                                     cellUser: user,
                                      activeText: "팔로우",
                                      unActiveText: "팔로우 취소",
                                      widthValue: 85,

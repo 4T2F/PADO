@@ -1,5 +1,5 @@
 //
-//  FaceMojiCell.swift
+//  PhotoMojiCell.swift
 //  PADO
 //
 //  Created by 최동호 on 1/16/24.
@@ -7,55 +7,21 @@
 import Kingfisher
 import SwiftUI
 
-enum Emotion: String, CaseIterable {
-    case basic = ""
-    case thumbsUp = "👍"
-    case heart = "🥰"
-    case laughing = "🤣"
-    case angry = "😡"
-    case sad = "😢"
-    case overEat = "🤮"
-    
-    var emoji: String {
-        self.rawValue
-    }
-    
-    var color: Color {
-        switch self {
-        case .basic:
-            return .white
-        case .thumbsUp:
-            return .green
-        case .heart:
-            return .pink
-        case .laughing:
-            return .yellow
-        case .angry:
-            return .orange
-        case .sad:
-            return .blue
-        case .overEat:
-            return .purple
-        }
-    }
-}
-
-struct FaceMojiCell: View {
+struct PhotoMojiCell: View {
     @ObservedObject var commentVM: CommentViewModel
     
-    var facemoji: Facemoji
     let hapticImpact = UIImpactFeedbackGenerator(style: .medium)
-    
+    var photoMoji: PhotoMoji
     
     var body: some View {
-        if facemoji.userID == userNameID {
+        if photoMoji.userID == userNameID {
             VStack {
                 ZStack {
                     Circle()
-                        .stroke(emojiColors[facemoji.emoji, default: .white], lineWidth: 1.4)
+                        .stroke(emojiColors[photoMoji.emoji, default: .white], lineWidth: 1.4)
                         .frame(width: 56, height: 56)
                     
-                    KFImage(URL(string: facemoji.faceMojiImageUrl))
+                    KFImage(URL(string: photoMoji.faceMojiImageUrl))
                         .fade(duration: 0.5)
                         .placeholder{
                             ProgressView()
@@ -66,15 +32,15 @@ struct FaceMojiCell: View {
                         .clipShape(Circle())
                         .onLongPressGesture(minimumDuration: 1) {
                             hapticImpact.impactOccurred()
-                            commentVM.selectedFacemoji = facemoji
-                            commentVM.deleteFacemojiModal = true
+                            commentVM.selectedPhotoMoji = photoMoji
+                            commentVM.deletePhotoMojiModal = true
                         }
                     
-                    Text(facemoji.emoji)
+                    Text(photoMoji.emoji)
                         .offset(x: 20, y: 20)
                 }
                 
-                Text(facemoji.userID)
+                Text(photoMoji.userID)
                     .foregroundStyle(.white)
                     .font(.system(.footnote))
             }
@@ -82,10 +48,10 @@ struct FaceMojiCell: View {
             VStack {
                 ZStack {
                     Circle()
-                        .stroke(emojiColors[facemoji.emoji, default: .white], lineWidth: 1.4)
+                        .stroke(emojiColors[photoMoji.emoji, default: .white], lineWidth: 1.4)
                         .frame(width: 56, height: 56)
                     
-                    KFImage(URL(string: facemoji.faceMojiImageUrl))
+                    KFImage(URL(string: photoMoji.faceMojiImageUrl))
                         .fade(duration: 0.5)
                         .placeholder{
                             ProgressView()
@@ -95,11 +61,11 @@ struct FaceMojiCell: View {
                         .frame(width: 54, height: 54)
                         .clipShape(Circle())
                     
-                    Text(facemoji.emoji)
+                    Text(photoMoji.emoji)
                         .offset(x: 20, y: 20)
                 }
                 
-                Text(facemoji.userID)
+                Text(photoMoji.userID)
                     .foregroundStyle(.white)
                     .font(.system(.footnote))
             }

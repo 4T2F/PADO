@@ -7,11 +7,6 @@
 
 import SwiftUI
 
-enum FollowerModalType {
-    case surfer
-    case follower
-}
-
 struct FollowerView: View {
     // MARK: - PROPERTY
     @Environment (\.dismiss) var dismiss

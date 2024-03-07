@@ -67,8 +67,8 @@ struct FollowerOtherUserCellView: View {
             
             if cellUserId != userNameID {
                 if let cellUser = profileUser {
-                    FollowButtonView(cellUser: cellUser,
-                                     buttonActive: $buttonOnOff,
+                    FollowButtonView(buttonActive: $buttonOnOff, 
+                                     cellUser: cellUser,
                                      activeText: "팔로우",
                                      unActiveText: "팔로우 취소",
                                      widthValue: 85,

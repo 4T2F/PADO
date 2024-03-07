@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct SelectPadoRideUserCell: View {
-    
-    let id: String
     @State var user: User?
     @State private var fetchUserData: Bool = false
+    
+    let id: String
     
     var body: some View {
         NavigationLink {
@@ -34,11 +34,13 @@ struct SelectPadoRideUserCell: View {
                             // 닉네임이 있으면 username, userID 다 넣고 닉네임 없으면 else로 userID만 넣는 조건문 넣기
                             if user.username.isEmpty {
                                 Text(user.nameID)
-                                    .font(.system(.subheadline, weight: .semibold))
+                                    .font(.system(.subheadline, 
+                                                  weight: .semibold))
                                     .foregroundStyle(.white)
                             } else {
                                 Text(user.nameID)
-                                    .font(.system(.subheadline, weight: .semibold))
+                                    .font(.system(.subheadline, 
+                                                  weight: .semibold))
                                     .foregroundStyle(.white)
                                 
                                 Text(user.username)

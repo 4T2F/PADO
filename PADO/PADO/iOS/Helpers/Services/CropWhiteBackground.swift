@@ -19,6 +19,7 @@ class CropWhiteBackground {
         let processedImageWidth: CGFloat
         let processedImageHeight: CGFloat
         let croppedImage: UIImage
+        
         guard let cgImage: CGImage = inputImage.cgImage else {
             print("image not found")
             throw CroppingError.imageNotFound

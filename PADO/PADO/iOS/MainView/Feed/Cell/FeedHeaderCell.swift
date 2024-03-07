@@ -11,19 +11,6 @@ import Kingfisher
 import Lottie
 import SwiftUI
 
-enum FeedFilter: Int, CaseIterable, Identifiable {
-    case following
-    case today
-    
-    var title: String {
-        switch self {
-        case .following: return "Following"
-        case .today: return "Today"
-        }
-    }
-    var id: Int { return self.rawValue }
-}
-
 struct FeedHeaderCell: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
     

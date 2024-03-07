@@ -1,5 +1,5 @@
 //
-//  FaceMojiModal.swift
+//  PhotoMojiModal.swift
 //  PADO
 //
 //  Created by 김명현 on 2/6/24.
@@ -7,14 +7,14 @@
 import PhotosUI
 import SwiftUI
 
-struct FaceMojiModalView: View {
+struct PhotoMojiModalView: View {
     @ObservedObject var surfingVM: SurfingViewModel
     
     var body: some View {
         VStack {
             VStack{
                 HStack {
-                    PhotosPicker(selection: $surfingVM.faceMojiItem,
+                    PhotosPicker(selection: $surfingVM.photoMojiItem,
                                  matching: .images) {
                         Text("사진앨범")
                             .font(.system(.subheadline))
@@ -32,7 +32,7 @@ struct FaceMojiModalView: View {
                     .padding(.vertical, 6)
                 
                 Button {
-                    surfingVM.isShowingFaceMojiModal = false
+                    surfingVM.isShowingPhotoMojiModal = false
                     surfingVM.checkCameraPermission {
                         surfingVM.isShownCamera = true
                         surfingVM.sourceType = .camera
@@ -58,7 +58,7 @@ struct FaceMojiModalView: View {
             .padding(15)
             
             Button {
-                surfingVM.isShowingFaceMojiModal = false
+                surfingVM.isShowingPhotoMojiModal = false
             } label: {
                 HStack {
                     Spacer()

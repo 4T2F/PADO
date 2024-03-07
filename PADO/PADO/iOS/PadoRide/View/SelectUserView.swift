@@ -13,7 +13,9 @@ struct SelectUserView: View {
     @Environment(\.dismiss) var dismiss
     
     @StateObject var padorideVM = PadoRideViewModel()
+    
     @State private var fetchedData: Bool = false
+    
     let user: User
     
     let columns = [GridItem(.flexible(), spacing: 1), GridItem(.flexible(), spacing: 1), GridItem(.flexible())]
@@ -28,10 +30,12 @@ struct SelectUserView: View {
                 VStack(alignment: .leading, spacing: 0) {
                     if user.username.isEmpty {
                         Text(user.nameID)
-                            .font(.system(.subheadline, weight: .semibold))
+                            .font(.system(.subheadline,
+                                          weight: .semibold))
                     } else {
                         Text(user.nameID)
-                            .font(.system(.subheadline, weight: .semibold))
+                            .font(.system(.subheadline, 
+                                          weight: .semibold))
                         Text(user.username)
                             .font(.system(.footnote))
                             .foregroundStyle(Color(.systemGray))
@@ -73,7 +77,8 @@ struct SelectUserView: View {
                             }
                         } else {
                             Text("\(user.nameID)님은\n아직 받은 파도가 없어요")
-                                .font(.system(.body, weight: .semibold))
+                                .font(.system(.body, 
+                                              weight: .semibold))
                                 .multilineTextAlignment(.center)
                                 .foregroundStyle(.gray)
                                 .padding(.top, 60)
