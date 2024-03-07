@@ -37,6 +37,7 @@ struct FeedCell: View {
     @Binding var post: Post
     
     let feedCellType: FeedFilter
+    
     var index: Int
     
     var body: some View {

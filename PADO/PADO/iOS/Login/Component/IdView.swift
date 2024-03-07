@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct IdView: View {
+    @EnvironmentObject var viewModel: AuthenticationViewModel
+    
     @State var buttonActive: Bool = false
     @State var isDuplicateID: Bool = false
-    @Binding var currentStep: SignUpStep
     
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @Binding var currentStep: SignUpStep
     
     var body: some View {
         ZStack {

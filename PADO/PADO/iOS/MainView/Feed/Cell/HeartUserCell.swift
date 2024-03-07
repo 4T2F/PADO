@@ -10,11 +10,9 @@ import Kingfisher
 import SwiftUI
 
 struct HeartUserCell: View {
-    // MARK: - PROPERTY
     @State var user: User
     @State var buttonActive: Bool = false
     
-    // MARK: - BODY
     var body: some View {
         HStack {
             HStack(spacing: 0) {

@@ -12,7 +12,6 @@ import Lottie
 import SwiftUI
 
 struct FeedHeaderCell: View {
-    // MARK: - PROPERTY
     @EnvironmentObject var viewModel: AuthenticationViewModel
     
     @StateObject var notiVM = NotificationViewModel.shared
@@ -26,7 +25,6 @@ struct FeedHeaderCell: View {
         return UIScreen.main.bounds.width / count - 140
     }
     
-    // MARK: - BODY
     var body: some View {
         HStack {
             Spacer()
@@ -77,7 +75,6 @@ struct FeedHeaderCell: View {
 }
 
 struct FeedRefreshHeaderCell: View {
-    // MARK: - BODY
     var body: some View {
         HStack {
             Spacer()

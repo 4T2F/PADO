@@ -8,15 +8,16 @@
 import SwiftUI
 
 struct PhoneNumberView: View {
+    @Environment(\.dismiss) var dismiss
     
-    var tfFormat = PhoneumberTFFormat()
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     
     @State var buttonActive: Bool = false
+    
     @Binding var loginSignUpType: LoginSignUpType
     @Binding var currentStep: SignUpStep
     
-    @EnvironmentObject var viewModel: AuthenticationViewModel
-    @Environment(\.dismiss) var dismiss
+    var tfFormat = PhoneumberTFFormat()
     
     var body: some View {
         

@@ -10,6 +10,7 @@ import SwiftUI
 
 struct FollowNotificationCell: View {
     @StateObject var notiVM = NotificationViewModel.shared
+    
     @State private var buttonActive: Bool = false
     
     var notification: Noti
