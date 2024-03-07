@@ -19,7 +19,6 @@ extension User: FeedItem {}
 
 @MainActor
 class FeedViewModel:Identifiable ,ObservableObject {
-    
     // MARK: - feed 관련
     @Published var isShowingReportView = false
     @Published var isShowingCommentView = false

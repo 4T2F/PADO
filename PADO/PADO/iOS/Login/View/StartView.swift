@@ -8,14 +8,15 @@
 import SwiftUI
 
 struct StartView: View {
-    
     @EnvironmentObject var viewModel: AuthenticationViewModel
+    
     @State private var currentIndex: Int = 0
     @State private var titleText: [TextAnimation] = []
     @State private var subTitleAnimation: Bool = false
     @State private var endAnimation = false
 
     @Binding var isShowStartView: Bool
+    
     let titles = ["Clean your mind from", "Unique experience", "The ultimate sns"]
     let subTitles = ["Decorate your friend's picture", "Prepare your mind for sweet dreams", "Healty mind - better think - well being"]
 

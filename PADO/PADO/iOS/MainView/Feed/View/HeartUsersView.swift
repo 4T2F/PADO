@@ -9,7 +9,6 @@ import Lottie
 import SwiftUI
 
 struct HeartUsersView: View {
-    // MARK: - PROPERTY
     @Environment(\.dismiss) var dismiss
     
     @State var users: [User] = []
@@ -17,7 +16,6 @@ struct HeartUsersView: View {
     
     let userIDs: [String]
     
-    // MARK: - BODY
     var body: some View {
         NavigationStack {
             ScrollView {

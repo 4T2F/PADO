@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CodeView: View {
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     
     @State private var showUseID: Bool = false
     @State private var buttonActive: Bool = false
@@ -16,9 +17,8 @@ struct CodeView: View {
     @Binding var loginSignUpType: LoginSignUpType
     @Binding var currentStep: SignUpStep
     @Binding var isShowStartView: Bool
-    var dismissAction: () -> Void
     
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    var dismissAction: () -> Void
     
     var body: some View {
         ZStack {

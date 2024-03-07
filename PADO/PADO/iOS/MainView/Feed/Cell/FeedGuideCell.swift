@@ -12,6 +12,7 @@ struct FeedGuideCell: View {
     @State var buttonActive: Bool = false
     
     let user: User
+    
     var body: some View {
         GeometryReader(content: { proxy in
             let cardSize = proxy.size
