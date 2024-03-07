@@ -12,7 +12,6 @@
 				<string>${CLIENT_ID}</string>
 			</array>
 		</dict>
-		<dict/>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

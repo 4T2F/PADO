@@ -23,7 +23,7 @@ class NotificationService: UNNotificationServiceExtension {
             // Modify the notification content here...
             
             if let apsData = request.content.userInfo["aps"] as? [String: Any],
-               let alertData = apsData["alert"] as? [String: Any],
+               let _ = apsData["alert"] as? [String: Any],
                let imageData = request.content.userInfo["fcm_options"] as? [String: Any] {
                 
                 bestAttemptContent.title = "\(bestAttemptContent.title) [테스트중]"
