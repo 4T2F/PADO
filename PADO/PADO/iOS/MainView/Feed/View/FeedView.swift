@@ -9,17 +9,17 @@ import Lottie
 import SwiftUI
 
 struct FeedView: View {
-    @State private var isLoading = true
-    
     @EnvironmentObject var viewModel: AuthenticationViewModel
+    
+    @StateObject var notiVM = NotificationViewModel.shared
+    @StateObject var scrollDelegate: ScrollViewModel = .init()
     
     @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var profileVM: ProfileViewModel
     @ObservedObject var followVM: FollowViewModel
     
-    @StateObject var notiVM = NotificationViewModel.shared
-    @StateObject var scrollDelegate: ScrollViewModel = .init()
-    
+    @State private var isLoading = true
+
     var body: some View {
         NavigationStack {
             ZStack {
@@ -46,9 +46,8 @@ struct FeedView: View {
                                 } else {
                                     ForEach(feedVM.followingPosts.indices, id: \.self) { index in
                                         FeedCell(feedVM: feedVM,
-                                                 feedCellType: FeedFilter.following,
-                                                 index: index,
-                                                 post: $feedVM.followingPosts[index])
+                                                 post: $feedVM.followingPosts[index], feedCellType: FeedFilter.following,
+                                                 index: index)
                                         .id(index)
                                         .onAppear {
                                             if index == feedVM.followingPosts.indices.last {

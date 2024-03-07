@@ -9,7 +9,6 @@ import Kingfisher
 import SwiftUI
 
 struct FeedGuideCell: View {
-    
     @State var buttonActive: Bool = false
     
     let user: User

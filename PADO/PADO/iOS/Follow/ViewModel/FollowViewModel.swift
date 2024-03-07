@@ -34,18 +34,17 @@ enum SearchFollowType {
 }
 
 class FollowViewModel: ObservableObject, Searchable {
-    
+    // IDs
     @Published var followerIDs: [String] = []
     @Published var followingIDs: [String] = []
     @Published var surferIDs: [String] = []
     @Published var surfingIDs: [String] = []
     
+    // search
     @Published var searchedFollower: [String] = []
     @Published var searchedSurfer: [String] = []
     @Published var searchedFollowing: [String] = []
-    
     @Published var isLoading: Bool = false
-    @State var progress: Double = 0
     
     // 서퍼지정 관련 변수들
     @Published var showSurfingList: Bool = false
@@ -55,6 +54,8 @@ class FollowViewModel: ObservableObject, Searchable {
     
     @Published var searchResults: [User] = []
     @Published var viewState: ViewState = ViewState.empty
+    
+    @State var progress: Double = 0
     
     private var listeners: [CollectionType: ListenerRegistration] = [:]
     

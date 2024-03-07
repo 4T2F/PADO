@@ -10,13 +10,13 @@ import SwiftUI
 
 struct RecordSearchCellView: View {
     // MARK: - PROPERTY
-    @State var searchUser: User?
-    @State var searchProfileUrl: String = ""
-    @State var buttonOnOff: Bool = false
-    
     @ObservedObject var profileVM: ProfileViewModel
     @ObservedObject var searchVM: SearchViewModel
     
+    @State var searchUser: User?
+    @State var searchProfileUrl: String = ""
+    @State var buttonOnOff: Bool = false
+
     let searchCellID: String
     
     // MARK: - BODY

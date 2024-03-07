@@ -10,28 +10,27 @@ import SwiftUI
 
 struct FollowerUserCellView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
+    
     @ObservedObject var followVM: FollowViewModel
     
+    @State var profileUser: User?
+    @State var buttonOnOff: Bool = false
+    @State var transitions: Bool = false
     @State private var followerUsername: String = ""
     @State private var followerProfileUrl: String = ""
     @State private var showingModal: Bool = false
     @State private var showingSurferModal: Bool = false
-    @State var profileUser: User?
+    @State private var buttonActive: Bool = false
     
     let cellUserId: String
     let followerType: FollowerModalType
+    let sufferset: SufferSet
     
     enum SufferSet: String {
         case removesuffer = "서퍼 해제"
         case setsuffer = "서퍼 등록"
     }
-    
-    @State var buttonOnOff: Bool = false
-    @State private var buttonActive: Bool = false
-    @State var transitions: Bool = false
-    
-    let sufferset: SufferSet
-    
+
     // MARK: - BODY
     var body: some View {
         HStack {

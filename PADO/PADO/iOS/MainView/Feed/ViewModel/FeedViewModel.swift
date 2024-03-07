@@ -20,39 +20,36 @@ extension User: FeedItem {}
 @MainActor
 class FeedViewModel:Identifiable ,ObservableObject {
     
-    // MARK: - feed관련
+    // MARK: - feed 관련
     @Published var isShowingReportView = false
     @Published var isShowingCommentView = false
     @Published var isHeaderVisible = true
+    @Published var feedItems: [FeedItem] = []
+    @Published var selectedFeedCheckHeart: Bool = false
     
+    // Post 관련
     @Published var followingPosts: [Post] = []
     @Published var todayPadoPosts: [Post] = []
     @Published var watchedPostIDs: Set<String> = []
-    @Published private var popularUsersSet: Set<User> = []
-    @Published var popularUsers: [User] = []
-    
-    @Published var feedItems: [FeedItem] = []
-    
-    @Published var selectedFeedCheckHeart: Bool = false
     @Published var postFetchLoading: Bool = false
-    @Published var followFetchLoading: Bool = false
-    @Published var deleteUserCounts: [Int] = []
-    
-    private var db = Firestore.firestore()
-    
-    @Published var documentID: String = ""
-    
-    private var followingListeners: [String: ListenerRegistration] = [:]
-    private var todayPadoListeners: [String: ListenerRegistration] = [:]
-    @Published var lastFollowFetchedDocument: DocumentSnapshot? = nil
-    @Published var lastTodayPadoFetchedDocument: DocumentSnapshot? = nil
-    
-    // MARK: - 파도타기 관련
+
+    // 파도타기 관련
     @Published var padoRidePosts: [PadoRide] = []
     @Published var currentPadoRideIndex: Int? = nil
     @Published var isShowingPadoRide: Bool = false
     @Published var checkPadoRide: [PadoRide] = []
     
+    @Published var documentID: String = ""
+    @Published var popularUsers: [User] = []
+    @Published var followFetchLoading: Bool = false
+    @Published var deleteUserCounts: [Int] = []
+    @Published var lastFollowFetchedDocument: DocumentSnapshot? = nil
+    @Published var lastTodayPadoFetchedDocument: DocumentSnapshot? = nil
+    @Published private var popularUsersSet: Set<User> = []
+    
+    private var db = Firestore.firestore()
+    private var followingListeners: [String: ListenerRegistration] = [:]
+    private var todayPadoListeners: [String: ListenerRegistration] = [:]
     
     func getPopularUser() async {
         let querySnapshot = db.collection("users")

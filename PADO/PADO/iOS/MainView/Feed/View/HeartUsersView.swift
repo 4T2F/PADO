@@ -12,9 +12,10 @@ struct HeartUsersView: View {
     // MARK: - PROPERTY
     @Environment(\.dismiss) var dismiss
     
-    let userIDs: [String]
     @State var users: [User] = []
     @State private var fetchedData: Bool = false
+    
+    let userIDs: [String]
     
     // MARK: - BODY
     var body: some View {

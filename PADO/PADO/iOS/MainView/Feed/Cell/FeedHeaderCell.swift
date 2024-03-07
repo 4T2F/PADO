@@ -26,11 +26,13 @@ enum FeedFilter: Int, CaseIterable, Identifiable {
 
 struct FeedHeaderCell: View {
     // MARK: - PROPERTY
-    @Namespace var animation
-    
     @EnvironmentObject var viewModel: AuthenticationViewModel
-    @ObservedObject var feedVM: FeedViewModel
+    
     @StateObject var notiVM = NotificationViewModel.shared
+    
+    @ObservedObject var feedVM: FeedViewModel
+    
+    @Namespace var animation
     
     private var filterBarWidth: CGFloat {
         let count = CGFloat(FeedFilter.allCases.count)

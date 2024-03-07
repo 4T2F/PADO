@@ -13,7 +13,6 @@ struct FollowingCellView: View {
     @State var followingUsername: String = ""
     @State var followingProfileUrl: String = ""
     @State var profileUser: User?
-    
     @State var buttonActive: Bool = false
     
     let cellUserId: String

@@ -12,7 +12,6 @@ import SwiftUI
 struct HeartUserCell: View {
     // MARK: - PROPERTY
     @State var user: User
-    
     @State var buttonActive: Bool = false
     
     // MARK: - BODY
@@ -22,7 +21,6 @@ struct HeartUserCell: View {
                 NavigationLink {
                     OtherUserProfileView(buttonOnOff: $buttonActive,
                                          user: user)
-                    
                 } label: {
                     HStack(spacing: 0) {
                         CircularImageView(size: .medium,

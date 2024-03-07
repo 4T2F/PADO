@@ -10,18 +10,15 @@ import FirebaseFirestoreSwift
 import SwiftUI
 
 class SearchViewModel: ObservableObject, Searchable {
+    @Published var searchDatas: [String] = []
+    @Published var searchResults: [User] = []
+    @Published var isLoading: Bool = false
+    @Published var viewState: ViewState = ViewState.empty
+    
+    @State var progress: Double = 0
     
     static let shared = SearchViewModel()
     
-    @Published var searchDatas: [String] = []
-    
-    @Published var isLoading: Bool = false
-    @State var progress: Double = 0
-    
-    @Published var searchResults: [User] = []
-    @Published var viewState: ViewState = ViewState.empty
-    
-        
     let db = Firestore.firestore()
     
     private init() {
