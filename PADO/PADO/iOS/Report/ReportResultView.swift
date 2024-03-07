@@ -9,14 +9,14 @@ import MessageUI
 import SwiftUI
 
 struct ReportResultView: View {
-    @Binding var isShowingReportView: Bool
-    
     @State private var showingMailView = false
     @State private var mailResult: Result<MFMailComposeResult, Error>? = nil
     @State private var mailSentSuccessfully = false
     @State private var showAlert = false
     @State private var title = "PADO 신고 문의"
     @State private var messageBody = "자세한 신고 내용을 적어주세요"
+    
+    @Binding var isShowingReportView: Bool
     
     var body: some View {
         VStack {
@@ -26,7 +26,6 @@ struct ReportResultView: View {
                 .frame(width: 35, height: 35)
                 .foregroundStyle(Color(.systemBlue))
                 .padding(.bottom, 20)
-            
             
             Text("확인을 누르면 메일로 이동합니다")
                 .font(.system(.title2))
@@ -111,8 +110,4 @@ struct ReportResultView: View {
             mailSentSuccessfully = true
         }
     }
-}
-
-#Preview {
-    ReportResultView(isShowingReportView: .constant(false))
 }

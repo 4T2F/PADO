@@ -11,16 +11,13 @@ import SwiftUI
 
 struct OtherUserProfileView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
+    @Environment(\.dismiss) var dismiss
     
     @StateObject var profileVM = ProfileViewModel()
     @StateObject var followVM = FollowViewModel()
     @StateObject var postitVM = PostitViewModel()
     @StateObject var feedVM = FeedViewModel()
-    @Namespace var animation
     
-    @Environment(\.dismiss) var dismiss
-    
-    @Binding var buttonOnOff: Bool
     @State private var buttonActive: Bool = false
     @State private var profileEditButtonActive: Bool = false
     @State private var followerActive: Bool = false
@@ -38,9 +35,14 @@ struct OtherUserProfileView: View {
     @State private var position = CGSize.zero
     @State private var isDragging = false
     
-    let user: User
+    @Binding var buttonOnOff: Bool
     
-    let columns = [GridItem(.flexible(), spacing: 1), GridItem(.flexible(), spacing: 1), GridItem(.flexible())]
+    @Namespace var animation
+    
+    let user: User
+    let columns = [GridItem(.flexible(), spacing: 1), 
+                   GridItem(.flexible(), spacing: 1),
+                   GridItem(.flexible())]
     
     var body: some View {
         ZStack {
@@ -501,9 +503,9 @@ struct OtherUserProfileView: View {
                                 .sheet(isPresented: $isShowingReceiveDetail) {
                                     SelectPostView(profileVM: profileVM,
                                                    feedVM: feedVM,
-                                                   viewType: PostViewType.receive,
                                                    isShowingDetail: $isShowingReceiveDetail,
-                                                   userID: user.nameID)
+                                                   userID: userNameID,
+                                                   viewType: PostViewType.receive)
                                     .presentationDragIndicator(.visible)
                                     .onDisappear {
                                         feedVM.currentPadoRideIndex = nil
@@ -566,9 +568,9 @@ struct OtherUserProfileView: View {
                                 .sheet(isPresented: $isShowingSendDetail) {
                                     SelectPostView(profileVM: profileVM,
                                                    feedVM: feedVM,
-                                                   viewType: PostViewType.send,
-                                                   isShowingDetail: $isShowingSendDetail,
-                                                   userID: user.nameID)
+                                                   isShowingDetail: $isShowingReceiveDetail,
+                                                   userID: userNameID,
+                                                   viewType: PostViewType.receive)
                                     .presentationDragIndicator(.visible)
                                     .onDisappear {
                                         feedVM.currentPadoRideIndex = nil
@@ -633,9 +635,9 @@ struct OtherUserProfileView: View {
                                 .sheet(isPresented: $isShowingHightlight) {
                                     SelectPostView(profileVM: profileVM,
                                                    feedVM: feedVM,
-                                                   viewType: PostViewType.highlight,
-                                                   isShowingDetail: $isShowingHightlight,
-                                                   userID: user.nameID)
+                                                   isShowingDetail: $isShowingReceiveDetail,
+                                                   userID: userNameID,
+                                                   viewType: PostViewType.receive)
                                     .presentationDragIndicator(.visible)
                                     .onDisappear {
                                         feedVM.currentPadoRideIndex = nil

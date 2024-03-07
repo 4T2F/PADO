@@ -17,14 +17,12 @@ enum PostViewType {
 struct SelectPostView: View {
     @ObservedObject var profileVM: ProfileViewModel
     @ObservedObject var feedVM: FeedViewModel
-
-    var viewType: PostViewType
     
     @Binding var isShowingDetail: Bool
-    @GestureState private var dragState = CGSize.zero
-    @State private var isDetailViewReady = false
     
     let userID: String
+    var viewType: PostViewType
+    
     var body: some View {
         NavigationStack {
             ZStack {

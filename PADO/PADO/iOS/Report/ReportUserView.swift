@@ -8,12 +8,10 @@
 import SwiftUI
 
 struct ReportUserView: View {
-    // MARK: - PROPERTY
-    @State var reportArray:[String] = ["계정 신고", "사칭", "스팸", "기타"]
+    @State var reportArray: [String] = ["계정 신고", "사칭", "스팸", "기타"]
     
     @Binding var isShowingReportView: Bool
     
-    // MARK: - BODY
     var body: some View {
         NavigationStack {
             ZStack {
