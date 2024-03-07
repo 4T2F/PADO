@@ -504,7 +504,7 @@ struct OtherUserProfileView: View {
                                     SelectPostView(profileVM: profileVM,
                                                    feedVM: feedVM,
                                                    isShowingDetail: $isShowingReceiveDetail,
-                                                   userID: userNameID,
+                                                   userID: user.nameID,
                                                    viewType: PostViewType.receive)
                                     .presentationDragIndicator(.visible)
                                     .onDisappear {
@@ -568,9 +568,9 @@ struct OtherUserProfileView: View {
                                 .sheet(isPresented: $isShowingSendDetail) {
                                     SelectPostView(profileVM: profileVM,
                                                    feedVM: feedVM,
-                                                   isShowingDetail: $isShowingReceiveDetail,
-                                                   userID: userNameID,
-                                                   viewType: PostViewType.receive)
+                                                   isShowingDetail: $isShowingSendDetail,
+                                                   userID: user.nameID,
+                                                   viewType: PostViewType.send)
                                     .presentationDragIndicator(.visible)
                                     .onDisappear {
                                         feedVM.currentPadoRideIndex = nil
@@ -635,9 +635,9 @@ struct OtherUserProfileView: View {
                                 .sheet(isPresented: $isShowingHightlight) {
                                     SelectPostView(profileVM: profileVM,
                                                    feedVM: feedVM,
-                                                   isShowingDetail: $isShowingReceiveDetail,
-                                                   userID: userNameID,
-                                                   viewType: PostViewType.receive)
+                                                   isShowingDetail: $isShowingHightlight,
+                                                   userID: user.nameID,
+                                                   viewType: PostViewType.highlight)
                                     .presentationDragIndicator(.visible)
                                     .onDisappear {
                                         feedVM.currentPadoRideIndex = nil

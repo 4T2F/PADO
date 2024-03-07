@@ -12,7 +12,11 @@ struct SelectPostView: View {
     @ObservedObject var profileVM: ProfileViewModel
     @ObservedObject var feedVM: FeedViewModel
     
+    @State private var isDetailViewReady = false
+    
     @Binding var isShowingDetail: Bool
+    
+    @GestureState private var dragState = CGSize.zero
     
     let userID: String
     var viewType: PostViewType
@@ -65,7 +69,6 @@ struct SelectPostView: View {
                                     }
                                 }
                             }
-                            
                         }
                         .scrollTargetLayout()
                         .onAppear {
@@ -115,7 +118,6 @@ struct SelectPostView: View {
         }
     }
    
-
     // 각 뷰 타입에 맞는 제목 반환
     private func titleForType(_ type: PostViewType) -> String {
         switch type {
