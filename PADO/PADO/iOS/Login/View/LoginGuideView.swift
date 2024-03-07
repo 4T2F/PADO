@@ -9,6 +9,7 @@ import SwiftUI
 
 struct LoginGuideView: View {
     @State private var showing = false
+    
     var body: some View {
         ZStack {
             Color.modal.ignoresSafeArea()

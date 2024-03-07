@@ -9,8 +9,9 @@ import Kingfisher
 import SwiftUI
 
 struct RequestSurfingNotificationCell: View {
-    @ObservedObject var feedVM: FeedViewModel
     @StateObject var notiVM = NotificationViewModel.shared
+    
+    @ObservedObject var feedVM: FeedViewModel
     
     @State private var showPost = false
     

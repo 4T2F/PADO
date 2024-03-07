@@ -13,15 +13,16 @@ enum LoginSignUpType {
 }
 
 struct UseIDModalView: View {
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     
     @State private var buttonActive: Bool = true
+    
     @Binding var showUseID: Bool
     @Binding var loginSignUpType: LoginSignUpType
     @Binding var currentStep: SignUpStep
     @Binding var isShowStartView: Bool
-    var dismissSignUpView: () -> Void
     
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    var dismissSignUpView: () -> Void
     
     var body: some View {
         switch loginSignUpType {
