@@ -1,5 +1,5 @@
 //
-//  FaceMojiCropView.swift
+//  PhotoMojiCropView.swift
 //  PADO
 //
 //  Created by 황성진 on 2/4/24.
@@ -8,7 +8,7 @@
 import PhotosUI
 import SwiftUI
 
-struct FaceMojiCropView: View {
+struct PhotoMojiCropView: View {
     // MARK: - PROPERTY
     @Environment(\.dismiss) var dismiss
     
@@ -72,7 +72,7 @@ struct FaceMojiCropView: View {
                 
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
-                        commentVM.showCropFaceMoji = false
+                        commentVM.showCropPhotoMoji = false
                     } label: {
                         Image("dismissArrow")
                     }
@@ -88,7 +88,7 @@ struct FaceMojiCropView: View {
         GeometryReader {
             let size = $0.size
             
-            if let image = commentVM.faceMojiUIImage {
+            if let image = commentVM.photoMojiUIImage {
                 Image(uiImage: image)
                     .resizable()
                     .aspectRatio(contentMode: .fill)

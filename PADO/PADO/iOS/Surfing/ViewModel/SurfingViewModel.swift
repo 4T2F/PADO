@@ -40,19 +40,19 @@ class SurfingViewModel: ObservableObject  {
     @Published var cameraUIImage: UIImage = UIImage()
     @Published var cameraImage: Image = Image(systemName: "photo")
     
-    // 페이스 모지 관련 변수
-    @Published var faceMojiUIImage: UIImage = UIImage()
-    @Published var faceMojiImage: Image = Image(systemName: "photo")
-    @Published var isShowingFaceMojiModal: Bool = false
+    // 포토 모지 관련 변수
+    @Published var photoMojiUIImage: UIImage = UIImage()
+    @Published var photoMojiImage: Image = Image(systemName: "photo")
+    @Published var isShowingPhotoMojiModal: Bool = false
 
     @MainActor
-    @Published var faceMojiItem: PhotosPickerItem? {
+    @Published var photoMojiItem: PhotosPickerItem? {
         didSet {
             Task {
                 do {
-                    let (loadedUIImage, loadedSwiftUIImage) = try await UpdateImageUrl.shared.loadImage(selectedItem: faceMojiItem)
-                    self.faceMojiUIImage = loadedUIImage
-                    self.faceMojiImage = loadedSwiftUIImage
+                    let (loadedUIImage, loadedSwiftUIImage) = try await UpdateImageUrl.shared.loadImage(selectedItem: photoMojiItem)
+                    self.photoMojiUIImage = loadedUIImage
+                    self.photoMojiImage = loadedSwiftUIImage
                 } catch {
                     print("선택 이미지 초기화: \(error)")
                 }

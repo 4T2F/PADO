@@ -9,7 +9,9 @@ import SwiftUI
 
 struct CustomTabView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
+    
     @State private var isShowingStartView: Bool = false
+    
     var body: some View {
         ZStack {
             Rectangle()

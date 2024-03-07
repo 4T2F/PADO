@@ -25,8 +25,8 @@ struct PostitCell: View {
                                                  user: user)
                         } label: {
                             UrlProfileImageView(imageUrl: user.profileImageUrl ?? "",
-                                                size: .medium,
-                                                defaultImageName: "defaultProfile")
+                                                defaultImageName: "defaultProfile", 
+                                                size: .medium)
                         }
                         if let messageID = message.id {
                             MessageBubbleView(postitVM: postitVM, text: message.content,
@@ -53,8 +53,8 @@ struct PostitCell: View {
                                                  user: user)
                         } label: {
                             UrlProfileImageView(imageUrl: user.profileImageUrl ?? "",
-                                                size: .medium,
-                                                defaultImageName: "defaultProfile")
+                                                defaultImageName: "defaultProfile", 
+                                                size: .medium)
                         }
                     }
                 }

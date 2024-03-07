@@ -1,5 +1,5 @@
 //
-//  FaceMoji.swift
+//  PhotoMoji.swift
 //  PADO
 //
 //  Created by 최동호 on 1/16/24.
@@ -8,7 +8,7 @@
 import Lottie
 import SwiftUI
 
-struct FaceMojiView: View {
+struct PhotoMojiView: View {
     @ObservedObject var commentVM: CommentViewModel
     @StateObject var surfingVM = SurfingViewModel()
     
@@ -21,11 +21,11 @@ struct FaceMojiView: View {
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
-                ForEach(commentVM.facemojies, id: \.self) { facemoji in
-                    FaceMojiCell(commentVM: commentVM, facemoji: facemoji)
+                ForEach(commentVM.photoMojies, id: \.self) { photoMoji in
+                    PhotoMojiCell(commentVM: commentVM, photoMoji: photoMoji)
                         .padding(6)
-                        .sheet(isPresented: $commentVM.deleteFacemojiModal) {
-                            DeleteFaceMojiView(facemoji: commentVM.selectedFacemoji ?? facemoji,
+                        .sheet(isPresented: $commentVM.deletePhotoMojiModal) {
+                            DeletePhotoMojiView(photoMoji: commentVM.selectedPhotoMoji ?? photoMoji,
                                                postID: postID,
                                                commentVM: commentVM)
                             .presentationDetents([.medium])
@@ -33,7 +33,7 @@ struct FaceMojiView: View {
                 }
                 Button {
                     if !userNameID.isEmpty {
-                        surfingVM.isShowingFaceMojiModal = true
+                        surfingVM.isShowingPhotoMojiModal = true
                     } else {
                         isShowingLoginPage = true
                     }
@@ -56,20 +56,20 @@ struct FaceMojiView: View {
                     .padding(.horizontal, 6)
                     .onAppear {
                         Task {
-                            commentVM.facemojies = try await commentVM.updateFacemojiData.getFaceMoji(documentID: postID) ?? []
+                            commentVM.photoMojies = try await commentVM.updatePhotoMojiData.getPhotoMoji(documentID: postID) ?? []
                         }
-                        surfingVM.faceMojiItem = nil
+                        surfingVM.photoMojiItem = nil
                     }
-                    .sheet(isPresented: $surfingVM.isShowingFaceMojiModal) {
-                        FaceMojiModalView(surfingVM: surfingVM)
+                    .sheet(isPresented: $surfingVM.isShowingPhotoMojiModal) {
+                        PhotoMojiModalView(surfingVM: surfingVM)
                             .presentationDetents([.fraction(0.3)])
                             .presentationDragIndicator(.visible)
                         
                     }
                     .sheet(isPresented: $surfingVM.isShownCamera) {
                         CameraAccessView(isShown: $surfingVM.isShownCamera,
-                                         myimage: $surfingVM.faceMojiImage,
-                                         myUIImage: $surfingVM.faceMojiUIImage,
+                                         myimage: $surfingVM.photoMojiImage,
+                                         myUIImage: $surfingVM.photoMojiUIImage,
                                          mysourceType: $surfingVM.sourceType,
                                          mycameraDevice: $surfingVM.cameraDevice)
                     }
@@ -77,13 +77,13 @@ struct FaceMojiView: View {
                         StartView(isShowStartView: $isShowingLoginPage)
                             .presentationDragIndicator(.visible)
                     })
-                    .onChange(of: surfingVM.faceMojiUIImage) { _, _ in
-                        surfingVM.isShowingFaceMojiModal = false
-                        commentVM.faceMojiUIImage = surfingVM.faceMojiUIImage
-                        commentVM.showCropFaceMoji = true
+                    .onChange(of: surfingVM.photoMojiUIImage) { _, _ in
+                        surfingVM.isShowingPhotoMojiModal = false
+                        commentVM.photoMojiUIImage = surfingVM.photoMojiUIImage
+                        commentVM.showCropPhotoMoji = true
                     }
-                    .navigationDestination(isPresented: $commentVM.showCropFaceMoji) {
-                        FaceMojiCropView(commentVM: commentVM,
+                    .navigationDestination(isPresented: $commentVM.showCropPhotoMoji) {
+                        PhotoMojiCropView(commentVM: commentVM,
                                          postOwner: $postOwner,
                                          post: $post,
                                          postID: postID)

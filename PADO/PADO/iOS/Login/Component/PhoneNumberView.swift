@@ -28,7 +28,8 @@ struct PhoneNumberView: View {
                     .padding(.horizontal)
                 
                 VStack(alignment: .leading, spacing: 20) {
-                    CustomTF(hint: "휴대폰 번호를 입력해주세요", value: $viewModel.phoneNumber)
+                    CustomTF(value: $viewModel.phoneNumber,
+                             hint: "휴대폰 번호를 입력해주세요")
                         .onChange(of: viewModel.phoneNumber) { _, newValue in
                             let formattedNumber = tfFormat.formatPhoneNumber(newValue)
                             viewModel.phoneNumber = formattedNumber

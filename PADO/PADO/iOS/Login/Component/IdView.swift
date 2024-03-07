@@ -23,7 +23,8 @@ struct IdView: View {
                     .padding(.horizontal)
                 
                 VStack(alignment: .leading, spacing: 20) {
-                    CustomTF(hint: "ID를 입력해주세요", value: $viewModel.nameID)
+                    CustomTF(value: $viewModel.nameID, 
+                             hint: "ID를 입력해주세요")
                         .keyboardType(.asciiCapable)
                         .tint(.white)
                         .onChange(of: viewModel.nameID) { _, newValue in

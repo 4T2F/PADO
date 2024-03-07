@@ -9,26 +9,20 @@ import Kingfisher
 import Lottie
 import SwiftUI
 
-enum CommentType {
-    case comment
-    case replyComment
-}
-
 struct CommentCell: View {
-    let index: Int
-    
-    @State private var isUserLoaded = false
-    
     @ObservedObject var commentVM: CommentViewModel
+    
+    @State var buttonOnOff: Bool = false
+    @State var isShowingReportView: Bool = false
+    
+    @Binding var post: Post
     
     @State private var isShowingReplyCommentWriteView: Bool = false
     @State private var isShowingLoginPage: Bool = false
-    @State var buttonOnOff: Bool = false
-    @State var isShowingReportView: Bool = false
     @State private var isShowingHeartUserView: Bool = false
     @State private var isHeartCheck: Bool = true
 
-    @Binding var post: Post
+    let index: Int
     
     var body: some View {
         if index < commentVM.comments.count {

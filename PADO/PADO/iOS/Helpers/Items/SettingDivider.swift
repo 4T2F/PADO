@@ -23,5 +23,4 @@ struct SettingDivider: View {
             .padding(.horizontal)
             .padding(.vertical)
     }
-        
 }

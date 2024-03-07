@@ -8,10 +8,9 @@
 import SwiftUI
 
 struct CustomTF: View {
+    @Binding var value: String
     
     var hint: String
-    
-    @Binding var value: String
     
     var body: some View {
         HStack(alignment: .top, spacing: 8, content: {

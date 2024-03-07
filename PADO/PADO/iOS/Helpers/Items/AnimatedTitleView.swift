@@ -8,22 +8,24 @@
 import SwiftUI
 
 struct AnimatedTitleView: View {
+    @State var scall = false
     
     let title: String
     let color: Color
     let initialDelay: Double
     let animationType: Animation
     
-    @State var scall = false
     @State private var show = false
     
     private var delayStep = 0.1
+    
     init(title: String, color: Color, initialDelay: Double, animationType: Animation, scall: Bool = false, show: Bool = false, delayStep: Double = 0.1) {
         self.title = title
         self.color = color
         self.initialDelay = initialDelay
         self.animationType = animationType
     }
+    
     var body: some View {
         HStack(spacing: 0) {
             ForEach(0..<title.count, id: \.self) { index in

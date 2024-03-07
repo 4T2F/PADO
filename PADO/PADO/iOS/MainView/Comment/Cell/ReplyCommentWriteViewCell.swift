@@ -11,21 +11,17 @@ import Lottie
 import SwiftUI
 
 struct ReplyCommentWriteViewCell: View {
-    let index: Int
-    let replyCommentID: String
-    
     @ObservedObject var commentVM: CommentViewModel
     
-    @State private var isUserLoaded = false
-    @State private var isShowingCommentWriteView: Bool = false
-    @State private var isShowingLoginPage: Bool = false
-    @State var buttonOnOff: Bool = false
-    @State var isShowingReportView: Bool = false
-    @State private var isShowingHeartUserView: Bool = false
-    @State private var isHeartCheck: Bool = true
     @State var commentUser: User?
+    @State var buttonOnOff: Bool = false
     
     @Binding var post: Post
+    
+    @State private var isHeartCheck: Bool = true
+    
+    let index: Int
+    let replyCommentID: String
     
     var body: some View {
         if index < commentVM.comments.count, let replyComment = commentVM.replyComments[replyCommentID] {

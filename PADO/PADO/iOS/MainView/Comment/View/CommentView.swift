@@ -26,7 +26,7 @@ struct CommentView: View {
             ScrollView {
                 VStack {
                     if let postID = post.id {
-                        FaceMojiView(commentVM: commentVM,
+                        PhotoMojiView(commentVM: commentVM,
                                      postOwner: $postUser,
                                      post: $post,
                                      postID: postID)
@@ -42,9 +42,9 @@ struct CommentView: View {
                             ForEach(commentVM.comments.indices, id:\.self) { index in
                                 if index < commentVM.comments.count,
                                    commentVM.commentUsers.keys.contains(commentVM.comments[index].userID) {
-                                    CommentCell(index: index,
-                                                commentVM: commentVM,
-                                                post: $post)
+                                    CommentCell(commentVM: commentVM,
+                                                post: $post,
+                                                index: index)
                                     .id(index)
                                     if !commentVM.comments[index].replyComments.isEmpty {
                                        ShowMoreCommentView(commentVM: commentVM,

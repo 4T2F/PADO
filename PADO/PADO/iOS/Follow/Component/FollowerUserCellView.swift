@@ -26,12 +26,6 @@ struct FollowerUserCellView: View {
     let followerType: FollowerModalType
     let sufferset: SufferSet
     
-    enum SufferSet: String {
-        case removesuffer = "서퍼 해제"
-        case setsuffer = "서퍼 등록"
-    }
-
-    // MARK: - BODY
     var body: some View {
         HStack {
             NavigationLink {

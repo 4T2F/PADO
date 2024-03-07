@@ -4,6 +4,7 @@
 //
 //  Created by 황민채 on 1/16/24.
 //
+
 // MARK: - Modal이 열릴 때 뒷배경을 투명으로 처리해주는 아이입니다. 많관부
 import SwiftUI
 

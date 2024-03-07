@@ -4,34 +4,10 @@
 //
 //  Created by 최동호 on 1/23/24.
 //
+
 import Firebase
 import FirebaseFirestoreSwift
 import SwiftUI
-
-enum CollectionType {
-    case follower
-    case following
-    case surfer
-    case surfing
-    
-    var collectionName: String {
-        switch self {
-        case .follower:
-            return "follower"
-        case .following:
-            return "following"
-        case .surfer:
-            return "surfer"
-        case .surfing:
-            return "surfing"
-        }
-    }
-}
-
-enum SearchFollowType {
-    case follower
-    case following
-}
 
 class FollowViewModel: ObservableObject, Searchable {
     // IDs

@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct OffsetModifier: ViewModifier {
+    @State var startValue: CGFloat = 0
+    
     @Binding var offset: CGFloat
     
     var returnFromStart: Bool = true
-    @State var startValue: CGFloat = 0
     
     func body(content: Content) -> some View {
         content

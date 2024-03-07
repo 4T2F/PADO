@@ -1,5 +1,5 @@
 //
-//  DeleteFaceMojiVIew.swift
+//  DeletePhotoMojiVIew.swift
 //  PADO
 //
 //  Created by 황성진 on 2/4/24.
@@ -8,9 +8,9 @@
 import Kingfisher
 import SwiftUI
 
-struct DeleteFaceMojiView: View {
+struct DeletePhotoMojiView: View {
     // MARK: - PROPERTY
-    let facemoji: Facemoji
+    let photoMoji: PhotoMoji
     let postID: String
     @ObservedObject var commentVM: CommentViewModel
     
@@ -18,7 +18,7 @@ struct DeleteFaceMojiView: View {
     var body: some View {
         VStack {
             VStack {
-                KFImage(URL(string: facemoji.faceMojiImageUrl))
+                KFImage(URL(string: photoMoji.photoMojiImageUrl))
                     .fade(duration: 0.5)
                     .placeholder{
                         ProgressView()
@@ -33,11 +33,11 @@ struct DeleteFaceMojiView: View {
                     .padding()
                 
                 Button {
-                    commentVM.deleteFacemojiModal = false
+                    commentVM.deletePhotoMojiModal = false
                     Task {
-                        await commentVM.updateFacemojiData.deleteFaceMoji(documentID: postID,
-                                                                          storagefileName: facemoji.storagename)
-                        commentVM.facemojies = try await commentVM.updateFacemojiData.getFaceMoji(documentID: postID) ?? []
+                        await commentVM.updatePhotoMojiData.deletePhotoMoji(documentID: postID,
+                                                                          storagefileName: photoMoji.storagename)
+                        commentVM.photoMojies = try await commentVM.updatePhotoMojiData.getPhotoMoji(documentID: postID) ?? []
                     }
                 } label: {
                     Text("삭제")
@@ -52,7 +52,7 @@ struct DeleteFaceMojiView: View {
                 .padding()
                 
                 Button {
-                    commentVM.deleteFacemojiModal = false
+                    commentVM.deletePhotoMojiModal = false
                 } label: {
                     Text("취소")
                         .background(

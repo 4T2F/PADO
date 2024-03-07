@@ -7,21 +7,18 @@
 
 import SwiftUI
 
-enum ButtonType {
-    case direct
-    case unDirect
-}
-
 struct FollowButtonView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
     
-    let cellUser: User
     @Binding var buttonActive: Bool
+    
+    let cellUser: User
     let activeText: String
     let unActiveText: String
     let widthValue: CGFloat
     let heightValue: CGFloat
     let buttonType: ButtonType
+    
     @State private var isShowingLoginPage = false
     
     var body: some View {
@@ -97,7 +94,6 @@ struct FollowButtonView: View {
         
         return blockedUserIDs.contains(id)
     }
-    
 }
 
 

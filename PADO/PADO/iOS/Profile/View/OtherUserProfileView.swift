@@ -327,8 +327,8 @@ struct OtherUserProfileView: View {
                                         }
                                     }
                                 } else {
-                                    FollowButtonView(cellUser: user,
-                                                     buttonActive: $buttonOnOff,
+                                    FollowButtonView(buttonActive: $buttonOnOff, 
+                                                     cellUser: user,
                                                      activeText: "팔로우",
                                                      unActiveText: "팔로우 취소",
                                                      widthValue: 85,
@@ -360,7 +360,9 @@ struct OtherUserProfileView: View {
                                     .foregroundStyle(.white)
                                 }
                                 .sheet(isPresented: $followerActive) {
-                                    FollowMainView(currentType: "팔로워", followVM: followVM, user: user)
+                                    FollowMainView(followVM: followVM, 
+                                                   currentType: "팔로워",
+                                                   user: user)
                                         .presentationDetents([.large])
                                         .presentationDragIndicator(.visible)
                                         .onDisappear {
@@ -382,8 +384,8 @@ struct OtherUserProfileView: View {
                                 }
                                 
                                 .sheet(isPresented: $followingActive) {
-                                    FollowMainView(currentType: "팔로잉",
-                                                   followVM: followVM,
+                                    FollowMainView(followVM: followVM, 
+                                                   currentType: "팔로잉",
                                                    user: user)
                                     .presentationDetents([.large])
                                     .presentationDragIndicator(.visible)

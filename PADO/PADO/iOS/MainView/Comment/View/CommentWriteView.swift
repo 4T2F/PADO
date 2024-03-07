@@ -52,9 +52,9 @@ struct CommentWriteView: View {
                     VStack(alignment: .leading) {
                         if !commentVM.comments.isEmpty {
                             ForEach(commentVM.comments.indices, id:\.self) { index in
-                                CommentWriteViewCell(index: index,
-                                            commentVM: commentVM,
-                                            post: $post)
+                                CommentWriteViewCell(commentVM: commentVM,
+                                                     post: $post,
+                                                     index: index)
                                 .id(index)
                             }
                             .onAppear {

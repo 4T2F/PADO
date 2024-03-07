@@ -338,12 +338,14 @@ struct ProfileView: View {
                                     .foregroundStyle(.white)
                                 }
                                 .sheet(isPresented: $followerActive) {
-                                    FollowMainView(currentType: "팔로워", followVM: followVM, user: user)
-                                        .presentationDetents([.large])
-                                        .presentationDragIndicator(.visible)
-                                        .onDisappear {
-                                            followerActive = false
-                                        }
+                                    FollowMainView(followVM: followVM, 
+                                                   currentType: "팔로워",
+                                                   user: user)
+                                    .presentationDetents([.large])
+                                    .presentationDragIndicator(.visible)
+                                    .onDisappear {
+                                        followerActive = false
+                                    }
                                 }
                                 
                                 Button {
@@ -360,8 +362,8 @@ struct ProfileView: View {
                                 }
                                 
                                 .sheet(isPresented: $followingActive) {
-                                    FollowMainView(currentType: "팔로잉",
-                                                   followVM: followVM,
+                                    FollowMainView(followVM: followVM, 
+                                                   currentType: "팔로잉",
                                                    user: user)
                                     .presentationDetents([.large])
                                     .presentationDragIndicator(.visible)

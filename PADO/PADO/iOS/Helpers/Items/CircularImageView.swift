@@ -71,8 +71,8 @@ struct CircularImageView: View {
 struct UrlProfileImageView: View {
     
     var imageUrl: String
-    let size: ProfileImageSize
     var defaultImageName: String
+    let size: ProfileImageSize
 
     var body: some View {
         Group {

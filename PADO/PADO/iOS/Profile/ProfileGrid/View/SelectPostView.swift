@@ -8,12 +8,6 @@
 import Kingfisher
 import SwiftUI
 
-enum PostViewType {
-    case receive
-    case send
-    case highlight
-}
-
 struct SelectPostView: View {
     @ObservedObject var profileVM: ProfileViewModel
     @ObservedObject var feedVM: FeedViewModel

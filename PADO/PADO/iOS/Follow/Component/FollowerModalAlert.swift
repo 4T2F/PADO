@@ -26,8 +26,8 @@ struct FollowerModalAlert: View {
             VStack(alignment: .center) {
                 VStack(spacing: 10) {
                     UrlProfileImageView(imageUrl: followerProfileUrl,
-                                        size: .large,
-                                        defaultImageName: "defaultProfile")
+                                        defaultImageName: "defaultProfile",
+                                        size: .large)
                     
                     Text(followerUsername)
                         .font(.system(.footnote))
