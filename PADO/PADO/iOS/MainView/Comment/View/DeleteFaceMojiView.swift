@@ -9,16 +9,15 @@ import Kingfisher
 import SwiftUI
 
 struct DeletePhotoMojiView: View {
-    // MARK: - PROPERTY
-    let photoMoji: PhotoMoji
-    let postID: String
     @ObservedObject var commentVM: CommentViewModel
     
-    // MARK: - BODY
+    let photoMoji: PhotoMoji
+    let postID: String
+    
     var body: some View {
         VStack {
             VStack {
-                KFImage(URL(string: photoMoji.photoMojiImageUrl))
+                KFImage(URL(string: photoMoji.faceMojiImageUrl))
                     .fade(duration: 0.5)
                     .placeholder{
                         ProgressView()

@@ -9,13 +9,12 @@ import SwiftUI
 
 struct AnimatedTitleView: View {
     @State var scall = false
+    @State private var show = false
     
     let title: String
     let color: Color
     let initialDelay: Double
     let animationType: Animation
-    
-    @State private var show = false
     
     private var delayStep = 0.1
     

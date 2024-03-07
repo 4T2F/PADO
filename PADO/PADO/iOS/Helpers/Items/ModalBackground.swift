@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct ClearBackground: UIViewRepresentable {
-    
     public func makeUIView(context: Context) -> UIView {
         let view = ClearBackgroundView()
         DispatchQueue.main.async {

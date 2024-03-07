@@ -10,8 +10,8 @@ import SwiftUI
 struct PhotoMojiCell: View {
     @ObservedObject var commentVM: CommentViewModel
     
-    var photoMoji: PhotoMoji
     let hapticImpact = UIImpactFeedbackGenerator(style: .medium)
+    var photoMoji: PhotoMoji
     
     var body: some View {
         if photoMoji.userID == userNameID {
@@ -21,7 +21,7 @@ struct PhotoMojiCell: View {
                         .stroke(emojiColors[photoMoji.emoji, default: .white], lineWidth: 1.4)
                         .frame(width: 56, height: 56)
                     
-                    KFImage(URL(string: photoMoji.photoMojiImageUrl))
+                    KFImage(URL(string: photoMoji.faceMojiImageUrl))
                         .fade(duration: 0.5)
                         .placeholder{
                             ProgressView()
@@ -51,7 +51,7 @@ struct PhotoMojiCell: View {
                         .stroke(emojiColors[photoMoji.emoji, default: .white], lineWidth: 1.4)
                         .frame(width: 56, height: 56)
                     
-                    KFImage(URL(string: photoMoji.photoMojiImageUrl))
+                    KFImage(URL(string: photoMoji.faceMojiImageUrl))
                         .fade(duration: 0.5)
                         .placeholder{
                             ProgressView()

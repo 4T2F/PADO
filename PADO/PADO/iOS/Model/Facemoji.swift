@@ -14,7 +14,7 @@ struct PhotoMoji: Identifiable, Codable, Hashable {
     @DocumentID var id: String?
     
     let userID: String
-    let photoMojiImageUrl: String
+    let faceMojiImageUrl: String
     let storagename: String
     let time: Timestamp
     let emoji: String

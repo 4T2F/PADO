@@ -14,12 +14,11 @@ struct ReplyCommentCell: View {
     
     @State var commentUser: User?
     @State var buttonOnOff: Bool = false
-    
-    @Binding var post: Post
-    
     @State private var isShowingReportView: Bool = false
     @State private var isShowingHeartUserView: Bool = false
     @State private var isHeartCheck: Bool = true
+    
+    @Binding var post: Post
     
     let index: Int
     let replyCommentID: String

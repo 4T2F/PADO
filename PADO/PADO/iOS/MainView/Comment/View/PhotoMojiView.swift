@@ -9,13 +9,15 @@ import Lottie
 import SwiftUI
 
 struct PhotoMojiView: View {
-    @ObservedObject var commentVM: CommentViewModel
     @StateObject var surfingVM = SurfingViewModel()
+    
+    @ObservedObject var commentVM: CommentViewModel
+    
+    @State private var isShowingLoginPage: Bool = false
     
     @Binding var postOwner: User
     @Binding var post: Post
     
-    @State private var isShowingLoginPage: Bool = false
     let postID: String
     
     var body: some View {
@@ -25,9 +27,9 @@ struct PhotoMojiView: View {
                     PhotoMojiCell(commentVM: commentVM, photoMoji: photoMoji)
                         .padding(6)
                         .sheet(isPresented: $commentVM.deletePhotoMojiModal) {
-                            DeletePhotoMojiView(photoMoji: commentVM.selectedPhotoMoji ?? photoMoji,
-                                               postID: postID,
-                                               commentVM: commentVM)
+                            DeletePhotoMojiView(commentVM: commentVM, 
+                                                photoMoji: commentVM.selectedPhotoMoji ?? photoMoji,
+                                                postID: postID)
                             .presentationDetents([.medium])
                         }
                 }

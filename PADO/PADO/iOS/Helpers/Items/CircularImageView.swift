@@ -44,11 +44,10 @@ enum ProfileImageSize {
 }
 
 struct CircularImageView: View {
-    // MARK: - PROPERTY
     // ProfileImageSize 를 사용하기 위해 사용
     let size: ProfileImageSize
     let user: User
-    // MARK: - BODY
+    
     var body: some View {
         if let imageUrl = user.profileImageUrl {
             KFImage(URL(string: imageUrl))

@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct ShowMoreCommentView: View {
-    
     @ObservedObject var commentVM: CommentViewModel
     
     @State private var showReplyComment: Bool = false
+    
     @Binding var post: Post
+    
     let index: Int
     
     var body: some View {

@@ -11,14 +11,15 @@ import SwiftUI
 struct CommentView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
     @Environment(\.dismiss) var dismiss
+    
     @StateObject var commentVM = CommentViewModel()
     
+    @State var postUser: User
+    @State var post: Post
     @State private var isShowingCommentWriteView: Bool = false
     @State private var commentText: String = ""
     @State private var isFetchedComment: Bool = false
     @State private var isShowingLoginPage: Bool = false
-    @State var postUser: User
-    @State var post: Post
     
     var body: some View {
         VStack(spacing: 0) {

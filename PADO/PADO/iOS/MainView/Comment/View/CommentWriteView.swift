@@ -9,15 +9,14 @@ import SwiftUI
 
 struct CommentWriteView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
-    @ObservedObject var commentVM: CommentViewModel
     @Environment(\.dismiss) var dismiss
     
-    @FocusState private var isTextFieldFocused: Bool
-    
-    @State private var commentText: String = ""
-    @State private var isFocused: Bool = false
+    @ObservedObject var commentVM: CommentViewModel
     
     @State var notiUser: User
+    @State private var commentText: String = ""
+    @State private var isFocused: Bool = false
+    @FocusState private var isTextFieldFocused: Bool
     
     @Binding var post: Post
     

@@ -9,8 +9,9 @@ import PhotosUI
 import SwiftUI
 
 struct PhotoMojiCropView: View {
-    // MARK: - PROPERTY
     @Environment(\.dismiss) var dismiss
+    
+    @ObservedObject var commentVM: CommentViewModel
     
     // 이미지 조작을 위한 상태 변수들
     @State private var scale: CGFloat = 1
@@ -20,15 +21,11 @@ struct PhotoMojiCropView: View {
     @State private var showinGrid: Bool = false
     @GestureState private var isInteractig: Bool = false
     
-    @ObservedObject var commentVM: CommentViewModel
-
-    
     @Binding var postOwner: User
     @Binding var post: Post
     
-    var crop: Crop = .circle
     let postID: String
-    
+    var crop: Crop = .circle
     var onCrop: (UIImage?, Bool) -> Void
     
     var body: some View {

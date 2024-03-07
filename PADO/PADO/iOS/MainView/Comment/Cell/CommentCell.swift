@@ -14,14 +14,13 @@ struct CommentCell: View {
     
     @State var buttonOnOff: Bool = false
     @State var isShowingReportView: Bool = false
-    
-    @Binding var post: Post
-    
     @State private var isShowingReplyCommentWriteView: Bool = false
     @State private var isShowingLoginPage: Bool = false
     @State private var isShowingHeartUserView: Bool = false
     @State private var isHeartCheck: Bool = true
 
+    @Binding var post: Post
+    
     let index: Int
     
     var body: some View {

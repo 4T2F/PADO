@@ -86,7 +86,7 @@
 		41A28B882B98E98B00DC538A /* ModalAlertType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A28B872B98E98B00DC538A /* ModalAlertType.swift */; };
 		41A7DC8E2B88E12C00381732 /* GlobalVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A7DC8D2B88E12C00381732 /* GlobalVariable.swift */; };
 		41E5F6982B56536D001750C2 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E5F6972B56536D001750C2 /* CommentCell.swift */; };
-		41E5F69A2B565409001750C2 /* FaceMojiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E5F6992B565409001750C2 /* FaceMojiView.swift */; };
+		41E5F69A2B565409001750C2 /* PhotoMojiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E5F6992B565409001750C2 /* PhotoMojiView.swift */; };
 		41E5F69C2B5666D7001750C2 /* FaceMojiCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E5F69B2B5666D7001750C2 /* FaceMojiCell.swift */; };
 		41FD99F62B43D5EC0028D38E /* PADOApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FD99F52B43D5EC0028D38E /* PADOApp.swift */; };
 		41FD99FA2B43D5ED0028D38E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 41FD99F92B43D5ED0028D38E /* Assets.xcassets */; };
@@ -338,7 +338,7 @@
 		41A28B872B98E98B00DC538A /* ModalAlertType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalAlertType.swift; sourceTree = "<group>"; };
 		41A7DC8D2B88E12C00381732 /* GlobalVariable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalVariable.swift; sourceTree = "<group>"; };
 		41E5F6972B56536D001750C2 /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
-		41E5F6992B565409001750C2 /* FaceMojiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceMojiView.swift; sourceTree = "<group>"; };
+		41E5F6992B565409001750C2 /* PhotoMojiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoMojiView.swift; sourceTree = "<group>"; };
 		41E5F69B2B5666D7001750C2 /* FaceMojiCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceMojiCell.swift; sourceTree = "<group>"; };
 		41FD99F22B43D5EC0028D38E /* PADO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PADO.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		41FD99F52B43D5EC0028D38E /* PADOApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PADOApp.swift; sourceTree = "<group>"; };
@@ -1062,7 +1062,7 @@
 			children = (
 				638C71692B6E05B000DB0A70 /* CommentView.swift */,
 				63ECDCBA2B76BADA00D71E88 /* CommentWriteView.swift */,
-				41E5F6992B565409001750C2 /* FaceMojiView.swift */,
+				41E5F6992B565409001750C2 /* PhotoMojiView.swift */,
 				4182CA462B8D1B4D00EABD49 /* ShowMoreCommentView.swift */,
 				6408FEED2B6FBE0C00BF0DDF /* FaceMojiCropView.swift */,
 				6408FEE72B6E98E000BF0DDF /* DeleteCommentView.swift */,
@@ -1472,7 +1472,7 @@
 				635B09482B4500AA009E60A9 /* AuthenticationViewModel.swift in Sources */,
 				B1999EDD2B6E2312005B37BA /* PushNotificationManager.swift in Sources */,
 				41101B3B2B6BF8AF002E8C64 /* OtherUserProfileView.swift in Sources */,
-				41E5F69A2B565409001750C2 /* FaceMojiView.swift in Sources */,
+				41E5F69A2B565409001750C2 /* PhotoMojiView.swift in Sources */,
 				636BFCD92B998DB0000DB1DF /* SearchFollowType.swift in Sources */,
 				636BFCD52B998D74000DB1DF /* EmotionType.swift in Sources */,
 				418B6C982B5EC75F00E8289D /* SearchViewModel.swift in Sources */,
