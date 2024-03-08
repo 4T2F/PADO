@@ -94,19 +94,15 @@ struct ProfileView: View {
                         HStack(spacing: 0) {
                             HStack(spacing: 0) {
                                 if !user.instaAddress.isEmpty {
-                                    Button {
-                                        profileVM.openSocialMediaApp(urlScheme: "instagram://user?username=\(user.instaAddress)", fallbackURL: "https://instagram.com/\(user.instaAddress)")
-                                    } label: {
-                                        Image("instagramicon")
-                                    }
+                                    SocialMediaButton(platformName: "instagramicon", 
+                                                      urlScheme: "instagram://user?username=\(user.instaAddress)",
+                                                      fallbackURL: "https://instagram.com/\(user.instaAddress)")
                                 }
                                 
                                 if !user.tiktokAddress.isEmpty {
-                                    Button {
-                                        profileVM.openSocialMediaApp(urlScheme: "tiktok://user?username=\(user.tiktokAddress)", fallbackURL: "https://www.tiktok.com/@\(user.tiktokAddress)")
-                                    } label: {
-                                        Image("tiktokicon")
-                                    }
+                                    SocialMediaButton(platformName: "tiktokicon", 
+                                                      urlScheme: "tiktok://user?username=\(user.tiktokAddress)",
+                                                      fallbackURL: "https://www.tiktok.com/@\(user.tiktokAddress)")
                                 }
                             }
                             
@@ -123,71 +119,19 @@ struct ProfileView: View {
                 // 뒷배경 조건문
                 if touchBackImage {
                     if let backProfileImageUrl = user.backProfileImageUrl {
-                        KFImage(URL(string: backProfileImageUrl))
-                            .resizable()
-                            .scaledToFit()
-                            .clipShape(RoundedRectangle(cornerRadius: isDragging ? 12 : 0))
-                            .zIndex(2)
-                            .onTapGesture {
-                                withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
-                                    self.touchBackImage = false
-                                }
-                            }
-                            .offset(position)
-                            .highPriorityGesture(
-                                DragGesture()
-                                    .onChanged({ value in
-                                        self.position = value.translation
-                                        self.isDragging = true
-                                    })
-                                    .onEnded({ value in
-                                        withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
-                                            if 200 < abs(self.position.height) {
-                                                self.touchBackImage = false
-                                                self.isDragging = false
-                                            } else {
-                                                self.position = .zero
-                                                self.isDragging = false
-                                            }
-                                        }
-                                    })
-                            )
+                        UserProfileImageView(isTouched: $touchBackImage,
+                                             isDragging: $isDragging,
+                                             position: $position,
+                                             imageUrl: URL(string: backProfileImageUrl))
                     }
                 }
                 // 프로필 사진 조건문
                 if touchProfileImage {
                     if let profileImageUrl = user.profileImageUrl {
-                        KFImage(URL(string: profileImageUrl))
-                            .resizable()
-                            .scaledToFit()
-                            .background(.black)
-                            .clipShape(RoundedRectangle(cornerRadius: isDragging ? 12 : 0))
-                            .zIndex(2)
-                            .contentShape(.rect)
-                            .onTapGesture {
-                                withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
-                                    self.touchProfileImage = false
-                                }
-                            }
-                            .offset(position)
-                            .highPriorityGesture(
-                                DragGesture()
-                                    .onChanged({ value in
-                                        self.position = value.translation
-                                        self.isDragging = true
-                                    })
-                                    .onEnded({ value in
-                                        withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.8)) {
-                                            if 200 < abs(self.position.height) {
-                                                self.touchProfileImage = false
-                                                self.isDragging = false
-                                            } else {
-                                                self.position = .zero
-                                                self.isDragging = false
-                                            }
-                                        }
-                                    })
-                            )
+                        UserProfileImageView(isTouched: $touchProfileImage,
+                                             isDragging: $isDragging,
+                                             position: $position,
+                                             imageUrl: URL(string: profileImageUrl))
                     }
                 }
                 
@@ -440,18 +384,18 @@ struct ProfileView: View {
     func postList() -> some View {
         switch profileVM.currentType {
         case "받은 파도":
-            postView()
+            ReceivedPostsView()
         case "보낸 파도":
-            writtenPostsView()
+            SentPostsView()
         case "좋아요":
-            highlightsView()
+            HighlightPostsView()
         default:
             EmptyView()
         }
     }
     
     @ViewBuilder
-    func postView() -> some View {
+    func ReceivedPostsView() -> some View {
         VStack(spacing: 25) {
             
             if profileVM.padoPosts.isEmpty {
@@ -509,7 +453,7 @@ struct ProfileView: View {
     }
     
     @ViewBuilder
-    func writtenPostsView() -> some View {
+    func SentPostsView() -> some View {
         VStack(spacing: 25) {
             if profileVM.sendPadoPosts.isEmpty {
                 NoItemView(itemName: "아직 보낸 게시물이 없습니다")
@@ -566,7 +510,7 @@ struct ProfileView: View {
     }
     
     @ViewBuilder
-    func highlightsView() -> some View {
+    func HighlightPostsView() -> some View {
         VStack(spacing: 25) {
             if profileVM.highlights.isEmpty {
                 NoItemView(itemName: "아직 좋아요를 표시한 게시물이 없습니다")
