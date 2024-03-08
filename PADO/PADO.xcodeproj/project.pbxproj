@@ -138,9 +138,9 @@
 		63C8BA522B5661A500025422 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA512B5661A500025422 /* NotificationView.swift */; };
 		63C8BA582B56659800025422 /* SurferNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA572B56659800025422 /* SurferNotificationCell.swift */; };
 		63D31AEF2B9995E50089D02E /* EnumTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D31AEE2B9995E50089D02E /* EnumTypes.swift */; };
-		63D31AF62B9AB4E20089D02E /* PostGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D31AF52B9AB4E20089D02E /* PostGridView.swift */; };
 		63D31AF82B9ABC610089D02E /* SocialMediaButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D31AF72B9ABC610089D02E /* SocialMediaButton.swift */; };
 		63D31AFA2B9ABD490089D02E /* UserProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D31AF92B9ABD490089D02E /* UserProfileImageView.swift */; };
+		63D31AFE2B9AD9FA0089D02E /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D31AFD2B9AD9FA0089D02E /* ProfileHeaderView.swift */; };
 		63D3C8372B8678BF001C5F33 /* PadoRideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D3C8362B8678BF001C5F33 /* PadoRideView.swift */; };
 		63D3C8392B8679A9001C5F33 /* SelectPadoRideUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D3C8382B8679A9001C5F33 /* SelectPadoRideUserCell.swift */; };
 		63D3C83B2B867DF3001C5F33 /* FollowerSuggestionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D3C83A2B867DF3001C5F33 /* FollowerSuggestionCell.swift */; };
@@ -384,9 +384,9 @@
 		63C8BA552B56644600025422 /* RequestSurfingNotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestSurfingNotificationCell.swift; sourceTree = "<group>"; };
 		63C8BA572B56659800025422 /* SurferNotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurferNotificationCell.swift; sourceTree = "<group>"; };
 		63D31AEE2B9995E50089D02E /* EnumTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumTypes.swift; sourceTree = "<group>"; };
-		63D31AF52B9AB4E20089D02E /* PostGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostGridView.swift; sourceTree = "<group>"; };
 		63D31AF72B9ABC610089D02E /* SocialMediaButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialMediaButton.swift; sourceTree = "<group>"; };
 		63D31AF92B9ABD490089D02E /* UserProfileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileImageView.swift; sourceTree = "<group>"; };
+		63D31AFD2B9AD9FA0089D02E /* ProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
 		63D3C8362B8678BF001C5F33 /* PadoRideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadoRideView.swift; sourceTree = "<group>"; };
 		63D3C8382B8679A9001C5F33 /* SelectPadoRideUserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPadoRideUserCell.swift; sourceTree = "<group>"; };
 		63D3C83A2B867DF3001C5F33 /* FollowerSuggestionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerSuggestionCell.swift; sourceTree = "<group>"; };
@@ -892,6 +892,8 @@
 		635B094D2B4510B1009E60A9 /* Items */ = {
 			isa = PBXGroup;
 			children = (
+				63D31AF72B9ABC610089D02E /* SocialMediaButton.swift */,
+				63D31AF92B9ABD490089D02E /* UserProfileImageView.swift */,
 				63AA03582B68F1BE00431332 /* OffsetModifier.swift */,
 				4187431C2B5C32CF00D93CBE /* CircularImageView.swift */,
 				64392B632B7099C70047BA12 /* RectangleImageView.swift */,
@@ -963,8 +965,9 @@
 		63AA03562B68F19A00431332 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				63D31AF02B9AB26D0089D02E /* MyProfile */,
-				63D31AF12B9AB27C0089D02E /* OtherUserProfile */,
+				63AA03572B68F1BE00431332 /* ProfileView.swift */,
+				41101B3A2B6BF8AF002E8C64 /* OtherUserProfileView.swift */,
+				63D31AFD2B9AD9FA0089D02E /* ProfileHeaderView.swift */,
 				63D31AF22B9AB29A0089D02E /* Postit */,
 			);
 			path = View;
@@ -1010,25 +1013,6 @@
 				63C20BF22B56F0BA00911F64 /* Cell */,
 			);
 			path = Notification;
-			sourceTree = "<group>";
-		};
-		63D31AF02B9AB26D0089D02E /* MyProfile */ = {
-			isa = PBXGroup;
-			children = (
-				63AA03572B68F1BE00431332 /* ProfileView.swift */,
-				63D31AF52B9AB4E20089D02E /* PostGridView.swift */,
-				63D31AF72B9ABC610089D02E /* SocialMediaButton.swift */,
-				63D31AF92B9ABD490089D02E /* UserProfileImageView.swift */,
-			);
-			path = MyProfile;
-			sourceTree = "<group>";
-		};
-		63D31AF12B9AB27C0089D02E /* OtherUserProfile */ = {
-			isa = PBXGroup;
-			children = (
-				41101B3A2B6BF8AF002E8C64 /* OtherUserProfileView.swift */,
-			);
-			path = OtherUserProfile;
 			sourceTree = "<group>";
 		};
 		63D31AF22B9AB29A0089D02E /* Postit */ = {
@@ -1520,7 +1504,6 @@
 				63D3C8392B8679A9001C5F33 /* SelectPadoRideUserCell.swift in Sources */,
 				41711F462B72281D00F0A1A7 /* UpdatePhotomojiData.swift in Sources */,
 				04E950982B715E6F0091F660 /* InfoWebView.swift in Sources */,
-				63D31AF62B9AB4E20089D02E /* PostGridView.swift in Sources */,
 				419741E12B558F3A0055F2AB /* FollowButtonView.swift in Sources */,
 				6408FEF02B6FCB9900BF0DDF /* SelectEmojiView.swift in Sources */,
 				63824C422B558B2400D1D653 /* BirthView.swift in Sources */,
@@ -1601,6 +1584,7 @@
 				41A7DC8E2B88E12C00381732 /* GlobalVariable.swift in Sources */,
 				643417332B5F947500E47639 /* SurfingView.swift in Sources */,
 				6401BE9B2B7DFED40084FECD /* DeleteImageUrl.swift in Sources */,
+				63D31AFE2B9AD9FA0089D02E /* ProfileHeaderView.swift in Sources */,
 				040914F92B561FA8001B549B /* ReportSelectCellView.swift in Sources */,
 				63D3C83B2B867DF3001C5F33 /* FollowerSuggestionCell.swift in Sources */,
 				6408FEEA2B6E98E800BF0DDF /* ReportCommentView.swift in Sources */,
