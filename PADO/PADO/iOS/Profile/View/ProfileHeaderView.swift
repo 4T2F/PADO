@@ -179,7 +179,6 @@ struct ProfileHeaderView: View {
                                     .font(.system(.body))
                                     .foregroundStyle(.white)
                                 }
-                                
                                 .sheet(isPresented: $followingActive) {
                                     FollowMainView(followVM: followVM,
                                                    currentType: "팔로잉",
