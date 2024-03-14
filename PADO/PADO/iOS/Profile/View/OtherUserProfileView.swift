@@ -222,9 +222,9 @@ struct OtherUserProfileView: View {
     func postList() -> some View {
         switch profileVM.currentType {
         case "받은 파도":
-            OtherUserPostGridView(isShowingDetail: $isShowingReceiveDetail,
-                                  profileVM: profileVM,
+            OtherUserPostGridView(profileVM: profileVM,
                                   feedVM: feedVM,
+                                  isShowingDetail: $isShowingReceiveDetail,
                                   posts: profileVM.padoPosts,
                                   fetchedData: profileVM.fetchedPadoData,
                                   isFetchingData: fetchingPostData,
@@ -232,9 +232,9 @@ struct OtherUserProfileView: View {
                                   postViewType: .receive,
                                   userID: user.nameID)
         case "보낸 파도":
-            OtherUserPostGridView(isShowingDetail: $isShowingSendDetail,
-                                  profileVM: profileVM,
+            OtherUserPostGridView(profileVM: profileVM,
                                   feedVM: feedVM,
+                                  isShowingDetail: $isShowingSendDetail,
                                   posts: profileVM.sendPadoPosts,
                                   fetchedData: profileVM.fetchedSendPadoData,
                                   isFetchingData: fetchingPostData,
@@ -246,9 +246,9 @@ struct OtherUserProfileView: View {
                 NoItemView(itemName: "\(user.nameID)님이 좋아요를 표시한 파도는\n 비공개 상태입니다.")
                     .padding(.top, 150)
             } else {
-                OtherUserPostGridView(isShowingDetail: $isShowingHightlight,
-                                      profileVM: profileVM,
+                OtherUserPostGridView(profileVM: profileVM,
                                       feedVM: feedVM,
+                                      isShowingDetail: $isShowingHightlight,
                                       posts: profileVM.highlights,
                                       fetchedData: profileVM.fetchedHighlights,
                                       isFetchingData: fetchingPostData,

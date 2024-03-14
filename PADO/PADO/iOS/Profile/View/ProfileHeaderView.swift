@@ -5,8 +5,8 @@
 //  Created by 강치우 on 3/8/24.
 //
 
-import Lottie
 import Kingfisher
+import Lottie
 
 import SwiftUI
 

@@ -214,25 +214,25 @@ struct ProfileView: View {
     func postList() -> some View {
         switch profileVM.currentType {
         case "받은 파도":
-            PostGridView(isShowingDetail: $isShowingReceiveDetail,
-                         profileVM: profileVM,
+            PostGridView(profileVM: profileVM,
                          feedVM: feedVM, 
+                         isShowingDetail: $isShowingReceiveDetail,
                          text: "아직 받은 파도가 없어요.",
                          posts: profileVM.padoPosts,
                          fetchedData: profileVM.fetchedPadoData,
                          postViewType: .receive)
         case "보낸 파도":
-            PostGridView(isShowingDetail: $isShowingSendDetail,
-                         profileVM: profileVM,
-                         feedVM: feedVM, 
+            PostGridView(profileVM: profileVM,
+                         feedVM: feedVM,
+                         isShowingDetail: $isShowingSendDetail,
                          text: "아직 보낸 파도가 없어요.",
                          posts: profileVM.sendPadoPosts,
                          fetchedData: profileVM.fetchedSendPadoData,
                          postViewType: .send)
         case "좋아요":
-            PostGridView(isShowingDetail: $isShowingHightlight,
-                         profileVM: profileVM,
-                         feedVM: feedVM, 
+            PostGridView(profileVM: profileVM,
+                         feedVM: feedVM,
+                         isShowingDetail: $isShowingHightlight,
                          text: "아직 좋아요를 표시한 파도가 없어요.",
                          posts: profileVM.highlights,
                          fetchedData: profileVM.fetchedHighlights,
