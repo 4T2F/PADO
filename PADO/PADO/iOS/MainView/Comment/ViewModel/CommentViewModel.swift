@@ -11,6 +11,7 @@ import FirebaseStorage
 import SwiftUI
 
 class CommentViewModel: ObservableObject {
+    // MARK: - 댓글 관련
     @Published var comments: [Comment] = []
     @Published var replyComments: [String: ReplyComment] = [:]
     @Published var documentID: String = ""
@@ -26,18 +27,18 @@ class CommentViewModel: ObservableObject {
     
     let db = Firestore.firestore()
     
-    // MARK: - FaceMoji 관련
-    @Published var faceMojiUIImage: UIImage?
+    // MARK: - PhotoMoji 관련
+    @Published var photoMojiUIImage: UIImage?
     @Published var cropMojiUIImage: UIImage?
     @Published var cropMojiImage: Image = Image("")
-    @Published var facemojies: [Facemoji] = []
-    @Published var deleteFacemojiModal: Bool = false
-    @Published var showCropFaceMoji: Bool = false
+    @Published var photoMojies: [PhotoMoji] = []
+    @Published var deletePhotoMojiModal: Bool = false
+    @Published var showCropPhotoMoji: Bool = false
     @Published var showEmojiView: Bool = false
     @Published var selectedEmoji: String = ""
-    @Published var selectedFacemoji: Facemoji?
+    @Published var selectedPhotoMoji: PhotoMoji?
 
-    let updateFacemojiData = UpdateFacemojiData()
+    let updatePhotoMojiData = UpdatePhotoMojiData()
     
     @MainActor
     func getCommentsDocument(post: Post) async {

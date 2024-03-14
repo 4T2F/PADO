@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct SettingToggleCell: View {
+    @Binding var toggle: Bool
+    
     var icon: String
     var text: String
-    
-    @Binding var toggle: Bool
     
     var body: some View {
         ZStack {

@@ -19,12 +19,12 @@ enum ImageLoadError: Error {
 enum StorageTypeInput: String {
     case user
     case post
-    case facemoji
+    case photoMoji
     case backImage
 }
 
 enum ImageQuality: Double {
-    case lowforFaceMoji = 0.25
+    case lowforPhotoMoji = 0.25
     case middleforProfile = 0.5
     case highforPost = 1.0
 }
@@ -61,7 +61,7 @@ class UpdateImageUrl {
         guard let image = uiImage else { throw ImageLoadError.imageCreationFailed }
         
         switch storageTypeInput {
-        case .user, .facemoji, .backImage:
+        case .user, .photoMoji, .backImage:
             guard let imageUrl = try? await uploadImageToStorage(image: image,
                                                                  storageTypeInput: storageTypeInput,
                                                                  imageQuality: imageQuality)
@@ -128,7 +128,7 @@ class UpdateImageUrl {
                             return nil
                         }
                         
-                    case .facemoji:
+                    case .photoMoji:
                         let storageRef = Storage.storage().reference(withPath: "/facemoji/\(filename)-\(documentid)")
                         do {
                             _ = try await storageRef.putDataAsync(normalizedImageData)
@@ -180,7 +180,7 @@ class UpdateImageUrl {
                 ])
                 
                 return imageUrl
-            case .facemoji:
+            case .photoMoji:
                 try await Firestore.firestore().collection("post").document(documentid).collection("facemoji").document(userNameID).setData([
                     "faceMojiImageUrl": imageUrl
                 ])

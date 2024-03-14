@@ -8,10 +8,6 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var width = UIScreen.main.bounds.width
-    
-    @State private var keyboardHeight: CGFloat = 0
-    
     @EnvironmentObject var viewModel: AuthenticationViewModel
     @StateObject var surfingVM = SurfingViewModel()
     @StateObject var feedVM = FeedViewModel()
@@ -20,14 +16,14 @@ struct ContentView: View {
     @StateObject var postitVM = PostitViewModel()
     @StateObject var notiVM = NotificationViewModel.shared
     
+    @State var fetchedPostitData: Bool = false
+    @State var width = UIScreen.main.bounds.width
     @State private var showPushProfile = false
     @State private var pushUser: User?
     @State private var showPushPost = false
     @State private var pushPostID: String = ""
-    
     @State private var showPushPostit = false
-    
-    @State var fetchedPostitData: Bool = false
+    @State private var keyboardHeight: CGFloat = 0
     
     let updateHeartData = UpdateHeartData()
     

@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct VerificationView: View {
-    // View Properties
     @Binding var otpText: String
-    // Keyboard State
+    
     @FocusState private var isKeyboardShowing: Bool
+    
     var body: some View {
         HStack(spacing: 0) {
             // OTP Text Boxes

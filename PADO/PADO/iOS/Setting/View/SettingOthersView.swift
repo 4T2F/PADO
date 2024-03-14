@@ -7,15 +7,16 @@
 
 import Firebase
 import FirebaseFirestoreSwift
+
 import SwiftUI
 
 struct SettingOthersView: View {
-    @State private var showingCashModal: Bool = false
-    @State private var showingDeleteModal: Bool = false
-    @State var savePhoto: Bool = UserDefaults.standard.bool(forKey: "savePhoto")
-
     @EnvironmentObject var viewModel: AuthenticationViewModel
     @Environment (\.dismiss) var dismiss
+    
+    @State var savePhoto: Bool = UserDefaults.standard.bool(forKey: "savePhoto")
+    @State private var showingCashModal: Bool = false
+    @State private var showingDeleteModal: Bool = false
     
     @Binding var openHighlight: Bool
     
@@ -23,12 +24,16 @@ struct SettingOthersView: View {
         VStack {
             ZStack {
                 VStack {
-                    SettingToggleCell(icon: "photo.badge.plus", text: "파도타기 갤러리 저장", toggle: $savePhoto)
+                    SettingToggleCell(toggle: $savePhoto,
+                                      icon: "photo.badge.plus",
+                                      text: "파도타기 갤러리 저장")
                         .onChange(of: savePhoto) { _, newValue in
                             UserDefaults.standard.set(newValue, forKey: "savePhoto")
                         }
                     
-                    SettingToggleCell(icon: "heart.text.square", text: "좋아요 한 게시글 공개", toggle: $openHighlight)
+                    SettingToggleCell(toggle: $openHighlight,
+                                      icon: "heart.text.square",
+                                      text: "좋아요 한 게시글 공개")
                         .onChange(of: openHighlight) { _, newValue in
                             if newValue {
                                 viewModel.currentUser?.openHighlight = "yes"
@@ -45,7 +50,8 @@ struct SettingOthersView: View {
                         showingCashModal.toggle()
                     } label: {
                         VStack {
-                            SettingNormalCell(icon: "trash", text: "캐시 지우기")
+                            SettingNormalCell(icon: "trash",
+                                              text: "캐시 지우기")
                         }
                     }
                     
@@ -53,7 +59,8 @@ struct SettingOthersView: View {
                         showingDeleteModal.toggle()
                     } label: {
                         VStack {
-                            SettingRedCell(icon: "multiply.square", text: "계정 탈퇴")
+                            SettingRedCell(icon: "multiply.square", 
+                                           text: "계정 탈퇴")
                         }
                     }
                     Spacer()
@@ -64,13 +71,19 @@ struct SettingOthersView: View {
         }
         .padding(.top, 10)
         .sheet(isPresented: $showingCashModal, content: {
-            ModalAlertView(showingCircleImage: false, mainTitle: .cash, subTitle: .cash, removeMessage: .cash)
+            ModalAlertView(showingCircleImage: false,
+                           mainTitle: .cash,
+                           subTitle: .cash,
+                           removeMessage: .cash)
                 .background(Color.clear)
                 .presentationDetents([.fraction(0.4)])
         })
         
         .sheet(isPresented: $showingDeleteModal, content: {
-            ModalAlertView(showingCircleImage: true, mainTitle: .account, subTitle: .account, removeMessage: .account)
+            ModalAlertView(showingCircleImage: true,
+                           mainTitle: .account,
+                           subTitle: .account, 
+                           removeMessage: .account)
                 .background(Color.clear)
                 .presentationDetents([.fraction(0.4)])
         })

@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct FollowMainView: View {
-    @State var currentType: String
-    @Namespace var animation
     @Environment (\.dismiss) var dismiss
     
     @ObservedObject var followVM: FollowViewModel
+    
+    @State var currentType: String
+    @Namespace var animation
     
     let user: User
     

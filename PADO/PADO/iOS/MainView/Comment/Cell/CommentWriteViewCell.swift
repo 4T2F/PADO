@@ -10,17 +10,14 @@ import Lottie
 import SwiftUI
 
 struct CommentWriteViewCell: View {
-    let index: Int
-    
     @ObservedObject var commentVM: CommentViewModel
     
     @State var buttonOnOff: Bool = false
-    @State var isShowingReportView: Bool = false
-    @State private var isShowingHeartUserView: Bool = false
     @State private var isHeartCheck: Bool = true
-    @State private var isUserLoaded = false
     
     @Binding var post: Post
+    
+    let index: Int
     
     var body: some View {
         if index < commentVM.comments.count {

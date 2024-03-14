@@ -7,6 +7,16 @@
 
 import Foundation
 
+var formattedPostingTitle = ""
+var userFollowingIDs: [String] = []
+var acceptAlert = "no"
+var blockingUser: [BlockUser] = []
+var blockedUser: [BlockUser] = []
+var needsDataFetch: Bool = false
+var resetNavigation: Bool = false
+var enteredNavigation: Bool = false
+let defaultBackgroundImageUrl = "https://firebasestorage.googleapis.com/v0/b/pado-cab67.appspot.com/o/defaultBackground.svg?alt=media&token=939778bd-288e-4ba1-855b-61766a410ed2"
+
 var userNameID: String {
     get {
         UserDefaults.standard.string(forKey: "userNameID") ?? ""
@@ -33,12 +43,3 @@ var savePhoto: Bool {
         UserDefaults.standard.set(newValue, forKey: "savePhoto")
     }
 }
-
-var userFollowingIDs: [String] = []
-var acceptAlert = "no"
-var blockingUser: [BlockUser] = []
-var blockedUser: [BlockUser] = []
-var needsDataFetch: Bool = false
-var resetNavigation: Bool = false
-var enteredNavigation: Bool = false
-let defaultBackgroundImageUrl = "https://firebasestorage.googleapis.com/v0/b/pado-cab67.appspot.com/o/defaultBackground.svg?alt=media&token=939778bd-288e-4ba1-855b-61766a410ed2"

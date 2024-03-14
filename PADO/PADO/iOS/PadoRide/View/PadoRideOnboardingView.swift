@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct PadoRideOnboardingView: View {
-    @State private var currentTab = 0
-    
     @Environment(\.dismiss) var dismiss
+    
+    @State private var currentTab = 0
     
     var body: some View {
         VStack {

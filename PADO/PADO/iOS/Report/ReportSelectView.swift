@@ -8,12 +8,17 @@
 import SwiftUI
 
 struct ReportSelectView: View {
+    @State var reportArray: [String] = ["부적절한 게시물", 
+                                        "부적절한 프로필 사진", 
+                                        "부적절한 사용자 이름",
+                                        "부적절한 FaceMoji",
+                                        "사칭",
+                                        "스팸",
+                                        "기타"]
     
-    @State var reportArray: [String] = ["부적절한 게시물", "부적절한 프로필 사진", "부적절한 사용자 이름", "부적절한 FaceMoji", "사칭", "스팸", "기타"]
     @Binding var isShowingReportView: Bool
     
     var body: some View {
-       
         NavigationStack {
             ZStack {
                 VStack {
@@ -26,7 +31,6 @@ struct ReportSelectView: View {
                         .padding(.bottom, 10)
                     
                     VStack(alignment: .leading) {
-                        
                         Text("이 게시물을 신고하는 이유가 무엇인가요?")
                             .font(.system(.subheadline))
                             .fontWeight(.semibold)
@@ -51,6 +55,7 @@ struct ReportSelectView: View {
                         }
                     }
                     Spacer()
+                    
                 }
             }
             .background(.modal, ignoresSafeAreaEdges: .all)

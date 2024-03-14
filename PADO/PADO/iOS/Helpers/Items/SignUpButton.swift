@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct SignUpButton: View {
-    
     var text: String
     
     var body: some View {

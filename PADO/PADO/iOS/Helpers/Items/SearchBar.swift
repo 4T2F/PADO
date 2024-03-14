@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct SearchBar: View {
+    @State var isFocused: Bool = false
+    @State private var isEditing = false
+    
     @Binding var text: String
     @Binding var isLoading: Bool
-    
-    @State private var isEditing = false
-    @State var isFocused: Bool = false
     
     var body: some View {
         ZStack(alignment: .leading) {

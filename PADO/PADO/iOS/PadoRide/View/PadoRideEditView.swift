@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct PadoRideEditView: View {
-    @ObservedObject var padorideVM: PadoRideViewModel
     @Environment (\.dismiss) var dismiss
+    
+    @ObservedObject var padorideVM: PadoRideViewModel
     
     var body: some View {
         ZStack {

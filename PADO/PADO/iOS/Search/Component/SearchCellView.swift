@@ -11,11 +11,11 @@ import SwiftUI
 
 struct SearchCellView: View {
     // MARK: - PROPERTY
+    @ObservedObject var profileVM: ProfileViewModel
+    @ObservedObject var searchVM: SearchViewModel
     
     @State var buttonOnOff: Bool = false
     
-    @ObservedObject var profileVM: ProfileViewModel
-    @ObservedObject var searchVM: SearchViewModel
     let user: User
 
     // MARK: - BODY

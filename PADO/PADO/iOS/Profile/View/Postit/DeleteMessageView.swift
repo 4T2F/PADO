@@ -9,6 +9,7 @@ import SwiftUI
 
 struct DeleteMessageView: View {
     @Environment (\.dismiss) var dismiss
+    
     @ObservedObject var postitVM: PostitViewModel
     
     let messageID: String

@@ -12,7 +12,7 @@ import Foundation
 enum PostNotiType {
     case comment
     case replyComment
-    case facemoji
+    case photoMoji
     case heart
     case requestSurfing
     case padoRide
@@ -60,7 +60,7 @@ class UpdatePushNotiData {
                     post: post
                 )
             }
-        case .facemoji:
+        case .photoMoji:
             if receiveUser.nameID != userNameID {
                 await createPostNoti(userId: receiveUser.nameID, type: "facemoji", postID: targetPostID, message: "")
             }

@@ -14,7 +14,8 @@ struct CameraAccessView: UIViewControllerRepresentable {
     @Binding var mysourceType: UIImagePickerController.SourceType
     @Binding var mycameraDevice: UIImagePickerController.CameraDevice
     
-    func updateUIViewController(_ uiViewController: UIImagePickerController, context: UIViewControllerRepresentableContext<CameraAccessView>) {
+    func updateUIViewController(_ uiViewController: UIImagePickerController, 
+                                context: UIViewControllerRepresentableContext<CameraAccessView>) {
     }
     
     func makeUIViewController(context: UIViewControllerRepresentableContext<CameraAccessView>) -> UIImagePickerController {
@@ -26,6 +27,8 @@ struct CameraAccessView: UIViewControllerRepresentable {
     }
     
     func makeCoordinator() -> CameraCoordinator {
-        return CameraCoordinator(isShown: $isShown, myimage: $myimage, myUIImage: $myUIImage)
+        return CameraCoordinator(isShown: $isShown,
+                                 myimage: $myimage,
+                                 myUIImage: $myUIImage)
     }
 }

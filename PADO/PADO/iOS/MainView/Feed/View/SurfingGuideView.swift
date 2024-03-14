@@ -9,7 +9,6 @@ import Kingfisher
 import SwiftUI
 
 struct SurfingGuideView: View {
-    
     @State private var surfingUser: [User] = []
     @State private var surfingID: String = ""
     

@@ -12,6 +12,7 @@ import SwiftUI
 
 class DeleteImageUrl {
     static let shared = DeleteImageUrl()
+    
     let db = Firestore.firestore()
     let storageRef = Storage.storage().reference()
     

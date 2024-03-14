@@ -10,19 +10,15 @@ import Kingfisher
 import SwiftUI
 
 struct HeartUserCell: View {
-    // MARK: - PROPERTY
     @State var user: User
-    
     @State var buttonActive: Bool = false
     
-    // MARK: - BODY
     var body: some View {
         HStack {
             HStack(spacing: 0) {
                 NavigationLink {
                     OtherUserProfileView(buttonOnOff: $buttonActive,
                                          user: user)
-                    
                 } label: {
                     HStack(spacing: 0) {
                         CircularImageView(size: .medium,
@@ -49,8 +45,8 @@ struct HeartUserCell: View {
             
             
             if user.nameID != userNameID {
-                FollowButtonView(cellUser: user,
-                                 buttonActive: $buttonActive,
+                FollowButtonView(buttonActive: $buttonActive, 
+                                 cellUser: user,
                                  activeText: "팔로우",
                                  unActiveText: "팔로우 취소",
                                  widthValue: 85,

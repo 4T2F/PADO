@@ -8,15 +8,16 @@
 import SwiftUI
 
 struct PhoneNumberView: View {
+    @Environment(\.dismiss) var dismiss
     
-    var tfFormat = PhoneumberTFFormat()
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     
     @State var buttonActive: Bool = false
+    
     @Binding var loginSignUpType: LoginSignUpType
     @Binding var currentStep: SignUpStep
     
-    @EnvironmentObject var viewModel: AuthenticationViewModel
-    @Environment(\.dismiss) var dismiss
+    var tfFormat = PhoneumberTFFormat()
     
     var body: some View {
         
@@ -28,7 +29,8 @@ struct PhoneNumberView: View {
                     .padding(.horizontal)
                 
                 VStack(alignment: .leading, spacing: 20) {
-                    CustomTF(hint: "휴대폰 번호를 입력해주세요", value: $viewModel.phoneNumber)
+                    CustomTF(value: $viewModel.phoneNumber,
+                             hint: "휴대폰 번호를 입력해주세요")
                         .onChange(of: viewModel.phoneNumber) { _, newValue in
                             let formattedNumber = tfFormat.formatPhoneNumber(newValue)
                             viewModel.phoneNumber = formattedNumber

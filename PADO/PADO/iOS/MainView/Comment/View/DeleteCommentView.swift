@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct DeleteCommentView: View {
-    @State var width = UIScreen.main.bounds.width
-    @State var height = UIScreen.main.bounds.height
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     @Environment(\.dismiss) var dismiss
     
-    // MARK: - PROPERTY
-    @EnvironmentObject var viewModel: AuthenticationViewModel
     @ObservedObject var commentVM: CommentViewModel
+    
+    @State var width = UIScreen.main.bounds.width
+    @State var height = UIScreen.main.bounds.height
     
     @Binding var post: Post
     

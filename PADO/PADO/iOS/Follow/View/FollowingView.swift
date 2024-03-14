@@ -9,10 +9,12 @@ import SwiftUI
 
 struct FollowingView: View {
     // MARK: - PROPERTY
-    @Environment (\.dismiss) var dismiss
-    @State private var searchText: String = ""
     @EnvironmentObject var viewModel: AuthenticationViewModel
+    @Environment (\.dismiss) var dismiss
+    
     @ObservedObject var followVM: FollowViewModel
+    
+    @State private var searchText: String = ""
     
     // MARK: - BODY
     var body: some View {
@@ -22,6 +24,7 @@ struct FollowingView: View {
             searchText = $0
             followVM.searchFollowers(with: $0, type: SearchFollowType.following)
         }
+        
         ZStack {
             Color.main.ignoresSafeArea()
             VStack {
@@ -37,7 +40,6 @@ struct FollowingView: View {
                                 HStack {
                                     Text("팔로잉")
                                         .font(.system(.subheadline, weight: .medium))
-                                    
                                     Spacer()
                                 } //: HSTACK
                                 .padding(.leading)
@@ -68,7 +70,6 @@ struct FollowingView: View {
                                 HStack {
                                     Text("팔로잉")
                                         .font(.system(.subheadline, weight: .medium))
-                                    
                                     Spacer()
                                 } //: HSTACK
                                 .padding(.leading)

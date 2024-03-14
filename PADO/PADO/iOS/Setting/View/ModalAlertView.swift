@@ -4,27 +4,13 @@
 //
 //  Created by 황민채 on 1/16/24.
 //
+
 import SwiftUI
 
-enum ModalAlertTitle: String {
-    case cash = "캐시 지우기"
-    case account = "계정 삭제"
-    case signOut = "로그아웃"
-}
-
-enum ModalAlertSubTitle: String {
-    case cash = "캐시를 지우면 일부 문제가 해결될 수 있습니다"
-    case account = "한번 삭제된 계정은 복원되지 않습니다. 정말 삭제하시겠어요?"
-    case signOut = "현재 계정에서 로그아웃 하시겠어요?"
-}
-
-enum ModalAlertRemove: String {
-    case cash = "PADO 캐시 지우기"
-    case account = "계정 삭제"
-    case signOut = "로그아웃"
-}
-
 struct ModalAlertView: View {
+    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @Environment(\.dismiss) var dismiss
+    
     @State var width = UIScreen.main.bounds.width
     @State var height = UIScreen.main.bounds.height
     
@@ -33,16 +19,14 @@ struct ModalAlertView: View {
     let subTitle: ModalAlertSubTitle
     let removeMessage: ModalAlertRemove
     
-    @EnvironmentObject var viewModel: AuthenticationViewModel
-    @Environment(\.dismiss) var dismiss
-    
     var body: some View {
         VStack {
             VStack(alignment: .center) {
                 VStack(spacing: 10) {
                     if showingCircleImage {
                         if let user = viewModel.currentUser {
-                            CircularImageView(size: .medium, user: user)
+                            CircularImageView(size: .medium, 
+                                              user: user)
                         }
                     } else {
                         Text(mainTitle.rawValue)

@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct WhiteButtonView: View {
-    
     @Binding var buttonActive: Bool
+    
     var text: String
     
     var body: some View {

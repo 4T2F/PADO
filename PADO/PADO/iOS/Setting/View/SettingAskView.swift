@@ -9,6 +9,7 @@ import MessageUI
 import SwiftUI
 
 struct SettingAskView: View {
+    @Environment (\.dismiss) var dismiss
     
     @State private var showingMailView = false
     @State private var buttonActive: Bool = false
@@ -17,7 +18,6 @@ struct SettingAskView: View {
     @State private var showAlert = false
     @State private var title = "PADO 문의하기"
     @State private var messageBody = "자세한 문의 내용을 적어주세요"
-    @Environment (\.dismiss) var dismiss
     
     var body: some View {
         VStack {
@@ -82,7 +82,10 @@ struct SettingAskView: View {
                     }
                     .padding(.bottom, 20)
                     .sheet(isPresented: $showingMailView) {
-                        MailView(isShowing: $showingMailView, result: $mailResult, title: $title, messageBody: $messageBody)
+                        MailView(isShowing: $showingMailView,
+                                 result: $mailResult,
+                                 title: $title,
+                                 messageBody: $messageBody)
                     }
                     .alert(isPresented: $showAlert) {
                         Alert(

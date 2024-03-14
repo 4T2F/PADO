@@ -6,10 +6,10 @@
 //
 
 import Kingfisher
+
 import SwiftUI
 
 struct SurfingSelectCell: View {
-    // MARK: - PROPERTY
     @ObservedObject var followVM: FollowViewModel
     
     @State private var surfingProfileUrl: String?
@@ -18,7 +18,6 @@ struct SurfingSelectCell: View {
     
     let cellUserId: String
     
-    // MARK: - BODY
     var body: some View {
         VStack {
             Divider()
@@ -55,14 +54,16 @@ struct SurfingSelectCell: View {
                     VStack(alignment: .leading, spacing: 4) {
                         if !surfingUsername.isEmpty {
                             Text(surfingID)
-                                .font(.system(.subheadline, weight: .semibold))
+                                .font(.system(.subheadline,
+                                              weight: .semibold))
                             
                             Text(surfingUsername)
                                 .font(.system(.footnote))
                                 .foregroundStyle(Color(.systemGray))
                         } else {
                             Text(surfingID)
-                                .font(.system(.subheadline, weight: .semibold))
+                                .font(.system(.subheadline, 
+                                              weight: .semibold))
                         }
                     }
                     .padding(.horizontal, 8)

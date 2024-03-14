@@ -12,6 +12,8 @@ import Lottie
 import SwiftUI
 
 struct FeedCell: View {
+    @ObservedObject var feedVM: FeedViewModel
+    
     @State var heartLoading: Bool = false
     @State var isLoading: Bool = false
     @State var isHeartCheck: Bool = false
@@ -19,23 +21,24 @@ struct FeedCell: View {
     @State var surferUser: User? = nil
     @State var postOwnerButtonOnOff: Bool = false
     @State var postSurferButtonOnOff: Bool = false
-    
+
+    // 뷰 오픈
     @State private var isShowingReportView: Bool = false
     @State private var isShowingLoginPage: Bool = false
     @State private var isShowingMoreText: Bool = false
     @State private var isShowingHeartUserView: Bool = false
     
+    // 삭제
     @State private var deleteMyPadoride: Bool = false
     @State private var deleteSendPadoride: Bool = false
     @State private var deleteMyPost: Bool = false
     @State private var deleteSendPost: Bool = false
-    
-    @ObservedObject var feedVM: FeedViewModel
+
+    @Binding var post: Post
     
     let feedCellType: FeedFilter
-    var index: Int
     
-    @Binding var post: Post
+    var index: Int
     
     var body: some View {
         ZStack {

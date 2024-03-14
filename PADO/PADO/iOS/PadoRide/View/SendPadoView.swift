@@ -9,16 +9,14 @@ import Kingfisher
 import SwiftUI
 
 struct SendPadoView: View {
-    // MARK: - PROPERTY
     @EnvironmentObject var viewModel: AuthenticationViewModel
+    @Environment (\.dismiss) var dismiss
+    
     @ObservedObject var padorideVM: PadoRideViewModel
     
     @State private var surfingUser: User?
     @State private var postLoading = false
     
-    @Environment (\.dismiss) var dismiss
-    
-    // MARK: - BODY
     var body: some View {
         VStack(alignment: .leading) {
             HStack {

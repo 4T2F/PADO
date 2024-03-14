@@ -8,23 +8,19 @@
 import Kingfisher
 import SwiftUI
 
-enum PostViewType {
-    case receive
-    case send
-    case highlight
-}
-
 struct SelectPostView: View {
     @ObservedObject var profileVM: ProfileViewModel
     @ObservedObject var feedVM: FeedViewModel
-
-    var viewType: PostViewType
     
-    @Binding var isShowingDetail: Bool
-    @GestureState private var dragState = CGSize.zero
     @State private var isDetailViewReady = false
     
+    @Binding var isShowingDetail: Bool
+    
+    @GestureState private var dragState = CGSize.zero
+    
     let userID: String
+    var viewType: PostViewType
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -73,7 +69,6 @@ struct SelectPostView: View {
                                     }
                                 }
                             }
-                            
                         }
                         .scrollTargetLayout()
                         .onAppear {
@@ -123,7 +118,6 @@ struct SelectPostView: View {
         }
     }
    
-
     // 각 뷰 타입에 맞는 제목 반환
     private func titleForType(_ type: PostViewType) -> String {
         switch type {

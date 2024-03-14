@@ -10,7 +10,9 @@ import SwiftUI
 struct ReprotProfileModalView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
     @Environment (\.dismiss) var dismiss
+    
     @ObservedObject var profileVM: ProfileViewModel
+    
     @State private var isShowingReportView: Bool = false
     
     let user: User

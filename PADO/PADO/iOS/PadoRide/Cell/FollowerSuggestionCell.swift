@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct FollowerSuggestionCell: View {
+    @State var buttonActive: Bool = false
     
     let user: User
-    @State var buttonActive: Bool = false
+    
     var body: some View {
         NavigationLink {
             OtherUserProfileView(buttonOnOff: $buttonActive,
@@ -28,10 +29,11 @@ struct FollowerSuggestionCell: View {
                                       user: user)
                     
                     Text(user.nameID)
-                        .font(.system(.subheadline, weight: .medium))
+                        .font(.system(.subheadline, 
+                                      weight: .medium))
                     
-                    FollowButtonView(cellUser: user,
-                                     buttonActive: $buttonActive,
+                    FollowButtonView(buttonActive: $buttonActive, 
+                                     cellUser: user,
                                      activeText: "팔로우",
                                      unActiveText: "팔로우 취소",
                                      widthValue: 100,

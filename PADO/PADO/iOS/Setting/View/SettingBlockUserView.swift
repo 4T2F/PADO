@@ -6,13 +6,14 @@
 //
 
 import Kingfisher
+
 import SwiftUI
 
 struct SettingBlockUserView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
-    @ObservedObject var profileVM: ProfileViewModel
-    
     @Environment(\.dismiss) var dismiss
+    
+    @ObservedObject var profileVM: ProfileViewModel
     
     var body: some View {
         ScrollView(showsIndicators: false) {

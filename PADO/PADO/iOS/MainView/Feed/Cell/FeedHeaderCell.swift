@@ -11,33 +11,20 @@ import Kingfisher
 import Lottie
 import SwiftUI
 
-enum FeedFilter: Int, CaseIterable, Identifiable {
-    case following
-    case today
-    
-    var title: String {
-        switch self {
-        case .following: return "Following"
-        case .today: return "Today"
-        }
-    }
-    var id: Int { return self.rawValue }
-}
-
 struct FeedHeaderCell: View {
-    // MARK: - PROPERTY
-    @Namespace var animation
-    
     @EnvironmentObject var viewModel: AuthenticationViewModel
-    @ObservedObject var feedVM: FeedViewModel
+    
     @StateObject var notiVM = NotificationViewModel.shared
+    
+    @ObservedObject var feedVM: FeedViewModel
+    
+    @Namespace var animation
     
     private var filterBarWidth: CGFloat {
         let count = CGFloat(FeedFilter.allCases.count)
         return UIScreen.main.bounds.width / count - 140
     }
     
-    // MARK: - BODY
     var body: some View {
         HStack {
             Spacer()
@@ -88,7 +75,6 @@ struct FeedHeaderCell: View {
 }
 
 struct FeedRefreshHeaderCell: View {
-    // MARK: - BODY
     var body: some View {
         HStack {
             Spacer()

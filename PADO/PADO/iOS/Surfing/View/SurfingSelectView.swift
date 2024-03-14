@@ -6,25 +6,27 @@
 //
 
 import Kingfisher
+
 import SwiftUI
 
 struct SurfingSelectView: View {
-    // MARK: - PROPERTY
-    @ObservedObject var followVM: FollowViewModel
     @Environment(\.dismiss) var dismiss
     
-    // MARK: - BODY
+    @ObservedObject var followVM: FollowViewModel
+
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack {
                     ForEach(followVM.surfingIDs, id: \.self) { surfingId in
-                        SurfingSelectCell(followVM: followVM, cellUserId: surfingId)
+                        SurfingSelectCell(followVM: followVM,
+                                          cellUserId: surfingId)
                     }
                 }
                 .padding()
             }
-            .background(.modal, ignoresSafeAreaEdges: .all)
+            .background(.modal, 
+                        ignoresSafeAreaEdges: .all)
             .navigationBarBackButtonHidden()
             .navigationTitle("서핑 리스트")
             .navigationBarTitleDisplayMode(.inline)
@@ -45,7 +47,8 @@ struct SurfingSelectView: View {
                     }
                 }
             }
-            .toolbarBackground(Color(.modal), for: .navigationBar)
+            .toolbarBackground(Color(.modal),
+                               for: .navigationBar)
         }
     }
 }
