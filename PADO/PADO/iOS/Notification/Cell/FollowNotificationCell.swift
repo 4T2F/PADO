@@ -10,6 +10,7 @@ import SwiftUI
 
 struct FollowNotificationCell: View {
     @StateObject var notiVM = NotificationViewModel.shared
+    
     @State private var buttonActive: Bool = false
     
     var notification: Noti
@@ -41,8 +42,8 @@ struct FollowNotificationCell: View {
                     
                     Spacer()
                     
-                    FollowButtonView(cellUser: user,
-                                     buttonActive: $buttonActive,
+                    FollowButtonView(buttonActive: $buttonActive,
+                                     cellUser: user,
                                      activeText: "팔로우",
                                      unActiveText: "팔로우 취소",
                                      widthValue: 85,

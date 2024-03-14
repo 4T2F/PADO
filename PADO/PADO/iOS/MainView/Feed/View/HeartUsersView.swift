@@ -9,14 +9,13 @@ import Lottie
 import SwiftUI
 
 struct HeartUsersView: View {
-    // MARK: - PROPERTY
     @Environment(\.dismiss) var dismiss
     
-    let userIDs: [String]
     @State var users: [User] = []
     @State private var fetchedData: Bool = false
     
-    // MARK: - BODY
+    let userIDs: [String]
+    
     var body: some View {
         NavigationStack {
             ScrollView {

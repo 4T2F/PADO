@@ -9,12 +9,10 @@ import PhotosUI
 import SwiftUI
 
 struct SettingProfileModal: View {
-    // MARK: - PROPERTY
     @EnvironmentObject var viewModel: AuthenticationViewModel
     
     @Binding var isActive: Bool
     
-    // MARK: - BODY
     var body: some View {
         VStack {
             Button {

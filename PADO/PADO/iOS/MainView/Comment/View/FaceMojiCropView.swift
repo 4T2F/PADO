@@ -1,5 +1,5 @@
 //
-//  FaceMojiCropView.swift
+//  PhotoMojiCropView.swift
 //  PADO
 //
 //  Created by 황성진 on 2/4/24.
@@ -8,9 +8,10 @@
 import PhotosUI
 import SwiftUI
 
-struct FaceMojiCropView: View {
-    // MARK: - PROPERTY
+struct PhotoMojiCropView: View {
     @Environment(\.dismiss) var dismiss
+    
+    @ObservedObject var commentVM: CommentViewModel
     
     // 이미지 조작을 위한 상태 변수들
     @State private var scale: CGFloat = 1
@@ -20,15 +21,11 @@ struct FaceMojiCropView: View {
     @State private var showinGrid: Bool = false
     @GestureState private var isInteractig: Bool = false
     
-    @ObservedObject var commentVM: CommentViewModel
-
-    
     @Binding var postOwner: User
     @Binding var post: Post
     
-    var crop: Crop = .circle
     let postID: String
-    
+    var crop: Crop = .circle
     var onCrop: (UIImage?, Bool) -> Void
     
     var body: some View {
@@ -72,7 +69,7 @@ struct FaceMojiCropView: View {
                 
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
-                        commentVM.showCropFaceMoji = false
+                        commentVM.showCropPhotoMoji = false
                     } label: {
                         Image("dismissArrow")
                     }
@@ -88,7 +85,7 @@ struct FaceMojiCropView: View {
         GeometryReader {
             let size = $0.size
             
-            if let image = commentVM.faceMojiUIImage {
+            if let image = commentVM.photoMojiUIImage {
                 Image(uiImage: image)
                     .resizable()
                     .aspectRatio(contentMode: .fill)

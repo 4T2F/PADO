@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct ShowMoreCommentView: View {
-    
     @ObservedObject var commentVM: CommentViewModel
     
     @State private var showReplyComment: Bool = false
+    
     @Binding var post: Post
+    
     let index: Int
     
     var body: some View {
@@ -44,10 +45,10 @@ struct ShowMoreCommentView: View {
             }
         case true:
             ForEach(commentVM.comments[index].replyComments, id:\.self) { replyCommentID in
-                ReplyCommentCell(index: index,
-                                 replyCommentID: replyCommentID,
-                                 commentVM: commentVM,
-                                 post: $post)
+                ReplyCommentCell(commentVM: commentVM,
+                                 post: $post,
+                                 index: index,
+                                 replyCommentID: replyCommentID)
             }
 
         }

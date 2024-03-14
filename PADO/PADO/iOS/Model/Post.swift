@@ -7,13 +7,12 @@
 
 import Firebase
 import FirebaseFirestoreSwift
+
 import Foundation
 
-var formattedPostingTitle = ""
-
 struct Post: Identifiable, Hashable, Codable {
-    
     @DocumentID var id: String?
+    
     var ownerUid: String
     var surferUid: String
     var imageUrl: String

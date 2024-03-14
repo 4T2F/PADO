@@ -7,17 +7,14 @@
 
 import SwiftUI
 
-enum FollowerModalType {
-    case surfer
-    case follower
-}
-
 struct FollowerView: View {
     // MARK: - PROPERTY
     @Environment (\.dismiss) var dismiss
-    @State private var searchText: String = ""
     @EnvironmentObject var viewModel: AuthenticationViewModel
+    
     @ObservedObject var followVM: FollowViewModel
+    
+    @State private var searchText: String = ""
     
     let user: User
     

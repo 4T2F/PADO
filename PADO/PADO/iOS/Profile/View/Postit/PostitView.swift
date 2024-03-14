@@ -11,13 +11,15 @@ import SwiftUI
 
 struct PostitView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
+    
     @ObservedObject var postitVM: PostitViewModel
+    
+    @State private var isFetchedMessages: Bool = false
+    @State private var isShowingLoginPage: Bool = false
     
     @Binding var isShowingMessageView: Bool
     
     @FocusState private var isTextFieldFocused: Bool
-    @State private var isFetchedMessages: Bool = false
-    @State private var isShowingLoginPage: Bool = false
     
     var body: some View {
         NavigationStack {

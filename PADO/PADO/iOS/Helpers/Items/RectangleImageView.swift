@@ -9,10 +9,8 @@ import Kingfisher
 import SwiftUI
 
 struct RectangleImageView: View {
-    // MARK: - PROPERTY
     let imageUrl: String?
     
-    // MARK: - BODY
     var body: some View {
         if let imageUrl = imageUrl {
             KFImage(URL(string: imageUrl))

@@ -23,7 +23,7 @@ class DeletePost {
             
             let padoRideQuery = try await db.collection("post").document(postID).collection("padoride").getDocuments()
             
-            let facemojiQuery = try await db.collection("post").document(postID).collection("facemoji").getDocuments()
+            let photoMojiQuery = try await db.collection("post").document(postID).collection("facemoji").getDocuments()
             
             for query in commentQuery.documents {
                 try await db.collection("post").document(postID).collection("comment").document(query.documentID).delete()
@@ -35,9 +35,9 @@ class DeletePost {
                 try await db.collection("post").document(postID).collection("padoride").document(query.documentID).delete()
             }
             
-            for query in facemojiQuery.documents {
-                let facemojiImageRef = storageRef.child("facemoji")
-                try await facemojiImageRef.child(query.data()["storagename"] as! String).delete()
+            for query in photoMojiQuery.documents {
+                let photoMojiImageRef = storageRef.child("facemoji")
+                try await photoMojiImageRef.child(query.data()["storagename"] as! String).delete()
                 try await db.collection("post").document(postID).collection("facemoji").document(query.documentID).delete()
             }
             
@@ -58,7 +58,7 @@ class DeletePost {
             
             let padoRideQuery = try await db.collection("post").document(postID).collection("padoride").getDocuments()
             
-            let facemojiQuery = try await db.collection("post").document(postID).collection("facemoji").getDocuments()
+            let photoMojiQuery = try await db.collection("post").document(postID).collection("facemoji").getDocuments()
             
             for query in commentQuery.documents {
                 
@@ -81,9 +81,9 @@ class DeletePost {
                 try await db.collection("post").document(postID).collection("padoride").document(query.documentID).delete()
             }
             
-            for query in facemojiQuery.documents {
-                let facemojiImageRef = storageRef.child("facemoji")
-                try await facemojiImageRef.child(query.data()["storagename"] as! String).delete()
+            for query in photoMojiQuery.documents {
+                let photoMojiImageRef = storageRef.child("facemoji")
+                try await photoMojiImageRef.child(query.data()["storagename"] as! String).delete()
                 try await db.collection("post").document(postID).collection("facemoji").document(query.documentID).delete()
             }
             

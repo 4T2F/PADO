@@ -20,9 +20,9 @@ class PostitViewModel: ObservableObject {
     @Published var messageUserIDs: [String] = []
     @Published var messageUsers: [String: User] = [:]
     
-    private var messagesListener: ListenerRegistration?
-    
     let db = Firestore.firestore()
+    
+    private var messagesListener: ListenerRegistration?
     
     @MainActor
     func getMessageDocument(ownerID: String) async {

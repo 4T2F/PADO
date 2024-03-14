@@ -210,7 +210,7 @@ struct DrawingView: View {
             
             ToolbarItem(placement: .navigationBarTrailing) {
                 // 텍스트 박스
-                Button{
+                Button {
                     padorideVM.textBoxes.append(TextBox())
                     
                     padorideVM.currentTextIndex = padorideVM.textBoxes.count - 1

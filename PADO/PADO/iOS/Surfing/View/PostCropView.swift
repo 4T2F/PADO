@@ -9,8 +9,11 @@ import PhotosUI
 import SwiftUI
 
 struct PostCropView: View {
-    // MARK: - PROPERTY
     @Environment(\.dismiss) var dismiss
+    
+    @ObservedObject var surfingVM: SurfingViewModel
+    @ObservedObject var feedVM: FeedViewModel
+    @ObservedObject var followVM: FollowViewModel
     
     // 이미지 조작을 위한 상태 변수들
     @State private var scale: CGFloat = 1
@@ -20,11 +23,8 @@ struct PostCropView: View {
     @State private var showinGrid: Bool = false
     @State private var imageChangeButton: Bool = false
     @State private var selectedColor = Color.main
-    @GestureState private var isInteractig: Bool = false
     
-    @ObservedObject var surfingVM: SurfingViewModel
-    @ObservedObject var feedVM: FeedViewModel
-    @ObservedObject var followVM: FollowViewModel
+    @GestureState private var isInteractig: Bool = false
     
     var crop: Crop = .rectangle
     var onCrop: (UIImage?, Bool) -> Void
@@ -117,7 +117,9 @@ struct PostCropView: View {
     func imageView(_ hideGrids: Bool = false) -> some View {
         let cropSize = crop.size()
         
-        let testSize = ImageRatioResize.shared.resizedImageRect(for: surfingVM.postingUIImage ?? UIImage(), targetSize: CGSize(width: 300, height: 500))
+        let testSize = ImageRatioResize.shared.resizedImageRect(for: surfingVM.postingUIImage ?? UIImage(), 
+                                                                targetSize: CGSize(width: 300, 
+                                                                                   height: 500))
         
         if !imageChangeButton {
             GeometryReader {
@@ -127,7 +129,8 @@ struct PostCropView: View {
                     Image(uiImage: image)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: testSize.size.width, height: testSize.size.height)
+                        .frame(width: testSize.size.width,
+                               height: testSize.size.height)
                         .frame(size)
                 }
             }
@@ -204,7 +207,8 @@ struct PostCropView: View {
                         out = true
                     }).onChanged({ value in
                         let translation = value.translation
-                        offset = CGSize(width: translation.width + lastStoredOffset.width, height: translation.height + lastStoredOffset.height)
+                        offset = CGSize(width: translation.width + lastStoredOffset.width, 
+                                        height: translation.height + lastStoredOffset.height)
                         showinGrid = true
                     })
                     .onEnded({ value in
@@ -263,7 +267,8 @@ extension View {
     @ViewBuilder
     func frame(_ size: CGSize) -> some View {
         self // 자를때 프레임
-            .frame(width: size.width, height: size.height)
+            .frame(width: size.width,
+                   height: size.height)
     }
     
     func haptics(_ style: UIImpactFeedbackGenerator.FeedbackStyle) {

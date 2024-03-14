@@ -16,6 +16,19 @@
 default_platform(:ios)
 
 platform :ios do
+  desc "build app and upload to testflight"
+  lane :beta do
+    get_certificates
+    get_provisioning_profile
+    increment_build_number(
+        build_number: latest_testflight_build_number + 1
+    )
+    build_app(
+      configuration: "Debug"
+    )
+    upload_to_testflight
+  end
+
   desc "build app and release to App Store."
   lane :release do |options|
     if options[:v]
@@ -35,5 +48,6 @@ platform :ios do
         skip_screenshots: true,
         skip_metadata: false
       )
-   end
- end
+    end
+  end
+end

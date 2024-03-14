@@ -11,6 +11,7 @@ import SwiftUI
 // MFMailComposeViewController를 SwiftUI에서 사용하기 위한 래퍼
 struct MailView: UIViewControllerRepresentable {
     @Environment(\.presentationMode) var presentation
+    
     @Binding var isShowing: Bool
     @Binding var result: Result<MFMailComposeResult, Error>?
     @Binding var title: String

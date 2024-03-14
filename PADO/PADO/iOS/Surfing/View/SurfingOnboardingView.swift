@@ -8,15 +8,18 @@
 import SwiftUI
 
 struct SurfingOnboardingView: View {
-    @State private var currentTab = 0
     @ObservedObject var surfingVM: SurfingViewModel
     @ObservedObject var followVM: FollowViewModel
+    
+    @State private var currentTab = 0
     
     var body: some View {
         VStack {
             TabView(selection: $currentTab) {
-                VStack(alignment: .center, spacing: 10) {
-                    VStack(alignment: .center, spacing: 10) {
+                VStack(alignment: .center, 
+                       spacing: 10) {
+                    VStack(alignment: .center,
+                           spacing: 10) {
                         Text("사진을 선택하세요")
                             .font(.system(.title3))
                             .fontWeight(.medium)
@@ -36,7 +39,8 @@ struct SurfingOnboardingView: View {
                 .multilineTextAlignment(.center)
                 .tag(0)
                 
-                VStack(alignment: .center, spacing: 10) {
+                VStack(alignment: .center,
+                       spacing: 10) {
                     Text("파도를 보낼 친구를 선택하세요")
                         .font(.system(.title3))
                         .fontWeight(.medium)

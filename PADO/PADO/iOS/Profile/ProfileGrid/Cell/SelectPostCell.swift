@@ -12,6 +12,7 @@ import Lottie
 import SwiftUI
 
 struct SelectPostCell: View {
+    
     @ObservedObject var feedVM: FeedViewModel
     
     @State var heartLoading: Bool = false
@@ -32,8 +33,6 @@ struct SelectPostCell: View {
     @State private var deleteMyPost: Bool = false
     @State private var deleteSendPost: Bool = false
 
-    @Environment(\.dismiss) var dismiss
-    
     @Binding var post: Post
     
     var body: some View {
@@ -52,7 +51,6 @@ struct SelectPostCell: View {
                                         .onSuccess { result in
                                             // 이미지 로딩 성공 시
                                             isLoading = false
-                                            
                                         }
                                         .onFailure { _ in
                                             // 이미지 로딩 실패 시
@@ -176,9 +174,12 @@ struct SelectPostCell: View {
                                 .font(.headline)
                                 .padding(.top, UIScreen.main.bounds.height * 0.09)
                                 .padding(.leading, 20)
+                            
                             Spacer()
+                            
                         }
                         Spacer()
+                        
                     }
                 }
                 
@@ -216,7 +217,6 @@ struct SelectPostCell: View {
                                                 .clipShape(RoundedRectangle(cornerRadius: 3))
                                                 .padding(.bottom, 4)
                                                 .padding(.trailing, 24)
-                                            
                                         }
                                     }
                                     .lineSpacing(1)
@@ -240,7 +240,6 @@ struct SelectPostCell: View {
                                     .clipShape(RoundedRectangle(cornerRadius: 3))
                                     .padding(.bottom, 4)
                                     .padding(.trailing, 24)
-                                    
                                 }
                             }
                             
@@ -316,10 +315,10 @@ struct SelectPostCell: View {
                                                 let generator = UIImpactFeedbackGenerator(style: .light)
                                                 generator.impactOccurred()
                                                 
-                                                
                                                 if let currentIndex = feedVM.currentPadoRideIndex {
                                                     // 다음 이미지로 이동
                                                     let nextIndex = currentIndex + 1
+                                                  
                                                     if nextIndex < feedVM.padoRidePosts.count {
                                                         feedVM.currentPadoRideIndex = nextIndex
                                                     } else {
@@ -519,7 +518,6 @@ struct SelectPostCell: View {
                                                 }
                                                 deleteMyPadoride = false
                                                 needsDataFetch.toggle()
-                                                dismiss()
                                             }
                                         })
                                         .presentationDetents([.fraction(0.4)])
@@ -540,7 +538,6 @@ struct SelectPostCell: View {
                                                 }
                                                 deleteSendPadoride = false
                                                 needsDataFetch.toggle()
-                                                dismiss()
                                             }
                                         }
                                         .presentationDetents([.fraction(0.4)])
@@ -553,7 +550,6 @@ struct SelectPostCell: View {
                                                                                    sufferID: post.surferUid)
                                                 deleteMyPost = false
                                                 needsDataFetch.toggle()
-                                                dismiss()
                                             }
                                         }
                                         .presentationDetents([.fraction(0.4)])
@@ -566,7 +562,6 @@ struct SelectPostCell: View {
                                                                                    sufferID: post.surferUid)
                                                 deleteSendPost = false
                                                 needsDataFetch.toggle()
-                                                dismiss()
                                             }
                                         }
                                         .presentationDetents([.fraction(0.4)])

@@ -9,9 +9,9 @@ import SwiftUI
 
 struct PadoRideView: View {
     @ObservedObject var feedVM: FeedViewModel
-    @State private var isShowingOnboarding: Bool = false
     
     @State var surfingIDs: [String]
+    @State private var isShowingOnboarding: Bool = false
     
     var body: some View {
         NavigationStack {

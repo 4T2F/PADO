@@ -11,7 +11,6 @@ import SwiftUI
 struct FeedGuideView: View {
     let title: String
     let content: String
-    
     let popularUsers: [User]
 
     var body: some View {

@@ -9,9 +9,11 @@ import SwiftUI
 
 struct MainSearchView: View {
     // MARK: - PROPERTY
-    @State var mainSearch: String = ""
-    @ObservedObject var profileVM: ProfileViewModel
     @StateObject var searchVM = SearchViewModel.shared
+    
+    @ObservedObject var profileVM: ProfileViewModel
+    
+    @State var mainSearch: String = ""
     
     // MARK: - BODY
     var body: some View {

@@ -6,30 +6,31 @@
 //
 
 import Kingfisher
+
 import SwiftUI
 
 struct PostView: View {
-    // MARK: - PROPERTY
-    @State private var postLoading = false
-    @State private var showAlert = false
-    @State private var postOwner: User? = nil
+    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @Environment (\.dismiss) var dismiss
     
     @ObservedObject var surfingVM: SurfingViewModel
     @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var followVM: FollowViewModel
-    @EnvironmentObject var viewModel: AuthenticationViewModel
     
-    @Environment (\.dismiss) var dismiss
+    @State private var postLoading = false
+    @State private var showAlert = false
+    @State private var postOwner: User? = nil
+    
     let updateImageUrl = UpdateImageUrl.shared
     
-    // MARK: - BODY
     var body: some View {
         VStack {
             VStack {
                 surfingVM.postingImage
                     .resizable()
                     .scaledToFit()
-                    .frame(width: UIScreen.main.bounds.width * 0.5, height: UIScreen.main.bounds.height * 0.4)
+                    .frame(width: UIScreen.main.bounds.width * 0.5, 
+                           height: UIScreen.main.bounds.height * 0.4)
                     .padding(.vertical, 20)
                 
                 Spacer()
@@ -45,13 +46,15 @@ struct PostView: View {
                     
                     .padding(.leading, 20)
                     
-                    TextField("제목을 입력해주세요", text: $surfingVM.postingTitle)
+                    TextField("제목을 입력해주세요", 
+                              text: $surfingVM.postingTitle)
                         .font(.system(.headline))
                         .padding(.leading, 20)
                     
                     RoundedRectangle(cornerRadius: 8)
                         .foregroundStyle(Color(UIColor.systemGray))
-                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 0.5)
+                        .frame(width: UIScreen.main.bounds.width * 0.9,
+                               height: 0.5)
                     
                     HStack {
                         if followVM.selectSurfingID.isEmpty {
@@ -66,24 +69,29 @@ struct PostView: View {
                                     Image("defaultProfile")
                                         .resizable()
                                         .scaledToFill()
-                                        .frame(width: 44, height: 44)
+                                        .frame(width: 44,
+                                               height: 44)
                                         .clipShape(Circle())
                                 }
                                 .scaledToFill()
-                                .frame(width: 44, height: 44)
+                                .frame(width: 44,
+                                       height: 44)
                                 .clipShape(Circle())
                             
-                            VStack(alignment: .leading, spacing: 4) {
+                            VStack(alignment: .leading,
+                                   spacing: 4) {
                                 if !followVM.selectSurfingUsername.isEmpty {
                                     Text(followVM.selectSurfingID)
-                                        .font(.system(.subheadline, weight: .semibold))
+                                        .font(.system(.subheadline,
+                                                      weight: .semibold))
                                     
                                     Text(followVM.selectSurfingUsername)
                                         .font(.system(.footnote))
                                         .foregroundStyle(Color(.systemGray))
                                 } else {
                                     Text(followVM.selectSurfingID)
-                                        .font(.system(.subheadline, weight: .semibold))
+                                        .font(.system(.subheadline,
+                                                      weight: .semibold))
                                 }
                             }
                         }

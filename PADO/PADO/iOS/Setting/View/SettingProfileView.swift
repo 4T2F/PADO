@@ -9,13 +9,12 @@ import PhotosUI
 import SwiftUI
 
 struct SettingProfileView: View {
-    // MARK: - PROPERTY
-    @State var width = UIScreen.main.bounds.width
-    @State var isActive: Bool = false
     @EnvironmentObject var viewModel: AuthenticationViewModel
     @Environment (\.dismiss) var dismiss
     
-    // MARK: - BODY
+    @State var width = UIScreen.main.bounds.width
+    @State var isActive: Bool = false
+
     var body: some View {
         NavigationStack {
             ScrollView(showsIndicators: false) {
@@ -56,7 +55,8 @@ struct SettingProfileView: View {
                                                 
                                             } else {
                                                 if let user = viewModel.currentUser {
-                                                    CircularImageView(size: .xxxxLarge, user: user)
+                                                    CircularImageView(size: .xxxxLarge,
+                                                                      user: user)
                                                         .overlay(
                                                             Circle()
                                                                 .stroke(Color.white, lineWidth: 1.4)
@@ -118,7 +118,8 @@ struct SettingProfileView: View {
                                                         )
                                                 } else {
                                                     if let user = viewModel.currentUser {
-                                                        CircularImageView(size: .xxxxLarge, user: user)
+                                                        CircularImageView(size: .xxxxLarge,
+                                                                          user: user)
                                                             .overlay(
                                                                 Circle()
                                                                     .stroke(Color.white, lineWidth: 1.4)
@@ -170,7 +171,8 @@ struct SettingProfileView: View {
                                         .frame(width: width * 0.22)
                                         
                                         HStack {
-                                            if let originUsername = viewModel.currentUser?.username, !originUsername.isEmpty {
+                                            if let originUsername = viewModel.currentUser?.username,
+                                               !originUsername.isEmpty {
                                                 TextField(originUsername, text: $viewModel.username)
                                                     .font(.system(.body))
                                                     .foregroundStyle(.white)
@@ -214,7 +216,8 @@ struct SettingProfileView: View {
                                         .frame(width: width * 0.22)
                                         
                                         HStack {
-                                            if let insta = viewModel.currentUser?.instaAddress, !insta.isEmpty {
+                                            if let insta = viewModel.currentUser?.instaAddress, 
+                                                !insta.isEmpty {
                                                 TextField(insta, text: $viewModel.instaAddress)
                                                     .font(.system(.body))
                                                     .foregroundStyle(.white)
@@ -252,7 +255,8 @@ struct SettingProfileView: View {
                                         .frame(width: width * 0.22)
                                         
                                         HStack {
-                                            if let tiktok = viewModel.currentUser?.tiktokAddress, !tiktok.isEmpty {
+                                            if let tiktok = viewModel.currentUser?.tiktokAddress, 
+                                                !tiktok.isEmpty {
                                                 TextField(tiktok, text: $viewModel.tiktokAddress)
                                                     .font(.system(.body))
                                                     .foregroundStyle(.white)
@@ -284,7 +288,7 @@ struct SettingProfileView: View {
                                 
                                 Spacer()
                             }
-                            //                            .padding(.top, UIScreen.main.bounds.height * 0.08)
+                            
                             .background(.main, ignoresSafeAreaEdges: .all)
                         }
                     }

@@ -8,11 +8,13 @@
 import SwiftUI
 
 struct PostSelectModalView: View {
+    @Environment(\.dismiss) var dismiss
+    
     @State var width = UIScreen.main.bounds.width
     @State var height = UIScreen.main.bounds.height
     
     let title: String
-    @Environment(\.dismiss) var dismiss
+    
     var onTouchButton: () async -> Void
     
     var body: some View {

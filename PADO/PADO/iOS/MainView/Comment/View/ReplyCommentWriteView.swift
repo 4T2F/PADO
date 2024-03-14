@@ -9,17 +9,17 @@ import SwiftUI
 
 struct ReplyCommentWriteView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
-    @ObservedObject var commentVM: CommentViewModel
     @Environment(\.dismiss) var dismiss
     
-    @FocusState private var isTextFieldFocused: Bool
-    
-    @State private var commentText: String = ""
-    @State private var isFocused: Bool = false
+    @ObservedObject var commentVM: CommentViewModel
     
     @State var notiUser: User
     
     @Binding var post: Post
+    
+    @State private var commentText: String = ""
+    @State private var isFocused: Bool = false
+    @FocusState private var isTextFieldFocused: Bool
     
     let index: Int
     
@@ -53,15 +53,15 @@ struct ReplyCommentWriteView: View {
                 ScrollViewReader { value in
                     VStack(alignment: .leading) {
                         if index < commentVM.comments.count {
-                            CommentWriteViewCell(index: index,
-                                                 commentVM: commentVM,
-                                                 post: $post)
+                            CommentWriteViewCell(commentVM: commentVM,
+                                                 post: $post,
+                                                 index: index)
                             if !commentVM.comments[index].replyComments.isEmpty {
                                 ForEach(commentVM.comments[index].replyComments, id: \.self) { replyCommentID in
-                                    ReplyCommentWriteViewCell(index: index,
-                                                              replyCommentID: replyCommentID,
-                                                              commentVM: commentVM,
-                                                              post: $post)
+                                    ReplyCommentWriteViewCell(commentVM: commentVM,
+                                                              post: $post,
+                                                              index: index, 
+                                                              replyCommentID: replyCommentID)
                                 }
                             }
                         }

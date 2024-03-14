@@ -11,17 +11,15 @@ import SwiftUI
 struct FollowerOtherUserCellView: View {
     @ObservedObject var followVM: FollowViewModel
     
+    @State var profileUser: User?
+    @State var buttonOnOff: Bool = false
+    @State var transitions: Bool = false
     @State private var followerUsername: String = ""
     @State private var followerProfileUrl: String = ""
     @State private var showingModal: Bool = false
-    @State var profileUser: User?
+    @State private var buttonActive: Bool = false
     
     let cellUserId: String
-    
-    @State var buttonOnOff: Bool = false
-    @State private var buttonActive: Bool = false
-    @State var transitions: Bool = false
-    
     
     // MARK: - BODY
     var body: some View {
@@ -69,8 +67,8 @@ struct FollowerOtherUserCellView: View {
             
             if cellUserId != userNameID {
                 if let cellUser = profileUser {
-                    FollowButtonView(cellUser: cellUser,
-                                     buttonActive: $buttonOnOff,
+                    FollowButtonView(buttonActive: $buttonOnOff, 
+                                     cellUser: cellUser,
                                      activeText: "팔로우",
                                      unActiveText: "팔로우 취소",
                                      widthValue: 85,

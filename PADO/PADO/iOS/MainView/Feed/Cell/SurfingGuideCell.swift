@@ -10,11 +10,11 @@ import Lottie
 import SwiftUI
 
 struct SurfingGuideCell: View {
-    
     @State var buttonActive: Bool = false
     @State private var isShowingMessageView: Bool = false
     
     let user: User
+    
     var body: some View {
         GeometryReader(content: { proxy in
             let cardSize = proxy.size

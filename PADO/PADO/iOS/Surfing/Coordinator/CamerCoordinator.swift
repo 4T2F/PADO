@@ -5,7 +5,6 @@
 //  Created by 최동호 on 1/25/24.
 //
 
-import Foundation
 import SwiftUI
 
 // UIImagePickerController와의 상호작용을 처리하기 위한 코디네이터 클래스

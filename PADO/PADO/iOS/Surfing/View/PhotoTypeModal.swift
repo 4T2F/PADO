@@ -9,10 +9,10 @@ import PhotosUI
 import SwiftUI
 
 struct PhotoTypeModal: View {
+    @ObservedObject var surfingVM: SurfingViewModel
+    
     @State var width = UIScreen.main.bounds.width
     @State var height = UIScreen.main.bounds.height
-    
-    @ObservedObject var surfingVM: SurfingViewModel
     
     var body: some View {
         VStack {

@@ -4,8 +4,10 @@
 //
 //  Created by 황민채 on 2/3/24.
 //
+
 import Firebase
 import FirebaseFirestore
+
 import Foundation
 
 struct Noti: Identifiable, Codable {

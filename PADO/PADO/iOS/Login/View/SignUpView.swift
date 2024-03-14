@@ -15,12 +15,15 @@ enum SignUpStep {
 }
 
 struct SignUpView: View {
-
-    @EnvironmentObject var viewModel: AuthenticationViewModel
     @Environment(\.dismiss) var dismiss
+    
+    @EnvironmentObject var viewModel: AuthenticationViewModel
+    
     @State var currentStep: SignUpStep = .phoneNumber
     @State var loginSignUpType: LoginSignUpType
+    
     @Binding var isShowStartView: Bool
+    
     var body: some View {
         ZStack {
             switch currentStep {

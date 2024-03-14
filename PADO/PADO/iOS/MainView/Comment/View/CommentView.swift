@@ -11,14 +11,15 @@ import SwiftUI
 struct CommentView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
     @Environment(\.dismiss) var dismiss
+    
     @StateObject var commentVM = CommentViewModel()
     
+    @State var postUser: User
+    @State var post: Post
     @State private var isShowingCommentWriteView: Bool = false
     @State private var commentText: String = ""
     @State private var isFetchedComment: Bool = false
     @State private var isShowingLoginPage: Bool = false
-    @State var postUser: User
-    @State var post: Post
     
     var body: some View {
         VStack(spacing: 0) {
@@ -26,7 +27,7 @@ struct CommentView: View {
             ScrollView {
                 VStack {
                     if let postID = post.id {
-                        FaceMojiView(commentVM: commentVM,
+                        PhotoMojiView(commentVM: commentVM,
                                      postOwner: $postUser,
                                      post: $post,
                                      postID: postID)
@@ -42,9 +43,9 @@ struct CommentView: View {
                             ForEach(commentVM.comments.indices, id:\.self) { index in
                                 if index < commentVM.comments.count,
                                    commentVM.commentUsers.keys.contains(commentVM.comments[index].userID) {
-                                    CommentCell(index: index,
-                                                commentVM: commentVM,
-                                                post: $post)
+                                    CommentCell(commentVM: commentVM,
+                                                post: $post,
+                                                index: index)
                                     .id(index)
                                     if !commentVM.comments[index].replyComments.isEmpty {
                                        ShowMoreCommentView(commentVM: commentVM,

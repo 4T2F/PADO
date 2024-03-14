@@ -1,5 +1,5 @@
 //
-//  ViewExtension.swift
+//  SettingCell+.swift
 //  PADO
 //
 //  Created by 황민채 on 1/16/24.
