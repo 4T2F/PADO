@@ -37,9 +37,6 @@ struct ProfileView: View {
     @Namespace var animation
     
     let user: User
-    let columns = [GridItem(.flexible(), spacing: 1), 
-                   GridItem(.flexible(), spacing: 1),
-                   GridItem(.flexible())]
     
     var body: some View {
         NavigationStack {
@@ -217,185 +214,31 @@ struct ProfileView: View {
     func postList() -> some View {
         switch profileVM.currentType {
         case "받은 파도":
-            ReceivedPostsView()
+            PostGridView(isShowingDetail: $isShowingReceiveDetail,
+                         profileVM: profileVM,
+                         feedVM: feedVM, 
+                         text: "아직 받은 파도가 없어요.",
+                         posts: profileVM.padoPosts,
+                         fetchedData: profileVM.fetchedPadoData,
+                         postViewType: .receive)
         case "보낸 파도":
-            SentPostsView()
+            PostGridView(isShowingDetail: $isShowingSendDetail,
+                         profileVM: profileVM,
+                         feedVM: feedVM, 
+                         text: "아직 보낸 파도가 없어요.",
+                         posts: profileVM.sendPadoPosts,
+                         fetchedData: profileVM.fetchedSendPadoData,
+                         postViewType: .send)
         case "좋아요":
-            HighlightPostsView()
+            PostGridView(isShowingDetail: $isShowingHightlight,
+                         profileVM: profileVM,
+                         feedVM: feedVM, 
+                         text: "아직 좋아요를 누른 게시글이 없어요.",
+                         posts: profileVM.highlights,
+                         fetchedData: profileVM.fetchedHighlights,
+                         postViewType: .highlight)
         default:
             EmptyView()
         }
-    }
-    
-    @ViewBuilder
-    func ReceivedPostsView() -> some View {
-        VStack(spacing: 25) {
-            
-            if profileVM.padoPosts.isEmpty {
-                NoItemView(itemName: "아직 받은 게시물이 없습니다")
-                    .padding(.top, 150)
-            } else {
-                LazyVGrid(columns: columns, spacing: 2) {
-                    ForEach(profileVM.padoPosts, id: \.self) { post in
-                        ZStack(alignment: .bottomLeading) {
-                            if let image = URL(string: post.imageUrl) {
-                                Button {
-                                    isShowingReceiveDetail.toggle()
-                                    if let postID = post.id {
-                                        profileVM.selectedPostID = postID
-                                    }
-                                } label: {
-                                    KFImage(image)
-                                        .resizable()
-                                        .scaledToFill()
-                                        .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
-                                        .clipped()
-                                }
-                                .sheet(isPresented: $isShowingReceiveDetail) {
-                                    SelectPostView(profileVM: profileVM,
-                                                   feedVM: feedVM,
-                                                   isShowingDetail: $isShowingReceiveDetail,
-                                                   userID: userNameID,
-                                                   viewType: PostViewType.receive)
-                                    .presentationDragIndicator(.visible)
-                                    .onDisappear {
-                                        feedVM.currentPadoRideIndex = nil
-                                        feedVM.isShowingPadoRide = false
-                                        feedVM.padoRidePosts = []
-                                    }
-                                }
-                            }
-                        }
-                        .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
-                    }
-                    if profileVM.fetchedPadoData {
-                        Rectangle()
-                            .foregroundStyle(.clear)
-                            .onAppear {
-                                Task {
-                                    try? await Task.sleep(nanoseconds: 1 * 1000_000_000)
-                                    await profileVM.fetchMorePadoPosts(id: userNameID)
-                                }
-                            }
-                    }
-                }
-            }
-        }
-        .padding(.bottom, 100)
-        .offset(y: -4)
-    }
-    
-    @ViewBuilder
-    func SentPostsView() -> some View {
-        VStack(spacing: 25) {
-            if profileVM.sendPadoPosts.isEmpty {
-                NoItemView(itemName: "아직 보낸 게시물이 없습니다")
-                    .padding(.top, 150)
-            } else {
-                LazyVGrid(columns: columns, spacing: 2) {
-                    ForEach(profileVM.sendPadoPosts, id: \.self) { post in
-                        ZStack(alignment: .bottomLeading) {
-                            if let image = URL(string: post.imageUrl) {
-                                Button {
-                                    isShowingSendDetail.toggle()
-                                    if let postID = post.id {
-                                        profileVM.selectedPostID = postID
-                                    }
-                                } label: {
-                                    KFImage(image)
-                                        .resizable()
-                                        .scaledToFill()
-                                        .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
-                                        .clipped()
-                                }
-                                .sheet(isPresented: $isShowingSendDetail) {
-                                    SelectPostView(profileVM: profileVM,
-                                                   feedVM: feedVM,
-                                                   isShowingDetail: $isShowingReceiveDetail,
-                                                   userID: userNameID,
-                                                   viewType: PostViewType.send)
-                                    .presentationDragIndicator(.visible)
-                                    .onDisappear {
-                                        feedVM.currentPadoRideIndex = nil
-                                        feedVM.isShowingPadoRide = false
-                                        feedVM.padoRidePosts = []
-                                    }
-                                }
-                            }
-                        }
-                        .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
-                    }
-                    if profileVM.fetchedSendPadoData {
-                        Rectangle()
-                            .foregroundStyle(.clear)
-                            .onAppear {
-                                Task {
-                                    try? await Task.sleep(nanoseconds: 1 * 1000_000_000)
-                                    await profileVM.fetchMoreSendPadoPosts(id: userNameID)
-                                }
-                            }
-                    }
-                }
-            }
-        }
-        .padding(.bottom, 100)
-        .offset(y: -4)
-    }
-    
-    @ViewBuilder
-    func HighlightPostsView() -> some View {
-        VStack(spacing: 25) {
-            if profileVM.highlights.isEmpty {
-                NoItemView(itemName: "아직 좋아요를 표시한 게시물이 없습니다")
-                    .padding(.top, 150)
-            } else {
-                LazyVGrid(columns: columns, spacing: 2) {
-                    ForEach(profileVM.highlights, id: \.self) { post in
-                        ZStack(alignment: .bottomLeading) {
-                            if let image = URL(string: post.imageUrl) {
-                                Button {
-                                    isShowingHightlight.toggle()
-                                    if let postID = post.id {
-                                        profileVM.selectedPostID = postID
-                                    }
-                                } label: {
-                                    KFImage(image)
-                                        .resizable()
-                                        .scaledToFill()
-                                        .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
-                                        .clipped()
-                                }
-                                .sheet(isPresented: $isShowingHightlight) {
-                                    SelectPostView(profileVM: profileVM,
-                                                   feedVM: feedVM,
-                                                   isShowingDetail: $isShowingHightlight,
-                                                   userID: userNameID,
-                                                   viewType: PostViewType.highlight)
-                                    .presentationDragIndicator(.visible)
-                                    .onDisappear {
-                                        feedVM.currentPadoRideIndex = nil
-                                        feedVM.isShowingPadoRide = false
-                                        feedVM.padoRidePosts = []
-                                    }
-                                }
-                            }
-                        }
-                        .frame(width: (UIScreen.main.bounds.width / 3) - 2, height: 160)
-                    }
-                    if profileVM.fetchedHighlights {
-                        Rectangle()
-                            .foregroundStyle(.clear)
-                            .onAppear {
-                                Task {
-                                    try? await Task.sleep(nanoseconds: 1 * 1000_000_000)
-                                    await profileVM.fetchMoreHighlihts(id: userNameID)
-                                }
-                            }
-                    }
-                }
-            }
-        }
-        .padding(.bottom, 100)
-        .offset(y: -4)
     }
 }

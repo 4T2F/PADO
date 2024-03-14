@@ -141,6 +141,7 @@
 		63D31AF82B9ABC610089D02E /* SocialMediaButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D31AF72B9ABC610089D02E /* SocialMediaButton.swift */; };
 		63D31AFA2B9ABD490089D02E /* UserProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D31AF92B9ABD490089D02E /* UserProfileImageView.swift */; };
 		63D31AFE2B9AD9FA0089D02E /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D31AFD2B9AD9FA0089D02E /* ProfileHeaderView.swift */; };
+		63D31B042B9E9ABE0089D02E /* PostGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D31B032B9E9ABE0089D02E /* PostGridView.swift */; };
 		63D3C8372B8678BF001C5F33 /* PadoRideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D3C8362B8678BF001C5F33 /* PadoRideView.swift */; };
 		63D3C8392B8679A9001C5F33 /* SelectPadoRideUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D3C8382B8679A9001C5F33 /* SelectPadoRideUserCell.swift */; };
 		63D3C83B2B867DF3001C5F33 /* FollowerSuggestionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D3C83A2B867DF3001C5F33 /* FollowerSuggestionCell.swift */; };
@@ -387,6 +388,7 @@
 		63D31AF72B9ABC610089D02E /* SocialMediaButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialMediaButton.swift; sourceTree = "<group>"; };
 		63D31AF92B9ABD490089D02E /* UserProfileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileImageView.swift; sourceTree = "<group>"; };
 		63D31AFD2B9AD9FA0089D02E /* ProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
+		63D31B032B9E9ABE0089D02E /* PostGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostGridView.swift; sourceTree = "<group>"; };
 		63D3C8362B8678BF001C5F33 /* PadoRideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadoRideView.swift; sourceTree = "<group>"; };
 		63D3C8382B8679A9001C5F33 /* SelectPadoRideUserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPadoRideUserCell.swift; sourceTree = "<group>"; };
 		63D3C83A2B867DF3001C5F33 /* FollowerSuggestionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerSuggestionCell.swift; sourceTree = "<group>"; };
@@ -968,6 +970,7 @@
 				63AA03572B68F1BE00431332 /* ProfileView.swift */,
 				41101B3A2B6BF8AF002E8C64 /* OtherUserProfileView.swift */,
 				63D31AFD2B9AD9FA0089D02E /* ProfileHeaderView.swift */,
+				63D31B032B9E9ABE0089D02E /* PostGridView.swift */,
 				63D31AF22B9AB29A0089D02E /* Postit */,
 			);
 			path = View;
@@ -1452,6 +1455,7 @@
 				4182CA452B8CF83100EABD49 /* ReplyCommentCell.swift in Sources */,
 				635B09482B4500AA009E60A9 /* AuthenticationViewModel.swift in Sources */,
 				B1999EDD2B6E2312005B37BA /* PushNotificationManager.swift in Sources */,
+				63D31B042B9E9ABE0089D02E /* PostGridView.swift in Sources */,
 				41101B3B2B6BF8AF002E8C64 /* OtherUserProfileView.swift in Sources */,
 				41E5F69A2B565409001750C2 /* PhotoMojiView.swift in Sources */,
 				418B6C982B5EC75F00E8289D /* SearchViewModel.swift in Sources */,
