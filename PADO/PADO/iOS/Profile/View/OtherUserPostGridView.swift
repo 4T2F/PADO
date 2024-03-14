@@ -11,10 +11,11 @@ import Kingfisher
 import SwiftUI
 
 struct OtherUserPostGridView: View {
+    @ObservedObject var profileVM: ProfileViewModel
+    @ObservedObject var feedVM: FeedViewModel
+    
     @Binding var isShowingDetail: Bool
     
-    var profileVM: ProfileViewModel
-    var feedVM: FeedViewModel
     var posts: [Post]
     var fetchedData: Bool
     var isFetchingData: Bool
