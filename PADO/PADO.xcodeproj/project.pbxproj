@@ -94,6 +94,7 @@
 		41FD9A112B43D5ED0028D38E /* PADOUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FD9A102B43D5ED0028D38E /* PADOUITests.swift */; };
 		41FD9A132B43D5ED0028D38E /* PADOUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FD9A122B43D5ED0028D38E /* PADOUITestsLaunchTests.swift */; };
 		41FD9A212B43D94A0028D38E /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 41FD9A202B43D94A0028D38E /* .swiftlint.yml */; };
+		630D511E2BA287A500A82200 /* OtherUserPostGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630D511D2BA287A500A82200 /* OtherUserPostGridView.swift */; };
 		63283DB92B73BDF700A42C0F /* SelectPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63283DB82B73BDF700A42C0F /* SelectPostView.swift */; };
 		63283DBB2B73BE0100A42C0F /* SelectPostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63283DBA2B73BE0100A42C0F /* SelectPostCell.swift */; };
 		6339440D2B86B6BF0086E5DB /* PadoRideOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6339440C2B86B6BF0086E5DB /* PadoRideOnboardingView.swift */; };
@@ -341,6 +342,7 @@
 		41FD9A102B43D5ED0028D38E /* PADOUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PADOUITests.swift; sourceTree = "<group>"; };
 		41FD9A122B43D5ED0028D38E /* PADOUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PADOUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		41FD9A202B43D94A0028D38E /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		630D511D2BA287A500A82200 /* OtherUserPostGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherUserPostGridView.swift; sourceTree = "<group>"; };
 		63283DB82B73BDF700A42C0F /* SelectPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPostView.swift; sourceTree = "<group>"; };
 		63283DBA2B73BE0100A42C0F /* SelectPostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPostCell.swift; sourceTree = "<group>"; };
 		6339440C2B86B6BF0086E5DB /* PadoRideOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadoRideOnboardingView.swift; sourceTree = "<group>"; };
@@ -968,9 +970,10 @@
 			isa = PBXGroup;
 			children = (
 				63AA03572B68F1BE00431332 /* ProfileView.swift */,
-				41101B3A2B6BF8AF002E8C64 /* OtherUserProfileView.swift */,
-				63D31AFD2B9AD9FA0089D02E /* ProfileHeaderView.swift */,
 				63D31B032B9E9ABE0089D02E /* PostGridView.swift */,
+				41101B3A2B6BF8AF002E8C64 /* OtherUserProfileView.swift */,
+				630D511D2BA287A500A82200 /* OtherUserPostGridView.swift */,
+				63D31AFD2B9AD9FA0089D02E /* ProfileHeaderView.swift */,
 				63D31AF22B9AB29A0089D02E /* Postit */,
 			);
 			path = View;
@@ -1420,6 +1423,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				630D511E2BA287A500A82200 /* OtherUserPostGridView.swift in Sources */,
 				B107655E2B7699050023B686 /* RequestSurfingNotificationCell.swift in Sources */,
 				B107655D2B7698FE0023B686 /* FollowNotificationCell.swift in Sources */,
 				41898FBA2B78D48800F33F03 /* PostitCell.swift in Sources */,

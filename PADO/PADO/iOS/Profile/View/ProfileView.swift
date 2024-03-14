@@ -233,7 +233,7 @@ struct ProfileView: View {
             PostGridView(isShowingDetail: $isShowingHightlight,
                          profileVM: profileVM,
                          feedVM: feedVM, 
-                         text: "아직 좋아요를 누른 게시글이 없어요.",
+                         text: "아직 좋아요를 표시한 파도가 없어요.",
                          posts: profileVM.highlights,
                          fetchedData: profileVM.fetchedHighlights,
                          postViewType: .highlight)

@@ -1,23 +1,26 @@
 //
-//  PostGridView.swift
+//  OtherUserPostGridView.swift
 //  PADO
 //
-//  Created by 강치우 on 3/11/24.
+//  Created by 강치우 on 3/14/24.
 //
 
+import Lottie
 import Kingfisher
 
 import SwiftUI
 
-struct PostGridView: View {
+struct OtherUserPostGridView: View {
     @Binding var isShowingDetail: Bool
     
     var profileVM: ProfileViewModel
     var feedVM: FeedViewModel
-    var text: String
     var posts: [Post]
     var fetchedData: Bool
+    var isFetchingData: Bool
+    var text: String
     var postViewType: PostViewType
+    var userID: String
     
     let columns = [GridItem(.flexible(), spacing: 1),
                    GridItem(.flexible(), spacing: 1),
@@ -25,7 +28,14 @@ struct PostGridView: View {
     
     var body: some View {
         VStack(spacing: 25) {
-            if posts.isEmpty {
+            if isFetchingData {
+                LottieView(animation: .named("Loading"))
+                    .looping()
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 100, height: 100)
+                    .padding(.top, 60)
+            } else if posts.isEmpty {
                 NoItemView(itemName: text)
                     .padding(.top, 150)
             } else {
@@ -47,7 +57,7 @@ struct PostGridView: View {
                                     SelectPostView(profileVM: profileVM,
                                                    feedVM: feedVM,
                                                    isShowingDetail: $isShowingDetail,
-                                                   userID: userNameID,
+                                                   userID: userID,
                                                    viewType: postViewType)
                                     .presentationDragIndicator(.visible)
                                     .onDisappear {
@@ -65,13 +75,14 @@ struct PostGridView: View {
                             .foregroundStyle(.clear)
                             .onAppear {
                                 Task {
+                                    try? await Task.sleep(nanoseconds: 1 * 1000_000_000)
                                     switch postViewType {
                                     case .receive:
-                                        await profileVM.fetchMorePadoPosts(id: userNameID)
+                                        await profileVM.fetchMorePadoPosts(id: userID)
                                     case .send:
-                                        await profileVM.fetchMoreSendPadoPosts(id: userNameID)
+                                        await profileVM.fetchMoreSendPadoPosts(id: userID)
                                     case .highlight:
-                                        await profileVM.fetchMoreHighlihts(id: userNameID)
+                                        await profileVM.fetchMoreHighlihts(id: userID)
                                     }
                                 }
                             }
@@ -79,7 +90,6 @@ struct PostGridView: View {
                 }
             }
         }
-        .padding(.bottom, 100)
         .offset(y: -4)
     }
 }
