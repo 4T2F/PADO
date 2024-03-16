@@ -137,6 +137,31 @@ class PostitViewModel: ObservableObject {
         messagesListener?.remove()
         messagesListener = nil
     }
+    
+    func sendMessage(sendUser: User) {
+        if userNameID.isEmpty {
+            isShowingLoginPage = true
+        } else if !blockPostit(id: ownerID) {
+            Task {
+                await writeMessage(ownerID: ownerID,
+                                   imageUrl: sendUser.profileImageUrl ?? "",
+                                            inputcomment: inputcomment)
+                if let user = messageUsers[ownerID] {
+                    await UpdatePushNotiData.shared.pushNoti(receiveUser: user,
+                                                             type: .postit,
+                                                             sendUser: sendUser,
+                                                             message: inputcommentForNoti)
+                }
+            }
+        }
+    }
+    
+    
+    private func blockPostit(id: String) -> Bool {
+        let blockedUserIDs = Set(blockingUser.map { $0.blockUserID } + blockedUser.map { $0.blockUserID })
+        
+        return blockedUserIDs.contains(id)
+    }
 }
 
 extension PostitViewModel {

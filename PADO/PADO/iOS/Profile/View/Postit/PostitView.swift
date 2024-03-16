@@ -87,20 +87,8 @@ struct PostitView: View {
                         
                         if !postitVM.inputcomment.isEmpty {
                             Button {
-                                if userNameID.isEmpty {
-                                    postitVM.isShowingLoginPage = true
-                                } else if !blockPostit(id: postitVM.ownerID) {
-                                    Task {
-                                        await postitVM.writeMessage(ownerID: postitVM.ownerID,
-                                                                    imageUrl: viewModel.currentUser?.profileImageUrl ?? "",
-                                                                    inputcomment: postitVM.inputcomment)
-                                        if let user = postitVM.messageUsers[postitVM.ownerID], let currentUser = viewModel.currentUser {
-                                            await UpdatePushNotiData.shared.pushNoti(receiveUser: user, 
-                                                                                     type: .postit,
-                                                                                     sendUser: currentUser,
-                                                                                     message: postitVM.inputcommentForNoti)
-                                        }
-                                    }
+                                if let user = viewModel.currentUser {
+                                    postitVM.sendMessage(sendUser: user)
                                 }
                             } label: {
                                 ZStack {
@@ -164,11 +152,6 @@ struct PostitView: View {
             }
             .toolbarBackground(Color(.main), for: .navigationBar)
         }
-    }
-    private func blockPostit(id: String) -> Bool {
-        let blockedUserIDs = Set(blockingUser.map { $0.blockUserID } + blockedUser.map { $0.blockUserID })
-        
-        return blockedUserIDs.contains(id)
     }
 }
 
