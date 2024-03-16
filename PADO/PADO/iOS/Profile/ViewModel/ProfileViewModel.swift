@@ -17,16 +17,55 @@ class ProfileViewModel: ObservableObject {
     @Published var headerOffsets: (CGFloat, CGFloat) = (0, 0)
     @Published var selectedPostID: String = ""
     @Published var blockUser: [BlockUser] = []
-    
     @Published var lastPadoFetchedDocument: DocumentSnapshot? = nil
     @Published var lastSendPadoFetchedDocument: DocumentSnapshot? = nil
     @Published var lastHighlightsFetchedDocument: DocumentSnapshot? = nil
 
+    // 좋아요 공개 비공개
+    @Published var openHighlight: Bool = false
+    // 각각의 그리드 탭
+    @Published var isShowingReceiveDetail: Bool = false
+    @Published var isShowingSendDetail: Bool = false
+    @Published var isShowingHightlight: Bool = false
+    // 프로필사진, 뒷배경 터치 관련
+    @Published var touchProfileImage: Bool = false
+    @Published var touchBackImage: Bool = false
+    // 프로필사진, 뒷배경 트랜지션
+    @Published var isDragging = false
+    @Published var position = CGSize.zero
+    // 새로고침
+    @Published var isRefresh: Bool = false
+    // 팔로워, 팔로잉 취소
+    @Published var buttonOnOff: Bool = false
+    // 팔로워, 팔로잉 액션
+    @Published var followerActive: Bool = false
+    @Published var followingActive: Bool = false
+    // 신고
+    @Published var isShowingUserReport: Bool = false
+    // 유저 포스트 불러올 동안 로티불러오게 하는 불린값
+    @Published var fetchingPostData: Bool = true
+    // 포스트 패치 관련
     @Published var fetchedPadoData: Bool = false
     @Published var fetchedSendPadoData: Bool = false
     @Published var fetchedHighlights: Bool = false
     // 사용자 차단 로직
     @Published var isUserBlocked: Bool = false
+    
+    // 신고 모달
+    @Published var isShowingReportView: Bool = false
+    // 로그인이 안되어있을 때
+    @Published var isShowingLoginPage: Bool = false
+    // 피드 글자 관련
+    @Published var isShowingMoreText: Bool = false
+    // 하트를 누른 유저
+    @Published var isShowingHeartUserView: Bool = false
+    
+    // 파도타기 삭제 관련
+    @Published var deleteMyPadoride: Bool = false
+    @Published var deleteSendPadoride: Bool = false
+    // 게시글 삭제 관련
+    @Published var deleteMyPost: Bool = false
+    @Published var deleteSendPost: Bool = false
     
     private var postListeners: [String: ListenerRegistration] = [:]
     private var db = Firestore.firestore()
@@ -135,7 +174,6 @@ class ProfileViewModel: ObservableObject {
                 }
             }
             
-            
             if documents.count == 12 {
                 fetchedSendPadoData = true
             }
@@ -187,7 +225,6 @@ class ProfileViewModel: ObservableObject {
             print("Error fetching posts: \(error.localizedDescription)")
         }
     }
-    
 
     private func updatePostArray(post: Post, inputType: InputPostType) {
         switch inputType {

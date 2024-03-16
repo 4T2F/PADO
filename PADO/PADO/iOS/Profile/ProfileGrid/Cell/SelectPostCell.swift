@@ -9,10 +9,10 @@ import Firebase
 import FirebaseFirestoreSwift
 import Kingfisher
 import Lottie
+
 import SwiftUI
 
 struct SelectPostCell: View {
-    
     @ObservedObject var feedVM: FeedViewModel
     
     @State var heartLoading: Bool = false
@@ -23,13 +23,19 @@ struct SelectPostCell: View {
     @State var postOwnerButtonOnOff: Bool = false
     @State var postSurferButtonOnOff: Bool = false
     
+    // 신고 모달
     @State private var isShowingReportView: Bool = false
+    // 로그인이 안되어있을 때
     @State private var isShowingLoginPage: Bool = false
+    // 피드 글자 관련
     @State private var isShowingMoreText: Bool = false
+    // 하트를 누른 유저
     @State private var isShowingHeartUserView: Bool = false
     
+    // 파도타기 삭제 관련
     @State private var deleteMyPadoride: Bool = false
     @State private var deleteSendPadoride: Bool = false
+    // 게시글 삭제 관련
     @State private var deleteMyPost: Bool = false
     @State private var deleteSendPost: Bool = false
 

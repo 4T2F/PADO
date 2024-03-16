@@ -18,22 +18,6 @@ struct ProfileView: View {
     @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var postitVM: PostitViewModel
     
-    @State var openHighlight: Bool = false
-    @State private var isShowingReceiveDetail: Bool = false
-    @State private var isShowingSendDetail: Bool = false
-    @State private var isShowingHightlight: Bool = false
-    @State private var touchProfileImage: Bool = false
-    @State private var touchBackImage: Bool = false
-    @State private var isDragging = false
-    @State private var position = CGSize.zero
-    @State private var isRefresh: Bool = false
-    @State private var buttonOnOff: Bool = false
-    
-    @State private var followerActive: Bool = false
-    @State private var followingActive: Bool = false
-    
-    @Binding var fetchedPostitData: Bool
-    
     @Namespace var animation
     
     let user: User
@@ -42,16 +26,16 @@ struct ProfileView: View {
         NavigationStack {
             ZStack {
                 ScrollView(.vertical, showsIndicators: false) {
-                    ProfileHeaderView(touchBackImage: $touchBackImage,
-                                      touchProfileImage: $touchProfileImage,
-                                      followerActive: $followerActive,
-                                      followingActive: $followingActive,
-                                      position: $position,
-                                      buttonOnOff: $buttonOnOff, 
-                                      user: user,
-                                      profileVM: profileVM,
+                    ProfileHeaderView(profileVM: profileVM,
                                       followVM: followVM,
-                                      postitVM: postitVM)
+                                      postitVM: postitVM,
+                                      touchBackImage: $profileVM.touchBackImage,
+                                      touchProfileImage: $profileVM.touchProfileImage,
+                                      followerActive: $profileVM.followerActive,
+                                      followingActive: $profileVM.followingActive,
+                                      position: $profileVM.position,
+                                      buttonOnOff: $profileVM.buttonOnOff,
+                                      user: user)
                         .padding(.top, 50)
                     
                     VStack(spacing: 0) {
@@ -70,25 +54,25 @@ struct ProfileView: View {
                 }
                 .refreshable(action: {
                     Task {
-                        isRefresh = true
+                        profileVM.isRefresh = true
                         if let currentUser = viewModel.currentUser {
                             profileVM.stopAllPostListeners()
                             try? await Task.sleep(nanoseconds: 1 * 1000_000_000)
                             await profileVM.fetchPostID(user: currentUser)
                         }
-                        isRefresh = false
+                        profileVM.isRefresh = false
                     }
                 })
                 .background(.main, ignoresSafeAreaEdges: .all)
-                .allowsHitTesting(!touchBackImage)
-                .allowsHitTesting(!touchProfileImage)
-                .opacity(touchBackImage ? 0.1 : 1)
-                .opacity(touchProfileImage ? 0.1 : 1)
+                .allowsHitTesting(!profileVM.touchBackImage)
+                .allowsHitTesting(!profileVM.touchProfileImage)
+                .opacity(profileVM.touchBackImage ? 0.1 : 1)
+                .opacity(profileVM.touchProfileImage ? 0.1 : 1)
                 .navigationBarBackButtonHidden()
                 .navigationBarTitleDisplayMode(.inline)
                 .onAppear {
                     if viewModel.currentUser?.openHighlight == nil || viewModel.currentUser?.openHighlight == "yes" {
-                        openHighlight = true
+                        profileVM.openHighlight = true
                     }
                 }
                 .toolbar {
@@ -116,7 +100,7 @@ struct ProfileView: View {
                             
                             NavigationLink {
                                 SettingView(profileVM: profileVM,
-                                            openHighlight: $openHighlight)
+                                            openHighlight: $profileVM.openHighlight)
                             } label: {
                                 Image("more")
                                     .foregroundStyle(.white)
@@ -125,26 +109,26 @@ struct ProfileView: View {
                     }
                 }
                 // 뒷배경 조건문
-                if touchBackImage {
+                if profileVM.touchBackImage {
                     if let backProfileImageUrl = user.backProfileImageUrl {
-                        UserProfileImageView(isTouched: $touchBackImage,
-                                             isDragging: $isDragging,
-                                             position: $position,
+                        UserProfileImageView(isTouched: $profileVM.touchBackImage,
+                                             isDragging: $profileVM.isDragging,
+                                             position: $profileVM.position,
                                              imageUrl: URL(string: backProfileImageUrl))
                     }
                 }
                 // 프로필 사진 조건문
-                if touchProfileImage {
+                if profileVM.touchProfileImage {
                     if let profileImageUrl = user.profileImageUrl {
-                        UserProfileImageView(isTouched: $touchProfileImage,
-                                             isDragging: $isDragging,
-                                             position: $position,
+                        UserProfileImageView(isTouched: $profileVM.touchProfileImage,
+                                             isDragging: $profileVM.isDragging,
+                                             position: $profileVM.position,
                                              imageUrl: URL(string: profileImageUrl))
                     }
                 }
                 
                 VStack {
-                    if isRefresh {
+                    if profileVM.isRefresh {
                         LottieView(animation: .named("Wave"))
                             .looping()
                             .resizable()
@@ -216,7 +200,7 @@ struct ProfileView: View {
         case "받은 파도":
             PostGridView(profileVM: profileVM,
                          feedVM: feedVM, 
-                         isShowingDetail: $isShowingReceiveDetail,
+                         isShowingDetail: $profileVM.isShowingReceiveDetail,
                          text: "아직 받은 파도가 없어요.",
                          posts: profileVM.padoPosts,
                          fetchedData: profileVM.fetchedPadoData,
@@ -224,7 +208,7 @@ struct ProfileView: View {
         case "보낸 파도":
             PostGridView(profileVM: profileVM,
                          feedVM: feedVM,
-                         isShowingDetail: $isShowingSendDetail,
+                         isShowingDetail: $profileVM.isShowingSendDetail,
                          text: "아직 보낸 파도가 없어요.",
                          posts: profileVM.sendPadoPosts,
                          fetchedData: profileVM.fetchedSendPadoData,
@@ -232,7 +216,7 @@ struct ProfileView: View {
         case "좋아요":
             PostGridView(profileVM: profileVM,
                          feedVM: feedVM,
-                         isShowingDetail: $isShowingHightlight,
+                         isShowingDetail: $profileVM.isShowingHightlight,
                          text: "아직 좋아요를 표시한 파도가 없어요.",
                          posts: profileVM.highlights,
                          fetchedData: profileVM.fetchedHighlights,

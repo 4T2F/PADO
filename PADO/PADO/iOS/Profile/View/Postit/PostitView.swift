@@ -14,9 +14,6 @@ struct PostitView: View {
     
     @ObservedObject var postitVM: PostitViewModel
     
-    @State private var isFetchedMessages: Bool = false
-    @State private var isShowingLoginPage: Bool = false
-    
     @Binding var isShowingMessageView: Bool
     
     @FocusState private var isTextFieldFocused: Bool
@@ -27,7 +24,7 @@ struct PostitView: View {
                 Divider()
                 ScrollViewReader { proxy in
                     ScrollView {
-                        if isFetchedMessages {
+                        if postitVM.isFetchedMessages {
                             VStack {
                                 if !postitVM.messages.isEmpty {
                                     ForEach(postitVM.messages) { message in
@@ -91,7 +88,7 @@ struct PostitView: View {
                         if !postitVM.inputcomment.isEmpty {
                             Button {
                                 if userNameID.isEmpty {
-                                    isShowingLoginPage = true
+                                    postitVM.isShowingLoginPage = true
                                 } else if !blockPostit(id: postitVM.ownerID) {
                                     Task {
                                         await postitVM.writeMessage(ownerID: postitVM.ownerID,
@@ -116,8 +113,8 @@ struct PostitView: View {
                                 }
                             }
                             .padding(.vertical, -5)
-                            .sheet(isPresented: $isShowingLoginPage, content: {
-                                StartView(isShowStartView: $isShowingLoginPage)
+                            .sheet(isPresented: $postitVM.isShowingLoginPage, content: {
+                                StartView(isShowStartView: $postitVM.isShowingLoginPage)
                                     .presentationDragIndicator(.visible)
                             })
                         } else {
@@ -145,7 +142,7 @@ struct PostitView: View {
             .onAppear {
                 Task{
                     await postitVM.getMessageDocument(ownerID: postitVM.ownerID)
-                    isFetchedMessages = true
+                    postitVM.isFetchedMessages = true
                 }
             }
             .toolbar {

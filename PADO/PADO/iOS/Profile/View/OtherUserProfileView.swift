@@ -18,23 +18,6 @@ struct OtherUserProfileView: View {
     @StateObject var postitVM = PostitViewModel()
     @StateObject var feedVM = FeedViewModel()
     
-    @State private var buttonActive: Bool = false
-    @State private var profileEditButtonActive: Bool = false
-    @State private var followerActive: Bool = false
-    @State private var followingActive: Bool = false
-    
-    @State private var isShowingReceiveDetail: Bool = false
-    @State private var isShowingSendDetail: Bool = false
-    @State private var isShowingHightlight: Bool = false
-    @State private var isShowingMessageView: Bool = false
-    @State private var isShowingUserReport: Bool = false
-    @State private var fetchedPostitData: Bool = false
-    @State private var touchProfileImage: Bool = false
-    @State private var touchBackImage: Bool = false
-    @State private var fetchingPostData: Bool = true
-    @State private var position = CGSize.zero
-    @State private var isDragging = false
-    
     @Binding var buttonOnOff: Bool
     
     @Namespace var animation
@@ -44,16 +27,16 @@ struct OtherUserProfileView: View {
     var body: some View {
         ZStack {
             ScrollView(.vertical, showsIndicators: false) {
-                ProfileHeaderView(touchBackImage: $touchBackImage,
-                                  touchProfileImage: $touchProfileImage,
-                                  followerActive: $followerActive,
-                                  followingActive: $followingActive,
-                                  position: $position,
-                                  buttonOnOff: $buttonOnOff,
-                                  user: user,
-                                  profileVM: profileVM,
+                ProfileHeaderView(profileVM: profileVM,
                                   followVM: followVM,
-                                  postitVM: postitVM)
+                                  postitVM: postitVM,
+                                  touchBackImage: $profileVM.touchBackImage,
+                                  touchProfileImage: $profileVM.touchProfileImage,
+                                  followerActive: $profileVM.followerActive,
+                                  followingActive: $profileVM.followingActive,
+                                  position: $profileVM.position,
+                                  buttonOnOff: $buttonOnOff,
+                                  user: user)
                     .padding(.top, 50)
                 
                 VStack(spacing: 0) {
@@ -70,10 +53,10 @@ struct OtherUserProfileView: View {
                 }
             }
             .background(.main, ignoresSafeAreaEdges: .all)
-            .allowsHitTesting(!touchBackImage)
-            .allowsHitTesting(!touchProfileImage)
-            .opacity(touchBackImage ? 0.1 : 1)
-            .opacity(touchProfileImage ? 0.1 : 1)
+            .allowsHitTesting(!profileVM.touchBackImage)
+            .allowsHitTesting(!profileVM.touchProfileImage)
+            .opacity(profileVM.touchBackImage ? 0.1 : 1)
+            .opacity(profileVM.touchProfileImage ? 0.1 : 1)
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()
             .navigationTitle("@\(user.nameID)")
@@ -112,12 +95,12 @@ struct OtherUserProfileView: View {
                             if user.nameID != userNameID {
                                 Button {
                                     if !userNameID.isEmpty {
-                                        isShowingUserReport = true
+                                        profileVM.isShowingUserReport = true
                                     }
                                 } label: {
                                     Image(systemName: "ellipsis")
                                 }
-                                .sheet(isPresented: $isShowingUserReport) {
+                                .sheet(isPresented: $profileVM.isShowingUserReport) {
                                     ReprotProfileModalView(profileVM: profileVM, user: user)
                                         .presentationDetents([.fraction(0.3)])
                                         .presentationDragIndicator(.visible)
@@ -130,20 +113,20 @@ struct OtherUserProfileView: View {
             }
             
             // 뒷배경 조건문
-            if touchBackImage {
+            if profileVM.touchBackImage {
                 if let backProfileImageUrl = user.backProfileImageUrl {
-                    UserProfileImageView(isTouched: $touchBackImage,
-                                         isDragging: $isDragging,
-                                         position: $position,
+                    UserProfileImageView(isTouched: $profileVM.touchBackImage,
+                                         isDragging: $profileVM.isDragging,
+                                         position: $profileVM.position,
                                          imageUrl: URL(string: backProfileImageUrl))
                 }
             }
             // 프로필 사진 조건문
-            if touchProfileImage {
+            if profileVM.touchProfileImage {
                 if let profileImageUrl = user.profileImageUrl {
-                    UserProfileImageView(isTouched: $touchProfileImage,
-                                         isDragging: $isDragging,
-                                         position: $position,
+                    UserProfileImageView(isTouched: $profileVM.touchProfileImage,
+                                         isDragging: $profileVM.isDragging,
+                                         position: $profileVM.position,
                                          imageUrl: URL(string: profileImageUrl))
                 }
             }
@@ -161,9 +144,9 @@ struct OtherUserProfileView: View {
             Task {
                 await followVM.initializeFollowFetch(id: user.nameID)
                 await profileVM.fetchPostID(user: user)
-                fetchingPostData = false
+                profileVM.fetchingPostData = false
                 await postitVM.listenForMessages(ownerID: user.nameID)
-                fetchedPostitData = true
+                postitVM.fetchedPostitData = true
                 enteredNavigation = true
             }
         }
@@ -224,20 +207,20 @@ struct OtherUserProfileView: View {
         case "받은 파도":
             OtherUserPostGridView(profileVM: profileVM,
                                   feedVM: feedVM,
-                                  isShowingDetail: $isShowingReceiveDetail,
+                                  isShowingDetail: $profileVM.isShowingReceiveDetail,
                                   posts: profileVM.padoPosts,
                                   fetchedData: profileVM.fetchedPadoData,
-                                  isFetchingData: fetchingPostData,
+                                  isFetchingData: profileVM.fetchingPostData,
                                   text: "아직 받은 파도가 없어요.",
                                   postViewType: .receive,
                                   userID: user.nameID)
         case "보낸 파도":
             OtherUserPostGridView(profileVM: profileVM,
                                   feedVM: feedVM,
-                                  isShowingDetail: $isShowingSendDetail,
+                                  isShowingDetail: $profileVM.isShowingSendDetail,
                                   posts: profileVM.sendPadoPosts,
                                   fetchedData: profileVM.fetchedSendPadoData,
-                                  isFetchingData: fetchingPostData,
+                                  isFetchingData: profileVM.fetchingPostData,
                                   text: "아직 보낸 파도가 없어요.",
                                   postViewType: .send,
                                   userID: user.nameID)
@@ -248,10 +231,10 @@ struct OtherUserProfileView: View {
             } else {
                 OtherUserPostGridView(profileVM: profileVM,
                                       feedVM: feedVM,
-                                      isShowingDetail: $isShowingHightlight,
+                                      isShowingDetail: $profileVM.isShowingHightlight,
                                       posts: profileVM.highlights,
                                       fetchedData: profileVM.fetchedHighlights,
-                                      isFetchingData: fetchingPostData,
+                                      isFetchingData: profileVM.fetchingPostData,
                                       text: "아직 좋아요를 표시한 파도가 없어요.",
                                       postViewType: .receive,
                                       userID: user.nameID)
