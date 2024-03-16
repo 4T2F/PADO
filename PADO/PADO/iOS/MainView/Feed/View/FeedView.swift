@@ -8,6 +8,10 @@
 import Lottie
 import SwiftUI
 
+protocol FeedRefreshDelegate {
+    func feedRefresh() async
+}
+
 struct FeedView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
     
@@ -15,10 +19,10 @@ struct FeedView: View {
     @StateObject var scrollDelegate: ScrollViewModel = .init()
     
     @ObservedObject var feedVM: FeedViewModel
-    @ObservedObject var profileVM: ProfileViewModel
-    @ObservedObject var followVM: FollowViewModel
     
     @State private var isLoading = true
+    
+    var delegate: FeedRefreshDelegate
 
     var body: some View {
         NavigationStack {
@@ -46,8 +50,7 @@ struct FeedView: View {
                                 } else {
                                     ForEach(feedVM.followingPosts.indices, id: \.self) { index in
                                         FeedCell(feedVM: feedVM,
-                                                 post: $feedVM.followingPosts[index], feedCellType: FeedFilter.following,
-                                                 index: index)
+                                                 post: $feedVM.followingPosts[index])
                                         .id(index)
                                         .onAppear {
                                             if index == feedVM.followingPosts.indices.last {
@@ -64,50 +67,16 @@ struct FeedView: View {
                             LazyVStack(spacing: 0) {
                                 ForEach(feedVM.todayPadoPosts.indices, id: \.self) { index in
                                     FeedCell(feedVM: feedVM,
-                                             post: $feedVM.todayPadoPosts[index], 
-                                             feedCellType: FeedFilter.today,
-                                             index: index)
+                                             post: $feedVM.todayPadoPosts[index])
                                 }
                             }
                         }
                     } onRefresh: {
-                        try? await Task.sleep(nanoseconds: 1_500_000_000)
-                        if viewModel.selectedFilter == FeedFilter.following {
-                            guard !userNameID.isEmpty else {
-                                await feedVM.getPopularUser()
-                                feedVM.stopFollowingListeners()
-                                profileVM.stopAllPostListeners()
-                                feedVM.followingPosts.removeAll()
-                                return
-                            }
-                            await profileVM.fetchBlockUsers()
-                            await followVM.initializeFollowFetch(id: userNameID)
-                            feedVM.followFetchLoading = true
-                            feedVM.stopFollowingListeners()
-                            profileVM.stopAllPostListeners()
-                            await feedVM.fetchFollowingPosts()
-                            await profileVM.fetchPostID(user: viewModel.currentUser!)
-                            await notiVM.fetchNotifications()
-                            feedVM.followFetchLoading = false
-                        } else {
-                            Task{
-                                await profileVM.fetchBlockUsers()
-                                feedVM.stopTodayListeners()
-                                await feedVM.fetchTodayPadoPosts()
-                                guard !userNameID.isEmpty else { return }
-                                await followVM.initializeFollowFetch(id: userNameID)
-                                await profileVM.fetchPostID(user: viewModel.currentUser!)
-                                await notiVM.fetchNotifications()
-                            }
-                        }
+                        await delegate.feedRefresh()
                     }
                     .scrollDisabled(feedVM.isShowingPadoRide)
                     .onChange(of: viewModel.scrollToTop) {
                         withAnimation {
-                            feedVM.currentPadoRideIndex = nil
-                            feedVM.isHeaderVisible = true
-                            feedVM.isShowingPadoRide = false
-                            feedVM.padoRidePosts = []
                             proxy.scrollTo(0, anchor: .top)
                         }
                     }
@@ -130,7 +99,6 @@ struct FeedView: View {
                     }
                 }
                 .padding(.top, 10)
-                .animation(.easeInOut, value: scrollDelegate.scrollOffset)
             }
         }
     }

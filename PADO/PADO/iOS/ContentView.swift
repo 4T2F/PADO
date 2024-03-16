@@ -38,8 +38,7 @@ struct ContentView: View {
     var body: some View {
         TabView(selection: $viewModel.showTab) {
             FeedView(feedVM: feedVM,
-                     profileVM: profileVM,
-                     followVM: followVM)
+                     delegate: self)
             .tag(0)
             
             MainSearchView(profileVM: profileVM)
@@ -201,6 +200,41 @@ struct ContentView: View {
             viewModel.showTab = 4
             try? await Task.sleep(nanoseconds: 1 * 250_000_000)
             viewModel.isShowingMessageView = true
+        }
+    }
+}
+
+
+extension ContentView: FeedRefreshDelegate {
+    func feedRefresh() async {
+        try? await Task.sleep(nanoseconds: 1_500_000_000)
+        if viewModel.selectedFilter == FeedFilter.following {
+            guard !userNameID.isEmpty else {
+                await feedVM.getPopularUser()
+                feedVM.stopFollowingListeners()
+                profileVM.stopAllPostListeners()
+                feedVM.followingPosts.removeAll()
+                return
+            }
+            await profileVM.fetchBlockUsers()
+            await followVM.initializeFollowFetch(id: userNameID)
+            feedVM.followFetchLoading = true
+            feedVM.stopFollowingListeners()
+            profileVM.stopAllPostListeners()
+            await feedVM.fetchFollowingPosts()
+            await profileVM.fetchPostID(user: viewModel.currentUser!)
+            await notiVM.fetchNotifications()
+            feedVM.followFetchLoading = false
+        } else {
+            Task{
+                await profileVM.fetchBlockUsers()
+                feedVM.stopTodayListeners()
+                await feedVM.fetchTodayPadoPosts()
+                guard !userNameID.isEmpty else { return }
+                await followVM.initializeFollowFetch(id: userNameID)
+                await profileVM.fetchPostID(user: viewModel.currentUser!)
+                await notiVM.fetchNotifications()
+            }
         }
     }
 }
