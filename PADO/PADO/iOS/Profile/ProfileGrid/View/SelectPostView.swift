@@ -72,9 +72,12 @@ struct SelectPostView: View {
                         }
                         .scrollTargetLayout()
                         .onAppear {
-                            Task {
-                                try? await Task.sleep(nanoseconds: 1 * 100_000_000)
-                                value.scrollTo(profileVM.selectedPostID, anchor: .top)
+                            if profileVM.isFirstPostOpen {
+                                Task {
+                                    try? await Task.sleep(nanoseconds: 1 * 100_000_000)
+                                    value.scrollTo(profileVM.selectedPostID, anchor: .top)
+                                }
+                                profileVM.isFirstPostOpen.toggle()
                             }
                         }
                     }
