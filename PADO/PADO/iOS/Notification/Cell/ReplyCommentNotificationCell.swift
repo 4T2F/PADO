@@ -45,9 +45,11 @@ struct ReplyCommentNotificationCell: View {
         .sheet(isPresented: $notiVM.showReplyCommentPost) {
             if let postID = notification.postID,
                let post = notiVM.notiPosts[postID] {
-                FeedCell(feedVM: feedVM,
-                               post: .constant(post))
-                .presentationDragIndicator(.visible)
+                NavigationStack {
+                    FeedCell(feedVM: feedVM,
+                             post: .constant(post))
+                    .presentationDragIndicator(.visible)
+                }
             }
         }
     }

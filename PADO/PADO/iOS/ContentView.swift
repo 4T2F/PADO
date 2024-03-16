@@ -37,7 +37,7 @@ struct ContentView: View {
     
     var body: some View {
         TabView(selection: $viewModel.showTab) {
-            FeedView(feedVM: feedVM,
+            FeedView(feedVM: feedVM, notiVM: notiVM,
                      delegate: self)
             .tag(0)
             
