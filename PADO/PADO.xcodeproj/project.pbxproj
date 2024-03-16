@@ -97,7 +97,6 @@
 		41FD9A212B43D94A0028D38E /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 41FD9A202B43D94A0028D38E /* .swiftlint.yml */; };
 		630D511E2BA287A500A82200 /* OtherUserPostGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630D511D2BA287A500A82200 /* OtherUserPostGridView.swift */; };
 		63283DB92B73BDF700A42C0F /* SelectPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63283DB82B73BDF700A42C0F /* SelectPostView.swift */; };
-		63283DBB2B73BE0100A42C0F /* SelectPostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63283DBA2B73BE0100A42C0F /* SelectPostCell.swift */; };
 		6339440D2B86B6BF0086E5DB /* PadoRideOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6339440C2B86B6BF0086E5DB /* PadoRideOnboardingView.swift */; };
 		6346F7D92B6606A3009C752A /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 6346F7D82B6606A3009C752A /* Lottie */; };
 		635B09482B4500AA009E60A9 /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635B09472B4500AA009E60A9 /* AuthenticationViewModel.swift */; };
@@ -346,7 +345,6 @@
 		41FD9A202B43D94A0028D38E /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		630D511D2BA287A500A82200 /* OtherUserPostGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherUserPostGridView.swift; sourceTree = "<group>"; };
 		63283DB82B73BDF700A42C0F /* SelectPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPostView.swift; sourceTree = "<group>"; };
-		63283DBA2B73BE0100A42C0F /* SelectPostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPostCell.swift; sourceTree = "<group>"; };
 		6339440C2B86B6BF0086E5DB /* PadoRideOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadoRideOnboardingView.swift; sourceTree = "<group>"; };
 		635B09472B4500AA009E60A9 /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
 		635B09492B4500CB009E60A9 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -859,17 +857,8 @@
 			isa = PBXGroup;
 			children = (
 				63283DBE2B73BFE100A42C0F /* View */,
-				63283DBD2B73BFDF00A42C0F /* Cell */,
 			);
 			path = ProfileGrid;
-			sourceTree = "<group>";
-		};
-		63283DBD2B73BFDF00A42C0F /* Cell */ = {
-			isa = PBXGroup;
-			children = (
-				63283DBA2B73BE0100A42C0F /* SelectPostCell.swift */,
-			);
-			path = Cell;
 			sourceTree = "<group>";
 		};
 		63283DBE2B73BFE100A42C0F /* View */ = {
@@ -1566,7 +1555,6 @@
 				6408FEE82B6E98E000BF0DDF /* DeleteCommentView.swift in Sources */,
 				04E9509A2B71B7860091F660 /* FaceMojiModalView.swift in Sources */,
 				4176B8332B868275009F1DEF /* CustomTabView.swift in Sources */,
-				63283DBB2B73BE0100A42C0F /* SelectPostCell.swift in Sources */,
 				B13BD2FF2B7FC309007D2DA3 /* PadoRideNotificationCell.swift in Sources */,
 				63AA035A2B68F1BE00431332 /* OffsetModifier.swift in Sources */,
 				B10765582B7410470023B686 /* HeartNotificationCell.swift in Sources */,

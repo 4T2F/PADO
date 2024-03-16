@@ -184,8 +184,6 @@ class FeedCellViewModel: ObservableObject {
     
     @MainActor
     func deletePado(post: Post) async {
-        let fileName = padoRidePosts[currentPadoRideIndex ?? 0].storageFileName
-        
         Task {
             await DeletePost.shared.deletePost(postID: post.id ?? "",
                                                postOwnerID: post.ownerUid,

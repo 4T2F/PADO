@@ -380,6 +380,7 @@ struct FeedCell: View {
                                     // MARK: - 댓글 숫자
                                     Text("\(post.commentCount)")
                                         .font(.system(.caption2))
+                                        .foregroundStyle(.white)
                                         .fontWeight(.semibold)
                                         .shadow(radius: 1, y: 1)
                                 }

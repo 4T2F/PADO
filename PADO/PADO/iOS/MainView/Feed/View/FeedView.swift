@@ -74,7 +74,6 @@ struct FeedView: View {
                     } onRefresh: {
                         await delegate.feedRefresh()
                     }
-                    .scrollDisabled(feedVM.isShowingPadoRide)
                     .onChange(of: viewModel.scrollToTop) {
                         withAnimation {
                             proxy.scrollTo(0, anchor: .top)
@@ -87,16 +86,15 @@ struct FeedView: View {
                     }
                 }
                 VStack {
-                    if !feedVM.isShowingPadoRide {
-                        if scrollDelegate.scrollOffset < 5 {
-                            FeedHeaderCell(feedVM: feedVM)
-                                .transition(.opacity.combined(with: .scale))
-                        } else if !scrollDelegate.isEligible {
-                            FeedRefreshHeaderCell()
-                                .transition(.opacity.combined(with: .scale))
-                        }
-                        Spacer()
+                    if scrollDelegate.scrollOffset < 5 {
+                        FeedHeaderCell(feedVM: feedVM)
+                            .transition(.opacity.combined(with: .scale))
+                    } else if !scrollDelegate.isEligible {
+                        FeedRefreshHeaderCell()
+                            .transition(.opacity.combined(with: .scale))
                     }
+                    Spacer()
+                    
                 }
                 .padding(.top, 10)
             }

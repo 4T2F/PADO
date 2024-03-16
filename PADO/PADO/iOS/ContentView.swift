@@ -96,7 +96,7 @@ struct ContentView: View {
         }
         .sheet(isPresented: $showPushPost) {
             if let post = notiVM.notiPosts[pushPostID] {
-                SelectPostCell(feedVM: feedVM,
+                FeedCell(feedVM: feedVM,
                                post: .constant(post))
                 .presentationDragIndicator(.visible)
             }
@@ -112,7 +112,10 @@ struct ContentView: View {
         .onChange(of: pushUser) { }
         .onChange(of: pushPostID) { } 
     }
-    
+}
+
+// MARK: 비즈니스 로직
+extension ContentView {
     func fetchData() {
         guard !userNameID.isEmpty else {
             Task {
@@ -203,7 +206,7 @@ struct ContentView: View {
     }
 }
 
-
+// MARK: FeedView에서 사용 될 Refresh 함수
 extension ContentView: FeedRefreshDelegate {
     func feedRefresh() async {
         try? await Task.sleep(nanoseconds: 1_500_000_000)
