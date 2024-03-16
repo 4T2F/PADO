@@ -14,6 +14,10 @@ struct ProfileHeaderView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
     @Environment(\.dismiss) var dismiss
     
+    @ObservedObject var profileVM: ProfileViewModel
+    @ObservedObject var followVM: FollowViewModel
+    @ObservedObject var postitVM: PostitViewModel
+    
     @Binding var touchBackImage: Bool
     @Binding var touchProfileImage: Bool
     @Binding var followerActive: Bool
@@ -22,10 +26,7 @@ struct ProfileHeaderView: View {
     @Binding var buttonOnOff: Bool
     
     var user: User
-    var profileVM: ProfileViewModel
-    var followVM: FollowViewModel
-    var postitVM: PostitViewModel
-
+    
     var body: some View {
         GeometryReader { proxy in
             let minY = proxy.frame(in: .named("SCROLL")).minY
