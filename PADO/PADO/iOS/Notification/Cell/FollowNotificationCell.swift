@@ -9,7 +9,7 @@ import Kingfisher
 import SwiftUI
 
 struct FollowNotificationCell: View {
-    @StateObject var notiVM = NotificationViewModel.shared
+    @ObservedObject var notiVM: NotificationViewModel
     
     @State private var buttonActive: Bool = false
     

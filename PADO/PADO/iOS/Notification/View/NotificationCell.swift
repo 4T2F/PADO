@@ -9,35 +9,30 @@ import SwiftUI
 
 struct NotificationCell: View {
     @ObservedObject var feedVM: FeedViewModel
+    @ObservedObject var notiVM: NotificationViewModel
     
     var notification: Noti
     
     var body: some View {
         switch notification.type { // 노티의 타입마다 분기처리
         case "comment":
-            CommentNotificationCell(feedVM: feedVM,
-                                    notification: notification)
+            CommentNotificationCell(feedVM: feedVM, notiVM: notiVM, notification: notification)
         case "replyComment":
-            ReplyCommentNotificationCell(feedVM: feedVM,
-                                    notification: notification)
+            ReplyCommentNotificationCell(feedVM: feedVM, notiVM: notiVM, notification: notification)
         case "heart":
-            HeartNotificationCell(feedVM: feedVM,
-                                  notification: notification)
+            HeartNotificationCell(feedVM: feedVM, notiVM: notiVM, notification: notification)
         case "facemoji":
-            FacemojiNotificationCell(feedVM: feedVM,
-                                     notification: notification)
+            FacemojiNotificationCell(feedVM: feedVM, notiVM: notiVM, notification: notification)
         case "follow":
-            FollowNotificationCell(notification: notification)
+            FollowNotificationCell(notiVM: notiVM, notification: notification)
         case "requestSurfing":
-            RequestSurfingNotificationCell(feedVM: feedVM,
-                                           notification: notification)
+            RequestSurfingNotificationCell(feedVM: feedVM, notiVM: notiVM, notification: notification)
         case "surfer":
-            SurferNotificationCell(notification: notification)
+            SurferNotificationCell(notiVM: notiVM, notification: notification)
         case "postit":
-            PostitNotificationCell(notification: notification)
+            PostitNotificationCell(notiVM: notiVM, notification: notification)
         case "padoRide":
-            PadoRideNotificationCell(feedVM: feedVM,
-                                     notification: notification)
+            PadoRideNotificationCell(feedVM: feedVM, notiVM: notiVM, notification: notification)
         default:
             Text(notification.message ?? "") // 기본 전체 알람시 보여줄 셀
         }

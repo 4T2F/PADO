@@ -14,7 +14,7 @@ struct ContentView: View {
     @StateObject var followVM = FollowViewModel()
     @StateObject var profileVM = ProfileViewModel()
     @StateObject var postitVM = PostitViewModel()
-    @StateObject var notiVM = NotificationViewModel.shared
+    @StateObject var notiVM = NotificationViewModel()
     
     @State var fetchedPostitData: Bool = false
     @State var width = UIScreen.main.bounds.width
@@ -39,7 +39,8 @@ struct ContentView: View {
         TabView(selection: $viewModel.showTab) {
             FeedView(feedVM: feedVM,
                      profileVM: profileVM,
-                     followVM: followVM)
+                     followVM: followVM, 
+                     notiVM: notiVM)
             .tag(0)
             
             MainSearchView(profileVM: profileVM)

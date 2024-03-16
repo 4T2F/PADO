@@ -11,12 +11,12 @@ import SwiftUI
 struct FeedView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
     
-    @StateObject var notiVM = NotificationViewModel.shared
     @StateObject var scrollDelegate: ScrollViewModel = .init()
     
     @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var profileVM: ProfileViewModel
     @ObservedObject var followVM: FollowViewModel
+    @ObservedObject var notiVM: NotificationViewModel
     
     @State private var isLoading = true
 
@@ -120,7 +120,7 @@ struct FeedView: View {
                 VStack {
                     if !feedVM.isShowingPadoRide {
                         if scrollDelegate.scrollOffset < 5 {
-                            FeedHeaderCell(feedVM: feedVM)
+                            FeedHeaderCell(feedVM: feedVM, notiVM: notiVM)
                                 .transition(.opacity.combined(with: .scale))
                         } else if !scrollDelegate.isEligible {
                             FeedRefreshHeaderCell()

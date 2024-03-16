@@ -9,11 +9,11 @@ import Kingfisher
 import SwiftUI
 
 struct PostitNotificationCell: View {
-    @Environment(\.dismiss) var dismiss
-    
     @EnvironmentObject var viewModel: AuthenticationViewModel
     
-    @StateObject var notiVM = NotificationViewModel.shared
+    @ObservedObject var notiVM: NotificationViewModel
+    
+    @Environment(\.dismiss) var dismiss
 
     var notification: Noti
     

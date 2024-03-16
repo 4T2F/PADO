@@ -13,10 +13,9 @@ import SwiftUI
 
 struct FeedHeaderCell: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
-    
-    @StateObject var notiVM = NotificationViewModel.shared
-    
+
     @ObservedObject var feedVM: FeedViewModel
+    @ObservedObject var notiVM: NotificationViewModel
     
     @Namespace var animation
     
@@ -61,7 +60,7 @@ struct FeedHeaderCell: View {
             Spacer()
             
             if !userNameID.isEmpty {
-                NavigationLink(destination: NotificationView(feedVM: feedVM)) {
+                NavigationLink(destination: NotificationView(feedVM: feedVM, notiVM: notiVM)) {
                     Image(notiVM.hasNewNotifications ? "Bell_pin_light" : "Bell_light") // 조건부 아이콘 변경
                 }
             } else {
