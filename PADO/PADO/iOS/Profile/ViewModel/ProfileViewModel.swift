@@ -21,7 +21,6 @@ class ProfileViewModel: ObservableObject {
     @Published var lastSendPadoFetchedDocument: DocumentSnapshot? = nil
     @Published var lastHighlightsFetchedDocument: DocumentSnapshot? = nil
 
-    
     // 좋아요 공개 비공개
     @Published var openHighlight: Bool = false
     // 각각의 그리드 탭
@@ -175,7 +174,6 @@ class ProfileViewModel: ObservableObject {
                 }
             }
             
-            
             if documents.count == 12 {
                 fetchedSendPadoData = true
             }
@@ -227,7 +225,6 @@ class ProfileViewModel: ObservableObject {
             print("Error fetching posts: \(error.localizedDescription)")
         }
     }
-    
 
     private func updatePostArray(post: Post, inputType: InputPostType) {
         switch inputType {
