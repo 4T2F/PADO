@@ -59,7 +59,6 @@ struct ContentView: View {
                             followVM: followVM,
                             feedVM: feedVM,
                             postitVM: postitVM,
-                            fetchedPostitData: $fetchedPostitData,
                             user: user)
                 .tag(4)
             } else {

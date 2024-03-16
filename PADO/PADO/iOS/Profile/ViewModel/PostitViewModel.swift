@@ -19,6 +19,9 @@ class PostitViewModel: ObservableObject {
     @Published var showdeleteModal: Bool = false
     @Published var messageUserIDs: [String] = []
     @Published var messageUsers: [String: User] = [:]
+    @Published var isFetchedMessages: Bool = false
+    @Published var isShowingLoginPage: Bool = false
+    @Published var fetchedPostitData: Bool = false
     
     let db = Firestore.firestore()
     
