@@ -51,11 +51,6 @@ struct PostGridView: View {
                                                    userID: userNameID,
                                                    viewType: postViewType)
                                     .presentationDragIndicator(.visible)
-                                    .onDisappear {
-                                        feedVM.currentPadoRideIndex = nil
-                                        feedVM.isShowingPadoRide = false
-                                        feedVM.padoRidePosts = []
-                                    }
                                 }
                             }
                         }

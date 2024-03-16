@@ -45,7 +45,7 @@ struct HeartNotificationCell: View {
         .sheet(isPresented: $notiVM.showHeartPost) {
             if let postID = notification.postID,
                let post = notiVM.notiPosts[postID] {
-                   SelectPostCell(feedVM: feedVM, post: .constant(post))
+                   FeedCell(feedVM: feedVM, post: .constant(post))
                     .presentationDragIndicator(.visible)
                }
         }

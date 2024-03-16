@@ -44,9 +44,11 @@ struct CommentNotificationCell: View {
         .sheet(isPresented: $notiVM.showCommentPost) {
             if let postID = notification.postID,
                let post = notiVM.notiPosts[postID] {
-                SelectPostCell(feedVM: feedVM,
-                               post: .constant(post))
-                .presentationDragIndicator(.visible)
+                NavigationStack {
+                    FeedCell(feedVM: feedVM,
+                             post: .constant(post))
+                    .presentationDragIndicator(.visible)
+                }
             }
         }
     }
