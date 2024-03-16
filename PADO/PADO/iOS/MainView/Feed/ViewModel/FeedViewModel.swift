@@ -22,7 +22,6 @@ class FeedViewModel:Identifiable ,ObservableObject {
     // MARK: - feed 관련
     @Published var isShowingReportView = false
     @Published var isShowingCommentView = false
-    @Published var isHeaderVisible = true
     @Published var feedItems: [FeedItem] = []
     @Published var selectedFeedCheckHeart: Bool = false
     
@@ -31,12 +30,6 @@ class FeedViewModel:Identifiable ,ObservableObject {
     @Published var todayPadoPosts: [Post] = []
     @Published var watchedPostIDs: Set<String> = []
     @Published var postFetchLoading: Bool = false
-
-    // 파도타기 관련
-    @Published var padoRidePosts: [PadoRide] = []
-    @Published var currentPadoRideIndex: Int? = nil
-    @Published var isShowingPadoRide: Bool = false
-    @Published var checkPadoRide: [PadoRide] = []
     
     @Published var documentID: String = ""
     @Published var popularUsers: [User] = []
@@ -274,46 +267,6 @@ class FeedViewModel:Identifiable ,ObservableObject {
         } catch {
             print("Error : \(error)")
         }
-    }
-    
-    // 파도타기 게시글 불러오기
-    func fetchPadoRides(postID: String) async {
-        padoRidePosts.removeAll()
-        
-        let postRef = db.collection("post").document(postID)
-        let padoRideCollection = postRef.collection("padoride")
-        
-        do {
-            let snapshot = try await padoRideCollection.getDocuments()
-            self.padoRidePosts = snapshot.documents.compactMap { document in
-                try? document.data(as: PadoRide.self)
-            }
-        } catch {
-            print("PadoRides 가져오기 오류: \(error.localizedDescription)")
-        }
-    }
-    
-    // 파도타기 게시글의 유무 확인
-    func checkForPadorides(postID: String) async {
-        checkPadoRide.removeAll()
-        guard !postID.isEmpty else { return }
-        
-        let postRef = db.collection("post").document(postID)
-        let padoRideCollection = postRef.collection("padoride")
-        
-        do {
-            let snapshot = try await padoRideCollection.getDocuments()
-            self.checkPadoRide = snapshot.documents.compactMap { document in
-                try? document.data(as: PadoRide.self)
-            }
-        } catch {
-            print("PadoRides 가져오기 오류: \(error.localizedDescription)")
-        }
-    }
-    
-    func fetchPadoRideExist(postID: String) {
-        guard !postID.isEmpty else { return }
-        db.collection("post").document(postID).updateData(["padoExist": false])
     }
 }
 

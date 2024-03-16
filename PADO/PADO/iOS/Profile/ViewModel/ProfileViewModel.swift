@@ -205,7 +205,10 @@ class ProfileViewModel: ObservableObject {
                     guard let self = self else { return }
                     guard let document = documentSnapshot, document.exists,
                           let post = try? document.data(as: Post.self) else {
-                        print(" \(error?.localizedDescription ?? "Unknown error")은 삭제된 게시글 입니다.")
+                        print(" \(document.documentID)은 삭제된 게시글 입니다.")
+                        Task {
+                            await self.deleteHighlight(documentID: document.documentID)
+                        }
                         return
                     }
                     
@@ -388,7 +391,10 @@ extension ProfileViewModel {
                     guard let self = self else { return }
                     guard let document = documentSnapshot, document.exists,
                           let post = try? document.data(as: Post.self) else {
-                        print(" \(error?.localizedDescription ?? "Unknown error")은 삭제된 게시글 입니다.")
+                        print(" \(document.documentID)은 삭제된 게시글 입니다.")
+                        Task {
+                            await self.deleteHighlight(documentID: document.documentID)
+                        }
                         return
                     }
                     
@@ -407,6 +413,15 @@ extension ProfileViewModel {
             }
         } catch {
             print("Error fetching posts: \(error.localizedDescription)")
+        }
+    }
+    
+    private func deleteHighlight(documentID: String) async {
+        do {
+            try await db.collection("users").document(userNameID).collection("highlight").document(documentID).delete()
+            print("\(documentID) 파일 하이라이트에서 삭제")
+        } catch {
+            print("하이라이트 삭제 실패: \(error.localizedDescription)")
         }
     }
 }
