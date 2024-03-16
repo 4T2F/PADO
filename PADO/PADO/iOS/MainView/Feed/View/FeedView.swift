@@ -15,12 +15,10 @@ protocol FeedRefreshDelegate {
 struct FeedView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
     
-    @StateObject var notiVM = NotificationViewModel.shared
     @StateObject var scrollDelegate: ScrollViewModel = .init()
     
     @ObservedObject var feedVM: FeedViewModel
-    
-    @State private var isLoading = true
+    @ObservedObject var notiVM: NotificationViewModel
     
     var delegate: FeedRefreshDelegate
 
@@ -87,7 +85,7 @@ struct FeedView: View {
                 }
                 VStack {
                     if scrollDelegate.scrollOffset < 5 {
-                        FeedHeaderCell(feedVM: feedVM)
+                        FeedHeaderCell(feedVM: feedVM, notiVM: notiVM)
                             .transition(.opacity.combined(with: .scale))
                     } else if !scrollDelegate.isEligible {
                         FeedRefreshHeaderCell()

@@ -11,7 +11,7 @@ struct NotificationView: View {
     @Environment(\.dismiss) var dismiss
     
     @ObservedObject var feedVM: FeedViewModel
-    @ObservedObject var notiVM = NotificationViewModel.shared
+    @ObservedObject var notiVM: NotificationViewModel
     
     @State private var fetchedNotiData: Bool = false
     
@@ -38,6 +38,7 @@ struct NotificationView: View {
                         if fetchedNotiData {
                             ForEach(notiVM.notifications.indices, id: \.self) { index in
                                 NotificationCell(feedVM: feedVM,
+                                                 notiVM: notiVM,
                                                  notification: notiVM.notifications[index])
                                 .id(index)
                                 .padding(.horizontal, 10)
