@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CustomTabView: View {
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: MainViewModel
     
     @State private var isShowingStartView: Bool = false
     

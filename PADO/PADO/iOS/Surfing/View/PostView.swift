@@ -10,7 +10,7 @@ import Kingfisher
 import SwiftUI
 
 struct PostView: View {
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: MainViewModel
     @Environment (\.dismiss) var dismiss
     
     @ObservedObject var surfingVM: SurfingViewModel

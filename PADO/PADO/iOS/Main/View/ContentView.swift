@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: MainViewModel
     @StateObject var surfingVM = SurfingViewModel()
     @StateObject var feedVM = FeedViewModel()
     @StateObject var followVM = FollowViewModel()

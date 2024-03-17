@@ -9,7 +9,7 @@ import Kingfisher
 import SwiftUI
 
 struct PostitNotificationCell: View {
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: MainViewModel
     
     @ObservedObject var notiVM: NotificationViewModel
     

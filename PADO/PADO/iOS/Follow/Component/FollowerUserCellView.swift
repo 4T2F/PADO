@@ -9,7 +9,7 @@ import Kingfisher
 import SwiftUI
 
 struct FollowerUserCellView: View {
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: MainViewModel
     
     @ObservedObject var followVM: FollowViewModel
     

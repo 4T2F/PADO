@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FollowButtonView: View {
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: MainViewModel
     
     @Binding var buttonActive: Bool
     

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SettingNotificationView: View {
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: MainViewModel
     @Environment (\.dismiss) var dismiss
     
     @State var noti: Bool = true

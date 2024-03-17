@@ -67,6 +67,9 @@ class ProfileViewModel: ObservableObject {
     @Published var deleteMyPost: Bool = false
     @Published var deleteSendPost: Bool = false
     
+    // 피드 모달 관련
+    @Published var isFirstPostOpen: Bool = false
+    
     private var postListeners: [String: ListenerRegistration] = [:]
     private var db = Firestore.firestore()
     

@@ -9,7 +9,7 @@ import PhotosUI
 import SwiftUI
 
 struct SettingProfileView: View {
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: MainViewModel
     @Environment (\.dismiss) var dismiss
     
     @State var width = UIScreen.main.bounds.width

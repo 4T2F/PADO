@@ -9,7 +9,7 @@ import Kingfisher
 import SwiftUI
 
 struct SendPadoView: View {
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: MainViewModel
     @Environment (\.dismiss) var dismiss
     
     @ObservedObject var padorideVM: PadoRideViewModel

@@ -7,6 +7,19 @@
 
 import SwiftUI
 
+// 로그인/가입 관련
+enum SignUpStep {
+    case phoneNumber
+    case code
+    case id
+    case birth
+}
+
+enum LoginSignUpType {
+    case login
+    case signUp
+}
+
 // 팔로워 모달 타입
 enum FollowerModalType {
     case surfer

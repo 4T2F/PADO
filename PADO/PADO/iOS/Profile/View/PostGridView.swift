@@ -36,6 +36,7 @@ struct PostGridView: View {
                             if let image = URL(string: post.imageUrl) {
                                 Button {
                                     isShowingDetail.toggle()
+                                    profileVM.isFirstPostOpen.toggle()
                                     profileVM.selectedPostID = post.id ?? ""
                                 } label: {
                                     KFImage(image)

@@ -12,7 +12,7 @@ import Lottie
 import SwiftUI
 
 struct FeedHeaderCell: View {
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: MainViewModel
 
     @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var notiVM: NotificationViewModel
