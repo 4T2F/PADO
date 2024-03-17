@@ -99,6 +99,12 @@
 		63283DB92B73BDF700A42C0F /* SelectPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63283DB82B73BDF700A42C0F /* SelectPostView.swift */; };
 		6339440D2B86B6BF0086E5DB /* PadoRideOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6339440C2B86B6BF0086E5DB /* PadoRideOnboardingView.swift */; };
 		6346F7D92B6606A3009C752A /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 6346F7D82B6606A3009C752A /* Lottie */; };
+		6348FF6C2BA6E0AF00FECED9 /* ImageLoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6348FF6B2BA6E0AF00FECED9 /* ImageLoadingCell.swift */; };
+		6348FF6E2BA6E22C00FECED9 /* GradientOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6348FF6D2BA6E22C00FECED9 /* GradientOverlay.swift */; };
+		6348FF702BA6E4F400FECED9 /* PadoRideImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6348FF6F2BA6E4F400FECED9 /* PadoRideImageCell.swift */; };
+		6348FF722BA6E95900FECED9 /* PostContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6348FF712BA6E95900FECED9 /* PostContentView.swift */; };
+		6348FF742BA6EF5A00FECED9 /* UserProfileSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6348FF732BA6EF5A00FECED9 /* UserProfileSection.swift */; };
+		6348FF762BA6F4FA00FECED9 /* ActionButtonsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6348FF752BA6F4FA00FECED9 /* ActionButtonsSection.swift */; };
 		635B09482B4500AA009E60A9 /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635B09472B4500AA009E60A9 /* AuthenticationViewModel.swift */; };
 		635B094A2B4500CB009E60A9 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635B09492B4500CB009E60A9 /* User.swift */; };
 		636C40AF2B85C880003E44F0 /* SurfingOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636C40AE2B85C880003E44F0 /* SurfingOnboardingView.swift */; };
@@ -346,6 +352,12 @@
 		630D511D2BA287A500A82200 /* OtherUserPostGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherUserPostGridView.swift; sourceTree = "<group>"; };
 		63283DB82B73BDF700A42C0F /* SelectPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPostView.swift; sourceTree = "<group>"; };
 		6339440C2B86B6BF0086E5DB /* PadoRideOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadoRideOnboardingView.swift; sourceTree = "<group>"; };
+		6348FF6B2BA6E0AF00FECED9 /* ImageLoadingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoadingCell.swift; sourceTree = "<group>"; };
+		6348FF6D2BA6E22C00FECED9 /* GradientOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientOverlay.swift; sourceTree = "<group>"; };
+		6348FF6F2BA6E4F400FECED9 /* PadoRideImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadoRideImageCell.swift; sourceTree = "<group>"; };
+		6348FF712BA6E95900FECED9 /* PostContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostContentView.swift; sourceTree = "<group>"; };
+		6348FF732BA6EF5A00FECED9 /* UserProfileSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileSection.swift; sourceTree = "<group>"; };
+		6348FF752BA6F4FA00FECED9 /* ActionButtonsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButtonsSection.swift; sourceTree = "<group>"; };
 		635B09472B4500AA009E60A9 /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
 		635B09492B4500CB009E60A9 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		636C40AE2B85C880003E44F0 /* SurfingOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurfingOnboardingView.swift; sourceTree = "<group>"; };
@@ -845,10 +857,15 @@
 			isa = PBXGroup;
 			children = (
 				6373235D2B71552D00C02A32 /* FeedCell.swift */,
+				6348FF752BA6F4FA00FECED9 /* ActionButtonsSection.swift */,
 				64392B652B71D2C70047BA12 /* FeedHeaderCell.swift */,
 				416F61F72B7DF50B00F81093 /* FeedGuideCell.swift */,
 				64E761C42B7F5F4E00882D29 /* SurfingGuideCell.swift */,
 				418D18502B8A826C00E379F8 /* HeartUserCell.swift */,
+				6348FF732BA6EF5A00FECED9 /* UserProfileSection.swift */,
+				6348FF6B2BA6E0AF00FECED9 /* ImageLoadingCell.swift */,
+				6348FF6F2BA6E4F400FECED9 /* PadoRideImageCell.swift */,
+				6348FF712BA6E95900FECED9 /* PostContentView.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -889,6 +906,7 @@
 			children = (
 				63D31AF72B9ABC610089D02E /* SocialMediaButton.swift */,
 				63D31AF92B9ABD490089D02E /* UserProfileImageView.swift */,
+				6348FF6D2BA6E22C00FECED9 /* GradientOverlay.swift */,
 				63AA03582B68F1BE00431332 /* OffsetModifier.swift */,
 				4187431C2B5C32CF00D93CBE /* CircularImageView.swift */,
 				64392B632B7099C70047BA12 /* RectangleImageView.swift */,
@@ -1435,11 +1453,13 @@
 				418ACDC92B766633003DD9E7 /* MessageBubbleView.swift in Sources */,
 				648963E92B6D38550080050D /* SurfingSelectCell.swift in Sources */,
 				63824C452B558B2400D1D653 /* StartView.swift in Sources */,
+				6348FF6E2BA6E22C00FECED9 /* GradientOverlay.swift in Sources */,
 				63283DB92B73BDF700A42C0F /* SelectPostView.swift in Sources */,
 				B1D7CDEF2B566A2F0090544B /* SettingCell+.swift in Sources */,
 				418D18512B8A826C00E379F8 /* HeartUserCell.swift in Sources */,
 				418ACDCB2B767CB3003DD9E7 /* DeleteMessageView.swift in Sources */,
 				64E761C72B7FBC4A00882D29 /* NoItemView.swift in Sources */,
+				6348FF702BA6E4F400FECED9 /* PadoRideImageCell.swift in Sources */,
 				41A102932B624CCB0070AB8D /* Comment.swift in Sources */,
 				649372F42B5612E700BCDA71 /* FollowingView.swift in Sources */,
 				638C716A2B6E05B000DB0A70 /* CommentView.swift in Sources */,
@@ -1478,6 +1498,7 @@
 				647E7EFD2B63775100A5487E /* UpdateImageUrl.swift in Sources */,
 				418743212B5C32CF00D93CBE /* CircularImageView.swift in Sources */,
 				B107655C2B7421390023B686 /* UpdatePostData.swift in Sources */,
+				6348FF742BA6EF5A00FECED9 /* UserProfileSection.swift in Sources */,
 				418D184F2B8A7F3E00E379F8 /* HeartUsersView.swift in Sources */,
 				B1A91D102B55928D00FE7F62 /* SettingNormalCell.swift in Sources */,
 				41E5F69C2B5666D7001750C2 /* FaceMojiCell.swift in Sources */,
@@ -1490,6 +1511,7 @@
 				040914F72B561A18001B549B /* ReportSelectView.swift in Sources */,
 				648963E12B6BEF890080050D /* PhotoMoji.swift in Sources */,
 				B1A91D0F2B55928D00FE7F62 /* SettingView.swift in Sources */,
+				6348FF6C2BA6E0AF00FECED9 /* ImageLoadingCell.swift in Sources */,
 				048A34472B7C53660085CE8B /* ImageBox.swift in Sources */,
 				64392B602B7074CD0047BA12 /* SettingProfileModal.swift in Sources */,
 				63824C4C2B558B5500D1D653 /* ModalBlackButton.swift in Sources */,
@@ -1546,6 +1568,7 @@
 				04AD70EC2B6CB80F00437134 /* KeyboardHide+.swift in Sources */,
 				B1999ED92B6E1A6F005B37BA /* UpdatePushNotiData.swift in Sources */,
 				63B7B9A32B802DC800707C2F /* Color+.swift in Sources */,
+				6348FF762BA6F4FA00FECED9 /* ActionButtonsSection.swift in Sources */,
 				636C40AF2B85C880003E44F0 /* SurfingOnboardingView.swift in Sources */,
 				64392B7C2B76852D0047BA12 /* PadoRide.swift in Sources */,
 				63D31AFA2B9ABD490089D02E /* UserProfileImageView.swift in Sources */,
@@ -1588,6 +1611,7 @@
 				040914F92B561FA8001B549B /* ReportSelectCellView.swift in Sources */,
 				63D3C83B2B867DF3001C5F33 /* FollowerSuggestionCell.swift in Sources */,
 				6408FEEA2B6E98E800BF0DDF /* ReportCommentView.swift in Sources */,
+				6348FF722BA6E95900FECED9 /* PostContentView.swift in Sources */,
 				04D1438C2B5F971F0076578A /* PostView.swift in Sources */,
 				63C8BA582B56659800025422 /* SurferNotificationCell.swift in Sources */,
 				B1999EDB2B6E205D005B37BA /* Noti.swift in Sources */,
