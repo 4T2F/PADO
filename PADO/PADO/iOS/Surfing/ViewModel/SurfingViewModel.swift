@@ -75,6 +75,20 @@ class SurfingViewModel: ObservableObject  {
         }
     }
     
+    var photoImageSize: CGRect {
+        return ImageRatioResize.shared.resizedImageRect(for: selectedImage ?? UIImage(),
+                                                                  targetSize: CGSize(
+                                                                    width: UIScreen.main.bounds.width * 0.95,
+                                                                    height: UIScreen.main.bounds.height * 0.8))
+    }
+    
+    var cameraImageSize: CGRect {
+        return ImageRatioResize.shared.resizedImageRect(for: cameraUIImage ,
+                                                        targetSize: CGSize(
+                                                            width: UIScreen.main.bounds.width * 0.95,
+                                                            height: UIScreen.main.bounds.height * 0.8))
+    }
+    
     // MARK: - 권한 설정 및 확인
     // 카메라 권한 확인 함수 추가
     func checkCameraPermission(completion: @escaping () -> Void) {
