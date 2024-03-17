@@ -51,6 +51,8 @@ class ProfileViewModel: ObservableObject {
     // 사용자 차단 로직
     @Published var isUserBlocked: Bool = false
     
+    // 방명록 모달
+    @Published var isShowingMessageView = false
     // 신고 모달
     @Published var isShowingReportView: Bool = false
     // 로그인이 안되어있을 때

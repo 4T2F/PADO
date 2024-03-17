@@ -8,8 +8,9 @@
 import Lottie
 import SwiftUI
 
-protocol FeedRefreshDelegate {
+protocol FeedDelegate {
     func feedRefresh() async
+    func openPostit()
 }
 
 struct FeedView: View {
@@ -20,7 +21,7 @@ struct FeedView: View {
     @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var notiVM: NotificationViewModel
     
-    var delegate: FeedRefreshDelegate
+    var delegate: FeedDelegate
 
     var body: some View {
         NavigationStack {
@@ -83,7 +84,8 @@ struct FeedView: View {
                 }
                 VStack {
                     if scrollDelegate.scrollOffset < 5 {
-                        FeedHeaderCell(notiVM: notiVM)
+                        FeedHeaderCell(notiVM: notiVM,
+                                       openPostit: { delegate.openPostit() })
                             .transition(.opacity.combined(with: .scale))
                     } else if !scrollDelegate.isEligible {
                         FeedRefreshHeaderCell()
