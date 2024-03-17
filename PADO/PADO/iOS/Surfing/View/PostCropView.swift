@@ -262,23 +262,3 @@ struct PostCropView: View {
         }
     }
 }
-
-extension View {
-    @ViewBuilder
-    func frame(_ size: CGSize) -> some View {
-        self // 자를때 프레임
-            .frame(width: size.width,
-                   height: size.height)
-    }
-    
-    func haptics(_ style: UIImpactFeedbackGenerator.FeedbackStyle) {
-        UIImpactFeedbackGenerator(style: style).impactOccurred()
-    }
-}
-
-extension UIImage {
-    func cropped(to rect: CGRect) -> UIImage? {
-        guard let cgImage = self.cgImage?.cropping(to: rect) else { return nil }
-        return UIImage(cgImage: cgImage)
-    }
-}
