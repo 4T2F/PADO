@@ -194,9 +194,9 @@ class FeedCellViewModel: ObservableObject {
     }
     
     @MainActor
-    func deletePadoRide(index: Int, postID: String) async {
-        let fileName = padoRidePosts[index].storageFileName
-        let subID = padoRidePosts[index].id
+    func deletePadoRide(postID: String) async {
+        let fileName = padoRidePosts[currentPadoRideIndex ?? 0].storageFileName
+        let subID = padoRidePosts[currentPadoRideIndex ?? 0].id
         
         Task {
             try await DeletePost.shared.deletePadoridePost(postID: postID,
@@ -206,9 +206,11 @@ class FeedCellViewModel: ObservableObject {
                 fetchPadoRideExist(postID: postID)
             }
             
-            isHeaderVisible = false
+            currentPadoRideIndex = nil
+            isHeaderVisible = true
+            isShowingPadoRide = false
             deletePadorideModal = false
-            needsDataFetch.toggle()
+            padoRidePosts = []
         }
     }
     

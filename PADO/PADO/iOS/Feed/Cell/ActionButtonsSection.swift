@@ -136,8 +136,7 @@ struct ActionButtonsSection: View {
                     .sheet(isPresented: $feedCellVM.deletePadorideModal) {
                         PostSelectModalView(title: "해당 파도타기를 삭제하시겠습니까?") {
                             if let postID = post.id {
-                                await feedCellVM.deletePadoRide(index: feedCellVM.currentPadoRideIndex ?? 0,
-                                                                postID: postID)
+                                await feedCellVM.deletePadoRide(postID: postID)
                             }
                         }
                         .presentationDetents([.fraction(0.4)])
