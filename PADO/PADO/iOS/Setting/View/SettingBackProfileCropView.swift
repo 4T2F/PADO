@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SettingBackProfileCropView: View {
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: MainViewModel
     @Environment(\.dismiss) var dismiss
     
     // 이미지 조작을 위한 상태 변수들

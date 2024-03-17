@@ -10,7 +10,7 @@ import Lottie
 import SwiftUI
 
 struct PostitView: View {
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: MainViewModel
     
     @ObservedObject var postitVM: PostitViewModel
     

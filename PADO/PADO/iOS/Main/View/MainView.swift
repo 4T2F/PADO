@@ -11,7 +11,7 @@ import FirebaseFirestore
 import SwiftUI
 
 struct MainView: View {
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: MainViewModel
     
     var body: some View {
         Group {

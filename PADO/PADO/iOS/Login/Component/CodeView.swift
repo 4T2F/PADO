@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CodeView: View {
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: MainViewModel
     @ObservedObject var loginVM: LoginViewModel
     
     @State private var showUseID: Bool = false

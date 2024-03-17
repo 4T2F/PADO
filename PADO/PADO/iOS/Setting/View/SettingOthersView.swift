@@ -11,7 +11,7 @@ import FirebaseFirestoreSwift
 import SwiftUI
 
 struct SettingOthersView: View {
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: MainViewModel
     @Environment (\.dismiss) var dismiss
     
     @State var savePhoto: Bool = UserDefaults.standard.bool(forKey: "savePhoto")

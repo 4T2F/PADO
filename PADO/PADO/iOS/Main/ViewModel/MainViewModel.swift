@@ -1,5 +1,5 @@
 //
-//  AuthenticationViewModel.swift
+//  MainViewModel.swift
 //  PADO
 //
 //  Created by 강치우 on 1/3/24.
@@ -11,7 +11,7 @@ import PhotosUI
 
 import SwiftUI
 
-class AuthenticationViewModel: ObservableObject {
+class MainViewModel: ObservableObject {
     
     @Published var showLaunchScreen = true
     @Published var isShowingMessageView = false

@@ -1,16 +1,17 @@
 //
-//  SettingProfileEditView.swift
+//  PhotoMojiCropView.swift
 //  PADO
 //
-//  Created by 황성진 on 2/1/24.
+//  Created by 황성진 on 2/4/24.
 //
 
 import PhotosUI
 import SwiftUI
 
-struct SettingProfileEditView: View {
-    @EnvironmentObject var viewModel: MainViewModel
+struct PhotoMojiCropView: View {
     @Environment(\.dismiss) var dismiss
+    
+    @ObservedObject var commentVM: CommentViewModel
     
     // 이미지 조작을 위한 상태 변수들
     @State private var scale: CGFloat = 1
@@ -20,6 +21,10 @@ struct SettingProfileEditView: View {
     @State private var showinGrid: Bool = false
     @GestureState private var isInteractig: Bool = false
     
+    @Binding var postOwner: User
+    @Binding var post: Post
+    
+    let postID: String
     var crop: Crop = .circle
     var onCrop: (UIImage?, Bool) -> Void
     
@@ -32,13 +37,15 @@ struct SettingProfileEditView: View {
             .toolbarBackground(Color.main, for: .navigationBar)
             .toolbarColorScheme(.dark, for: .navigationBar)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .onDisappear {
-                viewModel.changedValue = false
-                viewModel.imagePick = false
-            }
             .background {
                 Color.main
                     .ignoresSafeArea()
+            }
+            .navigationDestination(isPresented: $commentVM.showEmojiView) {
+                SelectEmojiView(commentVM: commentVM,
+                                postOwner: $postOwner,
+                                post: $post, 
+                                postID: postID)
             }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -48,27 +55,21 @@ struct SettingProfileEditView: View {
                         renderer.proposedSize = .init(crop.size())
                         if let image = renderer.uiImage {
                             onCrop(image, true)
-                            viewModel.uiImage = image
-                            if let uiImage = viewModel.uiImage {
-                                viewModel.userSelectImage = Image(uiImage: uiImage)
-                            }
+                            commentVM.cropMojiUIImage = image
+                            commentVM.cropMojiImage = Image(uiImage: image)
                         } else {
                             onCrop(nil, false)
                         }
-                        viewModel.showingProfileView = true
-                        viewModel.selectedItem = nil
+                        commentVM.showEmojiView = true
                     } label: {
-                        Text("완료")
+                        Text("이모지 선택")
                             .font(.system(.body, weight: .semibold))
                     }
                 }
                 
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
-                        viewModel.uiImage = nil
-                        viewModel.userSelectImage = nil
-                        viewModel.showingProfileView = true
-                        viewModel.selectedItem = nil
+                        commentVM.showCropPhotoMoji = false
                     } label: {
                         Image("dismissArrow")
                     }
@@ -84,7 +85,7 @@ struct SettingProfileEditView: View {
         GeometryReader {
             let size = $0.size
             
-            if let image = viewModel.uiImage {
+            if let image = commentVM.photoMojiUIImage {
                 Image(uiImage: image)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
@@ -141,8 +142,7 @@ struct SettingProfileEditView: View {
                     out = true
                 }).onChanged({ value in
                     let translation = value.translation
-                    offset = CGSize(width: translation.width + lastStoredOffset.width, 
-                                    height: translation.height + lastStoredOffset.height)
+                    offset = CGSize(width: translation.width + lastStoredOffset.width, height: translation.height + lastStoredOffset.height)
                     showinGrid = true
                 })
                 .onEnded({ value in
@@ -169,7 +169,7 @@ struct SettingProfileEditView: View {
                 })
         )
         .frame(cropSize)
-        .clipShape(RoundedRectangle(cornerRadius: 0))
+        .clipShape(RoundedRectangle(cornerRadius: crop == .circle ? cropSize.height / 2 : 0))
     }
     // 격자 뷰를 구성하는 함수
     @ViewBuilder
@@ -192,10 +192,6 @@ struct SettingProfileEditView: View {
                         .frame(maxHeight: .infinity)
                 }
             }
-            
-            RoundedRectangle(cornerRadius: crop == .circle ? 300 / 2 : 0)
-                .stroke(.white, lineWidth: 2)
-                .foregroundStyle(.clear)
         }
     }
 }

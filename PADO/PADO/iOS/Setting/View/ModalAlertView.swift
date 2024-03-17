@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ModalAlertView: View {
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: MainViewModel
     @Environment(\.dismiss) var dismiss
     
     @State var width = UIScreen.main.bounds.width

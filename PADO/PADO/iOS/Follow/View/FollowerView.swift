@@ -10,7 +10,7 @@ import SwiftUI
 struct FollowerView: View {
     // MARK: - PROPERTY
     @Environment (\.dismiss) var dismiss
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: MainViewModel
     
     @ObservedObject var followVM: FollowViewModel
     

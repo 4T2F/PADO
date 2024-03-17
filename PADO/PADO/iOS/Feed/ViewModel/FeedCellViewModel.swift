@@ -206,6 +206,7 @@ class FeedCellViewModel: ObservableObject {
                 fetchPadoRideExist(postID: postID)
             }
             
+            isHeaderVisible = false
             deletePadorideModal = false
             needsDataFetch.toggle()
         }

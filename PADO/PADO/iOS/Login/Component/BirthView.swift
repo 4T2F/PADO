@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct BirthView: View {
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: MainViewModel
     @ObservedObject var loginVM: LoginViewModel
     
     @State var showBirthAlert: Bool = false

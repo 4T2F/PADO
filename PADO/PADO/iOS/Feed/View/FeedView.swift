@@ -13,7 +13,7 @@ protocol FeedRefreshDelegate {
 }
 
 struct FeedView: View {
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: MainViewModel
     
     @StateObject var scrollDelegate: ScrollViewModel = .init()
     
