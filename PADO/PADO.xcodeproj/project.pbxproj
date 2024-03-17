@@ -65,10 +65,9 @@
 		418D45C32B757393007F6633 /* PostitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418D45C22B757393007F6633 /* PostitViewModel.swift */; };
 		4190DAB32B8B3A96003161BA /* SwipeAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4190DAB22B8B3A96003161BA /* SwipeAction.swift */; };
 		41947F8F2BA6DF09001DE472 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41947F8E2BA6DF09001DE472 /* LoginViewModel.swift */; };
-		41947FA72BA70572001DE472 /* CommentViewModel 2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41947F942BA70572001DE472 /* CommentViewModel 2.swift */; };
 		41947FA82BA70572001DE472 /* CommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41947F952BA70572001DE472 /* CommentViewModel.swift */; };
 		41947FA92BA70572001DE472 /* CommentWriteViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41947F972BA70572001DE472 /* CommentWriteViewCell.swift */; };
-		41947FAA2BA70572001DE472 /* FaceMojiCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41947F982BA70572001DE472 /* FaceMojiCell.swift */; };
+		41947FAA2BA70572001DE472 /* PhotoMojiCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41947F982BA70572001DE472 /* PhotoMojiCell.swift */; };
 		41947FAB2BA70572001DE472 /* ReplyCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41947F992BA70572001DE472 /* ReplyCommentCell.swift */; };
 		41947FAC2BA70572001DE472 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41947F9A2BA70572001DE472 /* CommentCell.swift */; };
 		41947FAD2BA70572001DE472 /* ReplyCommentWriteViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41947F9B2BA70572001DE472 /* ReplyCommentWriteViewCell.swift */; };
@@ -318,10 +317,9 @@
 		418D45C22B757393007F6633 /* PostitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostitViewModel.swift; sourceTree = "<group>"; };
 		4190DAB22B8B3A96003161BA /* SwipeAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeAction.swift; sourceTree = "<group>"; };
 		41947F8E2BA6DF09001DE472 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
-		41947F942BA70572001DE472 /* CommentViewModel 2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CommentViewModel 2.swift"; sourceTree = "<group>"; };
 		41947F952BA70572001DE472 /* CommentViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentViewModel.swift; sourceTree = "<group>"; };
 		41947F972BA70572001DE472 /* CommentWriteViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentWriteViewCell.swift; sourceTree = "<group>"; };
-		41947F982BA70572001DE472 /* FaceMojiCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FaceMojiCell.swift; sourceTree = "<group>"; };
+		41947F982BA70572001DE472 /* PhotoMojiCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoMojiCell.swift; sourceTree = "<group>"; };
 		41947F992BA70572001DE472 /* ReplyCommentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReplyCommentCell.swift; sourceTree = "<group>"; };
 		41947F9A2BA70572001DE472 /* CommentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
 		41947F9B2BA70572001DE472 /* ReplyCommentWriteViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReplyCommentWriteViewCell.swift; sourceTree = "<group>"; };
@@ -707,7 +705,6 @@
 		41947F932BA70572001DE472 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				41947F942BA70572001DE472 /* CommentViewModel 2.swift */,
 				41947F952BA70572001DE472 /* CommentViewModel.swift */,
 			);
 			path = ViewModel;
@@ -717,7 +714,7 @@
 			isa = PBXGroup;
 			children = (
 				41947F972BA70572001DE472 /* CommentWriteViewCell.swift */,
-				41947F982BA70572001DE472 /* FaceMojiCell.swift */,
+				41947F982BA70572001DE472 /* PhotoMojiCell.swift */,
 				41947F992BA70572001DE472 /* ReplyCommentCell.swift */,
 				41947F9A2BA70572001DE472 /* CommentCell.swift */,
 				41947F9B2BA70572001DE472 /* ReplyCommentWriteViewCell.swift */,
@@ -1512,7 +1509,7 @@
 				04A785E32B5FB1C800BFCB9D /* SearchCellView.swift in Sources */,
 				63824C432B558B2400D1D653 /* CodeView.swift in Sources */,
 				41947FAC2BA70572001DE472 /* CommentCell.swift in Sources */,
-				41947FAA2BA70572001DE472 /* FaceMojiCell.swift in Sources */,
+				41947FAA2BA70572001DE472 /* PhotoMojiCell.swift in Sources */,
 				B107654E2B712ABE0023B686 /* UserDefaults+.swift in Sources */,
 				647E7EFD2B63775100A5487E /* UpdateImageUrl.swift in Sources */,
 				418743212B5C32CF00D93CBE /* CircularImageView.swift in Sources */,
@@ -1545,7 +1542,6 @@
 				04E950982B715E6F0091F660 /* InfoWebView.swift in Sources */,
 				419741E12B558F3A0055F2AB /* FollowButtonView.swift in Sources */,
 				63824C422B558B2400D1D653 /* BirthView.swift in Sources */,
-				41947FA72BA70572001DE472 /* CommentViewModel 2.swift in Sources */,
 				419621792BA5927700C3C5CE /* FeedCellViewModel.swift in Sources */,
 				41947FB12BA70572001DE472 /* SelectEmojiView.swift in Sources */,
 				64392B622B707C9A0047BA12 /* SettingBackProfileCropView.swift in Sources */,

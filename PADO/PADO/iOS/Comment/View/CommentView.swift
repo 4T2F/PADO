@@ -9,7 +9,7 @@ import Lottie
 import SwiftUI
 
 struct CommentView: View {
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: MainViewModel
     @Environment(\.dismiss) var dismiss
     
     @StateObject var commentVM = CommentViewModel()
@@ -64,7 +64,7 @@ struct CommentView: View {
                                     .font(.system(.footnote))
                                     .foregroundStyle(.gray)
                             }
-                        } 
+                        }
                     } else {
                         LottieView(animation: .named("Loading"))
                             .looping()
@@ -124,7 +124,7 @@ struct CommentView: View {
             }
             .padding(10)
             .sheet(isPresented: $isShowingCommentWriteView, content: {
-                CommentWriteView(commentVM: commentVM, 
+                CommentWriteView(commentVM: commentVM,
                                  notiUser: postUser,
                                  post: $post)
                     .presentationDragIndicator(.visible)
