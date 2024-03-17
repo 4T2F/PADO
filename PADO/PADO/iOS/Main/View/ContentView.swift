@@ -56,7 +56,6 @@ struct ContentView: View {
                 
                 ProfileView(profileVM: profileVM,
                             followVM: followVM,
-                            feedVM: feedVM,
                             postitVM: postitVM,
                             user: user)
                 .tag(4)
@@ -96,8 +95,7 @@ struct ContentView: View {
         }
         .sheet(isPresented: $showPushPost) {
             if let post = notiVM.notiPosts[pushPostID] {
-                FeedCell(feedVM: feedVM,
-                               post: .constant(post))
+                FeedCell(post: .constant(post))
                 .presentationDragIndicator(.visible)
             }
 

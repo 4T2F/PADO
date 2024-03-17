@@ -15,7 +15,6 @@ struct ProfileView: View {
     
     @ObservedObject var profileVM: ProfileViewModel
     @ObservedObject var followVM: FollowViewModel
-    @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var postitVM: PostitViewModel
     
     @Namespace var animation
@@ -199,7 +198,6 @@ struct ProfileView: View {
         switch profileVM.currentType {
         case "받은 파도":
             PostGridView(profileVM: profileVM,
-                         feedVM: feedVM, 
                          isShowingDetail: $profileVM.isShowingReceiveDetail,
                          text: "아직 받은 파도가 없어요.",
                          posts: profileVM.padoPosts,
@@ -207,7 +205,6 @@ struct ProfileView: View {
                          postViewType: .receive)
         case "보낸 파도":
             PostGridView(profileVM: profileVM,
-                         feedVM: feedVM,
                          isShowingDetail: $profileVM.isShowingSendDetail,
                          text: "아직 보낸 파도가 없어요.",
                          posts: profileVM.sendPadoPosts,
@@ -215,7 +212,6 @@ struct ProfileView: View {
                          postViewType: .send)
         case "좋아요":
             PostGridView(profileVM: profileVM,
-                         feedVM: feedVM,
                          isShowingDetail: $profileVM.isShowingHightlight,
                          text: "아직 좋아요를 표시한 파도가 없어요.",
                          posts: profileVM.highlights,
