@@ -21,7 +21,6 @@ struct MainView: View {
                     LaunchSTA()
                         .onAppear {
                             Task {
-                                viewModel.nameID = userNameID
                                 await viewModel.initializeUser()
                             }
                         }

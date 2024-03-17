@@ -7,38 +7,30 @@
 
 import SwiftUI
 
-enum SignUpStep {
-    case phoneNumber
-    case code
-    case id
-    case birth
-}
-
 struct SignUpView: View {
     @Environment(\.dismiss) var dismiss
-    
-    @EnvironmentObject var viewModel: AuthenticationViewModel
-    
-    @State var currentStep: SignUpStep = .phoneNumber
+
+    @ObservedObject var loginVM: LoginViewModel
+
     @State var loginSignUpType: LoginSignUpType
     
     @Binding var isShowStartView: Bool
     
     var body: some View {
         ZStack {
-            switch currentStep {
+            switch loginVM.currentStep {
             case .phoneNumber:
-                PhoneNumberView(loginSignUpType: $loginSignUpType,
-                                currentStep: $currentStep)
+                PhoneNumberView(loginVM: loginVM,
+                                loginSignUpType: $loginSignUpType)
             case .code:
-                CodeView(loginSignUpType: $loginSignUpType,
-                         currentStep: $currentStep,
+                CodeView(loginVM: loginVM,
+                         loginSignUpType: $loginSignUpType,
                          isShowStartView: $isShowStartView,
                          dismissAction: { dismiss() })
             case .id:
-                IdView(currentStep: $currentStep)
+                IdView(loginVM: loginVM)
             case .birth:
-                BirthView(currentStep: $currentStep,
+                BirthView(loginVM: loginVM,
                           isShowStartView: $isShowStartView)
             }
         }
@@ -50,7 +42,7 @@ struct SignUpView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button {
-                    handleBackButton()
+                    loginVM.handleBackButton(dismiss: { dismiss() })
                 } label: {
                     HStack(spacing: 2) {
                         Image(systemName: "chevron.left")
@@ -69,24 +61,5 @@ struct SignUpView: View {
         .toolbarBackground(Color(.main), for: .navigationBar)
     }
     
-    func handleBackButton() {
-        switch currentStep {
-        case .phoneNumber:
-            dismiss()
-            viewModel.phoneNumber = ""
-        case .code:
-            currentStep = .phoneNumber
-            viewModel.phoneNumber = ""
-            viewModel.otpText = ""
-        case .id:
-            currentStep = .phoneNumber
-            viewModel.phoneNumber = ""
-            viewModel.otpText = ""
-            viewModel.nameID = ""
-        case .birth:
-            viewModel.nameID = ""
-            viewModel.year = ""
-            currentStep = .id
-        }
-    }
+    
 }

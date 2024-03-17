@@ -120,7 +120,6 @@ struct DeleteCommentView: View {
                             .frame(width: width * 0.9, height: 40)
                     }
                     .padding(.bottom, 5)
-                    
                 }
                 .frame(width: width * 0.9)
                 .background(Color.modal)

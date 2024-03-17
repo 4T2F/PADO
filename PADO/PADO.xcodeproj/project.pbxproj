@@ -70,6 +70,7 @@
 		418D45C12B757388007F6633 /* PostitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418D45C02B757388007F6633 /* PostitView.swift */; };
 		418D45C32B757393007F6633 /* PostitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418D45C22B757393007F6633 /* PostitViewModel.swift */; };
 		4190DAB32B8B3A96003161BA /* SwipeAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4190DAB22B8B3A96003161BA /* SwipeAction.swift */; };
+		41947F8F2BA6DF09001DE472 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41947F8E2BA6DF09001DE472 /* LoginViewModel.swift */; };
 		419621792BA5927700C3C5CE /* FeedCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419621782BA5927700C3C5CE /* FeedCellViewModel.swift */; };
 		419741E12B558F3A0055F2AB /* FollowButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419741DF2B558F3A0055F2AB /* FollowButtonView.swift */; };
 		4197420A2B55900D0055F2AB /* LoginAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419742032B55900D0055F2AB /* LoginAlert.swift */; };
@@ -315,6 +316,7 @@
 		418D45C02B757388007F6633 /* PostitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostitView.swift; sourceTree = "<group>"; };
 		418D45C22B757393007F6633 /* PostitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostitViewModel.swift; sourceTree = "<group>"; };
 		4190DAB22B8B3A96003161BA /* SwipeAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeAction.swift; sourceTree = "<group>"; };
+		41947F8E2BA6DF09001DE472 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		419621782BA5927700C3C5CE /* FeedCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCellViewModel.swift; sourceTree = "<group>"; };
 		419741DF2B558F3A0055F2AB /* FollowButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowButtonView.swift; sourceTree = "<group>"; };
 		419742032B55900D0055F2AB /* LoginAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginAlert.swift; sourceTree = "<group>"; };
@@ -611,6 +613,7 @@
 			isa = PBXGroup;
 			children = (
 				635B09472B4500AA009E60A9 /* AuthenticationViewModel.swift */,
+				41947F8E2BA6DF09001DE472 /* LoginViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1438,6 +1441,7 @@
 				63283DB92B73BDF700A42C0F /* SelectPostView.swift in Sources */,
 				B1D7CDEF2B566A2F0090544B /* SettingCell+.swift in Sources */,
 				418D18512B8A826C00E379F8 /* HeartUserCell.swift in Sources */,
+				41947F8F2BA6DF09001DE472 /* LoginViewModel.swift in Sources */,
 				418ACDCB2B767CB3003DD9E7 /* DeleteMessageView.swift in Sources */,
 				64E761C72B7FBC4A00882D29 /* NoItemView.swift in Sources */,
 				41A102932B624CCB0070AB8D /* Comment.swift in Sources */,

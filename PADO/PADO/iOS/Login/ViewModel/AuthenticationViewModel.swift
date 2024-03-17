@@ -8,24 +8,14 @@
 import Firebase
 import FirebaseStorage
 import PhotosUI
+
 import SwiftUI
 
-@MainActor
 class AuthenticationViewModel: ObservableObject {
     
     @Published var showLaunchScreen = true
-    @Published var nameID = ""
-    @Published var year = ""
-    @Published var phoneNumber = ""
-    @Published var otpText = ""
-    
-    @Published var isLoading: Bool = false
-    @Published var verificationCode: String = ""
-    
-    @Published var errorMessage = ""
-    @Published var showAlert = false
-    @Published var isExisted = false
     @Published var isShowingMessageView = false
+
     // 탭바 이동관련 변수
     @Published var showTab: Int = 0
     @Published var scrollToTop: Bool = false
@@ -49,14 +39,6 @@ class AuthenticationViewModel: ObservableObject {
     
     // MARK: - SettingNoti
     @Published var alertAccept = ""
-    
-    @Published var birthDate = Date() {
-        didSet {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy년 MM월 dd일"
-            year = dateFormatter.string(from: birthDate)
-        }
-    }
     
     // 프로필 사진 변경 값 저장
     @Published var userSelectImage: Image?
@@ -93,9 +75,7 @@ class AuthenticationViewModel: ObservableObject {
             }
         }
     }
-    
-    @Published var authResult: AuthDataResult?
-    
+        
     @Published var currentUser: User?
     
     // MARK: - Profile SNS
@@ -108,128 +88,13 @@ class AuthenticationViewModel: ObservableObject {
         !(currentUser?.instaAddress ?? "").isEmpty && !(currentUser?.tiktokAddress ?? "").isEmpty
     }
     
-    // MARK: - 인증 관련
-    func sendOtp() async {
-        // OTP 발송
-        do {
-            isLoading = true
-            let result = try await PhoneAuthProvider.provider().verifyPhoneNumber("+82\(phoneNumber)", uiDelegate: nil) // 사용한 가능한 번호인지
-            verificationCode = result
-            isLoading = false
-        } catch {
-            handleError(error: error)
-        }
-    }
-    
-    func verifyOtp() async -> Bool {
-        // Otp 검증
-        guard !otpText.isEmpty else { return false }
-        isLoading = true
-        do {
-            let result = try await signInWithCredential()
-            authResult = result
-            
-            isLoading = false
-            return true
-        } catch {
-            handleError(error: error)
-            isLoading = false
-            return false
-        }
-    }
-    
-    private func signInWithCredential() async throws -> AuthDataResult {
-        let credential = PhoneAuthProvider.provider().credential(withVerificationID: verificationCode, verificationCode: otpText)
-        print(credential)
-        return try await Auth.auth().signIn(with: credential)
-    }
-    
-    func signUpUser() async {
-        
-        guard let userId = Auth.auth().currentUser?.uid else { return }
-        
-        let initialUserData = [
-            "username": "",
-            "lowercasedName": "",
-            "id": userId,
-            "nameID": nameID,
-            "date": year,
-            "phoneNumber": "+82\(phoneNumber)",
-            "fcmToken": userToken,
-            "alertAccept": acceptAlert,
-            "instaAddress": "",
-            "tiktokAddress": "",
-            "openHighlight": "yes"
-        ]
-        userNameID = nameID
-        await createUserData(nameID, data: initialUserData)
-    }
-    
-    func createUserData(_ nameID: String, data: [String: Any]) async {
-        
-        guard let userId = Auth.auth().currentUser?.uid else { return }
-        
-        do {
-            try await Firestore.firestore().collection("users").document(nameID).setData(data)
-            
-            currentUser = User(
-                id: userId,
-                username: "",
-                lowercasedName: "",
-                nameID: nameID,
-                date: year,
-                phoneNumber: "+82\(phoneNumber)",
-                fcmToken: userToken,
-                alertAccept: acceptAlert,
-                instaAddress: "",
-                tiktokAddress: "",
-                openHighlight: "yes"
-            )
-           
-        } catch {
-            print("Error saving user data: \(error.localizedDescription)")
-        }
-    }
-    
-    func checkPhoneNumberExists(phoneNumber: String) async -> Bool {
-        // 전화번호 중복 확인
-        let userDB = Firestore.firestore().collection("users")
-        let query = userDB.whereField("phoneNumber", isEqualTo: phoneNumber)
-        
-        do {
-            let querySnapshot = try await query.getDocuments()
-            print("documets: \(querySnapshot.documents)")
-            if !querySnapshot.documents.isEmpty {
-                return true
-            } else {
-                return false
-            }
-        } catch {
-            print("Error: \(error)")
-            return false
-        }
-    }
-    
-    func checkForDuplicateID() async -> Bool {
-        // ID 중복 확인
-        let usersCollection = Firestore.firestore().collection("users")
-        let query = usersCollection.whereField("nameID", isEqualTo: nameID.lowercased())
-        
-        do {
-            let querySnapshot = try await query.getDocuments()
-            return !querySnapshot.documents.isEmpty
-        } catch {
-            print("Error checking for duplicate ID: \(error)")
-            return true
-        }
-    }
-    
     
     // MARK: - 사용자 데이터 관리
+    @MainActor
     func initializeUser() async {
         // 사용자 초기화
         guard Auth.auth().currentUser?.uid != nil,
-              !nameID.isEmpty else {
+              !userNameID.isEmpty else {
             try? await Task.sleep(nanoseconds: 2 * 1_000_000_000)
             return
         }
@@ -241,16 +106,9 @@ class AuthenticationViewModel: ObservableObject {
         do {
             try Auth.auth().signOut()
             
-            nameID = ""
             userNameID = ""
-            year = ""
-            phoneNumber = ""
-            otpText = ""
-            verificationCode = ""
             instaAddress = ""
             tiktokAddress = ""
-            showAlert = false
-            isExisted = false
             currentUser = nil
             selectedFilter = .today
             userFollowingIDs.removeAll()
@@ -265,12 +123,13 @@ class AuthenticationViewModel: ObservableObject {
         }
     }
     
+    @MainActor
     func deleteAccount() async {
         // 계정 삭제
         let db = Firestore.firestore()
         let storageRef = Storage.storage().reference()
         
-        let postQuery = db.collection("post").whereField("ownerUid", isEqualTo: nameID)
+        let postQuery = db.collection("post").whereField("ownerUid", isEqualTo: userNameID)
         
         // Firestore의 `post` 컬렉션에서 사용자의 게시물 삭제
         do {
@@ -285,28 +144,28 @@ class AuthenticationViewModel: ObservableObject {
         
         // user 컬렉션 삭제
         do {
-            let sendPostQuery = try await db.collection("users").document(nameID).collection("sendpost").getDocuments()
+            let sendPostQuery = try await db.collection("users").document(userNameID).collection("sendpost").getDocuments()
             
-            let myPostQuery = try await db.collection("users").document(nameID).collection("mypost").getDocuments()
+            let myPostQuery = try await db.collection("users").document(userNameID).collection("mypost").getDocuments()
             
-            let followingQuery = try await db.collection("users").document(nameID).collection("following").getDocuments()
+            let followingQuery = try await db.collection("users").document(userNameID).collection("following").getDocuments()
             
-            let followerQuery = try await db.collection("users").document(nameID).collection("follower").getDocuments()
+            let followerQuery = try await db.collection("users").document(userNameID).collection("follower").getDocuments()
             
-            let surferQuery = try await db.collection("users").document(nameID).collection("surfer").getDocuments()
+            let surferQuery = try await db.collection("users").document(userNameID).collection("surfer").getDocuments()
             
-            let notiQuery = try await db.collection("users").document(nameID).collection("notifications").getDocuments()
+            let notiQuery = try await db.collection("users").document(userNameID).collection("notifications").getDocuments()
             
-            let messageQuery = try await db.collection("users").document(nameID).collection("message").getDocuments()
+            let messageQuery = try await db.collection("users").document(userNameID).collection("message").getDocuments()
             
-            let highlightQuery = try await db.collection("users").document(nameID).collection("highlight").getDocuments()
+            let highlightQuery = try await db.collection("users").document(userNameID).collection("highlight").getDocuments()
             
             for document in sendPostQuery.documents {
-                try await db.collection("users").document(nameID).collection("sendpost").document(document.documentID).delete()
+                try await db.collection("users").document(userNameID).collection("sendpost").document(document.documentID).delete()
             }
             
             for document in myPostQuery.documents {
-                try await db.collection("users").document(nameID).collection("mypost").document(document.documentID).delete()
+                try await db.collection("users").document(userNameID).collection("mypost").document(document.documentID).delete()
             }
             
             for document in followingQuery.documents {
@@ -322,27 +181,27 @@ class AuthenticationViewModel: ObservableObject {
             }
             
             for document in notiQuery.documents {
-                try await db.collection("users").document(nameID).collection("notifications").document(document.documentID).delete()
+                try await db.collection("users").document(userNameID).collection("notifications").document(document.documentID).delete()
             }
             
             for document in messageQuery.documents {
-                try await db.collection("users").document(nameID).collection("message").document(document.documentID).delete()
+                try await db.collection("users").document(userNameID).collection("message").document(document.documentID).delete()
             }
             
             for document in highlightQuery.documents {
-                try await db.collection("users").document(nameID).collection("highlight").document(document.documentID).delete()
+                try await db.collection("users").document(userNameID).collection("highlight").document(document.documentID).delete()
             }
             
-            try await db.collection("users").document(nameID).delete()
+            try await db.collection("users").document(userNameID).delete()
             
         } catch {
             print("Error removing document: \(error.localizedDescription)")
         }
         
         // Firebase Storage에서 사용자의 'post/' 경로에 있는 모든 이미지 삭제
-        let userPostsRef = storageRef.child("post/\(nameID)")
-        let userProfliesRef = storageRef.child("profile_image/\(nameID)")
-        let userBackRef = storageRef.child("back_image/\(nameID)")
+        let userPostsRef = storageRef.child("post/\(userNameID)")
+        let userProfliesRef = storageRef.child("profile_image/\(userNameID)")
+        let userBackRef = storageRef.child("back_image/\(userNameID)")
         do {
             let listResult = try await userPostsRef.listAll()
             let profileListResult = try await userProfliesRef.listAll()
@@ -365,15 +224,8 @@ class AuthenticationViewModel: ObservableObject {
         }
         
         userNameID = ""
-        nameID = ""
-        year = ""
-        phoneNumber = ""
-        otpText = ""
-        verificationCode = ""
         instaAddress = ""
         tiktokAddress = ""
-        showAlert = false
-        isExisted = false
         currentUser = nil
         selectedFilter = .today
         userFollowingIDs.removeAll()
@@ -381,7 +233,7 @@ class AuthenticationViewModel: ObservableObject {
     }
     
     // MARK: - Firestore 쿼리 처리
-    
+    @MainActor
     func fetchUIDByPhoneNumber(phoneNumber: String) async {
         // 전화번호로 Firestore
         let usersCollection = Firestore.firestore().collection("users")
@@ -390,8 +242,7 @@ class AuthenticationViewModel: ObservableObject {
         do {
             let querySnapshot = try await query.getDocuments()
             for document in querySnapshot.documents {
-                self.nameID = document.documentID
-                userNameID = self.nameID
+                userNameID = document.documentID
             }
             
         } catch {
@@ -399,16 +250,16 @@ class AuthenticationViewModel: ObservableObject {
         }
     }
     
+    @MainActor
     func fetchUser() async {
         // 사용자 데이터 불러오기
-        
         do {
-            try await Firestore.firestore().collection("users").document(nameID).updateData([
+            try await Firestore.firestore().collection("users").document(userNameID).updateData([
                 "fcmToken": userToken,
             ])
             
-            let snapshot = try await Firestore.firestore().collection("users").document(nameID).getDocument()
-            print("nameID: \(nameID)")
+            let snapshot = try await Firestore.firestore().collection("users").document(userNameID).getDocument()
+            print("nameID: \(userNameID)")
             print("Snapshot: \(String(describing: snapshot.data()))")
             
             guard let user = try? snapshot.data(as: User.self) else {
@@ -422,14 +273,8 @@ class AuthenticationViewModel: ObservableObject {
         }
     }
     
-    // MARK: - 오류 처리
-    func handleError(error: Error) {
-        // 오류 처리
-        errorMessage = error.localizedDescription
-        showAlert.toggle()
-        isLoading = false
-    }
     // MARK: - SettingProfileView
+    @MainActor
     func profileSaveData() async {
         Task {
             // 버튼이 활성화된 경우 실행할 로직
@@ -492,6 +337,7 @@ class AuthenticationViewModel: ObservableObject {
         
     }
     
+    @MainActor
     func updateAlertAcceptance(newStatus: Bool) async {
         let alertAccept = newStatus ? "yes" : "no"
         
