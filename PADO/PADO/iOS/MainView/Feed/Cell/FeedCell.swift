@@ -19,12 +19,13 @@ struct FeedCell: View {
     var body: some View {
         ZStack {
             if feedCellVM.currentPadoRideIndex == nil || feedCellVM.padoRidePosts.isEmpty {
-                // MARK: - 사진
+                // MARK: 사진
                 ImageLoadingCell(isLoading: $feedCellVM.isLoading,
                                  isHeaderVisible: $feedCellVM.isHeaderVisible,
                                  imageUrl: post.imageUrl)
             } else if let currentIndex = feedCellVM.currentPadoRideIndex,
                       feedCellVM.padoRidePosts.indices.contains(currentIndex) {
+                // MARK: 파도타기
                 PadoRideImageCell(isLoading: $feedCellVM.isLoading,
                                   isHeaderVisible: $feedCellVM.isHeaderVisible,
                                   padoRide: feedCellVM.padoRidePosts[currentIndex])
@@ -34,7 +35,7 @@ struct FeedCell: View {
                 Spacer()
                 
                 HStack(alignment: .bottom) {
-                    // MARK: - 아이디 및 타이틀
+                    // MARK: 아이디 및 타이틀
                     VStack(alignment: .leading, spacing: 12) {
                         PostContentCell(feedCellVM: feedCellVM,
                                         post: post)
@@ -50,6 +51,7 @@ struct FeedCell: View {
                     
                     Spacer()
                     
+                    // MARK: 액션 버튼
                     ActionButtonsSection(feedCellVM: feedCellVM,
                                          post: $post)
                 }
@@ -57,7 +59,7 @@ struct FeedCell: View {
             .padding()
         }
         .onTapGesture(count: 2) {
-            // 더블 탭 시 실행할 로직
+            // MARK: 더블 탭 시 실행할 로직
             Task {
                 if !feedCellVM.isHeartCheck {
                     await feedCellVM.touchAddHeart(post: post)

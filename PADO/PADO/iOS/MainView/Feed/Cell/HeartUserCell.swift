@@ -36,7 +36,7 @@ struct HeartUserCell: View {
                                     .font(.system(.subheadline, weight: .regular))
                                     .foregroundStyle(Color(.systemGray))
                             }
-                        } //: VSTACK
+                        }
                     }
                     
                     Spacer()
@@ -55,7 +55,7 @@ struct HeartUserCell: View {
                 .padding(.horizontal)
             }
             
-        } // :HSTACK
+        }
         .padding(.vertical, -8)
         .padding(.horizontal)
         // contentShape 를 사용해서 H스택 전체적인 부분에 대해 패딩을 줌
