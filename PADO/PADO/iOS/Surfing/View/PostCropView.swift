@@ -195,7 +195,7 @@ struct PostCropView: View {
             .overlay(content: {
                 if !hideGrids {
                     if showinGrid {
-                        grids()
+                        ImageGrid(isShowinRectangele: false)
                     }
                 }
             })
@@ -236,29 +236,6 @@ struct PostCropView: View {
             )
             .frame(cropSize)
             .clipShape(RoundedRectangle(cornerRadius: crop == .circle ? cropSize.height / 2 : 0))
-        }
-    }
-    // 격자 뷰를 구성하는 함수
-    @ViewBuilder
-    func grids() -> some View {
-        ZStack {
-            HStack {
-                ForEach(1...2, id: \.self) { _ in
-                    Rectangle()
-                        .fill(.white.opacity(0.7))
-                        .frame(width: 1)
-                        .frame(maxWidth: .infinity)
-                }
-            }
-            
-            VStack {
-                ForEach(1...3, id: \.self) { _ in
-                    Rectangle()
-                        .fill(.white.opacity(0.7))
-                        .frame(height: 1)
-                        .frame(maxHeight: .infinity)
-                }
-            }
         }
     }
 }
