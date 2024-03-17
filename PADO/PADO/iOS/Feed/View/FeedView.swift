@@ -47,8 +47,7 @@ struct FeedView: View {
                                         .containerRelativeFrame([.horizontal,.vertical])
                                 } else {
                                     ForEach(feedVM.followingPosts.indices, id: \.self) { index in
-                                        FeedCell(feedVM: feedVM,
-                                                 post: $feedVM.followingPosts[index])
+                                        FeedCell(post: $feedVM.followingPosts[index])
                                         .id(index)
                                         .onAppear {
                                             if index == feedVM.followingPosts.indices.last {
@@ -64,8 +63,7 @@ struct FeedView: View {
                         } else {
                             LazyVStack(spacing: 0) {
                                 ForEach(feedVM.todayPadoPosts.indices, id: \.self) { index in
-                                    FeedCell(feedVM: feedVM,
-                                             post: $feedVM.todayPadoPosts[index])
+                                    FeedCell(post: $feedVM.todayPadoPosts[index])
                                 }
                             }
                         }
@@ -85,7 +83,7 @@ struct FeedView: View {
                 }
                 VStack {
                     if scrollDelegate.scrollOffset < 5 {
-                        FeedHeaderCell(feedVM: feedVM, notiVM: notiVM)
+                        FeedHeaderCell(notiVM: notiVM)
                             .transition(.opacity.combined(with: .scale))
                     } else if !scrollDelegate.isEligible {
                         FeedRefreshHeaderCell()

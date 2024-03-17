@@ -9,7 +9,6 @@ import Kingfisher
 import SwiftUI
 
 struct HeartNotificationCell: View {
-    @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var notiVM: NotificationViewModel
     
     var notification: Noti
@@ -46,7 +45,7 @@ struct HeartNotificationCell: View {
             if let postID = notification.postID,
                let post = notiVM.notiPosts[postID] {
                 NavigationStack {
-                    FeedCell(feedVM: feedVM, post: .constant(post))
+                    FeedCell(post: .constant(post))
                         .presentationDragIndicator(.visible)
                 }
                }

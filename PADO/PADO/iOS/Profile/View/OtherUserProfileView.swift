@@ -16,7 +16,6 @@ struct OtherUserProfileView: View {
     @StateObject var profileVM = ProfileViewModel()
     @StateObject var followVM = FollowViewModel()
     @StateObject var postitVM = PostitViewModel()
-    @StateObject var feedVM = FeedViewModel()
     
     @Binding var buttonOnOff: Bool
     
@@ -206,7 +205,6 @@ struct OtherUserProfileView: View {
         switch profileVM.currentType {
         case "받은 파도":
             OtherUserPostGridView(profileVM: profileVM,
-                                  feedVM: feedVM,
                                   isShowingDetail: $profileVM.isShowingReceiveDetail,
                                   posts: profileVM.padoPosts,
                                   fetchedData: profileVM.fetchedPadoData,
@@ -216,7 +214,6 @@ struct OtherUserProfileView: View {
                                   userID: user.nameID)
         case "보낸 파도":
             OtherUserPostGridView(profileVM: profileVM,
-                                  feedVM: feedVM,
                                   isShowingDetail: $profileVM.isShowingSendDetail,
                                   posts: profileVM.sendPadoPosts,
                                   fetchedData: profileVM.fetchedSendPadoData,
@@ -230,7 +227,6 @@ struct OtherUserProfileView: View {
                     .padding(.top, 150)
             } else {
                 OtherUserPostGridView(profileVM: profileVM,
-                                      feedVM: feedVM,
                                       isShowingDetail: $profileVM.isShowingHightlight,
                                       posts: profileVM.highlights,
                                       fetchedData: profileVM.fetchedHighlights,

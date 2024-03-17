@@ -12,7 +12,6 @@ import SwiftUI
 
 struct FeedCell: View {
     @StateObject var feedCellVM = FeedCellViewModel()
-    @ObservedObject var feedVM: FeedViewModel
     
     @Binding var post: Post
     

@@ -10,7 +10,6 @@ import SwiftUI
 
 struct SelectPostView: View {
     @ObservedObject var profileVM: ProfileViewModel
-    @ObservedObject var feedVM: FeedViewModel
     
     @State private var isDetailViewReady = false
     
@@ -30,8 +29,7 @@ struct SelectPostView: View {
                             switch viewType {
                             case .receive:
                                 ForEach(profileVM.padoPosts.indices, id: \.self) { index in
-                                    FeedCell(feedVM: feedVM,
-                                                   post: $profileVM.padoPosts[index])
+                                    FeedCell(post: $profileVM.padoPosts[index])
                                     .id(profileVM.padoPosts[index].id)
                                     .onAppear {
                                         if index == profileVM.padoPosts.indices.last {
@@ -44,8 +42,7 @@ struct SelectPostView: View {
                                 
                             case .send:
                                 ForEach(profileVM.sendPadoPosts.indices, id: \.self) { index in
-                                    FeedCell(feedVM: feedVM,
-                                                   post: $profileVM.sendPadoPosts[index])
+                                    FeedCell(post: $profileVM.sendPadoPosts[index])
                                     .id(profileVM.sendPadoPosts[index].id)
                                     .onAppear {
                                         if index == profileVM.sendPadoPosts.indices.last {
@@ -57,8 +54,7 @@ struct SelectPostView: View {
                                 }
                             case .highlight:
                                 ForEach(profileVM.highlights.indices, id: \.self) { index in
-                                    FeedCell(feedVM: feedVM,
-                                                   post: $profileVM.highlights[index])
+                                    FeedCell(post: $profileVM.highlights[index])
                                     .id(profileVM.highlights[index].id)
                                     .onAppear {
                                         if index == profileVM.highlights.indices.last {

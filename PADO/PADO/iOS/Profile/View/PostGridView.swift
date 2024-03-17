@@ -11,7 +11,6 @@ import SwiftUI
 
 struct PostGridView: View {
     @ObservedObject var profileVM: ProfileViewModel
-    @ObservedObject var feedVM: FeedViewModel
     
     @Binding var isShowingDetail: Bool
     
@@ -47,7 +46,6 @@ struct PostGridView: View {
                                 }
                                 .sheet(isPresented: $isShowingDetail) {
                                     SelectPostView(profileVM: profileVM,
-                                                   feedVM: feedVM,
                                                    isShowingDetail: $isShowingDetail,
                                                    userID: userNameID,
                                                    viewType: postViewType)
