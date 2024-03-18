@@ -7,9 +7,8 @@
 
 import SwiftUI
 
-
 // 하트 이미지 모델
-struct Like: Identifiable {
+struct Heart: Identifiable {
     var id: UUID = .init()
     var tappedRect: CGPoint = .zero
     var isAnimated: Bool = false

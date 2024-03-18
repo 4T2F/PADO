@@ -58,22 +58,7 @@ struct FeedCell: View {
             .padding()
         }
         .overlay(alignment: .topLeading, content: {
-            ZStack {
-                ForEach(feedCellVM.likedCounter) { like in
-                    Image(systemName: "suit.heart.fill")
-                        .font(.system(size: like.size))
-                        .foregroundStyle(.red.gradient)
-                    
-                        .animation(.smooth, body: { view in
-                            view
-                                .scaleEffect(like.isAnimated ? 1.0 : 2.5)
-                                .rotationEffect(.init(degrees: like.isAnimated ? 0 : .random(in: -90...90)))
-                                .opacity(like.isAnimated ? 0 : 10.0)
-                        })
-                        .offset(x: like.tappedRect.x - 50, y: like.tappedRect.y - 50)
-                        .offset(y: like.isAnimated ? -(like.tappedRect.y) : 0)
-                }
-            }
+            HeartEffectView(hearts: feedCellVM.hearts)
         })
         .onTapGesture(count: 2) { position in
             // MARK: 더블 탭 시 실행할 로직

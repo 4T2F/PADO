@@ -38,7 +38,7 @@ class FeedCellViewModel: ObservableObject {
     @Published var isShowingPadoRide: Bool = false
     @Published var checkPadoRide: [PadoRide] = []
     
-    @Published var likedCounter: [Like] = []
+    @Published var hearts: [Heart] = []
     
     private var db = Firestore.firestore()
    
@@ -243,22 +243,22 @@ class FeedCellViewModel: ObservableObject {
         var heartSize = size
         
         // 이미 좋아요가 있는 경우, 크기를 증가
-        if let lastLikedCounter = likedCounter.last {
-            heartSize = lastLikedCounter.size + 10
+        if let lastHeart = hearts.last {
+            heartSize = lastHeart.size + 10
         }
         
-        self.likedCounter.append(.init(id: id,
+        self.hearts.append(.init(id: id,
                                        tappedRect: position,
                                        isAnimated: false,
                                        size: heartSize))
         
         withAnimation(.snappy(duration: 1.5), completionCriteria:
             .logicallyComplete) {
-                if let index = self.likedCounter.firstIndex(where: { $0.id == id }) {
-                    self.likedCounter[index].isAnimated = true
+                if let index = self.hearts.firstIndex(where: { $0.id == id }) {
+                    self.hearts[index].isAnimated = true
                 }
             } completion: {
-                self.likedCounter.removeAll(where: { $0.id == id })
+                self.hearts.removeAll(where: { $0.id == id })
             }
         
         Task {
