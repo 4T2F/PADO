@@ -61,7 +61,7 @@ struct ProfileHeaderView: View {
                                 }
                                 .overlay {
                                     Button {
-                                        viewModel.isShowingMessageView = true
+                                        profileVM.isShowingMessageView = true
                                     } label: {
                                         Circle()
                                             .frame(width: 30)
@@ -83,9 +83,9 @@ struct ProfileHeaderView: View {
                                             }
                                     }
                                     .offset(x: 46, y: -40)
-                                    .sheet(isPresented: $viewModel.isShowingMessageView) {
+                                    .sheet(isPresented: $profileVM.isShowingMessageView) {
                                         PostitView(postitVM: postitVM,
-                                                   isShowingMessageView: $viewModel.isShowingMessageView)
+                                                   isShowingMessageView: $profileVM.isShowingMessageView)
                                         .presentationDragIndicator(.visible)
                                     }
                                     .presentationDetents([.large])

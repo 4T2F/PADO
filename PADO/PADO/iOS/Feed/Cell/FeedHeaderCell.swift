@@ -18,6 +18,8 @@ struct FeedHeaderCell: View {
     
     @Namespace var animation
     
+    var openPostit: () -> Void
+    
     private var filterBarWidth: CGFloat {
         let count = CGFloat(FeedFilter.allCases.count)
         return UIScreen.main.bounds.width / count - 140
@@ -59,7 +61,8 @@ struct FeedHeaderCell: View {
             Spacer()
             
             if !userNameID.isEmpty {
-                NavigationLink(destination: NotificationView(notiVM: notiVM)) {
+                NavigationLink(destination: NotificationView(notiVM: notiVM,
+                                                             openPostit: openPostit)) {
                     Image(notiVM.hasNewNotifications ? "Bell_pin_light" : "Bell_light") // 조건부 아이콘 변경
                 }
             } else {

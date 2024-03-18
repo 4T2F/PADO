@@ -14,6 +14,8 @@ struct NotificationView: View {
     
     @State private var fetchedNotiData: Bool = false
     
+    var openPostit: () -> Void
+
     var body: some View {
         NavigationStack {
             VStack {
@@ -37,7 +39,8 @@ struct NotificationView: View {
                         if fetchedNotiData {
                             ForEach(notiVM.notifications.indices, id: \.self) { index in
                                 NotificationCell(notiVM: notiVM,
-                                                 notification: notiVM.notifications[index])
+                                                 notification: notiVM.notifications[index],
+                                                 openPostit: openPostit)
                                 .id(index)
                                 .padding(.horizontal, 10)
                                 .padding(.vertical, 8)
