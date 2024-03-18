@@ -9,7 +9,7 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 import FirebaseStorage
 
-import Foundation
+import SwiftUI
 
 class FeedCellViewModel: ObservableObject {
     @Published var heartLoading: Bool = false
@@ -38,9 +38,10 @@ class FeedCellViewModel: ObservableObject {
     @Published var isShowingPadoRide: Bool = false
     @Published var checkPadoRide: [PadoRide] = []
     
+    @Published var likedCounter: [Like] = []
+    
     private var db = Firestore.firestore()
    
-
     // 파도타기 게시글 불러오기
     @MainActor
     func fetchPadoRides(postID: String) async {
@@ -234,5 +235,36 @@ class FeedCellViewModel: ObservableObject {
         let blockedUserIDs = Set(blockingUser.map { $0.blockUserID } + blockedUser.map { $0.blockUserID })
         
         return blockedUserIDs.contains(post.ownerUid) || blockedUserIDs.contains(post.surferUid)
+    }
+    
+    @MainActor
+    func doubleTapCell(size: CGFloat, position: CGPoint, post: Post) {
+        let id = UUID()
+        var heartSize = size
+        
+        // 이미 좋아요가 있는 경우, 크기를 증가
+        if let lastLikedCounter = likedCounter.last {
+            heartSize = lastLikedCounter.size + 10
+        }
+        
+        self.likedCounter.append(.init(id: id,
+                                       tappedRect: position,
+                                       isAnimated: false,
+                                       size: heartSize))
+        
+        withAnimation(.snappy(duration: 1.5), completionCriteria:
+            .logicallyComplete) {
+                if let index = self.likedCounter.firstIndex(where: { $0.id == id }) {
+                    self.likedCounter[index].isAnimated = true
+                }
+            } completion: {
+                self.likedCounter.removeAll(where: { $0.id == id })
+            }
+        
+        Task {
+            if !isHeartCheck {
+                await touchAddHeart(post: post)
+            }
+        }
     }
 }

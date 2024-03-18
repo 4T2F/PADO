@@ -20,7 +20,7 @@ struct HeartNotificationCell: View {
             HStack(spacing: 0) {
                 if let user = notiVM.notiUser[notification.sendUser] {
                     CircularImageView(size: .medium,
-                                           user: user)
+                                      user: user)
                     .padding(.trailing, 10)
                 }
                 
@@ -48,7 +48,7 @@ struct HeartNotificationCell: View {
                     FeedCell(post: .constant(post))
                         .presentationDragIndicator(.visible)
                 }
-               }
+            }
         }
     }
 }
