@@ -68,7 +68,7 @@ struct FeedCell: View {
                             view
                                 .scaleEffect(like.isAnimated ? 1.0 : 2.5)
                                 .rotationEffect(.init(degrees: like.isAnimated ? 0 : .random(in: -90...90)))
-                                .opacity(like.isAnimated ? 0 : 4.0)
+                                .opacity(like.isAnimated ? 0 : 10.0)
                         })
                         .offset(x: like.tappedRect.x - 50, y: like.tappedRect.y - 50)
                         .offset(y: like.isAnimated ? -(like.tappedRect.y) : 0)
