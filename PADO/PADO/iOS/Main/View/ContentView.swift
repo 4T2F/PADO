@@ -37,7 +37,8 @@ struct ContentView: View {
     
     var body: some View {
         TabView(selection: $viewModel.showTab) {
-            FeedView(feedVM: feedVM, notiVM: notiVM,
+            FeedView(feedVM: feedVM,
+                     notiVM: notiVM,
                      delegate: self)
             .tag(0)
             
@@ -199,13 +200,13 @@ extension ContentView {
             try? await Task.sleep(nanoseconds: 1 * 500_000_000)
             viewModel.showTab = 4
             try? await Task.sleep(nanoseconds: 1 * 250_000_000)
-            viewModel.isShowingMessageView = true
+            profileVM.isShowingMessageView = true
         }
     }
 }
 
 // MARK: FeedView에서 사용 될 Refresh 함수
-extension ContentView: FeedRefreshDelegate {
+extension ContentView: FeedDelegate {
     func feedRefresh() async {
         try? await Task.sleep(nanoseconds: 1_500_000_000)
         if viewModel.selectedFilter == FeedFilter.following {
@@ -236,5 +237,9 @@ extension ContentView: FeedRefreshDelegate {
                 await notiVM.fetchNotifications()
             }
         }
+    }
+    
+    func openPostit() {
+        profileVM.isShowingMessageView = true
     }
 }

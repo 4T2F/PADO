@@ -10,7 +10,6 @@ import Lottie
 import SwiftUI
 
 struct OtherUserProfileView: View {
-    @EnvironmentObject var viewModel: MainViewModel
     @Environment(\.dismiss) var dismiss
     
     @StateObject var profileVM = ProfileViewModel()
