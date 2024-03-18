@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct WhiteButtonView: View {
-    
     @Binding var buttonActive: Bool
+    
     var text: String
     
     var body: some View {
@@ -21,13 +21,13 @@ struct WhiteButtonView: View {
             HStack {
                 Text(text)
                     .foregroundStyle(.black)
-                    .font(.system(size: 14))
+                    .font(.system(.subheadline))
                     .fontWeight(.medium)
                 
                 Spacer()
                 
                 Image("Arrow_right_dark")
-                    .font(.system(size: 16))
+                    .font(.system(.body))
                     .fontWeight(.medium)
             }
             .padding(.horizontal, UIScreen.main.bounds.width * 0.1)

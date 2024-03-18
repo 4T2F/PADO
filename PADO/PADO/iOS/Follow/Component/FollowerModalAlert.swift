@@ -9,9 +9,10 @@ import Kingfisher
 import SwiftUI
 
 struct FollowerModalAlert: View {
+    @Environment(\.dismiss) var dismiss
+    
     @State var width = UIScreen.main.bounds.width
     @State var height = UIScreen.main.bounds.height
-    
     @State var followerUsername: String
     @State var followerProfileUrl: String
     @State var buttonText1: String
@@ -20,20 +21,16 @@ struct FollowerModalAlert: View {
     var onButton1: (() async -> Void)?
     var onButton2: (() async -> Void)?
     
-    @Environment(\.dismiss) var dismiss
-    
     var body: some View {
         VStack {
             VStack(alignment: .center) {
                 VStack(spacing: 10) {
-                    KFImage.url(URL(string: followerProfileUrl))
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 50, height: 50)
-                        .cornerRadius(50)
+                    UrlProfileImageView(imageUrl: followerProfileUrl,
+                                        defaultImageName: "defaultProfile",
+                                        size: .large)
                     
                     Text(followerUsername)
-                        .font(.system(size: 12))
+                        .font(.system(.footnote))
                         .fontWeight(.medium)
                     
                     Divider()
@@ -49,7 +46,7 @@ struct FollowerModalAlert: View {
                         
                     } label: {
                         Text(buttonText1)
-                            .font(.system(size: 14))
+                            .font(.system(.subheadline))
                             .fontWeight(.regular)
                             .foregroundStyle(.red)
                     }
@@ -66,7 +63,7 @@ struct FollowerModalAlert: View {
                     dismiss()
                 } label: {
                     Text("취소")
-                        .font(.system(size: 14))
+                        .font(.system(.subheadline))
                         .foregroundStyle(Color.white)
                         .fontWeight(.regular)
                         .frame(width: width * 0.9, height: 40)

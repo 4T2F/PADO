@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct SettingNotificationView: View {
-    @EnvironmentObject var viewModel: AuthenticationViewModel
-    
+    @EnvironmentObject var viewModel: MainViewModel
     @Environment (\.dismiss) var dismiss
+    
     @State var noti: Bool = true
     
     var body: some View {
@@ -18,15 +18,17 @@ struct SettingNotificationView: View {
             ZStack {
                 VStack {
                     VStack {
-                        SettingToggleCell(icon: "square.and.pencil", text: "알림 설정", toggle: $noti)
+                        SettingToggleCell(toggle: $noti,
+                                          icon: "square.and.pencil",
+                                          text: "알림 설정")
                             .onChange(of: noti) { oldValue, newValue in
                                 Task {
                                     await viewModel.updateAlertAcceptance(newStatus: newValue)
                                 }
                             }
                     }
-                    
                     Spacer()
+                    
                 }
                 .padding(.horizontal)
             }
@@ -43,11 +45,11 @@ struct SettingNotificationView: View {
                 } label: {
                     HStack(spacing: 2) {
                         Image(systemName: "chevron.left")
-                            .font(.system(size: 14))
+                            .font(.system(.subheadline))
                             .fontWeight(.medium)
                         
                         Text("뒤로")
-                            .font(.system(size: 16))
+                            .font(.system(.body))
                             .fontWeight(.medium)
                     }
                 }

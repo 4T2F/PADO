@@ -8,32 +8,32 @@
 import SwiftUI
 
 struct CodeView: View {
+    @EnvironmentObject var viewModel: MainViewModel
+    @ObservedObject var loginVM: LoginViewModel
     
     @State private var showUseID: Bool = false
     @State private var buttonActive: Bool = false
     @State private var otpVerificationFailed = false
     
     @Binding var loginSignUpType: LoginSignUpType
-    @Binding var currentStep: SignUpStep
+    @Binding var isShowStartView: Bool
     
     var dismissAction: () -> Void
-    
-    @EnvironmentObject var viewModel: AuthenticationViewModel
     
     var body: some View {
         ZStack {
             VStack(alignment: .leading) {
                 // 휴대폰 번호 받아와야함
-                Text("\(viewModel.phoneNumber) 로 인증번호를 보냈어요")
-                    .font(.system(size: 20))
+                Text("\(loginVM.phoneNumber) 로 인증번호를 보냈어요")
+                    .font(.system(.title3))
                     .fontWeight(.medium)
                     .padding(.horizontal, 20)
                 
                 VStack(alignment: .leading, spacing: 20) {
-                    VerificationView(otpText: $viewModel.otpText)
+                    VerificationView(otpText: $loginVM.otpText)
                         .keyboardType(.numberPad)
                         .padding(.horizontal)
-                        .onChange(of: viewModel.otpText) { _, newValue in
+                        .onChange(of: loginVM.otpText) { _, newValue in
                             buttonActive = newValue.count == 6
                             if otpVerificationFailed && newValue.count < 6 {
                                 otpVerificationFailed = false
@@ -41,7 +41,7 @@ struct CodeView: View {
                         }
                     if otpVerificationFailed {
                         Text("인증 번호가 틀렸습니다")
-                            .font(.system(size: 14))
+                            .font(.system(.subheadline))
                             .fontWeight(.semibold)
                             .foregroundStyle(.red)
                             .padding(.horizontal, 20)
@@ -55,13 +55,16 @@ struct CodeView: View {
                     case .login:
                         if buttonActive {
                             Task {
-                                let verificationResult = await viewModel.verifyOtp()
+                                let verificationResult = await loginVM.verifyOtp()
                                 if verificationResult {
-                                    let isUserExisted = await viewModel.checkPhoneNumberExists(phoneNumber: "+82\(viewModel.phoneNumber)")
+                                    let isUserExisted = await loginVM.checkPhoneNumberExists(phoneNumber: "+82\(loginVM.phoneNumber)")
                                     if isUserExisted {
-                                        await viewModel.fetchUIDByPhoneNumber(phoneNumber: "+82\(viewModel.phoneNumber)")
+                                        await viewModel.fetchUIDByPhoneNumber(phoneNumber: "+82\(loginVM.phoneNumber)")
                                         await viewModel.fetchUser()
                                         needsDataFetch.toggle()
+                                        withAnimation(.interactiveSpring(response: 0.3, dampingFraction: 0.8, blendDuration: 0.8)) {
+                                            isShowStartView = false
+                                        }
                                     } else {
                                         showUseID.toggle()
                                     }
@@ -73,13 +76,13 @@ struct CodeView: View {
                     case .signUp:
                         if buttonActive {
                             Task {
-                                let verificationResult = await viewModel.verifyOtp()
+                                let verificationResult = await loginVM.verifyOtp()
                                 if verificationResult {
-                                    let isUserExisted = await viewModel.checkPhoneNumberExists(phoneNumber: "+82\(viewModel.phoneNumber)")
+                                    let isUserExisted = await loginVM.checkPhoneNumberExists(phoneNumber: "+82\(loginVM.phoneNumber)")
                                     if isUserExisted {
                                         showUseID.toggle()
                                     } else {
-                                        currentStep = .id
+                                        loginVM.currentStep = .id
                                     }
                                 } else {
                                     otpVerificationFailed = true
@@ -87,7 +90,6 @@ struct CodeView: View {
                             }
                         }
                     }
-                    
                 } label: {
                     WhiteButtonView(buttonActive: $buttonActive, text: "다음으로")
                 }
@@ -95,9 +97,10 @@ struct CodeView: View {
             }
             .padding(.top, 150)
             .sheet(isPresented: $showUseID, content: {
-                UseIDModalView(showUseID: $showUseID,
+                UseIDModalView(loginVM: loginVM,
+                               showUseID: $showUseID,
                                loginSignUpType: $loginSignUpType,
-                               currentStep: $currentStep,
+                               isShowStartView: $isShowStartView,
                                dismissSignUpView: dismissAction)
                     .presentationDetents([.height(250)])
                     .presentationCornerRadius(30)

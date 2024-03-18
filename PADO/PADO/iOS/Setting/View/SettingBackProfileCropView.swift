@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SettingBackProfileCropView: View {
-    // MARK: - PROPERTY
+    @EnvironmentObject var viewModel: MainViewModel
     @Environment(\.dismiss) var dismiss
     
     // 이미지 조작을 위한 상태 변수들
@@ -18,8 +18,6 @@ struct SettingBackProfileCropView: View {
     @State private var lastStoredOffset: CGSize = .zero
     @State private var showinGrid: Bool = false
     @GestureState private var isInteractig: Bool = false
-    
-    @EnvironmentObject var viewModel: AuthenticationViewModel
     
     var crop: Crop = .backImage
     var onCrop: (UIImage?, Bool) -> Void
@@ -60,7 +58,7 @@ struct SettingBackProfileCropView: View {
                         viewModel.selectedBackgroundItem = nil
                     } label: {
                         Text("완료")
-                            .font(.system(size: 16, weight: .semibold))
+                            .font(.system(.body, weight: .semibold))
                     }
                 }
                 
@@ -142,7 +140,8 @@ struct SettingBackProfileCropView: View {
                     out = true
                 }).onChanged({ value in
                     let translation = value.translation
-                    offset = CGSize(width: translation.width + lastStoredOffset.width, height: translation.height + lastStoredOffset.height)
+                    offset = CGSize(width: translation.width + lastStoredOffset.width, 
+                                    height: translation.height + lastStoredOffset.height)
                     showinGrid = true
                 })
                 .onEnded({ value in

@@ -22,18 +22,15 @@ struct SettingNormalCell: View {
                 
                 Text(text)
                     .foregroundStyle(.white)
-                    .font(.system(size: 14))
+                    .font(.system(.subheadline))
                     .fontWeight(.medium)
                 
                 Spacer()
             }
             .padding(.horizontal, UIScreen.main.bounds.width * 0.04)
-            .frame(height: 50)
+            .frame(height: 30)
         }
     }
 }
 
 
-#Preview {
-    SettingInfoView()
-}

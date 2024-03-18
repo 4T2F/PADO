@@ -4,10 +4,12 @@
 //
 //  Created by 황민채 on 1/15/24.
 //
+
 import SwiftUI
 
 struct SettingInfoView: View {
     @Environment (\.dismiss) var dismiss
+    
     @State var showWK = false
     @State var showPersonalInfoWK = false
     
@@ -20,7 +22,8 @@ struct SettingInfoView: View {
                         showWK.toggle()
                     } label: {
                         VStack {
-                            SettingNormalCell(icon: "doc.text", text: "이용약관")
+                            SettingNormalCell(icon: "doc.text",
+                                              text: "이용약관")
                         }
                     }
                     .sheet(isPresented: $showWK) {
@@ -32,7 +35,8 @@ struct SettingInfoView: View {
                         showPersonalInfoWK.toggle()
                     } label: {
                         VStack {
-                            SettingNormalCell(icon: "doc.text", text: "개인정보처리방침")
+                            SettingNormalCell(icon: "doc.text", 
+                                              text: "개인정보처리방침")
                         }
                     }
                     .sheet(isPresented: $showPersonalInfoWK) {
@@ -57,11 +61,11 @@ struct SettingInfoView: View {
                 } label: {
                     HStack(spacing: 2) {
                         Image(systemName: "chevron.left")
-                            .font(.system(size: 14))
+                            .font(.system(.subheadline))
                             .fontWeight(.medium)
                         
                         Text("뒤로")
-                            .font(.system(size: 16))
+                            .font(.system(.body))
                             .fontWeight(.medium)
                     }
                 }

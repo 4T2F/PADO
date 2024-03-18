@@ -7,48 +7,54 @@
 
 import Firebase
 import FirebaseFirestoreSwift
+
 import PhotosUI
 import SwiftUI
 
-class SurfingViewModel: ObservableObject, Searchable  {
+class SurfingViewModel: ObservableObject  {
+    // 포스트 관련 변수
+    @Published var post: Post?
     
     @Published var selectedImage: UIImage?
-    @Published var showPhotoPicker = false
     @Published var pickerResult: [PHPickerResult] = []
-    @Published var showingPermissionAlert = false
     @Published var selectedUIImage: Image = Image(systemName: "photo")
+    @Published var postingUIImage: UIImage?
+    @Published var postingImage: Image = Image(systemName: "photo")
+    @Published var postingTitle: String = ""
+    @Published var cropResult: Bool = false
     
+    // 뷰 오픈
     @Published var showPostView: Bool = false
     @Published var isShowingPhotoModal = false
     @Published var isShowingPhoto: Bool = false
+    @Published var isShowPopularModal: Bool = false
+    @Published var isShowFollowingModal: Bool = false
     @Published var isShownCamera: Bool = false
+    @Published var showCropView: Bool = false
+    @Published var showingPermissionAlert = false
+    @Published var showPhotoPicker = false
+    
+    // 카메라 이미지
     @Published var sourceType: UIImagePickerController.SourceType = .camera
     @Published var cameraDevice: UIImagePickerController.CameraDevice = .rear
     @Published var cameraUIImage: UIImage = UIImage()
     @Published var cameraImage: Image = Image(systemName: "photo")
     
-    @Published var postingUIImage: UIImage?
-    @Published var postingImage: Image = Image(systemName: "photo")
-    @Published var postingTitle: String = ""
-    
-    @Published var showCropView: Bool = false
-    @Published var cropResult: Bool = false
-    
-    // 페이스 모지 관련 변수
-    @Published var faceMojiUIImage: UIImage = UIImage()
-    @Published var faceMojiImage: Image = Image(systemName: "photo")
-    @Published var isShowingFaceMojiModal: Bool = false
-    
+    // 포토 모지 관련 변수
+    @Published var photoMojiUIImage: UIImage = UIImage()
+    @Published var photoMojiImage: Image = Image(systemName: "photo")
+    @Published var isShowingPhotoMojiModal: Bool = false
+
     @MainActor
-    @Published var faceMojiItem: PhotosPickerItem? {
+    @Published var photoMojiItem: PhotosPickerItem? {
         didSet {
             Task {
                 do {
-                    let (loadedUIImage, loadedSwiftUIImage) = try await UpdateImageUrl.shared.loadImage(selectedItem: faceMojiItem)
-                    self.faceMojiUIImage = loadedUIImage
-                    self.faceMojiImage = loadedSwiftUIImage
+                    let (loadedUIImage, loadedSwiftUIImage) = try await UpdateImageUrl.shared.loadImage(selectedItem: photoMojiItem)
+                    self.photoMojiUIImage = loadedUIImage
+                    self.photoMojiImage = loadedSwiftUIImage
                 } catch {
-                    print("이미지 로드 중 오류 발생: \(error)")
+                    print("선택 이미지 초기화: \(error)")
                 }
             }
         }
@@ -63,20 +69,11 @@ class SurfingViewModel: ObservableObject, Searchable  {
                     self.selectedImage = loadedUIImage
                     self.selectedUIImage = loadedSwiftUIImage
                 } catch {
-                    print("이미지 로드 중 오류 발생: \(error)")
+                    print("선택 이미지 초기화: \(error)")
                 }
             }
         }
     }
-    
-    @Published var isLoading: Bool = false
-    @State var progress: Double = 0
-    
-    @Published var searchResults: [User] = []
-    @Published var post: Post?
-    @Published var viewState: ViewState = ViewState.empty
-    
-    @Published var moveTab: Int = 0
     
     // MARK: - 권한 설정 및 확인
     // 카메라 권한 확인 함수 추가
@@ -131,18 +128,21 @@ class SurfingViewModel: ObservableObject, Searchable  {
             "surferUid": userNameID,
             "imageUrl": imageURL,
             "title": postingTitle,
-            "heartsCount": 0,
+            "heartIDs": [""],
             "commentCount": 0,
-            "created_Time": Timestamp()
+            "created_Time": Timestamp(),
+            "padoExist": false
         ]
-        await createPostData(titleName: formattedPostingTitle, data: initialPostData)
+        await createPostData(titleName: formattedPostingTitle, 
+                             data: initialPostData)
         post?.ownerUid = surfingID
         post?.surferUid = userNameID
         post?.imageUrl = imageURL
         post?.title = postingTitle
-        post?.heartsCount = 0
+        post?.heartIDs = [""]
         post?.commentCount = 0
         post?.created_Time = Timestamp()
+        post?.padoExist = false
     }
     
     @MainActor

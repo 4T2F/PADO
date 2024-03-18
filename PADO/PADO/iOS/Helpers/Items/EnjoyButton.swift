@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct EnjoyButton: View {
-    
     var text: String
     
     var body: some View {
@@ -22,7 +21,7 @@ struct EnjoyButton: View {
                 
                 Text(text)
                     .foregroundStyle(.white)
-                    .font(.system(size: 16))
+                    .font(.system(.body))
                     .fontWeight(.medium)
                     .padding(.trailing, 80)
                 

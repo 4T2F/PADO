@@ -7,21 +7,18 @@
 
 import SwiftUI
 
-enum ButtonType {
-    case direct
-    case unDirect
-}
-
 struct FollowButtonView: View {
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: MainViewModel
+    
+    @Binding var buttonActive: Bool
     
     let cellUser: User
-    @Binding var buttonActive: Bool
     let activeText: String
     let unActiveText: String
     let widthValue: CGFloat
     let heightValue: CGFloat
     let buttonType: ButtonType
+    
     @State private var isShowingLoginPage = false
     
     var body: some View {
@@ -43,7 +40,7 @@ struct FollowButtonView: View {
                     Task {
                         await UpdateFollowData.shared.followUser(id: cellUser.nameID)
                         if let currentUser = viewModel.currentUser {
-                            await UpdatePushNotiData.shared.pushNoti(receiveUser: cellUser, type: .follow, sendUser: currentUser)
+                            await UpdatePushNotiData.shared.pushNoti(receiveUser: cellUser, type: .follow, sendUser: currentUser, message: "")
                         }
                         
                     }
@@ -68,12 +65,12 @@ struct FollowButtonView: View {
                     buttonActive ?
                     Text(unActiveText)
                         .foregroundStyle(.gray)
-                        .font(.system(size: 12))
+                        .font(.system(.footnote))
                         .fontWeight(.medium)
                     :
                     Text(activeText)
                         .foregroundStyle(.white)
-                        .font(.system(size: 12))
+                        .font(.system(.footnote))
                         .fontWeight(.medium)
                 }
                 .padding(.horizontal)
@@ -82,7 +79,7 @@ struct FollowButtonView: View {
         }
         .sheet(isPresented: $isShowingLoginPage,
                content: {
-            StartView()
+            StartView(isShowStartView: $isShowingLoginPage)
                 .presentationDragIndicator(.visible)
         })
         .onAppear {
@@ -97,7 +94,6 @@ struct FollowButtonView: View {
         
         return blockedUserIDs.contains(id)
     }
-    
 }
 
 

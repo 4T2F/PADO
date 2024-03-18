@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct SettingRedCell: View {
-    
     var icon: String
     var text: String
     
@@ -25,13 +24,12 @@ struct SettingRedCell: View {
                 
                 Text(text)
                     .foregroundStyle(.red)
-                    .font(.system(size: 14))
-                    .fontWeight(.medium)
+                    .font(.system(.subheadline))
                 
                 Spacer()
             }
             .padding(.horizontal, UIScreen.main.bounds.width * 0.04)
-            .frame(height: 50)
+            .frame(height: 30)
         }
     }
 }

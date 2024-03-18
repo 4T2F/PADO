@@ -9,13 +9,12 @@ import PhotosUI
 import SwiftUI
 
 struct SettingProfileView: View {
-    // MARK: - PROPERTY
-    @State var width = UIScreen.main.bounds.width
-    @State var isActive: Bool = false
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: MainViewModel
     @Environment (\.dismiss) var dismiss
     
-    // MARK: - BODY
+    @State var width = UIScreen.main.bounds.width
+    @State var isActive: Bool = false
+
     var body: some View {
         NavigationStack {
             ScrollView(showsIndicators: false) {
@@ -56,7 +55,8 @@ struct SettingProfileView: View {
                                                 
                                             } else {
                                                 if let user = viewModel.currentUser {
-                                                    CircularImageView(size: .xxxxLarge, user: user)
+                                                    CircularImageView(size: .xxxxLarge,
+                                                                      user: user)
                                                         .overlay(
                                                             Circle()
                                                                 .stroke(Color.white, lineWidth: 1.4)
@@ -118,7 +118,8 @@ struct SettingProfileView: View {
                                                         )
                                                 } else {
                                                     if let user = viewModel.currentUser {
-                                                        CircularImageView(size: .xxxxLarge, user: user)
+                                                        CircularImageView(size: .xxxxLarge,
+                                                                          user: user)
                                                             .overlay(
                                                                 Circle()
                                                                     .stroke(Color.white, lineWidth: 1.4)
@@ -163,16 +164,17 @@ struct SettingProfileView: View {
                                         HStack {
                                             Text("닉네임")
                                                 .foregroundStyle(.white)
-                                                .font(.system(size: 14))
+                                                .font(.system(.body))
                                             
                                             Spacer()
                                         }
                                         .frame(width: width * 0.22)
                                         
                                         HStack {
-                                            if let originUsername = viewModel.currentUser?.username, !originUsername.isEmpty {
+                                            if let originUsername = viewModel.currentUser?.username,
+                                               !originUsername.isEmpty {
                                                 TextField(originUsername, text: $viewModel.username)
-                                                    .font(.system(size: 16))
+                                                    .font(.system(.body))
                                                     .foregroundStyle(.white)
                                                     .padding(.leading, width * 0.05)
                                                     .onChange(of: viewModel.username) { _, newValue in
@@ -183,7 +185,7 @@ struct SettingProfileView: View {
                                                     }
                                             } else {
                                                 TextField("닉네임", text: $viewModel.username)
-                                                    .font(.system(size: 14))
+                                                    .font(.system(.body))
                                                     .foregroundStyle(.white)
                                                     .padding(.leading, width * 0.05)
                                                     .onChange(of: viewModel.username) { _, newValue in
@@ -207,25 +209,25 @@ struct SettingProfileView: View {
                                         HStack {
                                             Text("Instagram")
                                                 .foregroundStyle(.white)
-                                                .font(.system(size: 14))
+                                                .font(.system(.body))
                                             
                                             Spacer()
                                         }
                                         .frame(width: width * 0.22)
                                         
                                         HStack {
-                                            if let insta = viewModel.currentUser?.instaAddress, !insta.isEmpty {
+                                            if let insta = viewModel.currentUser?.instaAddress, 
+                                                !insta.isEmpty {
                                                 TextField(insta, text: $viewModel.instaAddress)
-                                                    .font(.system(size: 14))
+                                                    .font(.system(.body))
                                                     .foregroundStyle(.white)
                                                     .padding(.leading, width * 0.05)
                                                     .onChange(of: viewModel.instaAddress) { _, _  in
                                                         viewModel.checkForChanges()
                                                     }
-                                                
                                             } else {
                                                 TextField("계정명", text: $viewModel.instaAddress)
-                                                    .font(.system(size: 14))
+                                                    .font(.system(.body))
                                                     .foregroundStyle(.white)
                                                     .padding(.leading, width * 0.05)
                                                     .onChange(of: viewModel.instaAddress) { _, _  in
@@ -246,16 +248,17 @@ struct SettingProfileView: View {
                                         HStack {
                                             Text("Tiktok")
                                                 .foregroundStyle(.white)
-                                                .font(.system(size: 14))
+                                                .font(.system(.body))
                                             
                                             Spacer()
                                         }
                                         .frame(width: width * 0.22)
                                         
                                         HStack {
-                                            if let tiktok = viewModel.currentUser?.tiktokAddress, !tiktok.isEmpty {
+                                            if let tiktok = viewModel.currentUser?.tiktokAddress, 
+                                                !tiktok.isEmpty {
                                                 TextField(tiktok, text: $viewModel.tiktokAddress)
-                                                    .font(.system(size: 16))
+                                                    .font(.system(.body))
                                                     .foregroundStyle(.white)
                                                     .padding(.leading, width * 0.05)
                                                     .onChange(of: viewModel.tiktokAddress) { _, _  in
@@ -263,7 +266,7 @@ struct SettingProfileView: View {
                                                     }
                                             } else {
                                                 TextField("계정명", text: $viewModel.tiktokAddress)
-                                                    .font(.system(size: 14))
+                                                    .font(.system(.body))
                                                     .foregroundStyle(.white)
                                                     .padding(.leading, width * 0.05)
                                                     .onChange(of: viewModel.tiktokAddress) { _, _  in
@@ -285,7 +288,7 @@ struct SettingProfileView: View {
                                 
                                 Spacer()
                             }
-                            .padding(.top, UIScreen.main.bounds.height * 0.08)
+                            
                             .background(.main, ignoresSafeAreaEdges: .all)
                         }
                     }
@@ -317,14 +320,24 @@ struct SettingProfileView: View {
                         viewModel.backimagePick = false
                         viewModel.userSelectImage = nil
                         viewModel.backSelectImage = nil
+                        
+                        if viewModel.currentUser?.profileImageUrl == nil && viewModel.currentUser?.backProfileImageUrl == nil {
+                            viewModel.currentUser?.profileImageUrl = viewModel.tempProfileImage
+                            viewModel.currentUser?.backProfileImageUrl = viewModel.tempBackImage
+                        } else if viewModel.currentUser?.profileImageUrl == nil {
+                            viewModel.currentUser?.profileImageUrl = viewModel.tempProfileImage
+                        } else if viewModel.currentUser?.backProfileImageUrl == nil {
+                            viewModel.currentUser?.backProfileImageUrl = viewModel.tempBackImage
+                        }
+                        
                     } label: {
                         HStack(spacing: 2) {
                             Image(systemName: "chevron.left")
-                                .font(.system(size: 14))
+                                .font(.system(.subheadline))
                                 .fontWeight(.medium)
                             
                             Text("뒤로")
-                                .font(.system(size: 16))
+                                .font(.system(.body))
                                 .fontWeight(.medium)
                         }
                     }
@@ -342,13 +355,26 @@ struct SettingProfileView: View {
                                 viewModel.selectedBackgroundItem = nil
                                 viewModel.userSelectImage = nil
                                 viewModel.backSelectImage = nil
+                                
+                                if viewModel.currentUser?.profileImageUrl == nil && viewModel.currentUser?.backProfileImageUrl == nil {
+                                    await DeleteImageUrl.shared.deleteProfileURL()
+                                    await DeleteImageUrl.shared.deleteBackURL()
+                                    viewModel.tempProfileImage = nil
+                                    viewModel.tempBackImage = nil
+                                } else if viewModel.currentUser?.profileImageUrl == nil {
+                                    await DeleteImageUrl.shared.deleteProfileURL()
+                                    viewModel.tempProfileImage = nil
+                                } else if viewModel.currentUser?.backProfileImageUrl == nil {
+                                    await DeleteImageUrl.shared.deleteBackURL()
+                                    viewModel.tempBackImage = nil
+                                }
                             }
                         }
                         // 비활성화 상태일 때는 아무 작업도 수행하지 않음
                     } label: {
                         Text("저장")
                             .foregroundStyle(isActive ? .white : .gray) // 활성화 상태에 따라 텍스트 색상 변경
-                            .font(.system(size: 16))
+                            .font(.system(.body))
                     }
                     .disabled(!isActive) // 버튼 비활성화 여부 결정
                     .onChange(of: viewModel.changedValue) { newValue, oldValue in
@@ -364,6 +390,8 @@ struct SettingProfileView: View {
             .onDisappear {
                 viewModel.imagePick = false
                 viewModel.backimagePick = false
+                viewModel.userSelectImage = nil
+                viewModel.backSelectImage = nil
             }
         }
     }

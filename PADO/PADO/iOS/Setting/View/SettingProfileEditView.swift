@@ -9,7 +9,7 @@ import PhotosUI
 import SwiftUI
 
 struct SettingProfileEditView: View {
-    // MARK: - PROPERTY
+    @EnvironmentObject var viewModel: MainViewModel
     @Environment(\.dismiss) var dismiss
     
     // 이미지 조작을 위한 상태 변수들
@@ -19,8 +19,6 @@ struct SettingProfileEditView: View {
     @State private var lastStoredOffset: CGSize = .zero
     @State private var showinGrid: Bool = false
     @GestureState private var isInteractig: Bool = false
-    
-    @EnvironmentObject var viewModel: AuthenticationViewModel
     
     var crop: Crop = .circle
     var onCrop: (UIImage?, Bool) -> Void
@@ -61,7 +59,7 @@ struct SettingProfileEditView: View {
                         viewModel.selectedItem = nil
                     } label: {
                         Text("완료")
-                            .font(.system(size: 16, weight: .semibold))
+                            .font(.system(.body, weight: .semibold))
                     }
                 }
                 
@@ -143,7 +141,8 @@ struct SettingProfileEditView: View {
                     out = true
                 }).onChanged({ value in
                     let translation = value.translation
-                    offset = CGSize(width: translation.width + lastStoredOffset.width, height: translation.height + lastStoredOffset.height)
+                    offset = CGSize(width: translation.width + lastStoredOffset.width, 
+                                    height: translation.height + lastStoredOffset.height)
                     showinGrid = true
                 })
                 .onEnded({ value in

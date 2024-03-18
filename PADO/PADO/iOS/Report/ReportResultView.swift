@@ -9,14 +9,14 @@ import MessageUI
 import SwiftUI
 
 struct ReportResultView: View {
-    @Binding var isShowingReportView: Bool
-    
     @State private var showingMailView = false
     @State private var mailResult: Result<MFMailComposeResult, Error>? = nil
     @State private var mailSentSuccessfully = false
     @State private var showAlert = false
     @State private var title = "PADO 신고 문의"
     @State private var messageBody = "자세한 신고 내용을 적어주세요"
+    
+    @Binding var isShowingReportView: Bool
     
     var body: some View {
         VStack {
@@ -27,14 +27,13 @@ struct ReportResultView: View {
                 .foregroundStyle(Color(.systemBlue))
                 .padding(.bottom, 20)
             
-            
             Text("확인을 누르면 메일로 이동합니다")
-                .font(.system(size: 20))
+                .font(.system(.title2))
                 .fontWeight(.medium)
                 .padding(.bottom, 20)
             
             Text("신고 용도 :")
-                .font(.system(size: 14))
+                .font(.system(.subheadline))
                 .fontWeight(.semibold)
                 .foregroundStyle(.gray)
                 .padding(.bottom, 40)
@@ -47,7 +46,7 @@ struct ReportResultView: View {
                         .padding(.horizontal)
                     
                     Text("사람들이 PADO에서 다양한 유형의 콘텐츠로 인해 겪고 있는 문제를 이해합니다.")
-                        .font(.system(size: 14))
+                        .font(.system(.subheadline))
                         .fontWeight(.medium)
                         .padding(.trailing, 15)
                         .lineSpacing(5)
@@ -61,7 +60,7 @@ struct ReportResultView: View {
                         .bold()
                         .padding(.horizontal)
                     Text("앞으로 이 유형의 콘텐츠를 더 적게 표시합니다.")
-                        .font(.system(size: 14))
+                        .font(.system(.subheadline))
                         .fontWeight(.medium)
                 } //: HStack
             }
@@ -83,7 +82,7 @@ struct ReportResultView: View {
                     
                     Text("확인")
                         .foregroundStyle(.white)
-                        .font(.system(size: 16))
+                        .font(.system(.body))
                         .fontWeight(.medium)
                 }
             }
@@ -111,8 +110,4 @@ struct ReportResultView: View {
             mailSentSuccessfully = true
         }
     }
-}
-
-#Preview {
-    ReportResultView(isShowingReportView: .constant(false))
 }

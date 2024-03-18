@@ -9,30 +9,23 @@ import Kingfisher
 import SwiftUI
 
 struct FollowerUserCellView: View {
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: MainViewModel
+    
     @ObservedObject var followVM: FollowViewModel
     
+    @State var profileUser: User?
+    @State var buttonOnOff: Bool = false
+    @State var transitions: Bool = false
     @State private var followerUsername: String = ""
     @State private var followerProfileUrl: String = ""
     @State private var showingModal: Bool = false
     @State private var showingSurferModal: Bool = false
-    @State var profileUser: User?
+    @State private var buttonActive: Bool = false
     
     let cellUserId: String
     let followerType: FollowerModalType
-    
-    enum SufferSet: String {
-        case removesuffer = "서퍼 해제"
-        case setsuffer = "서퍼 등록"
-    }
-    
-    @State var buttonOnOff: Bool = false
-    @State private var buttonActive: Bool = false
-    @State var transitions: Bool = false
-    
     let sufferset: SufferSet
     
-    // MARK: - BODY
     var body: some View {
         HStack {
             NavigationLink {
@@ -60,12 +53,12 @@ struct FollowerUserCellView: View {
                     
                     VStack(alignment: .leading, spacing: 4) {
                         Text(cellUserId)
-                            .font(.system(size: 14, weight: .medium))
+                            .font(.system(.subheadline, weight: .medium))
                             .foregroundStyle(.white)
                         
                         if !followerUsername.isEmpty {
                             Text(followerUsername)
-                                .font(.system(size: 14, weight: .regular))
+                                .font(.system(.subheadline, weight: .regular))
                                 .foregroundStyle(Color(.systemGray))
                         }
                     } //: VSTACK
@@ -86,7 +79,7 @@ struct FollowerUserCellView: View {
                             .stroke(.gray, lineWidth: 1)
                             .frame(width: 78, height: 28)
                         Text("서퍼 해제")
-                            .font(.system(size: 12))
+                            .font(.system(.footnote))
                             .fontWeight(.medium)
                             .foregroundStyle(.gray)
                     }
@@ -106,7 +99,7 @@ struct FollowerUserCellView: View {
                     Task {
                         await UpdateFollowData.shared.registerSurfer(id: cellUserId)
                         if let currentUser = viewModel.currentUser {
-                            await UpdatePushNotiData.shared.pushNoti(receiveUser: profileUser!, type: .surfer, sendUser: currentUser)
+                            await UpdatePushNotiData.shared.pushNoti(receiveUser: profileUser!, type: .surfer, sendUser: currentUser, message: "")
                         }
                     }
                 } label: {
@@ -115,7 +108,7 @@ struct FollowerUserCellView: View {
                             .stroke(.white, lineWidth: 1)
                             .frame(width: 78, height: 28)
                         Text("서퍼 등록")
-                            .font(.system(size: 12))
+                            .font(.system(.footnote))
                             .fontWeight(.medium)
                             .foregroundStyle(.white)
                     }
@@ -127,7 +120,7 @@ struct FollowerUserCellView: View {
                 showingModal.toggle()
             } label: {
                 Image(systemName: "ellipsis")
-                    .font(.system(size: 16))
+                    .font(.system(.body))
                     .foregroundStyle(.white)
                     .padding(.trailing)
             }

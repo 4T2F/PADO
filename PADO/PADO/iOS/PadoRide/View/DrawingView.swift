@@ -86,16 +86,20 @@ struct DrawingView: View {
                                                                 padorideVM.textBoxes[getTextIndex(textBox: box)].lastRotation = padorideVM.textBoxes[getTextIndex(textBox: box)].rotation
                                                             })
                                                                    )
+                                                        .simultaneously(with:
+                                                                            LongPressGesture(minimumDuration: 1.0)
+                                                            .onEnded { _ in
+                                                                let generator = UIImpactFeedbackGenerator(style: .medium)
+                                                                generator.impactOccurred()
+                                                                padorideVM.toolPicker.setVisible(false, forFirstResponder: padorideVM.canvas)
+                                                                padorideVM.canvas.resignFirstResponder()
+                                                                padorideVM.currentTextIndex = getTextIndex(textBox: box)
+                                                                withAnimation{
+                                                                    padorideVM.modifyBox = true
+                                                                }
+                                                            })
                                                        )
                                 )
-                                .onLongPressGesture {
-                                    padorideVM.toolPicker.setVisible(false, forFirstResponder: padorideVM.canvas)
-                                    padorideVM.canvas.resignFirstResponder()
-                                    padorideVM.currentTextIndex = getTextIndex(textBox: box)
-                                    withAnimation{
-                                        padorideVM.modifyBox = true
-                                    }
-                                }
                         }
                         
                         ForEach(padorideVM.imageBoxes) { box in
@@ -150,16 +154,20 @@ struct DrawingView: View {
                                                                 padorideVM.imageBoxes[getImageIndex(imageBox: box)].lastRotation = padorideVM.imageBoxes[getImageIndex(imageBox: box)].rotation
                                                             })
                                                                    )
+                                                        .simultaneously(with:
+                                                                            LongPressGesture(minimumDuration: 1.0)
+                                                            .onEnded { _ in
+                                                                let generator = UIImpactFeedbackGenerator(style: .medium)
+                                                                generator.impactOccurred()
+                                                                padorideVM.toolPicker.setVisible(false, forFirstResponder: padorideVM.canvas)
+                                                                padorideVM.canvas.resignFirstResponder()
+                                                                padorideVM.currentImageIndex = getImageIndex(imageBox: box)
+                                                                Task {
+                                                                    await padorideVM.deleteImage()
+                                                                }
+                                                            })
                                                        )
                                 )
-                                .onLongPressGesture {
-                                    padorideVM.toolPicker.setVisible(false, forFirstResponder: padorideVM.canvas)
-                                    padorideVM.canvas.resignFirstResponder()
-                                    padorideVM.currentImageIndex = getImageIndex(imageBox: box)
-                                    Task {
-                                        await padorideVM.deleteImage()
-                                    }
-                                }
                         }
                     }
                 )
@@ -187,7 +195,8 @@ struct DrawingView: View {
             
             ToolbarItem(placement: .topBarTrailing) {
                 // 사진앨범 버튼
-                PhotosPicker(selection: $padorideVM.pickerImageItem) {
+                PhotosPicker(selection: $padorideVM.pickerImageItem,
+                             matching: .images) {
                     Image(systemName: "photo")
                         .resizable()
                         .frame(width: 25, height: 20)
@@ -201,7 +210,7 @@ struct DrawingView: View {
             
             ToolbarItem(placement: .navigationBarTrailing) {
                 // 텍스트 박스
-                Button{
+                Button {
                     padorideVM.textBoxes.append(TextBox())
                     
                     padorideVM.currentTextIndex = padorideVM.textBoxes.count - 1
@@ -232,7 +241,8 @@ struct DrawingView: View {
         }
         .sheet(isPresented: $padorideVM.showingModal) {
             SendPadoView(padorideVM: padorideVM)
-                .presentationDetents([.fraction(0.22)])
+                .presentationDetents([.fraction(0.2)])
+                .presentationDragIndicator(.visible)
         }
     }
     

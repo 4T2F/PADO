@@ -9,9 +9,11 @@ import SwiftUI
 
 struct MainSearchView: View {
     // MARK: - PROPERTY
-    @State var mainSearch: String = ""
-    @ObservedObject var profileVM: ProfileViewModel
     @StateObject var searchVM = SearchViewModel.shared
+    
+    @ObservedObject var profileVM: ProfileViewModel
+    
+    @State var mainSearch: String = ""
     
     // MARK: - BODY
     var body: some View {
@@ -23,16 +25,6 @@ struct MainSearchView: View {
         }
         NavigationStack {
             VStack {
-                VStack(alignment: .leading, spacing: 0) {
-                    HStack(spacing: 0) {
-                        Text("검색")
-                            .font(.title)
-                            .fontWeight(.heavy)
-                            .padding(.leading)
-                        
-                        Spacer()
-                    }
-                }
                 VStack(alignment: .center, spacing: 0) {
                     SearchBar(text: searchTextBinding,
                               isLoading: $searchVM.isLoading)
@@ -42,7 +34,7 @@ struct MainSearchView: View {
                         if !searchVM.searchDatas.isEmpty {
                             HStack {
                                 Text("최근검색")
-                                    .font(.system(size: 14, weight: .semibold))
+                                    .font(.system(.subheadline, weight: .semibold))
                                 
                                 Spacer()
                                 
@@ -51,7 +43,7 @@ struct MainSearchView: View {
                                 } label: {
                                     Text("기록 삭제")
                                         .foregroundStyle(Color(.systemGray))
-                                        .font(.system(size: 14))
+                                        .font(.system(.subheadline))
                                 }
                             }
                             .padding()
@@ -59,7 +51,7 @@ struct MainSearchView: View {
                             ScrollView(showsIndicators: false) {
                                 ForEach(searchVM.searchDatas.reversed(), id: \.self) { searchData in
                                     RecordSearchCellView(profileVM: profileVM,
-
+                                                         
                                                          searchVM: searchVM,
                                                          searchCellID: searchData)
                                     .padding(.vertical, 3)
@@ -72,8 +64,8 @@ struct MainSearchView: View {
                     } else if searchVM.viewState == .empty {
                         Text("검색 결과가 없습니다")
                             .foregroundColor(.gray)
-                            .font(.system(size: 16,
-                                          weight: .semibold))
+                            .font(.system(.subheadline,
+                                          weight: .medium))
                             .padding(.top, 150)
                         
                     } else if searchVM.viewState == .ready {
@@ -92,6 +84,8 @@ struct MainSearchView: View {
                 }
             }
             .background(.main, ignoresSafeAreaEdges: .all)
+            .navigationTitle("검색")
+            .toolbarTitleDisplayMode(.inlineLarge)
         }
     }
 }

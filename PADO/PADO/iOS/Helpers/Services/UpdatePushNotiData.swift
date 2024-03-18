@@ -11,7 +11,8 @@ import Foundation
 
 enum PostNotiType {
     case comment
-    case facemoji
+    case replyComment
+    case photoMoji
     case heart
     case requestSurfing
     case padoRide
@@ -46,7 +47,20 @@ class UpdatePushNotiData {
                     post: post
                 )
             }
-        case .facemoji:
+        case .replyComment:
+            if receiveUser.nameID != userNameID {
+                await createPostNoti(userId: receiveUser.nameID, type: "replyComment", postID: targetPostID, message: message)
+            }
+            if receiveUser.nameID != userNameID && receiveUser.alertAccept == "yes" {
+                PushNotificationManager.shared.sendPushNotificationWithPost(
+                    toFCMToken: receiveUser.fcmToken,
+                    title: "PADO",
+                    body: "\(userNameID)님이 회원님의 댓글에 답글을 남겼습니다: \"\(message)\"",
+                    categoryIdentifier: "post",
+                    post: post
+                )
+            }
+        case .photoMoji:
             if receiveUser.nameID != userNameID {
                 await createPostNoti(userId: receiveUser.nameID, type: "facemoji", postID: targetPostID, message: "")
             }
@@ -54,7 +68,7 @@ class UpdatePushNotiData {
                 PushNotificationManager.shared.sendPushNotificationWithPost(
                     toFCMToken: receiveUser.fcmToken,
                     title: "PADO",
-                    body: "\(userNameID)님이 회원님의 파도에 페이스모지를 남겼습니다",
+                    body: "\(userNameID)님이 회원님의 파도에 포토모지를 남겼습니다",
                     categoryIdentifier: "post",
                     post: post
                 )
@@ -98,7 +112,7 @@ class UpdatePushNotiData {
     }
     
     // 포스트 정보가 포함되지 않은 일반 푸시 알람 함수
-    func pushNoti(receiveUser: User, type: NotiType, sendUser: User) async {
+    func pushNoti(receiveUser: User, type: NotiType, sendUser: User, message: String) async {
         switch type {
         case .follow:
             await createNoti(userId: receiveUser.nameID, type: "follow")
@@ -124,22 +138,23 @@ class UpdatePushNotiData {
             }
         case .postit:
             if receiveUser.nameID != userNameID {
-                await createNoti(userId: receiveUser.nameID, type: "postit")
+                await createPostitNoti(userId: receiveUser.nameID, type: "postit", message: message)
             }
             if receiveUser.nameID != userNameID && receiveUser.alertAccept == "yes" {
-                PushNotificationManager.shared.sendPushNotification(
+                PushNotificationManager.shared.sendPostitPushNotification(
                     toFCMToken: receiveUser.fcmToken,
                     title: "PADO",
-                    body: "\(userNameID)님이 회원님의 방명록에 글을 남겼습니다",
-                    categoryIdentifier: "profile",
-                    user: sendUser
+                    body: "\(userNameID)님이 회원님의 방명록에 글을 남겼습니다: \(message)",
+                    categoryIdentifier: "postit",
+                    userID: receiveUser.id ?? "", // 방명록 당사자의 정보(id 만)
+                    userUrl: sendUser.profileImageUrl ?? "" // 보내는 당사자의 프로필이미지
                 )
             }
         }
     }
     // 포스트 노티 컬렉션 생성 메서드
     func createPostNoti(userId: String, type: String, postID: String, message: String) async {
-        let notificationRef = db.collection("users").document(userId).collection("notifications").document("\(type)-\(postID)")
+        let notificationRef = db.collection("users").document(userId).collection("notifications").document("\(type)-\(postID)-\(message)")
         let notificationData: [String: Any] = [
             "type": type,
             "postID": postID,
@@ -158,6 +173,21 @@ class UpdatePushNotiData {
     // 노티 컬렉션 생성 메서드
     func createNoti(userId: String, type: String) async {
         let notificationRef = db.collection("users").document(userId).collection("notifications").document("\(type)-\(userNameID)")
+        let notificationData: [String: Any] = [
+            "type": type,
+            "sendUser": userNameID,
+            "createdAt": FieldValue.serverTimestamp(),
+            "read": false
+        ]
+        do {
+            try await notificationRef.setData(notificationData)
+        } catch {
+            print("firebase notification collection add error : \(error)")
+        }
+    }
+    
+    func createPostitNoti(userId: String, type: String, message: String) async {
+        let notificationRef = db.collection("users").document(userId).collection("notifications").document("\(type)-\(userNameID)-\(message)")
         let notificationData: [String: Any] = [
             "type": type,
             "sendUser": userNameID,

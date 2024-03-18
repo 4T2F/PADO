@@ -17,6 +17,6 @@ struct PADOApp: App {
             MainView()
                 .onAppear(perform: UIApplication.shared.addTapGestureRecognizer)
         }
-        .environmentObject(AuthenticationViewModel())
+        .environmentObject(MainViewModel())
     }
 }

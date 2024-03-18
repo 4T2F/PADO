@@ -8,17 +8,22 @@
 import SwiftUI
 
 struct ReportSelectView: View {
+    @State var reportArray: [String] = ["부적절한 게시물", 
+                                        "부적절한 프로필 사진", 
+                                        "부적절한 사용자 이름",
+                                        "부적절한 FaceMoji",
+                                        "사칭",
+                                        "스팸",
+                                        "기타"]
     
-    @State var reportArray: [String] = ["부적절한 게시물", "부적절한 프로필 사진", "부적절한 사용자 이름", "부적절한 FaceMoji", "사칭", "스팸", "기타"]
     @Binding var isShowingReportView: Bool
     
     var body: some View {
-       
         NavigationStack {
             ZStack {
                 VStack {
                     Text("신고하기")
-                        .font(.system(size: 16))
+                        .font(.system(.body))
                         .fontWeight(.semibold)
                         .padding(.top, 30)
                     
@@ -26,15 +31,14 @@ struct ReportSelectView: View {
                         .padding(.bottom, 10)
                     
                     VStack(alignment: .leading) {
-                        
                         Text("이 게시물을 신고하는 이유가 무엇인가요?")
-                            .font(.system(size: 14))
+                            .font(.system(.subheadline))
                             .fontWeight(.semibold)
                             .padding(.bottom, 3)
                             .padding(.horizontal)
                         
                         Text("지식재산권 침해를 신고하는 경우를 제외하고 회원님의 신고는\n익명으로 처리됩니다.")
-                            .font(.system(size: 12))
+                            .font(.system(.footnote))
                             .fontWeight(.semibold)
                             .foregroundStyle(.gray)
                             .lineSpacing(3)
@@ -51,6 +55,7 @@ struct ReportSelectView: View {
                         }
                     }
                     Spacer()
+                    
                 }
             }
             .background(.modal, ignoresSafeAreaEdges: .all)

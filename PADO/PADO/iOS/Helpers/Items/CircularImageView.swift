@@ -12,6 +12,7 @@ import SwiftUI
 enum ProfileImageSize {
     case xxxSmall
     case xxSmall
+    case tab
     case xSmall
     case small
     case commentSize
@@ -21,17 +22,20 @@ enum ProfileImageSize {
     case xxLarge
     case xxxLarge
     case xxxxLarge
+    case padoRideSize
     
     var dimension: CGFloat {
         switch self {
         case .xxxSmall: return 22
         case .xxSmall: return 28
+        case .tab: return 30
         case .xSmall: return 32
         case .small: return 36
         case .commentSize: return 38
         case .medium: return 40
+        case .padoRideSize: return 44
         case .large: return 48
-        case .xLarge: return 60
+        case .xLarge: return 66
         case .xxLarge: return 70
         case .xxxLarge: return 80
         case .xxxxLarge: return 129
@@ -40,11 +44,10 @@ enum ProfileImageSize {
 }
 
 struct CircularImageView: View {
-    // MARK: - PROPERTY
     // ProfileImageSize 를 사용하기 위해 사용
     let size: ProfileImageSize
     let user: User
-    // MARK: - BODY
+    
     var body: some View {
         if let imageUrl = user.profileImageUrl {
             KFImage(URL(string: imageUrl))
@@ -67,8 +70,8 @@ struct CircularImageView: View {
 struct UrlProfileImageView: View {
     
     var imageUrl: String
-    let size: ProfileImageSize
     var defaultImageName: String
+    let size: ProfileImageSize
 
     var body: some View {
         Group {

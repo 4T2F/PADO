@@ -10,13 +10,13 @@ import SwiftUI
 
 struct RecordSearchCellView: View {
     // MARK: - PROPERTY
-    @State var searchUser: User?
-    @State var searchProfileUrl: String = ""
-    @State var buttonOnOff: Bool = false
-    
     @ObservedObject var profileVM: ProfileViewModel
     @ObservedObject var searchVM: SearchViewModel
     
+    @State var searchUser: User?
+    @State var searchProfileUrl: String = ""
+    @State var buttonOnOff: Bool = false
+
     let searchCellID: String
     
     // MARK: - BODY
@@ -53,12 +53,12 @@ struct RecordSearchCellView: View {
                         if let user = searchUser {
                             Text(user.nameID)
                                 .foregroundStyle(.white)
-                                .font(.system(size: 14))
+                                .font(.system(.subheadline))
                                 .fontWeight(.medium)
                             
                             if !user.username.isEmpty {
                                 Text(user.username)
-                                    .font(.system(size: 14))
+                                    .font(.system(.subheadline))
                                     .fontWeight(.regular)
                                     .foregroundStyle(Color(.systemGray))
                             }
@@ -76,7 +76,7 @@ struct RecordSearchCellView: View {
                 searchVM.removeSearchData(searchCellID)
             } label: {
                 Image(systemName: "xmark")
-                    .font(.system(size: 16,
+                    .font(.system(.body,
                                   weight: .medium))
                     .foregroundStyle(.gray)
                     .padding()

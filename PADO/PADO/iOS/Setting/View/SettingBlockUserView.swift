@@ -6,13 +6,14 @@
 //
 
 import Kingfisher
+
 import SwiftUI
 
 struct SettingBlockUserView: View {
-    @EnvironmentObject var viewModel: AuthenticationViewModel
-    @ObservedObject var profileVM: ProfileViewModel
-    
+    @EnvironmentObject var viewModel: MainViewModel
     @Environment(\.dismiss) var dismiss
+    
+    @ObservedObject var profileVM: ProfileViewModel
     
     var body: some View {
         ScrollView(showsIndicators: false) {
@@ -43,7 +44,7 @@ struct SettingBlockUserView: View {
                                 .padding(.trailing, 5)
                             Text(user.blockUserID)
                                 .foregroundStyle(.white)
-                                .font(.system(size: 18, weight: .semibold))
+                                .font(.system(.title3, weight: .semibold))
                             
                             Spacer()
                             
@@ -62,7 +63,7 @@ struct SettingBlockUserView: View {
                                         .stroke(Color.white, lineWidth: 1)
                                         .frame(width: 80, height: 28)
                                     Text("차단 해제")
-                                        .font(.system(size: 12))
+                                        .font(.system(.footnote))
                                         .fontWeight(.semibold)
                                         .foregroundStyle(.white)
                                 }
@@ -90,11 +91,11 @@ struct SettingBlockUserView: View {
                 } label: {
                     HStack(spacing: 2) {
                         Image(systemName: "chevron.left")
-                            .font(.system(size: 14))
+                            .font(.system(.subheadline))
                             .fontWeight(.medium)
                         
                         Text("뒤로")
-                            .font(.system(size: 16))
+                            .font(.system(.body))
                             .fontWeight(.medium)
                     }
                 }

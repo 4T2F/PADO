@@ -1,105 +1,95 @@
 //
-//  PadoRideView.swift
+//  PadoRideView1.swift
 //  PADO
 //
-//  Created by 황성진 on 2/7/24.
+//  Created by 강치우 on 2/22/24.
 //
 
 import SwiftUI
 
 struct PadoRideView: View {
-    // MARK: - PROPERTY
     @ObservedObject var feedVM: FeedViewModel
-    @ObservedObject var followVM: FollowViewModel
-    @ObservedObject var padorideVM: PadoRideViewModel
     
-    // MARK: - BODY
+    @State var surfingIDs: [String]
+    @State private var isShowingOnboarding: Bool = false
+    
     var body: some View {
         NavigationStack {
-            ZStack {
-                Color.main.ignoresSafeArea()
-                
-                VStack {
-                    if !padorideVM.postsData.isEmpty {
+            VStack {
+                ScrollView(showsIndicators: false) {
+                    VStack {
                         HStack {
-                            
-                            Spacer()
-                            
-                            Text("파도타기")
-                                .font(.system(size: 16, weight: .bold))
-                                .padding(.leading, 40)
-                            
-                            Spacer()
-                            
-                            if padorideVM.selectedImage.isEmpty {
-                                Button {
-                                } label: {
-                                    Text("다음")
-                                        .foregroundStyle(.gray)
-                                        .font(.system(size: 16, weight: .semibold))
-                                        .padding(.trailing, 18)
-                                }
-                            } else {
-                                Button {
-                                    padorideVM.downloadSelectedImage()
-                                    padorideVM.isShowingEditView = true
-                                } label: {
-                                    Text("다음")
-                                        .foregroundStyle(.white)
-                                        .font(.system(size: 16, weight: .semibold))
-                                        .padding(.trailing, 18)
-                                }
+                            if userFollowingIDs.isEmpty {
+                                Text("팔로우한 사람이 없어요")
+                                    .font(.system(.body))
+                                    .fontWeight(.medium)
+                            } else if !surfingIDs.isEmpty {
+                                Text("파도타기가 가능한 친구")
+                                    .font(.system(.body))
+                                    .fontWeight(.medium)
                             }
+                            Spacer()
+                            
+                            Button {
+                                isShowingOnboarding.toggle()
+                            } label: {
+                                Text("파도타기란?")
+                                    .font(.system(.footnote))
+                                    .fontWeight(.medium)
+                                    .foregroundStyle(Color(.systemGray))
+                            }
+                            .sheet(isPresented: $isShowingOnboarding, content: {
+                                PadoRideOnboardingView()
+                                    .presentationDragIndicator(.visible)
+                                    .presentationDetents([.fraction(0.99)])
+                            })
                         }
                         
-                        Spacer()
-                                        
-                        ScrollView(.vertical, showsIndicators: false) {
-                            LazyVStack {
-                                ForEach(followVM.surfingIDs, id: \.self) { surfingID in
-                                    SufferInfoCell(surfingID: surfingID)
-                                    
-                                    if padorideVM.postsData[surfingID] != [] {
-                                        ScrollView(.horizontal, showsIndicators: false) {
-                                            LazyHStack {
-                                                SufferPostCell(padorideVM: padorideVM,
-                                                               suffingPost: padorideVM.postsData[surfingID],
-                                                               surfingID: surfingID)
-                                            }
-                                        }
-                                    } else {
-                                        HStack {
-                                            NoItemView(itemName: "해당 유저는 아직 꾸밀 파도가 없어요")
-                                        }
+                        if userFollowingIDs.isEmpty {
+                            Text("다른 유저를 팔로우하고\n방명록에 서퍼등록을 요청해보세요")
+                                .lineSpacing(4)
+                                .font(.system(.body, weight: .semibold))
+                                .multilineTextAlignment(.center)
+                                .foregroundStyle(.gray)
+                                .padding(.top, 100)
+                            
+                        } else if surfingIDs.isEmpty {
+                            SurfingGuideView()
+                        } else {
+                            ForEach(surfingIDs, id: \.self) { surfingID in
+                                SelectPadoRideUserCell(id: surfingID)
+                            }
+                        }
+                    }
+                    .padding()
+                    
+                    if !surfingIDs.isEmpty {
+                        VStack(alignment: .leading, spacing: 10) {
+                            Text("회원님을 위한 추천")
+                                .font(.system(.footnote))
+                                .fontWeight(.medium)
+                                .foregroundStyle(Color(.systemGray))
+                                .padding(.leading)
+                            
+                            ScrollView(.horizontal) {
+                                HStack {
+                                    ForEach(feedVM.popularUsers, id: \.self) { user in
+                                        FollowerSuggestionCell(user: user)
+                                            .padding(.trailing, 4)
                                     }
                                 }
                             }
+                            .padding(.horizontal)
+                            .padding(.bottom)
+                            .scrollIndicators(.hidden)
                         }
-                    } else {
-                        if followVM.followingIDs.isEmpty {
-                            Spacer()
-                            
-                            FeedGuideView(feedVM: feedVM)
-                            
-                            Spacer()
-                        } else if followVM.surfingIDs.isEmpty {
-                            Spacer()
-                            
-                            SurfingGuideView()
-                            
-                            Spacer()
-                        }
+                        .padding(.top)
                     }
                 }
             }
-            .navigationDestination(isPresented: $padorideVM.isShowingEditView) {
-                PadoRideEditView(padorideVM: padorideVM)
-            }
-        }
-        .onAppear {
-            Task {
-                await padorideVM.preloadPostsData(for: followVM.surfingIDs)
-            }
+            .background(.main, ignoresSafeAreaEdges: .all)
+            .navigationTitle("파도타기")
+            .toolbarTitleDisplayMode(.inlineLarge)
         }
     }
 }

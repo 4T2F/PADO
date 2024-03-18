@@ -13,7 +13,6 @@ struct FollowingCellView: View {
     @State var followingUsername: String = ""
     @State var followingProfileUrl: String = ""
     @State var profileUser: User?
-    
     @State var buttonActive: Bool = false
     
     let cellUserId: String
@@ -48,12 +47,12 @@ struct FollowingCellView: View {
                         VStack(alignment: .leading, spacing: 4) {
                             Text(cellUserId)
                                 .foregroundStyle(.white)
-                                .font(.system(size: 14))
+                                .font(.system(.subheadline))
                                 .fontWeight(.medium)
                             
                             if !followingUsername.isEmpty {
                                 Text(followingUsername)
-                                    .font(.system(size: 14, weight: .regular))
+                                    .font(.system(.subheadline, weight: .regular))
                                     .foregroundStyle(Color(.systemGray))
                             }
                         } //: VSTACK
@@ -66,8 +65,8 @@ struct FollowingCellView: View {
             
             if cellUserId != userNameID {
                 if let cellUser = profileUser {
-                    FollowButtonView(cellUser: cellUser,
-                                     buttonActive: $buttonActive,
+                    FollowButtonView(buttonActive: $buttonActive,
+                                     cellUser: cellUser,
                                      activeText: "팔로우",
                                      unActiveText: "팔로우 취소",
                                      widthValue: 85,

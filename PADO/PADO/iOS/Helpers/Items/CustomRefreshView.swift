@@ -9,12 +9,12 @@ import Lottie
 import SwiftUI
 
 struct CustomRefreshView<Content: View>: View {
+    @ObservedObject var scrollDelegate: ScrollViewModel
+    
     var content: Content
     var showsIndicator: Bool
     var lottieFileName: String
     var onRefresh: () async -> Void
-    
-    @ObservedObject var scrollDelegate: ScrollViewModel
     
     init (showsIndicator: Bool = false,
           lottieFileName: String,
@@ -162,6 +162,7 @@ class ScrollViewModel: NSObject,ObservableObject,UIGestureRecognizerDelegate {
 }
 
 // MARK: Offset Modifier
+@MainActor
 extension View {
     @ViewBuilder
     func offset(coordinateSpace: String,

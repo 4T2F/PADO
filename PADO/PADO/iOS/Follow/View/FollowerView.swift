@@ -7,17 +7,14 @@
 
 import SwiftUI
 
-enum FollowerModalType {
-    case surfer
-    case follower
-}
-
 struct FollowerView: View {
     // MARK: - PROPERTY
     @Environment (\.dismiss) var dismiss
-    @State private var searchText: String = ""
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: MainViewModel
+    
     @ObservedObject var followVM: FollowViewModel
+    
+    @State private var searchText: String = ""
     
     let user: User
     
@@ -43,7 +40,7 @@ struct FollowerView: View {
                                 VStack {
                                     HStack {
                                         Text("서퍼")
-                                            .font(.system(size: 14, weight: .medium))
+                                            .font(.system(.subheadline, weight: .medium))
                                         
                                         Spacer()
                                     } //: HSTACK
@@ -75,7 +72,7 @@ struct FollowerView: View {
                             VStack {
                                 HStack {
                                     Text("팔로워")
-                                        .font(.system(size: 14, weight: .medium))
+                                        .font(.system(.subheadline, weight: .medium))
                                     
                                     Spacer()
                                 } //: HSTACK
@@ -106,7 +103,7 @@ struct FollowerView: View {
                     } else if followVM.viewState == .empty {
                         Text("검색 결과가 없습니다")
                             .foregroundColor(.gray)
-                            .font(.system(size: 16,
+                            .font(.system(.body,
                                           weight: .semibold))
                             .padding(.top, 150)
                     } else if followVM.viewState == .ready {
@@ -115,7 +112,7 @@ struct FollowerView: View {
                                 VStack {
                                     HStack {
                                         Text("서퍼")
-                                            .font(.system(size: 14, weight: .medium))
+                                            .font(.system(.subheadline, weight: .medium))
                                         
                                         Spacer()
                                     } //: HSTACK
@@ -146,7 +143,7 @@ struct FollowerView: View {
                             VStack {
                                 HStack {
                                     Text("팔로워")
-                                        .font(.system(size: 14, weight: .medium))
+                                        .font(.system(.subheadline, weight: .medium))
                                     
                                     Spacer()
                                 } //: HSTACK

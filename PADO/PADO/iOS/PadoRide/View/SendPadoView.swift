@@ -9,23 +9,26 @@ import Kingfisher
 import SwiftUI
 
 struct SendPadoView: View {
-    // MARK: - PROPERTY
+    @EnvironmentObject var viewModel: MainViewModel
+    @Environment (\.dismiss) var dismiss
+    
     @ObservedObject var padorideVM: PadoRideViewModel
+    
     @State private var surfingUser: User?
     @State private var postLoading = false
     
-    @Environment (\.dismiss) var dismiss
-    
-    // MARK: - BODY
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
             HStack {
                 if let user = surfingUser {
                     CircularImageView(size: .medium, user: user)
                 }
-                Text("\(padorideVM.selectedPost?.ownerUid ?? "") 님에게 파도타기")
+                Text("\(padorideVM.selectedPost?.ownerUid ?? "")님에게 파도타기 공유")
+                    .font(.system(.body))
+                    .fontWeight(.medium)
             }
-            .padding()
+            .padding(.vertical)
+            .padding(.horizontal, 8)
             
             Button {
                 if !postLoading {
@@ -56,8 +59,8 @@ struct SendPadoView: View {
                             .progressViewStyle(CircularProgressViewStyle(tint: .white))
                             .scaleEffect(1.5)
                     } else {
-                        Text("보내기")
-                            .font(.system(size: 16))
+                        Text("공유")
+                            .font(.system(.body))
                             .fontWeight(.medium)
                             .foregroundStyle(.white)
                     }

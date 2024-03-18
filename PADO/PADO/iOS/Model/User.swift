@@ -7,34 +7,12 @@
 
 import Firebase
 import FirebaseFirestoreSwift
+
 import Foundation
-
-var userNameID: String {
-    get {
-        UserDefaults.standard.string(forKey: "userNameID") ?? ""
-    }
-    set {
-        UserDefaults.standard.set(newValue, forKey: "userNameID")
-    }
-}
-
-var userToken: String {
-    get {
-        UserDefaults.standard.string(forKey: "userToken") ?? ""
-    }
-    set {
-        UserDefaults.standard.set(newValue, forKey: "userToken")
-    }
-}
-
-var userFollowingIDs: [String] = []
-
-var blockingUser: [BlockUser] = []
-var blockedUser: [BlockUser] = []
-var needsDataFetch: Bool = false
 
 struct User: Codable, Identifiable, Hashable {
     @DocumentID var id: String?
+    
     var username: String // 유저 닉네임
     var lowercasedName: String
     var nameID: String
@@ -48,4 +26,5 @@ struct User: Codable, Identifiable, Hashable {
     var alertAccept: String // 필드 이름 수정
     var instaAddress: String
     var tiktokAddress: String
+    var openHighlight: String?
 }

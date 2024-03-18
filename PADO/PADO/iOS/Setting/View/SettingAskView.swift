@@ -9,6 +9,7 @@ import MessageUI
 import SwiftUI
 
 struct SettingAskView: View {
+    @Environment (\.dismiss) var dismiss
     
     @State private var showingMailView = false
     @State private var buttonActive: Bool = false
@@ -17,7 +18,6 @@ struct SettingAskView: View {
     @State private var showAlert = false
     @State private var title = "PADO 문의하기"
     @State private var messageBody = "자세한 문의 내용을 적어주세요"
-    @Environment (\.dismiss) var dismiss
     
     var body: some View {
         VStack {
@@ -31,30 +31,30 @@ struct SettingAskView: View {
                         .padding(.bottom, 40)
                     
                     Text("확인을 누르면 메일로 이동합니다")
-                        .font(.system(size: 20))
+                        .font(.system(.title2))
                         .fontWeight(.medium)
                         .padding(.bottom, 50)
                     
                     HStack {
                         Image(systemName: "questionmark.circle")
-                            .font(.system(size: 18))
+                            .font(.system(.title3))
                             .fontWeight(.medium)
                             .padding(.trailing, 8)
                         
                         Text("PADO를 사용할때 사소한 부분이라도 불편한 부분을 알려주세요.")
-                            .font(.system(size: 16))
+                            .font(.system(.body))
                             .padding(.trailing)
                     }
                     .padding(.bottom, 20)
                     
                     HStack {
                         Image(systemName: "note.text.badge.plus")
-                            .font(.system(size: 18))
+                            .font(.system(.title3))
                             .fontWeight(.medium)
                             .padding(.horizontal, 5)
                         
                         Text("PADO에 추가되기를 원하는 기능을 알려주세요.")
-                            .font(.system(size: 16))
+                            .font(.system(.body))
                             .lineLimit(2)
                     }
                     .padding(.trailing, 7)
@@ -76,13 +76,16 @@ struct SettingAskView: View {
                             
                             Text("확인")
                                 .foregroundStyle(.white)
-                                .font(.system(size: 16))
+                                .font(.system(.body))
                                 .fontWeight(.medium)
                         }
                     }
                     .padding(.bottom, 20)
                     .sheet(isPresented: $showingMailView) {
-                        MailView(isShowing: $showingMailView, result: $mailResult, title: $title, messageBody: $messageBody)
+                        MailView(isShowing: $showingMailView,
+                                 result: $mailResult,
+                                 title: $title,
+                                 messageBody: $messageBody)
                     }
                     .alert(isPresented: $showAlert) {
                         Alert(
@@ -106,11 +109,11 @@ struct SettingAskView: View {
                 } label: {
                     HStack(spacing: 2) {
                         Image(systemName: "chevron.left")
-                            .font(.system(size: 14))
+                            .font(.system(.subheadline))
                             .fontWeight(.medium)
                         
                         Text("뒤로")
-                            .font(.system(size: 16))
+                            .font(.system(.body))
                             .fontWeight(.medium)
                     }
                 }

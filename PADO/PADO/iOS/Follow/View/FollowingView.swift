@@ -9,10 +9,12 @@ import SwiftUI
 
 struct FollowingView: View {
     // MARK: - PROPERTY
+    @EnvironmentObject var viewModel: MainViewModel
     @Environment (\.dismiss) var dismiss
-    @State private var searchText: String = ""
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    
     @ObservedObject var followVM: FollowViewModel
+    
+    @State private var searchText: String = ""
     
     // MARK: - BODY
     var body: some View {
@@ -22,6 +24,7 @@ struct FollowingView: View {
             searchText = $0
             followVM.searchFollowers(with: $0, type: SearchFollowType.following)
         }
+        
         ZStack {
             Color.main.ignoresSafeArea()
             VStack {
@@ -36,8 +39,7 @@ struct FollowingView: View {
                             VStack {
                                 HStack {
                                     Text("팔로잉")
-                                        .font(.system(size: 14, weight: .medium))
-                                    
+                                        .font(.system(.subheadline, weight: .medium))
                                     Spacer()
                                 } //: HSTACK
                                 .padding(.leading)
@@ -59,7 +61,7 @@ struct FollowingView: View {
                     } else if followVM.viewState == .empty {
                         Text("검색 결과가 없습니다")
                             .foregroundColor(.gray)
-                            .font(.system(size: 16,
+                            .font(.system(.body,
                                           weight: .semibold))
                             .padding(.top, 150)
                     } else {
@@ -67,8 +69,7 @@ struct FollowingView: View {
                             VStack {
                                 HStack {
                                     Text("팔로잉")
-                                        .font(.system(size: 14, weight: .medium))
-                                    
+                                        .font(.system(.subheadline, weight: .medium))
                                     Spacer()
                                 } //: HSTACK
                                 .padding(.leading)

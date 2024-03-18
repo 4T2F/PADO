@@ -9,16 +9,16 @@ import FirebaseFirestoreSwift
 import FirebaseStorage
 import Foundation
 
-class UpdateFacemojiData {
+class UpdatePhotoMojiData {
     let db = Firestore.firestore()
     
-    func getFaceMoji(documentID: String) async throws -> [Facemoji]? {
+    func getPhotoMoji(documentID: String) async throws -> [PhotoMoji]? {
         do {
             let querySnapshot = try await db.collection("post").document(documentID).collection("facemoji").order(by: "time", descending: false).getDocuments()
-            let facemojies = querySnapshot.documents.compactMap { document in
-                try? document.data(as: Facemoji.self)
+            let photoMojies = querySnapshot.documents.compactMap { document in
+                try? document.data(as: PhotoMoji.self)
             }
-            return filterBlockedFaceMoji(facemojies: facemojies)
+            return filterBlockedPhotoMoji(photoMojies: photoMojies)
         } catch {
             print("Error fetching comments: \(error)")
         }
@@ -26,7 +26,7 @@ class UpdateFacemojiData {
     }
     
     
-    func deleteFaceMoji(documentID: String, storagefileName: String) async {
+    func deletePhotoMoji(documentID: String, storagefileName: String) async {
         let storage = Storage.storage()
         let storageRef = storage.reference().child("facemoji/\(storagefileName)")
         
@@ -36,7 +36,7 @@ class UpdateFacemojiData {
             
             try await storageRef.delete()
         } catch {
-            print("페이스모지 삭제 오류 : \(error.localizedDescription)")
+            print("포토모지 삭제 오류 : \(error.localizedDescription)")
         }
     }
     
@@ -52,14 +52,14 @@ class UpdateFacemojiData {
         }
     }
     
-    func updateFaceMoji(cropMojiUIImage: UIImage, documentID: String, selectedEmoji: String) async throws {
+    func updatePhotoMoji(cropMojiUIImage: UIImage, documentID: String, selectedEmoji: String) async throws {
         guard !userNameID.isEmpty else { return }
         
         let imageData = try await UpdateImageUrl.shared.updateImageUserData(
             uiImage: cropMojiUIImage,
-            storageTypeInput: .facemoji,
+            storageTypeInput: .photoMoji,
             documentid: documentID,
-            imageQuality: .lowforFaceMoji,
+            imageQuality: .lowforPhotoMoji,
             surfingID: ""
         )
         
@@ -75,12 +75,12 @@ class UpdateFacemojiData {
     
 }
 
-extension UpdateFacemojiData {
-    private func filterBlockedFaceMoji(facemojies: [Facemoji]) -> [Facemoji] {
+extension UpdatePhotoMojiData {
+    private func filterBlockedPhotoMoji(photoMojies: [PhotoMoji]) -> [PhotoMoji] {
         let blockedUserIDs = Set(blockingUser.map { $0.blockUserID } + blockedUser.map { $0.blockUserID })
         
-        return facemojies.filter { facemoji in
-            !blockedUserIDs.contains(facemoji.userID)
+        return photoMojies.filter { photoMoji in
+            !blockedUserIDs.contains(photoMoji.userID)
         }
     }
 }

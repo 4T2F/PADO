@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct FollowMainView: View {
-    @State var currentType: String
-    @Namespace var animation
     @Environment (\.dismiss) var dismiss
     
     @ObservedObject var followVM: FollowViewModel
+    
+    @State var currentType: String
+    @Namespace var animation
     
     let user: User
     
@@ -43,7 +44,7 @@ struct FollowMainView: View {
                 VStack(spacing: 12) {
                     Text(type)
                         .foregroundStyle(currentType == type ? .white : .gray)
-                        .font(.system(size: 14))
+                        .font(.system(.body))
                         .fontWeight(.medium)
                     
                     ZStack {

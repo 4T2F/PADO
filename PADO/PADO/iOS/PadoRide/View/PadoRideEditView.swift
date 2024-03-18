@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct PadoRideEditView: View {
-    @ObservedObject var padorideVM: PadoRideViewModel
     @Environment (\.dismiss) var dismiss
+    
+    @ObservedObject var padorideVM: PadoRideViewModel
     
     var body: some View {
         ZStack {
@@ -140,6 +141,11 @@ struct PadoRideEditView: View {
                 )
                 .frame(maxHeight: .infinity, alignment: .top)
             }
+        }
+        .onDisappear {
+            padorideVM.toolPicker.setVisible(false, forFirstResponder: padorideVM.canvas)
+            padorideVM.cancelImageEditing()
+            dismiss()
         }
         .navigationBarBackButtonHidden()
     }

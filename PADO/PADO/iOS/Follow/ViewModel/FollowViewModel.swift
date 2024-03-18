@@ -4,48 +4,23 @@
 //
 //  Created by 최동호 on 1/23/24.
 //
+
 import Firebase
 import FirebaseFirestoreSwift
 import SwiftUI
 
-enum CollectionType {
-    case follower
-    case following
-    case surfer
-    case surfing
-    
-    var collectionName: String {
-        switch self {
-        case .follower:
-            return "follower"
-        case .following:
-            return "following"
-        case .surfer:
-            return "surfer"
-        case .surfing:
-            return "surfing"
-        }
-    }
-}
-
-enum SearchFollowType {
-    case follower
-    case following
-}
-
 class FollowViewModel: ObservableObject, Searchable {
-    
+    // IDs
     @Published var followerIDs: [String] = []
     @Published var followingIDs: [String] = []
     @Published var surferIDs: [String] = []
     @Published var surfingIDs: [String] = []
     
+    // search
     @Published var searchedFollower: [String] = []
     @Published var searchedSurfer: [String] = []
     @Published var searchedFollowing: [String] = []
-    
     @Published var isLoading: Bool = false
-    @State var progress: Double = 0
     
     // 서퍼지정 관련 변수들
     @Published var showSurfingList: Bool = false
@@ -55,6 +30,10 @@ class FollowViewModel: ObservableObject, Searchable {
     
     @Published var searchResults: [User] = []
     @Published var viewState: ViewState = ViewState.empty
+    
+    @State var progress: Double = 0
+    
+    private var listeners: [CollectionType: ListenerRegistration] = [:]
     
     @MainActor
     func initializeFollowFetch(id: String) async {
@@ -69,7 +48,7 @@ class FollowViewModel: ObservableObject, Searchable {
         self.isLoading = true
         let db = Firestore.firestore()
         
-        db.collection("users").document(id).collection(collectionType.collectionName).addSnapshotListener { documentSnapshot, error in
+        listeners[collectionType] = db.collection("users").document(id).collection(collectionType.collectionName).addSnapshotListener { documentSnapshot, error in
             guard let documents = documentSnapshot?.documents else {
                 print("Error fetching document: \(error!)")
                 self.isLoading = false
@@ -103,6 +82,18 @@ class FollowViewModel: ObservableObject, Searchable {
             self.isLoading = false
         }
     }
+    
+    func stopListeningForCollectionType(_ collectionType: CollectionType) {
+        listeners[collectionType]?.remove()
+        listeners[collectionType] = nil
+    }
+    
+    func stopAllListeners() {
+        for listener in listeners.values {
+            listener.remove()
+        }
+        listeners.removeAll()
+    }
 
     func searchFollowers(with str: String, type: SearchFollowType) {
         setViewState(to: .loading)
@@ -119,6 +110,7 @@ class FollowViewModel: ObservableObject, Searchable {
             setViewState(to: .ready)
         }
     }
+
 }
 
 extension FollowViewModel {

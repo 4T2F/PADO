@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct SearchBar: View {
+    @State var isFocused: Bool = false
+    @State private var isEditing = false
+    
     @Binding var text: String
     @Binding var isLoading: Bool
-    
-    @State private var isEditing = false
-    @State var isFocused: Bool = false
     
     var body: some View {
         ZStack(alignment: .leading) {
@@ -74,7 +74,7 @@ struct SearchBar: View {
                         }
                     } label: {
                         Text("취소")
-                            .font(.system(size: 16))
+                            .font(.system(.body))
                             .foregroundStyle(Color.white)
                     }
                     .padding(3)

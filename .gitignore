@@ -140,3 +140,4 @@ GoogleService-Info.plist
 # End of https://www.toptal.com/developers/gitignore/api/macos,swift,xcodei
 
 PADO/PADO/GoogleService-Info.plist
+PADO/fastlane/.env
