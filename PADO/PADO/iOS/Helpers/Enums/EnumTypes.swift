@@ -138,17 +138,7 @@ enum Crop: Equatable {
     case circle
     case rectangle
     case backImage
-    
-    func name() -> String {
-        switch self {
-        case .circle:
-            return "circle"
-        case .rectangle:
-            return "Rectangle"
-        case .backImage:
-            return "BackImage"
-        }
-    }
+    case profile
     
     func size() -> CGSize {
         switch self {
@@ -158,6 +148,8 @@ enum Crop: Equatable {
             return .init(width: 300, height: 500)
         case .backImage:
             return .init(width: UIScreen.main.bounds.width * 1.0, height: 400)
+        case .profile:
+            return .init(width: 300, height: 300)
         }
     }
 }

@@ -6,7 +6,6 @@
 //
 
 // MARK: - Crop 관련 격자를 보여주는 뷰
-
 import SwiftUI
 
 struct ImageGrid: View {

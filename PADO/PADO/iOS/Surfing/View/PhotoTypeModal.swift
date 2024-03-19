@@ -11,9 +11,6 @@ import SwiftUI
 struct PhotoTypeModal: View {
     @ObservedObject var surfingVM: SurfingViewModel
     
-    @State var width = UIScreen.main.bounds.width
-    @State var height = UIScreen.main.bounds.height
-    
     var body: some View {
         VStack {
             VStack {
@@ -41,12 +38,7 @@ struct PhotoTypeModal: View {
                 
                 Button {
                     surfingVM.checkCameraPermission {
-                        surfingVM.isShowingPhotoModal = false
-                        surfingVM.isShownCamera.toggle()
-                        surfingVM.sourceType = .camera
-                        surfingVM.pickerResult = []
-                        surfingVM.selectedImage = nil
-                        surfingVM.selectedUIImage = Image(systemName: "photo")
+                        surfingVM.cameraBtnTapped()
                     }
                 } label: {
                     HStack {

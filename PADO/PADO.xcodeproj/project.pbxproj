@@ -185,8 +185,8 @@
 		649372FE2B56665200BCDA71 /* FollowerUserCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649372FD2B56665100BCDA71 /* FollowerUserCellView.swift */; };
 		64B4C8EA2B62532100D405DE /* UpdateUserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B4C8E92B62532000D405DE /* UpdateUserData.swift */; };
 		64DDA4352BA76C1600EC5140 /* View+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64DDA4342BA76C1600EC5140 /* View+.swift */; };
-		64DDA4372BA76DAD00EC5140 /* ImageCrop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64DDA4362BA76DAD00EC5140 /* ImageCrop.swift */; };
 		64DDA4392BA76EAC00EC5140 /* ImageGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64DDA4382BA76EAC00EC5140 /* ImageGrid.swift */; };
+		64DDA43B2BA7E3C100EC5140 /* OnboardingPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64DDA43A2BA7E3C100EC5140 /* OnboardingPageView.swift */; };
 		64E761C32B7F5F3600882D29 /* SurfingGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E761C22B7F5F3600882D29 /* SurfingGuideView.swift */; };
 		64E761C52B7F5F4E00882D29 /* SurfingGuideCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E761C42B7F5F4E00882D29 /* SurfingGuideCell.swift */; };
 		64E761C72B7FBC4A00882D29 /* NoItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E761C62B7FBC4A00882D29 /* NoItemView.swift */; };
@@ -442,8 +442,8 @@
 		649372FD2B56665100BCDA71 /* FollowerUserCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerUserCellView.swift; sourceTree = "<group>"; };
 		64B4C8E92B62532000D405DE /* UpdateUserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateUserData.swift; sourceTree = "<group>"; };
 		64DDA4342BA76C1600EC5140 /* View+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+.swift"; sourceTree = "<group>"; };
-		64DDA4362BA76DAD00EC5140 /* ImageCrop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCrop.swift; sourceTree = "<group>"; };
 		64DDA4382BA76EAC00EC5140 /* ImageGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGrid.swift; sourceTree = "<group>"; };
+		64DDA43A2BA7E3C100EC5140 /* OnboardingPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPageView.swift; sourceTree = "<group>"; };
 		64E761C22B7F5F3600882D29 /* SurfingGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurfingGuideView.swift; sourceTree = "<group>"; };
 		64E761C42B7F5F4E00882D29 /* SurfingGuideCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurfingGuideCell.swift; sourceTree = "<group>"; };
 		64E761C62B7FBC4A00882D29 /* NoItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoItemView.swift; sourceTree = "<group>"; };
@@ -982,8 +982,8 @@
 				64E761C62B7FBC4A00882D29 /* NoItemView.swift */,
 				41787D502B814D9900D48CEA /* PostSelectModalView.swift */,
 				4176B8322B868275009F1DEF /* CustomTabView.swift */,
-				64DDA4362BA76DAD00EC5140 /* ImageCrop.swift */,
 				64DDA4382BA76EAC00EC5140 /* ImageGrid.swift */,
+				64DDA43A2BA7E3C100EC5140 /* OnboardingPageView.swift */,
 			);
 			path = Items;
 			sourceTree = "<group>";
@@ -1463,6 +1463,7 @@
 				41898FBA2B78D48800F33F03 /* PostitCell.swift in Sources */,
 				418B6C8A2B5EBC0100E8289D /* SearchBar.swift in Sources */,
 				419981DA2B75144900EEA06E /* BirthAlertModal.swift in Sources */,
+				64DDA43B2BA7E3C100EC5140 /* OnboardingPageView.swift in Sources */,
 				418B6C932B5EC61600E8289D /* SurfingViewModel.swift in Sources */,
 				635B094A2B4500CB009E60A9 /* User.swift in Sources */,
 				41947FB22BA70572001DE472 /* CommentWriteView.swift in Sources */,
@@ -1587,7 +1588,6 @@
 				63824C4E2B558B5500D1D653 /* CustomTF.swift in Sources */,
 				63C8BA522B5661A500025422 /* NotificationView.swift in Sources */,
 				63AA03612B6A173F00431332 /* ProfileViewModel.swift in Sources */,
-				64DDA4372BA76DAD00EC5140 /* ImageCrop.swift in Sources */,
 				63C8BA4D2B56241200025422 /* TextAnimation.swift in Sources */,
 				649372FE2B56665200BCDA71 /* FollowerUserCellView.swift in Sources */,
 				04AD70EC2B6CB80F00437134 /* KeyboardHide+.swift in Sources */,

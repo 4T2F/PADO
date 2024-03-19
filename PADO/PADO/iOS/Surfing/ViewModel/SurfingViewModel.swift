@@ -44,6 +44,9 @@ class SurfingViewModel: ObservableObject  {
     @Published var photoMojiUIImage: UIImage = UIImage()
     @Published var photoMojiImage: Image = Image(systemName: "photo")
     @Published var isShowingPhotoMojiModal: Bool = false
+    
+    // 온보팅 탭바 이동
+    @Published var showingTab: Int = 0
 
     @MainActor
     @Published var photoMojiItem: PhotosPickerItem? {
@@ -186,5 +189,14 @@ class SurfingViewModel: ObservableObject  {
         
         showCropView = false
         cropResult = false
+    }
+    
+    func cameraBtnTapped() {
+        isShowingPhotoModal = false
+        isShownCamera.toggle()
+        sourceType = .camera
+        pickerResult = []
+        selectedImage = nil
+        selectedUIImage = Image(systemName: "photo")
     }
 }

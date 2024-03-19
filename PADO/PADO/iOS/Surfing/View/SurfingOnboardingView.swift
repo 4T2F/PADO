@@ -17,8 +17,6 @@ struct SurfingOnboardingView: View {
     @ObservedObject var surfingVM: SurfingViewModel
     @ObservedObject var followVM: FollowViewModel
     
-    @State private var currentTab = 0
-    
     private let onboardingPages = [
         OnboardingPage(title: "사진을 선택하세요",
                        description: "친구에게 보낼 우스꽝스럽거나\n예쁜 사진을 선택해보세요 😝",
@@ -36,7 +34,7 @@ struct SurfingOnboardingView: View {
     
     var body: some View {
         VStack {
-            TabView(selection: $currentTab) {
+            TabView(selection: $surfingVM.showingTab) {
                 ForEach(onboardingPages.indices, id: \.self) { index in
                     OnboardingPageView(title: onboardingPages[index].title,
                                        description: onboardingPages[index].description,
@@ -68,30 +66,5 @@ struct SurfingOnboardingView: View {
             }
             .padding(.bottom)
         }
-    }
-}
-
-private struct OnboardingPageView: View {
-    var title: String
-    var description: String
-    var imageName: String
-    
-    fileprivate var body: some View {
-        VStack(alignment: .center, spacing: 10) {
-            Text(title)
-                .font(.system(.title3, weight: .medium))
-            
-            Text(description)
-                .foregroundStyle(.white.opacity(0.8))
-                .font(.callout)
-                .lineSpacing(2)
-            
-            Image(imageName)
-                .padding()
-            
-            Spacer()
-        }
-        .padding(.top, 40)
-        .multilineTextAlignment(.center)
     }
 }

@@ -42,7 +42,7 @@ struct PostView: View {
                             .fontWeight(.semibold)
                         
                         Spacer()
-                    } //: HSTACK
+                    }
                     
                     .padding(.leading, 20)
                     
@@ -105,7 +105,7 @@ struct PostView: View {
                                 .font(.system(.title3))
                                 .foregroundStyle(.white)
                         }
-                    } //: HSTACK
+                    }
                     .padding(20)
                 }
                 .padding(.bottom, 30)
