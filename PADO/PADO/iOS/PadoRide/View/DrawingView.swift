@@ -32,7 +32,6 @@ struct DrawingView: View {
                                    toolPicker: $padorideVM.toolPicker,
                                    rect: size.size)
                         
-                        
                         ForEach(padorideVM.textBoxes) { box in
                             Text(padorideVM.textBoxes[padorideVM.currentTextIndex].id == box.id && padorideVM.addNewBox ? "" : box.text)
                                 .font(.system(size: 70))
