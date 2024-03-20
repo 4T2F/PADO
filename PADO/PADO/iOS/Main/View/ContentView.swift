@@ -51,7 +51,7 @@ struct ContentView: View {
                             followVM: followVM)
                 .tag(2)
                 
-                PadoRideView(feedVM: feedVM,
+                PadoRideView(popularUsers: feedVM.popularUsers,
                              surfingIDs: followVM.surfingIDs)
                 .tag(3)
                 

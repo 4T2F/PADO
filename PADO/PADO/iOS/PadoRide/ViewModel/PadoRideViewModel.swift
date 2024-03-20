@@ -14,9 +14,11 @@ import PhotosUI
 import SwiftUI
 
 class PadoRideViewModel: ObservableObject {
+    @Published var surfingUser: User?
     @Published var selectedImage: String = ""
     @Published var selectedUIImage: UIImage?
     @Published var postsData: [String: [Post]] = [:]
+    @Published var postLoading = false
     
     @Published var selectedPost: Post?
     @Published var showTab: Int = 0
@@ -41,7 +43,7 @@ class PadoRideViewModel: ObservableObject {
     @Published var currentImageIndex: Int = 0
     @Published var rect: CGRect = .zero
     @Published var decoUIImage: UIImage = UIImage()
-
+    
     
     let getPostData = GetPostData()
     let cropWhiteBackground = CropWhiteBackground()
@@ -75,7 +77,7 @@ class PadoRideViewModel: ObservableObject {
         imageBoxes.removeAll()
         currentTextIndex = 0
         currentImageIndex = 0
-
+        
     }
     
     func calculateTextSize(text: String, font: UIFont, maxWidth: CGFloat) -> CGSize {
@@ -228,5 +230,68 @@ class PadoRideViewModel: ObservableObject {
         } catch {
             print("DEBUG: Failed to upload image with error: \(error.localizedDescription)")
         }
+    }
+    
+    func getTextIndex(textBox: TextBox) -> Int {
+        
+        let index = textBoxes.firstIndex { (box) -> Bool in
+            return textBox.id == box.id
+        } ?? 0
+        
+        return index
+    }
+    
+    func getImageIndex(imageBox: ImageBox) -> Int {
+        
+        let index = imageBoxes.firstIndex { (box) -> Bool in
+            return imageBox.id == box.id
+        } ?? 0
+        
+        return index
+    }
+    
+    func handleTextBoxDragGesture(value: DragGesture.Value, box: TextBox) {
+        // 드래그 시작 시점의 offset 임시 저장
+        let startOffset = box.lastOffset
+        
+        // 현재 드래그 변위
+        let currentTranslation = value.translation
+        
+        // 회전 각도 고려하여 드래그 변위 조정
+        let rotatedTranslation = CGPoint(
+            x: currentTranslation.width * cos(-box.rotation.radians) - currentTranslation.height * sin(-box.rotation.radians),
+            y: currentTranslation.width * sin(-box.rotation.radians) + currentTranslation.height * cos(-box.rotation.radians)
+        )
+        
+        // 확대/축소를 고려한 최종 변위 적용
+        let adjustedTranslation = CGSize(
+            width: startOffset.width + (rotatedTranslation.x / box.scale),
+            height: startOffset.height + (rotatedTranslation.y / box.scale)
+        )
+        
+        // 변위 적용
+        textBoxes[getTextIndex(textBox: box)].offset = adjustedTranslation
+    }
+    
+    func handleImageBoxDragGesture(value: DragGesture.Value, box: ImageBox) {
+        let startOffset = box.lastOffset
+        
+        // 현재 드래그 변위
+        let currentTranslation = value.translation
+        
+        // 회전 각도 고려하여 드래그 변위 조정
+        let rotatedTranslation = CGPoint(
+            x: currentTranslation.width * cos(-box.rotation.radians) - currentTranslation.height * sin(-box.rotation.radians),
+            y: currentTranslation.width * sin(-box.rotation.radians) + currentTranslation.height * cos(-box.rotation.radians)
+        )
+        
+        // 확대/축소를 고려한 최종 변위 적용
+        let adjustedTranslation = CGSize(
+            width: startOffset.width + (rotatedTranslation.x / box.scale),
+            height: startOffset.height + (rotatedTranslation.y / box.scale)
+        )
+        
+        // 변위 적용
+        imageBoxes[getImageIndex(imageBox: box)].offset = adjustedTranslation
     }
 }
