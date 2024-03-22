@@ -107,23 +107,19 @@ struct ProfileHeaderView: View {
                                 Spacer()
                                 
                                 if user.nameID == userNameID {
-                                    Button {
-                                        Task {
-                                            dismiss()
-                                            try? await Task.sleep(nanoseconds: 1 * 500_000_000)
-                                            viewModel.showTab = 4
-                                        }
-                                    } label: {
+                                    NavigationLink(destination: {
+                                        SettingProfileView()
+                                    }, label: {
                                         ZStack {
                                             RoundedRectangle(cornerRadius:4)
                                                 .stroke(Color.white, lineWidth: 1)
                                                 .frame(width: 80, height: 28)
-                                            Text("내 프로필")
-                                                .font(.system(.footnote))
-                                                .fontWeight(.semibold)
+                                            Text("프로필 편집")
+                                                .font(.system(size: 12))
+                                                .fontWeight(.medium)
                                                 .foregroundStyle(.white)
                                         }
-                                    }
+                                    })
                                 } else {
                                     FollowButtonView(buttonActive: $buttonOnOff,
                                                      cellUser: user,
