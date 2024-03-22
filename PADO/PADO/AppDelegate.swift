@@ -36,27 +36,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             
             UNUserNotificationCenter.current().delegate = self
         }
-        
-//        if let launchOptions = launchOptions?[.remoteNotification] {
-//            if let notification = launchOptions as? [String: AnyObject],
-//               let aps = notification["aps"] as? [String: AnyObject] {
-//                
-//                if let categoryIdentifier = aps["categoryIdentifier"] as? String {
-//                    switch categoryIdentifier {
-//                    case "profile":
-//                        NotificationCenter.default.post(name: Notification.Name("ProfileNotification"), object: aps["User_id"])
-//                    case "post":
-//                        NotificationCenter.default.post(name: Notification.Name("PostNotification"), object: aps["Post_id"])
-//                    case "postit":
-//                        NotificationCenter.default.post(name: Notification.Name("PostitNotification"), object: aps["User_id"])
-//                    default:
-//                        print("Unknown categoryIdentifier")
-//                    }
-//                } else {
-//                    print("categoryIdentifier is not a string")
-//                }
-//            }
-//        }
+  
         return true
     }
     
