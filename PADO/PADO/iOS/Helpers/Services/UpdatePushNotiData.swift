@@ -5,8 +5,8 @@
 //  Created by 김명현, 황민채 on 2/3/24.
 //
 
-import Firebase
-import FirebaseFirestoreSwift
+import FirebaseFirestore
+
 import Foundation
 
 enum PostNotiType {

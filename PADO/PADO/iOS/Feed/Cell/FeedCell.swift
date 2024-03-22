@@ -5,9 +5,6 @@
 //  Created by 강치우 on 2/6/24.
 //
 
-import Firebase
-import FirebaseFirestoreSwift
-
 import SwiftUI
 
 struct FeedCell: View {

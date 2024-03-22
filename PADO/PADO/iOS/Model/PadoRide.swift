@@ -5,12 +5,9 @@
 //  Created by 황성진 on 2/10/24.
 //
 
-import Firebase
-import FirebaseFirestoreSwift
+import FirebaseFirestore
 
-import Foundation
-
-struct PadoRide: Codable, Identifiable, Hashable {
+struct PadoRide: Decodable, Identifiable {
     @DocumentID var id: String?
  
     var imageUrl: String

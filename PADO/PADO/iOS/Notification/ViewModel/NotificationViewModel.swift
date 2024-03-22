@@ -6,7 +6,7 @@
 //
 
 import FirebaseFirestore
-import FirebaseFirestoreSwift
+
 import SwiftUI
 
 @MainActor

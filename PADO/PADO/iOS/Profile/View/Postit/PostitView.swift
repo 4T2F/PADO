@@ -7,6 +7,7 @@
 
 import Kingfisher
 import Lottie
+
 import SwiftUI
 
 struct PostitView: View {

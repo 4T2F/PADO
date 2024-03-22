@@ -4,9 +4,10 @@
 //
 //  Created by 최동호 on 2/6/24.
 //
-import Firebase
-import FirebaseFirestoreSwift
+
+import FirebaseFirestore
 import FirebaseStorage
+
 import Foundation
 
 class UpdatePhotoMojiData {

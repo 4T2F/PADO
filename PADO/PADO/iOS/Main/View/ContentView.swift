@@ -25,8 +25,6 @@ struct ContentView: View {
     @State private var showPushPostit = false
     @State private var keyboardHeight: CGFloat = 0
     
-    let updateHeartData = UpdateHeartData()
-    
     init() {
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
@@ -37,28 +35,36 @@ struct ContentView: View {
     
     var body: some View {
         TabView(selection: $viewModel.showTab) {
-            FeedView(feedVM: feedVM,
-                     notiVM: notiVM,
-                     delegate: self)
+            FeedView(
+                feedVM: feedVM,
+                notiVM: notiVM,
+                delegate: self
+            )
             .tag(0)
             
             MainSearchView(profileVM: profileVM)
-            .tag(1)
+                .tag(1)
             
             if let user = viewModel.currentUser {
-                SurfingView(surfingVM: surfingVM,
-                            feedVM: feedVM,
-                            followVM: followVM)
+                SurfingView(
+                    surfingVM: surfingVM,
+                    feedVM: feedVM,
+                    followVM: followVM
+                )
                 .tag(2)
                 
-                PadoRideView(feedVM: feedVM,
-                             surfingIDs: followVM.surfingIDs)
+                PadoRideView(
+                    feedVM: feedVM,
+                    surfingIDs: followVM.surfingIDs
+                )
                 .tag(3)
                 
-                ProfileView(profileVM: profileVM,
-                            followVM: followVM,
-                            postitVM: postitVM,
-                            user: user)
+                ProfileView(
+                    profileVM: profileVM,
+                    followVM: followVM,
+                    postitVM: postitVM,
+                    user: user
+                )
                 .tag(4)
             } else {
                 LoginAlert()

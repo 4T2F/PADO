@@ -6,8 +6,8 @@
 //
 
 import FirebaseFirestore
-import FirebaseFirestoreSwift
 import FirebaseStorage
+
 import SwiftUI
 
 let developerIDs: [String] = ["pado", "hanami", "legendboy", "goat", "king"]
