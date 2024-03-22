@@ -94,7 +94,7 @@ struct SelectEmojiView: View {
                         selectedEmoji: commentVM.selectedEmoji
                     )
                 }
-                commentVM.photoMojies = try await commentVM.updatePhotoMojiData.getPhotoMoji(documentID: postID) ?? []
+                commentVM.photoMojies = await commentVM.updatePhotoMojiData.getPhotoMoji(documentID: postID) ?? []
                 await UpdatePushNotiData.shared.pushPostNoti(
                     targetPostID: postID,
                     receiveUser: postOwner,

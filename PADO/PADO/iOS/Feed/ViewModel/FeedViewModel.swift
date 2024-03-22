@@ -17,7 +17,6 @@ protocol FeedItem {}
 extension Post: FeedItem {}
 extension User: FeedItem {}
 
-@MainActor
 class FeedViewModel:Identifiable ,ObservableObject {
     // MARK: - feed 관련
     @Published var isShowingReportView = false
@@ -43,6 +42,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
     private var followingListeners: [String: ListenerRegistration] = [:]
     private var todayPadoListeners: [String: ListenerRegistration] = [:]
     
+    @MainActor
     func getPopularUser() async {
         let querySnapshot = db.collection("users")
             .whereField("profileImageUrl", isNotEqualTo: NSNull())
@@ -95,6 +95,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
     }
     
     // 팔로잉 중인 사용자들로부터 포스트 가져오기 (비동기적으로)
+    @MainActor
     func fetchFollowingPosts() async {
         followingPosts.removeAll()
         feedItems.removeAll()
@@ -154,6 +155,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
     }
     
     // 오늘 파도 포스트 가져오기
+    @MainActor
     func fetchTodayPadoPosts() async {
         todayPadoPosts.removeAll()
         
@@ -183,6 +185,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
         }
     }
     
+    @MainActor
     func fetchFollowMorePosts() async {
         guard let lastDocument = lastFollowFetchedDocument else { return }
         
@@ -221,6 +224,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
         }
     }
     
+    @MainActor
     private func cacheWatchedData() async {
         do {
             let documents = try await db.collection("users").document(userNameID).collection("watched").getDocuments()
@@ -230,6 +234,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
         }
     }
     
+    @MainActor
     func setupProfileImageURL(id: String) async -> String {
         guard !id.isEmpty else { return "" }
         do {
@@ -247,10 +252,10 @@ class FeedViewModel:Identifiable ,ObservableObject {
         } catch {
             print("Error fetching user: \(error)")
         }
-        
         return ""
     }
     
+    @MainActor
     func watchedPost(_ story: Post) async {
         do {
             if let postID = story.id {
@@ -267,7 +272,6 @@ class FeedViewModel:Identifiable ,ObservableObject {
 
 // 피드 리스너
 extension FeedViewModel {
-    @MainActor
     private func setupSnapshotFollowingListener(for post: Post) {
         guard let postID = post.id else { return }
         
@@ -283,7 +287,6 @@ extension FeedViewModel {
         }
     }
     
-    @MainActor
     func setupSnapshotTodayPadoListener(for post: Post) {
         guard let postID = post.id else { return }
         
@@ -295,7 +298,6 @@ extension FeedViewModel {
             }
             if let index = self.todayPadoPosts.firstIndex(where: { $0.id == postID }) {
                 self.todayPadoPosts[index] = data
-                
             }
         }
     }

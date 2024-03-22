@@ -84,7 +84,7 @@ struct SelectUserView: View {
                                 .padding(.top, 60)
                         }
                     } else {
-                        LottieView(animation: .named("Loading"))
+                        LottieView(animation: .named(LottieType.loading.rawValue))
                             .looping()
                             .resizable()
                             .scaledToFit()

@@ -48,9 +48,9 @@ struct CommentView: View {
                                                 index: index)
                                     .id(index)
                                     if !commentVM.comments[index].replyComments.isEmpty {
-                                       ShowMoreCommentView(commentVM: commentVM,
-                                                           post: $post,
-                                                           index: index)
+                                            ShowMoreCommentView(commentVM: commentVM,
+                                                                post: $post,
+                                                                index: index)
                                     }
                                 }
                             }
@@ -66,7 +66,7 @@ struct CommentView: View {
                             }
                         }
                     } else {
-                        LottieView(animation: .named("Loading"))
+                        LottieView(animation: .named(LottieType.loading.rawValue))
                             .looping()
                             .resizable()
                             .scaledToFit()

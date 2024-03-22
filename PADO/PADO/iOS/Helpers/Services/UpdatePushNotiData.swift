@@ -9,21 +9,6 @@ import FirebaseFirestore
 
 import Foundation
 
-enum PostNotiType {
-    case comment
-    case replyComment
-    case photoMoji
-    case heart
-    case requestSurfing
-    case padoRide
-}
-
-enum NotiType {
-    case follow
-    case surfer
-    case postit
-}
-
 class UpdatePushNotiData {
     static let shared = UpdatePushNotiData()
     

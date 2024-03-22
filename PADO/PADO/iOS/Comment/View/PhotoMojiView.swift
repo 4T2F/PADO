@@ -46,7 +46,7 @@ struct PhotoMojiView: View {
                             .foregroundStyle(Color.clear)
                             .frame(width: 50)
                             .overlay {
-                                LottieView(animation: .named("photomoji"))
+                                LottieView(animation: .named(LottieType.photomoji.rawValue))
                                     .resizable()
                                     .looping()
                                     .scaledToFit()

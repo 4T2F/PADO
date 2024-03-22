@@ -52,7 +52,7 @@ struct PostitView: View {
                             }
                             .padding(.top)
                         } else {
-                            LottieView(animation: .named("Loading"))
+                            LottieView(animation: .named(LottieType.loading.rawValue))
                                 .looping()
                                 .resizable()
                                 .scaledToFit()

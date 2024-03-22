@@ -131,7 +131,6 @@ class PostitViewModel: ObservableObject {
         }
     }
     
-    @MainActor
     func removeListner() {
         messagesListener?.remove()
         messagesListener = nil

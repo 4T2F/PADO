@@ -29,7 +29,7 @@ struct OtherUserPostGridView: View {
     var body: some View {
         VStack(spacing: 25) {
             if isFetchingData {
-                LottieView(animation: .named("Loading"))
+                LottieView(animation: .named(LottieType.loading.rawValue))
                     .looping()
                     .resizable()
                     .scaledToFit()

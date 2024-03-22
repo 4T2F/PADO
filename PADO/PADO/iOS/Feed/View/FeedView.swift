@@ -28,12 +28,12 @@ struct FeedView: View {
             ZStack {
                 ScrollViewReader { proxy in
                     CustomRefreshView(showsIndicator: false,
-                                      lottieFileName: "Wave",
+                                      lottieFileName: LottieType.wave.rawValue,
                                       scrollDelegate: scrollDelegate) {
                         if viewModel.selectedFilter == .following {
                             LazyVStack(spacing: 0) {
                                 if feedVM.postFetchLoading {
-                                    LottieView(animation: .named("Loading"))
+                                    LottieView(animation: .named(LottieType.loading.rawValue))
                                         .looping()
                                         .resizable()
                                         .scaledToFit()
@@ -93,6 +93,7 @@ struct FeedView: View {
                     
                 }
                 .padding(.top, 10)
+                .animation(.easeInOut, value: scrollDelegate.scrollOffset)
             }
         }
     }

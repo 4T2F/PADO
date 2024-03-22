@@ -27,7 +27,7 @@ struct HeartUsersView: View {
                         }
                     }
                 } else {
-                    LottieView(animation: .named("Loading"))
+                    LottieView(animation: .named(LottieType.loading.rawValue))
                         .looping()
                         .resizable()
                         .scaledToFit()

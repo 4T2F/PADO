@@ -7,7 +7,7 @@
 
 
 import Kingfisher
-import Lottie
+
 import SwiftUI
 
 struct ReplyCommentWriteViewCell: View {

@@ -7,7 +7,6 @@
 
 import Kingfisher
 import Lottie
-
 import SwiftUI
 
 struct FeedHeaderCell: View {
