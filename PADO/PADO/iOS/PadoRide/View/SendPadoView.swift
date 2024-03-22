@@ -14,13 +14,10 @@ struct SendPadoView: View {
     
     @ObservedObject var padorideVM: PadoRideViewModel
     
-    @State private var surfingUser: User?
-    @State private var postLoading = false
-    
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                if let user = surfingUser {
+                if let user = padorideVM.surfingUser {
                     CircularImageView(size: .medium, user: user)
                 }
                 Text("\(padorideVM.selectedPost?.ownerUid ?? "")님에게 파도타기 공유")
@@ -31,15 +28,15 @@ struct SendPadoView: View {
             .padding(.horizontal, 8)
             
             Button {
-                if !postLoading {
-                    postLoading = true
+                if !padorideVM.postLoading {
+                    padorideVM.postLoading = true
                     Task {
                         await padorideVM.sendPostAtFirebase()
                         padorideVM.showingModal = false
                         padorideVM.cancelImageEditing()
-                        postLoading = false
+                        padorideVM.postLoading = false
                         padorideVM.isShowingEditView = false
-                        if let selectedPost = padorideVM.selectedPost, let surfingUser = surfingUser {
+                        if let selectedPost = padorideVM.selectedPost, let surfingUser = padorideVM.surfingUser {
                             await UpdatePushNotiData.shared.pushPostNoti(targetPostID: selectedPost.id ?? "",
                                                                          receiveUser: surfingUser,
                                                                          type: .padoRide,
@@ -54,7 +51,7 @@ struct SendPadoView: View {
                         .frame(width: UIScreen.main.bounds.width * 0.9, height: 45)
                         .foregroundStyle(.blueButton)
                     
-                    if postLoading {
+                    if padorideVM.postLoading {
                         ProgressView()
                             .progressViewStyle(CircularProgressViewStyle(tint: .white))
                             .scaleEffect(1.5)
@@ -70,7 +67,7 @@ struct SendPadoView: View {
         .onAppear {
             Task {
                 let returnUser = await UpdateUserData.shared.getOthersProfileDatas(id: padorideVM.selectedPost?.ownerUid ?? "")
-                self.surfingUser = returnUser
+                padorideVM.surfingUser = returnUser
             }
         }
     }
