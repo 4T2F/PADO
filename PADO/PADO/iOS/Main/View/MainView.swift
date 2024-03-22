@@ -13,7 +13,7 @@ struct MainView: View {
     var body: some View {
         Group {
             ZStack {
-                ContentView()
+                HomeView()
                 if viewModel.showLaunchScreen {
                     LaunchSTA()
                         .task {

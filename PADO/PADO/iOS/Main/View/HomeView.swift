@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct HomeView: View {
     @EnvironmentObject var viewModel: MainViewModel
     @StateObject var surfingVM = SurfingViewModel()
     @StateObject var feedVM = FeedViewModel()
@@ -117,7 +117,7 @@ struct ContentView: View {
 }
 
 // MARK: 비즈니스 로직
-extension ContentView {
+extension HomeView {
     func fetchData() {
         guard !userNameID.isEmpty else {
             Task {
@@ -209,7 +209,7 @@ extension ContentView {
 }
 
 // MARK: FeedView에서 사용 될 Refresh 함수
-extension ContentView: FeedDelegate {
+extension HomeView: FeedDelegate {
     func feedRefresh() async {
         try? await Task.sleep(nanoseconds: 1_500_000_000)
         if viewModel.selectedFilter == FeedFilter.following {
