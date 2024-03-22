@@ -57,12 +57,10 @@ struct SelectPadoRideUserCell: View {
                     }
                 }
             }
-            .onAppear {
-                Task {
-                    if let user = await UpdateUserData.shared.getOthersProfileDatas(id: id) {
-                        self.user = user
-                        fetchUserData = true
-                    }
+            .task {
+                if let user = await UpdateUserData.shared.getOthersProfileDatas(id: id) {
+                    self.user = user
+                    fetchUserData = true
                 }
             }
         }

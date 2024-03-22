@@ -75,10 +75,9 @@ struct SettingBlockUserView: View {
                 }
             }
         }
-        .onAppear {
-            Task {
-                await profileVM.fetchBlockUsers()
-            }
+        .task {
+            await profileVM.fetchBlockUsers()
+
         }
         .background(.main, ignoresSafeAreaEdges: .all)
         .navigationBarBackButtonHidden()

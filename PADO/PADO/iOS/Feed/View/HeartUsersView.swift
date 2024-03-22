@@ -58,15 +58,13 @@ struct HeartUsersView: View {
             }
             .toolbarBackground(Color(.modal), for: .navigationBar)
         }
-        .onAppear {
-            Task {
-                for id in userIDs {
-                    if let user = await UpdateUserData.shared.getOthersProfileDatas(id: id) {
-                        self.users.append(user)
-                    }
+        .task {
+            for id in userIDs {
+                if let user = await UpdateUserData.shared.getOthersProfileDatas(id: id) {
+                    self.users.append(user)
                 }
-                fetchedData = true
             }
+            fetchedData = true
         }
     }
 }

@@ -16,10 +16,8 @@ struct MainView: View {
                 ContentView()
                 if viewModel.showLaunchScreen {
                     LaunchSTA()
-                        .onAppear {
-                            Task {
-                                await viewModel.initializeUser()
-                            }
+                        .task {
+                            await viewModel.initializeUser()
                         }
                 }
             }

@@ -79,15 +79,13 @@ struct FollowingCellView: View {
         } // :HSTACK
         .padding(.vertical, -8)
         .padding(.horizontal)
-        .onAppear {
-            Task {
-                let updateUserData = UpdateUserData()
-                if let userProfile = await updateUserData.getOthersProfileDatas(id: cellUserId) {
-                    self.followingUsername = userProfile.username
-                    self.followingProfileUrl = userProfile.profileImageUrl ?? ""
-                    self.profileUser = userProfile
-                    print("유저: \(String(describing: profileUser))")
-                }
+        .task {
+            let updateUserData = UpdateUserData()
+            if let userProfile = await updateUserData.getOthersProfileDatas(id: cellUserId) {
+                self.followingUsername = userProfile.username
+                self.followingProfileUrl = userProfile.profileImageUrl ?? ""
+                self.profileUser = userProfile
+                print("유저: \(String(describing: profileUser))")
             }
         }
         // contentShape 를 사용해서 H스택 전체적인 부분에 대해 패딩을 줌

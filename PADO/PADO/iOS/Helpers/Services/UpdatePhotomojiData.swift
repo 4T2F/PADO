@@ -13,7 +13,7 @@ import Foundation
 class UpdatePhotoMojiData {
     let db = Firestore.firestore()
     
-    func getPhotoMoji(documentID: String) async throws -> [PhotoMoji]? {
+    func getPhotoMoji(documentID: String) async -> [PhotoMoji]? {
         do {
             let querySnapshot = try await db.collection("post").document(documentID).collection("facemoji").order(by: "time", descending: false).getDocuments()
             let photoMojies = querySnapshot.documents.compactMap { document in

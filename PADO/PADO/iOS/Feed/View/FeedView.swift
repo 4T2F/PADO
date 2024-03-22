@@ -50,11 +50,9 @@ struct FeedView: View {
                                     ForEach(feedVM.followingPosts.indices, id: \.self) { index in
                                         FeedCell(post: $feedVM.followingPosts[index])
                                         .id(index)
-                                        .onAppear {
+                                        .task {
                                             if index == feedVM.followingPosts.indices.last {
-                                                Task {
-                                                    await feedVM.fetchFollowMorePosts()
-                                                }
+                                                await feedVM.fetchFollowMorePosts()
                                             }
                                         }
                                     }

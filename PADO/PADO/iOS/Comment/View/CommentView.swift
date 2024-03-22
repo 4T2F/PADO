@@ -77,17 +77,14 @@ struct CommentView: View {
                 .padding(.top)
             }
             .padding(.bottom, 6)
-            .onAppear {
-                Task {
-                    enteredNavigation = true
-                    await commentVM.getCommentsDocument(post: post)
-                    commentVM.removeDuplicateUserIDs(from: commentVM.comments)
-                    await commentVM.fetchCommentUser()
-                    isFetchedComment = true
-                }
+            .task {
+                enteredNavigation = true
+                await commentVM.getCommentsDocument(post: post)
+                commentVM.removeDuplicateUserIDs(from: commentVM.comments)
+                await commentVM.fetchCommentUser()
+                isFetchedComment = true
             }
-    
-            
+          
             Divider()
             
             Button {

@@ -63,11 +63,8 @@ struct FeedCell: View {
                                      position: position,
                                      post: post)
         }
-        .onAppear {
-            Task {
-                await feedCellVM.fetchPostData(post: post)
-            }
+        .task {
+            await feedCellVM.fetchPostData(post: post)
         }
-            
     }
 }

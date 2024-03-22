@@ -69,17 +69,15 @@ struct OtherUserPostGridView: View {
                     if fetchedData {
                         Rectangle()
                             .foregroundStyle(.clear)
-                            .onAppear {
-                                Task {
-                                    try? await Task.sleep(nanoseconds: 1 * 1000_000_000)
-                                    switch postViewType {
-                                    case .receive:
-                                        await profileVM.fetchMorePadoPosts(id: userID)
-                                    case .send:
-                                        await profileVM.fetchMoreSendPadoPosts(id: userID)
-                                    case .highlight:
-                                        await profileVM.fetchMoreHighlihts(id: userID)
-                                    }
+                            .task {
+                                try? await Task.sleep(nanoseconds: 1 * 1000_000_000)
+                                switch postViewType {
+                                case .receive:
+                                    await profileVM.fetchMorePadoPosts(id: userID)
+                                case .send:
+                                    await profileVM.fetchMoreSendPadoPosts(id: userID)
+                                case .highlight:
+                                    await profileVM.fetchMoreHighlihts(id: userID)
                                 }
                             }
                     }

@@ -120,11 +120,9 @@ struct SelectUserView: View {
                 }
             }
         }
-        .onAppear {
-            Task {
-                await padorideVM.loadPostsData(for: user.nameID)
-                fetchedData = true
-            }
+        .task {
+            await padorideVM.loadPostsData(for: user.nameID)
+            fetchedData = true
         }
         .toolbarBackground(Color(.main), for: .navigationBar)
     }

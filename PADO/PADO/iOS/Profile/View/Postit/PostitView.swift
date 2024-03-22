@@ -128,11 +128,9 @@ struct PostitView: View {
             .navigationBarBackButtonHidden()
             .navigationTitle("방명록")
             .navigationBarTitleDisplayMode(.inline)
-            .onAppear {
-                Task{
-                    await postitVM.getMessageDocument(ownerID: postitVM.ownerID)
-                    postitVM.isFetchedMessages = true
-                }
+            .task {
+                await postitVM.getMessageDocument(ownerID: postitVM.ownerID)
+                postitVM.isFetchedMessages = true
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {

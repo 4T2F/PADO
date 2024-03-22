@@ -138,15 +138,13 @@ struct OtherUserProfileView: View {
         }
         .coordinateSpace(name: "SCROLL")
         .ignoresSafeArea(.container, edges: .vertical)
-        .onAppear {
-            Task {
-                await followVM.initializeFollowFetch(id: user.nameID)
-                await profileVM.fetchPostID(user: user)
-                profileVM.fetchingPostData = false
-                await postitVM.listenForMessages(ownerID: user.nameID)
-                postitVM.fetchedPostitData = true
-                enteredNavigation = true
-            }
+        .task {
+            await followVM.initializeFollowFetch(id: user.nameID)
+            await profileVM.fetchPostID(user: user)
+            profileVM.fetchingPostData = false
+            await postitVM.listenForMessages(ownerID: user.nameID)
+            postitVM.fetchedPostitData = true
+            enteredNavigation = true
         }
         .onChange(of: resetNavigation) { _, _ in
             dismiss()

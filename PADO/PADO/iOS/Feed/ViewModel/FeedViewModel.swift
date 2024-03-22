@@ -115,6 +115,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
         for chunk in userFollowingIDs.chunked(into: 30) {
             let query = db.collection("post")
                 .whereField("ownerUid", in: chunk)
+                .whereField("created_Time", isGreaterThanOrEqualTo: twoDaysAgoTimestamp)
                 .order(by: "created_Time", descending: true)
                 .limit(to: 6)
             

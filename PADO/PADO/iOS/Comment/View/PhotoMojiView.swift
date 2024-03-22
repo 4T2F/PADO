@@ -56,10 +56,8 @@ struct PhotoMojiView: View {
                         Text("")
                     }
                     .padding(.horizontal, 6)
-                    .onAppear {
-                        Task {
-                            commentVM.photoMojies = try await commentVM.updatePhotoMojiData.getPhotoMoji(documentID: postID) ?? []
-                        }
+                    .task {
+                        commentVM.photoMojies = await commentVM.updatePhotoMojiData.getPhotoMoji(documentID: postID) ?? []
                         surfingVM.photoMojiItem = nil
                     }
                     .sheet(isPresented: $surfingVM.isShowingPhotoMojiModal) {

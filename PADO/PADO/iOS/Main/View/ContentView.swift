@@ -103,7 +103,6 @@ struct ContentView: View {
                 FeedCell(post: .constant(post))
                 .presentationDragIndicator(.visible)
             }
-
         }
         .tint(.white)
         .onAppear {

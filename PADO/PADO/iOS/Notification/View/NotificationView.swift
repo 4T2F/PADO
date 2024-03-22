@@ -44,11 +44,9 @@ struct NotificationView: View {
                                 .id(index)
                                 .padding(.horizontal, 10)
                                 .padding(.vertical, 8)
-                                .onAppear {
+                                .task {
                                     if index == notiVM.notifications.indices.last {
-                                        Task {
-                                            await notiVM.fetchMoreNotifications()
-                                        }
+                                        await notiVM.fetchMoreNotifications()
                                     }
                                 }
                             }
@@ -81,13 +79,11 @@ struct NotificationView: View {
             }
         }
         .toolbarBackground(Color(.main), for: .navigationBar)
-        .onAppear {
-            Task {
-                await notiVM.fetchNotifications()
-                await notiVM.markNotificationsAsRead()
-                fetchedNotiData = true
-                enteredNavigation = true
-            }
+        .task {
+            await notiVM.fetchNotifications()
+            await notiVM.markNotificationsAsRead()
+            fetchedNotiData = true
+            enteredNavigation = true
         }
         .onChange(of: resetNavigation) { _, _ in
             dismiss()
