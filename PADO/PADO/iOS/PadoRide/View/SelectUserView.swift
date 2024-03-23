@@ -84,7 +84,7 @@ struct SelectUserView: View {
                                 .padding(.top, 60)
                         }
                     } else {
-                        LottieView(animation: .named("Loading"))
+                        LottieView(animation: .named(LottieType.loading.rawValue))
                             .looping()
                             .resizable()
                             .scaledToFit()
@@ -120,11 +120,9 @@ struct SelectUserView: View {
                 }
             }
         }
-        .onAppear {
-            Task {
-                await padorideVM.loadPostsData(for: user.nameID)
-                fetchedData = true
-            }
+        .task {
+            await padorideVM.loadPostsData(for: user.nameID)
+            fetchedData = true
         }
         .toolbarBackground(Color(.main), for: .navigationBar)
     }

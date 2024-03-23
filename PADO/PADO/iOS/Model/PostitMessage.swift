@@ -5,12 +5,9 @@
 //  Created by 최동호 on 2/9/24.
 //
 
-import Firebase
-import FirebaseFirestoreSwift
+import FirebaseFirestore
 
-import Foundation
-
-struct PostitMessage: Identifiable, Hashable, Codable {
+struct PostitMessage: Identifiable, Decodable {
     @DocumentID var id: String?
     
     let messageUserID: String

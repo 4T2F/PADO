@@ -48,9 +48,9 @@ struct CommentView: View {
                                                 index: index)
                                     .id(index)
                                     if !commentVM.comments[index].replyComments.isEmpty {
-                                       ShowMoreCommentView(commentVM: commentVM,
-                                                           post: $post,
-                                                           index: index)
+                                            ShowMoreCommentView(commentVM: commentVM,
+                                                                post: $post,
+                                                                index: index)
                                     }
                                 }
                             }
@@ -66,7 +66,7 @@ struct CommentView: View {
                             }
                         }
                     } else {
-                        LottieView(animation: .named("Loading"))
+                        LottieView(animation: .named(LottieType.loading.rawValue))
                             .looping()
                             .resizable()
                             .scaledToFit()
@@ -77,17 +77,14 @@ struct CommentView: View {
                 .padding(.top)
             }
             .padding(.bottom, 6)
-            .onAppear {
-                Task {
-                    enteredNavigation = true
-                    await commentVM.getCommentsDocument(post: post)
-                    commentVM.removeDuplicateUserIDs(from: commentVM.comments)
-                    await commentVM.fetchCommentUser()
-                    isFetchedComment = true
-                }
+            .task {
+                enteredNavigation = true
+                await commentVM.getCommentsDocument(post: post)
+                commentVM.removeDuplicateUserIDs(from: commentVM.comments)
+                await commentVM.fetchCommentUser()
+                isFetchedComment = true
             }
-    
-            
+          
             Divider()
             
             Button {

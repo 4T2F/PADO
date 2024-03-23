@@ -6,8 +6,8 @@
 //
 
 import FirebaseFirestore
-import FirebaseFirestoreSwift
 import FirebaseStorage
+
 import SwiftUI
 
 let developerIDs: [String] = ["pado", "hanami", "legendboy", "goat", "king"]
@@ -17,7 +17,6 @@ protocol FeedItem {}
 extension Post: FeedItem {}
 extension User: FeedItem {}
 
-@MainActor
 class FeedViewModel:Identifiable ,ObservableObject {
     // MARK: - feed 관련
     @Published var isShowingReportView = false
@@ -43,6 +42,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
     private var followingListeners: [String: ListenerRegistration] = [:]
     private var todayPadoListeners: [String: ListenerRegistration] = [:]
     
+    @MainActor
     func getPopularUser() async {
         let querySnapshot = db.collection("users")
             .whereField("profileImageUrl", isNotEqualTo: NSNull())
@@ -95,6 +95,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
     }
     
     // 팔로잉 중인 사용자들로부터 포스트 가져오기 (비동기적으로)
+    @MainActor
     func fetchFollowingPosts() async {
         followingPosts.removeAll()
         feedItems.removeAll()
@@ -111,50 +112,50 @@ class FeedViewModel:Identifiable ,ObservableObject {
         let twoDaysAgo = Calendar.current.date(byAdding: .day, value: -7, to: Date()) ?? Date()
         // Date 객체를 Timestamp로 변환
         let twoDaysAgoTimestamp = Timestamp(date: twoDaysAgo)
-        
-        let query = db.collection("post")
-            .whereField("ownerUid", in: getFollowingPostIDs)
-            .whereField("created_Time", isGreaterThanOrEqualTo: twoDaysAgoTimestamp)
-            .order(by: "created_Time", descending: true)
-            .limit(to: 6)
-        
-        do {
-            let documents = try await getDocumentsAsync(collection: db.collection("post"), query: query)
+        // 사용자가 팔로우하는 ID 목록을 30개씩 묶어서 처리
+        for chunk in userFollowingIDs.chunked(into: 30) {
+            let query = db.collection("post")
+                .whereField("ownerUid", in: chunk)
+                .whereField("created_Time", isGreaterThanOrEqualTo: twoDaysAgoTimestamp)
+                .order(by: "created_Time", descending: true)
+                .limit(to: 6)
             
-            self.lastFollowFetchedDocument = documents.last
-            
-            let filteredDocuments = documents.compactMap { document -> DocumentSnapshot? in
-                if (try? document.data(as: Post.self)) != nil {
-                    return document
-                } else {
-                    return nil
+            do {
+                let documents = try await getDocumentsAsync(collection: db.collection("post"), query: query)
+                
+                self.lastFollowFetchedDocument = documents.last
+                
+                let filteredDocuments = documents.compactMap { document -> DocumentSnapshot? in
+                    if (try? document.data(as: Post.self)) != nil {
+                        return document
+                    } else {
+                        return nil
+                    }
                 }
+                let fetchedFollowingPosts = filteredDocuments.compactMap { document in
+                    try? document.data(as: Post.self)
+                }
+                
+                for post in fetchedFollowingPosts {
+                    self.followingPosts.append(post)
+                }
+            } catch {
+                print("포스트 가져오기 오류: \(error.localizedDescription)")
             }
-            
-            let fetchedFollowingPosts = filteredDocuments.compactMap { document in
-                try? document.data(as: Post.self)
-            }
-            
-            self.followingPosts = fetchedFollowingPosts.sorted {
-                $0.created_Time.dateValue() > $1.created_Time.dateValue()
-            }
-            
-            self.followingPosts = filterBlockedPosts(posts: self.followingPosts)
-            
-            for document in filteredDocuments {
-                guard let post = try? document.data(as: Post.self) else { continue }
-                setupSnapshotFollowingListener(for: post)
-            }
-            
-            await getPopularUser()
-            
-        } catch {
-            print("포스트 가져오기 오류: \(error.localizedDescription)")
         }
+        self.followingPosts = followingPosts.sorted {
+            $0.created_Time.dateValue() > $1.created_Time.dateValue()
+        }
+        self.followingPosts = filterBlockedPosts(posts: self.followingPosts)
         
+        for document in followingPosts {
+            setupSnapshotFollowingListener(for: document)
+        }
+        await getPopularUser()
     }
     
     // 오늘 파도 포스트 가져오기
+    @MainActor
     func fetchTodayPadoPosts() async {
         todayPadoPosts.removeAll()
         
@@ -184,7 +185,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
         }
     }
     
-    
+    @MainActor
     func fetchFollowMorePosts() async {
         guard let lastDocument = lastFollowFetchedDocument else { return }
         
@@ -194,38 +195,36 @@ class FeedViewModel:Identifiable ,ObservableObject {
         var getFollowingPostIDs = userFollowingIDs
         getFollowingPostIDs.append(userNameID)
         
-        let query = db.collection("post")
-            .whereField("ownerUid", in: getFollowingPostIDs)
-            .whereField("created_Time", isGreaterThanOrEqualTo: twoDaysAgoTimestamp)
-            .order(by: "created_Time", descending: true)
-            .start(afterDocument: lastDocument)
-            .limit(to: 4)
+        var fetchMorePostData: [Post] = []
         
-        do {
-            let documents = try await getDocumentsAsync(collection: db.collection("post"), query: query)
-            
-            self.lastFollowFetchedDocument = documents.last
-            
-            var documentsData = documents.compactMap { document in
-                try? document.data(as: Post.self)
-            }
-                .filter { post in
-                    userFollowingIDs.contains(where: { $0 == post.ownerUid })
+        for chunk in userFollowingIDs.chunked(into: 30) {
+            let query = db.collection("post")
+                .whereField("ownerUid", in: chunk)
+                .whereField("created_Time", isGreaterThanOrEqualTo: twoDaysAgoTimestamp)
+                .order(by: "created_Time", descending: true)
+                .start(afterDocument: lastDocument)
+                .limit(to: 4)
+            do {
+                let documents = try await getDocumentsAsync(collection: db.collection("post"), query: query)
+                
+                self.lastFollowFetchedDocument = documents.last
+                
+                fetchMorePostData = documents.compactMap { document in
+                    try? document.data(as: Post.self)
                 }
-            
-            documentsData = filterBlockedPosts(posts: documentsData)
-            
-            for documentData in documentsData {
-                setupSnapshotFollowingListener(for: documentData)
-                followingPosts.append(documentData)
+                
+            } catch {
+                print("포스트 가져오기 오류: \(error.localizedDescription)")
             }
-            
-        } catch {
-            print("포스트 가져오기 오류: \(error.localizedDescription)")
+        }
+        
+        for documentData in filterBlockedPosts(posts: fetchMorePostData) {
+            setupSnapshotFollowingListener(for: documentData)
+            followingPosts.append(documentData)
         }
     }
     
-    
+    @MainActor
     private func cacheWatchedData() async {
         do {
             let documents = try await db.collection("users").document(userNameID).collection("watched").getDocuments()
@@ -235,6 +234,7 @@ class FeedViewModel:Identifiable ,ObservableObject {
         }
     }
     
+    @MainActor
     func setupProfileImageURL(id: String) async -> String {
         guard !id.isEmpty else { return "" }
         do {
@@ -252,10 +252,10 @@ class FeedViewModel:Identifiable ,ObservableObject {
         } catch {
             print("Error fetching user: \(error)")
         }
-        
         return ""
     }
     
+    @MainActor
     func watchedPost(_ story: Post) async {
         do {
             if let postID = story.id {
@@ -272,7 +272,6 @@ class FeedViewModel:Identifiable ,ObservableObject {
 
 // 피드 리스너
 extension FeedViewModel {
-    @MainActor
     private func setupSnapshotFollowingListener(for post: Post) {
         guard let postID = post.id else { return }
         
@@ -288,7 +287,6 @@ extension FeedViewModel {
         }
     }
     
-    @MainActor
     func setupSnapshotTodayPadoListener(for post: Post) {
         guard let postID = post.id else { return }
         
@@ -300,7 +298,6 @@ extension FeedViewModel {
             }
             if let index = self.todayPadoPosts.firstIndex(where: { $0.id == postID }) {
                 self.todayPadoPosts[index] = data
-                
             }
         }
     }

@@ -28,12 +28,12 @@ struct FeedView: View {
             ZStack {
                 ScrollViewReader { proxy in
                     CustomRefreshView(showsIndicator: false,
-                                      lottieFileName: "Wave",
+                                      lottieFileName: LottieType.wave.rawValue,
                                       scrollDelegate: scrollDelegate) {
                         if viewModel.selectedFilter == .following {
                             LazyVStack(spacing: 0) {
                                 if feedVM.postFetchLoading {
-                                    LottieView(animation: .named("Loading"))
+                                    LottieView(animation: .named(LottieType.loading.rawValue))
                                         .looping()
                                         .resizable()
                                         .scaledToFit()
@@ -50,11 +50,9 @@ struct FeedView: View {
                                     ForEach(feedVM.followingPosts.indices, id: \.self) { index in
                                         FeedCell(post: $feedVM.followingPosts[index])
                                         .id(index)
-                                        .onAppear {
+                                        .task {
                                             if index == feedVM.followingPosts.indices.last {
-                                                Task {
-                                                    await feedVM.fetchFollowMorePosts()
-                                                }
+                                                await feedVM.fetchFollowMorePosts()
                                             }
                                         }
                                     }
@@ -95,6 +93,7 @@ struct FeedView: View {
                     
                 }
                 .padding(.top, 10)
+                .animation(.easeInOut, value: scrollDelegate.scrollOffset)
             }
         }
     }

@@ -5,8 +5,8 @@
 //  Created by 최동호 on 1/23/24.
 //
 
-import Firebase
-import FirebaseFirestoreSwift
+import FirebaseFirestore
+
 import SwiftUI
 
 class SearchViewModel: ObservableObject, Searchable {

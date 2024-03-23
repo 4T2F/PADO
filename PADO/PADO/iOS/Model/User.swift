@@ -5,12 +5,9 @@
 //  Created by 강치우 on 1/3/24.
 //
 
-import Firebase
-import FirebaseFirestoreSwift
+import FirebaseFirestore
 
-import Foundation
-
-struct User: Codable, Identifiable, Hashable {
+struct User: Decodable, Identifiable, Hashable {
     @DocumentID var id: String?
     
     var username: String // 유저 닉네임

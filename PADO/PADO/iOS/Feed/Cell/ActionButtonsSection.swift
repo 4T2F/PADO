@@ -33,7 +33,7 @@ struct ActionButtonsSection: View {
                                 .frame(width: 30)
                                 .foregroundStyle(.clear)
                                 .overlay {
-                                    LottieView(animation: .named("button"))
+                                    LottieView(animation: .named(LottieType.button.rawValue))
                                         .looping()
                                         .resizable()
                                         .scaledToFit()
@@ -61,7 +61,7 @@ struct ActionButtonsSection: View {
                                 .frame(width: 24)
                                 .foregroundStyle(.clear)
                                 .overlay {
-                                    LottieView(animation: .named("Heart"))
+                                    LottieView(animation: .named(LottieType.heart.rawValue))
                                         .playing()
                                         .resizable()
                                         .scaledToFit()

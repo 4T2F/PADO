@@ -5,8 +5,7 @@
 //  Created by 황민채 on 1/15/24.
 //
 
-import Firebase
-import FirebaseFirestoreSwift
+import FirebaseFirestore
 
 import SwiftUI
 

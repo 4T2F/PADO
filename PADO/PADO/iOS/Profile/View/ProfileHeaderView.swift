@@ -68,13 +68,13 @@ struct ProfileHeaderView: View {
                                             .foregroundStyle(.clear)
                                             .overlay {
                                                 if postitVM.messages.isEmpty {
-                                                    LottieView(animation: .named("nonePostit"))
+                                                    LottieView(animation: .named(LottieType.nonePostit.rawValue))
                                                         .paused(at: .progress(1))
                                                         .resizable()
                                                         .scaledToFit()
                                                         .frame(width: 40, height: 40)
                                                 } else {
-                                                    LottieView(animation: .named("Postit"))
+                                                    LottieView(animation: .named(LottieType.postIt.rawValue))
                                                         .looping()
                                                         .resizable()
                                                         .scaledToFit()

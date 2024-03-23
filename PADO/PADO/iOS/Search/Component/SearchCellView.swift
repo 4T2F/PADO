@@ -27,7 +27,6 @@ struct SearchCellView: View {
                                          user: user)
                         .onAppear {
                             searchVM.addSearchData(user.nameID)
-                           
                         }
                 } label: {
                     HStack(spacing: 0) {

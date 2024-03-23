@@ -5,9 +5,6 @@
 //  Created by 강치우 on 1/3/24.
 //
 
-import Firebase
-import FirebaseFirestore
-
 import SwiftUI
 
 struct MainView: View {
@@ -16,13 +13,11 @@ struct MainView: View {
     var body: some View {
         Group {
             ZStack {
-                ContentView()
+                HomeView()
                 if viewModel.showLaunchScreen {
                     LaunchSTA()
-                        .onAppear {
-                            Task {
-                                await viewModel.initializeUser()
-                            }
+                        .task {
+                            await viewModel.initializeUser()
                         }
                 }
             }

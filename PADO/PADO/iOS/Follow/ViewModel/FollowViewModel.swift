@@ -35,7 +35,6 @@ class FollowViewModel: ObservableObject, Searchable {
     
     private var listeners: [CollectionType: ListenerRegistration] = [:]
     
-    @MainActor
     func initializeFollowFetch(id: String) async {
         await fetchIDs(id: id, collectionType: .following)
         await fetchIDs(id: id, collectionType: .follower)

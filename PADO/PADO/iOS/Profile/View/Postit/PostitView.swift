@@ -7,6 +7,7 @@
 
 import Kingfisher
 import Lottie
+
 import SwiftUI
 
 struct PostitView: View {
@@ -51,7 +52,7 @@ struct PostitView: View {
                             }
                             .padding(.top)
                         } else {
-                            LottieView(animation: .named("Loading"))
+                            LottieView(animation: .named(LottieType.loading.rawValue))
                                 .looping()
                                 .resizable()
                                 .scaledToFit()
@@ -127,11 +128,9 @@ struct PostitView: View {
             .navigationBarBackButtonHidden()
             .navigationTitle("방명록")
             .navigationBarTitleDisplayMode(.inline)
-            .onAppear {
-                Task{
-                    await postitVM.getMessageDocument(ownerID: postitVM.ownerID)
-                    postitVM.isFetchedMessages = true
-                }
+            .task {
+                await postitVM.getMessageDocument(ownerID: postitVM.ownerID)
+                postitVM.isFetchedMessages = true
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {

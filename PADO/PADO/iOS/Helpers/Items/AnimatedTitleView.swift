@@ -38,12 +38,11 @@ struct AnimatedTitleView: View {
             }
         }
         .scaleEffect(scall ? 1 : 1.2)
-        .onAppear {
+        .task {
             show.toggle()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                withAnimation {
-                    scall.toggle()
-                }
+            try? await Task.sleep(nanoseconds: 1 * 600_000_000)
+            withAnimation {
+                scall.toggle()
             }
         }
     }

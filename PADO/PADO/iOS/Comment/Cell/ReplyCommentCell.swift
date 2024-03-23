@@ -7,6 +7,7 @@
 
 import Kingfisher
 import Lottie
+
 import SwiftUI
 
 struct ReplyCommentCell: View {
@@ -98,7 +99,7 @@ struct ReplyCommentCell: View {
                                         .frame(width: 17)
                                         .foregroundStyle(.clear)
                                         .overlay {
-                                            LottieView(animation: .named("Heart"))
+                                            LottieView(animation: .named(LottieType.heart.rawValue))
                                                 .playing()
                                                 .resizable()
                                                 .scaledToFit()
@@ -159,17 +160,15 @@ struct ReplyCommentCell: View {
                     }
                 }
             }
-            .onAppear {
-                Task {
-                    if let replyComment = commentVM.replyComments[replyCommentID] {
-                        if let user = await UpdateUserData.shared.getOthersProfileDatas(id: replyComment.userID) {
-                         
-                            self.commentUser = user
-                            
-                            self.isHeartCheck = commentVM.checkReplyCommentHeartExists(replyComment: replyComment)
-                            
-                            self.buttonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: user.nameID)
-                        }
+            .task {
+                if let replyComment = commentVM.replyComments[replyCommentID] {
+                    if let user = await UpdateUserData.shared.getOthersProfileDatas(id: replyComment.userID) {
+                     
+                        self.commentUser = user
+                        
+                        self.isHeartCheck = commentVM.checkReplyCommentHeartExists(replyComment: replyComment)
+                        
+                        self.buttonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: user.nameID)
                     }
                 }
             }

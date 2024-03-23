@@ -64,5 +64,4 @@ struct FeedGuideView: View {
             }
         }
     }
-    
 }

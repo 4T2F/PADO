@@ -64,11 +64,9 @@ struct SendPadoView: View {
                 }
             }
         }
-        .onAppear {
-            Task {
-                let returnUser = await UpdateUserData.shared.getOthersProfileDatas(id: padorideVM.selectedPost?.ownerUid ?? "")
-                padorideVM.surfingUser = returnUser
-            }
+        .task {
+            let returnUser = await UpdateUserData.shared.getOthersProfileDatas(id: padorideVM.selectedPost?.ownerUid ?? "")
+            padorideVM.surfingUser = returnUser
         }
     }
 }

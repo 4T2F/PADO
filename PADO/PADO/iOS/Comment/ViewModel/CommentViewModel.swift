@@ -6,7 +6,6 @@
 //
 
 import FirebaseFirestore
-import FirebaseFirestoreSwift
 import FirebaseStorage
 
 import SwiftUI
@@ -59,7 +58,6 @@ class CommentViewModel: ObservableObject {
         return
     }
     
- 
     //  댓글 작성 및 프로필 이미지 URL 반환
     func writeComment(post: Post,
                       imageUrl: String,

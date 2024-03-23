@@ -86,18 +86,22 @@ struct SelectEmojiView: View {
         Button(action: {
             Task {
                 await commentVM.updatePhotoMojiData.updateEmoji(documentID: postID,
-                                                               emoji: commentVM.selectedEmoji)
+                                                                emoji: commentVM.selectedEmoji)
                 if let cropImage = commentVM.cropMojiUIImage {
-                    try await commentVM.updatePhotoMojiData.updatePhotoMoji(cropMojiUIImage: cropImage,
-                                                                          documentID: postID,
-                                                                          selectedEmoji: commentVM.selectedEmoji)
+                    try await commentVM.updatePhotoMojiData.updatePhotoMoji(
+                        cropMojiUIImage: cropImage,
+                        documentID: postID,
+                        selectedEmoji: commentVM.selectedEmoji
+                    )
                 }
-                commentVM.photoMojies = try await commentVM.updatePhotoMojiData.getPhotoMoji(documentID: postID) ?? []
-                await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID,
-                                                             receiveUser: postOwner,
-                                                             type: .photoMoji,
-                                                             message: "",
-                                                             post: post)
+                commentVM.photoMojies = await commentVM.updatePhotoMojiData.getPhotoMoji(documentID: postID) ?? []
+                await UpdatePushNotiData.shared.pushPostNoti(
+                    targetPostID: postID,
+                    receiveUser: postOwner,
+                    type: .photoMoji,
+                    message: "",
+                    post: post
+                )
             }
             commentVM.showEmojiView = false
             commentVM.showCropPhotoMoji = false

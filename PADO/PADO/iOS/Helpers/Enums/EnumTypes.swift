@@ -59,38 +59,15 @@ enum CollectionType {
     }
 }
 
-// 포토모지 관련
-enum Emotion: String, CaseIterable {
-    case basic = ""
-    case thumbsUp = "👍"
-    case heart = "🥰"
-    case laughing = "🤣"
-    case angry = "😡"
-    case sad = "😢"
-    case overEat = "🤮"
-    
-    var emoji: String {
-        self.rawValue
-    }
-    
-    var color: Color {
-        switch self {
-        case .basic:
-            return .white
-        case .thumbsUp:
-            return .green
-        case .heart:
-            return .pink
-        case .laughing:
-            return .yellow
-        case .angry:
-            return .orange
-        case .sad:
-            return .blue
-        case .overEat:
-            return .purple
-        }
-    }
+// 로티 관련
+enum LottieType: String {
+    case wave = "Wave"
+    case photomoji = "photomoji"
+    case postIt = "Postit"
+    case nonePostit = "nonePostit"
+    case loading = "Loading"
+    case heart = "Heart"
+    case button = "button"
 }
 
 // 댓글 관련
@@ -132,6 +109,27 @@ enum ButtonType {
     case direct
     case unDirect
 }
+
+// 이미지
+enum ImageLoadError: Error {
+    case noItemSelected
+    case dataLoadFailed
+    case imageCreationFailed
+}
+
+enum StorageTypeInput: String {
+    case user
+    case post
+    case photoMoji
+    case backImage
+}
+
+enum ImageQuality: Double {
+    case lowforPhotoMoji = 0.25
+    case middleforProfile = 0.5
+    case highforPost = 1.0
+}
+
 
 // 이미지 크롭 관련
 enum Crop: Equatable {
@@ -187,3 +185,20 @@ enum ViewState: String {
     case ready
     case error
 }
+
+// 알림 관련
+enum PostNotiType {
+    case comment
+    case replyComment
+    case photoMoji
+    case heart
+    case requestSurfing
+    case padoRide
+}
+
+enum NotiType {
+    case follow
+    case surfer
+    case postit
+}
+

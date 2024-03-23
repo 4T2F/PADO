@@ -87,7 +87,7 @@
 		419741E12B558F3A0055F2AB /* FollowButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419741DF2B558F3A0055F2AB /* FollowButtonView.swift */; };
 		4197420A2B55900D0055F2AB /* LoginAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419742032B55900D0055F2AB /* LoginAlert.swift */; };
 		4197420F2B55900D0055F2AB /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419742082B55900D0055F2AB /* MainView.swift */; };
-		419742102B55900D0055F2AB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419742092B55900D0055F2AB /* ContentView.swift */; };
+		419742102B55900D0055F2AB /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419742092B55900D0055F2AB /* HomeView.swift */; };
 		419981CF2B7412A700EEA06E /* CustomRefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419981CE2B7412A700EEA06E /* CustomRefreshView.swift */; };
 		419981D32B7439F400EEA06E /* Loading.json in Resources */ = {isa = PBXBuildFile; fileRef = 419981D22B7439F400EEA06E /* Loading.json */; };
 		419981DA2B75144900EEA06E /* BirthAlertModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419981D92B75144900EEA06E /* BirthAlertModal.swift */; };
@@ -141,7 +141,6 @@
 		63AA03612B6A173F00431332 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AA03602B6A173F00431332 /* ProfileViewModel.swift */; };
 		63AB41192B45D38F007B37DC /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 63AB41182B45D38F007B37DC /* FirebaseStorageCombine-Community */; };
 		63AB411D2B468C25007B37DC /* NavigationViewStyleHelper+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AB411C2B468C25007B37DC /* NavigationViewStyleHelper+.swift */; };
-		63B7B9912B7AFA0600707C2F /* pokjuk2.json in Resources */ = {isa = PBXBuildFile; fileRef = 63B7B9902B7AFA0600707C2F /* pokjuk2.json */; };
 		63B7B9992B7C996C00707C2F /* FeedGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B7B9982B7C996C00707C2F /* FeedGuideView.swift */; };
 		63B7B99D2B7E7ED500707C2F /* SettingBlockUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B7B99C2B7E7ED500707C2F /* SettingBlockUserView.swift */; };
 		63B7B9A12B7E8ACB00707C2F /* BlockUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B7B9A02B7E8ACB00707C2F /* BlockUser.swift */; };
@@ -341,7 +340,7 @@
 		419741DF2B558F3A0055F2AB /* FollowButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowButtonView.swift; sourceTree = "<group>"; };
 		419742032B55900D0055F2AB /* LoginAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginAlert.swift; sourceTree = "<group>"; };
 		419742082B55900D0055F2AB /* MainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
-		419742092B55900D0055F2AB /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		419742092B55900D0055F2AB /* HomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		419981CE2B7412A700EEA06E /* CustomRefreshView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRefreshView.swift; sourceTree = "<group>"; };
 		419981D22B7439F400EEA06E /* Loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Loading.json; sourceTree = "<group>"; };
 		419981D92B75144900EEA06E /* BirthAlertModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthAlertModal.swift; sourceTree = "<group>"; };
@@ -396,7 +395,6 @@
 		63AA03582B68F1BE00431332 /* OffsetModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OffsetModifier.swift; sourceTree = "<group>"; };
 		63AA03602B6A173F00431332 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		63AB411C2B468C25007B37DC /* NavigationViewStyleHelper+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NavigationViewStyleHelper+.swift"; sourceTree = "<group>"; };
-		63B7B9902B7AFA0600707C2F /* pokjuk2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = pokjuk2.json; sourceTree = "<group>"; };
 		63B7B9982B7C996C00707C2F /* FeedGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedGuideView.swift; sourceTree = "<group>"; };
 		63B7B99C2B7E7ED500707C2F /* SettingBlockUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingBlockUserView.swift; sourceTree = "<group>"; };
 		63B7B9A02B7E8ACB00707C2F /* BlockUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockUser.swift; sourceTree = "<group>"; };
@@ -684,7 +682,7 @@
 			isa = PBXGroup;
 			children = (
 				419742082B55900D0055F2AB /* MainView.swift */,
-				419742092B55900D0055F2AB /* ContentView.swift */,
+				419742092B55900D0055F2AB /* HomeView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -942,7 +940,6 @@
 		6346F7DA2B6606D7009C752A /* Lottie */ = {
 			isa = PBXGroup;
 			children = (
-				63B7B9902B7AFA0600707C2F /* pokjuk2.json */,
 				418ACDC02B76181B003DD9E7 /* Wave.json */,
 				B1EDCAF12B8255D6000B5AEA /* photomoji.json */,
 				418D45BE2B756AAD007F6633 /* Postit.json */,
@@ -1392,7 +1389,6 @@
 			files = (
 				4189ECDD2B99FF45008715F9 /* GoogleService-Info.plist in Resources */,
 				418ACDC12B76181B003DD9E7 /* Wave.json in Resources */,
-				63B7B9912B7AFA0600707C2F /* pokjuk2.json in Resources */,
 				41FD9A212B43D94A0028D38E /* .swiftlint.yml in Resources */,
 				418ACDC32B761AE6003DD9E7 /* nonePostit.json in Resources */,
 				B1EDCAF22B8255D7000B5AEA /* photomoji.json in Resources */,
@@ -1599,7 +1595,7 @@
 				63D31AFA2B9ABD490089D02E /* UserProfileImageView.swift in Sources */,
 				416F61F82B7DF50B00F81093 /* FeedGuideCell.swift in Sources */,
 				4197420F2B55900D0055F2AB /* MainView.swift in Sources */,
-				419742102B55900D0055F2AB /* ContentView.swift in Sources */,
+				419742102B55900D0055F2AB /* HomeView.swift in Sources */,
 				4176B8332B868275009F1DEF /* CustomTabView.swift in Sources */,
 				B13BD2FF2B7FC309007D2DA3 /* PadoRideNotificationCell.swift in Sources */,
 				41947FB42BA70572001DE472 /* FaceMojiModalView.swift in Sources */,

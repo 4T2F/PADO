@@ -4,8 +4,9 @@
 //
 //  Created by 강치우 on 1/31/24.
 //
-import Firebase
-import FirebaseFirestoreSwift
+
+import FirebaseFirestore
+
 import SwiftUI
 
 class ProfileViewModel: ObservableObject {

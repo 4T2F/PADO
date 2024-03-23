@@ -31,24 +31,19 @@ struct SelectPostView: View {
                                 ForEach(profileVM.padoPosts.indices, id: \.self) { index in
                                     FeedCell(post: $profileVM.padoPosts[index])
                                     .id(profileVM.padoPosts[index].id)
-                                    .onAppear {
+                                    .task {
                                         if index == profileVM.padoPosts.indices.last {
-                                            Task {
-                                                await profileVM.fetchMorePadoPosts(id: userID)
-                                            }
+                                            await profileVM.fetchMorePadoPosts(id: userID)
                                         }
                                     }
                                 }
-                                
                             case .send:
                                 ForEach(profileVM.sendPadoPosts.indices, id: \.self) { index in
                                     FeedCell(post: $profileVM.sendPadoPosts[index])
                                     .id(profileVM.sendPadoPosts[index].id)
-                                    .onAppear {
+                                    .task {
                                         if index == profileVM.sendPadoPosts.indices.last {
-                                            Task {
-                                                await profileVM.fetchMoreSendPadoPosts(id: userID)
-                                            }
+                                            await profileVM.fetchMoreSendPadoPosts(id: userID)
                                         }
                                     }
                                 }
@@ -56,23 +51,19 @@ struct SelectPostView: View {
                                 ForEach(profileVM.highlights.indices, id: \.self) { index in
                                     FeedCell(post: $profileVM.highlights[index])
                                     .id(profileVM.highlights[index].id)
-                                    .onAppear {
+                                    .task {
                                         if index == profileVM.highlights.indices.last {
-                                            Task {
-                                                await profileVM.fetchMoreHighlihts(id: userID)
-                                            }
+                                            await profileVM.fetchMoreHighlihts(id: userID)
                                         }
                                     }
                                 }
                             }
                         }
                         .scrollTargetLayout()
-                        .onAppear {
+                        .task {
                             if profileVM.isFirstPostOpen {
-                                Task {
-                                    try? await Task.sleep(nanoseconds: 1 * 100_000_000)
-                                    value.scrollTo(profileVM.selectedPostID, anchor: .top)
-                                }
+                                try? await Task.sleep(nanoseconds: 1 * 100_000_000)
+                                value.scrollTo(profileVM.selectedPostID, anchor: .top)
                                 profileVM.isFirstPostOpen.toggle()
                             }
                         }

@@ -5,9 +5,6 @@
 //  Created by 강치우 on 2/6/24.
 //
 
-import Firebase
-import FirebaseFirestoreSwift
-
 import SwiftUI
 
 struct FeedCell: View {
@@ -66,11 +63,8 @@ struct FeedCell: View {
                                      position: position,
                                      post: post)
         }
-        .onAppear {
-            Task {
-                await feedCellVM.fetchPostData(post: post)
-            }
+        .task {
+            await feedCellVM.fetchPostData(post: post)
         }
-            
     }
 }

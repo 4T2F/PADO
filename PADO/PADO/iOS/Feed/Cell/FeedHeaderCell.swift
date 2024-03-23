@@ -5,8 +5,6 @@
 //  Created by 황성진 on 2/6/24.
 //
 
-import Firebase
-import FirebaseFirestoreSwift
 import Kingfisher
 import Lottie
 import SwiftUI

@@ -28,7 +28,6 @@ class UpdateUserData {
         }
     }
     
-    @MainActor
     func getOthersProfileDatas(id: String) async -> User? {
         guard !id.isEmpty else { return nil }
         do {

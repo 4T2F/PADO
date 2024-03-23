@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct HomeView: View {
     @EnvironmentObject var viewModel: MainViewModel
     @StateObject var surfingVM = SurfingViewModel()
     @StateObject var feedVM = FeedViewModel()
@@ -25,8 +25,6 @@ struct ContentView: View {
     @State private var showPushPostit = false
     @State private var keyboardHeight: CGFloat = 0
     
-    let updateHeartData = UpdateHeartData()
-    
     init() {
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
@@ -37,28 +35,34 @@ struct ContentView: View {
     
     var body: some View {
         TabView(selection: $viewModel.showTab) {
-            FeedView(feedVM: feedVM,
-                     notiVM: notiVM,
-                     delegate: self)
+            FeedView(
+                feedVM: feedVM,
+                notiVM: notiVM,
+                delegate: self
+            )
             .tag(0)
             
             MainSearchView(profileVM: profileVM)
-            .tag(1)
+                .tag(1)
             
             if let user = viewModel.currentUser {
-                SurfingView(surfingVM: surfingVM,
-                            feedVM: feedVM,
-                            followVM: followVM)
+                SurfingView(
+                    surfingVM: surfingVM,
+                    feedVM: feedVM,
+                    followVM: followVM
+                )
                 .tag(2)
-                
+
                 PadoRideView(popularUsers: feedVM.popularUsers,
                              surfingIDs: followVM.surfingIDs)
                 .tag(3)
                 
-                ProfileView(profileVM: profileVM,
-                            followVM: followVM,
-                            postitVM: postitVM,
-                            user: user)
+                ProfileView(
+                    profileVM: profileVM,
+                    followVM: followVM,
+                    postitVM: postitVM,
+                    user: user
+                )
                 .tag(4)
             } else {
                 LoginAlert()
@@ -99,7 +103,6 @@ struct ContentView: View {
                 FeedCell(post: .constant(post))
                 .presentationDragIndicator(.visible)
             }
-
         }
         .tint(.white)
         .onAppear {
@@ -114,7 +117,7 @@ struct ContentView: View {
 }
 
 // MARK: 비즈니스 로직
-extension ContentView {
+extension HomeView {
     func fetchData() {
         guard !userNameID.isEmpty else {
             Task {
@@ -206,7 +209,7 @@ extension ContentView {
 }
 
 // MARK: FeedView에서 사용 될 Refresh 함수
-extension ContentView: FeedDelegate {
+extension HomeView: FeedDelegate {
     func feedRefresh() async {
         try? await Task.sleep(nanoseconds: 1_500_000_000)
         if viewModel.selectedFilter == FeedFilter.following {
