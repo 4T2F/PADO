@@ -24,6 +24,9 @@ class NotificationViewModel: ObservableObject {
     @Published var showRequestSurfingPost = false
     @Published var showPadoRidePost = false
     
+    
+    
+    
     private let db = Firestore.firestore()
     
     @MainActor

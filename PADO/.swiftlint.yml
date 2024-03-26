@@ -33,6 +33,8 @@ disabled_rules:
   - closure_end_indentation
   - closing_brace
   - force_cast
+  - redundant_discardable_let
+  - class_delegate_protocol
   
 # 옵트 인 룰
 opt_in_rules:

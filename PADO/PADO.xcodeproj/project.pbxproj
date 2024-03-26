@@ -212,6 +212,7 @@
 		B1999ED92B6E1A6F005B37BA /* UpdatePushNotiData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1999ED82B6E1A6F005B37BA /* UpdatePushNotiData.swift */; };
 		B1999EDB2B6E205D005B37BA /* Noti.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1999EDA2B6E205D005B37BA /* Noti.swift */; };
 		B1999EDD2B6E2312005B37BA /* PushNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1999EDC2B6E2312005B37BA /* PushNotificationManager.swift */; };
+		B199F68A2BB2C80E00ED2ABF /* HapticHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B199F6892BB2C80E00ED2ABF /* HapticHelper.swift */; };
 		B1A91D0F2B55928D00FE7F62 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A91D062B55928D00FE7F62 /* SettingView.swift */; };
 		B1A91D102B55928D00FE7F62 /* SettingNormalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A91D072B55928D00FE7F62 /* SettingNormalCell.swift */; };
 		B1A91D112B55928D00FE7F62 /* SettingNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A91D082B55928D00FE7F62 /* SettingNotificationView.swift */; };
@@ -466,6 +467,7 @@
 		B1999ED82B6E1A6F005B37BA /* UpdatePushNotiData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePushNotiData.swift; sourceTree = "<group>"; };
 		B1999EDA2B6E205D005B37BA /* Noti.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Noti.swift; sourceTree = "<group>"; };
 		B1999EDC2B6E2312005B37BA /* PushNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationManager.swift; sourceTree = "<group>"; };
+		B199F6892BB2C80E00ED2ABF /* HapticHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticHelper.swift; sourceTree = "<group>"; };
 		B1A91D062B55928D00FE7F62 /* SettingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		B1A91D072B55928D00FE7F62 /* SettingNormalCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingNormalCell.swift; sourceTree = "<group>"; };
 		B1A91D082B55928D00FE7F62 /* SettingNotificationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingNotificationView.swift; sourceTree = "<group>"; };
@@ -987,6 +989,7 @@
 				64DDA4382BA76EAC00EC5140 /* ImageGrid.swift */,
 				64DDA43A2BA7E3C100EC5140 /* OnboardingPageView.swift */,
 				417EA10F2BA85F3300E0377C /* HeartEffectView.swift */,
+				B199F6892BB2C80E00ED2ABF /* HapticHelper.swift */,
 			);
 			path = Items;
 			sourceTree = "<group>";
@@ -1519,6 +1522,7 @@
 				63824C432B558B2400D1D653 /* CodeView.swift in Sources */,
 				41947FAC2BA70572001DE472 /* CommentCell.swift in Sources */,
 				41947FAA2BA70572001DE472 /* PhotoMojiCell.swift in Sources */,
+				B199F68A2BB2C80E00ED2ABF /* HapticHelper.swift in Sources */,
 				B107654E2B712ABE0023B686 /* UserDefaults+.swift in Sources */,
 				647E7EFD2B63775100A5487E /* UpdateImageUrl.swift in Sources */,
 				418743212B5C32CF00D93CBE /* CircularImageView.swift in Sources */,

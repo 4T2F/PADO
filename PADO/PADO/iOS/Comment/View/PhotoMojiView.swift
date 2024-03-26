@@ -59,7 +59,7 @@ struct PhotoMojiView: View {
                     .padding(.horizontal, 6)
                     .onAppear {
                         Task {
-                            commentVM.photoMojies = try await updatePhotoMojiData.getPhotoMoji(documentID: postID) ?? []
+                            commentVM.photoMojies = await updatePhotoMojiData.getPhotoMoji(documentID: postID) ?? []
                         }
                         surfingVM.photoMojiItem = nil
                     }

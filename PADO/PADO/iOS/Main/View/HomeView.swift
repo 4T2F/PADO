@@ -18,12 +18,13 @@ struct HomeView: View {
     
     @State var fetchedPostitData: Bool = false
     @State var width = UIScreen.main.bounds.width
-    @State private var showPushProfile = false
     @State private var pushUser: User?
-    @State private var showPushPost = false
     @State private var pushPostID: String = ""
-    @State private var showPushPostit = false
     @State private var keyboardHeight: CGFloat = 0
+    
+    @State private var currentPushSheetType: PushSheetType? = nil
+    @State private var showPushProfile = false
+    @State private var showPushPost = false
     
     init() {
         let appearance = UITabBarAppearance()
@@ -52,7 +53,7 @@ struct HomeView: View {
                     followVM: followVM
                 )
                 .tag(2)
-
+                
                 PadoRideView(popularUsers: feedVM.popularUsers,
                              surfingIDs: followVM.surfingIDs)
                 .tag(3)
@@ -89,7 +90,6 @@ struct HomeView: View {
                 keyboardHeight = 0
             }
         }
-        // 상대방 프로필로 전환 이벤트(팔로우, 서퍼지정, 방명록 글)
         .sheet(isPresented: $showPushProfile) {
             if let user = pushUser {
                 NavigationStack {
@@ -101,7 +101,7 @@ struct HomeView: View {
         .sheet(isPresented: $showPushPost) {
             if let post = notiVM.notiPosts[pushPostID] {
                 FeedCell(post: .constant(post))
-                .presentationDragIndicator(.visible)
+                    .presentationDragIndicator(.visible)
             }
         }
         .tint(.white)
@@ -111,8 +111,6 @@ struct HomeView: View {
         .onChange(of: needsDataFetch) { _, _ in
             fetchData()
         }
-        .onChange(of: pushUser) { }
-        .onChange(of: pushPostID) { } 
     }
 }
 
@@ -156,7 +154,7 @@ extension HomeView {
                 guard let notiUserID = notification.object as? String else { return }
                 
                 Task {
-                    await handleProfileNotification(notiUserID: notiUserID)
+                    await handleNotification(type: NotificationType.profile(notiUserID))
                 }
             }
             
@@ -165,7 +163,7 @@ extension HomeView {
                 guard let notiPostID = notification.object as? String else { return }
                 
                 Task {
-                    await handlePostNotification(notiPostID: notiPostID)
+                    await handleNotification(type: NotificationType.profile(notiPostID))
                 }
             }
             
@@ -174,7 +172,7 @@ extension HomeView {
                 guard let notiUserID = notification.object as? String else { return }
                 
                 Task {
-                    await handlePostitNotification(notiUserID: notiUserID)
+                    await handleNotification(type: NotificationType.profile(notiUserID))
                 }
             }
         }
@@ -182,28 +180,25 @@ extension HomeView {
     
     // 팔로잉, 서퍼지정 알림
     @MainActor
-    private func handleProfileNotification(notiUserID: String) async {
-        self.pushUser = await UpdateUserData.shared.getOthersProfileDatas(id: notiUserID)
-        self.showPushProfile = true
-    }
-    
-    // 댓글, 하트, 포토모지, 파도타기, 게시물 작성 알림
-    @MainActor
-    private func handlePostNotification(notiPostID: String) async {
-        viewModel.showTab = 4
-        self.pushPostID = notiPostID
-        await notiVM.fetchNotificationPostData(postID: pushPostID)
-        self.showPushPost = true
-    }
-    
-    // 포스트잇 알림
-    @MainActor
-    private func handlePostitNotification(notiUserID: String) async {
-        Task {
-            try? await Task.sleep(nanoseconds: 1 * 500_000_000)
+    func handleNotification(type: NotificationType) async {
+        switch type {
+        case .profile(let notiUserID):
+            self.pushUser = await UpdateUserData.shared.getOthersProfileDatas(id: notiUserID)
+            showPushProfile = true
+            
+        case .post(let notiPostID):
             viewModel.showTab = 4
-            try? await Task.sleep(nanoseconds: 1 * 250_000_000)
-            profileVM.isShowingMessageView = true
+            self.pushPostID = notiPostID
+            await notiVM.fetchNotificationPostData(postID: pushPostID)
+            showPushPost = true
+            
+        case .postit(_):
+            Task {
+                try? await Task.sleep(nanoseconds: 1 * 500_000_000) // 0.5초
+                viewModel.showTab = 4
+                try? await Task.sleep(nanoseconds: 1 * 250_000_000) // 추가 0.25초
+                profileVM.isShowingMessageView = true
+            }
         }
     }
 }

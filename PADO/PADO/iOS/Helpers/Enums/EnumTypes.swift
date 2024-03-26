@@ -194,3 +194,21 @@ enum NotiType {
     case postit
 }
 
+enum NotificationType {
+    case profile(String) // 프로필 알림, String은 notiUserID
+    case post(String) // 포스트 알림, String은 notiPostID
+    case postit(String) // 포스트잇 알림, String은 notiUserID
+}
+
+// homeView.swift 에서 사용
+enum PushSheetType: Identifiable {
+    case profile(User)
+    case post(Post)
+    
+    var id: Int {
+        switch self {
+        case .profile: return 1
+        case .post: return 2
+        }
+    }
+}
