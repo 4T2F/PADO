@@ -12,7 +12,6 @@ import SwiftUI
 
 struct OtherUserPostGridView: View {
     @ObservedObject var profileVM: ProfileViewModel
-    @ObservedObject var feedVM: FeedViewModel
     
     @Binding var isShowingDetail: Bool
     
@@ -30,7 +29,7 @@ struct OtherUserPostGridView: View {
     var body: some View {
         VStack(spacing: 25) {
             if isFetchingData {
-                LottieView(animation: .named("Loading"))
+                LottieView(animation: .named(LottieType.loading.rawValue))
                     .looping()
                     .resizable()
                     .scaledToFit()
@@ -46,6 +45,7 @@ struct OtherUserPostGridView: View {
                             if let image = URL(string: post.imageUrl) {
                                 Button {
                                     isShowingDetail.toggle()
+                                    profileVM.isFirstPostOpen.toggle()
                                     profileVM.selectedPostID = post.id ?? ""
                                 } label: {
                                     KFImage(image)
@@ -56,16 +56,11 @@ struct OtherUserPostGridView: View {
                                 }
                                 .sheet(isPresented: $isShowingDetail) {
                                     SelectPostView(profileVM: profileVM,
-                                                   feedVM: feedVM,
                                                    isShowingDetail: $isShowingDetail,
                                                    userID: userID,
                                                    viewType: postViewType)
                                     .presentationDragIndicator(.visible)
-                                    .onDisappear {
-                                        feedVM.currentPadoRideIndex = nil
-                                        feedVM.isShowingPadoRide = false
-                                        feedVM.padoRidePosts = []
-                                    }
+                                    
                                 }
                             }
                         }
@@ -74,17 +69,15 @@ struct OtherUserPostGridView: View {
                     if fetchedData {
                         Rectangle()
                             .foregroundStyle(.clear)
-                            .onAppear {
-                                Task {
-                                    try? await Task.sleep(nanoseconds: 1 * 1000_000_000)
-                                    switch postViewType {
-                                    case .receive:
-                                        await profileVM.fetchMorePadoPosts(id: userID)
-                                    case .send:
-                                        await profileVM.fetchMoreSendPadoPosts(id: userID)
-                                    case .highlight:
-                                        await profileVM.fetchMoreHighlihts(id: userID)
-                                    }
+                            .task {
+                                try? await Task.sleep(nanoseconds: 1 * 1000_000_000)
+                                switch postViewType {
+                                case .receive:
+                                    await profileVM.fetchMorePadoPosts(id: userID)
+                                case .send:
+                                    await profileVM.fetchMoreSendPadoPosts(id: userID)
+                                case .highlight:
+                                    await profileVM.fetchMoreHighlihts(id: userID)
                                 }
                             }
                     }

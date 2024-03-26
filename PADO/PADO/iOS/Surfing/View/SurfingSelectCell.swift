@@ -76,14 +76,12 @@ struct SurfingSelectCell: View {
                 }
             }
             .padding(5)
-            .onAppear {
-                Task {
-                    let updateUserData = UpdateUserData()
-                    if let userProfile = await updateUserData.getOthersProfileDatas(id: cellUserId) {
-                        self.surfingID = userProfile.nameID
-                        self.surfingUsername = userProfile.username
-                        self.surfingProfileUrl = userProfile.profileImageUrl ?? ""
-                    }
+            .task {
+                let updateUserData = UpdateUserData()
+                if let userProfile = await updateUserData.getOthersProfileDatas(id: cellUserId) {
+                    self.surfingID = userProfile.nameID
+                    self.surfingUsername = userProfile.username
+                    self.surfingProfileUrl = userProfile.profileImageUrl ?? ""
                 }
             }
         }

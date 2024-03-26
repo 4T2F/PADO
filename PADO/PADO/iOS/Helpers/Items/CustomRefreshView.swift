@@ -95,8 +95,6 @@ struct CustomRefreshView<Content: View>: View {
     }
 }
 
-
-
 // MARK: 동시성 제스처를 위한 클래스
 class ScrollViewModel: NSObject,ObservableObject,UIGestureRecognizerDelegate {
     // 속성

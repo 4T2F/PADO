@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FollowButtonView: View {
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: MainViewModel
     
     @Binding var buttonActive: Bool
     
@@ -82,10 +82,8 @@ struct FollowButtonView: View {
             StartView(isShowStartView: $isShowingLoginPage)
                 .presentationDragIndicator(.visible)
         })
-        .onAppear {
-            Task {
-                self.buttonActive = UpdateFollowData.shared.checkFollowingStatus(id: cellUser.nameID)
-            }
+        .task {
+            self.buttonActive = UpdateFollowData.shared.checkFollowingStatus(id: cellUser.nameID)
         }
     }
     

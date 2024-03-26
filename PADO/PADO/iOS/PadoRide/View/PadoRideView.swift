@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct PadoRideView: View {
-    @ObservedObject var feedVM: FeedViewModel
-    
+    @State var popularUsers: [User]
     @State var surfingIDs: [String]
     @State private var isShowingOnboarding: Bool = false
     
@@ -73,7 +72,7 @@ struct PadoRideView: View {
                             
                             ScrollView(.horizontal) {
                                 HStack {
-                                    ForEach(feedVM.popularUsers, id: \.self) { user in
+                                    ForEach(popularUsers, id: \.self) { user in
                                         FollowerSuggestionCell(user: user)
                                             .padding(.trailing, 4)
                                     }

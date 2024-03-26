@@ -10,11 +10,12 @@ import SwiftUI
 struct NotificationView: View {
     @Environment(\.dismiss) var dismiss
     
-    @ObservedObject var feedVM: FeedViewModel
-    @ObservedObject var notiVM = NotificationViewModel.shared
+    @ObservedObject var notiVM: NotificationViewModel
     
     @State private var fetchedNotiData: Bool = false
     
+    var openPostit: () -> Void
+
     var body: some View {
         NavigationStack {
             VStack {
@@ -37,16 +38,15 @@ struct NotificationView: View {
                         .frame(width: UIScreen.main.bounds.width)
                         if fetchedNotiData {
                             ForEach(notiVM.notifications.indices, id: \.self) { index in
-                                NotificationCell(feedVM: feedVM,
-                                                 notification: notiVM.notifications[index])
+                                NotificationCell(notiVM: notiVM,
+                                                 notification: notiVM.notifications[index],
+                                                 openPostit: openPostit)
                                 .id(index)
                                 .padding(.horizontal, 10)
                                 .padding(.vertical, 8)
-                                .onAppear {
+                                .task {
                                     if index == notiVM.notifications.indices.last {
-                                        Task {
-                                            await notiVM.fetchMoreNotifications()
-                                        }
+                                        await notiVM.fetchMoreNotifications()
                                     }
                                 }
                             }
@@ -79,13 +79,11 @@ struct NotificationView: View {
             }
         }
         .toolbarBackground(Color(.main), for: .navigationBar)
-        .onAppear {
-            Task {
-                await notiVM.fetchNotifications()
-                await notiVM.markNotificationsAsRead()
-                fetchedNotiData = true
-                enteredNavigation = true
-            }
+        .task {
+            await notiVM.fetchNotifications()
+            await notiVM.markNotificationsAsRead()
+            fetchedNotiData = true
+            enteredNavigation = true
         }
         .onChange(of: resetNavigation) { _, _ in
             dismiss()

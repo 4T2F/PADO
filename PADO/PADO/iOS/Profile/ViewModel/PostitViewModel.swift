@@ -5,8 +5,8 @@
 //  Created by 최동호 on 2/9/24.
 //
 
-import Firebase
-import FirebaseFirestoreSwift
+import FirebaseFirestore
+
 import Foundation
 
 class PostitViewModel: ObservableObject {
@@ -19,6 +19,9 @@ class PostitViewModel: ObservableObject {
     @Published var showdeleteModal: Bool = false
     @Published var messageUserIDs: [String] = []
     @Published var messageUsers: [String: User] = [:]
+    @Published var isFetchedMessages: Bool = false
+    @Published var isShowingLoginPage: Bool = false
+    @Published var fetchedPostitData: Bool = false
     
     let db = Firestore.firestore()
     
@@ -128,10 +131,34 @@ class PostitViewModel: ObservableObject {
         }
     }
     
-    @MainActor
     func removeListner() {
         messagesListener?.remove()
         messagesListener = nil
+    }
+    
+    func sendMessage(sendUser: User) {
+        if userNameID.isEmpty {
+            isShowingLoginPage = true
+        } else if !blockPostit(id: ownerID) {
+            Task {
+                await writeMessage(ownerID: ownerID,
+                                   imageUrl: sendUser.profileImageUrl ?? "",
+                                            inputcomment: inputcomment)
+                if let user = messageUsers[ownerID] {
+                    await UpdatePushNotiData.shared.pushNoti(receiveUser: user,
+                                                             type: .postit,
+                                                             sendUser: sendUser,
+                                                             message: inputcommentForNoti)
+                }
+            }
+        }
+    }
+    
+    
+    private func blockPostit(id: String) -> Bool {
+        let blockedUserIDs = Set(blockingUser.map { $0.blockUserID } + blockedUser.map { $0.blockUserID })
+        
+        return blockedUserIDs.contains(id)
     }
 }
 

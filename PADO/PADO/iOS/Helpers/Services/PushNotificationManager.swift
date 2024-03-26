@@ -8,18 +8,16 @@
 import Foundation
 
 final class PushNotificationManager {
-    // Singleton 인스턴스
     static let shared = PushNotificationManager()
     
     private init() { }
-    
+    private let serverKey: String = Bundle.main.object(forInfoDictionaryKey: "firebase_Push_Api_Key") as? String ?? ""
     // FCM 푸시 알림을 보내는 함수
     func sendPushNotification(toFCMToken token: String?, 
                               title: String,
                               body: String,
                               categoryIdentifier: String,
                               user: User) {
-        let serverKey: String = Bundle.main.object(forInfoDictionaryKey: "firebase_Push_Api_Key") as? String ?? "1"
         
         guard let token else {
             print("⚠️ FCM 토큰이 비어있습니다.")
@@ -69,9 +67,12 @@ final class PushNotificationManager {
         task.resume()
     }
     
-    func sendPushNotificationWithPost(toFCMToken token: String?, title: String, body: String, categoryIdentifier: String, post: Post) {
-        let serverKey: String = Bundle.main.object(forInfoDictionaryKey: "firebase_Push_Api_Key") as? String ?? "1"
-        
+    func sendPushNotificationWithPost(toFCMToken token: String?, 
+                                      title: String,
+                                      body: String,
+                                      categoryIdentifier: String,
+                                      post: Post
+    ) {
         guard let token = token else {
             print("⚠️ FCM 토큰이 비어있습니다.")
             return

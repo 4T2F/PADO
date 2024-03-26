@@ -5,8 +5,7 @@
 //  Created by 최동호 on 1/23/24.
 //
 
-import Firebase
-import FirebaseFirestoreSwift
+import FirebaseFirestore
 
 import PhotosUI
 import SwiftUI
@@ -145,7 +144,6 @@ class SurfingViewModel: ObservableObject  {
         post?.padoExist = false
     }
     
-    @MainActor
     func createPostData(titleName: String, data: [String: Any]) async {
         do {
             try await Firestore.firestore().collection("post").document(titleName).setData(data)
