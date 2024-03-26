@@ -159,26 +159,6 @@ class ScrollViewModel: NSObject,ObservableObject,UIGestureRecognizerDelegate {
     }
 }
 
-// MARK: Offset Modifier
-@MainActor
-extension View {
-    @ViewBuilder
-    func offset(coordinateSpace: String,
-                offset: @escaping (CGFloat) -> Void) -> some View {
-        self.overlay {
-            GeometryReader{proxy in
-                let minY = proxy.frame(in: .named(coordinateSpace)).minY
-                
-                Color.clear
-                    .preference(key: OffsetKey.self, value: minY)
-                    .onPreferenceChange(OffsetKey.self) { value in
-                        offset(value)
-                    }
-            }
-        }
-    }
-}
-
 // MARK: Offset Preference Key
 struct OffsetKey: PreferenceKey{
     static var defaultValue: CGFloat = 0
