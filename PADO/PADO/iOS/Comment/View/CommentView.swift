@@ -16,11 +16,7 @@ struct CommentView: View {
     
     @State var postUser: User
     @State var post: Post
-    @State private var isShowingCommentWriteView: Bool = false
-    @State private var commentText: String = ""
-    @State private var isFetchedComment: Bool = false
-    @State private var isShowingLoginPage: Bool = false
-    
+
     var body: some View {
         VStack(spacing: 0) {
             Divider()
@@ -38,7 +34,7 @@ struct CommentView: View {
                 .padding(.top)
                 
                 VStack(alignment: .leading) {
-                    if isFetchedComment {
+                    if commentVM.isFetchedComment {
                         if !commentVM.comments.isEmpty {
                             ForEach(commentVM.comments.indices, id:\.self) { index in
                                 if index < commentVM.comments.count,
@@ -82,7 +78,7 @@ struct CommentView: View {
                 await commentVM.getCommentsDocument(post: post)
                 commentVM.removeDuplicateUserIDs(from: commentVM.comments)
                 await commentVM.fetchCommentUser()
-                isFetchedComment = true
+                commentVM.isFetchedComment = true
             }
           
             Divider()
@@ -92,9 +88,9 @@ struct CommentView: View {
                 generator.impactOccurred()
                 
                 if !userNameID.isEmpty {
-                    isShowingCommentWriteView.toggle()
+                    commentVM.isShowingCommentWriteView.toggle()
                 } else {
-                    isShowingLoginPage = true
+                    commentVM.isShowingLoginPage = true
                 }
             } label: {
                 HStack(spacing: 6) {
@@ -120,15 +116,15 @@ struct CommentView: View {
                 .clipShape(Capsule())
             }
             .padding(10)
-            .sheet(isPresented: $isShowingCommentWriteView, content: {
+            .sheet(isPresented: $commentVM.isShowingCommentWriteView, content: {
                 CommentWriteView(commentVM: commentVM,
                                  notiUser: postUser,
                                  post: $post)
                     .presentationDragIndicator(.visible)
                     .presentationDetents([.large])
             })
-            .sheet(isPresented: $isShowingLoginPage) {
-                StartView(isShowStartView: $isShowingLoginPage)
+            .sheet(isPresented: $commentVM.isShowingLoginPage) {
+                StartView(isShowStartView: $commentVM.isShowingLoginPage)
                     .presentationDragIndicator(.visible)
             }
         }
@@ -160,6 +156,5 @@ struct CommentView: View {
             }
         }
         .toolbarBackground(Color(.main), for: .navigationBar)
-        
     }
 }

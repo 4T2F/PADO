@@ -16,6 +16,9 @@ class CommentViewModel: ObservableObject {
     @Published var replyComments: [String: ReplyComment] = [:]
     @Published var documentID: String = ""
     @Published var inputcomment: String = ""
+    @Published var isFetchedComment: Bool = false
+    @Published var isShowingCommentWriteView: Bool = false
+    @Published var isShowingLoginPage: Bool = false
     @Published var showDeleteModal: Bool = false
     @Published var showDeleteReplyModal: Bool = false
     @Published var showReportModal: Bool = false
@@ -24,7 +27,10 @@ class CommentViewModel: ObservableObject {
     @Published var selectedReplyComment: ReplyComment?
     @Published var commentUserIDs: [String] = []
     @Published var commentUsers: [String: User] = [:]
-    
+    @Published var commentText: String = ""
+    @Published var buttonOnOff: Bool = false
+    @Published var isHeartCheck: Bool = true
+ 
     let db = Firestore.firestore()
     
     // MARK: - PhotoMoji 관련
@@ -37,6 +43,11 @@ class CommentViewModel: ObservableObject {
     @Published var showEmojiView: Bool = false
     @Published var selectedEmoji: String = ""
     @Published var selectedPhotoMoji: PhotoMoji?
+    @Published var scale: CGFloat = 1
+    @Published var lastScale: CGFloat = 0
+    @Published var offset: CGSize = .zero
+    @Published var lastStoredOffset: CGSize = .zero
+    @Published var showinGrid: Bool = false
 
     let updatePhotoMojiData = UpdatePhotoMojiData()
     

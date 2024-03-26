@@ -12,9 +12,6 @@ import SwiftUI
 struct CommentWriteViewCell: View {
     @ObservedObject var commentVM: CommentViewModel
     
-    @State var buttonOnOff: Bool = false
-    @State private var isHeartCheck: Bool = true
-    
     @Binding var post: Post
     
     let index: Int
@@ -26,7 +23,7 @@ struct CommentWriteViewCell: View {
                 Group {
                     NavigationLink {
                         if let user = commentVM.commentUsers[commentVM.comments[index].userID] {
-                            OtherUserProfileView(buttonOnOff: $buttonOnOff,
+                            OtherUserProfileView(buttonOnOff: $commentVM.buttonOnOff,
                                                  user: user)
                         }
                     } label: {
@@ -42,7 +39,7 @@ struct CommentWriteViewCell: View {
                 VStack(alignment: .leading, spacing: 6) {
                     NavigationLink {
                         if let user = commentVM.commentUsers[commentVM.comments[index].userID] {
-                            OtherUserProfileView(buttonOnOff: $buttonOnOff,
+                            OtherUserProfileView(buttonOnOff: $commentVM.buttonOnOff,
                                                  user: user)
                         }
                     } label: {
@@ -70,8 +67,8 @@ struct CommentWriteViewCell: View {
             
             }
             .onAppear {
-                self.isHeartCheck = commentVM.checkCommentHeartExists(index: index)
-                self.buttonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: commentVM.comments[index].userID)
+                commentVM.isHeartCheck = commentVM.checkCommentHeartExists(index: index)
+                commentVM.buttonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: commentVM.comments[index].userID)
             }
         }
     }

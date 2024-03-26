@@ -14,11 +14,6 @@ struct PhotoMojiCropView: View {
     @ObservedObject var commentVM: CommentViewModel
     
     // 이미지 조작을 위한 상태 변수들
-    @State private var scale: CGFloat = 1
-    @State private var lastScale: CGFloat = 0
-    @State private var offset: CGSize = .zero
-    @State private var lastStoredOffset: CGSize = .zero
-    @State private var showinGrid: Bool = false
     @GestureState private var isInteractig: Bool = false
     
     @Binding var postOwner: User
@@ -116,7 +111,7 @@ struct PhotoMojiCropView: View {
                                         }
                                     }
                                     if !newValue {
-                                        lastStoredOffset = offset
+                                        commentVM.lastStoredOffset = offset
                                     }
                                 }
                         }
@@ -124,12 +119,12 @@ struct PhotoMojiCropView: View {
                     .frame(size)
             }
         }
-        .scaleEffect(scale)
+        .scaleEffect(commentVM.scale)
         .offset(offset)
         // 그리드를 보여주는 곳
         .overlay(content: {
             if !hideGrids {
-                if showinGrid {
+                if commentVM.showinGrid {
                     grids()
                 }
             }
@@ -142,11 +137,11 @@ struct PhotoMojiCropView: View {
                     out = true
                 }).onChanged({ value in
                     let translation = value.translation
-                    offset = CGSize(width: translation.width + lastStoredOffset.width, height: translation.height + lastStoredOffset.height)
-                    showinGrid = true
+                    offset = CGSize(width: translation.width + commentVM.lastStoredOffset.width, height: translation.height + commentVM.lastStoredOffset.height)
+                    commentVM.showinGrid = true
                 })
                 .onEnded({ value in
-                    showinGrid = false
+                    commentVM.showinGrid = false
                 })
         )
         .gesture(
@@ -154,16 +149,16 @@ struct PhotoMojiCropView: View {
                 .updating($isInteractig, body: { _, out, _ in
                     out = true
                 }).onChanged({ value in
-                    let updatedScale = value + lastScale
+                    let updatedScale = value + commentVM.lastScale
                     // - Limiting Beyound 1
-                    scale = (updatedScale < 1 ? 1 : updatedScale)
+                    commentVM.scale = (updatedScale < 1 ? 1 : updatedScale)
                 }).onEnded({ value in
                     withAnimation(.easeInOut(duration: 0.2)) {
-                        if scale < 1 {
-                            scale = 1
-                            lastScale = 0
+                        if commentVM.scale < 1 {
+                            commentVM.scale = 1
+                            commentVM.lastScale = 0
                         } else {
-                            lastScale = scale - 1
+                            commentVM.lastScale = commentVM.scale - 1
                         }
                     }
                 })

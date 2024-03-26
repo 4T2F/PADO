@@ -14,8 +14,6 @@ struct SelectUserView: View {
     
     @StateObject var padorideVM = PadoRideViewModel()
     
-    @State private var fetchedData: Bool = false
-    
     let user: User
     
     let columns = [GridItem(.flexible(), spacing: 1), GridItem(.flexible(), spacing: 1), GridItem(.flexible())]
@@ -49,7 +47,7 @@ struct SelectUserView: View {
             
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 25) {
-                    if fetchedData {
+                    if padorideVM.fetchedData {
                         if let padoridePosts = padorideVM.postsData[user.nameID], !padoridePosts.isEmpty {
                             LazyVGrid(columns: columns, spacing: 2) {
                                 ForEach(padoridePosts, id: \.self) { post in
@@ -122,7 +120,7 @@ struct SelectUserView: View {
         }
         .task {
             await padorideVM.loadPostsData(for: user.nameID)
-            fetchedData = true
+            padorideVM.fetchedData = true
         }
         .toolbarBackground(Color(.main), for: .navigationBar)
     }

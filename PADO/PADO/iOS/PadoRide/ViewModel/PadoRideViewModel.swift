@@ -14,15 +14,18 @@ import PhotosUI
 import SwiftUI
 
 class PadoRideViewModel: ObservableObject {
-    @Published var surfingUser: User?
-    @Published var selectedImage: String = ""
-    @Published var selectedUIImage: UIImage?
+    @Published var fetchedData: Bool = false
+    @Published var popularUsers: [User] = []
     @Published var postsData: [String: [Post]] = [:]
     @Published var postLoading = false
-    
+    @Published var selectedImage: String = ""
+    @Published var selectedUIImage: UIImage?
     @Published var selectedPost: Post?
+    @Published var surfingIDs: [String] = []
+    @Published var surfingUser: User?
     @Published var showTab: Int = 0
     
+    @Published var isShowingOnboarding: Bool = false
     @Published var isShowingEditView: Bool = false
     @Published var isShowingDrawingView: Bool = false
     @Published var showingModal: Bool = false
