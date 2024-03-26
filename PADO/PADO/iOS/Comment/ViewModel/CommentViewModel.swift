@@ -55,8 +55,6 @@ class CommentViewModel: ObservableObject {
     @Published var lastStoredOffset: CGSize = .zero
     @Published var showinGrid: Bool = false
 
-    let updatePhotoMojiData = UpdatePhotoMojiData()
-    
     @MainActor
     func getCommentsDocument(post: Post) async {
         guard let postID = post.id else { return }

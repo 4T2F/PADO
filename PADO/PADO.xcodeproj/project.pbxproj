@@ -185,6 +185,9 @@
 		649372F82B561A6F00BCDA71 /* FollowingCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649372F72B561A6F00BCDA71 /* FollowingCellView.swift */; };
 		649372FE2B56665200BCDA71 /* FollowerUserCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649372FD2B56665100BCDA71 /* FollowerUserCellView.swift */; };
 		64B4C8EA2B62532100D405DE /* UpdateUserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B4C8E92B62532000D405DE /* UpdateUserData.swift */; };
+		64DDA4352BA76C1600EC5140 /* View+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64DDA4342BA76C1600EC5140 /* View+.swift */; };
+		64DDA4392BA76EAC00EC5140 /* ImageGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64DDA4382BA76EAC00EC5140 /* ImageGrid.swift */; };
+		64DDA43B2BA7E3C100EC5140 /* OnboardingPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64DDA43A2BA7E3C100EC5140 /* OnboardingPageView.swift */; };
 		64E761C32B7F5F3600882D29 /* SurfingGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E761C22B7F5F3600882D29 /* SurfingGuideView.swift */; };
 		64E761C52B7F5F4E00882D29 /* SurfingGuideCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E761C42B7F5F4E00882D29 /* SurfingGuideCell.swift */; };
 		64E761C72B7FBC4A00882D29 /* NoItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E761C62B7FBC4A00882D29 /* NoItemView.swift */; };
@@ -220,7 +223,6 @@
 		B1D7CDE42B5656B10090544B /* ModalBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D7CDE32B5656B10090544B /* ModalBackground.swift */; };
 		B1D7CDE92B5669200090544B /* SettingRedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D7CDE82B5669200090544B /* SettingRedCell.swift */; };
 		B1D7CDEC2B5669B80090544B /* SettingDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D7CDEB2B5669B80090544B /* SettingDivider.swift */; };
-		B1D7CDEF2B566A2F0090544B /* SettingCell+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D7CDEE2B566A2F0090544B /* SettingCell+.swift */; };
 		B1EDCAF22B8255D7000B5AEA /* photomoji.json in Resources */ = {isa = PBXBuildFile; fileRef = B1EDCAF12B8255D6000B5AEA /* photomoji.json */; };
 /* End PBXBuildFile section */
 
@@ -441,6 +443,9 @@
 		649372F72B561A6F00BCDA71 /* FollowingCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingCellView.swift; sourceTree = "<group>"; };
 		649372FD2B56665100BCDA71 /* FollowerUserCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerUserCellView.swift; sourceTree = "<group>"; };
 		64B4C8E92B62532000D405DE /* UpdateUserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateUserData.swift; sourceTree = "<group>"; };
+		64DDA4342BA76C1600EC5140 /* View+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+.swift"; sourceTree = "<group>"; };
+		64DDA4382BA76EAC00EC5140 /* ImageGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGrid.swift; sourceTree = "<group>"; };
+		64DDA43A2BA7E3C100EC5140 /* OnboardingPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPageView.swift; sourceTree = "<group>"; };
 		64E761C22B7F5F3600882D29 /* SurfingGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurfingGuideView.swift; sourceTree = "<group>"; };
 		64E761C42B7F5F4E00882D29 /* SurfingGuideCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurfingGuideCell.swift; sourceTree = "<group>"; };
 		64E761C62B7FBC4A00882D29 /* NoItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoItemView.swift; sourceTree = "<group>"; };
@@ -472,7 +477,6 @@
 		B1D7CDE32B5656B10090544B /* ModalBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalBackground.swift; sourceTree = "<group>"; };
 		B1D7CDE82B5669200090544B /* SettingRedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingRedCell.swift; sourceTree = "<group>"; };
 		B1D7CDEB2B5669B80090544B /* SettingDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingDivider.swift; sourceTree = "<group>"; };
-		B1D7CDEE2B566A2F0090544B /* SettingCell+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SettingCell+.swift"; sourceTree = "<group>"; };
 		B1EDCAF12B8255D6000B5AEA /* photomoji.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = photomoji.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -582,11 +586,11 @@
 		4165C23C2B58FDF20002053E /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				B1D7CDEE2B566A2F0090544B /* SettingCell+.swift */,
 				63AB411C2B468C25007B37DC /* NavigationViewStyleHelper+.swift */,
 				04AD70EB2B6CB80F00437134 /* KeyboardHide+.swift */,
 				B107654D2B712ABE0023B686 /* UserDefaults+.swift */,
 				63B7B9A22B802DC800707C2F /* Color+.swift */,
+				64DDA4342BA76C1600EC5140 /* View+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -980,6 +984,8 @@
 				64E761C62B7FBC4A00882D29 /* NoItemView.swift */,
 				41787D502B814D9900D48CEA /* PostSelectModalView.swift */,
 				4176B8322B868275009F1DEF /* CustomTabView.swift */,
+				64DDA4382BA76EAC00EC5140 /* ImageGrid.swift */,
+				64DDA43A2BA7E3C100EC5140 /* OnboardingPageView.swift */,
 				417EA10F2BA85F3300E0377C /* HeartEffectView.swift */,
 			);
 			path = Items;
@@ -1459,6 +1465,7 @@
 				41898FBA2B78D48800F33F03 /* PostitCell.swift in Sources */,
 				418B6C8A2B5EBC0100E8289D /* SearchBar.swift in Sources */,
 				419981DA2B75144900EEA06E /* BirthAlertModal.swift in Sources */,
+				64DDA43B2BA7E3C100EC5140 /* OnboardingPageView.swift in Sources */,
 				418B6C932B5EC61600E8289D /* SurfingViewModel.swift in Sources */,
 				635B094A2B4500CB009E60A9 /* User.swift in Sources */,
 				41947FB22BA70572001DE472 /* CommentWriteView.swift in Sources */,
@@ -1476,7 +1483,6 @@
 				63824C452B558B2400D1D653 /* StartView.swift in Sources */,
 				6348FF6E2BA6E22C00FECED9 /* GradientOverlay.swift in Sources */,
 				63283DB92B73BDF700A42C0F /* SelectPostView.swift in Sources */,
-				B1D7CDEF2B566A2F0090544B /* SettingCell+.swift in Sources */,
 				418D18512B8A826C00E379F8 /* HeartUserCell.swift in Sources */,
 				41947F8F2BA6DF09001DE472 /* LoginViewModel.swift in Sources */,
 				418ACDCB2B767CB3003DD9E7 /* DeleteMessageView.swift in Sources */,
@@ -1495,6 +1501,7 @@
 				63D31B042B9E9ABE0089D02E /* PostGridView.swift in Sources */,
 				41101B3B2B6BF8AF002E8C64 /* OtherUserProfileView.swift in Sources */,
 				418B6C982B5EC75F00E8289D /* SearchViewModel.swift in Sources */,
+				64DDA4392BA76EAC00EC5140 /* ImageGrid.swift in Sources */,
 				B1A91D132B55928D00FE7F62 /* SettingToggleCell.swift in Sources */,
 				41A102962B62628E0070AB8D /* CameraAccessView.swift in Sources */,
 				048A344B2B7CAF490085CE8B /* PhotoTypeModal.swift in Sources */,
@@ -1632,6 +1639,7 @@
 				6401BE9B2B7DFED40084FECD /* DeleteImageUrl.swift in Sources */,
 				63D31AFE2B9AD9FA0089D02E /* ProfileHeaderView.swift in Sources */,
 				040914F92B561FA8001B549B /* ReportSelectCellView.swift in Sources */,
+				64DDA4352BA76C1600EC5140 /* View+.swift in Sources */,
 				63D3C83B2B867DF3001C5F33 /* FollowerSuggestionCell.swift in Sources */,
 				417EA10E2BA81C4300E0377C /* Heart.swift in Sources */,
 				6408FEEA2B6E98E800BF0DDF /* ReportCommentView.swift in Sources */,
