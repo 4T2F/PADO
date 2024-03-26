@@ -98,7 +98,7 @@ struct ProfileHeaderView: View {
                                             .font(.system(.body))
                                             .fontWeight(.semibold)
                                     } else {
-                                        Text(userNameID)
+                                        Text(user.nameID)
                                             .font(.system(.body))
                                             .fontWeight(.semibold)
                                     }
