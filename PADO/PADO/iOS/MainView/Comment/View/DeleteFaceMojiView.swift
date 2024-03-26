@@ -13,6 +13,7 @@ struct DeletePhotoMojiView: View {
     
     let photoMoji: PhotoMoji
     let postID: String
+    let updatePhotoMojiData = UpdatePhotoMojiData()
     
     var body: some View {
         VStack {
@@ -34,9 +35,9 @@ struct DeletePhotoMojiView: View {
                 Button {
                     commentVM.deletePhotoMojiModal = false
                     Task {
-                        await commentVM.updatePhotoMojiData.deletePhotoMoji(documentID: postID,
+                        await updatePhotoMojiData.deletePhotoMoji(documentID: postID,
                                                                           storagefileName: photoMoji.storagename)
-                        commentVM.photoMojies = try await commentVM.updatePhotoMojiData.getPhotoMoji(documentID: postID) ?? []
+                        commentVM.photoMojies = try await updatePhotoMojiData.getPhotoMoji(documentID: postID) ?? []
                     }
                 } label: {
                     Text("삭제")

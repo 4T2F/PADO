@@ -19,6 +19,7 @@ struct PhotoMojiView: View {
     @Binding var post: Post
     
     let postID: String
+    let updatePhotoMojiData = UpdatePhotoMojiData()
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -58,7 +59,7 @@ struct PhotoMojiView: View {
                     .padding(.horizontal, 6)
                     .onAppear {
                         Task {
-                            commentVM.photoMojies = try await commentVM.updatePhotoMojiData.getPhotoMoji(documentID: postID) ?? []
+                            commentVM.photoMojies = try await updatePhotoMojiData.getPhotoMoji(documentID: postID) ?? []
                         }
                         surfingVM.photoMojiItem = nil
                     }

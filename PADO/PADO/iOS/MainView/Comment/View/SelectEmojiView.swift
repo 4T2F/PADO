@@ -24,6 +24,7 @@ struct SelectEmojiView: View {
     
     let postID: String
     let emojis = ["None", "👍", "🥰", "🤣", "😡", "😢"]
+    let updatePhotoMojiData = UpdatePhotoMojiData()
     
     var body: some View {
         ZStack {
@@ -85,14 +86,14 @@ struct SelectEmojiView: View {
     var submitButton: some View {
         Button(action: {
             Task {
-                await commentVM.updatePhotoMojiData.updateEmoji(documentID: postID,
+                await updatePhotoMojiData.updateEmoji(documentID: postID,
                                                                emoji: commentVM.selectedEmoji)
                 if let cropImage = commentVM.cropMojiUIImage {
-                    try await commentVM.updatePhotoMojiData.updatePhotoMoji(cropMojiUIImage: cropImage,
+                    try await updatePhotoMojiData.updatePhotoMoji(cropMojiUIImage: cropImage,
                                                                           documentID: postID,
                                                                           selectedEmoji: commentVM.selectedEmoji)
                 }
-                commentVM.photoMojies = try await commentVM.updatePhotoMojiData.getPhotoMoji(documentID: postID) ?? []
+                commentVM.photoMojies = try await updatePhotoMojiData.getPhotoMoji(documentID: postID) ?? []
                 await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID,
                                                              receiveUser: postOwner,
                                                              type: .photoMoji,

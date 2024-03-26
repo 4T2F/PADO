@@ -38,8 +38,6 @@ class CommentViewModel: ObservableObject {
     @Published var selectedEmoji: String = ""
     @Published var selectedPhotoMoji: PhotoMoji?
 
-    let updatePhotoMojiData = UpdatePhotoMojiData()
-    
     @MainActor
     func getCommentsDocument(post: Post) async {
         guard let postID = post.id else { return }
