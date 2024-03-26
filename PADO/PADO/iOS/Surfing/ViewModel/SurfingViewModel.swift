@@ -47,6 +47,20 @@ class SurfingViewModel: ObservableObject  {
     
     // 온보팅 탭바 이동
     @Published var showingTab: Int = 0
+    
+    // 이미지 크롭 변수들
+    @Published var scale: CGFloat = 1
+    @Published var lastScale: CGFloat = 0
+    @Published var offset: CGSize = .zero
+    @Published var lastStoredOffset: CGSize = .zero
+    @Published var showinGrid: Bool = false
+    @Published var imageChangeButton: Bool = false
+    @Published var selectedColor = Color.main
+    
+    // 포스팅 페이지 관련 변수들
+    @Published var postLoading = false
+    @Published var showAlert = false
+    @Published var postOwner: User? = nil
 
     @MainActor
     @Published var photoMojiItem: PhotosPickerItem? {
