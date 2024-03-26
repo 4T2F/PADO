@@ -5,8 +5,6 @@
 //  Created by 황성진 on 2/6/24.
 //
 
-import Firebase
-import FirebaseFirestoreSwift
 import Kingfisher
 import Lottie
 import SwiftUI
@@ -17,6 +15,8 @@ struct FeedHeaderCell: View {
     @ObservedObject var notiVM: NotificationViewModel
     
     @Namespace var animation
+    
+    var openPostit: () -> Void
     
     private var filterBarWidth: CGFloat {
         let count = CGFloat(FeedFilter.allCases.count)
@@ -59,7 +59,8 @@ struct FeedHeaderCell: View {
             Spacer()
             
             if !userNameID.isEmpty {
-                NavigationLink(destination: NotificationView(notiVM: notiVM)) {
+                NavigationLink(destination: NotificationView(notiVM: notiVM,
+                                                             openPostit: openPostit)) {
                     Image(notiVM.hasNewNotifications ? "Bell_pin_light" : "Bell_light") // 조건부 아이콘 변경
                 }
             } else {

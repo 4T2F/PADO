@@ -10,20 +10,21 @@ import SwiftUI
 struct ShowMoreCommentView: View {
     @ObservedObject var commentVM: CommentViewModel
     
-    @State private var showReplyComment: Bool = false
-    
+    @State private var showReplyComment = "hide"
+
     @Binding var post: Post
     
     let index: Int
     
     var body: some View {
         switch showReplyComment {
-        case false:
+        case "hide":
             Button {
                 Task {
+                    showReplyComment = "fetching"
                     await commentVM.getReplyCommentsDocument(post: post,
                                                              index: index)
-                    showReplyComment = true
+                    showReplyComment = "show"
                 }
             } label: {
                 HStack {
@@ -43,14 +44,21 @@ struct ShowMoreCommentView: View {
                 .padding(.leading, 10)
                 .padding(.vertical, 8)
             }
-        case true:
+        case "show":
             ForEach(commentVM.comments[index].replyComments, id:\.self) { replyCommentID in
                 ReplyCommentCell(commentVM: commentVM,
                                  post: $post,
                                  index: index,
                                  replyCommentID: replyCommentID)
             }
-
+        default:
+            HStack {
+                Spacer()
+                
+                ProgressView()
+                
+                Spacer()
+            }
         }
     }
 }

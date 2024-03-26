@@ -128,7 +128,7 @@ struct ProfileView: View {
                 
                 VStack {
                     if profileVM.isRefresh {
-                        LottieView(animation: .named("Wave"))
+                        LottieView(animation: .named(LottieType.wave.rawValue))
                             .looping()
                             .resizable()
                             .scaledToFit()

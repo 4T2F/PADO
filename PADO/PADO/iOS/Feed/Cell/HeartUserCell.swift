@@ -38,11 +38,9 @@ struct HeartUserCell: View {
                             }
                         }
                     }
-                    
                     Spacer()
                 }
             }
-            
             
             if user.nameID != userNameID {
                 FollowButtonView(buttonActive: $buttonActive, 
@@ -54,7 +52,6 @@ struct HeartUserCell: View {
                                  buttonType: ButtonType.unDirect)
                 .padding(.horizontal)
             }
-            
         }
         .padding(.vertical, -8)
         .padding(.horizontal)

@@ -5,8 +5,7 @@
 //  Created by 최동호 on 2/9/24.
 //
 
-import Firebase
-import FirebaseFirestoreSwift
+import FirebaseFirestore
 
 import Foundation
 
@@ -132,7 +131,6 @@ class PostitViewModel: ObservableObject {
         }
     }
     
-    @MainActor
     func removeListner() {
         messagesListener?.remove()
         messagesListener = nil

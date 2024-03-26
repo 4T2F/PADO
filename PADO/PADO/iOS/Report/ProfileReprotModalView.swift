@@ -56,12 +56,11 @@ struct ReprotProfileModalView: View {
                                 .fontWeight(.bold)
                         }
                     }
-                    .onAppear {
-                        Task {
-                            await profileVM.fetchBlockUsers()
-                        }
+                    .task {
+                        await profileVM.fetchBlockUsers()
+
                     }
-                    
+  
                     Divider()
                         .padding(.vertical, 6)
                     

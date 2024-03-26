@@ -6,11 +6,10 @@
 //
 
 import Kingfisher
-import Lottie
+
 import SwiftUI
 
 struct OtherUserProfileView: View {
-    @EnvironmentObject var viewModel: MainViewModel
     @Environment(\.dismiss) var dismiss
     
     @StateObject var profileVM = ProfileViewModel()
@@ -139,15 +138,13 @@ struct OtherUserProfileView: View {
         }
         .coordinateSpace(name: "SCROLL")
         .ignoresSafeArea(.container, edges: .vertical)
-        .onAppear {
-            Task {
-                await followVM.initializeFollowFetch(id: user.nameID)
-                await profileVM.fetchPostID(user: user)
-                profileVM.fetchingPostData = false
-                await postitVM.listenForMessages(ownerID: user.nameID)
-                postitVM.fetchedPostitData = true
-                enteredNavigation = true
-            }
+        .task {
+            await followVM.initializeFollowFetch(id: user.nameID)
+            await profileVM.fetchPostID(user: user)
+            profileVM.fetchingPostData = false
+            await postitVM.listenForMessages(ownerID: user.nameID)
+            postitVM.fetchedPostitData = true
+            enteredNavigation = true
         }
         .onChange(of: resetNavigation) { _, _ in
             dismiss()

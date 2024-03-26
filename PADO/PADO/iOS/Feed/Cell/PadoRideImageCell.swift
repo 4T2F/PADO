@@ -19,15 +19,15 @@ struct PadoRideImageCell: View {
         ZStack {
             KFImage.url(URL(string: padoRide.imageUrl))
                 .resizable()
+                .scaledToFit()
                 .blur(radius: 50)
+                .frame(width: UIScreen.main.bounds.width * 0.8, height: UIScreen.main.bounds.height * 0.65)
                 .containerRelativeFrame([.horizontal,.vertical])
                 .overlay {
                     ImageLoadingCell(isLoading: $isLoading,
                                      isHeaderVisible: $isHeaderVisible,
                                      imageUrl: padoRide.imageUrl)
-                    .frame(width: UIScreen.main.bounds.width * 0.8, height: UIScreen.main.bounds.height * 0.65)
                     .cornerRadius(15)
-                    .scaledToFit()
                 }
         }
     }

@@ -5,9 +5,6 @@
 //  Created by 강치우 on 2/6/24.
 //
 
-import Firebase
-import FirebaseFirestoreSwift
-
 import SwiftUI
 
 struct FeedCell: View {
@@ -57,18 +54,17 @@ struct FeedCell: View {
             }
             .padding()
         }
-        .onTapGesture(count: 2) {
+        .overlay(alignment: .topLeading, content: {
+            HeartEffectView(hearts: feedCellVM.hearts)
+        })
+        .onTapGesture(count: 2) { position in
             // MARK: 더블 탭 시 실행할 로직
-            Task {
-                if !feedCellVM.isHeartCheck {
-                    await feedCellVM.touchAddHeart(post: post)
-                }
-            }
+            feedCellVM.doubleTapCell(size: 75,
+                                     position: position,
+                                     post: post)
         }
-        .onAppear {
-            Task {
-                await feedCellVM.fetchPostData(post: post)
-            }
+        .task {
+            await feedCellVM.fetchPostData(post: post)
         }
     }
 }

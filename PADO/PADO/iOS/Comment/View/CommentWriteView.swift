@@ -56,12 +56,11 @@ struct CommentWriteView: View {
                                                      index: index)
                                 .id(index)
                             }
-                            .onAppear {
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-                                    if let lastCommentID = commentVM.comments.last?.id {
-                                        withAnimation {
-                                            value.scrollTo(lastCommentID, anchor: .bottom)
-                                        }
+                            .task {
+                                try? await Task.sleep(nanoseconds: 1 * 700_000_000)
+                                if let lastCommentID = commentVM.comments.last?.id {
+                                    withAnimation {
+                                        value.scrollTo(lastCommentID, anchor: .bottom)
                                     }
                                 }
                             }

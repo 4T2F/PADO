@@ -58,16 +58,14 @@ struct PostGridView: View {
                     if fetchedData {
                         Rectangle()
                             .foregroundStyle(.clear)
-                            .onAppear {
-                                Task {
-                                    switch postViewType {
-                                    case .receive:
-                                        await profileVM.fetchMorePadoPosts(id: userNameID)
-                                    case .send:
-                                        await profileVM.fetchMoreSendPadoPosts(id: userNameID)
-                                    case .highlight:
-                                        await profileVM.fetchMoreHighlihts(id: userNameID)
-                                    }
+                            .task {
+                                switch postViewType {
+                                case .receive:
+                                    await profileVM.fetchMorePadoPosts(id: userNameID)
+                                case .send:
+                                    await profileVM.fetchMoreSendPadoPosts(id: userNameID)
+                                case .highlight:
+                                    await profileVM.fetchMoreHighlihts(id: userNameID)
                                 }
                             }
                     }

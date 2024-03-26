@@ -6,10 +6,9 @@
 //
 
 import FirebaseFirestore
-import FirebaseFirestoreSwift
+
 import SwiftUI
 
-@MainActor
 class NotificationViewModel: ObservableObject {
     @Published var notifications: [Noti] = []
     @Published var notiPostListener: [String: ListenerRegistration] = [:]
@@ -27,6 +26,7 @@ class NotificationViewModel: ObservableObject {
     
     private let db = Firestore.firestore()
     
+    @MainActor
     func fetchNotifications() async {
         guard !userNameID.isEmpty else { return }
         
@@ -66,6 +66,7 @@ class NotificationViewModel: ObservableObject {
         }
     }
     
+    @MainActor
     func fetchNotificationPostData(postID: String) async {
         guard !postID.isEmpty else { return }
         guard self.notiPosts[postID] == nil else { return }
@@ -84,7 +85,7 @@ class NotificationViewModel: ObservableObject {
         }
     }
   
-    
+    @MainActor
     func fetchMoreNotifications() async {
         guard !userNameID.isEmpty else { return }
         guard let lastDocument = lastFetchedDocument else { return }
@@ -147,6 +148,7 @@ class NotificationViewModel: ObservableObject {
         }
     }
     
+    @MainActor
     func markNotificationsAsRead() async {
         for notification in notifications where !notification.read {
             guard let notificationID = notification.id else { continue }
@@ -163,6 +165,7 @@ class NotificationViewModel: ObservableObject {
         await fetchNotifications()
     }
     
+    @MainActor
     func deleteAllNotifications() async {
         guard !userNameID.isEmpty else { return }
         let notificationsRef = db.collection("users").document(userNameID).collection("notifications")

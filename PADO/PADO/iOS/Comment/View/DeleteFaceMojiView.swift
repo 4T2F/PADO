@@ -36,7 +36,7 @@ struct DeletePhotoMojiView: View {
                     Task {
                         await commentVM.updatePhotoMojiData.deletePhotoMoji(documentID: postID,
                                                                           storagefileName: photoMoji.storagename)
-                        commentVM.photoMojies = try await commentVM.updatePhotoMojiData.getPhotoMoji(documentID: postID) ?? []
+                        commentVM.photoMojies = await commentVM.updatePhotoMojiData.getPhotoMoji(documentID: postID) ?? []
                     }
                 } label: {
                     Text("삭제")

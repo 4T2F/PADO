@@ -14,7 +14,6 @@ import SwiftUI
 class MainViewModel: ObservableObject {
     
     @Published var showLaunchScreen = true
-    @Published var isShowingMessageView = false
 
     // 탭바 이동관련 변수
     @Published var showTab: Int = 0

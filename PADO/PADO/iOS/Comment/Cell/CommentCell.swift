@@ -119,7 +119,7 @@ struct CommentCell: View {
                                             .frame(width: 17)
                                             .foregroundStyle(.clear)
                                             .overlay {
-                                                LottieView(animation: .named("Heart"))
+                                                LottieView(animation: .named(LottieType.heart.rawValue))
                                                     .playing()
                                                     .resizable()
                                                     .scaledToFit()
