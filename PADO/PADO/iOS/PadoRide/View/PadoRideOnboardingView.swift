@@ -10,11 +10,11 @@ import SwiftUI
 struct PadoRideOnboardingView: View {
     @Environment(\.dismiss) var dismiss
     
-    @State private var currentTab = 0
+    @ObservedObject var padorideVM: PadoRideViewModel
     
     var body: some View {
         VStack {
-            TabView(selection: $currentTab) {
+            TabView(selection: $padorideVM.currentTab) {
                 VStack(alignment: .center, spacing: 10) {
                     VStack(alignment: .center, spacing: 10) {
                         Text("파도타기")

@@ -13,8 +13,6 @@ struct PhotoMojiView: View {
     
     @ObservedObject var commentVM: CommentViewModel
     
-    @State private var isShowingLoginPage: Bool = false
-    
     @Binding var postOwner: User
     @Binding var post: Post
     
@@ -37,7 +35,7 @@ struct PhotoMojiView: View {
                     if !userNameID.isEmpty {
                         surfingVM.isShowingPhotoMojiModal = true
                     } else {
-                        isShowingLoginPage = true
+                        commentVM.isShowingLoginPage = true
                     }
                 } label: {
                     VStack {
@@ -73,8 +71,8 @@ struct PhotoMojiView: View {
                                          mysourceType: $surfingVM.sourceType,
                                          mycameraDevice: $surfingVM.cameraDevice)
                     }
-                    .sheet(isPresented: $isShowingLoginPage, content: {
-                        StartView(isShowStartView: $isShowingLoginPage)
+                    .sheet(isPresented: $commentVM.isShowingLoginPage, content: {
+                        StartView(isShowStartView: $commentVM.isShowingLoginPage)
                             .presentationDragIndicator(.visible)
                     })
                     .onChange(of: surfingVM.photoMojiUIImage) { _, _ in

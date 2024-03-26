@@ -93,25 +93,25 @@ struct PhotoMojiCropView: View {
                                     // 드래그, 핀치 제스처 에 대한 내용
                                     withAnimation(.easeInOut(duration: 0.2)) {
                                         if rect.minX > 0 {
-                                            offset.width = (offset.width - rect.minX)
+                                            commentVM.offset.width = (commentVM.offset.width - rect.minX)
                                             haptics(.medium)
                                         }
                                         if rect.minY > 0 {
-                                            offset.height = (offset.height - rect.minY)
+                                            commentVM.offset.height = (commentVM.offset.height - rect.minY)
                                             haptics(.medium)
                                         }
                                         if rect.maxX < size.width {
-                                            offset.width = (rect.minX - offset.width)
+                                            commentVM.offset.width = (rect.minX - commentVM.offset.width)
                                             haptics(.medium)
                                         }
                                         
                                         if rect.maxY < size.height {
-                                            offset.height = (rect.minY - offset.height)
+                                            commentVM.offset.height = (rect.minY - commentVM.offset.height)
                                             haptics(.medium)
                                         }
                                     }
                                     if !newValue {
-                                        commentVM.lastStoredOffset = offset
+                                        commentVM.lastStoredOffset = commentVM.offset
                                     }
                                 }
                         }
@@ -120,7 +120,7 @@ struct PhotoMojiCropView: View {
             }
         }
         .scaleEffect(commentVM.scale)
-        .offset(offset)
+        .offset(commentVM.offset)
         // 그리드를 보여주는 곳
         .overlay(content: {
             if !hideGrids {
@@ -137,7 +137,7 @@ struct PhotoMojiCropView: View {
                     out = true
                 }).onChanged({ value in
                     let translation = value.translation
-                    offset = CGSize(width: translation.width + commentVM.lastStoredOffset.width, height: translation.height + commentVM.lastStoredOffset.height)
+                    commentVM.offset = CGSize(width: translation.width + commentVM.lastStoredOffset.width, height: translation.height + commentVM.lastStoredOffset.height)
                     commentVM.showinGrid = true
                 })
                 .onEnded({ value in

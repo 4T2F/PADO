@@ -10,6 +10,9 @@ import SwiftUI
 struct PadoRideView: View {
     @ObservedObject var padorideVM: PadoRideViewModel
     
+    @State var popularUsers: [User]
+    @State var surfingIDs: [String]
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -20,7 +23,7 @@ struct PadoRideView: View {
                                 Text("팔로우한 사람이 없어요")
                                     .font(.system(.body))
                                     .fontWeight(.medium)
-                            } else if !padorideVM.surfingIDs.isEmpty {
+                            } else if surfingIDs.isEmpty {
                                 Text("파도타기가 가능한 친구")
                                     .font(.system(.body))
                                     .fontWeight(.medium)
@@ -36,7 +39,7 @@ struct PadoRideView: View {
                                     .foregroundStyle(Color(.systemGray))
                             }
                             .sheet(isPresented: $padorideVM.isShowingOnboarding, content: {
-                                PadoRideOnboardingView()
+                                PadoRideOnboardingView(padorideVM: padorideVM)
                                     .presentationDragIndicator(.visible)
                                     .presentationDetents([.fraction(0.99)])
                             })
@@ -50,17 +53,17 @@ struct PadoRideView: View {
                                 .foregroundStyle(.gray)
                                 .padding(.top, 100)
                             
-                        } else if padorideVM.surfingIDs.isEmpty {
+                        } else if surfingIDs.isEmpty {
                             SurfingGuideView()
                         } else {
-                            ForEach(padorideVM.surfingIDs, id: \.self) { surfingID in
-                                SelectPadoRideUserCell(id: surfingID)
+                            ForEach(surfingIDs, id: \.self) { surfingID in
+                                SelectPadoRideUserCell(padorideVM: padorideVM, id: surfingID)
                             }
                         }
                     }
                     .padding()
                     
-                    if !padorideVM.surfingIDs.isEmpty {
+                    if !surfingIDs.isEmpty {
                         VStack(alignment: .leading, spacing: 10) {
                             Text("회원님을 위한 추천")
                                 .font(.system(.footnote))
@@ -70,7 +73,7 @@ struct PadoRideView: View {
                             
                             ScrollView(.horizontal) {
                                 HStack {
-                                    ForEach(padorideVM.popularUsers, id: \.self) { user in
+                                    ForEach(popularUsers, id: \.self) { user in
                                         FollowerSuggestionCell(user: user)
                                             .padding(.trailing, 4)
                                     }

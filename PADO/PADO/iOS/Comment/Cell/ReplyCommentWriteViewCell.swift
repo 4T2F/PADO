@@ -14,8 +14,6 @@ struct ReplyCommentWriteViewCell: View {
     @ObservedObject var commentVM: CommentViewModel
     
     @State var commentUser: User?
-    @State var buttonOnOff: Bool = false
-    @State private var isHeartCheck: Bool = true
     
     @Binding var post: Post
     
@@ -32,7 +30,7 @@ struct ReplyCommentWriteViewCell: View {
                 Group {
                     NavigationLink {
                         if let user = commentUser {
-                            OtherUserProfileView(buttonOnOff: $buttonOnOff,
+                            OtherUserProfileView(buttonOnOff: $commentVM.buttonOnOff,
                                                     user: user)
                         }
                     } label: {
@@ -48,7 +46,7 @@ struct ReplyCommentWriteViewCell: View {
                     
                     NavigationLink {
                         if let user = commentUser {
-                            OtherUserProfileView(buttonOnOff: $buttonOnOff,
+                            OtherUserProfileView(buttonOnOff: $commentVM.buttonOnOff,
                                                     user: user)
                         }
                     } label: {
@@ -82,9 +80,9 @@ struct ReplyCommentWriteViewCell: View {
                      
                         self.commentUser = user
                         
-                        self.isHeartCheck = commentVM.checkReplyCommentHeartExists(replyComment: replyComment)
+                        commentVM.isHeartCheck = commentVM.checkReplyCommentHeartExists(replyComment: replyComment)
                         
-                        self.buttonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: user.nameID)
+                        commentVM.buttonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: user.nameID)
                     }
                 }
             }

@@ -14,10 +14,6 @@ struct ReplyCommentCell: View {
     @ObservedObject var commentVM: CommentViewModel
     
     @State var commentUser: User?
-    @State var buttonOnOff: Bool = false
-    @State private var isShowingReportView: Bool = false
-    @State private var isShowingHeartUserView: Bool = false
-    @State private var isHeartCheck: Bool = true
     
     @Binding var post: Post
     
@@ -36,7 +32,7 @@ struct ReplyCommentCell: View {
                     Group {
                         NavigationLink {
                             if let user = commentUser {
-                                OtherUserProfileView(buttonOnOff: $buttonOnOff,
+                                OtherUserProfileView(buttonOnOff: $commentVM.buttonOnOff,
                                                      user: user)
                             }
                         } label: {
@@ -52,7 +48,7 @@ struct ReplyCommentCell: View {
                         
                         NavigationLink {
                             if let user = commentUser {
-                                OtherUserProfileView(buttonOnOff: $buttonOnOff,
+                                OtherUserProfileView(buttonOnOff: $commentVM.buttonOnOff,
                                                      user: user)
                             }
                         } label: {
@@ -84,14 +80,14 @@ struct ReplyCommentCell: View {
                                 .font(.system(.footnote))
                                 .padding(.trailing, 4)
                             
-                            if isHeartCheck {
+                            if commentVM.isHeartCheck {
                                 Button {
                                     Task {
                                         await commentVM.deleteReplyCommentHeart(post: post,
                                                                                 index: index,
                                                                                 replyComment: replyComment)
                                         if let replyComment = commentVM.replyComments[replyCommentID] {
-                                            self.isHeartCheck = commentVM.checkReplyCommentHeartExists(replyComment: replyComment)
+                                            commentVM.isHeartCheck = commentVM.checkReplyCommentHeartExists(replyComment: replyComment)
                                         }
                                     }
                                 } label: {
@@ -115,7 +111,7 @@ struct ReplyCommentCell: View {
                                                                         index: index,
                                                                         replyComment: replyComment)
                                         if let replyComment = commentVM.replyComments[replyCommentID] { 
-                                            self.isHeartCheck = commentVM.checkReplyCommentHeartExists(replyComment: replyComment)
+                                            commentVM.isHeartCheck = commentVM.checkReplyCommentHeartExists(replyComment: replyComment)
                                         }
                                     }
                                 } label: {
@@ -128,13 +124,13 @@ struct ReplyCommentCell: View {
                             
                             if replyComment.heartIDs.count > 0 {
                                 Button {
-                                    isShowingHeartUserView = true
+                                    commentVM.isShowingHeartUserView = true
                                 } label: {
                                     Text("\(replyComment.heartIDs.count)")
                                         .font(.system(.caption))
                                         .foregroundStyle(.gray)
                                 }
-                                .sheet(isPresented: $isShowingHeartUserView, content: {
+                                .sheet(isPresented: $commentVM.isShowingHeartUserView, content: {
                                     HeartUsersView(userIDs: replyComment.heartIDs)
                                 })
                             }
@@ -166,16 +162,16 @@ struct ReplyCommentCell: View {
                      
                         self.commentUser = user
                         
-                        self.isHeartCheck = commentVM.checkReplyCommentHeartExists(replyComment: replyComment)
+                        commentVM.isHeartCheck = commentVM.checkReplyCommentHeartExists(replyComment: replyComment)
                         
-                        self.buttonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: user.nameID)
+                        commentVM.buttonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: user.nameID)
                     }
                 }
             }
             .onTapGesture(count: 2) {
                 // 더블 탭 시 실행할 로직
                 Task {
-                    if !self.isHeartCheck {
+                    if !commentVM.isHeartCheck {
                         Task {
                             let generator = UIImpactFeedbackGenerator(style: .light)
                             generator.impactOccurred()
@@ -183,7 +179,7 @@ struct ReplyCommentCell: View {
                                                             index: index,
                                                             replyComment: replyComment)
                             if let replyComment = commentVM.replyComments[replyCommentID] {
-                                self.isHeartCheck = commentVM.checkReplyCommentHeartExists(replyComment: replyComment)
+                                commentVM.isHeartCheck = commentVM.checkReplyCommentHeartExists(replyComment: replyComment)
                             }
                         }
                     }
@@ -197,7 +193,7 @@ struct ReplyCommentCell: View {
                 .presentationDetents([.fraction(0.4)])
             }
             .sheet(isPresented: $commentVM.showReportReplyModal) {
-                ReportCommentView(isShowingReportView: $isShowingReportView)
+                ReportCommentView(isShowingReportView: $commentVM.isShowingReportView)
                     .presentationDetents([.medium])
                     .presentationDragIndicator(.visible)
             }

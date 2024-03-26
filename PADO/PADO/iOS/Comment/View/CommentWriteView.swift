@@ -14,8 +14,7 @@ struct CommentWriteView: View {
     @ObservedObject var commentVM: CommentViewModel
     
     @State var notiUser: User
-    @State private var commentText: String = ""
-    @State private var isFocused: Bool = false
+
     @FocusState private var isTextFieldFocused: Bool
     
     @Binding var post: Post
@@ -89,7 +88,7 @@ struct CommentWriteView: View {
                 }
                 
                 HStack {
-                    TextField("\(userNameID)(으)로 댓글 남기기...", text: $commentText, axis: .vertical)
+                    TextField("\(userNameID)(으)로 댓글 남기기...", text: $commentVM.commentText, axis: .vertical)
                         .font(.system(.body))
                         .tint(Color(.systemBlue).opacity(0.7))
                         .focused($isTextFieldFocused)
@@ -97,7 +96,7 @@ struct CommentWriteView: View {
                             self.isTextFieldFocused = true
                         }
                     
-                    if !commentText.isEmpty {
+                    if !commentVM.commentText.isEmpty {
                         Button {
                             Task {
                                 let generator = UIImpactFeedbackGenerator(style: .medium)
@@ -107,13 +106,13 @@ struct CommentWriteView: View {
                                     await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID,
                                                                                  receiveUser: notiUser,
                                                                                  type: .comment,
-                                                                                 message: commentText,
+                                                                                 message: commentVM.commentText,
                                                                                  post: post)
                                     await commentVM.writeComment(post: post,
                                                                                    imageUrl: viewModel.currentUser?.profileImageUrl ?? "",
-                                                                                   inputcomment: commentText)
+                                                                 inputcomment: commentVM.commentText)
                                     
-                                    commentText = ""
+                                    commentVM.commentText = ""
                                 }
                                 dismiss()
                             }
