@@ -19,7 +19,7 @@ struct PhotoMojiView: View {
     @Binding var post: Post
     
     let postID: String
-    let updatePhotoMojiData = UpdatePhotoMojiData()
+    let updatePhotoMojiData: UpdatePhotoMojiData
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {

@@ -21,6 +21,8 @@ struct CommentView: View {
     @State private var isFetchedComment: Bool = false
     @State private var isShowingLoginPage: Bool = false
     
+    let updatePhotoMojiData = UpdatePhotoMojiData()
+    
     var body: some View {
         VStack(spacing: 0) {
             Divider()
@@ -30,7 +32,8 @@ struct CommentView: View {
                         PhotoMojiView(commentVM: commentVM,
                                      postOwner: $postUser,
                                      post: $post,
-                                     postID: postID)
+                                     postID: postID,
+                                     updatePhotoMojiData: updatePhotoMojiData)
                         .padding(2)
                     }
                     Divider()
