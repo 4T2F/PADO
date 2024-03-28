@@ -8,14 +8,15 @@
 import SwiftUI
 
 struct SelectPadoRideUserCell: View {
+    @ObservedObject var padorideVM: PadoRideViewModel
     @State var user: User?
-    @State private var fetchUserData: Bool = false
+    
     
     let id: String
     
     var body: some View {
         NavigationLink {
-            if fetchUserData {
+            if padorideVM.fetchUserData {
                 if let user = user {
                     SelectUserView(user: user)
                 }
@@ -60,7 +61,7 @@ struct SelectPadoRideUserCell: View {
             .task {
                 if let user = await UpdateUserData.shared.getOthersProfileDatas(id: id) {
                     self.user = user
-                    fetchUserData = true
+                    padorideVM.fetchUserData = true
                 }
             }
         }

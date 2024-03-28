@@ -17,8 +17,6 @@ struct ReplyCommentWriteView: View {
     
     @Binding var post: Post
     
-    @State private var commentText: String = ""
-    @State private var isFocused: Bool = false
     @FocusState private var isTextFieldFocused: Bool
     
     let index: Int
@@ -53,9 +51,11 @@ struct ReplyCommentWriteView: View {
                 ScrollViewReader { value in
                     VStack(alignment: .leading) {
                         if index < commentVM.comments.count {
-                            CommentWriteViewCell(commentVM: commentVM,
-                                                 post: $post,
-                                                 index: index)
+                            CommentWriteViewCell(
+                                commentVM: commentVM, 
+                                post: $post,
+                                index: index
+                            )
                             if !commentVM.comments[index].replyComments.isEmpty {
                                 ForEach(commentVM.comments[index].replyComments, id: \.self) { replyCommentID in
                                     ReplyCommentWriteViewCell(commentVM: commentVM,
@@ -77,7 +77,7 @@ struct ReplyCommentWriteView: View {
                 CircularImageView(size: .small, user: notiUser)
 
                 HStack {
-                    TextField("\(commentVM.comments[index].userID)님에게 답글 남기기...", text: $commentText, axis: .vertical)
+                    TextField("\(commentVM.comments[index].userID)님에게 답글 남기기...", text: $commentVM.commentText, axis: .vertical)
                         .font(.system(.body))
                         .tint(Color(.systemBlue).opacity(0.7))
                         .focused($isTextFieldFocused)
@@ -85,25 +85,30 @@ struct ReplyCommentWriteView: View {
                             self.isTextFieldFocused = true
                         }
                     
-                    if !commentText.isEmpty {
+                    if !commentVM.commentText.isEmpty {
                         Button {
                             Task {
                                 let generator = UIImpactFeedbackGenerator(style: .medium)
                                 generator.impactOccurred()
                                 
                                 if let postID = post.id {
-                                    await UpdatePushNotiData.shared.pushPostNoti(targetPostID: postID,
-                                                                                 receiveUser: notiUser,
-                                                                                 type: .replyComment,
-                                                                                 message: commentText,
-                                                                                 post: post)
-                                    await commentVM.writeReplyComment(post: post,
-                                                                      index: index,
-                                                                                   imageUrl: viewModel.currentUser?.profileImageUrl ?? "",
-                                                                                   inputcomment: commentText)
-                                    await commentVM.getReplyCommentsDocument(post: post,
-                                                                       index: index)
-                                    commentText = ""
+                                    await UpdatePushNotiData.shared.pushPostNoti(
+                                        targetPostID: postID,
+                                        receiveUser: notiUser,
+                                        type: .replyComment,
+                                        message: commentVM.commentText,
+                                        post: post
+                                    )
+                                    await commentVM.writeReplyComment(
+                                        post: post,index: index,
+                                        imageUrl: viewModel.currentUser?.profileImageUrl ?? "",
+                                        inputcomment: commentVM.commentText
+                                    )
+                                    await commentVM.getReplyCommentsDocument(
+                                        post: post,
+                                        index: index
+                                    )
+                                    commentVM.commentText = ""
                                 }
                                 dismiss()
                             }

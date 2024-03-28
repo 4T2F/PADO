@@ -78,6 +78,7 @@ class FeedCellViewModel: ObservableObject {
         }
     }
     
+    @MainActor
     func touchPadoRideButton(postID: String) {
         if let currentIndex = currentPadoRideIndex {
             // 다음 이미지로 이동
