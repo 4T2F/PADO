@@ -12,14 +12,12 @@ import SwiftUI
 
 class CommentViewModel: ObservableObject {
     // MARK: - 댓글 관련
-//    @Published var buttonOnOff: Bool = false
     @Published var comments: [Comment] = []
     @Published var commentText: String = ""
     @Published var commentUserIDs: [String] = []
     @Published var commentUsers: [String: User] = [:]
     @Published var documentID: String = ""
     @Published var isFocused: Bool = false
-//    @Published var isHeartCheck: Bool = true
     @Published var isFetchedComment: Bool = false
     @Published var isShowingReplyCommentWriteView: Bool = false
     @Published var isShowingCommentWriteView: Bool = false

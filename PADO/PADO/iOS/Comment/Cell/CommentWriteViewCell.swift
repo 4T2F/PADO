@@ -12,7 +12,7 @@ import SwiftUI
 struct CommentWriteViewCell: View {
     @ObservedObject var commentVM: CommentViewModel
     
-    @State var buttonOnOff: Bool = false
+    @State private var buttonOnOff: Bool = false
     @State private var isHeartCheck: Bool = true
     
     @Binding var post: Post
