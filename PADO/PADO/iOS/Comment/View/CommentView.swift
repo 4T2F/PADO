@@ -17,6 +17,8 @@ struct CommentView: View {
     @State var postUser: User
     @State var post: Post
 
+    let updatePhotoMojiData = UpdatePhotoMojiData()
+
     var body: some View {
         VStack(spacing: 0) {
             Divider()
@@ -26,7 +28,8 @@ struct CommentView: View {
                         PhotoMojiView(commentVM: commentVM,
                                      postOwner: $postUser,
                                      post: $post,
-                                     postID: postID)
+                                     postID: postID,
+                                     updatePhotoMojiData: updatePhotoMojiData)
                         .padding(2)
                     }
                     Divider()
