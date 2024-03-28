@@ -25,6 +25,7 @@ struct PhotoMojiCropView: View {
     @Binding var post: Post
     
     let postID: String
+    let updatePhotoMojiData: UpdatePhotoMojiData
     var crop: Crop = .circle
     var onCrop: (UIImage?, Bool) -> Void
     
@@ -45,7 +46,8 @@ struct PhotoMojiCropView: View {
                 SelectEmojiView(commentVM: commentVM,
                                 postOwner: $postOwner,
                                 post: $post, 
-                                postID: postID)
+                                postID: postID, 
+                                updatePhotoMojiData: updatePhotoMojiData)
             }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
