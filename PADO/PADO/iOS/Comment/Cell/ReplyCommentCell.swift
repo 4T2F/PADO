@@ -13,7 +13,9 @@ import SwiftUI
 struct ReplyCommentCell: View {
     @ObservedObject var commentVM: CommentViewModel
     
+    @State var buttonOnOff: Bool = false
     @State var commentUser: User?
+    @State private var isHeartCheck: Bool = true
     
     @Binding var post: Post
     
@@ -32,7 +34,7 @@ struct ReplyCommentCell: View {
                     Group {
                         NavigationLink {
                             if let user = commentUser {
-                                OtherUserProfileView(buttonOnOff: $commentVM.buttonOnOff,
+                                OtherUserProfileView(buttonOnOff: $buttonOnOff,
                                                      user: user)
                             }
                         } label: {
@@ -48,7 +50,7 @@ struct ReplyCommentCell: View {
                         
                         NavigationLink {
                             if let user = commentUser {
-                                OtherUserProfileView(buttonOnOff: $commentVM.buttonOnOff,
+                                OtherUserProfileView(buttonOnOff: $buttonOnOff,
                                                      user: user)
                             }
                         } label: {
@@ -80,14 +82,14 @@ struct ReplyCommentCell: View {
                                 .font(.system(.footnote))
                                 .padding(.trailing, 4)
                             
-                            if commentVM.isHeartCheck {
+                            if isHeartCheck {
                                 Button {
                                     Task {
                                         await commentVM.deleteReplyCommentHeart(post: post,
                                                                                 index: index,
                                                                                 replyComment: replyComment)
                                         if let replyComment = commentVM.replyComments[replyCommentID] {
-                                            commentVM.isHeartCheck = commentVM.checkReplyCommentHeartExists(replyComment: replyComment)
+                                            self.isHeartCheck = commentVM.checkReplyCommentHeartExists(replyComment: replyComment)
                                         }
                                     }
                                 } label: {
@@ -111,7 +113,7 @@ struct ReplyCommentCell: View {
                                                                         index: index,
                                                                         replyComment: replyComment)
                                         if let replyComment = commentVM.replyComments[replyCommentID] { 
-                                            commentVM.isHeartCheck = commentVM.checkReplyCommentHeartExists(replyComment: replyComment)
+                                            self.isHeartCheck = commentVM.checkReplyCommentHeartExists(replyComment: replyComment)
                                         }
                                     }
                                 } label: {
@@ -162,16 +164,16 @@ struct ReplyCommentCell: View {
                      
                         self.commentUser = user
                         
-                        commentVM.isHeartCheck = commentVM.checkReplyCommentHeartExists(replyComment: replyComment)
+                        self.isHeartCheck = commentVM.checkReplyCommentHeartExists(replyComment: replyComment)
                         
-                        commentVM.buttonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: user.nameID)
+                        self.buttonOnOff =  UpdateFollowData.shared.checkFollowingStatus(id: user.nameID)
                     }
                 }
             }
             .onTapGesture(count: 2) {
                 // 더블 탭 시 실행할 로직
                 Task {
-                    if !commentVM.isHeartCheck {
+                    if !self.isHeartCheck {
                         Task {
                             let generator = UIImpactFeedbackGenerator(style: .light)
                             generator.impactOccurred()
@@ -179,7 +181,7 @@ struct ReplyCommentCell: View {
                                                             index: index,
                                                             replyComment: replyComment)
                             if let replyComment = commentVM.replyComments[replyCommentID] {
-                                commentVM.isHeartCheck = commentVM.checkReplyCommentHeartExists(replyComment: replyComment)
+                                self.isHeartCheck = commentVM.checkReplyCommentHeartExists(replyComment: replyComment)
                             }
                         }
                     }
