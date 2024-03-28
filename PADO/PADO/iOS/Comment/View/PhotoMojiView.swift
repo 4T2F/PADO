@@ -30,7 +30,8 @@ struct PhotoMojiView: View {
                         .sheet(isPresented: $commentVM.deletePhotoMojiModal) {
                             DeletePhotoMojiView(commentVM: commentVM, 
                                                 photoMoji: commentVM.selectedPhotoMoji ?? photoMoji,
-                                                postID: postID)
+                                                postID: postID,
+                                                updatePhotoMojiData: updatePhotoMojiData)
                             .presentationDetents([.medium])
                         }
                 }
@@ -59,7 +60,7 @@ struct PhotoMojiView: View {
                     .padding(.horizontal, 6)
                     .onAppear {
                         Task {
-                            commentVM.photoMojies = try await updatePhotoMojiData.getPhotoMoji(documentID: postID) ?? []
+                            commentVM.photoMojies = await updatePhotoMojiData.getPhotoMoji(documentID: postID) ?? []
                         }
                         surfingVM.photoMojiItem = nil
                     }
@@ -89,7 +90,8 @@ struct PhotoMojiView: View {
                         PhotoMojiCropView(commentVM: commentVM,
                                          postOwner: $postOwner,
                                          post: $post,
-                                         postID: postID)
+                                         postID: postID,
+                                         updatePhotoMojiData: updatePhotoMojiData)
                         { croppedImage, status in
                             if let croppedImage {
                                 commentVM.cropMojiUIImage = croppedImage
