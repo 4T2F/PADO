@@ -15,6 +15,7 @@ struct HomeView: View {
     @StateObject var profileVM = ProfileViewModel()
     @StateObject var postitVM = PostitViewModel()
     @StateObject var notiVM = NotificationViewModel()
+    @StateObject var padorideVM = PadoRideViewModel()
     
     @State var fetchedPostitData: Bool = false
     @State var width = UIScreen.main.bounds.width
@@ -52,9 +53,12 @@ struct HomeView: View {
                     followVM: followVM
                 )
                 .tag(2)
-
-                PadoRideView(popularUsers: feedVM.popularUsers,
-                             surfingIDs: followVM.surfingIDs)
+                
+                PadoRideView(
+                    padorideVM: padorideVM,
+                    popularUsers: feedVM.popularUsers,
+                    surfingIDs: followVM.surfingIDs
+                )
                 .tag(3)
                 
                 ProfileView(
@@ -101,7 +105,7 @@ struct HomeView: View {
         .sheet(isPresented: $showPushPost) {
             if let post = notiVM.notiPosts[pushPostID] {
                 FeedCell(post: .constant(post))
-                .presentationDragIndicator(.visible)
+                    .presentationDragIndicator(.visible)
             }
         }
         .tint(.white)
@@ -112,7 +116,7 @@ struct HomeView: View {
             fetchData()
         }
         .onChange(of: pushUser) { }
-        .onChange(of: pushPostID) { } 
+        .onChange(of: pushPostID) { }
     }
 }
 

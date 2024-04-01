@@ -12,7 +12,7 @@ import SwiftUI
 struct CommentWriteViewCell: View {
     @ObservedObject var commentVM: CommentViewModel
     
-    @State var buttonOnOff: Bool = false
+    @State private var buttonOnOff: Bool = false
     @State private var isHeartCheck: Bool = true
     
     @Binding var post: Post
@@ -67,7 +67,7 @@ struct CommentWriteViewCell: View {
                 .padding(.trailing, 10)
                 
                 Spacer()
-            
+                
             }
             .onAppear {
                 self.isHeartCheck = commentVM.checkCommentHeartExists(index: index)

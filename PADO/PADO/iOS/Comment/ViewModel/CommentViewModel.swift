@@ -13,18 +13,28 @@ import SwiftUI
 class CommentViewModel: ObservableObject {
     // MARK: - 댓글 관련
     @Published var comments: [Comment] = []
-    @Published var replyComments: [String: ReplyComment] = [:]
-    @Published var documentID: String = ""
-    @Published var inputcomment: String = ""
-    @Published var showDeleteModal: Bool = false
-    @Published var showDeleteReplyModal: Bool = false
-    @Published var showReportModal: Bool = false
-    @Published var showReportReplyModal: Bool = false
-    @Published var selectedComment: Comment?
-    @Published var selectedReplyComment: ReplyComment?
+    @Published var commentText: String = ""
     @Published var commentUserIDs: [String] = []
     @Published var commentUsers: [String: User] = [:]
+    @Published var documentID: String = ""
+    @Published var isFocused: Bool = false
+    @Published var isFetchedComment: Bool = false
+    @Published var isShowingReplyCommentWriteView: Bool = false
+    @Published var isShowingCommentWriteView: Bool = false
+    @Published var isShowingReportView: Bool = false
+    @Published var isShowingHeartUserView: Bool = false
+    @Published var isShowingLoginPage: Bool = false
+    @Published var inputcomment: String = ""
+    @Published var replyComments: [String: ReplyComment] = [:]
+    @Published var selectedComment: Comment?
+    @Published var selectedReplyComment: ReplyComment?
+    @Published var showDeleteModal: Bool = false
+    @Published var showDeleteReplyModal: Bool = false
+    @Published var showReplyComment = "hide"
+    @Published var showReportModal: Bool = false
+    @Published var showReportReplyModal: Bool = false
     
+ 
     let db = Firestore.firestore()
     
     // MARK: - PhotoMoji 관련
@@ -37,6 +47,11 @@ class CommentViewModel: ObservableObject {
     @Published var showEmojiView: Bool = false
     @Published var selectedEmoji: String = ""
     @Published var selectedPhotoMoji: PhotoMoji?
+    @Published var scale: CGFloat = 1
+    @Published var lastScale: CGFloat = 0
+    @Published var offset: CGSize = .zero
+    @Published var lastStoredOffset: CGSize = .zero
+    @Published var showinGrid: Bool = false
 
     @MainActor
     func getCommentsDocument(post: Post) async {

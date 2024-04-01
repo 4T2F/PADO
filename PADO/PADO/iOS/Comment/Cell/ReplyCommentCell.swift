@@ -13,10 +13,8 @@ import SwiftUI
 struct ReplyCommentCell: View {
     @ObservedObject var commentVM: CommentViewModel
     
+    @State private var buttonOnOff: Bool = false
     @State var commentUser: User?
-    @State var buttonOnOff: Bool = false
-    @State private var isShowingReportView: Bool = false
-    @State private var isShowingHeartUserView: Bool = false
     @State private var isHeartCheck: Bool = true
     
     @Binding var post: Post
@@ -128,13 +126,13 @@ struct ReplyCommentCell: View {
                             
                             if replyComment.heartIDs.count > 0 {
                                 Button {
-                                    isShowingHeartUserView = true
+                                    commentVM.isShowingHeartUserView = true
                                 } label: {
                                     Text("\(replyComment.heartIDs.count)")
                                         .font(.system(.caption))
                                         .foregroundStyle(.gray)
                                 }
-                                .sheet(isPresented: $isShowingHeartUserView, content: {
+                                .sheet(isPresented: $commentVM.isShowingHeartUserView, content: {
                                     HeartUsersView(userIDs: replyComment.heartIDs)
                                 })
                             }
@@ -197,7 +195,7 @@ struct ReplyCommentCell: View {
                 .presentationDetents([.fraction(0.4)])
             }
             .sheet(isPresented: $commentVM.showReportReplyModal) {
-                ReportCommentView(isShowingReportView: $isShowingReportView)
+                ReportCommentView(isShowingReportView: $commentVM.isShowingReportView)
                     .presentationDetents([.medium])
                     .presentationDragIndicator(.visible)
             }

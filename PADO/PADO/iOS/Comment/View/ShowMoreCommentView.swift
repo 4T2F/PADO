@@ -9,22 +9,20 @@ import SwiftUI
 
 struct ShowMoreCommentView: View {
     @ObservedObject var commentVM: CommentViewModel
-    
-    @State private var showReplyComment = "hide"
 
     @Binding var post: Post
     
     let index: Int
     
     var body: some View {
-        switch showReplyComment {
+        switch commentVM.showReplyComment {
         case "hide":
             Button {
                 Task {
-                    showReplyComment = "fetching"
+                    commentVM.showReplyComment = "fetching"
                     await commentVM.getReplyCommentsDocument(post: post,
                                                              index: index)
-                    showReplyComment = "show"
+                    commentVM.showReplyComment = "show"
                 }
             } label: {
                 HStack {
