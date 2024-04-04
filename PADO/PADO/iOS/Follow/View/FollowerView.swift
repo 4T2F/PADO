@@ -14,23 +14,17 @@ struct FollowerView: View {
     
     @ObservedObject var followVM: FollowViewModel
     
-    @State private var searchText: String = ""
+    @State var searchText: String = ""
     
     let user: User
     
     // MARK: - BODY
     var body: some View {
-        let searchTextBinding = Binding {
-            return searchText
-        } set: {
-            searchText = $0
-            followVM.searchFollowers(with: $0, type: SearchFollowType.follower)
-        }
         ZStack {
             Color.main.ignoresSafeArea()
             VStack {
                 VStack {
-                    SearchBar(text: searchTextBinding,
+                    SearchBar(text: $searchText,
                               isLoading: $followVM.isLoading)
                     .padding(.bottom, 10)
                     .padding(.horizontal)
@@ -170,5 +164,10 @@ struct FollowerView: View {
                 } //: VSTACK
             } //: VSTACK
         } //: ZSTACK
+        .onChange(of: searchText) { _, _ in
+            Task {
+                await followVM.searchFollowers(with: searchText, type: SearchFollowType.follower)
+            }
+        }
     }
 }

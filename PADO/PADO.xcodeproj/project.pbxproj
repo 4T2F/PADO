@@ -205,6 +205,7 @@
 		B107655D2B7698FE0023B686 /* FollowNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA532B56623500025422 /* FollowNotificationCell.swift */; };
 		B107655E2B7699050023B686 /* RequestSurfingNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C8BA552B56644600025422 /* RequestSurfingNotificationCell.swift */; };
 		B10765602B7A41C20023B686 /* PostitNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B107655F2B7A41C20023B686 /* PostitNotificationCell.swift */; };
+		B12217222BBAA3D9004E4CFA /* DateETC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B12217212BBAA3D9004E4CFA /* DateETC.swift */; };
 		B13BD2FF2B7FC309007D2DA3 /* PadoRideNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13BD2FE2B7FC309007D2DA3 /* PadoRideNotificationCell.swift */; };
 		B1749A652B5D755700BCC6BA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1749A642B5D755700BCC6BA /* AppDelegate.swift */; };
 		B1749A672B5E41AA00BCC6BA /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1749A662B5E41AA00BCC6BA /* Post.swift */; };
@@ -459,6 +460,7 @@
 		B10765592B7410C50023B686 /* FacemojiNotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacemojiNotificationCell.swift; sourceTree = "<group>"; };
 		B107655B2B7421390023B686 /* UpdatePostData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePostData.swift; sourceTree = "<group>"; };
 		B107655F2B7A41C20023B686 /* PostitNotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostitNotificationCell.swift; sourceTree = "<group>"; };
+		B12217212BBAA3D9004E4CFA /* DateETC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateETC.swift; sourceTree = "<group>"; };
 		B13BD2FE2B7FC309007D2DA3 /* PadoRideNotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadoRideNotificationCell.swift; sourceTree = "<group>"; };
 		B1749A642B5D755700BCC6BA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B1749A662B5E41AA00BCC6BA /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
@@ -591,6 +593,7 @@
 				B107654D2B712ABE0023B686 /* UserDefaults+.swift */,
 				63B7B9A22B802DC800707C2F /* Color+.swift */,
 				64DDA4342BA76C1600EC5140 /* View+.swift */,
+				B12217212BBAA3D9004E4CFA /* DateETC.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1545,6 +1548,7 @@
 				63824C502B558B5500D1D653 /* WhiteButtonView.swift in Sources */,
 				4190DAB32B8B3A96003161BA /* SwipeAction.swift in Sources */,
 				418D45C12B757388007F6633 /* PostitView.swift in Sources */,
+				B12217222BBAA3D9004E4CFA /* DateETC.swift in Sources */,
 				63D3C8392B8679A9001C5F33 /* SelectPadoRideUserCell.swift in Sources */,
 				41947FB52BA70572001DE472 /* FaceMojiCropView.swift in Sources */,
 				41711F462B72281D00F0A1A7 /* UpdatePhotomojiData.swift in Sources */,
