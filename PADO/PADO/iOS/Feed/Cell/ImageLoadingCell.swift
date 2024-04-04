@@ -23,8 +23,8 @@ struct ImageLoadingCell: View {
                     .onSuccess { _ in isLoading = false }
                     .onFailure { _ in isLoading = false }
                     .onProgress { _, _ in isLoading = true }
-                    .containerRelativeFrame([.horizontal,.vertical])
                     .scaledToFill()
+                    .containerRelativeFrame([.horizontal,.vertical])
                     .overlay {
                         GradientOverlay(isHeaderVisible: $isHeaderVisible)
                     }
