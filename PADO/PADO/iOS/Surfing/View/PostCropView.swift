@@ -108,10 +108,6 @@ struct PostCropView: View {
     func imageView(_ hideGrids: Bool = false) -> some View {
         let cropSize = crop.size()
         
-        let testSize = ImageRatioResize.shared.resizedImageRect(for: surfingVM.postingUIImage ?? UIImage(), 
-                                                                targetSize: CGSize(width: 300, 
-                                                                                   height: 500))
-        
         if !surfingVM.imageChangeButton {
             GeometryReader {
                 let size = $0.size
@@ -120,9 +116,7 @@ struct PostCropView: View {
                     Image(uiImage: image)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: testSize.size.width,
-                               height: testSize.size.height)
-                        .frame(size)
+                        .frame(width: size.width, height: size.height)
                 }
             }
             .frame(cropSize)
@@ -145,6 +139,7 @@ struct PostCropView: View {
                     Image(uiImage: image)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
+                        .frame(width: size.width, height: size.height)
                         .overlay(content: {
                             GeometryReader { proxy in
                                 let rect = proxy.frame(in: .named("CROPVIEW"))
@@ -177,7 +172,7 @@ struct PostCropView: View {
                                     }
                             }
                         })
-                        .frame(size)
+                        .frame(width: size.width, height: size.height)
                 }
             }
             .scaleEffect(surfingVM.scale)
