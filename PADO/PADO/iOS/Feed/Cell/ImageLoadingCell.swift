@@ -24,7 +24,8 @@ struct ImageLoadingCell: View {
                     .onFailure { _ in isLoading = false }
                     .onProgress { _, _ in isLoading = true }
                     .containerRelativeFrame([.horizontal,.vertical])
-                    .scaledToFill()
+                    .scaledToFit()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .overlay {
                         GradientOverlay(isHeaderVisible: $isHeaderVisible)
                     }
