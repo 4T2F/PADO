@@ -23,7 +23,6 @@ struct PostCropView: View {
     var body: some View {
         VStack {
             imageView()
-                .navigationTitle("편집")
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationBarBackButtonHidden()
                 .toolbarBackground(.visible, for: .navigationBar)
@@ -35,6 +34,25 @@ struct PostCropView: View {
                         .ignoresSafeArea()
                 }
                 .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            surfingVM.imageChangeButton = false
+                            surfingVM.selectedColor = Color.main
+                        } label: {
+                            Image(systemName: "arrow.up.right.and.arrow.down.left")
+                                .font(.system(.body, weight: .semibold))
+                        }
+                    }
+                    
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            surfingVM.imageChangeButton = true
+                        } label: {
+                            Image(systemName: "arrow.down.backward.and.arrow.up.forward")
+                                .font(.system(.body, weight: .semibold))
+                        }
+                    }
+                    
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {
                             let renderer = ImageRenderer(content: imageView(true))
@@ -57,6 +75,7 @@ struct PostCropView: View {
                         }
                     }
                     
+                    
                     ToolbarItem(placement: .topBarLeading) {
                         Button {
                             surfingVM.resetImage()
@@ -72,30 +91,15 @@ struct PostCropView: View {
                              feedVM: feedVM,
                              followVM: followVM)
                 }
-            
-            HStack {
-                Button {
-                    surfingVM.imageChangeButton = false
-                    surfingVM.selectedColor = Color.main
-                } label: {
-                    Image(systemName: "arrow.up.right.and.arrow.down.left")
-                        .font(.system(.title2))
-                        .padding(.horizontal)
+                .overlay {
+                    VStack {
+                        Spacer()
+                        ColorPicker(selection: $surfingVM.selectedColor) { }
+                            .opacity(surfingVM.imageChangeButton ? 0 : 1)
+                            .fixedSize()
+                            .padding(.bottom, 20)
+                    }
                 }
-                
-                Button {
-                    surfingVM.imageChangeButton = true
-                } label: {
-                    Image(systemName: "arrow.down.backward.and.arrow.up.forward")
-                        .font(.system(.title2))
-                        .padding(.horizontal)
-                }
-                
-                ColorPicker(selection: $surfingVM.selectedColor) { }
-                    .opacity(surfingVM.imageChangeButton ? 0 : 1)
-                    .fixedSize()
-            }
-            .padding(.bottom, 10)
         }
         .background {
             Color.main.ignoresSafeArea()
@@ -172,7 +176,6 @@ struct PostCropView: View {
                                     }
                             }
                         })
-                        .frame(width: size.width, height: size.height)
                 }
             }
             .scaleEffect(surfingVM.scale)

@@ -143,7 +143,8 @@ enum Crop: Equatable {
         case .circle:
             return .init(width: 300, height: 300)
         case .rectangle:
-            return .init(width: 300, height: 500)
+            return .init(width: 300, height: 650)
+            
         case .backImage:
             return .init(width: UIScreen.main.bounds.width * 1.0, height: 400)
         case .profile:
