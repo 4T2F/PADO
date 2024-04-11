@@ -81,6 +81,7 @@ struct PostCropView: View {
                             surfingVM.resetImage()
                             dismiss()
                             surfingVM.postImageItem = nil
+                            surfingVM.resetDrag()
                         } label: {
                             Image("dismissArrow")
                         }
@@ -143,7 +144,6 @@ struct PostCropView: View {
                     Image(uiImage: image)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(width: size.width, height: size.height)
                         .overlay(content: {
                             GeometryReader { proxy in
                                 let rect = proxy.frame(in: .named("CROPVIEW"))
@@ -176,6 +176,7 @@ struct PostCropView: View {
                                     }
                             }
                         })
+                        .frame(size)
                 }
             }
             .scaleEffect(surfingVM.scale)

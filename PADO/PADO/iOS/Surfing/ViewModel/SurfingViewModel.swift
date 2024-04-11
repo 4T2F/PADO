@@ -211,4 +211,13 @@ class SurfingViewModel: ObservableObject  {
         selectedImage = nil
         selectedUIImage = Image(systemName: "photo")
     }
+    
+    func resetDrag() {
+        scale = 1
+        lastScale = 0
+        offset = .zero
+        lastStoredOffset = .zero
+        showinGrid = false
+        imageChangeButton = false
+    }
 }
