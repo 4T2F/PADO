@@ -8,12 +8,9 @@
 import SwiftUI
 
 struct IdView: View {
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @ObservedObject var loginVM: LoginViewModel
     
     @State var buttonActive: Bool = false
-    @State var isDuplicateID: Bool = false
-    
-    @Binding var currentStep: SignUpStep
     
     var body: some View {
         ZStack {
@@ -24,17 +21,17 @@ struct IdView: View {
                     .padding(.horizontal)
                 
                 VStack(alignment: .leading, spacing: 20) {
-                    CustomTF(value: $viewModel.nameID, 
+                    CustomTF(value: $loginVM.nameID,
                              hint: "ID를 입력해주세요")
                         .keyboardType(.asciiCapable)
                         .tint(.white)
-                        .onChange(of: viewModel.nameID) { _, newValue in
+                        .onChange(of: loginVM.nameID) { _, newValue in
                             buttonActive = newValue.count > 3
-                            if isDuplicateID {
-                                isDuplicateID = false
+                            if loginVM.isDuplicateID {
+                                loginVM.isDuplicateID = false
                             }
                         }
-                    if isDuplicateID {
+                    if loginVM.isDuplicateID {
                         Text("사용할 수 없는 ID입니다.")
                             .font(.system(.subheadline))
                             .fontWeight(.semibold)
@@ -56,26 +53,7 @@ struct IdView: View {
                 
                 Button {
                     if buttonActive {
-                        if viewModel.nameID.contains(" ") {
-                            // 공백이 있으면 경고 메시지 표시
-                            isDuplicateID = true
-                            return
-                        }
-        
-                        let regex = "^[A-Za-z0-9]+$"
-                        if viewModel.nameID.range(of: regex, options: .regularExpression) != nil {
-                            Task {
-                                let isDuplicate = await viewModel.checkForDuplicateID()
-                                if !isDuplicate {
-                                    viewModel.nameID = viewModel.nameID.lowercased()
-                                    currentStep = .birth
-                                } else {
-                                    isDuplicateID = true
-                                }
-                            }
-                        } else {
-                            isDuplicateID = true
-                        }
+                        loginVM.selectID()
                     }
                 } label: {
                     WhiteButtonView(buttonActive: $buttonActive, text: "다음으로")

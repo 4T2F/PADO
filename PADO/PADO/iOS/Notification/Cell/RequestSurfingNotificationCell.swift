@@ -9,17 +9,13 @@ import Kingfisher
 import SwiftUI
 
 struct RequestSurfingNotificationCell: View {
-    @StateObject var notiVM = NotificationViewModel.shared
-    
-    @ObservedObject var feedVM: FeedViewModel
-    
-    @State private var showPost = false
+    @ObservedObject var notiVM: NotificationViewModel
     
     var notification: Noti
     
     var body: some View {
         Button {
-            showPost = true
+            notiVM.showRequestSurfingPost = true
         } label: {
             HStack(spacing: 0) {
                 if let user = notiVM.notiUser[notification.sendUser] {
@@ -54,12 +50,13 @@ struct RequestSurfingNotificationCell: View {
                 }
             }
         }
-        .sheet(isPresented: $showPost) {
+        .sheet(isPresented: $notiVM.showRequestSurfingPost) {
             if let postID = notification.postID,
                let post = notiVM.notiPosts[postID] {
-                SelectPostCell(feedVM: feedVM,
-                               post: .constant(post))
-                .presentationDragIndicator(.visible)
+                NavigationStack {
+                    FeedCell(post: .constant(post))
+                    .presentationDragIndicator(.visible)
+                }
             }
         }
     }

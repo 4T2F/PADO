@@ -35,7 +35,6 @@ class FollowViewModel: ObservableObject, Searchable {
     
     private var listeners: [CollectionType: ListenerRegistration] = [:]
     
-    @MainActor
     func initializeFollowFetch(id: String) async {
         await fetchIDs(id: id, collectionType: .following)
         await fetchIDs(id: id, collectionType: .follower)
@@ -95,16 +94,45 @@ class FollowViewModel: ObservableObject, Searchable {
         listeners.removeAll()
     }
 
-    func searchFollowers(with str: String, type: SearchFollowType) {
+
+    @MainActor
+    func searchFollowers(with str: String, type: SearchFollowType) async {
         setViewState(to: .loading)
         self.isLoading = true
+
         if str.count > 0 {
             switch type {
             case .follower:
-                searchedFollower = followerIDs.filter { $0.hasPrefix(str) }
-                searchedSurfer = surferIDs.filter { $0.hasPrefix(str) }
+                var targetUsers: [User] = []
+                var targetSurferUsers: [User] = []
+                
+                for i in followerIDs {
+                    if let user = await UpdateUserData.shared.getOthersProfileDatas(id: i) {
+                        targetUsers.append(user)
+                    }
+                }
+                
+                for i in surferIDs {
+                    if let user = await UpdateUserData.shared.getOthersProfileDatas(id: i) {
+                        targetSurferUsers.append(user)
+                    }
+                }
+                searchedFollower = targetUsers.filter { $0.nameID.localizedCaseInsensitiveContains(str) || $0.username.localizedCaseInsensitiveContains(str) }
+                                              .map { $0.nameID }
+                searchedSurfer = targetSurferUsers.filter { $0.nameID.localizedCaseInsensitiveContains(str) || $0.username.localizedCaseInsensitiveContains(str) }
+                    .map { $0.nameID }
+                
             case .following:
-                searchedFollowing = followingIDs.filter { $0.hasPrefix(str) }
+                var targetUsers: [User] = []
+                
+                for i in followingIDs {
+                    if let user = await UpdateUserData.shared.getOthersProfileDatas(id: i) {
+                        targetUsers.append(user)
+                    }
+                }
+                
+                searchedFollowing = targetUsers.filter { $0.nameID.localizedCaseInsensitiveContains(str) || $0.username.localizedCaseInsensitiveContains(str) }
+                    .map { $0.nameID }
             }
             self.isLoading = false
             setViewState(to: .ready)

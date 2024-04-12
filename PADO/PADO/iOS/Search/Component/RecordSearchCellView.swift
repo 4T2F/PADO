@@ -83,15 +83,13 @@ struct RecordSearchCellView: View {
             }
         } //: HSTACK
         .padding(.horizontal)
-        .onAppear {
-            Task {
-                let updateUserData = UpdateUserData()
-                if let userProfile = await updateUserData.getOthersProfileDatas(id: searchCellID) {
-                    self.searchProfileUrl = userProfile.profileImageUrl ?? ""
-                    self.searchUser = userProfile
-                }
-                self.buttonOnOff = UpdateFollowData.shared.checkFollowingStatus(id: searchCellID)
+        .task {
+            let updateUserData = UpdateUserData()
+            if let userProfile = await updateUserData.getOthersProfileDatas(id: searchCellID) {
+                self.searchProfileUrl = userProfile.profileImageUrl ?? ""
+                self.searchUser = userProfile
             }
+            self.buttonOnOff = UpdateFollowData.shared.checkFollowingStatus(id: searchCellID)
         }
     }
 }

@@ -18,7 +18,6 @@ struct PostitCell: View {
     var body: some View {
             HStack {
                 if message.messageUserID == postitVM.ownerID {
-                    
                     if let user = postitVM.messageUsers[message.messageUserID] {
                         NavigationLink {
                             OtherUserProfileView(buttonOnOff: $buttonOnOff,

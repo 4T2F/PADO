@@ -9,7 +9,7 @@ import PhotosUI
 import SwiftUI
 
 struct SettingProfileModal: View {
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: MainViewModel
     
     @Binding var isActive: Bool
     

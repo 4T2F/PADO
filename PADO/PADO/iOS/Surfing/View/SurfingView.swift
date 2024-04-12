@@ -22,24 +22,17 @@ struct SurfingView: View {
                     Spacer()
                     // 이미 선택된 이미지를 표시하는 영역
                     if surfingVM.selectedUIImage != Image(systemName: "photo") {
-                        let size = ImageRatioResize.shared.resizedImageRect(for: surfingVM.selectedImage ?? UIImage(),
-                                                                            targetSize: CGSize(width: UIScreen.main.bounds.width * 0.95,
-                                                                                               height: UIScreen.main.bounds.height * 0.8))
-                        
                         surfingVM.selectedUIImage
                             .resizable()
-                            .frame(width: size.size.width, height: size.size.height)
+                            .frame(width: surfingVM.photoImageSize.size.width,
+                                   height: surfingVM.photoImageSize.size.height)
                             .scaledToFit()
                         
                     } else if surfingVM.cameraImage != Image(systemName: "photo") {
-                        let size = ImageRatioResize.shared.resizedImageRect(for: surfingVM.cameraUIImage ,
-                                                                            targetSize: CGSize(width: UIScreen.main.bounds.width * 0.95,
-                                                                                               height: UIScreen.main.bounds.height * 0.8))
-                        
                         surfingVM.cameraImage
                             .resizable()
-                            .frame(width: size.size.width,
-                                   height: size.size.height)
+                            .frame(width: surfingVM.cameraImageSize.size.width,
+                                   height: surfingVM.cameraImageSize.size.height)
                             .scaledToFit()
                     } else {
                         SurfingOnboardingView(surfingVM: surfingVM,
@@ -56,7 +49,7 @@ struct SurfingView: View {
                     Color.main
                         .ignoresSafeArea()
                 }
-                .onChange(of: surfingVM.selectedUIImage) { oldValue, newValue in
+                .onChange(of: surfingVM.selectedUIImage) { _, _ in
                     surfingVM.isShowingPhotoModal = false
                 }
                 .onAppear {

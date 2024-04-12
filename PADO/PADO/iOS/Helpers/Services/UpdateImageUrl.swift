@@ -7,27 +7,9 @@
 
 import Firebase
 import FirebaseStorage
+
 import PhotosUI
 import SwiftUI
-
-enum ImageLoadError: Error {
-    case noItemSelected
-    case dataLoadFailed
-    case imageCreationFailed
-}
-
-enum StorageTypeInput: String {
-    case user
-    case post
-    case photoMoji
-    case backImage
-}
-
-enum ImageQuality: Double {
-    case lowforPhotoMoji = 0.25
-    case middleforProfile = 0.5
-    case highforPost = 1.0
-}
 
 class UpdateImageUrl {
     static let shared = UpdateImageUrl()

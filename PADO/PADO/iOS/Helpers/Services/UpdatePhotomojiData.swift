@@ -4,15 +4,16 @@
 //
 //  Created by 최동호 on 2/6/24.
 //
-import Firebase
-import FirebaseFirestoreSwift
+
+import FirebaseFirestore
 import FirebaseStorage
+
 import Foundation
 
 class UpdatePhotoMojiData {
     let db = Firestore.firestore()
     
-    func getPhotoMoji(documentID: String) async throws -> [PhotoMoji]? {
+    func getPhotoMoji(documentID: String) async -> [PhotoMoji]? {
         do {
             let querySnapshot = try await db.collection("post").document(documentID).collection("facemoji").order(by: "time", descending: false).getDocuments()
             let photoMojies = querySnapshot.documents.compactMap { document in

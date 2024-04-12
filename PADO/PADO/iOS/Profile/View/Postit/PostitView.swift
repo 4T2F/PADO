@@ -7,15 +7,13 @@
 
 import Kingfisher
 import Lottie
+
 import SwiftUI
 
 struct PostitView: View {
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: MainViewModel
     
     @ObservedObject var postitVM: PostitViewModel
-    
-    @State private var isFetchedMessages: Bool = false
-    @State private var isShowingLoginPage: Bool = false
     
     @Binding var isShowingMessageView: Bool
     
@@ -27,7 +25,7 @@ struct PostitView: View {
                 Divider()
                 ScrollViewReader { proxy in
                     ScrollView {
-                        if isFetchedMessages {
+                        if postitVM.isFetchedMessages {
                             VStack {
                                 if !postitVM.messages.isEmpty {
                                     ForEach(postitVM.messages) { message in
@@ -54,7 +52,7 @@ struct PostitView: View {
                             }
                             .padding(.top)
                         } else {
-                            LottieView(animation: .named("Loading"))
+                            LottieView(animation: .named(LottieType.loading.rawValue))
                                 .looping()
                                 .resizable()
                                 .scaledToFit()
@@ -90,20 +88,8 @@ struct PostitView: View {
                         
                         if !postitVM.inputcomment.isEmpty {
                             Button {
-                                if userNameID.isEmpty {
-                                    isShowingLoginPage = true
-                                } else if !blockPostit(id: postitVM.ownerID) {
-                                    Task {
-                                        await postitVM.writeMessage(ownerID: postitVM.ownerID,
-                                                                    imageUrl: viewModel.currentUser?.profileImageUrl ?? "",
-                                                                    inputcomment: postitVM.inputcomment)
-                                        if let user = postitVM.messageUsers[postitVM.ownerID], let currentUser = viewModel.currentUser {
-                                            await UpdatePushNotiData.shared.pushNoti(receiveUser: user, 
-                                                                                     type: .postit,
-                                                                                     sendUser: currentUser,
-                                                                                     message: postitVM.inputcommentForNoti)
-                                        }
-                                    }
+                                if let user = viewModel.currentUser {
+                                    postitVM.sendMessage(sendUser: user)
                                 }
                             } label: {
                                 ZStack {
@@ -116,8 +102,8 @@ struct PostitView: View {
                                 }
                             }
                             .padding(.vertical, -5)
-                            .sheet(isPresented: $isShowingLoginPage, content: {
-                                StartView(isShowStartView: $isShowingLoginPage)
+                            .sheet(isPresented: $postitVM.isShowingLoginPage, content: {
+                                StartView(isShowStartView: $postitVM.isShowingLoginPage)
                                     .presentationDragIndicator(.visible)
                             })
                         } else {
@@ -142,11 +128,9 @@ struct PostitView: View {
             .navigationBarBackButtonHidden()
             .navigationTitle("방명록")
             .navigationBarTitleDisplayMode(.inline)
-            .onAppear {
-                Task{
-                    await postitVM.getMessageDocument(ownerID: postitVM.ownerID)
-                    isFetchedMessages = true
-                }
+            .task {
+                await postitVM.getMessageDocument(ownerID: postitVM.ownerID)
+                postitVM.isFetchedMessages = true
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
@@ -167,11 +151,6 @@ struct PostitView: View {
             }
             .toolbarBackground(Color(.main), for: .navigationBar)
         }
-    }
-    private func blockPostit(id: String) -> Bool {
-        let blockedUserIDs = Set(blockingUser.map { $0.blockUserID } + blockedUser.map { $0.blockUserID })
-        
-        return blockedUserIDs.contains(id)
     }
 }
 

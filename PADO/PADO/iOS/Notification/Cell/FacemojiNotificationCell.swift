@@ -9,17 +9,13 @@ import Kingfisher
 import SwiftUI
 
 struct FacemojiNotificationCell: View {
-    @StateObject var notiVM = NotificationViewModel.shared
-    
-    @ObservedObject var feedVM: FeedViewModel
-    
-    @State private var showPost = false
+    @ObservedObject var notiVM: NotificationViewModel
     
     var notification: Noti
     
     var body: some View {
         Button {
-            showPost = true
+            notiVM.showFacemojiPost = true
         } label: {
             HStack(spacing: 0) {
                 if let user = notiVM.notiUser[notification.sendUser] {
@@ -45,12 +41,13 @@ struct FacemojiNotificationCell: View {
                 
             }
         }
-        .sheet(isPresented: $showPost) {
+        .sheet(isPresented: $notiVM.showFacemojiPost) {
             if let postID = notification.postID,
                let post = notiVM.notiPosts[postID] {
-                SelectPostCell(feedVM: feedVM,
-                               post: .constant(post))
-                .presentationDragIndicator(.visible)
+                NavigationStack {
+                    FeedCell(post: .constant(post))
+                    .presentationDragIndicator(.visible)
+                }
             }
         }
     }

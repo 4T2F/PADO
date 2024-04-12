@@ -7,19 +7,14 @@
 
 import SwiftUI
 
-enum LoginSignUpType {
-    case login
-    case signUp
-}
-
 struct UseIDModalView: View {
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: MainViewModel
+    @ObservedObject var loginVM: LoginViewModel
     
     @State private var buttonActive: Bool = true
     
     @Binding var showUseID: Bool
     @Binding var loginSignUpType: LoginSignUpType
-    @Binding var currentStep: SignUpStep
     @Binding var isShowStartView: Bool
     
     var dismissSignUpView: () -> Void
@@ -38,7 +33,7 @@ struct UseIDModalView: View {
                     VStack(spacing: 20) {
                         Button {
                             loginSignUpType = .signUp
-                            currentStep = .id
+                            loginVM.currentStep = .id
                             showUseID = false
                         } label: {
                             ModalWhiteButton(buttonActive: $buttonActive,
@@ -48,8 +43,8 @@ struct UseIDModalView: View {
                         Button {
                             // StartView 이동
                             showUseID = false
-                            viewModel.phoneNumber = ""
-                            viewModel.otpText = ""
+                            loginVM.phoneNumber = ""
+                            loginVM.otpText = ""
                             dismissSignUpView()
                         } label: {
                             ModalBlackButton(buttonActive: $buttonActive,
@@ -78,7 +73,7 @@ struct UseIDModalView: View {
                     VStack(spacing: 20) {
                         Button {
                             Task {
-                                await viewModel.fetchUIDByPhoneNumber(phoneNumber: "+82\(viewModel.phoneNumber)")
+                                await viewModel.fetchUIDByPhoneNumber(phoneNumber: "+82\(loginVM.phoneNumber)")
                                 await viewModel.fetchUser()
                                 needsDataFetch.toggle()
                                 withAnimation(.interactiveSpring(response: 0.3, dampingFraction: 0.8, blendDuration: 0.8)) {
@@ -93,8 +88,8 @@ struct UseIDModalView: View {
                         Button {
                             // StartView 이동
                             showUseID = false
-                            viewModel.phoneNumber = ""
-                            viewModel.otpText = ""
+                            loginVM.phoneNumber = ""
+                            loginVM.otpText = ""
                             dismissSignUpView()
                         } label: {
                             ModalBlackButton(buttonActive: $buttonActive,

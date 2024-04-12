@@ -35,6 +35,7 @@ struct PostSelectModalView: View {
                 Button {
                     Task {
                         await onTouchButton()
+                        dismiss()
                     }
                 } label: {
                     Text("삭제")

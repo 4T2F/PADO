@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ReprotProfileModalView: View {
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: MainViewModel
     @Environment (\.dismiss) var dismiss
     
     @ObservedObject var profileVM: ProfileViewModel
@@ -56,12 +56,11 @@ struct ReprotProfileModalView: View {
                                 .fontWeight(.bold)
                         }
                     }
-                    .onAppear {
-                        Task {
-                            await profileVM.fetchBlockUsers()
-                        }
+                    .task {
+                        await profileVM.fetchBlockUsers()
+
                     }
-                    
+  
                     Divider()
                         .padding(.vertical, 6)
                     

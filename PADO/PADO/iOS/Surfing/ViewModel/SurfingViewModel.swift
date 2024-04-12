@@ -5,8 +5,7 @@
 //  Created by 최동호 on 1/23/24.
 //
 
-import Firebase
-import FirebaseFirestoreSwift
+import FirebaseFirestore
 
 import PhotosUI
 import SwiftUI
@@ -44,6 +43,23 @@ class SurfingViewModel: ObservableObject  {
     @Published var photoMojiUIImage: UIImage = UIImage()
     @Published var photoMojiImage: Image = Image(systemName: "photo")
     @Published var isShowingPhotoMojiModal: Bool = false
+    
+    // 온보팅 탭바 이동
+    @Published var showingTab: Int = 0
+    
+    // 이미지 크롭 변수들
+    @Published var scale: CGFloat = 1
+    @Published var lastScale: CGFloat = 0
+    @Published var offset: CGSize = .zero
+    @Published var lastStoredOffset: CGSize = .zero
+    @Published var showinGrid: Bool = false
+    @Published var imageChangeButton: Bool = false
+    @Published var selectedColor = Color.main
+    
+    // 포스팅 페이지 관련 변수들
+    @Published var postLoading = false
+    @Published var showAlert = false
+    @Published var postOwner: User? = nil
 
     @MainActor
     @Published var photoMojiItem: PhotosPickerItem? {
@@ -73,6 +89,20 @@ class SurfingViewModel: ObservableObject  {
                 }
             }
         }
+    }
+    
+    var photoImageSize: CGRect {
+        return ImageRatioResize.shared.resizedImageRect(for: selectedImage ?? UIImage(),
+                                                                  targetSize: CGSize(
+                                                                    width: UIScreen.main.bounds.width * 0.95,
+                                                                    height: UIScreen.main.bounds.height * 0.8))
+    }
+    
+    var cameraImageSize: CGRect {
+        return ImageRatioResize.shared.resizedImageRect(for: cameraUIImage ,
+                                                        targetSize: CGSize(
+                                                            width: UIScreen.main.bounds.width * 0.95,
+                                                            height: UIScreen.main.bounds.height * 0.8))
     }
     
     // MARK: - 권한 설정 및 확인
@@ -145,7 +175,6 @@ class SurfingViewModel: ObservableObject  {
         post?.padoExist = false
     }
     
-    @MainActor
     func createPostData(titleName: String, data: [String: Any]) async {
         do {
             try await Firestore.firestore().collection("post").document(titleName).setData(data)
@@ -172,5 +201,23 @@ class SurfingViewModel: ObservableObject  {
         
         showCropView = false
         cropResult = false
+    }
+    
+    func cameraBtnTapped() {
+        isShowingPhotoModal = false
+        isShownCamera.toggle()
+        sourceType = .camera
+        pickerResult = []
+        selectedImage = nil
+        selectedUIImage = Image(systemName: "photo")
+    }
+    
+    func resetDrag() {
+        scale = 1
+        lastScale = 0
+        offset = .zero
+        lastStoredOffset = .zero
+        showinGrid = false
+        imageChangeButton = false
     }
 }

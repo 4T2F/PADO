@@ -9,13 +9,14 @@ import Kingfisher
 import SwiftUI
 
 struct PostitNotificationCell: View {
+    @EnvironmentObject var viewModel: MainViewModel
+    
+    @ObservedObject var notiVM: NotificationViewModel
+    
     @Environment(\.dismiss) var dismiss
-    
-    @EnvironmentObject var viewModel: AuthenticationViewModel
-    
-    @StateObject var notiVM = NotificationViewModel.shared
 
     var notification: Noti
+    var openPostit: () -> Void
     
     var body: some View {
         if let user = notiVM.notiUser[notification.sendUser] {
@@ -25,7 +26,7 @@ struct PostitNotificationCell: View {
                     try? await Task.sleep(nanoseconds: 1 * 500_000_000)
                     viewModel.showTab = 4
                     try? await Task.sleep(nanoseconds: 1 * 250_000_000)
-                    viewModel.isShowingMessageView = true
+                    openPostit()
                 }
             } label: {
                 HStack(spacing: 0) {

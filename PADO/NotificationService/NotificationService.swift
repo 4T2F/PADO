@@ -6,7 +6,7 @@
 //
 
 import FirebaseMessaging
-import Foundation
+
 import SwiftUI
 
 class NotificationService: UNNotificationServiceExtension {
@@ -41,9 +41,6 @@ class NotificationService: UNNotificationServiceExtension {
                         print("Error loading image data: \(error)")
                     }
                 }
-                
-                // Messaging.serviceExtension() 호출은 예제에 따라 필요에 맞게 조정해야 합니다.
-                // Messaging.serviceExtension().populateNotificationContent(bestAttemptContent, withContentHandler: self.contentHandler!)
                 
                 contentHandler(bestAttemptContent)
             } else {
