@@ -11,7 +11,6 @@ import SwiftUI
 
 struct PostGridView: View {
     @ObservedObject var profileVM: ProfileViewModel
-    @ObservedObject var feedVM: FeedViewModel
     
     @Binding var isShowingDetail: Bool
     
@@ -36,6 +35,7 @@ struct PostGridView: View {
                             if let image = URL(string: post.imageUrl) {
                                 Button {
                                     isShowingDetail.toggle()
+                                    profileVM.isFirstPostOpen.toggle()
                                     profileVM.selectedPostID = post.id ?? ""
                                 } label: {
                                     KFImage(image)
@@ -46,16 +46,10 @@ struct PostGridView: View {
                                 }
                                 .sheet(isPresented: $isShowingDetail) {
                                     SelectPostView(profileVM: profileVM,
-                                                   feedVM: feedVM,
                                                    isShowingDetail: $isShowingDetail,
                                                    userID: userNameID,
                                                    viewType: postViewType)
                                     .presentationDragIndicator(.visible)
-                                    .onDisappear {
-                                        feedVM.currentPadoRideIndex = nil
-                                        feedVM.isShowingPadoRide = false
-                                        feedVM.padoRidePosts = []
-                                    }
                                 }
                             }
                         }
@@ -64,16 +58,14 @@ struct PostGridView: View {
                     if fetchedData {
                         Rectangle()
                             .foregroundStyle(.clear)
-                            .onAppear {
-                                Task {
-                                    switch postViewType {
-                                    case .receive:
-                                        await profileVM.fetchMorePadoPosts(id: userNameID)
-                                    case .send:
-                                        await profileVM.fetchMoreSendPadoPosts(id: userNameID)
-                                    case .highlight:
-                                        await profileVM.fetchMoreHighlihts(id: userNameID)
-                                    }
+                            .task {
+                                switch postViewType {
+                                case .receive:
+                                    await profileVM.fetchMorePadoPosts(id: userNameID)
+                                case .send:
+                                    await profileVM.fetchMoreSendPadoPosts(id: userNameID)
+                                case .highlight:
+                                    await profileVM.fetchMoreHighlihts(id: userNameID)
                                 }
                             }
                     }

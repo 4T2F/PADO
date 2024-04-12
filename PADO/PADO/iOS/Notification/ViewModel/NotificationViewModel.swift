@@ -6,10 +6,9 @@
 //
 
 import FirebaseFirestore
-import FirebaseFirestoreSwift
+
 import SwiftUI
 
-@MainActor
 class NotificationViewModel: ObservableObject {
     @Published var notifications: [Noti] = []
     @Published var notiPostListener: [String: ListenerRegistration] = [:]
@@ -18,10 +17,16 @@ class NotificationViewModel: ObservableObject {
     @Published var hasNewNotifications = false // 새로운 알림 유무를 나타내는 변수 추가
     @Published var lastFetchedDocument: DocumentSnapshot? = nil
     
-    static let shared = NotificationViewModel()
+    @Published var showFacemojiPost = false
+    @Published var showHeartPost = false
+    @Published var showReplyCommentPost = false
+    @Published var showCommentPost = false
+    @Published var showRequestSurfingPost = false
+    @Published var showPadoRidePost = false
     
     private let db = Firestore.firestore()
     
+    @MainActor
     func fetchNotifications() async {
         guard !userNameID.isEmpty else { return }
         
@@ -61,6 +66,7 @@ class NotificationViewModel: ObservableObject {
         }
     }
     
+    @MainActor
     func fetchNotificationPostData(postID: String) async {
         guard !postID.isEmpty else { return }
         guard self.notiPosts[postID] == nil else { return }
@@ -79,7 +85,7 @@ class NotificationViewModel: ObservableObject {
         }
     }
   
-    
+    @MainActor
     func fetchMoreNotifications() async {
         guard !userNameID.isEmpty else { return }
         guard let lastDocument = lastFetchedDocument else { return }
@@ -142,6 +148,7 @@ class NotificationViewModel: ObservableObject {
         }
     }
     
+    @MainActor
     func markNotificationsAsRead() async {
         for notification in notifications where !notification.read {
             guard let notificationID = notification.id else { continue }
@@ -158,6 +165,7 @@ class NotificationViewModel: ObservableObject {
         await fetchNotifications()
     }
     
+    @MainActor
     func deleteAllNotifications() async {
         guard !userNameID.isEmpty else { return }
         let notificationsRef = db.collection("users").document(userNameID).collection("notifications")

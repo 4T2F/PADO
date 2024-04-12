@@ -5,13 +5,12 @@
 //  Created by 황민채 on 1/15/24.
 //
 
-import Firebase
-import FirebaseFirestoreSwift
+import FirebaseFirestore
 
 import SwiftUI
 
 struct SettingOthersView: View {
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: MainViewModel
     @Environment (\.dismiss) var dismiss
     
     @State var savePhoto: Bool = UserDefaults.standard.bool(forKey: "savePhoto")

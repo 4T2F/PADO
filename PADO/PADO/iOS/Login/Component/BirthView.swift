@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct BirthView: View {
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: MainViewModel
+    @ObservedObject var loginVM: LoginViewModel
     
     @State var showBirthAlert: Bool = false
     @State var buttonActive: Bool = false
     
-    @Binding var currentStep: SignUpStep
     @Binding var isShowStartView: Bool
     
     let termsLink = "[이용약관](https://notch-galaxy-ab8.notion.site/6ff60c61aa104cd6b1471d3ea5102ce3?pvs=4)"
@@ -23,7 +23,7 @@ struct BirthView: View {
         ZStack {     
             VStack(alignment: .leading) {
                 // id값 불러오는 로직 추가 해야함
-                Text("\(viewModel.nameID)님 환영합니다\n생일을 입력해주세요")
+                Text("\(loginVM.nameID)님 환영합니다\n생일을 입력해주세요")
                     .font(.system(.title2))
                     .fontWeight(.medium)
                     .padding(.horizontal)
@@ -31,11 +31,11 @@ struct BirthView: View {
                 VStack(alignment: .leading, spacing: 20) {
                     HStack(alignment: .top, spacing: 8, content: {
                         VStack(alignment: .leading, spacing: 8, content: {
-                            TextField("생년월일", text: $viewModel.year)
+                            TextField("생년월일", text: $loginVM.year)
                                 .disabled(true)
                                 .tint(.white)
                                 .multilineTextAlignment(.leading)
-                                .onChange(of: viewModel.year) { _, newValue in
+                                .onChange(of: loginVM.year) { _, newValue in
                                     buttonActive = newValue.count > 0
                                 }
                             
@@ -76,7 +76,7 @@ struct BirthView: View {
                 HStack{
                     Spacer()
                     
-                    DatePicker("", selection: $viewModel.birthDate,
+                    DatePicker("", selection: $loginVM.birthDate,
                                displayedComponents: .date)
                     .datePickerStyle(.wheel)
                     .environment(\.locale, Locale.init(identifier: "ko"))
@@ -88,9 +88,11 @@ struct BirthView: View {
                 
                 Button {
                     if buttonActive {
-                        if isFourteenOrOlder(birthDate: viewModel.birthDate) {
+                        if loginVM.isFourteenOrOlder() {
                             Task{
-                                await viewModel.signUpUser()
+                                await loginVM.signUpUser()
+                                await viewModel.fetchUIDByPhoneNumber(phoneNumber: "+82\(loginVM.phoneNumber)")
+                                await viewModel.fetchUser()
                                 needsDataFetch.toggle()
                                 withAnimation(.interactiveSpring(response: 0.3, dampingFraction: 0.8, blendDuration: 0.8)) {
                                     isShowStartView = false
@@ -115,11 +117,6 @@ struct BirthView: View {
                 .presentationCornerRadius(30)
         }
     }
-    
-    func isFourteenOrOlder(birthDate: Date) -> Bool {
-        let calendar = Calendar.current
-        let fourteenYearsAgo = calendar.date(byAdding: .year, value: -14, to: Date())!
-        return birthDate <= fourteenYearsAgo
-    }
+   
 }
 

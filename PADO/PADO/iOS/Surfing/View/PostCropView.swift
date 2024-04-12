@@ -15,15 +15,6 @@ struct PostCropView: View {
     @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var followVM: FollowViewModel
     
-    // 이미지 조작을 위한 상태 변수들
-    @State private var scale: CGFloat = 1
-    @State private var lastScale: CGFloat = 0
-    @State private var offset: CGSize = .zero
-    @State private var lastStoredOffset: CGSize = .zero
-    @State private var showinGrid: Bool = false
-    @State private var imageChangeButton: Bool = false
-    @State private var selectedColor = Color.main
-    
     @GestureState private var isInteractig: Bool = false
     
     var crop: Crop = .rectangle
@@ -32,7 +23,6 @@ struct PostCropView: View {
     var body: some View {
         VStack {
             imageView()
-                .navigationTitle("편집")
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationBarBackButtonHidden()
                 .toolbarBackground(.visible, for: .navigationBar)
@@ -44,6 +34,25 @@ struct PostCropView: View {
                         .ignoresSafeArea()
                 }
                 .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            surfingVM.imageChangeButton = false
+                            surfingVM.selectedColor = Color.main
+                        } label: {
+                            Image(systemName: "arrow.up.right.and.arrow.down.left")
+                                .font(.system(.body, weight: .semibold))
+                        }
+                    }
+                    
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            surfingVM.imageChangeButton = true
+                        } label: {
+                            Image(systemName: "arrow.down.backward.and.arrow.up.forward")
+                                .font(.system(.body, weight: .semibold))
+                        }
+                    }
+                    
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {
                             let renderer = ImageRenderer(content: imageView(true))
@@ -66,11 +75,13 @@ struct PostCropView: View {
                         }
                     }
                     
+                    
                     ToolbarItem(placement: .topBarLeading) {
                         Button {
                             surfingVM.resetImage()
                             dismiss()
                             surfingVM.postImageItem = nil
+                            surfingVM.resetDrag()
                         } label: {
                             Image("dismissArrow")
                         }
@@ -81,30 +92,15 @@ struct PostCropView: View {
                              feedVM: feedVM,
                              followVM: followVM)
                 }
-            
-            HStack {
-                Button {
-                    imageChangeButton = false
-                    selectedColor = Color.main
-                } label: {
-                    Image(systemName: "arrow.up.right.and.arrow.down.left")
-                        .font(.system(.title2))
-                        .padding(.horizontal)
+                .overlay {
+                    VStack {
+                        Spacer()
+                        ColorPicker(selection: $surfingVM.selectedColor) { }
+                            .opacity(surfingVM.imageChangeButton ? 0 : 1)
+                            .fixedSize()
+                            .padding(.bottom, 20)
+                    }
                 }
-                
-                Button {
-                    imageChangeButton = true
-                } label: {
-                    Image(systemName: "arrow.down.backward.and.arrow.up.forward")
-                        .font(.system(.title2))
-                        .padding(.horizontal)
-                }
-                
-                ColorPicker(selection: $selectedColor) { }
-                    .opacity(imageChangeButton ? 0 : 1)
-                    .fixedSize()
-            }
-            .padding(.bottom, 10)
         }
         .background {
             Color.main.ignoresSafeArea()
@@ -117,11 +113,7 @@ struct PostCropView: View {
     func imageView(_ hideGrids: Bool = false) -> some View {
         let cropSize = crop.size()
         
-        let testSize = ImageRatioResize.shared.resizedImageRect(for: surfingVM.postingUIImage ?? UIImage(), 
-                                                                targetSize: CGSize(width: 300, 
-                                                                                   height: 500))
-        
-        if !imageChangeButton {
+        if !surfingVM.imageChangeButton {
             GeometryReader {
                 let size = $0.size
                 
@@ -129,16 +121,14 @@ struct PostCropView: View {
                     Image(uiImage: image)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: testSize.size.width,
-                               height: testSize.size.height)
-                        .frame(size)
+                        .frame(width: size.width, height: size.height)
                 }
             }
             .frame(cropSize)
             .background {
-                if !imageChangeButton {
-                    if selectedColor != Color.main {
-                        selectedColor
+                if !surfingVM.imageChangeButton {
+                    if surfingVM.selectedColor != Color.main {
+                        surfingVM.selectedColor
                     } else {
                         Image(uiImage: surfingVM.postingUIImage ?? UIImage())
                             .blur(radius: 50)
@@ -163,25 +153,25 @@ struct PostCropView: View {
                                         // 드래그, 핀치 제스처 에 대한 내용
                                         withAnimation(.easeInOut(duration: 0.2)) {
                                             if rect.minX > 0 {
-                                                offset.width = (offset.width - rect.minX)
+                                                surfingVM.offset.width = (surfingVM.offset.width - rect.minX)
                                                 haptics(.medium)
                                             }
                                             if rect.minY > 0 {
-                                                offset.height = (offset.height - rect.minY)
+                                                surfingVM.offset.height = (surfingVM.offset.height - rect.minY)
                                                 haptics(.medium)
                                             }
                                             if rect.maxX < size.width {
-                                                offset.width = (rect.minX - offset.width)
+                                                surfingVM.offset.width = (rect.minX - surfingVM.offset.width)
                                                 haptics(.medium)
                                             }
                                             
                                             if rect.maxY < size.height {
-                                                offset.height = (rect.minY - offset.height)
+                                                surfingVM.offset.height = (rect.minY - surfingVM.offset.height)
                                                 haptics(.medium)
                                             }
                                         }
                                         if !newValue {
-                                            lastStoredOffset = offset
+                                            surfingVM.lastStoredOffset = surfingVM.offset
                                         }
                                     }
                             }
@@ -189,13 +179,13 @@ struct PostCropView: View {
                         .frame(size)
                 }
             }
-            .scaleEffect(scale)
-            .offset(offset)
+            .scaleEffect(surfingVM.scale)
+            .offset(surfingVM.offset)
             // 그리드를 보여주는 곳
             .overlay(content: {
                 if !hideGrids {
-                    if showinGrid {
-                        grids()
+                    if surfingVM.showinGrid {
+                        ImageGrid(isShowinRectangele: false)
                     }
                 }
             })
@@ -207,12 +197,12 @@ struct PostCropView: View {
                         out = true
                     }).onChanged({ value in
                         let translation = value.translation
-                        offset = CGSize(width: translation.width + lastStoredOffset.width, 
-                                        height: translation.height + lastStoredOffset.height)
-                        showinGrid = true
+                        surfingVM.offset = CGSize(width: translation.width + surfingVM.lastStoredOffset.width,
+                                                  height: translation.height + surfingVM.lastStoredOffset.height)
+                        surfingVM.showinGrid = true
                     })
                     .onEnded({ value in
-                        showinGrid = false
+                        surfingVM.showinGrid = false
                     })
             )
             .gesture(
@@ -220,16 +210,16 @@ struct PostCropView: View {
                     .updating($isInteractig, body: { _, out, _ in
                         out = true
                     }).onChanged({ value in
-                        let updatedScale = value + lastScale
+                        let updatedScale = value + surfingVM.lastScale
                         // - Limiting Beyound 1
-                        scale = (updatedScale < 1 ? 1 : updatedScale)
+                        surfingVM.scale = (updatedScale < 1 ? 1 : updatedScale)
                     }).onEnded({ value in
                         withAnimation(.easeInOut(duration: 0.2)) {
-                            if scale < 1 {
-                                scale = 1
-                                lastScale = 0
+                            if surfingVM.scale < 1 {
+                                surfingVM.scale = 1
+                                surfingVM.lastScale = 0
                             } else {
-                                lastScale = scale - 1
+                                surfingVM.lastScale = surfingVM.scale - 1
                             }
                         }
                     })
@@ -237,48 +227,5 @@ struct PostCropView: View {
             .frame(cropSize)
             .clipShape(RoundedRectangle(cornerRadius: crop == .circle ? cropSize.height / 2 : 0))
         }
-    }
-    // 격자 뷰를 구성하는 함수
-    @ViewBuilder
-    func grids() -> some View {
-        ZStack {
-            HStack {
-                ForEach(1...2, id: \.self) { _ in
-                    Rectangle()
-                        .fill(.white.opacity(0.7))
-                        .frame(width: 1)
-                        .frame(maxWidth: .infinity)
-                }
-            }
-            
-            VStack {
-                ForEach(1...3, id: \.self) { _ in
-                    Rectangle()
-                        .fill(.white.opacity(0.7))
-                        .frame(height: 1)
-                        .frame(maxHeight: .infinity)
-                }
-            }
-        }
-    }
-}
-
-extension View {
-    @ViewBuilder
-    func frame(_ size: CGSize) -> some View {
-        self // 자를때 프레임
-            .frame(width: size.width,
-                   height: size.height)
-    }
-    
-    func haptics(_ style: UIImpactFeedbackGenerator.FeedbackStyle) {
-        UIImpactFeedbackGenerator(style: style).impactOccurred()
-    }
-}
-
-extension UIImage {
-    func cropped(to rect: CGRect) -> UIImage? {
-        guard let cgImage = self.cgImage?.cropping(to: rect) else { return nil }
-        return UIImage(cgImage: cgImage)
     }
 }

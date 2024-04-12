@@ -10,7 +10,6 @@ import SwiftUI
 
 struct SelectPostView: View {
     @ObservedObject var profileVM: ProfileViewModel
-    @ObservedObject var feedVM: FeedViewModel
     
     @State private var isDetailViewReady = false
     
@@ -30,56 +29,46 @@ struct SelectPostView: View {
                             switch viewType {
                             case .receive:
                                 ForEach(profileVM.padoPosts.indices, id: \.self) { index in
-                                    SelectPostCell(feedVM: feedVM,
-                                                   post: $profileVM.padoPosts[index])
+                                    FeedCell(post: $profileVM.padoPosts[index])
                                     .id(profileVM.padoPosts[index].id)
-                                    .onAppear {
+                                    .task {
                                         if index == profileVM.padoPosts.indices.last {
-                                            Task {
-                                                await profileVM.fetchMorePadoPosts(id: userID)
-                                            }
+                                            await profileVM.fetchMorePadoPosts(id: userID)
                                         }
                                     }
                                 }
-                                
                             case .send:
                                 ForEach(profileVM.sendPadoPosts.indices, id: \.self) { index in
-                                    SelectPostCell(feedVM: feedVM,
-                                                   post: $profileVM.sendPadoPosts[index])
+                                    FeedCell(post: $profileVM.sendPadoPosts[index])
                                     .id(profileVM.sendPadoPosts[index].id)
-                                    .onAppear {
+                                    .task {
                                         if index == profileVM.sendPadoPosts.indices.last {
-                                            Task {
-                                                await profileVM.fetchMoreSendPadoPosts(id: userID)
-                                            }
+                                            await profileVM.fetchMoreSendPadoPosts(id: userID)
                                         }
                                     }
                                 }
                             case .highlight:
                                 ForEach(profileVM.highlights.indices, id: \.self) { index in
-                                    SelectPostCell(feedVM: feedVM,
-                                                   post: $profileVM.highlights[index])
+                                    FeedCell(post: $profileVM.highlights[index])
                                     .id(profileVM.highlights[index].id)
-                                    .onAppear {
+                                    .task {
                                         if index == profileVM.highlights.indices.last {
-                                            Task {
-                                                await profileVM.fetchMoreHighlihts(id: userID)
-                                            }
+                                            await profileVM.fetchMoreHighlihts(id: userID)
                                         }
                                     }
                                 }
                             }
                         }
                         .scrollTargetLayout()
-                        .onAppear {
-                            Task {
+                        .task {
+                            if profileVM.isFirstPostOpen {
                                 try? await Task.sleep(nanoseconds: 1 * 100_000_000)
                                 value.scrollTo(profileVM.selectedPostID, anchor: .top)
+                                profileVM.isFirstPostOpen.toggle()
                             }
                         }
                     }
                 }
-                .scrollDisabled(feedVM.isShowingPadoRide)
                 .scrollTargetBehavior(.paging)
                 .ignoresSafeArea()
                 

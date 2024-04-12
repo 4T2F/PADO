@@ -9,7 +9,7 @@ import Kingfisher
 import SwiftUI
 
 struct FollowerUserCellView: View {
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: MainViewModel
     
     @ObservedObject var followVM: FollowViewModel
     
@@ -137,17 +137,15 @@ struct FollowerUserCellView: View {
         } // :HSTACK
         .padding(.horizontal)
         .padding(.vertical, -8)
-        .onAppear {
-            Task {
-                let updateUserData = UpdateUserData()
-                if let userProfile = await updateUserData.getOthersProfileDatas(id: cellUserId) {
-                    self.followerUsername = userProfile.username
-                    self.followerProfileUrl = userProfile.profileImageUrl ?? ""
-                    self.profileUser = userProfile
-                    print("유저: \(String(describing: profileUser))")
-                }
-                self.buttonOnOff = UpdateFollowData.shared.checkFollowingStatus(id: cellUserId)
+        .task {
+            let updateUserData = UpdateUserData()
+            if let userProfile = await updateUserData.getOthersProfileDatas(id: cellUserId) {
+                self.followerUsername = userProfile.username
+                self.followerProfileUrl = userProfile.profileImageUrl ?? ""
+                self.profileUser = userProfile
+                print("유저: \(String(describing: profileUser))")
             }
+            self.buttonOnOff = UpdateFollowData.shared.checkFollowingStatus(id: cellUserId)
         }
         // contentShape 를 사용해서 H스택 전체적인 부분에 대해 패딩을 줌
         .contentShape(Rectangle())

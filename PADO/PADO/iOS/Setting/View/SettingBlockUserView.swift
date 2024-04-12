@@ -10,7 +10,7 @@ import Kingfisher
 import SwiftUI
 
 struct SettingBlockUserView: View {
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: MainViewModel
     @Environment(\.dismiss) var dismiss
     
     @ObservedObject var profileVM: ProfileViewModel
@@ -75,10 +75,9 @@ struct SettingBlockUserView: View {
                 }
             }
         }
-        .onAppear {
-            Task {
-                await profileVM.fetchBlockUsers()
-            }
+        .task {
+            await profileVM.fetchBlockUsers()
+
         }
         .background(.main, ignoresSafeAreaEdges: .all)
         .navigationBarBackButtonHidden()

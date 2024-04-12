@@ -95,8 +95,6 @@ struct CustomRefreshView<Content: View>: View {
     }
 }
 
-
-
 // MARK: 동시성 제스처를 위한 클래스
 class ScrollViewModel: NSObject,ObservableObject,UIGestureRecognizerDelegate {
     // 속성
@@ -156,26 +154,6 @@ class ScrollViewModel: NSObject,ObservableObject,UIGestureRecognizerDelegate {
                 }else{
                     isEligible = false
                 }
-            }
-        }
-    }
-}
-
-// MARK: Offset Modifier
-@MainActor
-extension View {
-    @ViewBuilder
-    func offset(coordinateSpace: String,
-                offset: @escaping (CGFloat) -> Void) -> some View {
-        self.overlay {
-            GeometryReader{proxy in
-                let minY = proxy.frame(in: .named(coordinateSpace)).minY
-                
-                Color.clear
-                    .preference(key: OffsetKey.self, value: minY)
-                    .onPreferenceChange(OffsetKey.self) { value in
-                        offset(value)
-                    }
             }
         }
     }

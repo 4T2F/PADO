@@ -9,7 +9,7 @@ import SwiftUI
 
 struct FollowingView: View {
     // MARK: - PROPERTY
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: MainViewModel
     @Environment (\.dismiss) var dismiss
     
     @ObservedObject var followVM: FollowViewModel
@@ -18,18 +18,11 @@ struct FollowingView: View {
     
     // MARK: - BODY
     var body: some View {
-        let searchTextBinding = Binding {
-            return searchText
-        } set: {
-            searchText = $0
-            followVM.searchFollowers(with: $0, type: SearchFollowType.following)
-        }
-        
         ZStack {
             Color.main.ignoresSafeArea()
             VStack {
                 VStack {
-                    SearchBar(text: searchTextBinding,
+                    SearchBar(text: $searchText,
                               isLoading: $followVM.isLoading)
                     .padding(.bottom, 10)
                     .padding(.horizontal)
@@ -90,6 +83,11 @@ struct FollowingView: View {
         .onDisappear {
             Task {
                 await UpdateFollowData.shared.fetchFollowStatusData()
+            }
+        }
+        .onChange(of: searchText) { _, _ in
+            Task {
+                await followVM.searchFollowers(with: searchText, type: SearchFollowType.following)
             }
         }
     }

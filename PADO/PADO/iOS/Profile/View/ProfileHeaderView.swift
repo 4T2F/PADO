@@ -11,8 +11,12 @@ import Lottie
 import SwiftUI
 
 struct ProfileHeaderView: View {
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: MainViewModel
     @Environment(\.dismiss) var dismiss
+    
+    @ObservedObject var profileVM: ProfileViewModel
+    @ObservedObject var followVM: FollowViewModel
+    @ObservedObject var postitVM: PostitViewModel
     
     @Binding var touchBackImage: Bool
     @Binding var touchProfileImage: Bool
@@ -22,10 +26,7 @@ struct ProfileHeaderView: View {
     @Binding var buttonOnOff: Bool
     
     var user: User
-    var profileVM: ProfileViewModel
-    var followVM: FollowViewModel
-    var postitVM: PostitViewModel
-
+    
     var body: some View {
         GeometryReader { proxy in
             let minY = proxy.frame(in: .named("SCROLL")).minY
@@ -60,20 +61,20 @@ struct ProfileHeaderView: View {
                                 }
                                 .overlay {
                                     Button {
-                                        viewModel.isShowingMessageView = true
+                                        profileVM.isShowingMessageView = true
                                     } label: {
                                         Circle()
                                             .frame(width: 30)
                                             .foregroundStyle(.clear)
                                             .overlay {
                                                 if postitVM.messages.isEmpty {
-                                                    LottieView(animation: .named("nonePostit"))
+                                                    LottieView(animation: .named(LottieType.nonePostit.rawValue))
                                                         .paused(at: .progress(1))
                                                         .resizable()
                                                         .scaledToFit()
                                                         .frame(width: 40, height: 40)
                                                 } else {
-                                                    LottieView(animation: .named("Postit"))
+                                                    LottieView(animation: .named(LottieType.postIt.rawValue))
                                                         .looping()
                                                         .resizable()
                                                         .scaledToFit()
@@ -82,9 +83,9 @@ struct ProfileHeaderView: View {
                                             }
                                     }
                                     .offset(x: 46, y: -40)
-                                    .sheet(isPresented: $viewModel.isShowingMessageView) {
+                                    .sheet(isPresented: $profileVM.isShowingMessageView) {
                                         PostitView(postitVM: postitVM,
-                                                   isShowingMessageView: $viewModel.isShowingMessageView)
+                                                   isShowingMessageView: $profileVM.isShowingMessageView)
                                         .presentationDragIndicator(.visible)
                                     }
                                     .presentationDetents([.large])
@@ -97,7 +98,7 @@ struct ProfileHeaderView: View {
                                             .font(.system(.body))
                                             .fontWeight(.semibold)
                                     } else {
-                                        Text(userNameID)
+                                        Text(user.nameID)
                                             .font(.system(.body))
                                             .fontWeight(.semibold)
                                     }
@@ -106,23 +107,19 @@ struct ProfileHeaderView: View {
                                 Spacer()
                                 
                                 if user.nameID == userNameID {
-                                    Button {
-                                        Task {
-                                            dismiss()
-                                            try? await Task.sleep(nanoseconds: 1 * 500_000_000)
-                                            viewModel.showTab = 4
-                                        }
-                                    } label: {
+                                    NavigationLink(destination: {
+                                        SettingProfileView()
+                                    }, label: {
                                         ZStack {
                                             RoundedRectangle(cornerRadius:4)
                                                 .stroke(Color.white, lineWidth: 1)
                                                 .frame(width: 80, height: 28)
-                                            Text("내 프로필")
-                                                .font(.system(.footnote))
-                                                .fontWeight(.semibold)
+                                            Text("프로필 편집")
+                                                .font(.system(size: 12))
+                                                .fontWeight(.medium)
                                                 .foregroundStyle(.white)
                                         }
-                                    }
+                                    })
                                 } else {
                                     FollowButtonView(buttonActive: $buttonOnOff,
                                                      cellUser: user,

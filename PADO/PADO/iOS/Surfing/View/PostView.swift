@@ -10,16 +10,12 @@ import Kingfisher
 import SwiftUI
 
 struct PostView: View {
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: MainViewModel
     @Environment (\.dismiss) var dismiss
     
     @ObservedObject var surfingVM: SurfingViewModel
     @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var followVM: FollowViewModel
-    
-    @State private var postLoading = false
-    @State private var showAlert = false
-    @State private var postOwner: User? = nil
     
     let updateImageUrl = UpdateImageUrl.shared
     
@@ -42,7 +38,7 @@ struct PostView: View {
                             .fontWeight(.semibold)
                         
                         Spacer()
-                    } //: HSTACK
+                    }
                     
                     .padding(.leading, 20)
                     
@@ -105,7 +101,7 @@ struct PostView: View {
                                 .font(.system(.title3))
                                 .foregroundStyle(.white)
                         }
-                    } //: HSTACK
+                    }
                     .padding(20)
                 }
                 .padding(.bottom, 30)
@@ -114,10 +110,10 @@ struct PostView: View {
                     // 게시요청 로직
                     if followVM.selectSurfingID.isEmpty {
                         // 서핑할 친구가 선택되지 않았을 때 경고 메시지를 표시
-                        showAlert = true
+                        surfingVM.showAlert = true
                     } else {
-                        if !postLoading {
-                            postLoading = true
+                        if !surfingVM.postLoading {
+                            surfingVM.postLoading = true
                             Task {
                                 do {
                                     // 이미지 업로드 시 이전 입력 데이터 초기화
@@ -129,11 +125,11 @@ struct PostView: View {
                                     await surfingVM.postRequest(imageURL: uploadedImageUrl,
                                                                 surfingID: followVM.selectSurfingID)
                                     
-                                    postOwner = await UpdateUserData.shared.getOthersProfileDatas(id: followVM.selectSurfingID)
+                                    surfingVM.postOwner = await UpdateUserData.shared.getOthersProfileDatas(id: followVM.selectSurfingID)
                                     
                                     surfingVM.post = await UpdatePostData.shared.fetchPostById(postId: formattedPostingTitle)
                                     
-                                    if let post = surfingVM.post, let postOwner = postOwner {
+                                    if let post = surfingVM.post, let postOwner = surfingVM.postOwner {
                                         await UpdatePushNotiData.shared.pushPostNoti(targetPostID: formattedPostingTitle,
                                                                                      receiveUser: postOwner,
                                                                                      type: .requestSurfing,
@@ -147,7 +143,7 @@ struct PostView: View {
                                     followVM.selectSurfingProfileUrl = ""
                                     viewModel.showTab = 0
                                     await feedVM.fetchFollowingPosts()
-                                    postLoading = false
+                                    surfingVM.postLoading = false
                                 } catch {
                                     print("파베 전송 오류 발생: \(error.localizedDescription)")
                                 }
@@ -160,7 +156,7 @@ struct PostView: View {
                             .frame(width: UIScreen.main.bounds.width * 0.9, height: 40)
                             .foregroundStyle(.blueButton)
                         
-                        if postLoading {
+                        if surfingVM.postLoading {
                             ProgressView()
                                 .progressViewStyle(CircularProgressViewStyle(tint: .white))
                                 .scaleEffect(1.5)
@@ -172,7 +168,7 @@ struct PostView: View {
                         }
                     }
                 }
-                .alert("파도를 보낼 유저를 선택해주세요", isPresented: $showAlert) {
+                .alert("파도를 보낼 유저를 선택해주세요", isPresented: $surfingVM.showAlert) {
                     Button("확인", role: .cancel) { }
                 }
                 .padding(.bottom, 20)

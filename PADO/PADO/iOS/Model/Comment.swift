@@ -5,12 +5,9 @@
 //  Created by 최동호 on 1/25/24.
 //
 
-import Firebase
-import FirebaseFirestoreSwift
+import FirebaseFirestore
 
-import Foundation
-
-struct Comment: Identifiable, Hashable, Codable {
+struct Comment: Identifiable, Hashable, Decodable {
     @DocumentID var id: String?
 
     var userID: String
@@ -20,7 +17,7 @@ struct Comment: Identifiable, Hashable, Codable {
     var replyComments: [String] = []
 }
 
-struct ReplyComment: Identifiable, Hashable, Codable {
+struct ReplyComment: Identifiable, Hashable, Decodable {
     @DocumentID var id: String?
     
     var userID: String

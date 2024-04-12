@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct PadoRideView: View {
-    @ObservedObject var feedVM: FeedViewModel
+    @ObservedObject var padorideVM: PadoRideViewModel
     
+    @State var popularUsers: [User]
     @State var surfingIDs: [String]
-    @State private var isShowingOnboarding: Bool = false
     
     var body: some View {
         NavigationStack {
@@ -23,7 +23,7 @@ struct PadoRideView: View {
                                 Text("팔로우한 사람이 없어요")
                                     .font(.system(.body))
                                     .fontWeight(.medium)
-                            } else if !surfingIDs.isEmpty {
+                            } else if surfingIDs.isEmpty {
                                 Text("파도타기가 가능한 친구")
                                     .font(.system(.body))
                                     .fontWeight(.medium)
@@ -31,15 +31,15 @@ struct PadoRideView: View {
                             Spacer()
                             
                             Button {
-                                isShowingOnboarding.toggle()
+                                padorideVM.isShowingOnboarding.toggle()
                             } label: {
                                 Text("파도타기란?")
                                     .font(.system(.footnote))
                                     .fontWeight(.medium)
                                     .foregroundStyle(Color(.systemGray))
                             }
-                            .sheet(isPresented: $isShowingOnboarding, content: {
-                                PadoRideOnboardingView()
+                            .sheet(isPresented: $padorideVM.isShowingOnboarding, content: {
+                                PadoRideOnboardingView(padorideVM: padorideVM)
                                     .presentationDragIndicator(.visible)
                                     .presentationDetents([.fraction(0.99)])
                             })
@@ -57,7 +57,7 @@ struct PadoRideView: View {
                             SurfingGuideView()
                         } else {
                             ForEach(surfingIDs, id: \.self) { surfingID in
-                                SelectPadoRideUserCell(id: surfingID)
+                                SelectPadoRideUserCell(padorideVM: padorideVM, id: surfingID)
                             }
                         }
                     }
@@ -73,7 +73,7 @@ struct PadoRideView: View {
                             
                             ScrollView(.horizontal) {
                                 HStack {
-                                    ForEach(feedVM.popularUsers, id: \.self) { user in
+                                    ForEach(popularUsers, id: \.self) { user in
                                         FollowerSuggestionCell(user: user)
                                             .padding(.trailing, 4)
                                     }

@@ -4,8 +4,9 @@
 //
 //  Created by 최동호 on 1/30/24.
 //
-import Firebase
-import FirebaseFirestoreSwift
+
+import FirebaseFirestore
+
 import Foundation
 
 class UpdateFollowData {
