@@ -48,15 +48,17 @@ class MainViewModel: ObservableObject {
             Task {
                 do {
                     let (loadedUIImage, loadedSwiftUIImage) = try await UpdateImageUrl.shared.loadImage(selectedItem: selectedItem)
-                    self.uiImage = loadedUIImage
-                    self.userSelectImage = loadedSwiftUIImage
+                    DispatchQueue.main.async { // 메인 스레드로 전환
+                        self.uiImage = loadedUIImage
+                        self.userSelectImage = loadedSwiftUIImage
+                    }
                 } catch {
                     print("선택 이미지 초기화: \(error)")
                 }
             }
         }
     }
-    
+
     // 배경화면 변경값 저장
     @Published var backSelectImage: Image?
     @Published var backuiImage: UIImage?
@@ -66,8 +68,10 @@ class MainViewModel: ObservableObject {
             Task {
                 do {
                     let (loadedUIImage, loadedSwiftUIImage) = try await UpdateImageUrl.shared.loadImage(selectedItem: selectedBackgroundItem)
-                    self.backuiImage = loadedUIImage
-                    self.backSelectImage = loadedSwiftUIImage
+                    DispatchQueue.main.async { // 메인 스레드로 전환
+                        self.backuiImage = loadedUIImage
+                        self.backSelectImage = loadedSwiftUIImage
+                    }
                 } catch {
                     print("선택 이미지 초기화: \(error)")
                 }

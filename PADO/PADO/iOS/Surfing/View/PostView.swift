@@ -25,7 +25,7 @@ struct PostView: View {
                 surfingVM.postingImage
                     .resizable()
                     .scaledToFit()
-                    .frame(width: UIScreen.main.bounds.width * 0.5, 
+                    .frame(width: UIScreen.main.bounds.width * 0.5,
                            height: UIScreen.main.bounds.height * 0.4)
                     .padding(.vertical, 20)
                 
@@ -42,65 +42,65 @@ struct PostView: View {
                     
                     .padding(.leading, 20)
                     
-                    TextField("제목을 입력해주세요", 
+                    TextField("제목을 입력해주세요",
                               text: $surfingVM.postingTitle)
-                        .font(.system(.headline))
-                        .padding(.leading, 20)
+                    .font(.system(.headline))
+                    .padding(.leading, 20)
                     
                     RoundedRectangle(cornerRadius: 8)
                         .foregroundStyle(Color(UIColor.systemGray))
                         .frame(width: UIScreen.main.bounds.width * 0.9,
                                height: 0.5)
-                    
-                    HStack {
-                        if followVM.selectSurfingID.isEmpty {
-                            Text("서핑 리스트")
-                                .font(.system(.title3))
-                                .fontWeight(.semibold)
-                        } else {
-                            KFImage(URL(string: followVM.selectSurfingProfileUrl))
-                                .resizable()
-                                .placeholder {
-                                    // 로딩 중이거나 URL이 nil일 때 표시될 이미지
-                                    Image("defaultProfile")
-                                        .resizable()
-                                        .scaledToFill()
-                                        .frame(width: 44,
-                                               height: 44)
-                                        .clipShape(Circle())
-                                }
-                                .scaledToFill()
-                                .frame(width: 44,
-                                       height: 44)
-                                .clipShape(Circle())
-                            
-                            VStack(alignment: .leading,
-                                   spacing: 4) {
-                                if !followVM.selectSurfingUsername.isEmpty {
-                                    Text(followVM.selectSurfingID)
-                                        .font(.system(.subheadline,
-                                                      weight: .semibold))
-                                    
-                                    Text(followVM.selectSurfingUsername)
-                                        .font(.system(.footnote))
-                                        .foregroundStyle(Color(.systemGray))
-                                } else {
-                                    Text(followVM.selectSurfingID)
-                                        .font(.system(.subheadline,
-                                                      weight: .semibold))
+                    Button {
+                        followVM.showSurfingList.toggle()
+                    } label: {
+                        HStack {
+                            if followVM.selectSurfingID.isEmpty {
+                                Text("서핑 리스트")
+                                    .font(.system(.title3))
+                                    .fontWeight(.semibold)
+                            } else {
+                                KFImage(URL(string: followVM.selectSurfingProfileUrl))
+                                    .resizable()
+                                    .placeholder {
+                                        // 로딩 중이거나 URL이 nil일 때 표시될 이미지
+                                        Image("defaultProfile")
+                                            .resizable()
+                                            .scaledToFill()
+                                            .frame(width: 44,
+                                                   height: 44)
+                                            .clipShape(Circle())
+                                    }
+                                    .scaledToFill()
+                                    .frame(width: 44,
+                                           height: 44)
+                                    .clipShape(Circle())
+                                
+                                VStack(alignment: .leading,
+                                       spacing: 4) {
+                                    if !followVM.selectSurfingUsername.isEmpty {
+                                        Text(followVM.selectSurfingID)
+                                            .font(.system(.subheadline,
+                                                          weight: .semibold))
+                                        
+                                        Text(followVM.selectSurfingUsername)
+                                            .font(.system(.footnote))
+                                            .foregroundStyle(Color(.systemGray))
+                                    } else {
+                                        Text(followVM.selectSurfingID)
+                                            .font(.system(.subheadline,
+                                                          weight: .semibold))
+                                    }
                                 }
                             }
-                        }
-                        
-                        Spacer()
-                        
-                        Button {
-                            followVM.showSurfingList.toggle()
-                        } label: {
+                            
+                            Spacer()
+                            
                             Image(systemName: "chevron.right")
                                 .font(.system(.title3))
                                 .foregroundStyle(.white)
                         }
+                        
                     }
                     .padding(20)
                 }
